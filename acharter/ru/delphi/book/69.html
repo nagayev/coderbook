@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma455" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm455" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Мультимедиа в Delphi
+	</h1>
+
+	<p>Что такое мультимедиа?</p>
+	<p>На ум сразу же приходят файлы звуковых, музыкальных и видео-форматов.</p>
+	<p>Несмотря на кажущуюся сложность специфики мультимедийных программ, сделать аудио- видеопроигрыватель на Delphi достаточно просто.</p>
+	<p>Давайте сразу рассмотрим это на примере.</p>
+	<p>Создайте новое приложение.</p>
+	<p>Форму переименуйте в fMain, в свойстве Caption укажите "Мой медиапроигрыватель" и сохраните проект под именем myPlayer.</p>
+	<p>В нижнюю часть формы установите панель.</p>
+	<p>Растяните ее по всему низу ( Align = alBottom ).</p>
+	<p>Выше установите еще одну панель, растяните ее по всей оставшейся части формы, это будет экран.</p>
+	<p>Разумеется, свойства Caption обеих панелей нужно очистить.</p>
+	<p>Далее на нижнюю форму установим компонент Edit, в него мы будем записывать имя загруженного файла.</p>
+	<p>Сразу можно установить у него свойство ReadOnly в True, ведь пользователю не нужно редактировать имя файла.</p>
+	<p>И очистите у этого компонента текст.</p>
+	<p>Ниже компонента Edit установите компонент MediaPlayer с вкладки System палитры компонентов.</p>
+	<p>Это основной компонент для проигрывания и звука, и видео.</p>
+	<p>У него есть несколько полезных свойств, с которыми мы познакомимся чуть позже.</p>
+	<p>Установите у Edit такие же свойства Left и Width как у MediaPlayer.</p>
+	<p>А сам плеер (свойство Name ) переименуйте в MP, чтобы не нужно было писать длинного имени при обращении к его свойствам.</p>
+	<p>Далее, нам понадобится главное меню, чтобы можно было открыть файл.</p>
+	<p>Создайте там пункт "Файл" и подпункты "Открыть", "-" и "Выход".</p>
+	<p>Еще один пункт "Помощь" и подпункт "О программе".</p>
+	<p>Теперь у верхней панели (это у нас Panel2 ) установите черный цвет (свойство Color ).</p>
+	<p>Это будет экран для воспроизведения видеофайлов.</p>
+	<p>Вообще то вы можете установить у экрана любой цвет, или вовсе его не менять, однако черный фон для воспроизведения видео более приятен для глаз, поэтому экраны в подобных программах делают обычно черного цвета, в отличие от белых экранов кинотеатров.</p>
+	<p>Вернемся к компоненту MediaPlayer.</p>
+	<p>Как видите, он состоит из ряда кнопочек, которые имеют собственные имена и назначения.</p>
+	<p>Кроме того, компонент MediaPlayer имеет методы, которые дублируют эти кнопочки, что позволяет использовать компонент в двух вариантах – видимым и невидимым.</p>
+	<p>В первом случае, пользователю предоставляется возможность управлять воспроизведением непосредственно из этого компонента, во втором случае компонент не виден, и мы можем привязать его методы к собственным кнопочкам или пунктам меню.</p>
+	<p>Мы воспользуемся первым методом.</p>
+	<p>Давайте рассмотрим кнопки слева – направо, их имена и назначения.</p>
+	<p>Названия кнопок и их описания подробно приведены в таблице:</p>
+
+	<table>
+		<tr>
+			<th>Имя кнопки</th>
+			<th>Назначение кнопки</th>
+		</tr>
+		<tr>
+			<td>Play</td>
+			<td>Воспроизведение</td>
+		</tr>
+		<tr>
+			<td>Pause</td>
+			<td>Пауза воспроизведения или записи.</td>
+		</tr>
+		<tr>
+			<td>Stop</td>
+			<td>Остановка воспроизведения или записи.</td>
+		</tr>
+		<tr>
+			<td>Next</td>
+			<td>Переход на следующий трек или на конец.</td>
+		</tr>
+		<tr>
+			<td>Prev</td>
+			<td>Переход на предыдущий трек или на начало.</td>
+		</tr>
+		<tr>
+			<td>Step</td>
+			<td>Перемещение вперед на заданное число кадров.</td>
+		</tr>
+		<tr>
+			<td>Back</td>
+			<td>Перемещение назад на заданное число кадров.</td>
+		</tr>
+		<tr>
+			<td>Record</td>
+			<td>Начало записи.</td>
+		</tr>
+		<tr>
+			<td>Eject</td>
+			<td>Освобождение объекта, загруженного в устройство.</td>
+		</tr>
+	</table>
+
+	<p>Каждой кнопке, как уже говорилось, соответствует метод с таким же действием и именем.</p>
+	<p>То есть, нажатие на кнопку "Play" приведет к тому же, что и команда</p>
+
+	<pre class="brush: csharp;">
+	MP.Play;
+	</pre>
+
+	<p>то есть, к проигрыванию выбранного файла.</p>
+	<p>Разберем свойства компонента.</p>
+	<p><b>AutoEnable.</b></p>
+	<p>Это свойство включает и выключает автоматическое определение доступности кнопок компонента.</p>
+	<p>К примеру, если нет устройства, которое нужно освобождать, то кнопка Eject будет недоступна.</p>
+	<p><b>AutoOpen.</b></p>
+	<p>Если это свойство равно True, то компонент сразу при загрузке программы начинает проигрывать указанный файл.</p>
+	<p>Однако при проектировании нужно будет сразу указать имя файла.</p>
+	<p>Мы же делаем плеер, и заранее не знаем, какой файл будет проигрывать пользователь, поэтому оставим его в False.</p>
+	<p><b>DeviceType.</b></p>
+	<p>Содержит тип устройства.</p>
+	<p>Например, музыка это или видео-файл.</p>
+	<p>По умолчанию установлен тип dtAutoSelect, то есть компонент будет самостоятельно определять тип устройства.</p>
+	<p>Так его и оставим.</p>
+	<p><b>Display.</b></p>
+	<p>Интересное свойство.</p>
+	<p>Оно указывает, какой именно компонент мы будем использовать, как экран, для просмотра видео.</p>
+	<p>Выберем там Panel2, которую мы окрасили черным цветом.</p>
+	<p><b>EnableButtons.</b></p>
+	<p>Раскрывающееся свойство, где мы для каждой кнопки можем указать доступность или недоступность.</p>
+	<p><b>FileName.</b></p>
+	<p>Содержит имя медиа-файла.</p>
+	<p>Если мы укажем его жестко, то свойство AutoOpen можно поставить в True, и тогда при загрузке программы файл автоматически начнет проигрываться.</p>
+	<p>Но мы оставим его пустым, а прописывать файл будем программно.</p>
+	<p><b>VisibleButtons.</b></p>
+	<p>Работает аналогично EnableButtons, только делает указанные кнопки невидимыми.</p>
+	<p>Из методов компонента интересны следующие:</p>
+	<p><b>Open.</b></p>
+	<p>Открывает мультимедийное устройство.</p>
+	<p>Перед тем, как проигрывать файл, устройство обязательно нужно открыть.</p>
+	<p><b>DisplayRect.</b></p>
+	<p>Метод указывает размер и позицию экрана.</p>
+	<p>Этот метод должен получить в качестве параметра 4 целых числа.</p>
+	<p><b>Close.</b></p>
+	<p>Закрывает устройство.</p>
+	<p>С теорией покончено, перейдем к практике.</p>
+	<p>Нам потребуется также компонент OpenDialog, чтобы пользователь мог выбрать файл.</p>
+	<p>В результате, у вас должна получиться такая форма:</p>
+
+	<img src="delphi30.png" id="image" />
+
+	<p>Теперь о форматах файлов.</p>
+	<p>Увы, не каждый формат можно будет проиграть в таком проигрывателе.</p>
+	<p>Разные видео- и аудио-файлы имеют собственные форматы.</p>
+	<p>Например, даже файл *.avi может быть разного формата.</p>
+	<p>Компонент рассчитан под звуковые форматы *.wav и *.mid, если же в операционной системе установлен медиа-плеер, то можно проигрывать и *.mp3.</p>
+	<p>Поддерживаемый видео-формат - *.avi.</p>
+	<p>Однако, если установлены различные "кодеки", то есть драйверы под различные форматы, то можно смотреть и файлы формата mpeg4, однако *.dat, в котором обычно делаются клипы, посмотреть не удастся.</p>
+	<p>Поэтому в свойстве Filter компонента OpenDialog нужно будет указать соответствующий фильтр:</p>
+	<p>- Видео-файлы *.avi; *.mpg</p>
+	<p>- Аудио-файлы *.wav; *.mid;*.mp3</p>
+	<p>- Все файлы *.*</p>
+	<p>Давайте сразу же обработаем команду меню "Файл – Выход", и напишем там</p>
+
+	<pre class="brush: csharp;">
+	Close;
+	</pre>
+
+	<p>Теперь будем иметь в виду, что пользователь может закрыть программу и кнопкой, а нам обязательно нужно будет закрыть компонент MediaPlayer.</p>
+	<p>Поэтому делаем для формы обработчик событий onDestroy и там его закрываем:</p>
+
+	<pre class="brush: csharp;">
+	MP.Close;
+	</pre>
+
+	<p>Теперь создаем обработчик для команды меню "Файл – Открыть".</p>
+	<p>Здесь мы имеем в виду, что пользователь может попытаться открыть файл с неподдерживаемым форматом.</p>
+	<p>Тогда возникнет ошибка.</p>
+	<p>Поэтому мы воспользуемся блоком исключительных ситуаций</p>
+
+	<pre class="brush: csharp;">
+	try – except – end;
+	</pre>
+
+	<p>Этот блок отличается от знакомого нам</p>
+
+	<pre class="brush: csharp;">
+	try – finally – end;
+	</pre>
+
+	<p>тем, что в случае возникновения ошибки будет выполнен блок except – end;, а если ошибки не будет, блок не выполнится.</p>
+	<p>Во втором примере блок finally – end; будет выполнен в любом случае.</p>
+	<p>Итак, наш код обработки команды меню "Файл – Открыть":</p>
+
+	<pre class="brush: csharp;">
+procedure TfMain.N2Click(Sender: TObject);
+begin
+  if not OpenDialog1.Execute then Exit;
+try
+  Edit1.Text := ExtractFileName(OpenDialog1.FileName);
+  MP.FileName := OpenDialog1.FileName;
+  MP.Open;
+  MP.DisplayRect := Rect(0,0,Panel2.Width, Panel2.Height);  
+except
+  ShowMessage('Ошибка открытия файла!');
+  Exit;
+end; //try
+end;
+	</pre>
+
+	<p>Итак, что здесь происходит?</p>
+	<p>Если диалог с пользователем не состоялся, то мы выходим из процедуры, ничего не делая.</p>
+	<p>Иначе открываем блок try – except – end.</p>
+	<p>Если между try и except произойдет ошибка (пользователь попытается открыть файл не поддерживаемого формата), то выполнится блок между except – end, в котором мы поясняем пользователю, что произошла ошибка открытия файла.</p>
+	<p>Далее мы выводим в Edit1 имя выбранного файла, после чего этот же файл присваиваем медиа - плееру.</p>
+	<p>Затем мы открываем плеер.</p>
+	<p>Строка</p>
+
+	<pre class="brush: csharp;">
+	MP.DisplayRect := Rect(0,0,Panel2.Width, Panel2.Height);
+	</pre>
+
+	<p>Заставляет видеоизображение принять размеры формы: мы указываем координаты верхнего угла 0,0 – это самый верхний левый угол панели, и ширину и высоту панели, как координаты другого угла.</p>
+	<p>В результате размер видеоизображения займет всю панель.</p>
+	<p>Однако имейте в виду, что фильм может быть и широкоформатным, поэтому он будет искажен.</p>
+	<p>Чтобы исправить дело, пользователю придется изменять размер формы мышкой.</p>
+	<p>Если мы не предусмотрим изменение пользователем размеров экрана, размеры изображения меняться не будут.</p>
+	<p>Создадим для формы событие onResize, которое происходит каждый раз, когда пользователь меняет размеры формы, и продублируем там указанную выше строку.</p>
+	<p>Вот, собственно, и вся программа.</p>
+	<p>Конечно, профессиональные медиа- проигрыватели делают другим способом, намного более сложным.</p>
+	<p>Однако этот компонент легко применять в различных программах для показа видео-файлов, или прослушивания звуковых файлов.</p>
+	<p>Сохраните проект, скомпилируйте его и посмотрите, как он работает.</p>
+	<p>Стандартные звуки Windows можно найти в папке</p>
+
+	<pre class="brush: csharp;">
+	C:\windows\media
+	</pre>
+
+	<p>А видео-файл можно найти по адресу</p>
+
+	<pre class="brush: csharp;">
+	C:\program files\borland\delphi7\demos\coolstuf\speedis.avi
+	</pre>
+
+	<p>Осталось только сделать форму About, и выводить ее по команде меню "Помощь – О программе".</p>
+	<p>Но это уже сделайте самостоятельно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="68.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="70.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/69.html", "Мультимедиа в Delphi", "bm455"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm455", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm455") == 1) { document.getElementById("bma455").style.display = "block"; document.getElementById("bm455").style.display = "none"; } else { document.getElementById("bma455").style.display = "none"; document.getElementById("bm455").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Мультимедиа в Delphi") == 1) { arrs.splice(i, 1); localStorage.setItem("bm455", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

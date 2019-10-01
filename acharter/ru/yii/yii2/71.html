@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1277" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1277" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Ресурсы
+	</h1>
+
+    <p>RESTful API строятся вокруг доступа к ресурсам и управления ими.</p>
+    <p>Вы можете думать о ресурсах как о моделях из MVC.</p>
+    <p>Хотя не существует никаких ограничений на то, как представить ресурс, в Yii ресурсы обычно представляются как объекты [[yii\base\Model]] или дочерние классы (например [[yii\db\ActiveRecord]]), потому как:</p>
+
+    <ul>
+        <li>[[yii\base\Model]] реализует интерфейс [[yii\base\Arrayable]], который позволяет задать способ отдачи данных ресурса через RESTful API.</li>
+        <li>[[yii\base\Model]] поддерживает валидацию, что полезно для RESTful API реализующего ввод данных.</li>
+        <li>[[yii\db\ActiveRecord]] даёт мощную поддержку работы с БД, что актуально если данные ресурса хранятся в ней.</li>
+    </ul>
+
+    <p>В этом разделе, мы сосредоточимся на том, как при помощи класса ресурса, наследуемого от [[yii\base\Model]] (или дочерних классов) задать какие данные будут возвращаться RESTful API.</p>
+    <p>Если класс ресурса не наследуется от [[yii\base\Model]], возвращаются всего его public свойства.</p>
+
+    <h2 id="title">
+        Поля
+    </h2>
+
+    <p>Когда ресурс включается в ответ RESTful API, необходимо сериализовать его в строку.</p>
+    <p>Yii разбивает этот процесс на два этапа.</p>
+    <p>Сначала ресурс конвертируется в массив при помощи [[yii\rest\Serializer]].</p>
+    <p>На втором этапе массив сериализуется в строку заданного формата (например, JSON или XML) при помощи [[yii\web\ResponseFormatterInterface|форматтера ответа]].</p>
+    <p>Именно на этом стоит сосредоточится при разработке класса ресурса.</p>
+    <p>Вы можете указать какие данные включать в представление ресурса в виде массива путём переопределения методов [[yii\base\Model::fields()|fields()]] и/или [[yii\base\Model::extraFields()|extraFields()]].</p>
+    <p>Разница между ними в том, что первый определяет набор полей, которые всегда будут включены в массив, а второй определяет дополнительные поля, которые пользователь может запросить через параметр expand:</p>
+
+    <pre class="brush: csharp;">
+    // вернёт все поля объявленные в fields()
+    http://localhost/users
+    
+    // вернёт только поля id и email, если они объявлены в методе fields()
+    http://localhost/users?fields=id,email
+    
+    // вернёт все поля объявленные в fields() и поле profile если оно указано в extraFields()
+    http://localhost/users?expand=profile
+    
+    // вернёт только id, email и profile, если они объявлены в fields() и extraFields()
+    http://localhost/users?fields=id,email&expand=profile
+    </pre>
+
+
+    <h2 id="title">
+        Переопределение fields()
+    </h2>
+
+    <p>По умолчанию, [[yii\base\Model::fields()]] возвращает все атрибуты модели как поля, а [[yii\db\ActiveRecord::fields()]] возвращает только те атрибуты, которые были объявлены в схеме БД.</p>
+    <p>Вы можете переопределить fields() для того, чтобы добавить, удалить, переименовать или переобъявить поля.</p>
+    <p>Значение, возвращаемое fields(), должно быть массивом.</p>
+    <p>Его ключи это имена полей, и значения могут быть либо именами свойств/атрибутов, либо анонимными функциями, которые возвращают значение соответствующих полей.</p>
+    <p>Если имя атрибута такое же, как ключ массива вы можете опустить значение:</p>
+
+    <pre class="brush: csharp;">
+    // явное перечисление всех атрибутов лучше всего использовать когда вы хотите быть уверенным что изменение
+    // таблицы БД или атрибутов модели не повлияет на изменение полей, отдаваемых API (что важно для поддержки обратной
+    // совместимости API).
+    public function fields()
+    {
+        return [
+            // название поля совпадает с названием атрибута
+            'id',
+            // имя поля "email", атрибут "email_address"
+            'email' =&gt; 'email_address',
+            // имя поля "name", значение определяется callback-ом PHP
+            'name' =&gt; function () {
+                return $this->first_name . ' ' . $this->last_name;
+            },
+        ];
+    }
+    
+    // отбрасываем некоторые поля. Лучше всего использовать в случае наследования
+    public function fields()
+    {
+        $fields = parent::fields();
+    
+        // удаляем не безопасные поля
+        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
+    
+        return $fields;
+    }
+    </pre>
+
+    <p><b>Предупреждение:</b> По умолчанию все атрибуты модели будут включены в ответы API. Вы должны убедиться в том, что отдаются только безопасные данные. В противном случае для исключения небезопасных полей необходимо переопределить метод fields(). В приведённом выше примере мы исключаем auth_key, password_hash и password_reset_token.</p>
+
+    <h3 id="title">
+        Переопределение extraFields()
+    </h3>
+
+    <p>По умолчанию, [[yii\base\Model::extraFields()]] ничего не возвращает, а [[yii\db\ActiveRecord::extraFields()]] возвращает названия заданных в БД связей.</p>
+    <p>Формат возвращаемых extraFields() данных такой же как у fields().</p>
+    <p>Как правило, extraFields() используется для указания полей, значения которых являются объектами.</p>
+    <p>Например учитывая следующее объявление полей</p>
+
+    <pre class="brush: csharp;">
+    public function fields()
+    {
+        return ['id', 'email'];
+    }
+    
+    public function extraFields()
+    {
+        return ['profile'];
+    }
+    </pre>
+
+    <p>запрос http://localhost/users?fields=id,email&expand=profile может возвращать следующие JSON данные:</p>
+
+    <pre class="brush: csharp;">
+    [
+        {
+            "id": 100,
+            "email": "100@example.com",
+            "profile": {
+                "id": 100,
+                "age": 30,
+            }
+        },
+        ...
+    ]
+    </pre>
+
+    <h2 id="title">
+        Ссылки
+    </h2>
+
+    <p>Согласно HATEOAS, расшифровывающемуся как Hypermedia as the Engine of Application State, RESTful API должны возвращать достаточно информации для того, чтобы клиенты могли определить возможные действия над ресурсами.</p>
+    <p>Ключевой момент HATEOAS заключается в том, чтобы возвращать вместе с данными набора гиперссылок, указывающих на связанную с ресурсом информацию.</p>
+    <p>Поддержку HATEOAS в ваши классы ресурсов можно добавить реализовав интерфейс [[yii\web\Linkable]].</p>
+    <p>Этот интерфейс содержит единственный метод [[yii\web\Linkable::getLinks()|getLinks()]], который возвращает список [[yii\web\Link|ссылок]].</p>
+    <p>Обычно вы должны вернуть хотя бы ссылку self с URL самого ресурса:</p>
+
+    <pre class="brush: csharp;">
+    use yii\db\ActiveRecord;
+    use yii\web\Link;
+    use yii\web\Linkable;
+    use yii\helpers\Url;
+    
+    class User extends ActiveRecord implements Linkable
+    {
+        public function getLinks()
+        {
+            return [
+                Link::REL_SELF =&gt; Url::to(['user/view', 'id' =&gt; $this->id], true),
+            ];
+        }
+    }
+    </pre>
+
+    <p>При отправке ответа объект User содержит поле _links, значение которого — ссылки, связанные с объектом:</p>
+
+    <pre class="brush: csharp;">
+    {
+        "id": 100,
+        "email": "user@example.com",
+        // ...
+        "_links" =&gt; {
+            "self": {
+                "href": "https://example.com/users/100"
+            }
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Коллекции
+    </h3>
+
+    <p>Объекты ресурсов могут группироваться в коллекции.</p>
+    <p>Каждая коллекция содержит список объектов ресурсов одного типа.</p>
+    <p>Несмотря на то, что коллекции можно представить в виде массива, удобнее использовать провайдеры данных так как они поддерживают сортировку и постраничную разбивку.</p>
+    <p>Для RESTful APIs, которые работают с коллекциями, данные возможности используются довольно часто.</p>
+    <p>Например, следующее действие контроллера возвращает провайдер данных для ресурса постов:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\rest\Controller;
+    use yii\data\ActiveDataProvider;
+    use app\models\Post;
+    
+    class PostController extends Controller
+    {
+        public function actionIndex()
+        {
+            return new ActiveDataProvider([
+                'query' =&gt; Post::find(),
+            ]);
+        }
+    }
+    </pre>
+
+    <p>При отправке ответа RESTful API, [[yii\rest\Serializer]] сериализует массив объектов ресурсов для текущей страницы.</p>
+    <p>Кроме того, он добавит HTTP заголовки, содержащие информацию о страницах:</p>
+
+    <ul>
+        <li>X-Pagination-Total-Count: общее количество ресурсов;</li>
+        <li>X-Pagination-Page-Count: количество страниц;</li>
+        <li>X-Pagination-Current-Page: текущая страница (начиная с 1);</li>
+        <li>X-Pagination-Per-Page: количество ресурсов на страницу;</li>
+        <li>Link: набор ссылок, позволяющий клиенту пройти все страницы ресурсов.</li>
+    </ul>
+
+    <p>Примеры вы можете найти в разделе «быстрый старт».</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="70.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="72.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/71.html", "Yii2: Ресурсы", "bm1277"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1277", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1277") == 1) { document.getElementById("bma1277").style.display = "block"; document.getElementById("bm1277").style.display = "none"; } else { document.getElementById("bma1277").style.display = "none"; document.getElementById("bm1277").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Ресурсы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1277", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

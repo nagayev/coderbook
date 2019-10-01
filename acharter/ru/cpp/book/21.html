@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma42" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm42" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Цикл for в C++
+	</h1>
+
+	<p>Цикл — многократное прохождение по одному и тому же коду программы.</p>
+	<p>Циклы необходимы программисту для многократного выполнения одного и того же кода, пока истинно какое-то условие.</p>
+	<p>Если условие всегда истинно, то такой цикл называется бесконечным, у такого цикла нет точки выхода.</p>
+	<p>В языке программирования С++ существуют такие циклы:</p>
+	<p>- цикл for</p>
+	<p>- цикл while</p>
+	<p>- цикл do  while</p>
+	<p>Тело цикла будет выполняться до тех пор, пока условие будет истинно(т. е. true).</p>
+	
+	<pre class="brush: csharp;">
+	// форма записи оператора цикла for:
+	for (/*выражение1*/; /*выражение2*/; /*выражение3*/ )
+	{
+		/*один оператор или блок операторов*/;
+	}
+	</pre>
+
+	<p>Если в теле цикла for должен выполнится один оператор, тогда фигурные скобки можно опустить:</p>
+
+	<pre class="brush: csharp;">
+	for (/*выражение1*/; /*выражение2*/; /*выражение3*/)
+	/*один оператор*/;
+	</pre>
+
+	<p>Рассмотрим подробно три выражения записанные в круглых скобках цикла for.</p>
+	<p>Выражение 1 — объявление (и) или инициализация, ранее объявленной, переменной-счетчика, которая будет отвечать за истинность условия в цикле for.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	// отсюда видно, что была объявлена переменная counter типа int и инициализирована значением 0
+	int counter = 0;
+	</pre>
+
+	<p>Переменная-счетчик всегда должна иметь целочисленный тип данных.</p>
+	<p>Если переменная была объявлена в цикле (все равно в каком), по завершении цикла эта переменная будет уничтожена.</p>
+	<p>Разница между объявлением и инициализацией переменной:</p>
+
+	<pre class="brush: csharp;">
+	// объявление переменой count
+	counter;
+
+	// инициализация целочисленной  переменой count значением  9.
+	counter = 9;
+	</pre>
+
+	<p>Выражение 2 — это условие продолжения цикла for, оно проверяется на истинность.</p>
+
+	<pre class="brush: csharp;">
+	// условие истинно пока count строго меньше десяти!
+	counter < 10;
+	</pre>
+
+	<p>Выражение 3 изменяет значение переменной-счетчика.</p>
+	<p>Без выражения 3 цикл считается бесконечным, так как изменение содержимого переменной count выполняться не будет, и если изначально условие было истинным, то цикл будет бесконечным, иначе программа даже не войдет в цикл.</p>
+	<p>Выражения 1, 2, 3 отделяются друг от друга обязательными разделителями, точкой с запятой.</p>
+	<p>Тело цикла обрамляется фигурными скобочками, если тело цикла состоит из одного оператора, то фигурные скобочки не нужны.</p>
+	<p>Под изменением значения переменной подразумевается уменьшение или приращение значения, например:</p>
+
+	<pre class="brush: csharp;">
+	// выполняется приращение переменной counter с шагом 1 от 0 до 15
+	for ( int counter = 0; counter < 15; counter++)
+	</pre>
+
+	<p><b>++ это операция инкремента</b>, увеличение значения переменной на единицу;</p>
+	<p><b>-- это операция декремента</b>, уменьшение значения переменной на единицу.</p>
+	<p>Очень часто неправильно интерпретируется запись пределов в цикле for, в нашем случае приращение переменной counter выполняется с шагом 1 от 0 до 15.</p>
+	<p>Обратите внимание на конечный предел.</p>
+	<p>В условии продолжения цикла стоит знак отношения строго меньше, а значит, когда значение в переменной counter будет равно 14, выполнится выход из цикла.</p>
+
+	<pre class="brush: csharp;">
+	// for.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// начало цикла
+		for (int counter = 0; counter < 15; counter ++ )
+		// тело цикла
+		cout << " " << counter; 
+		cout << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Ниже показан пример работы программы.</p>
+
+	<pre class="brush: csharp;">
+	0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+	</pre>
+
+	<p>В строках 9, 10 записан цикл for, причём без фигурных скобочек.</p>
+	<p>А раз отсутствуют фигурные скобочки,  значит, телом цикла является следующий оператор, после заголовка цикла, в нашем случае — это оператор вывода:</p>
+
+	<pre class="brush: csharp;">
+	// тело цикла
+	cout << " " << counter;
+	</pre>
+
+	<p>Заголовком цикла for является строка 9:</p>
+
+	<pre class="brush: csharp;">
+	// заголовок цикла
+	for (int counter = 0; counter < 15; counter ++ )
+	</pre>
+
+	<p>Фигурные скобочки можно не опускать, это кому как удобно.</p>
+	<p>Но в данном случае без фигурных скобочек запись кода более компактна, чем со скобочками.</p>
+
+	<pre class="brush: csharp;">
+	// декремент переменной counter от 14 до 0 включительно
+	for ( int counter = 14; counter >= 0; counter --)
+	</pre>
+
+	<p>Далее показан код программы, которая подсчитывает количество чётных чисел в интервале от 0 до 50 включительно.</p>
+
+	<pre class="brush: csharp;">
+	// for_example.cpp: определяет точку входа для консольного приложения.
+	
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		int counter_even = 0;
+		// заголовок цикла
+		for (int count = 2; count <= 50; count += 2)
+		// подсчёт чётных чисел
+		counter_even ++; 
+		cout << "number of even numbers = " << counter_even << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строке 9 объявлена и инициализирована нулём переменная для хранения количества чётных чисел.</p>
+	<p>В заголовке цикла for в строке 10 переменная counter инициализирована двойкой, так как двойка — первое чётное число, начиная с 0.</p>
+	<p>Шаг цикла равен двум, таким образом следующее чётное число это 4.</p>
+	<p>В строке 11 переменная counter_even инкрементируется на каждом этапе цикла for.</p>
+	<p>Результат работы программы показан ниже.</p>
+
+	<pre class="brush: csharp;">
+	number of even numbers = 25
+	</pre>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="20.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="22.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/21.html", "Цикл for в C++", "bm42"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm42", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm42") == 1) { document.getElementById("bma42").style.display = "block"; document.getElementById("bm42").style.display = "none"; } else { document.getElementById("bma42").style.display = "none"; document.getElementById("bm42").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Цикл for в C++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm42", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

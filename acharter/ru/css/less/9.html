@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma235" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm235" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Программа Crunch
+	</h1>
+
+	<p>Crunch — простой редактор и компилятор Less сделанный на Adobe Air, за счёт чего работает в любых операционных системах.</p>
+	<p>В редакторе имеется подсветка синтаксиса, возможность работать одновременно с несколькими файлами и группирование блоков.</p>
+	<p>Скачать программу можно на официальном сайте по этой ссылке.</p>
+
+	<pre class="brush: csharp;">
+    	http://crunchapp.net
+	</pre>
+
+	<p>В программе доступны две вкладки.</p>
+	<p>Для начала работы следует открыть папку содержащую Less-файлы через кнопку Open Website...</p>
+
+	<img src="lessImg7.png" id="image" />
+
+	<p>Как правило, исходные документы хранятся в папке с именем "less", а уже скомпилированные стилевые файлы — в папке "css".</p>
+	<p>Самому создавать эту папку не требуется, она будет сделана автоматически при компиляции.</p>
+	<p>Структура открытых файлов сохраняется и после закрытия и повторного запуска Crunch, что довольно удобно при работе с одним проектом.</p>
+	<p>Следующая вкладка Preferences содержит настройки программы и компилятора Less.</p>
+
+	<img src="lessImg8.png" id="image" />
+
+	<p>Все настройки делятся на два блока — настройки самой программы и настройки Less, которые влияют на получаемый результат.</p>
+	<p><b>Enable File Monitoring.</b> Идёт отслеживание открытых во вкладках файлов и при их изменении внешней программой Crunch сообщит об этом.</p>
+	<p><b>Save on Crunch.</b> Открытый файл сохраняется при компиляции.</p>
+	<p><b>Open CSS after Crunching.</b> Вновь созданный стилевой файл открывается в новой вкладке для редактирования.</p>
+	<p><b>Minify CSS.</b> Выходной файл сохраняется без пробелов в виде единой строки.</p>
+	<p><b>IE8 Compatibility.</b> Режим совместимости с браузером Internet Explorer 8.</p>
+	<p>В большинстве случаев не оказывает какое-либо влияние на результат.</p>
+	<p><b>Strict Math.</b> При включении этого пункта математические выражения не вычисляются, а записываются в исходном виде.</p>
+	<p>Например, 10px + 10px останется исходным, а никак не значением 20px полученным в результате сложения.</p>
+	<p><b>Strict Units.</b> При выборе этого пункта операции с разными единицами измерения приводят к ошибке.</p>
+	<p>Если галочку убрать, то можно проценты соединять с пикселями, но в этом случае считается, что это одни и те же единицы.</p>
+	<p>Выражение 10px + 10% даёт 20px, поскольку за основу берётся первая единица, т.е. пиксели, и проценты заменяются на них.</p>
+	<p>Сама компиляция происходит при нажатии на кнопку "Crunch File" в правом верхнем углу окна.</p>
+	<p>Если включена опция "Open CSS after Crunching", то в новой вкладке откроется скомпилированный CSS.</p>
+	<p>Или документ обновится, если вкладка уже открыта.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="8.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/less/9.html", "Программа Crunch", "bm235"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm235", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm235") == 1) { document.getElementById("bma235").style.display = "block"; document.getElementById("bm235").style.display = "none"; } else { document.getElementById("bma235").style.display = "none"; document.getElementById("bm235").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Программа Crunch") == 1) { arrs.splice(i, 1); localStorage.setItem("bm235", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

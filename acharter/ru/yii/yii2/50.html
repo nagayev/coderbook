@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1256" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1256" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Табличный ввод
+	</h1>
+
+    <p>Иногда возникает необходимость обработки нескольких моделей одного вида в одной форме.</p>
+    <p>Например, несколько параметров, каждый из которых сохраняется как пара имя-значение и представляется моделью Setting active record.</p>
+    <p>Такой тип форм часто называют "табличным вводом".</p>
+    <p>Обработка данных нескольких моделей разных видов в одной форме описана в разделе Работа с несколькими моделями.</p>
+    <p>Дальше будет рассмотрен вариант реализации табличного ввода при помощи Yii.</p>
+    <p>Выделим три сценария, которые потребуют немного разных подходов:</p>
+
+    <ul>
+        <li>Изменение фиксированного набора записей из базы данных;</li>
+        <li>Создание произвольного набора записей;</li>
+        <li>Изменение, создание и удаление записей на одной странице.</li>
+    </ul>
+
+    <p>В отличие от форм с одной моделью, рассмотренных ранее, теперь будем иметь дело с массивом моделей.</p>
+    <p>Этот массив передается в представление и для каждой модели отображаются поля ввода в табличном виде.</p>
+    <p>Для загрузки и валидации нескольких моделей сразу будем использовать вспомогательные методы класса [[yii\base\Model]]:</p>
+
+    <ul>
+        <li>[[yii\base\Model::loadMultiple()|Model::loadMultiple()]] загружает данные post в массив моделей;</li>
+        <li>[[yii\base\Model::validateMultiple()|Model::validateMultiple()]] валидирует массив моделей.</li>
+    </ul>
+
+    <h2 id="title">
+        Изменение фиксированного набора записей
+    </h2>
+
+Начнем с действия контроллера:
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\controllers;
+    
+    use Yii;
+    use yii\base\Model;
+    use yii\web\Controller;
+    use app\models\Setting;
+    
+    class SettingsController extends Controller
+    {
+        // ...
+    
+        public function actionUpdate()
+        {
+            $settings = Setting::find()->indexBy('id')->all();
+    
+            if (Model::loadMultiple($settings, Yii::$app->request->post()) && Model::validateMultiple($settings)) {
+                foreach ($settings as $setting) {
+                    $setting->save(false);
+                }
+                return $this->redirect('index');
+            }
+    
+            return $this->render('update', ['settings' =&gt; $settings]);
+        }
+    }
+    </pre>
+
+    <p>В коде выше, для получения из базы данных массива моделей, индексированного по главному ключу, использован метод [[yii\db\ActiveQuery::indexBy()|indexBy()]].</p>
+    <p>В дальнейшем будем использовать это для идентификации полей формы.</p>
+    <p>Метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Model::loadMultiple()|Model::loadMultiple()]]
+    </pre>
+
+    <p>загружает данные запроса POST в массив моделей, а метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Model::validateMultiple()|Model::validateMultiple()]]
+    </pre>
+
+    <p>проводит валидацию всех моделей.</p>
+    <p>Так, как модели уже прошли валидацию, мы передаем методу [[yii\db\ActiveRecord::save()|save()]] параметр false для отключения повторной валидации.</p>
+    <p>Теперь займемся формой в представлении update:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
+    
+    $form = ActiveForm::begin();
+    
+    foreach ($settings as $index =&gt; $setting) {
+        echo $form->field($setting, "[$index]value")->label($setting->name);
+    }
+    
+    ActiveForm::end();
+    </pre>
+
+    <p>Для каждого элемента массива $settings генерируется имя и поле ввода значения.</p>
+    <p>Важно указать правильный индекс в имени поля ввода значения, так как [[yii\base\Model::loadMultiple()|Model::loadMultiple()]] определяет модель по этому индексу.</p>
+
+    <h2 id="title">
+        Создание произвольного набора записей
+    </h2>
+
+    <p>Процесс создания новых записей похож на их изменение, за исключением части, где создаются новые модели:</p>
+
+    <pre class="brush: csharp;">
+    public function actionCreate()
+    {
+        $count = count(Yii::$app->request->post('Setting', []));
+        $settings = [new Setting()];
+        for($i = 1; $i < $count; $i++) {
+            $settings[] = new Setting();
+        }
+    
+        // ...
+    }
+    </pre>
+
+    <p>Сначала создается массив $settings, содержащий один экземпляр модели, так что, по умолчанию в представлении всегда будет отображено хотя бы одно поле.</p>
+    <p>Дополнительно, добавляются модели для каждой полученной строки ввода.</p>
+    <p>В представлении возможно использовать javascript для добавления новых полей динамически.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="49.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="51.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/50.html", "Yii2: Табличный ввод", "bm1256"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1256", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1256") == 1) { document.getElementById("bma1256").style.display = "block"; document.getElementById("bm1256").style.display = "none"; } else { document.getElementById("bma1256").style.display = "none"; document.getElementById("bm1256").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Табличный ввод") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1256", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

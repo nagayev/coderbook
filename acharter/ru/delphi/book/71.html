@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma457" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm457" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Перенос файлов (ч. 2)
+	</h1>
+
+	<p>Далее мы проверяем – хватает ли нам информации для копирования или переноса, то есть выбрал ли пользователь, что копировать, и куда.</p>
+	<p>Если нет – выводим сообщение и выходим, ничего не делая.</p>
+	<p>Далее как обычно, мы связываем файлы с файловыми переменными, открываем первый файл для чтения, другой для записи.</p>
+	<p>Обнуляем переменные, которые будут работать в качестве счетчиков прочитанных и записанных байт. Интересна строка</p>
+
+	<pre class="brush: csharp;">
+	Screen.Cursor := crHourGlass;
+	//песочные часы
+	</pre>
+
+	<p>Если вы выделите форму и посмотрите свойство Cursor, то увидите список, в котором присутствует и указанное значение.</p>
+	<p>Эта команда на время копирования файла делает курсор в виде песочных часов, чтобы пользователь видел, что процесс идет.</p>
+	<p>Потом мы возвращаем курсору исходный вид:</p>
+
+	<pre class="brush: csharp;">
+	Screen.Cursor := crDefault;
+	//обычный вид курсора
+	</pre>
+
+	<p>Далее, внутри цикла копирования, мы подсчитываем общий размер прочитанных байт, чтобы потом рассчитать процент проделанной работы и передвинуть индикатор Gauge:</p>
+
+	<pre class="brush: csharp;">
+	sizeread := sizeread + colRead;
+	Gauge1.Progress := Round(100*sizeread/sizefile);
+	</pre>
+
+	<p>Поскольку свойство Progress имеет целый тип, нам приходится округлять полученный результат до ближайшего целого функцией Round().</p>
+	<p>К сожалению, при копировании обычными средствами Delphi файл успешно копируется и переносится, однако при этом дата и время создания копии будут текущими – ведь для операционной системы мы просто создали новый файл!</p>
+	<p>Для исправления даты мы вызвали процедуру PravkaDate, куда в качестве параметров передали адреса и имена исходного файла и копии.</p>
+	<p>Теперь нам нужно описать эту процедуру, причем сделать это выше той процедуры, из которой мы ее вызываем.</p>
+
+	<pre class="brush: csharp;">
+{Процедура исправления даты. x - адрес и имя файла-оригинала,
+ y - файла-копии}
+procedure PravkaDate(var x, y : String);
+//исправление даты и времени создания файла
+var
+  origin, kopiya : integer; //дескрипторы
+  DateOrigin : integer; //время создания
+begin
+  try
+    //открываем файлы:
+    origin := FileOpen(x, fmOpenRead);
+    kopiya := FileOpen(y, fmOpenWrite);
+    //получаем дату:
+    DateOrigin := FileGetDate(origin);
+    //записываем дату в файл-копию:
+    FileSetDate(kopiya, DateOrigin);
+  finally
+    FileClose(origin);
+    FileClose(kopiya);
+  end; //try
+end;
+	</pre>
+
+	<p>Эта процедура использует функции WinAPI, которые позволяют совершать над файлами более серьезные действия, но зато они сложнее в использовании.</p>
+	<p>Когда мы открываем файлы, то в переменные – дескрипторы заносится идентификатор открытого файла в виде целого числа.</p>
+	<p>По этому идентификатору происходит дальнейшая работа с файлом.</p>
+	<p>Далее мы получаем дату и время создания файла в формате MS-DOS, который представляет собой длинное целое число.</p>
+	<p>За это у нас отвечает функция FileGetDate(), куда в качестве параметра мы передаем дескриптор нужного файла.</p>
+	<p>Точно так же мы прописываем полученные дату – время в файл – копию с помощью функции FileSetDate().</p>
+	<p>В конце мы закрываем файлы.</p>
+	<p>Эту процедуру вы можете выписать отдельно, и потом вставлять в любую программу, где приходится исправлять дату и время у копии.</p>
+	<p>Далее обрабатываем кнопку "Копировать".</p>
+	<p>Там мы вызываем процедуру копирования, а затем устанавливаем индикатор копирования в ноль.</p>
+	<p>Если этого не сделать, то после каждого копирования этот индикатор будет показывать 100%.</p>
+
+	<pre class="brush: csharp;">
+	myCopy;
+		Gauge1.Progress := 0;
+	</pre>
+
+	<p>С кнопкой "Перенос" немного сложней.</p>
+	<p>Если пользователь не указал все необходимые параметры, то процедура копирования вернет ему сообщение об этом, и выйдет, ничего не делая.</p>
+	<p>А ведь после этой процедуры нам нужно будет удалить оригинал!</p>
+	<p>Поэтому перед вызовом процедуры удаления нам придется еще раз проверить – все ли заполнил пользователь?</p>
+	<p>Если нет, то удалять оригинал мы не будем:</p>
+
+	<pre class="brush: csharp;">
+myCopy;
+  Gauge1.Progress := 0;
+  if (Otkuda.Text='') or (Kuda.Text='') then Exit;
+  DeleteFile(Otkuda.Text);
+	</pre>
+
+	<p>Ну, а с кнопками возле наших Edit совсем просто – первый обрабатывает OpenDialog:</p>
+
+	<pre class="brush: csharp;">
+	if OpenDialog1.Execute then
+		Otkuda.Text := OpenDialog1.FileName;
+	</pre>
+
+	<p>А второй обрабатывает SaveDialog:</p>
+
+	<pre class="brush: csharp;">
+	if SaveDialog1.Execute then
+		Kuda.Text := SaveDialog1.FileName;
+	</pre>
+
+	<p>Вот и вся программа!</p>
+	<p>На первый взгляд она сложна, но если проанализировать код и попробовать указанные приемы в различных примерах, то программа окажется не такой уж и сложной, ведь все используемые функции и процедуры нам уже знакомы.</p>
+	<p>Сохраните проект, скомпилируйте и посмотрите, как работает программа.</p>
+	<p>Файлы небольших размеров будут обрабатываться моментально, чтобы вы успели разглядеть процесс, выбирайте файлы побольше.</p>
+	<p>Размер буфера можно было бы уменьшить, но это приведет к увеличению цикла копирования, что снизит скорость обработки файла, а увеличение буфера ощутимого ускорения не принесет.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="70.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="72.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/71.html", "Перенос файлов (ч. 2)", "bm457"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm457", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm457") == 1) { document.getElementById("bma457").style.display = "block"; document.getElementById("bm457").style.display = "none"; } else { document.getElementById("bma457").style.display = "none"; document.getElementById("bm457").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перенос файлов (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm457", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

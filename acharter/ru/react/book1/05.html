@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma979" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm979" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		ES2015, React HMR
+	</h1>
+
+	<p>Для использования возможностей ES6(2015) и ES7 будем использовать babel.</p>
+	<p>С выходом 6й версии, он стал очень модульным, поэтому не пугайтесь большому количеству зависимостей.</p>
+
+	<h1 id="title">
+		Babel 6
+	</h1>
+
+	<p>Все начинается с</p>
+
+		<pre class="brush: csharp;">
+		npm install babel-core babel-loader --save-dev
+		</pre>
+
+	<p>Далее нужно поставить пресеты (предустановки), которые нам нужны.</p>
+
+	<pre class="brush: csharp;">
+	# Для поддержки ES6/ES2015
+	npm install babel-preset-es2015 --save-dev
+
+	# Для поддержки JSX
+	npm install babel-preset-react --save-dev
+
+	# Для поддержки ES7
+	npm install babel-preset-stage-0 --save-dev
+	</pre>
+
+	<p>Нам однозначно нужен полифил, чтобы все фичи работали в браузере</p>
+
+	<pre class="brush: csharp;">
+	npm install babel-polyfill --save
+	</pre>
+
+	<p>И немного улучшим время сборки, добавив следующие пакеты</p>
+
+	<pre class="brush: csharp;">
+	npm install babel-runtime --save
+	npm install babel-plugin-transform-runtime --save-dev
+	</pre>
+
+	<p>В данный момент, у нас достаточно "пакетов", чтобы писать "современный" код и использовать JSX. Давайте в этом убедимся.</p>
+	<p>Во-первых, подправим конфиг для webpack'а:</p>
+	<p>webpack.config.js</p>
+
+	<pre class="brush: csharp;">
+	var path = require('path')
+	var webpack = require('webpack')
+	module.exports = {
+		devtool: 'cheap-module-eval-source-map',
+		entry: [
+			'webpack-hot-middleware/client',
+			'babel-polyfill',
+			'./src/index'
+		],
+		output: {
+			path: path.join(__dirname, 'dist'),
+			filename: 'bundle.js',
+			publicPath: '/static/'
+		},
+		plugins: [
+			new webpack.optimize.OccurenceOrderPlugin(),
+			new webpack.HotModuleReplacementPlugin(),
+			new webpack.NoErrorsPlugin()
+		],
+		//Обновлено
+		module: {
+			//добавили babel-loader
+			loaders: [
+			{
+				loaders: ['babel-loader'],
+				include: [
+					path.resolve(__dirname, "src"),
+				],
+				test: /\.js$/,
+				plugins: ['transform-runtime'],
+			}
+			]
+		}
+	}
+	</pre>
+
+	<p>Добавилась запись в секции loaders.</p>
+	<p>Теперь все js файлы в src директории будут обрабатываться babel-loader'ом, которому мы в свою очередь тоже должны указать настройки.</p>
+	<p>Для этого, нужно создать файл .babelrc со следующим содержимым:</p>
+
+	<pre class="brush: csharp;">
+	{
+		//поддержка ES2015, ES7 и JSX
+		"presets": ["es2015", "stage-0", "react"] 
+	}
+	</pre>
+
+	<p>Если вы знакомы с gulp, то можно провести некую аналогию, между плагинами gulp и лоадерами (loaders) webpack'a.</p>
+	<p>Если мы хотим делать какие-то преобразования с кодом внутри файла, будь то css, js или картинки - мы используем соответсвующий loader.</p>
+	<p>Причем создавать дополнительные файлы настроек, как в случае с babel, обычно не нужно.</p>
+	<p>Ок, создадим React компонент, не забыв при этом скачать нужные пакеты:</p>
+
+	<pre class="brush: csharp;">
+	npm i react react-dom --save
+	src/index.js
+	import 'babel-polyfill'
+	import React from 'react'
+	import { render } from 'react-dom'
+	import App from './containers/App'
+	
+	render(
+		&lt;App /&gt;,
+		document.getElementById('root')
+	)
+
+	src/containers/App.js
+	import React, { Component, PropTypes } from 'react'
+	
+	export default class App extends Component
+	{
+		render()
+		{
+			return &lt;div&gt;Привет из App&lt;/div&gt;
+		}
+	}
+	</pre>
+
+	<p>Перезапускаем сборку (npm start).</p>
+	<p>Весь код на текущий момент выложен в специальную ветку на Github.</p>
+	<p>Можете сверится, если что-то не работает.</p>
+
+	<pre class="brush: csharp;">
+	https://goo.gl/M364X4
+	</pre>
+
+	<h1 id="title">
+		React + Hot Reload
+	</h1>
+
+	<p>Возможно, вам встретится аббревиатура HMR (hot module replacement), что в принципе более правильно отражает суть, поэтому под hot-reload я подразумеваю именно HMR ;)</p>
+	<p>Как вы помните из прошлой главы - мы добавили module.hot.accept(), для того, чтобы webpack обновлял код из файла index.js в сборке без перезагрузки страницы в браузере.</p>
+	<p>Если сейчас попробовать изменить что-то в App.js - то в результате ничего не случится, ровно по тем же причинам, что и в предыдушем случае.</p>
+	<p>Что ж, это поправимо и благодаря добрым людям, нам не нужно самим вписывать accept функцию.</p>
+	<p>Итак, встречайте (и устанавливайте):</p>
+
+	<pre class="brush: csharp;">
+	npm install react-hot-loader --save-dev
+	</pre>
+
+	<p>Достаточно добавить еще один loader в конфиг и мы получим hot-reload для React компонентов.</p>
+
+	<pre class="brush: csharp;">
+	var path = require('path')
+	var webpack = require('webpack')
+	module.exports = {
+		devtool: 'cheap-module-eval-source-map',
+		entry: [
+			'webpack-hot-middleware/client',
+			'babel-polyfill',
+			'./src/index'
+		],
+		output: {
+			path: path.join(__dirname, 'dist'),
+			filename: 'bundle.js',
+			publicPath: '/static/'
+		},
+		plugins: [
+			new webpack.optimize.OccurenceOrderPlugin(),
+			new webpack.HotModuleReplacementPlugin(),
+			new webpack.NoErrorsPlugin()
+		],
+		module: {
+			loaders: [
+			{
+				loaders: ['react-hot', 'babel-loader'],
+				
+				//добавили loader 'react-hot'
+				include: [
+					path.resolve(__dirname, "src"),
+				],
+				test: /\.js$/,
+				plugins: ['transform-runtime'],
+			}
+			]
+		}
+	}
+	</pre>
+
+	<p>Перезапускаем сборку и проверяем.</p>
+	<p>Теперь HMR работает и для React компонентов, если же нет - сверьтесь с исходным кодом данного раздела.</p>
+	<p>Для того, чтобы начать писать код redux-приложения, я основательно рекомендую настроить ESLint, чтобы быстро решать синтаксические ошибки и повысить производительность.</p>
+	<p>Этим мы займемся на следующем шаге.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="04.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="06.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/05.html", "ES2015, React HMR", "bm979"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm979", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm979") == 1) { document.getElementById("bma979").style.display = "block"; document.getElementById("bm979").style.display = "none"; } else { document.getElementById("bma979").style.display = "none"; document.getElementById("bm979").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("ES2015, React HMR") == 1) { arrs.splice(i, 1); localStorage.setItem("bm979", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

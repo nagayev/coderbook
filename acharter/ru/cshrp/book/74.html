@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma161" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm161" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Доступность членов класса при наследовании
+	</h1>
+
+	<p>Члены базового класса, имеющие статус доступа private как были недоступны для внешнего по отношению к объявлению базового класса мира, так и остаются закрытыми для базового класса.</p>
+	<p>Члены производного класса, имеющие модификатор public, открыты для членов и объектов производного класса.</p>
+	<p>В ряде случаев необходимо, чтобы члены базового класса были доступны (открыты) для членов производного класса, но в то же время были закрыты (недоступны) для объектов производного класса.</p>
+	<p>В этом случае в базовом классе эти члены "защищённые члены" должны быть защищенными, то есть объявлены с модификатором protected.</p>
+	<p>Сразу же отметим, что если класс рассматривается вне наследования, то защищенные члены ничем не отличаются от закрытых.</p>
+	<p>К защищенным членам класса нельзя обращаться извне объявления класса.</p>
+	<p>В производном классе обычно вводятся новые члены, определяющие новое поведение и дополнительные характеристики объектов производного класса.</p>
+	<p>Для новых (не унаследованных) членов производных классов имена выбираются произвольно.</p>
+	<p>Если в производном классе объявлен член, имя которого совпадает с именем какого-либо члена базового класса, то для их различения в производном классе используются уточненные имена:</p>
+	<p><b>this.имя_члена_производного_класса base.имя_члена_базового_класса</b></p>
+	<p>При внешних обращениях одноименные члены базового и производного класса различаются по типам объектов, для которых эти обращения выполнены.</p>
+	<p>Рассмотрим пример.</p>
+	<p>Определим класс "круг" и производный от него класс "кольцо".</p>
+	<p>Предположим, что у нас нет необходимости создавать объекты класса "круг", и он будет использоваться только как базовый для определения других классов.</p>
+	<p>Тогда его определение может быть таким (Программа 13_05.cs):</p>
+
+	<pre class="brush: csharp;">
+	class Disk // класс круг
+	{
+		protected double rad; // радиус круга
+		// конструктор
+		protected Disk(double ri) { rad = ri; }
+		protected double Area { get { return rad * rad * Math.PI; } }
+	}
+	</pre>
+
+	<p>В классе Disk одно поле rad, задающее значение радиуса круга, конструктор общего вида и свойство Area, позволяющее получить значение площади круга.</p>
+	<p>Параметр конструктора явно использован в теле конструктора, где он задает значение поля rad, то есть определяет радиус круга.</p>
+	<p>Все члены класса объявлены с модификатором protected.</p>
+	<p>При таком определении класс вне наследования ни к чему не годен.</p>
+	<p>Невозможно создать объект класса Disk – его конструктор защищённый (protected).</p>
+	<p>Если убрать явно определенный конструктор, компилятор добавит открытый конструктор умолчания.</p>
+	<p>Но и в этом случае пользы не видно – создав объект, нельзя будет обратиться к его полю или свойству.</p>
+	<p>Используем класс Disk в качестве базового в следующем объявлении:</p>
+
+	<pre class="brush: csharp;">
+	// класс кольцо
+
+	class Ring : Disk
+	{
+
+	// радиус внутренней окружности
+
+	new double rad;
+
+	// конструктор:
+
+	public Ring(double Ri, double ri) : base(Ri) { rad = ri; }
+
+	public new double Area
+	{
+
+	get { return base.Area - Math.PI * rad * rad; }
+
+	}
+
+	public void print()
+	{
+
+	Console.WriteLine("Ring: Max_radius={0:f2}, " + "Min_radius={1:f2}, Area={2:f3}", base.rad, rad, Area);
+
+	}
+	}
+	</pre>
+
+	<p>В производном классе Ring поле new double rad определяет значение внутренней окружности границы кольца.</p>
+	<p>Радиус внешней границы определяет одноимённое поле double rad, унаследованное из базового класса.</p>
+	<p>Оба поля вне объявления класса Ring недоступны.</p>
+	<p>Конструктор производного класса Ring объявлен явно, как открытый метод класса.</p>
+	<p>У этого конструктора два параметра, позволяющие задавать значения радиусов границы кольца.</p>
+	<p>В теле конструктора второй параметр double ri определяет внутренний радиус.</p>
+	<p>В инициализаторе конструктора :base(Ri) выполнено явное обращение к конструктору базового класса Disk.</p>
+	<p>Параметр конструктора Ri служит аргументом в этом обращении.</p>
+	<p>Отметим, что для простоты не используются никакие проверки допустимости значений параметров.</p>
+	<p>Обратите внимание, что в объявление поля rad производного класса Ring входит модификатор new.</p>
+	<p>Появление new обусловлено следующим соглашением языка C#.</p>
+	<p>Имя члена производного класса может совпадать (вольно или по ошибке) с именем какого-либо члена базового класса.</p>
+	<p>В этом случае имя члена производного класса скрывает или, говорят, экранирует соответствующее имя члена базового класса.</p>
+	<p>При отсутствии модификатора new компилятор выдаёт сообщение с указанием совпадающих имён и предложением "Use the new keyword if hiding was intended" – "Используйте служебное слово new, если экранирование запланировано".</p>
+	<p>Именно для того, чтобы удостоверить компилятор в преднамеренном совпадении имён радиус внутренней окружности объявлен с модификатором new.</p>
+	<p>То же самое сделано и при объявлении в классе Ring свойства Area, позволяющего получить площадь кольца.</p>
+	<p>Кроме того, класс Ring унаследовал свойство с тем же именем из базового класса.</p>
+	<p>В get-аксессоре свойства Area из класса Ring выполнено явное обращение base.Area к свойству базового класса Disk.</p>
+	<p>Открытый метод print() позволяет вывести сведения об объекте класса Ring.</p>
+	<p>Они выводятся как значения полей base.rad, rad и свойства Area.</p>
+	<p>Отметим, что принадлежность членов rad и Area классу Ring можно подчеркнуть, если задать аргументы метода WriteLine() в таком виде:</p>
+
+	<pre class="brush: csharp;">
+	Console.WriteLine("Ring: Max_radius={0:f2}, " + "Min_radius={1:f2}, Area={2:f3}", base.rad, this.rad, this.Area);
+	</pre>
+
+	<p>В качестве иллюстрации возможностей класса Ring рассмотрим такой фрагмент программы:</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static void Main()
+		{
+			Ring rim = new Ring(10.0, 4.0);
+			rim.print();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Ring: Max_radius=10,00, Min_radius=4,00, Area=263,894
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="73.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="75.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/74.html", "Члены при наследовании", "bm161"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm161", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm161") == 1) { document.getElementById("bma161").style.display = "block"; document.getElementById("bm161").style.display = "none"; } else { document.getElementById("bma161").style.display = "none"; document.getElementById("bm161").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Члены при наследовании") == 1) { arrs.splice(i, 1); localStorage.setItem("bm161", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

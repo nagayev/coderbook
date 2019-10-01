@@ -1,0 +1,305 @@
+ <!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma38" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm38" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Оператор множественного выбора switch
+	</h1>
+	
+	<p>Итак мы рассмотрели оператор с одиночным выбором if и оператор с двойным выбором if else, но в С++ еще имеется оператор множественного выбора switch, который мы сейчас детально рассмотрим.</p>
+
+	<pre class="brush: csharp;">
+	// форма записи оператора множественного выбора switch
+	switch (/*переменная или выражение*/)
+	{
+		case /*выражение1/*:
+		{
+			/*группа операторов*/;
+			break;
+		}
+		case /*выражение2*/:
+		{
+			/*группа операторов*/;
+			break;
+		}
+		//. . .
+		default:
+		{
+			/*группа операторов*/;
+		}
+	}
+	</pre>
+
+	<p>На начальном этапе анализируется выражение или переменная.</p>
+	<p>После чего осуществляется переход к той ветви программы, для которой значение переменной или выражения совпадает с указанным константным выражением.</p>
+	<p>Далее выполняется оператор или группа операторов пока не встретится зарезервированное слово break или закрывающая фигурная скобочка.</p>
+	<p>Если значение переменной или выражения не совпадает ни с одним константным выражением, то передается управление ветви программы содержащей зарезервированное слово default.</p>
+	<p>После чего выполняется оператор или группа операторов данной ветви.</p>
+	<p>Сейчас рассмотрим задачу с использованием оператора выбора switch.</p>
+
+	<p><b>Условие задачи:</b> написать программу, которая складывает, вычитает, умножает, делит два числа введенных с клавиатуры. Разработать пользовательский интерфейс.</p>
+
+	<pre class="brush: csharp;">
+	// switch.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// переменная для выбора в switch
+		int count;
+		// переменные для хранения операндов
+		double a,b;
+		cout << "Vvedite pervoe chislo: ";
+		cin >> a;
+		cout << "Vvedite vtoroe chislo: ";
+		cin >> b;
+		cout << "Vibirite deistvie: 1-clojenie; 2-vichitanie; 3-ymnojenie; 4-delenie: ";
+		cin >> count;
+		// начало оператора switch
+		switch (count)
+		{
+			// если count = 1
+			case 1:
+			{
+				// выполнить сложение
+				cout << a << " + " << b << " = " << a + b << endl;
+				break;
+			}
+			// если count = 2
+			case 2:
+			{
+				// выполнить вычитание
+				cout << a << " - " << b << " = " << a - b << endl;
+				break;
+			}
+			// если count = 3
+			case 3:
+			{
+				// выполнить умножение
+				cout << a << " * " << b << " = " << a * b << endl;
+				break;
+			}
+			// если count = 4
+			case 4:
+			{
+				// выполнить деление
+				cout << a << " / " << b << " = " << a / b << endl;
+				break;
+			}
+			// если count равно любому другому значению
+			default:
+			cout << "Nepravilni vvod" << endl;
+		}
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В 9-й строке мы объявили переменную count целочисленного типа.</p>
+	<p>Именно значение данной переменной программа будет сравнивать со значением константного выражения.</p>
+	<p>В строке 10 объявлены две переменные вещественного типа данных, для хранения введённых чисел.</p>
+	<p>Почему вещественного, объясню позже.</p>
+	<p>С 17 по 41 строки записан условный оператор множественного выбора switch.</p>
+	<p>На начальном этапе анализируется переменная count.</p>
+	<p>Анализируется таким образом:</p>
+	<p>- если переменная count равна единице, значит, выполняется блок операторов с 20-й по 23-ю строки;</p>
+	<p>- если переменная count равна двойке, значит, выполняется блок операторов с  25-й по 28-ю строки;</p>
+	<p>- если переменная count равна тройке, значит, выполняется блок операторов с  30-й по 33-ю строки;</p>
+	<p>- если переменная count равна четырем, значит, выполняется блок операторов с 35-й по 38-ю строки;</p>
+	<p>Если же значение переменной count не совпадает ни с одним константным выражением, то передается управление ветви программы содержащей зарезервированное слово default.</p>
+	<p>То есть будет выполнена следующая строка</p>
+
+	<pre class="brush: csharp;">
+	cout << "Nepravilni vvod" << endl;
+	</pre>
+
+	<p>Оператор switch может содержать, а может и не содержать зарезервированное слово default.</p>
+	<p>Если значение переменной не совпадет ни с одним константным выражением и не будет default, то программное управление в этом случае просто перешло бы к первому оператору после switch.</p>
+	<p>В строках 19, 24, 29, 34 записаны константные выражения, с которыми программа сравнивает значение переменной count.</p>
+	<p>В строках 22, 27, 32, 37, записан оператор break.</p>
+	<p>Возникает вопрос: "Зачем он нужен?"</p>
+	<p>Допустим, пользователь ввел 2, то есть переменная count инициализировалась двойкой.</p>
+	<p>Начинает работать условный оператор множественного выбора switch.</p>
+	<p>То есть выполняется поиск двойки в константных выражениях.</p>
+	<p>Сначала проверяется строка 19, мы видим, что в строке 19 константное выражение равно единице, а нам нужна двойка.</p>
+	<p>Проверяем дальше. А дальше по порядку строка 24.</p>
+	<p>Мы видим, что в строке 24 константное выражение равно двойке, то, что нужно!!!</p>
+	<p>Переменная count равна константному выражению, выполняется блок операторов с 25 по 28 строки.</p>
+	<p>И вот в 27-й строке записан оператор break, который заставляет программу перейти к первому оператору после оператора switch.</p>
+	<p>В данном случае управление передается строке 42.</p>
+	<p>А нужен этот переход только для того, чтобы не выполнялись заведомо ненужные действия.</p>
+	<p>Если убрать оператор break, то программа будет дальше сравнивать значение переменной с константными выражениями, пока они все не закончатся и потом все равно передаст управление строке 42.</p>
+	<p>Результат работы программы показан ниже:</p>
+
+	<pre class="brush: csharp;">
+	Vvedite pervoe chislo: 2.5
+	Vvedite vtoroe chislo: 11.2
+	Vibirite deistvie: 1-clojenie; 2-vichitanie; 3-ymnojenie; 4-delenie: 1
+	2.5 + 11.2 = 13.7
+
+	Для продолжения нажмите любую клавишу. . .
+	</pre>
+
+	<p>Вернемся к строке 10, там объявляются две переменные типа double.</p>
+	<p>Наверное, возникает вопрос, "Почему вещественного типа, а не целочисленного?". </p>
+	<p>Отвечаю:</p>
+	<p>Потому, что одно из действий, которые может выполнять программа является деление, а при делении результат имеет вещественный тип данных.</p>
+	<p>Компилятор С++ при делении чисел обращает внимание на их типы данных.</p>
+	<p>Если мы просто делим числа на калькуляторе, например 4/5=0.8, то компилятор С++ нам выдаст результат при таком делении 0.</p>
+	<p>Так как оба числа являются целочисленными, значит, результат тоже будет целочисленный, то есть целая часть от обычного деления, а в нашем случае целая часть при таком делении – это 0, соответственно часть информации теряется, или как еще говорят, отсекается (восемь десятых, в нашем случае, отсекается).</p>
+	<p>А если делимое и делитель поменять местами, на калькуляторе получим: 5/4=1.25; компилятор С++ покажет несколько иной результат, а именно 5/4=1 (0.25 отсекается).</p>
+	<p>Такое явление в С++ называется неявным приведением типа.</p>
+	<p>Вещественный тип данных используется для более точного представления чисел, чем целочисленный (то есть отображает дробную часть).</p>
+	<p>В С++ существуют <b>два вещественных типа данных</b>:</p>
+	<p>1) <b>double</b> – вещественный тип данных двойной точности, а значит занимает вдвое больше памяти, чем тип float</p>
+	<p>2) <b>float</b> – вещественный тип данных одинарной точности</p>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/17.html", "Множественный выбор switch", "bm38"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm38", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm38") == 1) { document.getElementById("bma38").style.display = "block"; document.getElementById("bm38").style.display = "none"; } else { document.getElementById("bma38").style.display = "none"; document.getElementById("bm38").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Множественный выбор switch") == 1) { arrs.splice(i, 1); localStorage.setItem("bm38", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

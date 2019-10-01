@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma735" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm735" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Регулярные выражения
+	</h1>
+	
+	<p>Регулярные выражения позволяют производить гибкий поиск слов и выражений в текстах с целью их удаления, извлечения или замены.</p>
+	<p><b>Синтаксис:</b></p>
+	
+	<pre class="brush: csharp;">
+		//Первый вариант создания регулярного выражения
+		var regexp=new RegExp(шаблон,модификаторы);
+		
+		//Второй вариант создания регулярного выражения
+		var regexp=/шаблон/модификаторы;
+	</pre>
+	
+	<p>шаблон позволяет задать шаблон символов для поиска.</p>
+	<p>модификаторы позволяют настроить поведение поиска:</p>
+	<p>- i - поиск без учета регистра букв;</p>
+	<p>- g - глобальный поиск (будут найдены все совпадения в документе, а не только первое);</p>
+	<p>- m - многострочный поиск.</p>
+	
+	<h1 id="title">
+		Поиск слов и выражений
+	</h1>
+	
+	<p>Самым простым применением регулярных выражений является поиск слов и выражений в различных текстах.</p>
+	<p>Приведем пример использования поиска с применением модификаторов:</p>
+	
+	<pre class="brush: csharp;">
+		//Зададим регулярное выражение rv1
+		rv1=/Россия/;
+		
+		//Зададим регулярное выражение rv2
+		rv2=/Россия/g;
+		
+		//Зададим регулярное выражение rv3
+		rv3=/Россия/ig;
+
+		//Жирным шрифтом выделено, где в тексте будут найдены совпадения при использовании 
+		//выражения rv1:
+		Россия является крупнейшим государством мира. Россия граничит с 18 странами.
+		РОССИЯ является государством-продолжателем СССР.
+
+		//Жирным шрифтом выделено, где в тексте будут найдены совпадения при использовании 
+		//выражения rv2:
+		Россия является крупнейшим государством мира. Россия граничит с 18 странами.
+		РОССИЯ является государством-продолжателем СССР.";
+
+		//Жирным шрифтом выделено, где в тексте будут найдены совпадения при использовании 
+		//выражения rv3:
+		Россия является крупнейшим государством мира. Россия граничит с 18 странами.
+		РОССИЯ является государством - продолжателем СССР.";
+	</pre>
+	
+	<h1 id="title">
+		Специальные символы
+	</h1>
+	
+	<p>Помимо обычных символов в шаблонах регулярных выражений могут использоваться специальные символы (метасимволы).</p>
+	<p>Специальные символы с описаниями приведены в таблице ниже:</p>
+	
+	<table>
+		<tr>
+			<th>Спец символ</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>.</td>
+			<td>Совпадает с любым символом, кроме символа конца строки.</td>
+		</tr>
+		<tr>
+			<td>\w</td>
+			<td>Совпадает с любым буквенным символом.</td>
+		</tr>
+		<tr>
+			<td>\W</td>
+			<td>Совпадает с любым не буквенным символом.</td>
+		</tr>
+		<tr>
+			<td>\d</td>
+			<td>Совпадает с символами, которые являются цифрами.</td>
+		</tr>
+		<tr>
+			<td>\D</td>
+			<td>Совпадает с символами, которые не являются цифрами.</td>
+		</tr>
+		<tr>
+			<td>\s</td>
+			<td>Совпадает с пробельными символами.</td>
+		</tr>
+		<tr>
+			<td>\S</td>
+			<td>Совпадает с не пробельными символами.</td>
+		</tr>
+		<tr>
+			<td>\b</td>
+			<td>Совпадения будут искаться только на границах слов (в начале или конце).</td>
+		</tr>
+		<tr>
+			<td>\B</td>
+			<td>Совпадения будут искаться только не на границах слов.</td>
+		</tr>
+		<tr>
+			<td>\n</td>
+			<td>Совпадает с символом перевода строки.</td>
+		</tr>
+	</table>
+	
+	<pre class="brush: csharp;">
+	/* Выражение reg1 найдет все слова начинающиеся на две произвольные буквы и 
+	заканчивающиеся на 'вет'. Так как слова в предложении разделяются пробелом, то 
+	в начале и в конце добавим спецсимвол \s) */
+	reg1=/\s..вет\s/g;
+	txt=' привет завет вельвет клозет ';
+	document.write(txt.match(reg1) + '&lt;br /&gt;');
+	
+	/* Выражение reg2 найдет все слова начинающиеся на три произвольные буквы и 
+	заканчивающиеся на 'вет' */
+	reg2=/\s...вет\s/g;
+	document.write(txt.match(reg2) + &apos;&lt;br /&gt;&apos;);
+	txt1=' при2вет привет при1вет ';
+	
+	/* Выражение reg3 найдет все слова, которые начинаются на 'при' в которых потом 
+	следует 1 цифра и заканчиваются на 'вет' */
+	var reg3=/при\dвет/g;
+	document.write(txt1.match(reg3) + &apos;&lt;br /&gt;&apos;);
+	
+	// Выражение reg4 найдет все цифры в тексте
+	var reg4=/\d/g;
+	txt2='5 лет учебы, 3 года плавания, 9 лет стрельбы.'
+	document.write(txt2.match(reg4) + &apos;&lt;br /&gt;&apos;);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par1').innerHTML='завет<br />привет<br />при1вет,при2вет<br />5,3,9';">Выполнить код</span>
+    <p id="par1"></p>
+
+	<h1 id="title">
+		Символы в квадратных скобках
+	</h1>
+	
+	<p>Используя квадратные скобки [кейу] Вы можете указать группу символов, поиск которых нужно произвести.</p>
+	<p>Символ ^ перед группой символов в квадратных скобках [^квг] говорит о том, что нужно произвести поиск всех символов алфавита кроме заданных.</p>
+	<p>Используя тире (-) между символами в квадратных скобках [а-з] Вы можете задать диапазон символов, поиск которых нужно произвести.</p>
+	<p>С помощью квадратных скобок [012] Вы можете также искать числа.</p>
+	
+	<pre class="brush: csharp;">
+		//Зададим регулярное выражение reg1
+		reg1=/\sко[тдм]\s/g;
+		
+		//Зададим строку текста txt1
+		txt1=' кот коса код комод ком ковер ';
+		
+		//Произведем с помощью регулярного выражения reg1 поиск по строке txt1
+		document.write(txt1.match(reg1) + '&lt;br /&gt;');
+		reg2=/\sсло[^тг]/g;
+		txt2=" слот слон слог ";
+		document.write(txt2.match(reg2) + '&lt;br /&gt;');
+		reg3=/[0-9]/g;
+		txt3="5 лет учебы, 3 года плавания, 9 лет стрельбы";
+		document.write(txt3.match(reg3));
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par2').innerHTML='кот , код , ком<br />слон<br />5,3,9';">Выполнить код</span>
+    <p id="par2"></p>
+	
+	<h1 id="title">
+		Квантификаторы
+	</h1>
+	
+	<p>Квантификатор - это конструкция позволяющая задать сколько раз предшествующий ей символ или группа символов должна встречаться в совпадение.</p>
+	<p><b>Синтаксис:</b></p>
+	
+	<pre class="brush: csharp;">
+		//Предшествующий символ должен встречаться x - раз
+		{x}
+		
+		//Предшествующий символ должен встречаться от x до у раз включительно
+		{x,y}
+		
+		//Предшествующий символ должен встречаться не менее x раз
+		{x,}
+		
+		//Указывает, что предшествующий символ должен встречаться 0 или более раз
+		*
+		
+		//Указывает что предшествующий символ должен встречаться 1 или более раз 
+		+
+		
+		//Указывает что предшествующий символ должен встречаться 0 или 1 раз 
+		?
+	</pre>
+	
+	<p><b>Обратите внимание:</b> если Вы хотите использовать какой-либо специальный символ (такой как . [] * + ? или {}) как обычный Вы должны поставить перед ним \.</p>
+	
+	<h1 id="title">
+		Использование круглых скобок
+	</h1>
+	
+	<p>Заключая часть шаблона регулярного выражения в круглые скобки Вы указываете выражению запомнить совпадение, найденное этой частью шаблона.</p>
+	<p>Сохраненное совпадение может использоваться позднее в Вашем коде.</p>
+	<p>К примеру регулярное выражение /(Дмитрий)\sВасильев/ найдет строку 'Дмитрий Васильев' и запомнит подстроку 'Дмитрий'.</p>
+	<p>В примере ниже мы используем метод replace(), чтобы изменить порядок слов в тексте.</p>
+	<p>Для обращения к сохраненным совпадениям мы используем $1 и $2.</p>
+	
+	<pre class="brush: csharp;">
+		var regexp = /(Дмитрий)\s(Васильев)/;
+		var text = 'Дмитрий Васильев';
+		var newtext = text.replace(regexp, '$2 $1');
+		document.write(newtext);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par3').innerHTML='Васильев Дмитрий';">Выполнить код</span>
+    <p id="par3"></p>
+	
+	<p>Круглые скобки могут использоваться для группировки символов перед квантификаторами.</p>
+	
+	<pre class="brush: csharp;">
+		txt='хохохо хахаха хихихи';
+		regex1=/(ха){3}/g;
+		document.write(txt.match(regex1));
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par4').innerHTML='хахаха';">Выполнить код</span>
+    <p id="par4"></p>
+	
+	<p>Круглые скобки также используются для поиска альтернатив.</p>
+	
+	<pre class="brush: csharp;">
+		txt=" яблоко, банан, картошка, груша, перец ";
+		regex1=/(яблоко|банан|груша)/ig;
+		document.write(txt.match(regex1));
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par5').innerHTML='яблоко,банан,груша';">Выполнить код</span>
+    <p id="par5"></p>
+	
+	<h1 id="title">
+		Методы
+	</h1>
+	
+	<p>С помощью метода exec() Вы можете производить поиск желаемого значения.</p>
+	<p>Метод возвращает найденное значение.</p>
+	
+	<pre class="brush: csharp;">
+		//Зададим регулярное выражение rv1
+		rv1=/ко{5}шка/g
+		
+		//Зададим строку текста, в котором будем искать совпадения
+		txt='кшка кошка коошка кооошка коооошка кооооошка коооооошка кооооооошка';
+		document.write(rv1.exec(txt));
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par6').innerHTML='кооооошка';">Выполнить код</span>
+    <p id="par6"></p>
+	
+	<p>С помощью метода test() Вы можете проверить содержится ли в тексте выражение заданное в регулярном выражении.</p>
+	<p>Если выражение содержится в тексте метод возвращает true, а если нет false.</p>
+	
+	<pre class="brush: csharp;">
+		//Зададим регулярное выражение rv1
+		rv1=/ко{5}шка/g
+		
+		//Зададим строку текста, в котором будем искать совпадения
+		txt='кшка кошка коошка кооошка коооошка кооооошка коооооошка кооооооошка';
+		
+		//Произведем поиск по шаблону rv1 в строке текста txt
+		document.write(rv1.test(txt) + '&lt;br /&gt;');
+		
+		//Зададим регулярное выражение rv2
+		rv2=/тигр/g;
+		
+		//Произведем поиск по шаблону rv2 в строке текста txt
+		document.write(rv2.test(txt));
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par7').innerHTML='true<br />false';">Выполнить код</span>
+    <p id="par7"></p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/obj/tutorial6.html", "JS РегВыражения", "bm735"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm735", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm735") == 1) { document.getElementById("bma735").style.display = "block"; document.getElementById("bm735").style.display = "none"; } else { document.getElementById("bma735").style.display = "none"; document.getElementById("bm735").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("JS РегВыражения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm735", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

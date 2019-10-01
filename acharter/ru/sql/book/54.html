@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1068" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1068" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Использование объединений других типов
+	</h1>
+
+	<p>До сих пор вы использовали только простые объединения, которые называют внутренние объединения или объединения по эквивалентности.</p>
+	<p>Теперь мы рассмотрим три дополнительных типа объединения: самообъединение, естественное объединение и внешнее объединение.</p>
+
+	<h1 id="title">
+		Самообъединения
+	</h1>
+
+	<p>Одна из основных причин для использования псевдонимов таблиц состоит в возможности обращения к одной и той таблице несколько раз в одном операторе SELECT.</p>
+	<p>Покажем это на примере.</p>
+	<p>Предположим, вы хотите послать письма по всем контактным адресам клиентов, которые работают с той же компанией, с которой работает Джим Джонс.</p>
+	<p>Такой запрос требует, чтобы вначале вы выяснили, с какой компанией работает Джим Джонс, а затем — какие клиенты работают с этой же компанией.</p>
+	<p>Вот один из способов решения этой задачи.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_id, cusC_name, cust_contact
+	FROM Customers
+	WHERE cust_name = (SELECT cust_name
+	FROM Customers
+	WHERE cust_contact = 'Jim Jones');
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id cust_name cust_contact
+	1000000003 Fun4All Jim Jones
+	1000000004 Fun4All Denise L. Stephens
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>В первом решении используются подзапросы.</p>
+	<p>Внутренний оператор SELECT выполняет простую выборку, чтобы возвратить имя компании (cust_name), с которой работает Джим Джонс.</p>
+	<p>Только это имя используется в предложении WHERE внешнего запроса, так что выбираются имена всех служащих, работающих с этой компанией.</p>
+	<p>Все о подзапросах читайте в уроке "Использование подзапросов".</p>
+	<p>Теперь рассмотрим тот же самый запрос, в котором используется объединение.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cl.cust_id, cl.cust_name, cl.cust_contact
+	FROM Customers AS cl, Customers AS c2
+	WHERE cl.cust_name = c2.cust_name
+	AND c2.cust_contact = 'Jim Jones';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id cust_name cust_contact
+	1000000003 Fun4All Jim Jones
+	1000000004 Fun4All Denise L. Stephens
+	</pre>
+
+	<p><b>Никаких AS в СУБД Oracle</b></p>
+	<p>Пользователи Oracle, не забывайте убирать из своих операторов ключевое слово as.</p>
+	<p><b>АНАЛИЗ</b></p>
+	<p>Две таблицы, необходимые для выполнения запроса, на самом деле — одна и та же таблица, поэтому таблица Customers появляется в предложении FROM дважды.</p>
+	<p>Хотя это совершенно законно, некоторые ссылки на таблицу Customers могли бы оказаться неоднозначными, потому что СУБД "не знает", на какую именно таблицу Customers вы ссылаетесь.</p>
+	<p>Для решения этой проблемы используются псевдонимы.</p>
+	<p>Первый раз для таблицы Customers назначается псевдоним С1, второй — псевдоним С2.</p>
+	<p>Теперь эти псевдонимы можно применять в качестве имен таблиц.</p>
+	<p>Например, оператор SELECT использует префикс С1 для однозначного указания полного имени нужного столбца.</p>
+	<p>Если этого не сделать, СУБД возвратит сообщение об ошибке, потому что имеется по два столбца с именами cust_id, cust_name и cust_contact.</p>
+	<p>СУБД не может знать, какой именно столбец вы имеете в виду (даже если в действительности это один и тот же столбец).</p>
+	<p>Первое предложение WHERE объединяет эти таблицы, а затем оно фильтрует данные второй таблицы по столбцу cust_contact, чтобы возвратить только нужные данные.</p>
+	<p><b>Самообъединения вместо подзапросов</b></p>
+	<p>Самообъединения часто используют для замены операторов, применяющих подзапросы, которые выбирают данные из той же таблицы, что и внешний оператор.</p>
+	<p>Хотя конечный результат получается тем же самым, многие СУБД обрабатывают объединения намного быстрее, чем подзапросы.</p>
+	<p>Стоит поэкспериментировать с тем и другим, чтобы определить, какой запрос работает быстрее.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="53.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="55.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/54.html", "Объединения других типов", "bm1068"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1068", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1068") == 1) { document.getElementById("bma1068").style.display = "block"; document.getElementById("bm1068").style.display = "none"; } else { document.getElementById("bma1068").style.display = "none"; document.getElementById("bm1068").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объединения других типов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1068", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

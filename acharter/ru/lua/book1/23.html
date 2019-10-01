@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma789" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm789" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Объявление функций
+	</h1>
+
+	<p>Синтаксис объявления функций:</p>
+	
+	<pre class="brush: csharp;">
+	function ::= function funcbody
+    funcbody ::= '(' [parlist1] ')' block end
+	</pre>
+
+	<p>Или в упрощенном виде</p>
+
+	<pre class="brush: csharp;">
+	stat ::= function funcname funcbody
+	stat ::= local function Name funcbody
+	funcname ::= Name {'.' Name} [':' Name]
+	</pre>
+
+	<p>Выражение</p>
+
+	<pre class="brush: csharp;">
+		function f () body end
+	</pre>
+	
+	<p>транслируется в</p>
+
+	<pre class="brush: csharp;">
+		f = function () body end
+	</pre>
+
+	<p>Выражение</p>
+
+	<pre class="brush: csharp;">
+		function t.a.b.c.f () body end
+	</pre>
+
+	<p>транслируется в</p>
+
+	<pre class="brush: csharp;">
+		t.a.b.c.f = function () body end
+	</pre>
+
+	<p>Выражение</p>
+
+	<pre class="brush: csharp;">
+		local function f () body end
+	</pre>
+
+	<p>транслируется в</p>
+
+	<pre class="brush: csharp;">
+		local f; f = function () body end
+	</pre>
+
+	<p>а не в</p>
+
+	<pre class="brush: csharp;">
+		local f = function () body end
+	</pre>
+
+	<p>(Разница проявится в том случае, если в теле функции используется имя этой функции, например при рекурсивном вызове)</p>
+	<p>Объявление функции является выполняемым выражением, его результатом будет значение типа function.</p>
+	<p>Когда Lua прекомпилирует порцию, тела всех упоминающихся в ней функций также прекомпилируются.</p>
+	<p>Таким образом, всякий раз, когда Lua обрабатывает объявление функции, функция уже <b>конкретизирована</b> (или <b>замкнута</b>).</p>
+	<p>Этот конкретный экземпляр функции (или замыкание) и является конечным значением выражения «объявление функции».</p>
+	<p>Различные экземпляры одной и той же функции могу ссылаться на различные внешние локальные переменные и иметь различные таблицы окружения.</p>
+	<p>Параметры функции фактически являются локальными переменными, которые инициализированы входными значениями:</p>
+
+	<pre class="brush: csharp;">
+		parlist1 ::= namelist [',' '...'] | '...'
+	</pre>
+
+	<p>В момент вызова функции длина списка передаваемых параметров приводится в соответствие спецификации, если это не функция с неопределенным количеством параметров.</p>
+	<p>Для функций с неопределенным количеством параметров такая коррекция не проводится; все входные параметры попадают в функцию в виде <b>неопределенного</b> выражения, которое также обозначается с тремя точками.</p>
+	<p>Значением этого выражения является список всех полученных входных параметров, как в случае множественного результата функции.</p>
+	<p>Еслы неопределенное выражение используется внутри другого выражения или в середине списка выражений, то его значение-список урезается до одного элемента.</p>
+	<p>Если это выражение стоит в конце списка выражений, урезания не происходит (если конечно вызов не заключен в круглые скобки).</p>
+	<p>Рассмотрим следующие объявления:</p>
+
+	<pre class="brush: csharp;">
+	function f(a, b) end
+	function g(a, b, ...) end
+	function r() return 1,2,3 end
+	</pre>
+
+	<p>Пример отображения входных значений на параметры функции:</p>
+	
+	<table>
+		<tr>
+			<th>ВЫЗОВ</th>
+			<th>ПАРАМЕТРЫ</th>
+		</tr>
+		<tr>
+			<td>f(3)</td>
+			<td>a=3, b=nil</td>
+		</tr>
+		<tr>
+			<td>f(3, 4)</td>
+			<td>a=3, b=4</td>
+		</tr>
+		<tr>
+			<td>f(3, 4, 5)</td>
+			<td>a=3, b=4</td>
+		</tr>
+		<tr>
+			<td>f(r(), 10)</td>
+			<td>a=1, b=10</td>
+		</tr>
+		<tr>
+			<td>f(r())</td>
+			<td>a=1, b=2</td>
+		</tr>
+		<tr>
+			<td>g(3)</td>
+			<td>a=3, b=nil,<br />...<br />--><br />(ничто)</td>
+		</tr>
+		<tr>
+			<td>g(3, 4)</td>
+			<td>a=3, b=4,<br />...<br />--><br />(ничто)</td>
+		</tr>
+		<tr>
+			<td>g(3, 4, 5, 8)</td>
+			<td>a=3, b=4,<br />...<br />--><br />5  8</td>
+		</tr>
+		<tr>
+			<td>g(5, r())</td>
+			<td>a=5, b=1,<br />...<br />--><br />2  3</td>
+		</tr>
+	</table>
+	
+	<p>Результаты возвращаются из функции оператором <b>return</b>.</p>
+	<p>Если управление достигает конца функции, а оператор return не встретился, то функция завершается и ничего не возвращает.</p>
+	<p>Синтаксис с двоеточием ‘:’ используется для определения методов. Эти функций неявно получают параметр self в качестве первого аргумента.</p>
+	<p>Таким образом, выражение</p>
+	
+	<pre class="brush: csharp;">
+		function t.a.b.c:f (params) body end
+	</pre>
+
+	<p>аналогично</p>
+
+	<pre class="brush: csharp;">
+	t.a.b.c.f = function (self, params) body end
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="22.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="24.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/23.html", "Объявление функций", "bm789"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm789", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm789") == 1) { document.getElementById("bma789").style.display = "block"; document.getElementById("bm789").style.display = "none"; } else { document.getElementById("bma789").style.display = "none"; document.getElementById("bm789").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объявление функций") == 1) { arrs.splice(i, 1); localStorage.setItem("bm789", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

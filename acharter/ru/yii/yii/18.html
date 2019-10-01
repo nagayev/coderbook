@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1169" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1169" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Создание модели Yii
+	</h1>
+
+    <p>Прежде чем создать HTML код формы, нам необходимо определить, какие данные мы будем получать от пользователей и каким правилам они должны соответствовать.</p>
+    <p>Для фиксации этой информации можно использовать класс модели данных.</p>
+    <p>Модель данных, как говорится в разделе Модель, это центральное место для хранения и проверки данных, вводимых пользователем.</p>
+    <p>В зависимости от того, каким образом используются введённые данные, мы можем использовать два типа моделей.</p>
+    <p>Если мы получаем данные, обрабатываем их, а затем удаляем, то используем модель формы; если же после получения и обработки данных мы сохраняем их в базе данных, то используем Active Record.</p>
+    <p>Оба типа моделей данных используют один и тот же базовый класс CModel, который определяет общий интерфейс, используемый формами.</p>
+    <p><b>Примечание:</b> В примерах этого раздела используются модели формы. Тем не менее, всё может быть в равной степени применено и к моделям Active Record.</p>
+
+    <h2 id="title">
+        Определение класса модели
+    </h2>
+
+    <p>Ниже мы создадим класс модели LoginForm, который будет использоваться для получения данных, вводимых пользователем на странице аутентификации.</p>
+    <p>Поскольку эти данные используются исключительно в целях аутентификации пользователя и сохранять их не требуется, то создадим модель LoginForm как модель формы.</p>
+
+    <pre class="brush: csharp;">
+    class LoginForm extends CFormModel
+    {
+        public $username;
+        public $password;
+        public $rememberMe=false;
+    }
+    </pre>
+
+    <p>Мы объявили в LoginForm три атрибута: $username, $password и $rememberMe.</p>
+    <p>Они используются для хранения имени пользователя, пароля, а также значения опции сохранения имени пользователя.</p>
+    <p>Так как $rememberMe по умолчанию имеет значение false, то изначально в форме аутентификации галочка этой опции будет снята.</p>
+    <p><b>Информация:</b> Термин «атрибут» используется, чтобы отделить свойства, определяемые этими переменными-членами класса, от прочих свойств. Здесь атрибут — это свойство, которое используется в основном для хранения данных, вводимых пользователем, или данных, получаемых из базы данных.</p>
+
+    <h2 id="title">
+        Определение правил проверки
+    </h2>
+
+    <p>В момент, когда пользователь отправляет данные формы, а модель их получает, нам необходимо удостовериться, что эти данные корректны, прежде чем мы будем их использовать.</p>
+    <p>Это осуществляется посредством проверки данных в соответствии с набором правил.</p>
+    <p>Правила проверки задаются в методе rules(), который возвращает массив сконфигурированных правил.</p>
+
+    <pre class="brush: csharp;">
+    class LoginForm extends CFormModel
+    {
+        public $username;
+        public $password;
+        public $rememberMe=false;
+     
+        private $_identity;
+     
+        public function rules()
+        {
+            return array(
+                array('username, password', 'required'),
+                array('rememberMe', 'boolean'),
+                array('password', 'authenticate'),
+            );
+        }
+     
+        public function authenticate($attribute,$params)
+        {
+            $this->_identity=new UserIdentity($this->username,$this->password);
+            if(!$this->_identity->authenticate())
+                $this->addError('password','Неправильное имя пользователя или пароль.');
+        }
+    }
+    </pre>
+
+    <p>В коде, представленном выше, username и password — обязательные для заполнения поля, поле password должно быть проверено также на соответствие указанному имени пользователя.</p>
+    <p>Поле rememberMe может принимать значения true или false.</p>
+    <p>Каждое правило, возвращаемое rules(), должно быть задано в следующем формате:</p>
+
+    <pre class="brush: csharp;">
+    array('AttributeList', 'Validator', 'on'=>'ScenarioList', …дополнительные параметры)
+    </pre>
+
+    <p>где AttributeList — строка, содержащая разделённые запятыми имена атрибутов, которые должны быть проверены в соответствии с правилами; Validator указывает на тип используемой проверки; параметр on — необязательный параметр, определяющий список сценариев, в которых должно использоваться правило; дополнительные параметры — это пары имя-значение, которые используются для инициализации значений свойств соответствующих валидаторов.</p>
+    <p>Начиная с версии 1.1.11 можно исключать отдельные правила.</p>
+    <p>Если вы не хотите проводить валидацию для какого-либо правила и сценария, можно указать параметр except с указанием имени сценария.</p>
+    <p>Синтаксис точно такой же, как и для параметра on.</p>
+    <p>Список сценариев (в параметрах on и except) может быть указан двумя эквивалентными способами:</p>
+
+    <pre class="brush: csharp;">
+    // в виде массива имён сценариев
+    'on'=>array('update', 'create'),
+    // строкой с именами, разделённой запятыми (пробелы не учитываются)
+    'except'=>'ignore, this, scenarios, at-all',
+    </pre>
+
+    <p>Есть три способа указать Validator в правиле проверки.</p>
+    <p>Во-первых, Validator может быть именем метода в классе модели данных, аналогично authenticate в примере выше.</p>
+    <p>Метод проверки оформляется следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * @param string $attribute имя поля, которое будем валидировать
+     * @param array $params дополнительные параметры для правила валидации
+     */
+    public function ValidatorName($attribute,$params) { … }
+    </pre>
+
+    <p>Второй способ — указать Validator в качестве имени класса.</p>
+    <p>В этом случае для проверки данных в момент применения правила создаётся экземпляр класса проверки.</p>
+    <p>Дополнительные параметры в правиле используются для инициализации значений его атрибутов.</p>
+    <p>Класс проверки должен быть производным классом от CValidator.</p>
+
+    <p>Третий вариант — предопределить псевдоним класса валидатора.</p>
+    <p>В примере выше required — это псевдоним класса CRequiredValidator, который проверяет, не является ли значение атрибута пустым. Ниже приведён полный список предопределенных псевдонимов валидаторов, включенных в состав Yii:</p>
+
+    <ul>
+        <li>boolean: псевдоним класса CBooleanValidator, который проверяет, равно ли значение атрибута CBooleanValidator::trueValue или CBooleanValidator::falseValue;</li>
+        <li>captcha: псевдоним класса CCaptchaValidator, который проверяет, равно ли значение атрибута коду верификации на капче;</li>
+        <li>compare: псевдоним класса CCompareValidator, который проверяет, совпадает ли значение атрибута со значением другого атрибута или константой;</li>
+        <li>email: псевдоним класса CEmailValidator, который отвечает за проверку корректности email адреса;</li>
+        <li>date: псевдоним класса CDateValidator, проверяющего, является ли атрибут корректной датой, временем или и тем и другим.</li>
+        <li>default: псевдоним класса CDefaultValueValidator, который присваивает значение по умолчанию выбранным атрибутам;</li>
+        <li>exist: псевдоним класса CExistValidator, который проверяет наличие значения атрибута в указанном столбце таблицы базы данных;</li>
+        <li>file: псевдоним класса CFileValidator, отвечающего за проверку атрибута на наличие в нём имени загруженного файла;</li>
+        <li>filter: псевдоним класса CFilterValidator, преобразующего атрибут с использованием фильтра;</li>
+        <li>in: псевдоним класса CRangeValidator, который проверяет, содержится ли значение атрибута в указанном наборе значений;</li>
+        <li>length: псевдоним класса CStringValidator, который проверяет, находится ли длина строкового значения атрибута в указанном интервале;</li>
+        <li>match: псевдоним класса CRegularExpressionValidator, проверяющего значение атрибута на соответствие регулярному выражению;</li>
+        <li>numerical: псевдоним класса CNumberValidator, проверяющего, является ли значение атрибута числом;</li>
+        <li>required: псевдоним класса CRequiredValidator, который проверяет, не является ли значение атрибута пустым;</li>
+        <li>type: псевдоним класса CTypeValidator, проверяющего значение атрибута на соответствие указанному типу данных;</li>
+        <li>unique: псевдоним класса CUniqueValidator, который проверяет, является ли значение атрибута уникальными в пределах столбца таблицы базы данных;</li>
+        <li>url: псевдоним класса CUrlValidator, отвечающего за проверку корректности URL.</li>
+    </ul>
+
+    <p>Ниже представлены несколько примеров использования предопределенных валидаторов:</p>
+
+    <pre class="brush: csharp;">
+    // имя пользователя — обязательное поле формы
+    array('username', 'required'),
+    
+    // длина имени пользователя должна быть от 3 до 12 символов включительно
+    array('username', 'length', 'min'=>3, 'max'=>12),
+    
+    // в сценарии регистрации значения полей «password» и «password2» должны быть равны
+    array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
+    
+    // в сценарии аутентификации поле `password` должно быть проверено на соответствие указанному имени пользователя
+    array('password', 'authenticate', 'on'=>'login'),
+    </pre>
+
+    <h2 id="title">
+        Безопасное присваивание значений атрибутам
+    </h2>
+
+    <p>После того как создан экземпляр модели данных, нам часто требуется заполнить его данными, которые ввёл пользователь.</p>
+    <p>Это очень легко сделать, используя массовое присваивание:</p>
+
+    <pre class="brush: csharp;">
+    $model=new LoginForm;
+    if(isset($_POST['LoginForm']))
+        $model->attributes=$_POST['LoginForm'];
+    </pre>
+
+    <p>Последнее выражение в примере как раз и является массовым присваиванием, где значение каждой переменной в $_POST['LoginForm'] присваивается соответствующему атрибуту модели.</p>
+    <p>Это эквивалентно следующей операции:</p>
+
+    <pre class="brush: csharp;">
+    foreach($_POST['LoginForm'] as $name=>$value)
+    {
+        if($name является безопасным атрибутом)
+            $model->$name=$value;
+    }
+    </pre>
+
+    <p>Очень важно определить, какие атрибуты являются безопасными.</p>
+    <p>Например, если мы сделаем первичный ключ таблицы безопасным, злоумышленник получит шанс его записать и, таким образом, изменить данные, которые он не должен менять, поскольку не обладает достаточными правами.</p>
+
+    <h3 id="title">
+        Описание безопасных атрибутов
+    </h3>
+
+    <p>Атрибут считается безопасным, если он присутствует в правиле валидации, применяемом в данном сценарии.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    array('username, password', 'required', 'on'=>'login, register'),
+    array('email', 'required', 'on'=>'register'),
+    </pre>
+
+    <p>В коде выше атрибуты username и password необходимы в сценарии login, а атрибуты username, password и email — в сценарии register.</p>
+    <p>В результате, если мы проводим массовое присваивание в сценарии login, то только атрибуты username и password будут массово присвоены, т.к. только они входят в правило валидации для сценария login.</p>
+    <p>С другой стороны, если текущим сценарием является register, то все три атрибута могут быть массово присвоены.</p>
+
+    <pre class="brush: csharp;">
+    // сценарий входа
+    $model=new User('login');
+    if(isset($_POST['User']))
+        $model->attributes=$_POST['User'];
+     
+    // сценарий регистрации
+    $model=new User('register');
+    if(isset($_POST['User']))
+        $model->attributes=$_POST['User'];
+    </pre>
+
+    <p>Так почему же мы используем именно такую политику для определения, является атрибут безопасным или нет?</p>
+    <p>Если атрибут уже есть в одном или нескольких правилах валидации, зачем беспокоиться о чём-то ещё?</p>
+    <p>Важно помнить, что правила валидации используются для проверки введённых пользователем данных, а не данных, которые мы генерируем в коде (например, текущее время или автоматически сгенерированный первичный ключ).</p>
+    <p>Поэтому <b>НИКОГДА НЕ ДОБАВЛЯЙТЕ</b> правила валидации для атрибутов, не доступных для ввода конечным пользователем.</p>
+    <p>Иногда мы хотим объявить атрибут безопасным, даже если в действительности не имеем правила для него.</p>
+    <p>Пример — текст статьи, который может принимать любое введённое пользователем значение.</p>
+    <p>Для этого мы можем использовать специальное правило safe:</p>
+
+    <pre class="brush: csharp;">
+    array('content', 'safe')
+    </pre>
+
+    <p>Существует также правило unsafe, используемое для явного указания небезопасного атрибута:</p>
+
+    <pre class="brush: csharp;">
+    array('permission', 'unsafe')
+    </pre>
+
+    <p>Правило unsafe используется редко и является противоположным описанному нами ранее определению безопасных атрибутов.</p>
+    <p>Для установки значений небезопасных атрибутов мы должны использовать отдельные операции присваивания:</p>
+
+    <pre class="brush: csharp;">
+    $model->permission='admin';
+    $model->id=1;
+    </pre>
+
+    <h2 id="title">
+        Выполнение проверки
+    </h2>
+
+    <p>Как только модель будет заполнена пользовательскими данными, мы можем вызвать метод CModel::validate(), чтобы запустить процесс проверки.</p>
+    <p>По итогам проверки метод возвращает положительный или отрицательный результат.</p>
+    <p>Для моделей CActiveRecord проверка может выполняться автоматически в момент вызова метода CActiveRecord::save().</p>
+    <p>Мы можем задать сценарий через свойство scenario, таким образом указав, какой набор правил будет использован для проверки.</p>
+    <p>Проверка выполняется в зависимости от сценария.</p>
+    <p>Свойство scenario задаёт сценарий, в котором используется модель, и определяет, какой набор правил валидации будет использован.</p>
+    <p>К примеру, в сценарии login мы хотим проверить только поля модели пользователя username и password.</p>
+    <p>В сценарии register нам необходимо проверять большее количество данных: email, address и т.д.</p>
+    <p>Ниже показано, как провести проверку для сценария register:</p>
+
+    <pre class="brush: csharp;">
+    // создаём модель User и устанавливаем сценарий `register`. Выражение ниже эквивалентно следующему:
+    // $model=new User;
+    // $model->scenario='register';
+    $model=new User('register');
+     
+    // наполняем модель данными
+    $model->attributes=$_POST['User'];
+     
+    // выполняем проверку
+    if($model->validate())   // если данные верны
+        …
+    else
+        …
+    </pre>
+
+    <p>Сценарий для правил проверки задаётся в свойстве on правила.</p>
+    <p>Если on не определено, правило используется для всех сценариев. Например,</p>
+
+    <pre class="brush: csharp;">
+    public function rules()
+    {
+        return array(
+            array('username, password', 'required'),
+            array('password_repeat', 'required', 'on'=>'register'),
+            array('password', 'compare', 'on'=>'register'),
+        );
+    }
+    </pre>
+
+    <p>Первое правило будет распространяться на любые сценарии, а два последующих будут применяться только к сценарию register.</p>
+
+    <h2 id="title">
+        Информация об ошибках
+    </h2>
+
+    <p>После проверки все возможные ошибки находятся в объекте модели.</p>
+    <p>Мы можем получить их через CModel::getErrors() и CModel::getError().</p>
+    <p>Первый метод возвращает все ошибки для указанного атрибута модели, второй — только первую ошибку.</p>
+    <p>Чтобы узнать, возникли ли во время выполнения проверки какие-либо ошибки, можно воспользоваться методом CModel::hasErrors().</p>
+    <p>И, если ошибки действительно есть, получить их можно с помощью метода CModel::getErrors().</p>
+    <p>Оба метода могут быть использованы как для всех, так и для конкретного атрибута.</p>
+
+    <h2 id="title">
+        Метки атрибутов
+    </h2>
+
+    <p>Часто при работе с формами для каждого поля требуется отображать его метку.</p>
+    <p>Она подсказывает пользователю, какие данные ему требуется ввести в поле.</p>
+    <p>Мы, конечно, можем задать метки полей в представлении, но, если указать их непосредственно в модели данных, мы выиграем в удобстве и гибкости.</p>
+    <p>По умолчанию CModel в качестве меток возвращает названия атрибутов.</p>
+    <p>Изменить их можно, переопределив метод attributeLabels().</p>
+    <p>Далее мы увидим, что возможность указания меток в модели данных позволяет быстро создавать сложные формы.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/18.html", "Создание модели Yii", "bm1169"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1169", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1169") == 1) { document.getElementById("bma1169").style.display = "block"; document.getElementById("bm1169").style.display = "none"; } else { document.getElementById("bma1169").style.display = "none"; document.getElementById("bm1169").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание модели Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1169", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

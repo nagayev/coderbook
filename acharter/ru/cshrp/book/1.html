@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma88" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm88" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Типы, классы, объекты
+	</h1>
+
+	<p>Язык C# - объектно-ориентированный язык со строгой типизацией.</p>
+	<p>В объектно-ориентированных языках все является объектом - от констант и переменных базовых типов до данных агрегированных типов любой сложности...</p>
+	<p>Но что такое тип? Тип "тип" в программировании понятие первичное.</p>
+	<p>Тип некоторой сущности декларирует для нее совокупность возможных состояний и набор допустимых действий.</p>
+	<p>Понятие сущности, мы пока не уточняем, сущностями могут быть константы, переменные, массивы, структуры и т.д.</p>
+	<p>Наиболее часто понятие тип в языках программирования используют в связи с понятием "переменная".</p>
+	<p>Примитивное (но пока достаточное для наших целей) определение: переменная "переменная" это пара "обозначение переменной + значение переменной".</p>
+	<p>Для переменной тип вводит совокупность ее возможных значений и набор допустимых операций над этими значениями.</p>
+	<p>Пример определения переменной в Си, Си++, C# и некоторых других языках:</p>
+
+	<pre class="brush: csharp;">
+	int spot = 16;
+	</pre>
+
+	<p><b>spot</b> - обозначение (имя) переменной, 16 - ее значение в данный момент (после этого определения), int - название типа переменной.</p>
+	<p>Этот тип int определяет для переменной spot предельные значения, совокупность допустимых значений и набор операций с правилами их выполнения.</p>
+	<p>Например, для spot определена операция получения остатка от деления (%) и особым образом определено деление на целую величину (/ в этом случае обозначает операцию целочисленного деления).</p>
+	<p>Результат spot/5 равен 3, а значением выражения spot%3 будет 1.</p>
+	<p>Типы в языке C# введены с помощью классов (а также структур, перечислений, интерфейсов, делегатов и массивов).</p>
+	<p>Но обо всём по порядку.</p>
+	<p>Понятие класса в теоретических работах, посвященных объектноориентированной методологии, обычно вводится на основе понятия "объект".</p>
+	<p>Объект "объект" определяют по-разному.</p>
+	<p>Приведем примеры определений.</p>
+	<p>"Объектом называется совокупность данных (полей), определяющих состояние объекта, и набор функций (методов), обеспечивающих изменение указанных данных (состояния объекта) и доступ к ним".</p>
+	<p>"Объект - инкапсуляция множества операций (методов), доступных для внешних вызовов, и состояния, запоминающего результаты выполнения указанных операций"</p>
+	<p>После подобного определения в пособиях по объектно-ориентированному программированию перечисляются обязательные признаки объектов:</p>
+	<p>1. различимость;</p>
+	<p>2. возможность одного объекта находиться в разных состояниях (в разное время);</p>
+	<p>3. возможность динамического создания объектов;</p>
+	<p>4. "умение" объектов взаимодействовать друг с другом с помощью обменов сообщениями;</p>
+	<p>5. наличие методов, позволяющих объекту реагировать на сообщения (на внешние для объекта воздействия);</p>
+	<p>6. инкапсуляция данных внутри объектов.</p>
+	<p>Введя понятие объекта, класс "класс" определяют как механизм, задающий структуру (поля данных) всех однотипных объектов и функциональность объектов, то есть механизм, определяющий все методы, относящиеся к объектам.</p>
+	<p>В процессе развития объектно-ориентированного подхода и при его реализации в языках программирования стало ясно, что среди данных объекта могут существовать такие, которые принадлежат не единичному объекту, а всем объектам класса.</p>
+	<p>То же было выявлено и для методов - некоторые из них могли определять не функциональность отдельного (каждого) объекта, а быть общими для класса (для всех его объектов).</p>
+	<p>В совокупности поля и методы как класса, так и формируемых с его помощью объектов называются членами класса.</p>
+	<p>Для иллюстрации этих понятий и особенно отличий полей и методов класса от полей и методов его объектов рассмотрим пример: Класс с названием "студент группы N-го курса".</p>
+	<p><b>поля (данные) объекта:</b> ФИО, оценки за сессию, взятые в библиотеке книги и т.д.</p>
+	<p><b>методы объекта:</b> сдать экзамен, получить книги в библиотеке и т.д.</p>
+	<p><b>поля (данные) класса:</b> номер курса (N), даты экзаменов, количество дисциплин в семестре и т.д.</p>
+	<p><b>метод класса:</b> перевести группу на следующий курс - изменятся все данные класса, но не все объекты останутся в этом измененном классе (не обязательно все студенты будут переведены на следующий курс).</p>
+	<p>Различие между данными и методами объектов и данными и методами их класса существенно используется в языке C#.</p>
+	<p>Чтобы их различать в определении (в объявлении) класса его данные и его методы снабжаются специальным модификатором static (статический).</p>
+	<p>Примеры мы приведем позже...</p>
+	<p>Итак, класс играет две роли:</p>
+	<p>- класс это контейнер для методов класса и данных класса;</p>
+	<p>- класс это «трафарет», позволяющий создавать конкретные объекты.</p>
+	<p>Для каждого конкретного объекта, класс " класс" определяет структуру его состояния и поведение.</p>
+	<p>Состояние объекта задается совокупностью значений его полей.</p>
+	<p>Поведение объекта " поведение объекта" определяется набором методов, относящихся к объектам данного класса.</p>
+	<p>В соответствии с объектной ориентацией языка C# - всякая программа на языке C# представляет собой класс или совокупность классов.</p>
+	<p>Внутри объявления каждого класса могут быть размещены:</p>
+	<p>- данные класса (статические поля);</p>
+	<p>- методы класса (статические методы);</p>
+	<p>- данные объектов класса (не статические поля);</p>
+	<p>- методы для работы с объектами класса (не статические методы);</p>
+	<p>- внутренние классы;</p>
+	<p>- дополнительные члены, речь о которых еще впереди.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/1.html", "Типы, классы, объекты", "bm88"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm88", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm88") == 1) { document.getElementById("bma88").style.display = "block"; document.getElementById("bm88").style.display = "none"; } else { document.getElementById("bma88").style.display = "none"; document.getElementById("bm88").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Типы, классы, объекты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm88", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

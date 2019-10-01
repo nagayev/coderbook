@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma190" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm190" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Декларации обобщённых классов
+	</h1>
+
+	<p>Рассмотрим формат декларации обобщённого (параметризованного) класса:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_классаopt class имя_класса
+	список_типизирующих_параметров
+	база_класса opt
+	ограничения_типизирующих_параметров opt
+	тело_класса;
+	opt
+	</pre>
+
+	<p>В приведённом формате обязательными являются:</p>
+	<p>- служебное слово class, имя _ класса (а это, как мы знаем, – идентификатор);</p>
+	<p>- список_типизирующих_параметров;</p>
+	<p>- тело_класса.</p>
+	<p>Основным признаком обобщённого класса служит наличие в его объявлении списка_типизирующих_параметров.</p>
+	<p>Если в объявлении опустить этот список и, конечно, ограничения типизирующих параметров, то оно превратится в определение обычного (непараметризованного) класса.</p>
+	<p>Список типизирующих параметров представляет собой заключённую в угловые скобки &lt; &gt; последовательность разделённых запятыми идентификаторов.</p>
+	<p>Обратите внимание, что обобщённый класс может быть наследником базового класса или может реализовать интерфейс, причём и базовый класс и реализуемый интерфейс, в свою очередь, могут быть параметризованными.</p>
+	<p>В приведённом формате декларации обобщённого класса возможность наследования обозначена конструкцией "база_класса".</p>
+	<p>В стандарте C# для знакомства с обобщёнными классами предлагается рассмотреть примерно такое объявление (программа 18_01.cs):</p>
+
+	<pre class="brush: csharp;">
+	// стек для любых данных
+	class Stack &lt;ItemType&gt;
+	{
+		// предельный размер каждого стека
+		static int stackSize = 100;
+		private ItemType[ ] items = new ItemType[stackSize];
+		
+		// номер свободного элемента
+		private int index = 0;
+		
+		// поместить в стек
+		public void Push(ItemType data)
+		{
+			if (index == stackSize)
+			throw new ApplicationException("Стек переполнен!");
+			items[index++] = data;
+		}
+		
+		// взять из стека
+		public ItemType Pop()
+		{
+			if (index == 0)
+			throw new ApplicationException("Стек пуст!");
+			return items[--index];
+		}
+	}
+	</pre>
+
+	<p>Объявление вводит обобщённый класс с именем Stack для представления стека, то есть такой структуры данных, которая позволяет запоминать последовательно передаваемые ей значения и извлекать их в порядке, обратном их поступлению.</p>
+	<p>Поступающие в такой стек значения запоминаются в одномерном массиве из 100 элементов с именем (ссылкой) items.</p>
+	<p>Особенность объявления этого массива в том, что тип его элементов определяет типизирующий параметр с именем ItemType.</p>
+	<p>Для работы с элементами стека в обобщённом классе определены два метода – Push() и Pop().</p>
+	<p>Первый из них получает через параметр некоторое значение и должен поместить его в массив, связанный со ссылкой items.</p>
+	<p>Метод Pop() извлекает из массива последний из поступивших туда элементов и возвращает его значение в точку вызова.</p>
+	<p>Самое важное здесь – использование типизирующего параметра ItemType.</p>
+	<p>Он определяет тип элементов массива, тип параметра метода Push() и тип возвращаемого методом Pop() значения.</p>
+	<p>Основная идея обобщений состоит в том, что декларация обобщенного класса служит шаблоном для самых разнообразных уже непараметризованных классов, которые компилятор автоматически определяет (строит), исходя из декларации обобщённого класса и имеющихся в программе конкретных "обращений" к этой декларации.</p>
+	<p>Конструкция, которую мы условно назовём "обращением к декларации обобщённого класса", имеет вид:</p>
+
+	<pre class="brush: csharp;">
+	имя_обобщённого_класса
+	<список_типизирующих_аргументов>
+	</pre>
+
+	<p>Здесь каждый типизирующий аргумент – имя конкретного типа, которое должно заменить в объявлении обобщённого класса все вхождения соответствующего типизирующего параметра.</p>
+	<p>Соответствие между типизирующими параметрами декларации обобщённого класса и типизирующими аргументами в обращении к нему устанавливается по их взаимному расположению.</p>
+	<p>Здесь используется традиционная для обращений к методам, функциям и процедурам схема замещения параметров (формальных параметров) аргументами (фактическими параметрами).</p>
+	<p>Если в программе , содержащей декларацию обобщённого класса <b>Stack&lt;ItemType&gt;</b>, использовать конструкцию Stack&lt;char&gt;, то это вводит специализированный (инстанцированный, конкретный) тип, порождаемый из декларации обобщённого класса Stack&lt;ItemType&gt;.</p>
+	<p>В этом специализированном типе, который существует только после компиляции программы, все вхождения типизирующего параметра ItemType заменены типом char.</p>
+	<p>Элементы массива, связанного со ссылкой items, будут иметь тип char, метод Pop() будет возвращать символьные значения, параметр метода Push() будет символьного типа.</p>
+	<p>Для обозначения специализированного типа стандарт C# вводит термин "сконструированный тип" (constructed type).</p>
+	<p>Имена сконструированных типов можно использовать как и обычные имена непараметризованных классов.</p>
+	<p>Например, так:</p>
+
+	<pre class="brush: csharp;">
+	Stack&lt;char&gt; symbols=new Stack&lt;char&gt;();
+	symbols.Push('A');
+	char ch= symbols.Pop();
+	</pre>
+
+	<p>В данном примере создан экземпляр (объект) класса Stack&lt;char&gt;, определена и связана с этим объектом ссылка symbols с типом того же класса.</p>
+	<p>Затем в стек помещён символ 'A' и с помощью метода Pop() этот символ получен (извлечён) из стека.</p>
+	<p>Точно так же, как для хранения в стеке символьных данных определён класс Stack&lt;char&gt;, можно вводить сконструированные типы для стеков с элементами любых типов.</p>
+	<p>Это могут быть как предопределённые типы языка, так и типы, введённые программистом.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	Stack&lt;double&gt;real = new Stack &lt;double&gt;();
+	real.Push(3.141592);
+	double pi=real.Pop();
+	</pre>
+
+	<p>Введя сконструированный тип, мы можем использовать его только для работы с теми данными, "на которые его настроен"...</p>
+	<p>С учётом предыдущего объявления переменной symbol следующий оператор не верен:</p>
+
+	<pre class="brush: csharp;">
+	symbols.Push(2.7171);
+	// ошибка компиляции
+	</pre>
+
+	<p>В декларации обобщённого класса типизирующих параметров может быть несколько.</p>
+	<p>Ограниченный на их количество нет.</p>
+	<p>Естественное требование – число типизирующих аргументов, должно быть равно количеству типизирующих параметров в декларации обобщённого класса.</p>
+	<p>Каждый типизирующий параметр определяет имя в пространстве декларации своего класса.</p>
+	<p>Таким образом, имя типизирующего параметра не может совпадать: с именем другого типизирующего параметра своего же класса, с именем обобщённого класса, с именем члена этого класса.</p>
+	<p>Область существования типизирующего параметра включает базу класса, ограничения типизирующих параметров и тело класса.</p>
+	<p>В отличие от членов класса типизирующие параметры не распространяются на производные классы.</p>
+	<p>В области существования типизирующий параметр можно использовать как имя типа.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="102.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="104.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/103.html", "Декларации классов", "bm190"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm190", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm190") == 1) { document.getElementById("bma190").style.display = "block"; document.getElementById("bm190").style.display = "none"; } else { document.getElementById("bma190").style.display = "none"; document.getElementById("bm190").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Декларации классов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm190", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1300" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1300" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Оптимизация производительности
+	</h1>
+
+    <p>Существует много факторов, влияющих на производительность веб-приложения.</p>
+    <p>Какие-то относятся к окружению, какие-то к вашему коду, а какие-то к самому Yii.</p>
+    <p>В этом разделе мы перечислим большинство из них и объясним, как можно улучшить производительность приложения, регулируя эти факторы.</p>
+
+    <h2 id="title">
+        Оптимизация окружения PHP
+    </h2>
+
+    <p>Хорошо сконфигурированное окружение PHP очень важно.</p>
+    <p>Для получения максимальной производительности,</p>
+
+    <ul>
+        <li>Используйте последнюю стабильную версию PHP. Мажорные релизы PHP могут принести значительные улучшения производительности.</li>
+        <li>Включите кеширование байткода в Opcache (PHP 5.5 и старше) или APC (PHP 5.4 и более ранние версии). Кеширование байткода позволяет избежать затрат времени на обработку и подключение PHP скриптов при каждом входящем запросе.</li>
+    </ul>
+
+    <h2 id="title">
+        Отключение режима отладки
+    </h2>
+
+    <p>При запуске приложения в производственном режиме, вам нужно отключить режим отладки.</p>
+    <p>Yii использует значение константы YII_DEBUG чтобы указать, следует ли включить режим отладки.</p>
+    <p>Когда режим отладки включен, Yii тратит дополнительное время чтобы создать и записать отладочную информацию.</p>
+    <p>Вы можете разместить следующую строку кода в начале входного скрипта чтобы отключить режим отладки:</p>
+
+    <pre class="brush: csharp;">
+    defined('YII_DEBUG') or define('YII_DEBUG', false);
+    </pre>
+
+    <p><b>Информация:</b> Значение по умолчанию для константы YII_DEBUG — false. Так что, если вы уверены, что не изменяете значение по умолчанию где-то в коде приложения, можете просто удалить эту строку, чтобы отключить режим отладки.</p>
+
+    <h2 id="title">
+        Использование техник кеширования
+    </h2>
+
+    <p>Вы можете использовать различные техники кеширования чтобы значительно улучшить производительность вашего приложения.</p>
+    <p>Например, если ваше приложение позволяет пользователям вводить текст в формате Markdown, вы можете закешировать разобранное содержимого Markdown, чтобы избежать разбора одной и той же разметки Markdown неоднократно при каждом запросе.</p>
+    <p>Пожалуйста, обратитесь к разделу Кеширование чтобы узнать о поддержке кеширования, которую предоставляет Yii.</p>
+
+    <h3 id="title">
+        Включение кеширования схемы
+    </h3>
+
+    <p>Кэширование схемы - это специальный тип кеширования, который должен быть включен при использовании Active Record.</p>
+    <p>Как вы знаете, Active Record достаточно умен, чтобы обнаружить информацию о схеме (например, имена столбцов, типы столбцов, ограничения) таблицы БД без необходимости описывать ее вручную.</p>
+    <p>Active Record получает эту информацию, выполняя дополнительные SQL запросы.</p>
+    <p>При включении кэширования схемы, полученная информация о схеме будет сохранена в кэше и повторно использована при последующих запросах.</p>
+    <p>Чтобы включить кеширование схемы, сконфигурируйте компонент приложения cache для хранения информации о схеме и установите [[yii\db\Connection::enableSchemaCache]] в true в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            // ...
+            'cache' =&gt; [
+                'class' =&gt; 'yii\caching\FileCache',
+            ],
+            'db' =&gt; [
+                'class' =&gt; 'yii\db\Connection',
+                'dsn' =&gt; 'mysql:host=localhost;dbname=mydatabase',
+                'username' =&gt; 'root',
+                'password' =&gt; '',
+                'enableSchemaCache' =&gt; true,
+    
+                // Продолжительность кеширования схемы.
+                'schemaCacheDuration' =&gt; 3600,
+    
+                // Название компонента кеша, используемого для хранения информации о схеме
+                'schemaCache' =&gt; 'cache',
+            ],
+        ],
+    ];
+    </pre>
+
+    <h2 id="title">
+        Объединение и минимизация ресурсов
+    </h2>
+
+    <p>Сложные веб-страницы часто подключают много CSS и/или JavaScript файлов.</p>
+    <p>Для уменьшения числа HTTP запросов и общего размера загрузки этих ресурсов, вы должны рассмотреть вопрос об их объединении в один файл и его сжатии.</p>
+    <p>Это может сильно увеличить скорость загрузки страницы и снизить нагрузку на сервер. Для получения более подробной информации обратитесь, пожалуйста, к разделу Ресурсы.</p>
+
+    <h2 id="title">
+        Оптимизация хранилища сессий
+    </h2>
+
+    <p>По умолчанию данные сессий хранятся в файлах.</p>
+    <p>Это удобно для разработки или в маленьких проектах.</p>
+    <p>Но когда дело доходит до обработки множества параллельных запросов, то лучше использовать более сложные хранилища, такие как базы данных.</p>
+    <p>Yii поддерживает различные хранилища "из коробки".</p>
+    <p>Вы можете использовать эти хранилища, сконфигурировав компонент session в конфигурации приложения как показано ниже,</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            'session' =&gt; [
+                'class' =&gt; 'yii\web\DbSession',
+    
+                // Установите следующее, если вы хотите использовать компонент БД, с названием
+                // отличным от значения по умолчанию 'db'.
+                // 'db' =&gt; 'mydb',
+    
+                // Чтобы перезаписать таблицу сессий, заданную по умолчанию, установите
+                // 'sessionTable' =&gt; 'my_session',
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Приведенная выше конфигурация использует таблицу базы данных для хранения сессионных данных.</p>
+    <p>По умолчанию, используется компонент приложения db для подключения к базе данных и сохранения сессионных данных в таблице session.</p>
+    <p>Вам нужно будет создать таблицу session заранее:</p>
+
+    <pre class="brush: csharp;">
+    CREATE TABLE session (
+        id CHAR(40) NOT NULL PRIMARY KEY,
+        expire INTEGER,
+        data BLOB
+    )
+    </pre>
+
+    <p>Вы также можете хранить сессионные данные в кеше с помощью [[yii\web\CacheSession]].</p>
+    <p>Теоретически, вы можете использовать любое поддерживаемое хранилище кеша.</p>
+    <p>Тем не менее, помните, что некоторые хранилища кеша могут сбрасывать закешированные данные при достижении лимитов хранилища.</p>
+    <p>По этой причине, вы должны в основном использовать хранилища кеша, которые не имеют таких лимитов.</p>
+    <p>Если на вашем сервере установлен Redis, настоятельно рекомендуется выбрать его в качестве хранилища сессий используя [[yii\redis\Session]].</p>
+
+    <h2 id="title">
+        Оптимизация базы данных
+    </h2>
+
+    <p>Выполнение запросов к БД и выборки данных часто являются узким местом производительности веб-приложения.</p>
+    <p>Хотя использование техник кэширования данных может смягчить снижение производительности, оно не решает проблему полностью.</p>
+    <p>Когда база данных содержит огромное количество данных, и данные в кэше невалидны, получение свежих данных без правильного проектирования БД и запросов может быть чрезмерно ресурсоемкой операцией.</p>
+    <p>Общей методикой для повышения производительности запросов к БД является создание индексов для тех столбцов таблицы, по которым делается выборка.</p>
+    <p>Например, если вам нужно найти запись о пользователе по username, вам надо создать индекс на username.</p>
+    <p>Обратите внимание, что в то время как индексирование может сделать SELECT запросы намного быстрее, оно будет замедлять INSERT, UPDATE и DELETE запросы.</p>
+    <p>Для сложных запросов к БД рекомендуется создавать представления базы данных (views), чтобы сэкономить время подготовки и разбора запросов.</p>
+    <p>Последнее, хотя и не менее важное: используйте LIMIT в ваших SELECT запросах.</p>
+    <p>Это позволяет избежать извлечения большого количество данных из базы данных и исчерпания памяти, выделенной для PHP.</p>
+
+    <h2 id="title">
+        Использование обычных массивов
+    </h2>
+
+    <p>Хотя Active Record очень удобно использовать, это не так эффективно, как использование простых массивов, когда вам нужно получить большое количество данных из БД.</p>
+    <p>В этом случае, вы можете вызвать asArray() при использовании Active Record для получения данных, чтобы извлеченные данные были представлены в виде массивов вместо громоздких записей Active Record.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends Controller
+    {
+        public function actionIndex()
+        {
+            $posts = Post::find()->limit(100)->asArray()->all();
+            
+            return $this->render('index', ['posts' =&gt; $posts]);
+        }
+    }
+    </pre>
+
+    <p>В приведенном выше коде, $posts будет заполнего массивом строк из таблицы.</p>
+    <p>Каждая строка - это обычный массив. Чтобы получить доступ к столбцу title в i-й строке, вы можете использовать выражение $posts[$i]['title'].</p>
+    <p>Вы также можете использовать DAO для создания запросов и извлечения данных в виде обычных массивов.</p>
+
+    <h2 id="title">
+        Оптимизация автозагрузчика Composer
+    </h2>
+
+    <p>Поскольку автозагрузчик Composer'а используется для подключения большого количества файлов сторонних классов, вы должны оптимизировать его, выполнив следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    composer dumpautoload -o
+    </pre>
+
+    <h2 id="title">
+        Асинхронная обработка данных
+    </h2>
+
+    <p>Когда запрос включает в себя некоторые ресурсоемкие операции, вы должны подумать о том, чтобы выполнить эти операции асинхронно, не заставляя пользователя ожидать их окончания.</p>
+    <p>Существует два метода асинхронной обработки данных: pull и push.</p>
+    <p>В методе pull, всякий раз, когда запрос включает в себя некоторые сложные операции, вы создаете задачу и сохраняете ее в постоянном хранилище, таком как база данных.</p>
+    <p>Затем в отдельном процессе (таком как задание cron) получаете эту задачу и обрабатываете ее.</p>
+    <p>Этот метод легко реализовать, но у него есть некоторые недостатки.</p>
+    <p>Например, задачи надо периодически забирать из места их хранения.</p>
+    <p>Если делать это слишком редко, задачи будут обрабатываться с большой задержкой, а если слишком часто - это будет создавать большие накладные расходы.</p>
+    <p>В методе push, вы можете использовать очереди сообщений (например, RabbitMQ, ActiveMQ, Amazon SQS, и т.д.) для управления задачами. Всякий раз, когда новая задача попадает в очередь, это инициирует обработку этой задачи обработчиком.</p>
+
+    <h2 id="title">
+        Профилирование производительности
+    </h2>
+
+    <p>Вы должны профилировать код, чтобы определить узкие места в производительности и принять соответствующие меры.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="93.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="95.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/94.html", "Yii2: Оптимизация производительности", "bm1300"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1300", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1300") == 1) { document.getElementById("bma1300").style.display = "block"; document.getElementById("bm1300").style.display = "none"; } else { document.getElementById("bma1300").style.display = "none"; document.getElementById("bm1300").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Оптимизация производительности") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1300", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

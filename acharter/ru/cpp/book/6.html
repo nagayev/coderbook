@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma27" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm27" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Арифметические операции С++
+	</h1>
+	
+	<p>Думаю, понятно, для чего нужны арифметические операции, арифметика в программировании намного проще чем в математике.</p>
+	<p>Нас интересуют следующие арифметические операции в C++:</p>
+	<p><b>+</b> — сложение;</p>
+	<p><b>-</b> — вычитание;</p>
+	<p><b>*</b> — умножение;</p>
+	<p><b>/</b> — деление;</p>
+	<p><b>%</b> — остаток от деления.</p>
+	<p>Ниже представлен программный код использующий арифметические операции в C++.</p>
+
+	<pre class="brush: csharp;">
+	// arithmetic.cpp: определяет точку входа для консольного приложения.
+	 
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int _tmain(int argc, char* argv[])
+	{
+		double sum, razn, pow, div; // объявление переменных через запятую
+		double a1; // отдельное объявление переменной a1
+		double a2; // отдельное объявление переменной a2
+		cout << "Vvedite pervoe chislo: ";
+		cin >> a1;
+		cout << "Vvedite vtoroe chislo: ";
+		cin >> a2;
+		sum  = a1 + a2;  // операция сложения
+		razn = a1 - a2;  // операция вычитания
+		pow  = a1 * a2;  // операция умножения
+		div  = a1 / a2;  // операция деления
+		cout << a1 << "+" << a2 << "=" << sum  << endl;
+		cout << a1 << "-" << a2 << "=" << razn << endl;
+		cout << a1 << "*" << a2 << "=" << pow  << endl;
+		cout << a1 << "/" << a2 << "=" << div  << endl;
+		system ("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В <b>строке 9</b> объявляются переменные с именами sum, razn, pow, div тип данных у которых double – вещественный тип данных (то есть эти переменные могут хранить такие числа: 0.99; 3.0; 21.6; — 43.15; 345.342).</p>
+	<p><i>Любые переменные можно использовать только после объявления. Переменные можно также и инициализировать при объявлении, пример:</i></p>
+
+	<pre class="brush: csharp;">
+	double sum = 10;
+	</pre>
+
+	<p>Это значит, что мы объявили переменную с именем sum типа double и присвоили ей значение 10.</p>
+	<p>Переменные можно инициализировать и объявлять как через запятую так и по отдельности каждую (строки 10 и 11).</p>
+
+	<pre class="brush: csharp;">
+	cin >> a1; // прочитать первое число в переменную а1.
+
+	cin >> a2; // прочитать второе число в переменную а2.
+	</pre>
+
+	<p>Символы &gt;&gt; называются операцией извлечения из потока.</p>
+	<p>Данные символы используются вместе с оператором ввода <b>cin</b>.</p>
+
+	<pre class="brush: csharp;">
+	// сложить два числа и записать их сумму в переменную sum
+	sum  = a1 + a2;
+
+	// вычесть из первого числа второе и записать их разность в переменную razn
+	razn = a1 - a2;
+
+	// умножить два числа и записать их произведение в переменную pow
+	pow  = a1 * a2;
+
+	// разделить первое число на второе и записать их частное в переменную div
+	div  = a1 / a2;
+	</pre>
+
+	<p>C 20-й по 23-ю строки мы выводим результаты наших арифметических операций.</p>
+	<p>Также как и в математике в языке программирования С++ с помощью скобочек формируется порядок вычислений в сложных выражениях, например:</p>
+
+	<pre class="brush: csharp;">
+	((a+b)*c)-d
+	</pre>
+
+	<p>Первое действие: a+b;</p>
+	<p>Второе действие: умножение на с;</p>
+	<p>Третье действие: вычитание d;</p>
+	<p>Результат работы программы, выполняющей четыре арифметические операции +,  -,  *,  /, над двумя введенными числами,  показан ниже.</p>
+
+	<pre class="brush: csharp;">
+	Vvedite pervoe chislo: 10
+	Vvedite vtoroe chislo: 5
+	10+5=15
+	10-5=5
+	10*5=50
+	10/5=2
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Рассмотрим еще одну арифметическую операцию % — остаток от деления, для этого изучим подробно следующий код программы:</p>
+
+	<pre class="brush: csharp;">
+	// ost_division.cpp: определяет точку входа для консольного приложения.
+	 
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int _tmain(int argc, char* argv[])
+	{
+		// выполнение операции "остаток от деления"
+		cout << "8  % 4  = " << 8 % 4   << endl;
+		cout << "7  % 4  = " << 7 % 4   << endl;
+		cout << "2  % 4  = " << 2 % 4   << endl;
+		cout << "43 % 10 = " << 43 % 10 << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Результат работы программы, выполняющей операцию "остаток от деления":</p>
+
+	<pre class="brush: csharp;">
+	8  % 4  = 0
+	7  % 4  = 3
+	2  % 4  = 2
+	43 % 10 = 3
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>- <b>1-й случай:</b> четверка может два раза поместиться в восьмерке остаток будет равен 0;</p>
+	<p>- <b>2-й случай:</b> четверка может один раз поместиться в семерке и остаток будет равен 3;</p>
+	<p>- <b>3-й случай:</b> четверка в двойке поместиться не может по этому остаток будет равен 2;</p>
+	<p>- <b>4-й случай:</b> десять может четыре раза поместиться в сорока трех, и остаток будет равен 3;</p>
+	<p>Рассмотрев 4-ре случая использования операции — остаток от деления, надеюсь, вам стал понятен принцип работы этой операции.</p>
+	<p>Если же нет, то поэкспериментируйте с программой, изменяйте числа и увидите как меняется результат.</p>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/6.html", "Арифметические операции", "bm27"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm27", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm27") == 1) { document.getElementById("bma27").style.display = "block"; document.getElementById("bm27").style.display = "none"; } else { document.getElementById("bma27").style.display = "none"; document.getElementById("bm27").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Арифметические операции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm27", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma195" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm195" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Обобщённые делегаты
+	</h1>
+
+	<p>Как и у обобщенных методов, у обобщенных делегатов два списка параметров – список типизирующих параметров и список параметров методов, которые может представлять делегат.</p>
+	<p>Но у делегата нет тела, и этим обобщенный делегат похож на прототип обобщенного метода.</p>
+	<p>В качестве примера приведем обобщенный делегат с одним типизирующим параметром:</p>
+
+	<pre class="brush: csharp;">
+	delegate R DelMin&lt;R&gt; (R x, R y);
+	</pre>
+
+	<p>Типизирующий параметр R специфицирует типы параметров и тип возвращаемого значения того метода, который может представлять экземпляр реализации делегата.</p>
+	<p>В следующем классе Program два статических метода, каждый из которых возвращает минимальное из значений своих аргументов и может быть представлен обобщенным делегатом.</p>
+	<p>Метод minI() соответствует делегату DelMin&lt;int&gt;, а метод minL() – делегату DelMin&lt;long&gt;.</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static int minI(int a, int b)
+		{
+			return a > b ? b : a;
+		}
+
+		static long minL(long a, long b)
+		{
+			return a > b ? b : a;
+		}
+
+		static void Main( )
+		{
+			int first = 5, second = 6, third = 7;
+			DelMin&lt;int&gt; dI2 = new DelMin&lt;int&gt;(minI);
+			DelMin&lt;long&gt; dL2 = new DelMin&lt;long&gt; (minL);
+			Console.WriteLine(dL2(dI2(first, dI2(second, third)), -3L));
+		}
+	}
+	</pre>
+
+	<p>В методе Main() объявлены два экземпляра (dI2 и dL2) конкретизаций DelMin&lt;int&gt; и DelMin&lt;long&gt; обобщенного делегата DelMin&lt;R&gt;.</p>
+	<p>Экземпляры делегатов представляют методы minI() и minL().</p>
+	<p>В аргументе метода Console.WriteLine() выражение с вложенными обращениями к экземплярам делегатов вычисляет минимальное из значений трех переменных типа int и константы -3L типа long.</p>
+	<p>Результат, конечно, равен -3.</p>
+	<p>Обратите внимание, что возвращаемые значения метода minI() имеют тип int, а аргументы метода minL() должны иметь тип long.</p>
+	<p>Соответствующие приведения типов при обращениях к этим методам с помощью делегатов выполняются по умолчанию.</p>
+	<p>Что не имеет отношения ни к делегатам, ни к их обобщениям, а связно с автоматическим преобразованием арифметических типов языка C#.</p>
+	<p>В библиотеку стандартных классов платформы .NET Framework включено семейство обобщенных типов делегатов, наиболее важными из которых для конечного пользователя являются Func&lt;&gt; и Action&lt;&gt;.</p>
+	<p>Их назначение – обеспечить программиста обобщенными делегатами, которые можно применять в программах без предварительного явного объявления.</p>
+	<p>Каждый из названных обобщенных делегатов перегружен, так что в пространстве имен System есть обобщенные типы делегатов с разным количеством типизирующих параметров.</p>
+	<p>Для обобщенных делегатов Func&lt;&gt; можно использовать от 1 до 17 типизирующих параметров.</p>
+	<p>В каждом из этих семнадцати обобщенных типов последний из типизирующих параметров определяет тип возвращаемого значения тех методов, которые представляет соответствующий делегат.</p>
+	<p>Объявления первых трех обобщенных типов делегатов из библиотеки .NET имеют такой вид:</p>
+
+	<pre class="brush: csharp;">
+	delegate TResult Func&lt;TResult&gt; ();
+	delegate TResult Func&lt;T1, TResult&gt; (T1 t1);
+	delegate TResult Func&lt;T1, T2, TResult&gt; (T1 t1, T2 t2);
+	...
+	</pre>
+
+	<p>Реализации первого из перечисленных обобщенных типов делегатов предназначены для представления методов без параметров, возвращающих значение типа, определяемого единственным типизирующим аргументом конкретного делегата.</p>
+	<p>Например, метод с заголовком double method() может быть представлен экземпляром делегата Func&lt;double&gt;.</p>
+	<p>Метод с заголовком int count(int[ ] arr) может быть представлен экземпляром делегата Func&lt;int[ ], int&gt; и т. д.</p>
+	<p>В отличие от делегатов Func&lt;&gt; делегаты Action&lt;&gt; предназначены для представления методов, не имеющих возвращаемого значения, то есть методов, для которых в качестве типа возвращаемого значения указывается void.</p>
+	<p>Таких обобщенных типов делегатов в библиотеке шестнадцать с количеством типизирующих параметров от 1 до 16:</p>
+
+	<pre class="brush: csharp;">
+	delegate void Action&lt;T1&gt; (T1 t1);
+	delegate void Action&lt;T1, T2&gt; (T1 t1, T2 t2);
+	delegate void Action&lt;T1, T2, T3&gt; (T1 t1, T2 t2, T3 t3);
+	...
+	</pre>
+
+
+	<p>Например, метод с заголовком void printArray(float [ ] arr) может быть представлен экземпляром делегата Action&lt;float [ ]&gt;.</p>
+	<p>Зная о существовании этих двух семейств обобщенных типов делегатов и о том, что они известны в пространстве имен System, программист в ряде случаев может не включать в код собственное объявление регулярного типа делегата.</p>
+	<p>Например, если в программе нужен тип delegate int Processor (string line, char ch), экземпляры которого могут представлять методы с параметрами типов string и char, возвращающие значение типа int, то можно использовать Func&lt;char, string, int&gt;.</p>
+	<p>Следующая программа иллюстрирует применение библиотечных обобщенных типов делегатов Func&lt;&gt; и Action&lt;&gt;.</p>
+	<p>Необходимо написать метод для формирования массива из заданного количества значений членов ряда Фибоначчи и обобщенный метод для вывода в консольное окно значений элементов одномерного массива.</p>
+	<p>В основной программе объявить два делегата для представления указанных методов и, используя экземпляры делегатов, вывести значения первых семи членов ряда Фибоначчи:</p>
+
+	<pre class="brush: csharp;">
+	// Обобщенные делегаты .NET и обобщенный метод
+	using System;
+	class Program
+	{
+		static void printArray&lt;T&gt;(T[ ] ar, string format)
+		{
+			foreach (T z in ar)
+			Console.Write(format, z);
+			Console.WriteLine( );
+			// printArray&lt;T&gt;( )
+		}
+		
+		static int[ ] fib(int numb)
+		{
+			int[ ] ar = new int[numb];
+			ar[0] = ar[1] = 1;
+			for (int k = 2; k &lt; numb; k++)
+			ar[k] = ar[k - 1] + ar[k - 2];
+			return ar;
+		}
+		
+		static void Main( )
+		{
+			Action&lt;int [], string&gt; act = new Action&lt;int[], string&gt;(printArray);
+			Func&lt;int, int[]&gt; result = new Func&lt;int, int[]&gt;(fib);
+			act(fib(7),&quot;{0} &quot;);
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	1 1 2 3 5 8 13
+	</pre>
+
+	<p>Обобщенный метод printArray&lt;T&gt;() для вывода значений элементов массива мы уже приводили.</p>
+	<p>В этой программе он немного изменен – исключено умалчиваемое значение второго параметра, а в теле метода для перебора элементов массива применен цикл foreach.</p>
+	<p>Для представления такого метода можно использовать экземпляр реализации обобщенного делегата Action&lt;T1&gt;.</p>
+	<p>Обратите внимание, что второй параметр обобщенного метода printArray&lt;T&gt;() не типизирован и имеет фиксированный тип string.</p>
+	<p>Метод для создания массива со значениями членов ряда Фибоначчи fib(int numb) особенностей не имеет.</p>
+	<p>Параметр определяет число членов ряда, возвращаемый результат – ссылка на создаваемый массив.</p>
+	<p>Для представления такого метода можно использовать экземпляр реализации обобщенного делегата Func&lt;T1, TResult&gt;.</p>
+	<p>В основной программе (в методе Main) ссылка Action&lt;int [ ], string&gt; act связана с экземпляром делегата, представляющим конкретизацию метода printArray().</p>
+	<p>Первый типизирующий аргумент int [ ] обобщенного делегата Action&lt; &gt; определяет тип первого параметра метода <b>void printArray&lt;T&gt;(T[ ] ar, string format)</b>, а второй типизирующий аргумент соответствует фиксированному типу второго параметра метода.</p>
+	<p>Ссылка Func&lt;int, int[ ]&gt; result связана с экземпляром делегата, представляющим метод int[ ] fib(int numb).</p>
+	<p>После объявления указанных ссылок на экземпляры делегатов выражение act(fib(7),"{0} ") обеспечивает обращение к конкретизации метода printArray&lt;T&gt;(), который в свою очередь вызывает метод fib(int numb).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="107.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/108.html", "Обобщённые делегаты", "bm195"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm195", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm195") == 1) { document.getElementById("bma195").style.display = "block"; document.getElementById("bm195").style.display = "none"; } else { document.getElementById("bma195").style.display = "none"; document.getElementById("bm195").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обобщённые делегаты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm195", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1270" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1270" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Лучшие практики безопасности
+	</h1>
+
+    <p>Ниже мы рассмотрим основные принципы безопасности и опишем, как избежать угроз при разработке на Yii.</p>
+
+    <h2 id="title">
+        Основные принципы
+    </h2>
+
+    <p>Есть два основных принципа безопасности, независимо от того, какое приложение разрабатывается:</p>
+
+    <ol>
+        <li>Фильтрация ввода.</li>
+        <li>Экранирование вывода.</li>
+    </ol>
+
+    <h3 id="title">
+        Фильтрация ввода
+    </h3>
+
+    <p>Фильтрация ввода означает, что входные данные никогда не должны считаться безопасными и вы всегда должны проверять, являются ли полученные данные допустимыми.</p>
+    <p>Например, если мы знаем, что сортировка может быть осуществлена только по трём полям title, created_at и status, и поле может передаваться через ввод пользователем, лучше проверить значение там, где мы его получили:</p>
+
+    <pre class="brush: csharp;">
+    $sortBy = $_GET['sort'];
+    if (!in_array($sortBy, ['title', 'created_at', 'status'])) {
+        throw new Exception('Invalid sort value.');
+    }
+    </pre>
+
+    <p>В Yii, вы, скорее всего, будете использовать валидацию форм, чтоб делать такие проверки.</p>
+
+    <h3 id="title">
+        Экранирование вывода
+    </h3>
+
+    <p>Экранирование вывода означает, что данные в зависимости от контекста должны экранироваться, например в контексте HTML вы должны экранировать &lt;, &gt; и похожие специальные символы.</p>
+    <p>В контексте JavaScript или SQL будет другой набор символов.</p>
+    <p>Так как ручное экранирование чревато ошибками, Yii предоставляет различные утилиты для экранирования в различных контекстах.</p>
+
+    <h2 id="title">
+        Как избежать SQL-иньекций
+    </h2>
+
+    <p>SQL-иньекции происходят, когда текст запроса формируется склеиванием не экранированных строк, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    $username = $_GET['username'];
+    $sql = "SELECT * FROM user WHERE username = '$username'";
+    </pre>
+
+    <p>Вместо того, чтобы подставлять корректное имя пользователя, злоумышленник может передать вам в приложение что-то вроде '; DROP TABLE user; --.</p>
+    <p>В результате SQL будет следующий:</p>
+
+    <pre class="brush: csharp;">
+    SELECT * FROM user WHERE username = ''; DROP TABLE user; --'
+    </pre>
+
+    <p>Это валидный запрос, который сначала будет искать пользователей с пустым именем, а затем удалит таблицу user.</p>
+    <p>Скорее всего будет сломано приложение и будут потеряны данные (вы ведь делаете регулярное резервное копирование?).</p>
+    <p>Большинство запросов к базе данных в Yii происходит через Active Record, который правильно использует подготовленные запросы PDO внутри.</p>
+    <p>При использовании подготовленных запросов невозможно манипулировать запросом как это показано выше.</p>
+    <p>Тем не менее, иногда нужны сырые запросы или построитель запросов.</p>
+    <p>В этом случае вы должны использовать безопасные способы передачи данных.</p>
+    <p>Если данные используются для сравнения со значением столбцов предпочтительнее использовать подготовленные запросы:</p>
+
+    <pre class="brush: csharp;">
+    // query builder
+    $userIDs = (new Query())
+        ->select('id')
+        ->from('user')
+        ->where('status=:status', [':status' =&gt; $status])
+        ->all();
+    
+    // DAO
+    $userIDs = $connection
+        ->createCommand('SELECT id FROM user where status=:status')
+        ->bindValues([':status' =&gt; $status])
+        ->queryColumn();
+    </pre>
+
+    <p>Если данные используются в качестве имён столбцов или таблиц, то лучший путь - это разрешить только предопределённый набор значений:</p>
+
+    <pre class="brush: csharp;">
+    function actionList($orderBy = null)
+    {
+        if (!in_array($orderBy, ['name', 'status'])) {
+            throw new BadRequestHttpException('Only name and status are allowed to order by.')
+        }
+        
+        // ...
+    }
+    </pre>
+
+    <p>Если это невозможно, то имена столбцов и таблиц должны экранироваться.</p>
+    <p>Yii использует специальный синтаксис для экранирования для всех поддерживаемых баз данных:</p>
+
+    <pre class="brush: csharp;">
+    $sql = "SELECT COUNT([[$column]]) FROM {{table}}";
+    $rowCount = $connection->createCommand($sql)->queryScalar();
+    </pre>
+
+    <p>Вы можете получить подробную информацию о синтаксисе в Экранирование имён таблиц и столбцов.</p>
+
+    <h2 id="title">
+        Как избежать XSS
+    </h2>
+
+    <p>XSS или кросс-сайтинговый скриптинг становится возможен, когда не экранированный выходной HTML попадает в браузер.</p>
+    <p>Например, если пользователь должен ввести своё имя, но вместо Alexander он вводит &lt;script&gt;alert(&apos;Hello!&apos;);&lt;/script&gt;, то все страницы, которые его выводят без экранирования, будут выполнять JavaScript alert('Hello!');, и в результате будет выводиться окно сообщения в браузере.</p>
+    <p>В зависимости от сайта, вместо невинных скриптов с выводом всплывающего hello, злоумышленниками могут быть отправлены скрипты, похищающие личные данные пользователей сайта, либо выполняющие операции от их имени.</p>
+    <p>В Yii избежать XSS легко.</p>
+    <p>На месте вывода текста необходимо выбрать один из двух вариантов:</p>
+
+    <ol>
+        <li>Вы хотите вывести данные в виде обычного текста.</li>
+        <li>Вы хотите вывести данные в виде HTML.</li>
+    </ol>
+
+    <p>Если вам нужно вывести простой текст, то экранировать лучше следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= \yii\helpers\Html::encode($username) ?&gt;
+    </pre>
+
+    <p>Если нужно вывести HTML, вам лучше воспользоваться HtmlPurifier:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= \yii\helpers\HtmlPurifier::process($description) ?&gt;
+    </pre>
+
+    <p>Обратите внимание, что обработка с помощью HtmlPurifier довольно тяжела, так что неплохо бы задуматься о кешировании.</p>
+
+    <h2 id="title">
+        Как избежать CSRF
+    </h2>
+
+    <p>CSRF - это аббревиатура для межсайтинговой подмены запросов.</p>
+    <p>Идея заключается в том, что многие приложения предполагают, что запросы, приходящие от браузера, отправляются самим пользователем. Это может быть неправдой.</p>
+    <p>Например, сайт an.example.com имеет URL /logout, который, используя простой GET, разлогинивает пользователя.</p>
+    <p>Пока это запрос выполняется самим пользователем - всё в порядке, но в один прекрасный день злоумышленники размещают код &lt;img src=&quot;http://an.example.com/logout&quot;&gt; на форуме с большой посещаемостью.</p>
+    <p>Браузер не делает никаких отличий между запросом изображения и запросом страницы, так что когда пользователь откроет страницу с таким тегом img, браузер отправит GET запрос на указанный адрес, и пользователь будет разлогинен.</p>
+    <p>Вот основная идея.</p>
+    <p>Можно сказать, что в разлогировании пользователя нет ничего серьёзного, но с помощью этой уязвимости, можно выполнять опасные операции.</p>
+    <p>Представьте, что существует страница http://an.example.com/purse/transfer?to=anotherUser&amount=2000, обращение к которой с помощью GET запроса, приводит к перечислению 2000 единиц валюты со счета авторизированного пользователя на счет пользователя с логином anotherUser.</p>
+    <p>Учитывая, что браузер для загрузки контента отправляет GET запросы, можно подумать, что разрешение на выполнение такой операции только POST запросом на 100% обезопасит от проблем.</p>
+    <p>К сожалению, это не совсем правда.</p>
+    <p>Учитывайте, что вместо тега , злоумышленник может внедрить JavaScript код, который будет отправлять нужные POST запросы на этот URL.</p>
+    <p>Для того, чтоб избежать CSRF вы должны всегда:</p>
+
+    <ol>
+        <li>Следуйте спецификациям HTTP, например запрос GET не должен менять состояние приложения.</li>
+        <li>Держите защиту CSRF в Yii включенной.</li>
+    </ol>
+
+    <h2 id="title">
+        Как избежать нежелательного доступа к файлам
+    </h2>
+
+    <p>По умолчанию, webroot сервера указывает на каталог web, где лежит index.php.</p>
+    <p>В случае использования виртуального хостинга, это может быть недостижимо, в конечном итоге весь код, конфиги и логи могут оказаться в webroot сервера.</p>
+    <p>Если это так, то нужно запретить доступ ко всему, кроме директории web.</p>
+    <p>Если на вашем хостинге такое невозможно, рассмотрите возможность смены хостинга.</p>
+
+    <h2 id="title">
+        Как избежать отладочной информации и утилит в продуктиве
+    </h2>
+
+    <p>В режиме отладки, Yii отображает довольно подробные ошибки, которые полезны во время разработки.</p>
+    <p>Дело в том, что подробные ошибки удобны для нападающего, так как могут раскрыть структуру базы данных, параметров конфигурации и части вашего кода.</p>
+    <p>Никогда не запускайте продуктивное приложение с YII_DEBUG установленным в true в вашем index.php.</p>
+    <p>Вы никогда не должны включать Gii на продуктиве.</p>
+    <p>Он может быть использован для получения информации о структуре базы данных, кода и может позволить заменить файлы, генерируемые Gii автоматически.</p>
+    <p>Также следует избегать включения на продуктиве панели отладки, если только в этом нет острой необходимости.</p>
+    <p>Она раскрывает всё приложение и детали конфигурации.</p>
+    <p>Если вам все таки нужно запустить панель отладки на продуктиве, проверьте дважды что доступ ограничен только вашими IP-адресами.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="63.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="65.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/64.html", "Yii2: Лучшие практики", "bm1270"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1270", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1270") == 1) { document.getElementById("bma1270").style.display = "block"; document.getElementById("bm1270").style.display = "none"; } else { document.getElementById("bma1270").style.display = "none"; document.getElementById("bm1270").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Лучшие практики") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1270", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

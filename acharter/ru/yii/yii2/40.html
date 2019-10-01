@@ -1,0 +1,766 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1246" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1246" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Построитель запросов
+	</h1>
+
+    <p>Построенный поверх DAO, построитель запросов позволяет конструировать SQL выражения в программируемом и независимом от СУБД виде.</p>
+    <p>В сравнении с написанием чистого SQL выражения, использование построителя помогает вам писать более читаемый связанный с SQL код и генерировать более безопасные SQL выражения.</p>
+    <p>Использование построителя запросов, как правило, включает два этапа:</p>
+
+    <ol>
+        <li>Создание объекта [[yii\db\Query]] представляющего различные части (такие как SELECT, FROM) SQL выражения SELECT.</li>
+        <li>Выполнить запрос методом [[yii\db\Query]] (таким как all()) для извлечения данных из базы данных.</li>
+    </ol>
+
+    <p>Следующий код показывает обычное использование построителя запросов:</p>
+
+    <pre class="brush: csharp;">
+    $rows = (new \yii\db\Query())
+        ->select(['id', 'email'])
+        ->from('user')
+        ->where(['last_name' =&gt; 'Smith'])
+        ->limit(10)
+        ->all();
+    </pre>
+
+    <p>Приведённый выше код создаёт и выполняет следующее SQL выражение, где параметр :last_name привязывается к строке 'Smith'.</p>
+
+    <pre class="brush: csharp;">
+    SELECT `id`, `email` 
+    FROM `user`
+    WHERE `last_name` = :last_name
+    LIMIT 10
+    </pre>
+
+    <p><b>Информация:</b> В основном вы будете работать с [[yii\db\Query]] вместо [[yii\db\QueryBuilder]]. Последний вызывается неявно при вызове одного из методов запроса.</p>
+    <p>[[yii\db\QueryBuilder]] это класс, отвечающий за генерацию зависимого от СУБД SQL выражения (такие как экранирование имён таблиц/столбцов) из независимых от СУБД объектов [[yii\db\Query]].</p>
+
+    <h2 id="title">
+        Построение запросов
+    </h2>
+
+    <p>Создав объект [[yii\db\Query]], вы можете вызвать различные методы для создания различных частей SQL выражения.</p>
+    <p>Имена методов напоминают ключевые слова SQL, используемые в соответствующих частях SQL запроса.</p>
+    <p>Например, чтобы указать FROM часть запроса, вам нужно вызвать метод [[yii\db\Query::from()|from()]].</p>
+    <p>Все методы построителя запросов возвращают свой объект, который позволяет объединять несколько вызовов в цепочку.</p>
+    <p>Далее будет описание каждого метода построителя запросов.</p>
+
+    <h3 id="title">
+        [[yii\db\Query::select()|select()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::select()|select()]] определяет фрагмент SELECT SQL запроса.</p>
+    <p>Вы можете указать столбцы, которые должны быть выбраны, они должны быть указаны в виде массива или строки.</p>
+    <p>Имена столбцов автоматически экранируются при создании SQL-запроса при его генерации из объекта [[yii\db\Query]].</p>
+
+    <pre class="brush: csharp;">
+    $query->select(['id', 'email']);
+    
+    // эквивалентно:
+    
+    $query->select('id, email');
+    </pre>
+
+    <p>Имена столбцов могут быть выбраны вместе с префиксами таблиц и/или алиасами столбцов, также как при записи обычного SQL выражения.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->select(['user.id AS user_id', 'email']);
+    
+    // эквивалентно:
+    
+    $query->select('user.id AS user_id, email');
+    </pre>
+
+    <p>Если вы используете формат массива для указания столбцов, вы можете также указать ключи массива для указания алиасов столбцов.</p>
+    <p>Например, приведённый выше код может быть переписан:</p>
+
+    <pre class="brush: csharp;">
+    $query->select(['user_id' =&gt; 'user.id', 'email']);
+    </pre>
+
+    <p>Если вы не вызываете метод [[yii\db\Query::select()|select()]] при создании запроса, будет использована *, что означает выбрать все столбцы.</p>
+    <p>Кроме имён столбцов, вы можете также использовать SQL выражения.</p>
+    <p>Вы должны использовать формат массива для использования выражений, которые содержат запятые для предотвращения некорректного автоматического экранирования.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->select(["CONCAT(first_name, ' ', last_name) AS full_name", 'email']);
+    </pre>
+
+    <p>Начиная с версии 2.0.1, вы также можете использовать подзапросы.</p>
+    <p>Вы должны указывать каждый подзапрос в выражении как объект [[yii\db\Query]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $subQuery = (new Query())->select('COUNT(*)')->from('user');
+    
+    // SELECT `id`, (SELECT COUNT(*) FROM `user`) AS `count` FROM `post`
+    $query = (new Query())->select(['id', 'count' =&gt; $subQuery])->from('post');
+    </pre>
+
+    <p>Чтоб выбрать конкретные строки, вы можете вызвать метод [[yii\db\Query::distinct()|distinct()]]:</p>
+
+    <pre class="brush: csharp;">
+    // SELECT DISTINCT `user_id` ...
+    $query->select('user_id')->distinct();
+    </pre>
+
+    <p>Вы можете вызвать [[yii\db\Query::addSelect()|addSelect()]] для добавления полей.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->select(['id', 'username'])
+        ->addSelect(['email']);
+    </pre>
+
+    <h3 id="title">
+        [[yii\db\Query::from()|from()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::from()|from()]] указывает фрагмент FROM SQL запроса.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // SELECT * FROM `user`
+    $query->from('user');
+    </pre>
+
+    <p>Вы можете указать имена таблиц в виде строки или массива.</p>
+    <p>Имена таблиц могут содержать префикс схемы и/или алиасы таблиц, как при написании обычного SQL выражения.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->from(['public.user u', 'public.post p']);
+    
+    // эквивалентно:
+    
+    $query->from('public.user u, public.post p');
+    </pre>
+
+    <p>Если вы используете формат массива, вы можете использовать ключи массива для указания алиасов:</p>
+
+    <pre class="brush: csharp;">
+    $query->from(['u' =&gt; 'public.user', 'p' =&gt; 'public.post']);
+    </pre>
+
+    <p>Кроме имён таблиц, вы можете, также, как и в select, указывать подзапросы в виде объекта [[yii\db\Query]].</p>
+
+    <pre class="brush: csharp;">
+    $subQuery = (new Query())->select('id')->from('user')->where('status=1');
+    
+    // SELECT * FROM (SELECT `id` FROM `user` WHERE status=1) u 
+    $query->from(['u' =&gt; $subQuery]);
+    </pre>
+
+    <h4 id="title">
+        Префиксы
+    </h4>
+
+    <p>Также может применяться [[yii\db\Connection::$tablePrefix|tablePrefix]] по умолчанию.</p>
+    <p>Подробное описание смотрите в подразделе «Экранирование имён таблиц и столбцов» раздела «Объекты доступа к данным (DAO)».</p>
+
+    <h3 id="title">
+        [[yii\db\Query::where()|where()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::where()|where()]] определяет фрагмент WHERE SQL выражения.</p>
+    <p>Вы можете использовать один из трёх форматов:</p>
+
+    <ol>
+        <li>строковый формат, Например, 'status=1'</li>
+        <li>формат массива, Например, ['status' =&gt; 1, 'type' =&gt; 2]</li>
+        <li>формат операторов, Например, ['like', 'name', 'test']</li>
+    </ol>
+
+    <h4 id="title">
+        Строковый формат
+    </h4>
+
+    <p>Строковый формат - это лучший выбор для простых условий.</p>
+    <p>Он работает так, будто вы просто пишете SQL запрос.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->where('status=1');
+    
+    // или используя привязку параметров
+    $query->where('status=:status', [':status' =&gt; $status]);
+    </pre>
+
+    <p>Не встраивайте переменные непосредственно в условие, особенно если значение переменной получено от пользователя, потому что это делает ваше приложение подверженным атакам через SQL инъекции.</p>
+
+    <pre class="brush: csharp;">
+    // Опасность! Не делайте так если вы не уверены, что $status это действительно число.
+    $query->where("status=$status");
+    </pre>
+
+    <p>При использовании привязки параметров, вы можете вызывать [[yii\db\Query::params()|params()]] или [[yii\db\Query::addParams()|addParams()]] для раздельного указания параметров.</p>
+
+    <pre class="brush: csharp;">
+    $query->where('status=:status')
+        ->addParams([':status' =&gt; $status]);
+    </pre>
+
+    <h4 id="title">
+        Формат массива
+    </h4>
+
+    <p>Формат массива лучше всего использовать для указания нескольких объединяемых через AND условий, каждое из которых является простым равенством.</p>
+    <p>Он описывается в виде массива, ключами которого являются имена столбцов, а значения соответствуют значениям столбцов.</p>
+
+    <pre class="brush: csharp;">
+    // ...WHERE (`status` = 10) AND (`type` IS NULL) AND (`id` IN (4, 8, 15))
+    $query->where([
+        'status' =&gt; 10,
+        'type' =&gt; null,
+        'id' =&gt; [4, 8, 15],
+    ]);
+    </pre>
+
+    <p>Как вы можете видеть, построитель запросов достаточно умен, чтобы правильно обрабатывать значения null или массивов.</p>
+    <p>Вы также можете использовать подзапросы:</p>
+
+    <pre class="brush: csharp;">
+    $userQuery = (new Query())->select('id')->from('user');
+    
+    // ...WHERE `id` IN (SELECT `id` FROM `user`)
+    $query->where(['id' =&gt; $userQuery]);
+    </pre>
+
+    <h4 id="title">
+        Формат операторов
+    </h4>
+
+    <p>Формат оператора позволяет задавать произвольные условия в программном стиле.</p>
+    <p>Он имеет следующий вид:</p>
+
+    <pre class="brush: csharp;">
+    [operator, operand1, operand2, ...]
+    </pre>
+
+    <p>Операнды могут быть заданы в виде строкового формата, формата массива или формата операторов рекурсивно, в то время как оператор может быть одним из следующих:</p>
+
+    <ul>
+        <li><b>and:</b> операнды должны быть объединены с помощью оператора AND. Например, ['and', 'id=1', 'id=2'] сгенерирует id=1 AND id=2. Если операнд массив, он будет сконвертирован в строку по правилам описанным ниже. Например, ['and', 'type=1', ['or', 'id=1', 'id=2']] сгенерирует type=1 AND (id=1 OR id=2). Этот метод не производит никакого экранирования.</li>
+        <li><b>or:</b> похож на оператор and за исключением того, что будет использоваться оператор OR.</li>
+        <li><b>between:</b> первый операнд должен быть именем столбца, а второй и третий оператор должны быть начальным и конечным значением диапазона. Например, ['between', 'id', 1, 10] сгенерирует id BETWEEN 1 AND 10.</li>
+        <li><b>not between:</b> похож на between за исключением того, что BETWEEN заменяется на NOT BETWEEN в сгенерированном условии.</li>
+        <li><b>in:</b> первый операнд должен быть столбцом или выражением БД. Второй операнд может быть либо массивом, либо объектом Query. Будет сгенерировано условие IN. Если второй операнд массив, он будет представлять набор значений, которым может быть равен столбец или выражение БД; Если второй операнд объект Query, будет сформирован подзапрос, который будет использован как диапазон для столбца или выражения БД. Например, ['in', 'id', [1, 2, 3]] сформирует id IN (1, 2, 3). Метод будет правильно экранировать имя столбца и значения диапазона. Оператор in также поддерживает составные столбцы. В этом случае, первый операнд должен быть массивом названий столбцов, в то время как операнд 2 должен быть массивом массивов или объектом Query представляющим диапазоны для столбцов.</li>
+        <li><b>not in:</b> похож на оператор in, кроме того что IN будет заменён на NOT IN в сформированном условии.</li>
+        <li><b>like:</b> первый операнд должен быть столбцом или выражением БД, а второй операнд будет строкой или массивом представляющим значения, на которые должны быть похожи столбцы или выражения БД. Например, ['like', 'name', 'tester'] сформирует name LIKE '%tester%'. Когда диапазон значений задан в виде массива, несколько LIKE утверждений будут сформированы и соединены с помощью AND. Например, ['like', 'name', ['test', 'sample']] сформирует name LIKE '%test%' AND name LIKE '%sample%'. Вы также можете передать третий необязательный операнд, для указания способа экранирования специальных символов в значениях. Операнд должен быть представлен массивом соответствия специальных символов их экранированным аналогам. Если этот операнд не задан, то будет использовано соответствие по умолчанию. Вы можете также использовать значение false или пустой массив, чтоб указать что значения уже экранированы. Обратите внимание, что при использовании массива соответствия экранирования (или если третий операнд не передан), значения будут автоматически заключены в символы процентов.<br /><br /><b>Примечание:</b> При использовании PostgreSQL вы можете использовать также ilike вместо like для регистронезависимого поиска.</li>
+        <li><b>or like:</b> похож на оператор like, только утверждения LIKE будут объединяться с помощью оператора OR, если второй операнд будет представлен массивом.</li>
+        <li><b>not like:</b> похож на оператор like, только LIKE будет заменён на NOT LIKE в сгенерированном условии.</li>
+        <li><b>or not like:</b> похож на оператор not like, только утверждения NOT LIKE будут объединены с помощью OR.</li>
+        <li><b>exists:</b> требует один операнд, который должен быть экземпляром [[yii\db\Query]] представляющим подзапрос. Будет сгенерировано выражение EXISTS (sub-query).</li>
+        <li><b>not exists:</b> похож на оператор exists и сформирует выражение NOT EXISTS (sub-query).</li>
+        <li><b>&gt;, &lt;=,</b> или другие валидные операторы БД, которые требуют двух операндов: первый операнд должен быть именем столбца, второй операнд это значение. Например, ['>', 'age', 10] сформирует age>10.</li>
+    </ul>
+
+    <h4 id="title">
+        Добавление условий
+    </h4>
+
+    <p>Вы можете использовать [[yii\db\Query::andWhere()|andWhere()]] или [[yii\db\Query::orWhere()|orWhere()]] для добавления дополнительных условий.</p>
+    <p>Вы можете использовать эти вызовы несколько раз для добавления нескольких условий.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $status = 10;
+    $search = 'yii';
+    
+    $query->where(['status' =&gt; $status]);
+    
+    if (!empty($search)) {
+        $query->andWhere(['like', 'title', $search]);
+    }
+    </pre>
+
+    <p>Если $search не пустое, то будет сформировано следующее условие WHERE:</p>
+
+    <pre class="brush: csharp;">
+    WHERE (`status` = 10) AND (`title` LIKE '%yii%')
+    </pre>
+
+    <h4 id="title">
+        Условия для фильтров
+    </h4>
+
+    <p>Когда условие WHERE формируется на основе пользовательского ввода, обычно, хочется проигнорировать не заданные значения.</p>
+    <p>Например, в форме поиска, которая позволяет осуществлять поиск по имени пользователя или email, вы хотели бы игнорировать username/email условие, если пользователь ничего не ввёл в поле ввода.</p>
+    <p>Вы можете достичь этого используя метод [[yii\db\Query::filterWhere()|filterWhere()]].</p>
+
+    <pre class="brush: csharp;">
+    // $username и $email вводит пользователь
+    $query->filterWhere([
+        'username' =&gt; $username,
+        'email' =&gt; $email,
+    ]);
+    </pre>
+
+    <p>Единственное отличие между [[yii\db\Query::filterWhere()|filterWhere()]] и [[yii\db\Query::where()|where()]] заключается в игнорировании пустых значений, переданных в условие в форме массива.</p>
+    <p>Таким образом если $email будет пустым, а $username нет, то приведённый выше код сформирует условие WHERE username=:username.</p>
+    <p><b>Информация:</b> значение признаётся пустым, если это null, пустой массив, пустая строка или строка состоящая из одних пробельных символов.</p>
+    <p>Также вместо [[yii\db\Query::andWhere()|andWhere()]] и [[yii\db\Query::orWhere()|orWhere()]], вы можете использовать [[yii\db\Query::andFilterWhere()|andFilterWhere()]] и [[yii\db\Query::orFilterWhere()|orFilterWhere()]] для добавления дополнительных условий фильтрации.</p>
+
+    <h3 id="title">
+        [[yii\db\Query::orderBy()|orderBy()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::orderBy()|orderBy()]] определяет фрагмент ORDER BY SQL выражения.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // ... ORDER BY `id` ASC, `name` DESC
+    $query->orderBy([
+        'id' =&gt; SORT_ASC,
+        'name' =&gt; SORT_DESC,
+    ]);
+    </pre>
+
+    <p>В данном коде, ключи массива - это имена столбцов, а значения массива - это соответствующее направление сортировки.</p>
+    <p>PHP константа SORT_ASC определяет сортировку по возрастанию и SORT_DESC сортировка по умолчанию.</p>
+    <p>Если ORDER BY содержит только простые имена столбцов, вы можете определить их с помощью столбцов, также как и при написании обычного SQL.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->orderBy('id ASC, name DESC');
+    </pre>
+
+    <p><b>Примечание:</b> Вы должны использовать массив для указания ORDER BY содержащих выражения БД.</p>
+    <p>Вы можете вызывать [[yii\db\Query::addOrderBy()|addOrderBy()]] для добавления столбцов в фрагмент ORDER BY.</p>
+
+    <pre class="brush: csharp;">
+    $query->orderBy('id ASC')
+        ->addOrderBy('name DESC');
+    </pre>
+
+    <h3 id="title">
+        [[yii\db\Query::groupBy()|groupBy()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::groupBy()|groupBy()]] определяет фрагмент GROUP BY SQL запроса.</p>
+
+    <pre class="brush: csharp;">
+    // ... GROUP BY `id`, `status`
+    $query->groupBy(['id', 'status']);
+    </pre>
+
+    <p>Если фрагмент GROUP BY содержит только простые имена столбцов, вы можете указать их используя строку, также как в обычном SQL выражении.</p>
+
+    <pre class="brush: csharp;">
+    $query->groupBy('id, status');
+    </pre>
+
+    <p>Примечание: Вы должны использовать массив для указания GROUP BY содержащих выражения БД.</p>
+    <p>Вы можете вызывать [[yii\db\Query::addGroupBy()|addGroupBy()]] для добавления имён столбцов в фрагмент GROUP BY.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->groupBy(['id', 'status'])
+        ->addGroupBy('age');
+    </pre>
+
+    <h3 id="title">
+        [[yii\db\Query::having()|having()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::having()|having()]] определяет фрагмент HAVING SQL запроса.</p>
+    <p>Он принимает условия, которое может быть определено тем же способом, что и для where().</p>
+
+    <pre class="brush: csharp;">
+    // ... HAVING `status` = 1
+    $query->having(['status' =&gt; 1]);
+    </pre>
+
+    <p>Пожалуйста, обратитесь к документации для where() для более подробной информации о определении условий.</p>
+    <p>Вы можете вызывать [[yii\db\Query::andHaving()|andHaving()]] или [[yii\db\Query::orHaving()|orHaving()]] для добавления дополнительных условий в фрагмент HAVING.</p>
+
+    <pre class="brush: csharp;">
+    // ... HAVING (`status` = 1) AND (`age` > 30)
+    $query->having(['status' =&gt; 1])
+        ->andHaving(['>', 'age', 30]);
+    </pre>
+
+    <h3 id="title">
+        [[yii\db\Query::limit()|limit()]] и [[yii\db\Query::offset()|offset()]]
+    </h3>
+
+    <p>Методы [[yii\db\Query::limit()|limit()]] и [[yii\db\Query::offset()|offset()]] определяют фрагменты LIMIT и OFFSET SQL запроса.</p>
+
+    <pre class="brush: csharp;">
+    // ... LIMIT 10 OFFSET 20
+    $query->limit(10)->offset(20);
+    </pre>
+
+    <p>Если вы определяете неправильный limit или offset (например отрицательное значение), они будут проигнорированы.</p>
+    <p><b>Информация:</b> Для СУБД, которые не поддерживают LIMIT и OFFSET (такие как MSSQL), построитель запросов будет генерировать SQL выражения, которые эмулирует поведение LIMIT/OFFSET.</p>
+
+    <h3 id="title">
+        [[yii\db\Query::join()|join()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::join()|join()]] определяет фрагмент JOIN SQL запроса.</p>
+
+    <pre class="brush: csharp;">
+    // ... LEFT JOIN `post` ON `post`.`user_id` = `user`.`id`
+    $query->join('LEFT JOIN', 'post', 'post.user_id = user.id');
+    </pre>
+
+    <p>Метод [[yii\db\Query::join()|join()]] принимает четыре параметра:</p>
+
+    <ul>
+        <li>$type: тип объединения, например, 'INNER JOIN', 'LEFT JOIN'.</li>
+        <li>$table: имя таблицы, которая должна быть присоединена.</li>
+        <li>$on: необязательное условие объединения, то есть фрагмент ON. Пожалуйста, обратитесь к документации для where() для более подробной информации о определении условий. Отметим, что синтаксис массивов не работает для задания условий для столбцов, то есть ['user.id' =&gt; 'comment.userId'] будет означать условие, где ID пользователя должен быть равен строке 'comment.userId'. Вместо этого стоит указывать условие в виде строки 'user.id = comment.userId'.</li>
+        <li>$params: необязательные параметры присоединяемые к условию объединения.</li>
+    </ul>
+
+    <p>Вы можете использовать следующие сокращающие методы для указания INNER JOIN, LEFT JOIN и RIGHT JOIN, в указанном порядке.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\Query::innerJoin()|innerJoin()]]
+    [[yii\db\Query::leftJoin()|leftJoin()]]
+    [[yii\db\Query::rightJoin()|rightJoin()]]
+    </pre>
+
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query->leftJoin('post', 'post.user_id = user.id');
+    </pre>
+
+    <p>Для соединения с несколькими таблицами, вызовите вышеуказанные методы несколько раз.</p>
+    <p>Кроме соединения с таблицами, вы можете также присоединять подзапросы.</p>
+    <p>Чтобы это сделать, укажите объединяемый подзапрос как объект [[yii\db\Query]].</p>
+
+    <pre class="brush: csharp;">
+    $subQuery = (new \yii\db\Query())->from('post');
+    $query->leftJoin(['u' =&gt; $subQuery], 'u.id = author_id');
+    </pre>
+
+    <p>В этом случае, вы должны передать подзапросы в массиве и использовать ключи для определения алиасов.</p>
+
+    <h3 id="title">
+        [[yii\db\Query::union()|union()]]
+    </h3>
+
+    <p>Метод [[yii\db\Query::union()|union()]] определяет фрагмент UNION SQL запроса.</p>
+
+    <pre class="brush: csharp;">
+    $query1 = (new \yii\db\Query())
+        ->select("id, category_id AS type, name")
+        ->from('post')
+        ->limit(10);
+    
+    $query2 = (new \yii\db\Query())
+        ->select('id, type, name')
+        ->from('user')
+        ->limit(10);
+    
+    $query1->union($query2);
+    </pre>
+
+    <p>Вы можете вызвать [[yii\db\Query::union()|union()]] несколько раз для присоединения фрагментов UNION.</p>
+
+    <h2 id="title">
+        Методы выборки
+    </h2>
+
+    <p>[[yii\db\Query]] предоставляет целый набор методов для разных вариантов выборки:</p>
+
+    <ul>
+        <li>[[yii\db\Query::all()|all()]]: возвращает массив строк, каждая из которых это ассоциативный массив пар ключ-значение.</li>
+        <li>[[yii\db\Query::one()|one()]]: возвращает первую строку запроса.</li>
+        <li>[[yii\db\Query::column()|column()]]: возвращает первый столбец результата.</li>
+        <li>[[yii\db\Query::scalar()|scalar()]]: возвращает скалярное значение первого столбца первой строки результата.</li>
+        <li>[[yii\db\Query::exists()|exists()]]: возвращает значение указывающее, что выборка содержит результат.</li>
+        <li>[[yii\db\Query::count()|count()]]: возвращает результат COUNT запроса.</li>
+        <li>Другие методы агрегирования запросов, включая [[yii\db\Query::sum()|sum($q)]], [[yii\db\Query::average()|average($q)]], [[yii\db\Query::max()|max($q)]], [[yii\db\Query::min()|min($q)]]. Параметр $q обязателен для этих методов и могут содержать либо имя столбца, либо выражение БД.</li>
+    </ul>
+
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // SELECT `id`, `email` FROM `user`
+    $rows = (new \yii\db\Query())
+        ->select(['id', 'email'])
+        ->from('user')
+        ->all();
+        
+    // SELECT * FROM `user` WHERE `username` LIKE `%test%`
+    $row = (new \yii\db\Query())
+        ->from('user')
+        ->where(['like', 'username', 'test'])
+        ->one();
+    </pre>
+
+    <p><b>Примечание:</b> метод [[yii\db\Query::one()|one()]] вернёт только первую строку результата запроса. Он НЕ добавляет LIMIT 1 в генерируемый SQL. Это хорошо и предпочтительно если вы знаете, что запрос вернёт только одну или несколько строк данных (например, при запросе по первичному ключу). Однако, если запрос потенциально может вернут много строк данных, вы должны вызвать limit(1) для повышения производительности, Например, (new \yii\db\Query())->from('user')->limit(1)->one().</p>
+    <p>Все методы выборки могут получать необязательный параметр $db, представляющий [[yii\db\Connection|соединение с БД]], которое должно использоваться, чтобы выполнить запрос к БД.</p>
+    <p>Если вы упускаете этот параметр, будет использоваться компонент приложения $db.</p>
+    <p>Ниже приведён ещё один пример использования метода [[yii\db\Query::count()|count()]]:</p>
+
+    <pre class="brush: csharp;">
+    // executes SQL: SELECT COUNT(*) FROM `user` WHERE `last_name`=:last_name
+    $count = (new \yii\db\Query())
+        ->from('user')
+        ->where(['last_name' =&gt; 'Smith'])
+        ->count();
+    </pre>
+
+    <p>При вызове методов выборки [[yii\db\Query]], внутри на самом деле проводится следующая работа:</p>
+
+    <ul>
+        <li>Вызывается [[yii\db\QueryBuilder]] для генерации SQL запроса на основе текущего [[yii\db\Query]];</li>
+        <li>Создаёт объект [[yii\db\Command]] с сгенерированным SQL запросом;</li>
+        <li>Вызывается выбирающий метод (например [[yii\db\Command::queryAll()|queryAll()]]) из [[yii\db\Command]] для выполнения SQL запроса и извлечения данных.</li>
+    </ul>
+
+    <p>Иногда вы можете захотеть увидеть или использовать SQL запрос построенный из объекта [[yii\db\Query]].</p>
+    <p>Этой цели можно добиться с помощью следующего кода:</p>
+
+    <pre class="brush: csharp;">
+    $command = (new \yii\db\Query())
+        ->select(['id', 'email'])
+        ->from('user')
+        ->where(['last_name' =&gt; 'Smith'])
+        ->limit(10)
+        ->createCommand();
+        
+    // показать SQL запрос
+    echo $command->sql;
+    // показать привязываемые параметры
+    print_r($command->params);
+    
+    // возвращает все строки запроса
+    $rows = $command->queryAll();
+    </pre>
+
+    <h3 id="title">
+        Индексация результатов запроса
+    </h3>
+
+    <p>При вызове [[yii\db\Query::all()|all()]] возвращается массив строк индексированный последовательными целыми числами.</p>
+    <p>Иногда вам может потребоваться индексировать его по-другому, например, сделать индекс по указанному столбцу или значением выражения.</p>
+    <p>Вы можете реализовать такое поведение через вызов [[yii\db\Query::indexBy()|indexBy()]] перед вызовом [[yii\db\Query::all()|all()]].</p>
+
+    <pre class="brush: csharp;">
+    // возвращает [100 =&gt; ['id' =&gt; 100, 'username' =&gt; '...', ...], 101 =&gt; [...], 103 =&gt; [...], ...]
+    $query = (new \yii\db\Query())
+        ->from('user')
+        ->limit(10)
+        ->indexBy('id')
+        ->all();
+    </pre>
+
+    <p>Для индексации по значению выражения, передайте анонимную функцию в метод [[yii\db\Query::indexBy()|indexBy()]]:</p>
+
+    <pre class="brush: csharp;">
+    $query = (new \yii\db\Query())
+        ->from('user')
+        ->indexBy(function ($row) {
+            return $row['id'] . $row['username'];
+        })->all();
+    </pre>
+
+    <p>Анонимная функция должна принимать параметр $row, который содержит текущую строку запроса и должна вернуть скалярное значение, которое будет использоваться как значение индекса для текущей строки.</p>
+
+    <h3 id="title">
+        Пакетная выборка
+    </h3>
+
+    <p>При работе с большими объемами данных, методы на подобие [[yii\db\Query::all()]] не подходят, потому что они требуют загрузки всех данных в память.</p>
+    <p>Чтобы сохранить требования к памяти минимальными, Yii предоставляет поддержку так называемых пакетных выборок.</p>
+    <p>Пакетная выборка делает возможным курсоры данных и выборку данных пакетами.</p>
+    <p>Пакетная выборка может использоваться следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    use yii\db\Query;
+    
+    $query = (new Query())
+        ->from('user')
+        ->orderBy('id');
+    
+    foreach ($query->batch() as $users) {
+        // $users это массив из 100 или менее строк из таблицы пользователей
+    }
+    
+    // или если вы хотите перебрать все строки по одной
+    foreach ($query->each() as $user) {
+        // $user представляет одну строку из выборки
+    }
+    </pre>
+
+    <p>Метод [[yii\db\Query::batch()]] и [[yii\db\Query::each()]] возвращает объект [[yii\db\BatchQueryResult]], который реализует интерфейс Iterator и может использоваться в конструкции foreach.</p>
+    <p>Во время первой итерации будет выполнен SQL запрос к базе данных.</p>
+    <p>Данные будут выбираться пакетами в следующих итерациях.</p>
+    <p>По умолчанию, размер пакета имеет размер 100, то есть при каждой выборке будет выбираться по 100 строк.</p>
+    <p>Вы можете изменить размер пакета, передав первый параметр в метод batch() или each().</p>
+    <p>По сравнению с [[yii\db\Query::all()]], пакетная выборка загружает только по 100 строк данных за раз в память.</p>
+    <p>Если вы обрабатываете данные и затем сразу выбрасываете их, пакетная выборка может помочь уменьшить использование памяти.</p>
+    <p>Если указать индексный столбец через [[yii\db\Query::indexBy()]], в пакетной выборке индекс будет сохранятся.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query = (new \yii\db\Query())
+        ->from('user')
+        ->indexBy('username');
+    
+    foreach ($query->batch() as $users) {
+        // $users индексируется по столбцу "username"
+    }
+    
+    foreach ($query->each() as $username =&gt; $user) {
+        // ...
+    }
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="39.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="41.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/40.html", "Yii2: Построитель запросов", "bm1246"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1246", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1246") == 1) { document.getElementById("bma1246").style.display = "block"; document.getElementById("bm1246").style.display = "none"; } else { document.getElementById("bma1246").style.display = "none"; document.getElementById("bm1246").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Построитель запросов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1246", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

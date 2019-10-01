@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1199" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1199" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Веб-сервисы Yii
+	</h1>
+
+    <p>Веб-сервис — программная система, разработанная для обеспечения взаимодействия между несколькими компьютерами через сеть.</p>
+    <p>В веб-приложении это обычно набор API, который можно использовать через интернет для выполнения действий на удалённом сервере, обслуживающем веб-сервис.</p>
+    <p>К примеру, клиент, основанный на Flex, может вызывать функции, реализованные на сервере в PHP-приложении.</p>
+    <p>В качестве базового уровня протокола используется SOAP.</p>
+    <p>Для того, чтобы упростить задачу создания веб-сервиса, в Yii включены CWebService и CWebServiceAction.</p>
+    <p>API сгруппированы по классам, которые называются провайдерами.</p>
+    <p>Для каждого класса Yii генерирует WSDL, описывающий функционал предоставляемого API и правила его использования клиентом.</p>
+    <p>При обработке вызова клиента, Yii создаёт соответствующий ему экземпляр провайдера, вызывает метод API и отвечает на запрос.</p>
+    <p>Примечание: Для работы CWebService требуется расширение PHP SOAP.</p>
+    <p>Убедитесь, что оно включено, прежде, чем пробовать примеры, описанные далее.</p>
+
+    <h2 id="title">
+        Создание провайдера
+    </h2>
+
+    <p>Как уже было описано, провайдер — это класс, реализующий методы, которые могут быть вызваны удалённо.</p>
+    <p>Для того, чтобы определить, какие методы могут быть вызваны удалённо и какое значение возвращать, Yii использует специальные комментарии и reflection.</p>
+    <p>Попробуем реализовать простой сервис, отдающий информацию о котировках акций определённой компании.</p>
+    <p>Для этого нам потребуется реализовать провайдер, как показано ниже.</p>
+    <p>Стоит отметить, что наследуем класс провайдера StockController от CController.</p>
+    <p>Наследование не является обязательным.</p>
+
+    <pre class="brush: csharp;">
+    class StockController extends CController
+    {
+        /**
+         * @param string индекс предприятия
+         * @return float цена
+         * @soap
+         */
+        public function getPrice($symbol)
+        {
+            $prices=array('IBM'=>100, 'GOOGLE'=>350);
+            return isset($prices[$symbol])?$prices[$symbol]:0;
+            //…возвращаем цену для компании с индексом $symbol
+        }
+    }
+    </pre>
+
+    <p>Выше мы описали, что метод getPrice является частью API веб-сервиса, пометив его в комментарии тэгом @soap.</p>
+    <p>Там же мы описали типы параметров и возвращаемого значения.</p>
+    <p>Дополнительные методы API могут быть описаны точно таким же образом.</p>
+
+    <h2 id="title">
+        Реализация действия веб-сервиса
+    </h2>
+
+    <p>После создания провайдера необходимо сделать его доступным для клиентов.</p>
+    <p>Для этого необходимо описать действие контроллера CWebServiceAction.</p>
+    <p>В нашем примере мы используем StockController:</p>
+
+    <pre class="brush: csharp;">
+    class StockController extends CController
+    {
+        public function actions()
+        {
+            return array(
+                'quote'=>array(
+                    'class'=>'CWebServiceAction',
+                ),
+            );
+        }
+     
+        /**
+         * @param string индекс предприятия
+         * @return float цена
+         * @soap
+         */
+        public function getPrice($symbol)
+        {
+            //…возвращаем цену для компании с индексом $symbol
+        }
+    }
+    </pre>
+
+    <p>Это всё, что требуется для создания веб-сервиса.</p>
+    <p>Теперь при обращении к URL</p>
+
+    <pre class="brush: csharp;">
+        http://hostname/path/to/index.php?r=stock/quote
+    </pre>
+
+    <p>мы получим объёмистый XML, на самом деле являющийся WSDL описанного нами веб-сервиса.</p>
+    <p><b>Подсказка:</b> По умолчанию, при использовании CWebServiceAction подразумевается, что текущий контроллер является провайдером.</p>
+    <p>Именно поэтому мы определили метод getPrice в классе StockController.</p>
+
+    <h2 id="title">
+        Использование веб-сервиса
+    </h2>
+
+    <p>Для того, чтобы наш пример был полным, создадим клиент, использующий веб-сервис, который мы только что создали.</p>
+    <p>В примере клиент будет написан на PHP, но для его реализации можно использовать и другие языки, такие как Java, C#, Flex и т.д.</p>
+
+    <pre class="brush: csharp;">
+    $client=new SoapClient('http://hostname/path/to/index.php?r=stock/quote');
+    echo $client->getPrice('GOOGLE');
+    </pre>
+
+    <p>Запустив данный скрипт через браузер или в консоли, вы должны получить 350, что соответствует цене акций GOOGLE.</p>
+
+    <h2 id="title">
+        Типы данных
+    </h2>
+
+    <p>При описании методов и свойств класса, которые должны быть доступны через веб-сервис, нам необходимо определить типы параметров и возвращаемых значений.</p>
+    <p>Для этого могут быть использованы следующие типы:</p>
+
+    <ul>
+        <li>str/string: соответствует xsd:string;</li>
+        <li>int/integer: соответствует xsd:int;</li>
+        <li>float/double: соответствует xsd:float;</li>
+        <li>bool/boolean: соответствует xsd:boolean;</li>
+        <li>date: соответствует xsd:date;</li>
+        <li>time: соответствует xsd:time;</li>
+        <li>datetime: соответствует xsd:dateTime;</li>
+        <li>array: соответствует xsd:string;</li>
+        <li>object: соответствует xsd:struct;</li>
+        <li>mixed: соответствует xsd:anyType.</li>
+    </ul>
+
+    <p>Если тип не является одним из приведённых выше, он воспринимается как составной тип, состоящий из свойств.</p>
+    <p>Этот тип соответствует классу, а его свойства — public-переменным класса, отмеченных в комментариях @soap.</p>
+    <p>Также можно использовать массивы.</p>
+    <p>Для этого необходимо дописать [] в конец примитивного или составного типа.</p>
+    <p>Таким образом мы получим массив с элементами заданного типа.</p>
+    <p>Ниже приведён пример определения метода API getPosts, возвращающего массив объектов класса Post.</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        /**
+         * @return Post[] список записей
+         * @soap
+         */
+        public function getPosts()
+        {
+            return Post::model()->findAll();
+        }
+    }
+     
+    class Post extends CActiveRecord
+    {
+        /**
+         * @var integer ID записи
+         * @soap
+         */
+        public $id;
+        /**
+         * @var string заголовок записи
+         * @soap
+         */
+        public $title;
+     
+        public static function model($className=__CLASS__)
+        {
+            return parent::model($className);
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Сопоставление классов
+    </h2>
+
+    <p>Для получения от клиента параметров составного типа, в приложении должны быть заданы соответствия типов WSDL классам PHP.</p>
+    <p>Для этого необходимо настроить свойство classMap класса CWebServiceAction.</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        public function actions()
+        {
+            return array(
+                'service'=>array(
+                    'class'=>'CWebServiceAction',
+                    'classMap'=>array(
+                        'Post'=>'Post',  // или просто 'Post'
+                    ),
+                ),
+            );
+        }
+        …
+    }
+    </pre>
+
+    <h2 id="title">
+        Перехват удалённого вызова метода
+    </h2>
+
+    <p>Если реализован интерфейс IWebServiceProvider, провайдер может перехватывать удалённые вызовы методов.</p>
+    <p>Используя IWebServiceProvider::beforeWebMethod можно получить текущий экземпляр CWebService.</p>
+    <p>Через CWebService::methodName — название вызываемого метода.</p>
+    <p>Если метод по каким либо причинам (например, отсутствие прав на его выполнение) не должен быть вызван, необходимо вернуть false.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="47.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="49.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/48.html", "Веб-сервисы Yii", "bm1199"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1199", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1199") == 1) { document.getElementById("bma1199").style.display = "block"; document.getElementById("bm1199").style.display = "none"; } else { document.getElementById("bma1199").style.display = "none"; document.getElementById("bm1199").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Веб-сервисы Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1199", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

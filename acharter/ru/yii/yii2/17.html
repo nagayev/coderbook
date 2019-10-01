@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1223" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1223" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Модули
+	</h1>
+
+    <p>Модули - это законченные программные блоки, состоящие из моделей, представлений, контроллеров и других вспомогательных компонентов.</p>
+    <p>При установке модулей в приложение, конечный пользователь получает доступ к их контроллерам.</p>
+    <p>По этой причине модули часто рассматриваются как миниатюрные приложения.</p>
+    <p>В отличии от приложений, модули нельзя развертывать отдельно.</p>
+    <p>Модули должны находиться внутри приложений.</p>
+
+    <h2 id="title">
+        Создание модулей
+    </h2>
+
+    <p>Модуль помещается в директорию, которая называется [[yii\base\Module::basePath|базовым путем]] модуля.</p>
+    <p>Так же как и в директории приложения, в этой директории существуют поддиректории controllers, models, views и другие, в которых размещаются контроллеры, модели, представления и другие элементы.</p>
+    <p>В следующем примере показано примерное содержимое модуля:</p>
+
+    <pre class="brush: csharp;">
+    forum/
+        Module.php                   файл класса модуля
+        controllers/                 содержит файлы классов контроллеров
+            DefaultController.php    файл класса контроллера по умолчанию
+        models/                      содержит файлы классов моделей
+        views/                       содержит файлы представлений контроллеров и шаблонов
+            layouts/                 содержит файлы представлений шаблонов
+            default/                 содержит файлы представления контроллера DefaultController
+                index.php            файл основного представления
+    </pre>
+
+    <h3 id="title">
+        Классы модулей
+    </h3>
+
+    <p>Каждый модуль объявляется с помощью уникального класса, который наследуется от [[yii\base\Module]].</p>
+    <p>Этот класс должен быть помещен в корне [[yii\base\Module::basePath|базового пути]] модуля и поддерживать автозагрузку.</p>
+    <p>Во время доступа к модулю будет создан один экземпляр соответствующего класса модуля.</p>
+    <p>Как и экземпляры приложения, экземпляры модулей нужны, чтобы код модулей мог получить общий доступ к данным и компонентам.</p>
+    <p>Приведем пример того, как может выглядеть класс модуля:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\modules\forum;
+    
+    class Module extends \yii\base\Module
+    {
+        public function init()
+        {
+            parent::init();
+    
+            $this->params['foo'] = 'bar';
+            // ... остальной инициализирующий код ...
+        }
+    }
+    </pre>
+
+    <p>Если метод init() стал слишком громоздким из-за кода, который задает свойства модуля, эти свойства можно сохранить в виде конфигурации, а затем загрузить в методе init() следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    public function init()
+    {
+        parent::init();
+        // инициализация модуля с помощью конфигурации, загруженной из config.php
+        \Yii::configure($this, require __DIR__ . '/config.php');
+    }
+    </pre>
+
+    <p>При этом в конфигурационном файле config.php может быть код следующего вида, аналогичный конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    return [
+        'components' =&gt; [
+            // список конфигураций компонентов
+        ],
+        'params' =&gt; [
+            // список параметров
+        ],
+    ];
+    </pre>
+
+    <h3 id="title">
+        Контроллеры в модулях
+    </h3>
+
+    <p>При создании контроллеров модуля принято помещать классы контроллеров в подпространство controllers пространства имён класса модуля.</p>
+    <p>Это также подразумевает, что файлы классов контроллеров должны располагаться в директории controllers</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Module::basePath|базового пути]]
+    </pre>
+
+    <p>модуля.</p>
+    <p>Например, чтобы описать контроллер post в модуле forum из предыдущего примера, класс контроллера объявляется следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\modules\forum\controllers;
+    
+    use yii\web\Controller;
+    
+    class PostController extends Controller
+    {
+        // ...
+    }
+    </pre>
+
+    <p>Изменить пространство имен классов контроллеров можно задав свойство</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Module::controllerNamespace]]
+    </pre>
+
+    <p>Если какие-либо контроллеры выпадают из этого пространства имен, доступ к ним можно осуществить, настроив свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Module::controllerMap]]
+    </pre>
+
+    <p>аналогично тому, как это делается в приложении.</p>
+
+    <h3 id="title">
+        Представления в модулях
+    </h3>
+
+    <p>Представления модуля также следует поместить в поддиректорию views</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Module::basePath|базового пути]]
+    </pre>
+
+    <p>модуля.</p>
+    <p>Виды, которые рендерит контроллер модуля, должны располагаться в директории views/ControllerID, где ControllerID соответствует идентификатору контроллера.</p>
+    <p>Например, если контроллер реализуется классом PostController, представления следует разместить в поддиректории views/post</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Module::basePath|базового пути]]
+    </pre>
+
+    <p>модуля.</p>
+    <p>В модуле можно задать шаблон, который будет использоваться для рендеринга всех представлений контроллерами модуля.</p>
+    <p>По умолчанию шаблон помещается в директорию views/layouts, а свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Module::layout]]
+    </pre>
+
+    <p>должно указывать на имя этого шаблона.</p>
+    <p>Если не задать свойство layout, модуль будет использовать шаблон, заданный в приложении.</p>
+
+    <h3 id="title">
+        Консольные команды в модулях
+    </h3>
+
+    <p>Ваш модуль также может объявлять команды, которые будут доступны через консоль.</p>
+    <p>Для того, чтобы команда стала доступна, надо изменить свойство</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Module::controllerNamespace]]
+    </pre>
+
+    <p>для консольного режима так, чтобы оно содержало пространство имён ваших команд.</p>
+    <p>Этого можно добиться проверяя класс экземпляра приложения Yii в методе init модуля:</p>
+
+    <pre class="brush: csharp;">
+    public function init()
+    {
+        parent::init();
+        if (Yii::$app instanceof \yii\console\Application) {
+            $this->controllerNamespace = 'app\modules\forum\commands';
+        }
+    }
+    </pre>
+
+    <p>Ваши команды будут доступны из командной строки как:</p>
+
+    <pre class="brush: csharp;">
+    yii &lt;module_id&gt;/&lt;command&gt;/&lt;sub_command&gt;
+    </pre>
+
+    <h2 id="title">
+        Использование модулей
+    </h2>
+
+    <p>Чтобы задействовать модуль в приложении, достаточно включить его в свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Application::modules|modules]]
+    </pre>
+
+    <p>в конфигурации приложения.</p>
+    <p>Следующий код в конфигурации приложения задействует модуль forum:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'modules' =&gt; [
+            'forum' =&gt; [
+                'class' =&gt; 'app\modules\forum\Module',
+                // ... другие настройки модуля ...
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Свойству</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Application::modules|modules]]
+    </pre>
+
+    <p>присваивается массив, содержащий конфигурацию модуля.</p>
+    <p>Каждый ключ массива представляет собой идентификатор модуля, который однозначно определяет модуль среди других модулей приложения, а соответствующий массив - это конфигурация для создания модуля.</p>
+
+    <h3 id="title">
+        Маршруты
+    </h3>
+
+    <p>Как маршруты приложения используются для обращения к контроллерам приложения, маршруты модуля используются, чтобы обращаться к контроллерам этого модуля.</p>
+    <p>Маршрут контроллера в модуле должен начинаться с идентификатора модуля, за которым следуют идентификатор контроллера и идентификатор действия.</p>
+    <p>Например, если в приложении задействован модуль forum, то маршрут forum/post/index соответствует действию index контроллера post этого модуля.</p>
+    <p>Если маршрут состоит только из идентификатора модуля, то контроллер и действие определяются исходя из свойства</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Module::defaultRoute]]
+    </pre>
+
+    <p>которое по умолчанию равно default.</p>
+    <p>Таким образом, маршрут forum соответствует контроллеру default модуля forum.</p>
+
+    <h3 id="title">
+        Получение доступа к модулям
+    </h3>
+
+    <p>Зачастую внутри модуля может потребоваться доступ к экземпляру класса модуля, через который получаются идентификатор модуля, его параметры, компоненты, и т. п.</p>
+    <p>Это можно сделать с помощью следующей конструкции:</p>
+
+    <pre class="brush: csharp;">
+    $module = MyModuleClass::getInstance();
+    </pre>
+
+    <p>где MyModuleClass соответствует имени класса модуля, доступ к которому нужно получить.</p>
+    <p>Метод getInstance() возвращает запрошенный в данный момент экземпляр класса модуля.</p>
+    <p>Если модуль не запрошен, метод вернет null.</p>
+    <p>Учтите, что обычно экземпляры класса модуля вручную не создаются, так как созданный вручную экземпляр будет отличаться от экземпляра, созданного Yii в качестве ответа на запрос.</p>
+    <p><b>Информация:</b> При разработке модуля нельзя исходить из предположения, что модулю будет назначен конкретный идентификатор. Это связано с тем, что идентификатор, назначаемый модулю при использовании в приложении или в другом модуле, может быть выбран совершенно произвольно. Чтобы получить идентификатор модуля, нужно вначале выбрать экземпляр модуля, как это описано выше, а затем получить доступ к идентификатору через свойство $module->id.</p>
+    <p>Доступ к экземпляру модуля можно получить следующими способами:</p>
+
+    <pre class="brush: csharp;">
+    // получение дочернего модуля с идентификатором "forum"
+    $module = \Yii::$app->getModule('forum');
+    
+    // получение модуля, к которому принадлежит запрошенный в настоящее время контроллер
+    $module = \Yii::$app->controller->module;
+    </pre>
+
+    <p>Первый подход годится только если известен идентификатор модуля, а второй подход наиболее полезен, если известно, какой контроллер запрошен.</p>
+    <p>Имея экземпляр модуля можно получить доступ к параметрам и компонентам, зарегистрированным в модуле. Например,</p>
+
+    <pre class="brush: csharp;">
+    $maxPostCount = $module->params['maxPostCount'];
+    </pre>
+
+    <h3 id="title">
+        Предзагрузка модулей
+    </h3>
+
+    <p>Может потребоваться запускать некоторые модули при каждом запросе.</p>
+    <p>Модуль [[yii\debug\Module|debug]] - один из таких модулей.</p>
+    <p>Для этого список идентификаторов таких модулей необходимо указать в свойстве</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Application::bootstrap|bootstrap]]
+    </pre>
+
+    <p>приложения.</p>
+    <p>Например, следующая конфигурация приложения обеспечивает загрузку модуля debug при каждом запросе:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'bootstrap' =&gt; [
+            'debug',
+        ],
+    
+        'modules' =&gt; [
+            'debug' =&gt; 'yii\debug\Module',
+        ],
+    ]
+    </pre>
+
+    <h2 id="title">
+        Вложенные модули
+    </h2>
+
+    <p>Модули могут вкладываться друг в друга без ограничений по глубине.</p>
+    <p>Иными словами, в модуле содержится модуль, в который входит еще один модуль, и т. д.</p>
+    <p>Первый модуль называется родительским, остальные - дочерними.</p>
+    <p>Дочерние модули объявляются в свойстве</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Module::modules|modules]]
+    </pre>
+
+    <p>родительских модулей.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\modules\forum;
+    
+    class Module extends \yii\base\Module
+    {
+        public function init()
+        {
+            parent::init();
+    
+            $this->modules = [
+                'admin' =&gt; [
+                    // здесь имеет смысл использовать более лаконичное пространство имен
+                    'class' =&gt; 'app\modules\forum\modules\admin\Module',
+                ],
+            ];
+        }
+    }
+    </pre>
+
+    <p>Маршрут к контроллеру вложенного модуля должен содержать идентификаторы всех его предков.</p>
+    <p>Например, маршрут forum/admin/dashboard/index соответствует действию index контроллера dashboard модуля admin, который в свою очередь является дочерним модулем модуля forum.</p>
+    <p><b>Информация:</b> Метод</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Module::getModule()|getModule()]]
+    </pre>
+
+    <p>возвращает только те дочерние модули, которые принадлежат родительскому модулю непосредственно.</p>
+    <p>В свойстве</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Application::loadedModules]]
+    </pre>
+
+    <p>содержится список загруженных модулей, в том числе прямых и косвенных потомков, с индексированием по имени класса.</p>
+
+    <h2 id="title">
+        Лучшие практики
+    </h2>
+
+    <p>Модули лучше всего подходят для крупных приложений, функционал которых можно разделить на несколько групп, в каждой из которых функции тесно связаны между собой.</p>
+    <p>Каждая группа функций может разрабатываться в виде модуля, над которым работает один разработчик или одна команда.</p>
+    <p>Модули - это хороший способ повторно использовать код на уровне групп функций.</p>
+    <p>В виде модулей можно реализовать такую функциональность, как управление пользователями или управление комментариями, а затем использовать эти модули в будущих разработках.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/17.html", "Yii2: Модули", "bm1223"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1223", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1223") == 1) { document.getElementById("bma1223").style.display = "block"; document.getElementById("bm1223").style.display = "none"; } else { document.getElementById("bma1223").style.display = "none"; document.getElementById("bm1223").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Модули") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1223", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

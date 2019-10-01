@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma176" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm176" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		О механизме исключений
+	</h1>
+
+	<p>Язык C#, как и некоторые предшествующие ему языки программирования, включает механизм генерации и обработки исключений.</p>
+	<p>Прежде чем объяснить, что такое исключения, и каковы средства для работы с исключениями, необходимо обратить внимание на отличие ошибок в программе от особых ситуаций, которые могут возникнуть при её выполнении.</p>
+	<p>Ошибка в программе это производственный брак, допущенный при проектировании или кодировании программы.</p>
+	<p>Синтаксические ошибки позволяют выявить компилятор, и до их устранения программа неработоспособна.</p>
+	<p>Семантические или логические ошибки выявляются в процессе отладки и тестирования исполняемой программы.</p>
+	<p>И синтаксические и логические ошибки должны быть устранены до завершения разработки программы.</p>
+	<p>Механизм исключений к ним не имеет никакого отношения.</p>
+	<p>Однако такое событие как выход индекса за граничную пару при попытке обращения к элементу массива зачастую предугадать (выявить) на этапе компиляции нельзя.</p>
+	<p>Подобным образом невозможно предсказать, что пользователь при работе с готовой программой вместо числа введёт последовательность нечисловых символов.</p>
+	<p>И в первом и во втором случае программа не может продолжать правильное исполнение и оба случая непредсказуемы (не выявляются) на этапе компиляции.</p>
+	<p>Но при разработке программы можно предусмотреть в ней возможность реагирования на такие особые события.</p>
+	<p>Эту возможность обеспечивает механизм исключений.</p>
+	<p>Прежде чем перейти к рассмотрению этого механизма, обратим внимание на тот факт, что особые ситуации, которые могут возникнуть в процессе выполнения программы, делятся на две группы: синхронные и асинхронные.</p>
+	<p>Асинхронные ситуации возникают за счет внешних воздействий на программу, происходящих в моменты времени, никак не связанные с каким-либо участком кода программы.</p>
+	<p>Примерами могут служит отключение питания компьютера, команда на перезагрузку операционной системы, вредоносные воздействия на код программы со стороны параллельных процессов и т. д.</p>
+	<p>Исключения не позволяют защитить программу от воздействия асинхронных событий (асинхронных ситуаций).</p>
+	<p>Синхронные особые ситуации создаются, точнее, могут возникнуть, только при выполнении тех или иных фрагментов кода программы.</p>
+	<p>Каждый такой фрагмент кода представляет собой отображение конкретных операторов текста программы.</p>
+	<p>Самое важное то, что при разработке программы зачастую известно в каком участке текста программы может возникнуть синхронная особая ситуация.</p>
+	<p>Например, при вводе данных пользователь может по ошибке ввести текстовую информацию вместо числовой.</p>
+	<p>При записи данных в файл может не хватить места на внешнем носителе информации.</p>
+	<p>В первом случае источник возникновения особой ситуации – оператор чтения данных из входного потока, во втором – процедура записи информации в файл.</p>
+	<p>Именно для реагирования на синхронные особые ситуации, возникающие в процессе выполнения программы, предназначен механизм исключений.</p>
+	<p>Так как асинхронные особые ситуации мы рассматривать не будем, то термин "синхронные" больше не будем добавлять и применительно к исключениям говорить будем просто об особых ситуациях.</p>
+	<p>Особых ситуаций, если они потенциально возможны, избежать нельзя.</p>
+	<p>Но программист может предусмотреть в программе операторы для распознавания особой ситуации и для реакции на неё.</p>
+	<p>До появления механизма исключений реакция на особые ситуации зачастую была самой жесткой – программа выдавала сообщение об ошибке и завершалась аварийно.</p>
+	<p>В лучшем случае, если особая ситуация возникла по вине пользователя, ему предлагалось, например, повторно и правильно ввести исходные данные и программа повторяла выполнение тех операторов, где возникла и была распознана особая ситуация...</p>
+	<p>Исключения позволяют отделить распознавание особой ситуации от реакции на неё.</p>
+	<p>В механизме исключений есть два этапа – генерация исключения и обработка исключения.</p>
+	<p>Генерация исключения выполняется в том месте, где возникла и обнаружена особая ситуация, а обработка – там, где это удобно в конкретном случае.</p>
+	<p>Если бы современные программы создавались по-старинке, без использования стандартных или специализированных библиотек (подпрограмм, процедур, функций, классов), то без механизма исключений можно было бы обойтись.</p>
+	<p>Более того, прародитель Си-образных языков – язык Си обходится без исключений.</p>
+	<p>Но не будем упрекать в этом его авторов.</p>
+	<p>При создании языка Си не был ещё внедрён в программирование объектно-ориентированный подход.</p>
+	<p>В настоящее время автор библиотечной функций или метода класса обязательно предусматривает операторы, распознающие особую ситуацию.</p>
+	<p>Однако, он не может предугадать как будет использована эта функция или метод программистом-пользователем.</p>
+	<p>Например, в библиотечном методе чтения данных из стандартного входного потока нельзя при ошибке в данных просто выдать сообщение пользователю "повтори ввод!".</p>
+	<p>Входной поток может быть настроен на текстовый файл и программа при этом выполняется без ввода данных с клавиатуры.</p>
+	<p>Пользователь в этом случае не участвует в диалоге с программой.</p>
+	<p>Таким образом, распознавание особой ситуации в библиотечном методе должно быть "оторвано" от действий по устранению причин её появления.</p>
+	<p>Эту возможность обеспечивают исключения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="88.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="90.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/89.html", "О механизме исключений", "bm176"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm176", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm176") == 1) { document.getElementById("bma176").style.display = "block"; document.getElementById("bm176").style.display = "none"; } else { document.getElementById("bma176").style.display = "none"; document.getElementById("bm176").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("О механизме исключений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm176", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

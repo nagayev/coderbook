@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma87" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm87" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		string: шаблонный строковый класс STL
+	</h1>
+
+	<p>Приветствую вас коллеги – программисты.</p>
+	<p>В данной статье я хочу познакомить Вас с шаблонным классом string.</p>
+	<p>Который призван облегчить жизнь программистам.</p>
+	<p>Кто не знает, string – это STL’евский класс основанный на шаблонах, который входит в стандартную библиотеку C++.</p>
+	<p>Для использования данного класса в ваших приложениях, нужно подключить директиву &lt;string&gt;.</p>
+	<p>Вначале посмотрим на простой пример применения, возможности и внутреннее представление класса, а в конце статьи реализуем собственный класс string!</p>
+	<p>Если вы раньше уже имели дело со стандартным строковым типом, то могли заметить, что его применение опасно возникновением ошибок и не так удобно как хотелось бы из-за того, что реализован он на более низком уровне.</p>
+	<p>Так вот, использование класса string, здорово облегчит вам процесс использования строковых типов в ваших приложениях.</p>
+	<p>Давайте рассмотрим простейший пример использования:	</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	#include &lt;string&gt;
+	int main()
+	{
+		std::string str;
+		std::cout << "Enter your name: ";
+		std::getline(std::cin, str);
+		std::cout << "Hello, " << str << "!!! \n";
+		return 0;
+	}
+	</pre>
+
+	<p>Здесь создается экземпляр класса под именем str, далее пользователя просят представиться, при помощи std::getline данные записываются из потока cin непосредственно в нашу переменную str.</p>
+	<p>Думаю далее всё очевидно.</p>
+	<p>Как видите использование класса string, не сложнее, а поверьте даже намного легче чем обычного строкового типа char*.</p>
+	<p>Итак не забывайте что, для того чтобы использовать объекты класса string, необходимо включить соответствующий заголовочный файл:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;string&gt;
+	</pre>
+
+	<p>Далее для демонстрации работы методов и вспомогательных функций будем использовать следующий объект:</p>
+
+	<pre class="brush: csharp;">
+	std::string str;
+	</pre>
+
+	<p>Чтобы узнать длину строки, можно воспользоваться функцией-членом size(), или length(), которые, как и ожидается, возвращают саму длину (длина не включает завершающий нулевой символ).</p>
+
+	<pre class="brush: csharp;">
+	str.size();
+	str.length();
+	</pre>
+
+	<p>А как же узнать, пуста ли строка?</p>
+	<p>Вы скажете у нас же есть метод возвращающий длину, следовательно можно применить следующую конструкцию:</p>
+
+	<pre class="brush: csharp;">
+	// Если условие истинно, то строка пуста.
+	if (str.size() == 0)
+	</pre>
+
+	<p>Однако и для таких случаев имеется специальный метод empty(), возвращающий true для пустой строки и false для непустой:</p>
+
+	<pre class="brush: csharp;">
+	str.empty();
+	</pre>
+
+	<p>Как мы можем узнать, совпадают ли строки? Воспользуемся оператором сравнения ==:</p>
+
+	<pre class="brush: csharp;">
+	if (str == str2)
+	</pre>
+
+	<p>А как же можно скопировать одну строку в другую? Это можно реализовать с помощью обычной операции присваивания =:</p>
+
+	<pre class="brush: csharp;">
+	// Создание объекта строки
+	std::string str2;
+	
+	// при помощи оператора присваивания, копируем str в str2
+	str2 = str;
+	</pre>
+
+	<p>Возможно вы спросите почему я не сделал так?</p>
+
+	<pre class="brush: csharp;">
+	std::string str2 = str;
+	</pre>
+
+	<p>Эта запись эквивалентна предыдущей, за исключением того, что в предыдущем коде мы использовали оператор присваивания, а этом случае работает конструктор копирования.</p>
+	<p>Для конкатенации строк используется операция сложения + или операция сложения с присваиванием +=.</p>
+	<p>Рассмотрим следующий код:</p>
+
+	<pre class="brush: csharp;">
+	std::string str1 = "Hello";
+	std::string str2 = "World";
+	</pre>
+
+	<p>Мы можем получить строку "HelloWorld", состоящую из конкатенации str1 и str2, таким образом:</p>
+
+	<pre class="brush: csharp;">
+	std::string str3 = str1 + str2;
+	</pre>
+
+	<p>В результате в строке str3 будет хранится следующее: "HelloWorld".</p>
+	<p>Так же подобного результата, мы можем добиться и другим способом:</p>
+
+	<pre class="brush: csharp;">
+	std::string str3 = str1;
+	str3 += str2;
+	</pre>
+
+	<p>Здесь мы создаем строку str3 инициализируя её содержимым str1, и далее при помощи оператора += в конец str3 добавляем str2.</p>
+	<p>Результат будет таким как и в предыдущем примере.</p>
+
+	<p>Операция сложения может конкатенировать (соединять, присоединять) экземпляры (объекты) класса std::string не только между собой, но и со строками встроенного типа.</p>
+	<p>Такой код будет вполне работоспособным:</p>
+
+	<pre class="brush: csharp;">
+	char* str = "Hello";
+	std::string str2 = str;
+	str2 += " World";
+	str2 += '!';
+	</pre>
+
+	<p>Надеюсь как вы уже догадались в результате в строке str2, будет хранится "HelloWorld!"</p>
+	<p>Ещё одна весьма полезная функция это: c_str().</p>
+	<p>Функция c_str() возвращает указатель на символьный массив, который содержит строку объекта  стринг (string) в том виде, в котором она размещалась бы, во встроенном строковом типе.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	std::string str;
+	const char* str2 = str.c_str();
+	</pre>
+
+	<p>Чтобы обращаться к отдельным символам строки типа string, можно воспользоваться операцией взятия индекса ([]), или при помощи метода at().</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	std::string str = "Hello World";
+	// На консоли увидим: oH
+	std::cout << str[7] << str[0] << std::endl;
+	</pre>
+
+	<p>Метод at() предлагает похожую схему доступа, за исключением того, что индекс предоставляется как аргумент функции:</p>
+
+	<pre class="brush: csharp;">
+	std::string str = "Hello World";
+	// На консоли увидим: oH
+	std::cout << str.at(7) << str.at(0) << std::endl;
+	</pre>
+
+	<p>В отличии от оператора [], метод at(), обеспечивает проверку границ и генерирует исключение out_of_range, если вы пытаетесь получить несуществующий элемент.</p>
+	<p>Так же в классе string, имеется функция, которая возвращает строку, являющуюся подстрокой исходной строки, начиная с позиции pos и включая n символов, или до конца строки.</p>
+
+	<pre class="brush: csharp;">
+	str.substr(pos, n);
+	</pre>
+
+	<p>На самом деле std::string имеет намного больше методов и возможностей, чем было рассмотрено здесь, и если бы я решил описать хотя бы половину, то вся эта информация никак не поместилась бы в одну статью.</p>
+	<p>Но основные моменты работы со стрингом мы рассмотрели и новичкам будет достаточно и этих знаний.</p>
+
+	<p>Ну что же, настало время реализовать свой простенький класс string.</p>
+	<p>Но перед этим, не забывайте, что класс string обладает всеми возможностями стандартных типов.</p>
+	<p>Если вы знакомы с классами, то наверное уже догадались, что для реализации таких возможностей, в классе должны быть перегружены многие операторы (в том числе ввода &gt;&gt; и вывода &lt;&lt;).</p>
+	<p>Кроме того класс string содержит ещё множество полезных методов.</p>
+	<p>Итак, код нашего класса String выглядит так:</p>
+
+	<pre class="brush: csharp;">
+	#ifndef STRING_H
+	#define STRING_H
+	#include &lt;iostream&gt;
+	namespace STD
+	{
+		int StrLen(char*);
+		void StrCpy(char*, char*);
+		bool StrCmp(char*, char*);
+		class String
+		{
+			public:
+			String(char* _str = "");
+			String(const String&);
+			~String();
+			String& operator=(const String&);
+			friend String operator+(const String&, const String&);
+			String& operator+=(const String&);
+			friend bool operator==(const String&, const String&);
+			friend bool operator!=(const String&, const String&);
+			friend bool operator>(const String&, const String&);
+			friend bool operator>=(const String&, const String&);
+			friend bool operator<(const String&, const String&);
+			friend bool operator<=(const String&, const String&);
+			const char& operator[](int) const;
+			char& operator[](int);
+			friend std::ostream& operator<<(std::ostream&, const String&);
+			friend std::istream& operator>>(std::istream&, String&);
+			private:
+			char* str;
+		};
+
+		String::String(char* _str)
+		{
+			str = new char[StrLen(_str)+1];
+			StrCpy(str, _str);
+		}
+
+		String::String(const String& rhs)
+		{
+			str = new char[StrLen(rhs.str)+1];
+			StrCpy(str, rhs.str);
+		}
+
+		String::~String()
+		{
+			delete str;
+		}
+
+		// ---
+		String& String::operator=(const String& rhs)
+		{
+			if (this != &rhs)
+			{
+				delete[] this->str;
+				this->str = new char[StrLen(rhs.str)+1];
+				StrCpy(this->str, rhs.str);
+			}
+			return *this;
+		}
+
+		String& String::operator+=(const String& rhs)
+		{
+			int sz = StrLen(this->str) + StrLen(rhs.str);
+			char* ts = new char[sz+1];
+			for (int i = 0; i < StrLen(this->str); i++)
+			ts[i] = this->str[i];
+			for (int ii = StrLen(this->str), j = 0; ii <= sz; ii++, j++)
+			ts[ii] = rhs.str[j];
+			delete this->str;
+			this->str = ts;
+			return *this;
+		}
+
+		String operator+(const String& lhs, const String& rhs)
+		{
+			String ts = lhs;
+			return ts += rhs;
+		}
+
+		// --
+		bool operator==(const String& lhs, const String& rhs)
+		{
+			return StrCmp(lhs.str, rhs.str);
+		}
+		
+		bool operator!=(const String& lhs, const String& rhs)
+		{
+			return !(StrCmp(lhs.str, rhs.str));
+		}
+		
+		bool operator>(const String& lhs, const String& rhs)
+		{
+			return (StrLen(lhs.str) > StrLen(rhs.str)) ? true : false;
+		}
+		
+		bool operator>=(const String& lhs, const String& rhs)
+		{
+			return (StrLen(lhs.str) >= StrLen(rhs.str)) ? true : false;
+		}
+		
+		bool operator<(const String& lhs, const String& rhs)
+		{
+			return (StrLen(lhs.str) < StrLen(rhs.str)) ? true : false;
+		}
+		
+		bool operator<=(const String& lhs, const String& rhs)
+		{
+			return (StrLen(lhs.str) <= StrLen(rhs.str)) ? true : false;
+		}
+
+		// ---
+		const char& String::operator[](int i) const
+		{
+			//std::cerr << "Index out of range. \n";
+			return (i >= 0 && i < StrLen(this->str)) ? this->str[i] : 0;
+		}
+
+		char& String::operator[](int i)
+		{
+			static char DUMMY; DUMMY = '';
+			//std::cerr << "Index out of range. \n";
+			return (i >= 0 && i < StrLen(this->str)) ? this->str[i] : DUMMY;
+		}
+
+		// ---
+		std::ostream& operator<<(std::ostream& os, const String& obj)
+		{
+			return os << obj.str;
+		}
+
+		std::istream& operator>>(std::istream& is, String& obj)
+		{
+			char BUFF[2048];
+			is.getline(BUFF, sizeof BUFF);
+			obj = BUFF;
+			return is;
+		}
+
+		// ---
+		int StrLen(char* _str)
+		{
+			int size = 0;
+			for (; _str[size] != 0; size++);
+			return size;
+		}
+
+		void StrCpy(char* in_str, char* src_str)
+		{
+			for (int i = 0; i < StrLen(in_str); i++)
+			in_str[i] = src_str[i];
+		}
+
+		bool StrCmp(char* str_f, char* str_s)
+		{
+			int i = 0;
+			for (; str_f[i] == str_s[i] && i < StrLen(str_f); i++);
+			return (i == StrLen(str_f)) ? true : false;
+		}
+	} 
+	#endif
+	</pre>
+
+	<p>Безусловно этот класс, не может сравнится со стандартным, но всё же он вполне работоспособный и его также можно использовать в своих приложениях.</p>
+	<p>Ну вот и всё, что я хотел рассказать вам в этой статье, помните как я уже говорил, std::string, обладает намного большими возможностями, чем было рассмотрено в данной статье.</p>
+	<p>По большому счёту, я не упоминал о многих (возможностях), таки из-за того, что эта статья рассчитанная прежде всего для новичков.</p>
+	<p><b>Удачи в ваших начинаниях!</b></p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="65.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/66.html", "Шаблонный строковый класс", "bm87"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm87", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm87") == 1) { document.getElementById("bma87").style.display = "block"; document.getElementById("bm87").style.display = "none"; } else { document.getElementById("bma87").style.display = "none"; document.getElementById("bm87").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Шаблонный строковый класс") == 1) { arrs.splice(i, 1); localStorage.setItem("bm87", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1237" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1237" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Свойства
+	</h1>
+
+    <p>В PHP, переменные-члены класса называются свойства.</p>
+    <p>Эти переменные являются частью объявления класса и используются для хранения состояния объектов этого класса (т.е. именно этим отличается один экземпляр класса от другого).</p>
+    <p>На практике вам часто придётся производить чтение и запись свойств особым образом.</p>
+    <p>Например, вам может понадобиться обрезать строку при её записи в поле label.</p>
+    <p>Для этого вы можете использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $object->label = trim($label);
+    </pre>
+
+    <p>Недостатком приведённого выше кода является то, что вам придется вызывать функцию trim() во всех местах, где вы присваиваете значение полю label.</p>
+    <p>Если в будущем понадобится производить еще какие-либо действие, например преобразовать первую букву в верхний регистр, вам придётся изменить каждый участок кода, где производится присваивание значения полю label.</p>
+    <p>Повторение кода приводит к ошибкам и его необходимо избегать всеми силами.</p>
+    <p>Что бы решить эту проблему, в Yii был добавлен базовый класс [[yii\base\BaseObject]] который реализует работу со свойствами через геттеры и сеттеры.</p>
+    <p>Если вашему классу нужна такая возможность, необходимо унаследовать его от [[yii\base\BaseObject]] или его потомка.</p>
+    <p><b>Информация:</b> Почти все внутренние классы Yii наследуются от [[yii\base\BaseObject]] или его потомков.</p>
+    <p>Это значит, что всякий раз, когда вы встречаете геттер или сеттер в классах фреймворка, вы можете обращаться к нему как к свойству.</p>
+    <p>Геттер — это метод, чьё название начинается со слова get.</p>
+    <p>Имя сеттера начинается со слова set.</p>
+    <p>Часть названия после get или set определяет имя свойства.</p>
+    <p>Например, геттер getLabel() и/или сеттер setLabel() определяют свойство label, как показано в коде ниже:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\BaseObject;
+    
+    class Foo extends BaseObject
+    {
+        private $_label;
+    
+        public function getLabel()
+        {
+            return $this->_label;
+        }
+    
+        public function setLabel($value)
+        {
+            $this->_label = trim($value);
+        }
+    }
+    </pre>
+
+    <p>В коде выше геттер и сеттер реализуют свойство label, значение которого хранится в private свойстве _label.</p>
+    <p>Свойства, определенные с помощью геттеров и сеттеров, можно использовать как обычные свойства класса.</p>
+    <p>Главное отличие в том, что когда происходит чтение такого свойства, вызывается соответствующий геттер, при присвоении значения такому свойству запускается соответствующий сеттер.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // Идентично вызову $label = $object->getLabel();
+    $label = $object->label;
+    
+    // Идентично вызову $object->setLabel('abc');
+    $object->label = 'abc';
+    </pre>
+
+    <p>Свойство, для которого объявлен только геттер без сеттера, может использоваться только для чтения.</p>
+    <p>Попытка присвоить ему значение вызовет [[yii\base\InvalidCallException|InvalidCallException]].</p>
+    <p>Точно так же, свойство для которого объявлен только сеттер без геттера может использоваться только для записи.</p>
+    <p>Попытка получить его значение так же вызовет исключение.</p>
+    <p>Свойства, предназначенные только для чтения, встречаются не часто.</p>
+    <p>При определении свойств класса при помощи геттеров и сеттеров нужно помнить о некоторых правилах и ограничениях:</p>
+
+    <ul>
+        <li>Имена таких свойств регистронезависимы. Таким образом, $object->label и $object->Label — одно и то же. Это обусловлено тем, что имена методов в PHP регистронезависимы.</li>
+        <li>Если имя такого свойства уже используется переменной-членом класса, то последнее будет иметь более высокий приоритет. Например, если в классе Foo объявлено свойство label, то при вызове $object->label = 'abc' будет напрямую изменено значение свойства label. А метод setLabel() не будет вызван.</li>
+        <li>Свойства, объявленные таким образом, не поддерживают модификаторы видимости. Это значит, что объявление геттера или сеттера как public, protected или private никак не скажется на области видимости свойства.</li>
+        <li>Свойства могут быть объявлены только с помощью не статичных геттеров и/или сеттеров. Статичные методы не будут обрабатываться подобным образом.</li>
+        <li>Обычный вызов property_exists() не работает для магических свойств. Для них необходимо использовать [[yii\base\BaseObject::canGetProperty()|canGetProperty()]] или [[yii\base\BaseObject::canSetProperty()|canSetProperty()]].</li>
+    </ul>
+
+    <p>Возвращаясь к проблеме необходимости вызова функции trim() во всех местах, где присваивается значение свойству label, описанной в начале этого руководства, функцию trim() теперь необходимо вызывать только один раз — в методе setLabel().</p>
+    <p>При возникновении нового требования о возведение первой буквы в верхний регистр, можно быстро поправить метод setLabel() не затрагивая остальной код.</p>
+    <p>Эта правка будет распространяться на все присвоения значения свойству label.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="30.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="32.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/31.html", "Yii2: Свойства", "bm1237"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1237", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1237") == 1) { document.getElementById("bma1237").style.display = "block"; document.getElementById("bm1237").style.display = "none"; } else { document.getElementById("bma1237").style.display = "none"; document.getElementById("bm1237").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Свойства") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1237", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma448" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm448" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Записи
+	</h1>
+
+	<p>Запись – это структура данных, состоящая из полей различного типа.</p>
+	<p>Можно сказать, что запись – это мини-объект, который имеет свойства, но не имеет методов и событий.</p>
+	<p>Для чего нужны записи?</p>
+	<p>Да много для чего.</p>
+	<p>Их можно использовать для сохранения настроек программы вместо ini-файлов, из записей можно сделать небольшую базу данных на пользователей программы, и так далее.</p>
+	<p>Использование записей ограничено только воображением программиста.</p>
+	<p>Записи объявляются в разделе type перед разделом var, и могут быть как локальными для процедур и функций, так и глобальными.</p>
+	<p>Разумеется, если вы используете записи для сохранения параметров программы, желательно их делать глобальными.</p>
+	<p>В языке C / C++ такой тип называется структурой, а в Delphi – записью.</p>
+	<p>Синтаксис объявления записи следующий:</p>
+
+	<pre class="brush: csharp;">
+type
+<имя_записи> = record
+   ...; //описание полей
+end;  //record
+	</pre>
+
+	<p>Однако мало описать такую запись, потом нужно еще объявить переменную типа этой записи:</p>
+
+	<pre class="brush: csharp;">
+	var
+		myPerem : имя_записи;
+	</pre>
+
+	<p>В дальнейшем можно обращаться к отдельным полям записи, указывая эту переменную:</p>
+
+	<pre class="brush: csharp;">
+	myPerem.имя_поля
+	</pre>
+
+	<p>Давайте посмотрим, как можно сохранить в записи размеры и положение формы.</p>
+	<p>Создайте новый проект.</p>
+	<p>Перед разделом глобального блока var создайте раздел type.</p>
+	<p>Неважно, что выше уже есть такой раздел, мы можем создать еще один, главное, чтобы он был перед var.</p>
+
+	<pre class="brush: csharp;">
+type
+  myForm = record
+    Left : Integer;
+    Top : Integer;
+    Width : Integer;
+    Height : Integer;
+  end; // record
+	</pre>
+
+	<p>Теперь у нас есть описанная запись myForm, в которой имеется 4 поля: Left, Top, Width и Height.</p>
+	<p>Как вы уже догадались, в эти поля мы будем записывать положение и размеры формы.</p>
+	<p>Теперь внимание!</p>
+	<p>Запись – это фактически новый тип данных!</p>
+	<p>Мы можем объявить сколько угодно переменных типа myForm, а также использовать типизированный файл, присвоив ему тип myForm.</p>
+	<p>Посмотрите на следующие примеры:</p>
+
+	<pre class="brush: csharp;">
+var
+    perem : myForm;  //переменная нашего типа
+    ar : array [0..10] of myForm;  //массив
+    f : File of myForm;  //типизированный файл
+	</pre>
+
+	<p>Вернемся к нашему проекту.</p>
+	<p>Ниже записи имеется глобальный раздел var, где описана переменная Form1.</p>
+	<p>Ниже нее добавим еще одну переменную:</p>
+
+	<pre class="brush: csharp;">
+	myF : myForm;
+	</pre>
+
+	<p>Теперь мы можем при разрушении формы создать двоичный файл, в котором будут сохраняться положение и размер формы.</p>
+	<p>Создайте обработчик событий onDestroy для формы, и в нем напишите следующий код:</p>
+
+	<pre class="brush: csharp;">
+var
+  f : File of myForm;  //типизированный файл
+begin
+  //сохраняем данные в запись:
+  myF.Left := Form1.Left;
+  myF.Top := Form1.Top;
+  myF.Width := Form1.Width;
+  myF.Height := Form1.Height;
+
+  //создаем или перезаписываем файл:
+try
+  AssignFile(f, 'my.dat');
+  Rewrite(f);
+  Write(f, myF);
+finally
+  CloseFile(f);
+end; // try
+	</pre>
+
+	<p>Обратите внимание, что мы не делаем проверку на существование файла, поскольку если файла нет, он будет создан, а если есть – перезаписан.</p>
+	<p>Кроме того, в качестве имени мы используем строку 'my.dat'.</p>
+	<p>Файл с таким именем будет создан в текущей папке.</p>
+	<p>Поскольку наша программа не меняет папок, то текущей будет являться та, в которой находится программа.</p>
+	<p>Сохраните проект, скомпилируйте, посмотрите, как работает программа.</p>
+	<p>Закройте ее и файловым менеджером перейдите в папку с проектом.</p>
+	<p>Посмотрите, появился ли файл my.dat, попробуйте его прочитать.</p>
+	<p>Как видите, данные в файле хранятся в двоичном виде, что-либо прочитать там довольно сложно.</p>
+	<p>Иногда удобней пользоваться таким способом, потому что всегда может найтись пользователь, который попытается играть с настройками в текстовых файлах.</p>
+	<p>Ini – файлы имеют текстовый тип, и пользователь будет иметь возможность изменять там настройки вручную.</p>
+	<p>Неважно, если мы сохраняем только размеры и положение формы, но мы можем сохранять и другие, более серьезные параметры!</p>
+	<p>Однако пароли напрямую сохранять не получится – текст все же будет виден.</p>
+	<p>Насчет текста...</p>
+	<p>Тип string имеет динамический характер.</p>
+	<p>Другими словами, размер переменной такого типа может изменяться в процессе работы программы.</p>
+	<p>Тип динамического характера (строка String или динамический массив) можно указать в записи, однако его нельзя использовать в типизированном файле, так как размер поля должен быть заранее известен.</p>
+	<p>Перейдем в раздел, где мы описывали наш тип данных.</p>
+	<p>После описания поля Height опишем еще одно поле:</p>
+
+	<pre class="brush: csharp;">
+	Caption : String[50];
+	//размер строки задан жестко, его можно использовать в файле
+	</pre>
+
+	<p>Теперь перейдем в обработку события onDestroy, и добавим строку:</p>
+
+	<pre class="brush: csharp;">
+	myF.Caption := Form1.Caption;
+	</pre>
+
+	<p>в разделе сохранения данных в запись.</p>
+	<p>Еще раз сохраните, откомпилируйте и запустите программу.</p>
+	<p>Закройте ее и посмотрите на файл my.dat.</p>
+	<p>Как видите, надпись в заголовке формы появляется в файле без изменений, так что любые ваши пароли все-таки можно будет прочитать.</p>
+	<p>Измените заголовок формы, снова скомпилируйте проект и посмотрите в файл – строка по-прежнему читается.</p>
+	<p>Теперь нам нужно при открытии формы применить все эти настройки.</p>
+	<p>Если вы помните пример с ini – файлом, настройки мы применяли в событии формы onCreate, также поступим и здесь.</p>
+	<p>Создайте это событие для формы.</p>
+	<p>Здесь нам придется проверять наличие файла – ведь если программа запускалась у клиента впервые, то файла там еще не было, он будет создан при закрытии программы.</p>
+	<p>Поэтому будем применять настройки в том случае, если файл существует.</p>
+
+	<pre class="brush: csharp;">
+var
+  f : File of myForm;
+begin
+  //если файла нет - выходим:
+  if not FileExists('my.dat') then Exit;
+ 
+ //открываем файл и считываем настройки в запись:
+try
+  AssignFile(f, 'my.dat');
+  Reset(f);
+  Read(f, myF); //считываем запись в нашу глобальную переменную
+finally
+  CloseFile(f);
+end; //try
+
+  //применяем полученные настройки:
+  Form1.Left := myF.Left;
+  Form1.Top := myF.Top;
+  Form1.Height := myF.Height;
+  Form1.Width := myF.Width;
+  Form1.Caption := myF.Caption;
+end;
+	</pre>
+
+	<p>Конечно, в типизированный файл можно сохранять более одной записи, однако такой прием мы изучим после того, как познакомимся с динамическими массивами.</p>
+	<p>Такой способ сохранения параметров кажется менее удобным, чем ini-файлы, однако компенсируется тем, что здесь можно сохранять данные любого типа – строки и даты, целые и вещественные числа, логические данные и даже массивы.</p>
+	<p>Самостоятельно измените программу.</p>
+	<p>Добавьте на форму один CheckBox, состояние которого (включен или нет) будем сохранять в файл.</p>
+	<p>Добавьте в запись еще одно поле логического типа, и в зависимости от того, установлена ли галочка в CheckBox, записывайте в него либо True, либо False.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="61.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="63.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/62.html", "Записи", "bm448"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm448", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm448") == 1) { document.getElementById("bma448").style.display = "block"; document.getElementById("bm448").style.display = "none"; } else { document.getElementById("bma448").style.display = "none"; document.getElementById("bm448").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Записи") == 1) { arrs.splice(i, 1); localStorage.setItem("bm448", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1037" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1037" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Конкатенация полей
+	</h1>
+
+	<p>Чтобы продемонстрировать работу вычисляемых полей, рассмотрим простой пример – создание заголовка, состоящего из двух столбцов.</p>
+	<p>В таблице Vendors содержится название поставщика и его адрес.</p>
+	<p>Предположим, что вам необходимо создать отчет по поставщику и указать его адрес как часть его имени в виде имя {адрес}.</p>
+	<p>В отчете должно быть одно значение, а данные в таблице хранятся в двух столбцах: vend_name и vend_country.</p>
+	<p>Кроме того, значение vend_country необходимо заключить в скобки, которых нет в таблице базы данных.</p>
+	<p>Выражение SELECT, которое возвращает имена поставщиков и адреса, довольно простое, но как создать комбинированное значение?</p>
+
+	<h1 id="title">
+		Конкатенация
+	</h1>
+
+	<p>Комбинирование значений (путем присоединения их друг к другу) для получения одного "длинного" значения.</p>
+	<p>Для этого необходимо соединить два значения.</p>
+	<p>В SQL-выражении SELECT можно выполнить конкатенацию двух столбцов при помощи специального оператора.</p>
+	<p>В зависимости от СУБД это может быть знак "плюс" (+) или две вертикальные черточки (| |).</p>
+	<p><b>Оператор + или | |</b></p>
+	<p>В СУБД Access, SQL Server и Sybase для конкатенации используется знак +.</p>
+	<p>В СУБД DB2, Oracle, PostgreSQL и Sybase используется знак | |.</p>
+	<p>Более подробную информацию ищите в документации по вашей СУБД.</p>
+	<p>Вообще-то | | – более предпочтительный оператор конкатенации, так что он поддерживается все большим и большим количеством СУБД.</p>
+	<p>Ниже приведен пример использования знака "плюс" (применяется синтаксис, принятый в большинстве СУБД).</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_name + ' (' + vend_country + ')
+	FROM Vendors
+	ORDER BY vend_name;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	Bear Emporium (USA
+	Beras R Us (USA )
+	Doll House Inc. (USA )
+	Fun and Games (England )
+	Furball Inc. (USA )
+	Jouets et ours (France )
+	</pre>
+
+	<p>Ниже приведена та же инструкция, но с использованием оператора | |</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_name | | ' (' | | vend_country | | ') '
+	FROM Vendors
+	ORDER BY vend_name;
+	vend_country
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	Bear Emporium (USA )
+	Beras R Us (USA )
+	Doll House Inc. (USA )
+	Fun and Games (England )
+	Furball Inc. (USA )
+	Jouets et ours (France )
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В предыдущих операторах SELECT была выполнена конкатенация следующих элементов:</p>
+	<p>- имя, хранящееся в столбце vend_name;</p>
+	<p>- строка, содержащая пробел и открывающую круглую скобку;</p>
+	<p>- название штата, хранящееся в столбце vend_country;</p>
+	<p>- строка, содержащая закрывающую круглую скобку.</p>
+	<p>Как видно из приведенного выше результата, выражение SELECT возвращает один столбец (вычисляемое поле), содержащий все четыре элемента как одно целое.</p>
+	<p><b>Конкатенация в MySQL</b></p>
+	<p>В MySQL не поддерживается конкатенация при помощи оператора + или | |.</p>
+	<p>Здесь необходимо использовать функцию CONCAT (), в которой указывается список элементов, по отношению к которым необходимо выполнить конкатенацию.</p>
+	<p>При использовании функции CONCAT () первая строка примера выглядела бы так:</p>
+
+	<pre class="brush: csharp;">
+	SELECT CONCAT(vend_name, ' (', vend_country, ')')
+	</pre>
+
+	<p>В MySQL поддерживается использование оператора | |, но не для конкатенации.</p>
+	<p>В MySQL | | является эквивалентом логического оператора OR, a && – эквивалентом логического оператора AND.</p>
+	<p>Взгляните еще раз на результат, полученный после применения оператора SELECT.</p>
+	<p>Два столбца, объединенные в вычисляемое поле, заполнены пробелами.</p>
+	<p>Во многих базах данных (но не во всех) сохраненный текст дополняется пробелами до ширины столбца.</p>
+	<p>Чтобы выбрать правильно отформатированные данные, необходимо убрать добавленные пробелы.</p>
+	<p>Это можно сделать при помощи SQL-функции RTRIM () следующим образом:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT RTRIM(vend_name) + ' (' + RTRIM(vend_country) + ') '
+	FROM Vendors
+	ORDER BY vend_name;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	Bear Emporium (USA)
+	Beras R Us (USA)
+	Doll House Inc. (USA)
+	Fun and Games (England)
+	Furball Inc. (USA)
+	Jouets et ours (France)
+	</pre>
+
+	<p>Ниже приведено это же выражение, но с использованием оператора | |:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT RTRIM(vend_name) | | ' (' | | RTRIM(vend_country) | | ') '
+	FROM Vendors
+	ORDER BY vend_name;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	Bear Emporium (USA)
+	Beras R Us (USA)
+	Doll House Inc. (USA)
+	Fun and Games (England)
+	Furball Inc. (USA)
+	Jouets ec ours (France)
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Функция RTRIM () отбрасывает все пробелы справа от указанного значения.</p>
+	<p>При использовании функции RTRIM () каждый отдельный столбец обрабатывается корректно.</p>
+	<p>Город, штат указываются через запятую и пробел, а штат и ZIP-код – через пробел.</p>
+	<p><b>Функции TRIM</b></p>
+	<p>В большинстве СУБД поддерживаются как функция RTRIM () (которая, как мы увидели, "обрезает" правую часть строки), так и LTRIMO (которая удаляет левую часть строки), а также TRIM() (которая "обрезает" строку слева и справа).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="22.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="24.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/23.html", "Конкатенация полей", "bm1037"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1037", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1037") == 1) { document.getElementById("bma1037").style.display = "block"; document.getElementById("bm1037").style.display = "none"; } else { document.getElementById("bma1037").style.display = "none"; document.getElementById("bm1037").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Конкатенация полей") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1037", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

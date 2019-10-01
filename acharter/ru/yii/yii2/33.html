@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1239" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1239" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Поведения
+	</h1>
+
+    <p>Поведения (behaviors) — это экземпляры класса [[yii\base\Behavior]] или класса, унаследованного от него.</p>
+    <p>Поведения, также известные как примеси, позволяют расширять функциональность существующих [[yii\base\Component|компонентов]] без необходимости изменения дерева наследования.</p>
+    <p>После прикрепления поведения к компоненту, его методы и свойства "внедряются" в компонент, и становятся доступными так же, как если бы они были объявлены в самом классе компонента.</p>
+    <p>Кроме того, поведение может реагировать на события, создаваемые компонентом, что позволяет тонко настраивать или модифицировать обычное выполнение кода компонента.</p>
+
+    <h2 id="title">
+        Создание поведений
+    </h2>
+
+    <p>Поведения создаются путем расширения базового класса [[yii\base\Behavior]] или его наследников.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\Behavior;
+    
+    class MyBehavior extends Behavior
+    {
+        public $prop1;
+    
+        private $_prop2;
+    
+        public function getProp2()
+        {
+            return $this->_prop2;
+        }
+    
+        public function setProp2($value)
+        {
+            $this->_prop2 = $value;
+        }
+    
+        public function foo()
+        {
+            // ...
+        }
+    }
+    </pre>
+
+    <p>В приведенном выше примере, объявлен класс поведения app\components\MyBehavior содержащий 2 свойства prop1 и prop2, и один метод foo().</p>
+    <p>Обратите внимание, свойство prop2 объявлено с использованием геттера getProp2() и сеттера setProp2().</p>
+    <p>Это возможно, так как [[yii\base\Behavior]] является дочерним классом для [[yii\base\BaseObject]], который предоставляет возможность определения свойств через геттеры и сеттеры.</p>
+    <p>Так как этот класс является поведением, когда он прикреплён к компоненту, компоненту будут также доступны свойства prop1 и prop2, а также метод foo().</p>
+    <p><b>Подсказка:</b> Внутри поведения возможно обращаться к компоненту, к которому оно прикреплено, используя свойство [[yii\base\Behavior::owner]].</p>
+    <p><b>Примечание:</b> При переопределении метода поведения [[yii\base\Behavior::__get()]] и/или [[yii\base\Behavior::__set()]] необходимо также переопределить [[yii\base\Behavior::canGetProperty()]] и/или [[yii\base\Behavior::canSetProperty()]].</p>
+
+    <h2 id="title">
+        Обработка событий компонента
+    </h2>
+
+    <p>Если поведению требуется реагировать на события компонента, к которому оно прикреплено, то необходимо переопределить метод [[yii\base\Behavior::events()]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\db\ActiveRecord;
+    use yii\base\Behavior;
+    
+    class MyBehavior extends Behavior
+    {
+        // ...
+    
+        public function events()
+        {
+            return [
+                ActiveRecord::EVENT_BEFORE_VALIDATE =&gt; 'beforeValidate',
+            ];
+        }
+    
+        public function beforeValidate($event)
+        {
+            // ...
+        }
+    }
+    </pre>
+
+    <p>Метод [[yii\base\Behavior::events()|events()]] должен возвращать список событий и соответствующих им обработчиков.</p>
+    <p>В приведенном выше примере, объявлено событие</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\ActiveRecord::EVENT_BEFORE_VALIDATE|EVENT_BEFORE_VALIDATE]]
+    </pre>
+
+    <p>и его обработчик beforeValidate().</p>
+    <p>Указать обработчик события, можно одним из следующих способов:</p>
+
+    <ul>
+        <li>строка с именем метода текущего поведения, как в примере выше;</li>
+        <li>массив, содержащий объект или имя класса, и имя метода, например, [$object, 'methodName'];</li>
+        <li>анонимная функция.</li>
+    </ul>
+
+    <p>Функция обработчика события должна выглядеть как показано ниже, где $event содержит параметр события.</p>
+    <p>Более детальная информация приведена в разделе События.</p>
+
+    <pre class="brush: csharp;">
+    function ($event) {
+    }
+    </pre>
+
+    <h2 id="title">
+        Прикрепление поведений
+    </h2>
+
+    <p>Прикрепить поведение к [[yii\base\Component|компоненту]] можно как статически, так и динамически.</p>
+    <p>На практике чаще используется статическое прикрепление.</p>
+    <p>Для того чтобы прикрепить поведение статически, необходимо переопределить метод [[yii\base\Component::behaviors()|behaviors()]] компонента, к которому его планируется прикрепить.</p>
+    <p>Метод [[yii\base\Component::behaviors()|behaviors()]] должен возвращать список конфигураций поведений.</p>
+    <p>Конфигурация поведения представляет собой имя класса поведения, либо массив его настроек:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models;
+    
+    use yii\db\ActiveRecord;
+    use app\components\MyBehavior;
+    
+    class User extends ActiveRecord
+    {
+        public function behaviors()
+        {
+            return [
+                // анонимное поведение, прикрепленное по имени класса
+                MyBehavior::className(),
+    
+                // именованное поведение, прикрепленное по имени класса
+                'myBehavior2' =&gt; MyBehavior::className(),
+    
+                // анонимное поведение, сконфигурированное с использованием массива
+                [
+                    'class' =&gt; MyBehavior::className(),
+                    'prop1' =&gt; 'value1',
+                    'prop2' =&gt; 'value2',
+                ],
+    
+                // именованное поведение, сконфигурированное с использованием массива
+                'myBehavior4' =&gt; [
+                    'class' =&gt; MyBehavior::className(),
+                    'prop1' =&gt; 'value1',
+                    'prop2' =&gt; 'value2',
+                ]
+            ];
+        }
+    }
+    </pre>
+
+    <p>Вы можете связать имя с поведением, указав его в качестве ключа элемента массива, соответствующего конфигурации поведения.</p>
+    <p>В таком случае, поведение называется именованным.</p>
+    <p>В примере выше, два именованных поведения: myBehavior2 и myBehavior4.</p>
+    <p>Если с поведением не связано имя, такое поведение называется анонимным.</p>
+    <p>Для того, чтобы прикрепить поведение динамически, необходимо вызвать метод [[yii\base\Component::attachBehavior()]] требуемого компонента:</p>
+
+    <pre class="brush: csharp;">
+    use app\components\MyBehavior;
+    
+    // прикрепляем объект поведения
+    $component->attachBehavior('myBehavior1', new MyBehavior);
+    
+    // прикрепляем по имени класса поведения
+    $component->attachBehavior('myBehavior2', MyBehavior::className());
+    
+    // прикрепляем используя массив конфигураций
+    $component->attachBehavior('myBehavior3', [
+        'class' =&gt; MyBehavior::className(),
+        'prop1' =&gt; 'value1',
+        'prop2' =&gt; 'value2',
+    ]);
+    </pre>
+
+    <p>Использование метода [[yii\base\Component::attachBehaviors()]] позволяет прикрепить несколько поведений за раз.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $component->attachBehaviors([
+        'myBehavior1' =&gt; new MyBehavior,  // именованное поведение
+        MyBehavior::className(),          // анонимное поведение
+    ]);
+    </pre>
+
+    <p>Так же, прикрепить поведение к компоненту можно через конфигурацию, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'as myBehavior2' =&gt; MyBehavior::className(),
+    
+        'as myBehavior3' =&gt; [
+            'class' =&gt; MyBehavior::className(),
+            'prop1' =&gt; 'value1',
+            'prop2' =&gt; 'value2',
+        ],
+    ]
+    </pre>
+
+    <p>Более детальная информация приведена в разделе Конфигурации.</p>
+
+    <h2 id="title">
+        Использование поведений
+    </h2>
+
+    <p>Для использования поведения, его необходимо прикрепить к [[yii\base\Component|компоненту]] как описано выше.</p>
+    <p>После того, как поведение прикреплено к компоненту, его использование не вызывает сложностей.</p>
+    <p>Вы можете обращаться к публичным переменным или свойствам, объявленным с использованием геттеров и сеттеров в поведении, через компонент, к которому оно прикреплено:</p>
+
+    <pre class="brush: csharp;">
+    // публичное свойство "prop1" объявленное в классе поведения
+    echo $component->prop1;
+    $component->prop1 = $value;
+    </pre>
+
+    <p>Аналогично, вы можете вызывать публичные методы поведения,</p>
+
+    <pre class="brush: csharp;">
+    // публичный метод foo() объявленный в классе поведения
+    $component->foo();
+    </pre>
+
+    <p>Обратите внимание, хотя $component не имеет свойства prop1 и метода foo(), они могут быть использованы, как будто являются членами этого класса.</p>
+    <p>В случае, когда два поведения, имеющие свойства или методы с одинаковыми именами, прикреплены к одному компоненту, преимущество будет у поведения, прикрепленного раньше.</p>
+    <p>Если при прикреплении поведения к компоненту указано имя, можно обращаться к поведению по этому имени, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    $behavior = $component->getBehavior('myBehavior');
+    </pre>
+
+    <p>Также можно получить все поведения, прикрепленные к компоненту:</p>
+
+    <pre class="brush: csharp;">
+    $behaviors = $component->getBehaviors();
+    </pre>
+
+    <h2 id="title">
+        Отвязывание поведений
+    </h2>
+
+    <p>Чтобы отвязать поведение от компонента, необходимо вызвать метод [[yii\base\Component::detachBehavior()]], указав имя, связанное с поведением:</p>
+
+    <pre class="brush: csharp;">
+    $component->detachBehavior('myBehavior1');
+    </pre>
+
+    <p>Так же, возможно отвязать все поведения:</p>
+
+    <pre class="brush: csharp;">
+    $component->detachBehaviors();
+    </pre>
+
+    <h2 id="title">
+        Использование поведения TimestampBehavior
+    </h2>
+
+    <p>В заключении, давайте посмотрим на [[yii\behaviors\TimestampBehavior]] — поведение, которое позволяет автоматически обновлять атрибуты с метками времени при сохранении [[yii\db\ActiveRecord|Active Record]] моделей через insert(), update() или save().</p>
+    <p>Для начала, необходимо прикрепить поведение к классу [[yii\db\ActiveRecord|Active Record]], в котором это необходимо:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models\User;
+    
+    use yii\db\ActiveRecord;
+    use yii\behaviors\TimestampBehavior;
+    
+    class User extends ActiveRecord
+    {
+        // ...
+    
+        public function behaviors()
+        {
+            return [
+                [
+                    'class' =&gt; TimestampBehavior::className(),
+                    'attributes' =&gt; [
+                        ActiveRecord::EVENT_BEFORE_INSERT =&gt; ['created_at', 'updated_at'],
+                        ActiveRecord::EVENT_BEFORE_UPDATE =&gt; ['updated_at'],
+                    ],
+                    // если вместо метки времени UNIX используется datetime:
+                    // 'value' =&gt; new Expression('NOW()'),
+                ],
+            ];
+        }
+    }
+    </pre>
+
+    <p>Конфигурация выше описывает следующее:</p>
+
+    <ul>
+        <li>при вставке новой записи поведение должно присвоить текущую метку времени UNIX атрибутам created_at и updated_at;</li>
+        <li>при обновлении существующей записи поведение должно присвоить текущую метку времени UNIX атрибуту updated_at.</li>
+    </ul>
+
+    <p><b>Примечание:</b> Для того, чтобы приведённая выше конфигурация работала с MySQL, тип created_at и updated_at должен быть int(11). В нём будет храниться UNIX timestamp.</p>
+    <p>Теперь, если сохранить объект User, то в его атрибуты created_at и updated_at будут автоматически установлены значения метки времени UNIX на момент сохранения записи:</p>
+
+    <pre class="brush: csharp;">
+    $user = new User;
+    $user->email = 'test@example.com';
+    $user->save();
+    echo $user->created_at;  // выведет метку времени на момент сохранения записи
+    </pre>
+
+    <p>Поведение [[yii\behaviors\TimestampBehavior|TimestampBehavior]] так же содержит полезный метод [[yii\behaviors\TimestampBehavior::touch()|touch()]], который устанавливает текущую метку времени указанному атрибуту и сохраняет его в базу данных:</p>
+
+    <pre class="brush: csharp;">
+    $user->touch('login_time');
+    </pre>
+
+    <h2 id="title">
+        Другие поведения
+    </h2>
+
+    <p>Кроме затронутых выше, есть и другие уже реализованные поведения.</p>
+    <p>Как встроенные, так и сторонние:</p>
+
+    <ul>
+        <li>[[yii\behaviors\BlameableBehavior]] - автоматически заполняет указанные атрибуты ID текущего пользователя.</li>
+        <li>[[yii\behaviors\SluggableBehavior]] - автоматически заполняет указанные атрибут пригодным для URL текстом, получаемым из другого атрибута.</li>
+        <li>[[yii\behaviors\AttributeBehavior]] - автоматически задаёт указанное значение одному или нескольким атрибутам ActiveRecord при срабатывании определённых событий.</li>
+        <li>yii2tech\ar\softdelete\SoftDeleteBehavior - предоставляет методы для «мягкого» удаления и воосстановления ActiveRecord. То есть выставляет статус или флаг, который показывает, что запись удалена.</li>
+        <li>yii2tech\ar\position\PositionBehavior - позволяет упралять порядком записей через специальные методы. Информация сохраняется в целочисленном поле.</li>
+    </ul>
+
+    <h2 id="title">
+        Сравнение с трейтами
+    </h2>
+
+    <p>Несмотря на то, что поведения схожи с трейтами тем, что "внедряют" свои свойства и методы в основной класс, они имеют множество отличий.</p>
+    <p>Они оба имеют свои плюсы и минусы, и, скорее, дополняют друг друга, а не заменяют.</p>
+
+    <h3 id="title">
+        Плюсы поведений
+    </h3>
+
+    <p>Поведения, как и любые другие классы, поддерживают наследование.</p>
+    <p>Трейты же можно рассматривать как копипейст на уровне языка. Они наследование не поддерживают.</p>
+    <p>Поведения могут быть прикреплены и отвязаны от компонента динамически, без необходимости модифицирования класса компонента.</p>
+    <p>Для использования трейтов необходимо модифицировать класс.</p>
+    <p>Поведения, в отличие от трейтов, можно настраивать.</p>
+    <p>Поведения можно настраивать таким образом, чтобы они реагировали на события компонента.</p>
+    <p>Конфликты имен свойств и методов поведений, прикрепленных к компоненту, разрешаются на основе порядка их подключения.</p>
+    <p>Конфликты имен, вызванные различными трейтами, требуют ручного переименования конфликтующих свойств или методов.</p>
+
+    <h3 id="title">
+        Плюсы трейтов
+    </h3>
+
+    <p>Трейты являются гораздо более производительными, чем поведения, которые, являясь объектами, требуют дополнительного времени и памяти.</p>
+    <p>Многие IDE поддерживают работу с трейтами, так как они являются стандартными конструкциями языка.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="32.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="34.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/33.html", "Yii2: Поведения", "bm1239"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1239", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1239") == 1) { document.getElementById("bma1239").style.display = "block"; document.getElementById("bm1239").style.display = "none"; } else { document.getElementById("bma1239").style.display = "none"; document.getElementById("bm1239").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Поведения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1239", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

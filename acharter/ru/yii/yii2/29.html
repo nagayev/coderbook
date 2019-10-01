@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1235" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1235" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Логирование
+	</h1>
+
+    <p>Yii предоставляет мощную, гибко настраиваемую и легко расширяемую систему логгирования.</p>
+    <p>Эта система логгирования позволяет удобным способом сохранять сообщения разных типов и фильтровать их.</p>
+    <p>Сообщения могут быть сохранены в файлы, базы данных или отправлены на email.</p>
+    <p>Использование Системы логгирования Yii включает следующие шаги:</p>
+
+    <ul>
+        <li>Запись сообщений лога в различных частях кода приложения;</li>
+        <li>Настройка целей лога в конфигурации приложения;</li>
+        <li>Изучение отфильтрованных сообщений лога, например, при помощи Отладчика Yii.</li>
+    </ul>
+
+    <p>В данном разделе, будем рассматривать первые два шага.</p>
+
+    <h2 id="title">
+        Сообщения лога
+    </h2>
+
+    <p>Запись сообщений лога осуществляется вызовом одного из следующих методов:</p>
+
+    <ul>
+        <li>[[Yii::trace()]]: записывает сообщения для отслеживания выполнения кода приложения. Используется, в основном, при разработке.</li>
+        <li>[[Yii::info()]]: записывает сообщение, содержащее какую-либо полезную информацию.</li>
+        <li>[[Yii::warning()]]: записывает тревожное сообщение при возникновении неожиданного события.</li>
+        <li>[[Yii::error()]]: записывает критическую ошибку, на которую нужно, как можно скорее, обратить внимаение.</li>
+    </ul>
+
+    <p>Эти методы позволяют записывать сообщения разных уровней важности и категорий.</p>
+    <p>Они имеют одинаковое описание функции function ($message, $category = 'application'), где $message передает сообщение для записи, а $category - категорию сообщения.</p>
+    <p>В следующем примере будет записано trace сообщение с категорией по умолчанию application:</p>
+
+    <pre class="brush: csharp;">
+    Yii::trace('start calculating average revenue');
+    </pre>
+
+    <p><b>Примечание:</b> Сообщение может быть как строкой так и объектом или массивом. За корректную работу с содержимым сообщения отвечают цели лога. По умолчанию, если сообщение не является строкой, оно будет приведено к строковому типу при помощи [[yii\helpers\VarDumper::export()]].</p>
+    <p>Для упрощения работы с сообщениями лога и их фильтрации, рекомендуется явно указывать подходящую категорию для каждого сообщения.</p>
+    <p>Возможно использование иерархической системы именования категорий, что значительно упростит целям лога фильтрацию сообщений по категориям.</p>
+    <p>Простым и эффективным способом именования категорий является использование магической PHP константы __METHOD__.</p>
+    <p>Такой подход используется в ядре фреймворка Yii.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    Yii::trace('начало вычисления среднего дохода', __METHOD__);
+    </pre>
+
+    <p>Константа __METHOD__ вычисляется как имя метода (включая полное имя класса), в котором она использована.</p>
+    <p>Например, её значение будет вычислено как 'app\controllers\RevenueController::calculate', если показанный выше код вызывается в соответствующем методе.</p>
+    <p>Информация: методы логгирования, описанные выше являются, на самом деле, ярлыками для метода [[yii\log\Logger::log()|log()]] [[yii\log\Logger|объекта логгера]], который доступен как синглтон Yii::getLogger().</p>
+    <p>При определенном количестве записанных сообщений или завершении приложения, объект логгера вызывает [[yii\log\Dispatcher|message dispatcher]] для отправки записанных сообщений зарегистрированным целям логов.</p>
+
+    <h2 id="title">
+        Цели логов
+    </h2>
+
+    <p>Цель логов - это экземпляр класса [[yii\log\Target]] или класса, унаследованного от него.</p>
+    <p>Цель фильтрует сообщения логов по уровню важности и категории, а затем выгружает их в соответствующее хранилище.</p>
+    <p>Например, [[yii\log\DbTarget|database target]] выгружает отфильтрованные сообщения логов в таблицу базы данных, а [[yii\log\EmailTarget|email target]] отправляет сообщения логов на заданные адреса email.</p>
+    <p>При помощи компонента приложения log возможна регистрация нескольких целей логов. Пример конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // Компонент "log" должен быть загружен на этапе предзагрузки
+        'bootstrap' =&gt; ['log'],
+        
+        'components' =&gt; [
+            'log' =&gt; [
+                'targets' =&gt; [
+                    [
+                        'class' =&gt; 'yii\log\DbTarget',
+                        'levels' =&gt; ['error', 'warning'],
+                    ],
+                    [
+                        'class' =&gt; 'yii\log\EmailTarget',
+                        'levels' =&gt; ['error'],
+                        'categories' =&gt; ['yii\db\*'],
+                        'message' =&gt; [
+                           'from' =&gt; ['log@example.com'],
+                           'to' =&gt; ['admin@example.com', 'developer@example.com'],
+                           'subject' =&gt; 'Ошибки базы данных на сайте example.com',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Примечание: Компонент log должен быть загружен в процессе предзагрузки, тогда он сможет оперативно передавать сообщения целям логов.</p>
+    <p>Поэтому он указан в массиве bootstrap.</p>
+    <p>В приведенном выше коде в свойстве [[yii\log\Dispatcher::targets]] зарегистрированы две цели логов:</p>
+
+    <ul>
+        <li>первая цель выбирает ошибки и предупреждения и сохраняет их в базу данных;</li>
+        <li>вторая цель выбирает ошибки с категорией, имя которой начинается с yii\db\ и шлет сразу на два адреса email admin@example.com и developer@example.com.</li>
+    </ul>
+
+    <p>На данный момент, Yii содержит следующие встроенные цели логов.</p>
+    <p>В документации по API подробно описана настройка и использование этих классов.</p>
+
+    <ul>
+        <li>[[yii\log\DbTarget]]: сохраняет сообщения логов в таблицу базы данных.</li>
+        <li>[[yii\log\EmailTarget]]: шлет сообщения логов на заранее указанный email.</li>
+        <li>[[yii\log\FileTarget]]: сохраняет сообщения логов в файлы.</li>
+        <li>[[yii\log\SyslogTarget]]: сохраняет сообщения логов в системный лог используя функцию PHP syslog().</li>
+    </ul>
+
+    <p>Дальше рассмотрим общие для этих четырех классов возможности.</p>
+
+    <h3 id="title">
+        Фильтрация сообщений
+    </h3>
+
+    <p>Для каждой цели можно настроить свойства [[yii\log\Target::levels|levels]] и [[yii\log\Target::categories|categories]], которые указывают уровни важности и категории сообщений логов, которые цель должна обрабатывать.</p>
+    <p>Свойство [[yii\log\Target::levels|levels]] принимает массив, содержащий одно или несколько следующих значений:</p>
+
+    <ul>
+        <li>error: соответствует сообщениям, сохраненным методом [[Yii::error()]].</li>
+        <li>Предупреждение: соответствует сообщениям, сохраненным методом [[Yii::warning()]].</li>
+        <li>Информация: соответствует сообщениям, сохраненным методом [[Yii::info()]].</li>
+        <li>trace: соответствует сообщениям, сохраненным методом [[Yii::trace()]].</li>
+        <li>profile: соответствует сообщениям, сохраненным методами [[Yii::beginProfile()]] и [[Yii::endProfile()]], подробнее о которых написано в подразделе Профилирование производительности.</li>
+    </ul>
+
+    <p>Если свойство [[yii\log\Target::levels|levels]] не задано, цель логов будет обрабатывать сообщения с любым уровнем важности.</p>
+    <p>Свойство [[yii\log\Target::categories|categories]] принимает массив, содержащий имена категорий или шаблоны.</p>
+    <p>Цель будет обрабатывать только те сообщения, категория которых совпадает с одним из значений или шаблонов этого массива.</p>
+    <p>Шаблон категории должен состоять из префикса имени категории и звездочки * на конце.</p>
+    <p>Имя категории совпадает с шаблоном, если оно начинается с префикса шаблона. Например, yii\db\Command::execute и yii\db\Command::query используются в качестве имен категорий сообщений, записанных в классе [[yii\db\Command]].</p>
+    <p>Оба они совпадают с шаблоном yii\db\*.</p>
+    <p>Если свойство [[yii\log\Target::categories|categories]] не задано, цель будет обрабатывать сообщения любой категории.</p>
+    <p>Кроме списка включаемый категорий, заданного свойством [[yii\log\Target::categories|categories]], при помощи свойства [[yii\log\Target::except|except]] возможно задать список исключаемых категорий.</p>
+    <p>Если категория сообщения совпадает со значением или шаблоном из списка исключаемых категорий, такое сообщение не будет обработано.</p>
+    <p>В следующем примере показан вариант конфигурации цели логов, которая должна обрабатывать только сообщения об ошибках и предупреждениях в категориях yii\db\* и yii\web\HttpException:*, за исключением yii\web\HttpException:404.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'yii\log\FileTarget',
+        'levels' =&gt; ['error', 'warning'],
+        'categories' =&gt; [
+            'yii\db\*',
+            'yii\web\HttpException:*',
+        ],
+        'except' =&gt; [
+            'yii\web\HttpException:404',
+        ],
+    ]
+    </pre>
+
+    <p><b>Примечание:</b> При обработке HTTP исключения обработчиком ошибок, сообщение будет сохранено с категорией вида yii\web\HttpException:ErrorCode.</p>
+    <p>Например, исключение [[yii\web\NotFoundHttpException]] вызовет сообщение об ошибке с категорией yii\web\HttpException:404.</p>
+
+    <h3 id="title">
+        Форматирование сообщений
+    </h3>
+
+    <p>Цели логов выгружают отфильтрованные сообщения в определенном формате.</p>
+    <p>Например, цель класса [[yii\log\FileTarget]] сохранит сообщение следующего формата в файле runtime/log/app.log:</p>
+
+    <pre class="brush: csharp;">
+    2014-10-04 18:10:15 [::1][][-][trace][yii\base\Module::getModule] Loading module: debug
+    </pre>
+
+    <p>По умолчанию сообщения логов форматируются методом [[yii\log\Target::formatMessage()]]:</p>
+
+    <pre class="brush: csharp;">
+    Временная метка [IP адрес][ID пользователя][ID сессии][Уровень важности][Категория] Текст сообщения
+    </pre>
+
+    <p>Этот формат может быть изменен при помощи свойства [[yii\log\Target::prefix]], которое получает анонимную функцию, возвращающую нужный префикс сообщения.</p>
+    <p>Например, следующий код позволяет настроить вывод идентификатор текущего пользователя в качестве префикса для всех сообщений.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'yii\log\FileTarget',
+        'prefix' =&gt; function ($message) {
+            $user = Yii::$app->has('user', true) ? Yii::$app->get('user') : null;
+            $userID = $user ? $user->getId(false) : '-';
+            return "[$userID]";
+        }
+    ]
+    </pre>
+
+    <p>Кроме префиксов сообщений, также возможно добавление общей информации для каждого набора сообщений лога.</p>
+    <p>По умолчанию, включаются значения следующих глобальных PHP переменных: $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION и $_SERVER.</p>
+    <p>Эта возможность настраивается при помощи свойства [[yii\log\Target::logVars]], содержащего массив имен переменных, которые необходимо включить в лог.</p>
+    <p>Например, следующий код позволяет настроить цель логов так, чтобы к сообщениям присоединялось только содержимое переменной $_SERVER.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'yii\log\FileTarget',
+        'logVars' =&gt; ['_SERVER'],
+    ]
+    </pre>
+
+    <p>При задании значением свойства logVars пустого массива, общая информация не будет выводиться.</p>
+    <p>Для определения собственного алгоритма подключения общей информации, следует переопределить метод [[yii\log\Target::getContextMessage()]].</p>
+
+    <h3 id="title">
+        Уровень отслеживания выполнения кода
+    </h3>
+
+    <p>В процессе разработки, часто бывает необходимость видеть источники сообщений.</p>
+    <p>Для этого нужно использовать свойство [[yii\log\Dispatcher::traceLevel|traceLevel]] компонента log.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'bootstrap' =&gt; ['log'],
+        'components' =&gt; [
+            'log' =&gt; [
+                'traceLevel' =&gt; YII_DEBUG ? 3 : 0,
+                'targets' =&gt; [...],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>При такой настройке свойство [[yii\log\Dispatcher::traceLevel|traceLevel]] будет равно 3 при YII_DEBUG равном true и 0 при YII_DEBUG равном false.</p>
+    <p>Это означает, что при включенном YII_DEBUG, каждое сообщение лога будет содержать до трех уровней стека вызовов, а при выключенном YII_DEBUG информация о стеке вызовов не будет включаться в лог.</p>
+    <p><b>Информация:</b> Получение информации стека вызовов является не простым процессом. Поэтому такую возможность следует использовать только при разработке или отладке приложения.</p>
+
+    <h3 id="title">
+        Передача на обработку и выгрузка сообщений
+    </h3>
+
+    <p>Как упоминалось выше, сообщения логов обрабатываются в массиве [[yii\log\Logger|объектом логгера]].</p>
+    <p>Для ограничения объема памяти, занятого этим массивом, при накоплении определенного числа сообщений, логгер передает их на обработку целям логов.</p>
+    <p>Максимальное количество сообщений определяется свойством [[yii\log\Dispatcher::flushInterval|flushInterval]] компонента log:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'bootstrap' =&gt; ['log'],
+        'components' =&gt; [
+            'log' =&gt; [
+                'flushInterval' =&gt; 100,   // по умолчанию 1000
+                'targets' =&gt; [...],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Информация:</b> При завершении приложения, так же происходит передача сообщений на обработку.</p>
+    <p>После передачи сообщений [[yii\log\Logger|объектом логгера]] в цели логов, сообщения не выгружаются немедленно.</p>
+    <p>Вместо этого, выгрузка сообщений происходит когда цель логов накопит определенное количество фильтрованных сообщений.</p>
+    <p>Максимальное количество сообщений определяется свойством [[yii\log\Target::exportInterval|exportInterval]] цели логов.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'yii\log\FileTarget',
+        'exportInterval' =&gt; 100,  // по умолчанию 1000
+    ]
+    </pre>
+
+    <p>Из-за того, что значения максимального количества сообщений для передачи и выгрузки по умолчанию достаточно велико, при вызове метода Yii::trace(), или любого другого метода логгирования, сообщение не появится сразу в файле или таблице базы данных.</p>
+    <p>Такое поведение может стать проблемой, например, в консольных приложениях с большим временем исполнения.</p>
+    <p>Для того, чтобы все сообщения логов сразу же попадали в лог, необходимо установить значения свойств [[yii\log\Dispatcher::flushInterval|flushInterval]] и [[yii\log\Target::exportInterval|exportInterval]] равными 1, например так:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'bootstrap' =&gt; ['log'],
+        'components' =&gt; [
+            'log' =&gt; [
+                'flushInterval' =&gt; 1,
+                'targets' =&gt; [
+                    [
+                        'class' =&gt; 'yii\log\FileTarget',
+                        'exportInterval' =&gt; 1,
+                    ],
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Примечание:</b> Частая передача и выгрузка сообщений может сильно снизить производительность приложения.</p>
+
+    <h3 id="title">
+        Переключение целей логов
+    </h3>
+
+    <p>Свойство [[yii\log\Target::enabled|enabled]] отвечает за включение или отключение цели логов.</p>
+    <p>Возможно управлением этим свойством как в конфигурации приложения, так и при помощи следующего PHP кода:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->log->targets['file']->enabled = false;
+    </pre>
+
+    <p>В данном примере используется цель логов file, которая может быть настроена в конфигурации приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'bootstrap' =&gt; ['log'],
+        'components' =&gt; [
+            'log' =&gt; [
+                'targets' =&gt; [
+                    'file' =&gt; [
+                        'class' =&gt; 'yii\log\FileTarget',
+                    ],
+                    'db' =&gt; [
+                        'class' =&gt; 'yii\log\DbTarget',
+                    ],
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <h3 id="title">
+        Создание новых целей
+    </h3>
+
+    <p>Создание новой цели логов не является сложной задачей.</p>
+    <p>В общем случае, нужно реализовать метод [[yii\log\Target::export()]], выгружающий массив [[yii\log\Target::messages]] в место хранения логов.</p>
+    <p>Возможно использование метода [[yii\log\Target::formatMessage()]] для форматирования сообщения.</p>
+    <p>Детали реализации можно подсмотреть в исходном коде любого из классов целей логов, включенных в состав Yii.</p>
+
+    <h2 id="title">
+        Профилирование производительности
+    </h2>
+
+    <p>Профилирование производительности - это специальный тип сообщений логов, используемый для измерения времени выполнения определенных участков кода и определения проблем производительности.</p>
+    <p>Например, класс [[yii\db\Command]] использует профилирование производительности для определения времени исполнения каждого запроса базы данных.</p>
+    <p>Для использования профилирования производительности нужно определить участок кода для измерения и обернуть его вызовами методов [[Yii::beginProfile()]] и [[Yii::endProfile()]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    \Yii::beginProfile('myBenchmark');
+    
+    ...участок кода для профилирования...
+    
+    \Yii::endProfile('myBenchmark');
+    </pre>
+
+    <p>где myBenchmark является уникальным идентификатором данного измеряемого участка кода.</p>
+    <p>В дальнейшем, при изучении результатов профилирования, уникальный идентификатор поможет определить время выполнения соответствующего участка кода.</p>
+    <p>Очень важно соблюдать уровни вложенности пар beginProfile и endProfile.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    \Yii::beginProfile('block1');
+    
+        // код для профилирования
+    
+        \Yii::beginProfile('block2');
+            // другой код для профилирования
+        \Yii::endProfile('block2');
+    
+    \Yii::endProfile('block1');
+    </pre>
+
+    <p>Если пропустить \Yii::endProfile('block1') или поменять местами \Yii::endProfile('block1') и \Yii::endProfile('block2'), профилирование производительности не будет работать.</p>
+    <p>Для каждого участка кода, будет записано сообщение лога с уровнем важности profile.</p>
+    <p>Для сбора таких сообщений можно настроить цель логов или воспользоваться Отладчиком Yii, который имеет встроенную панель профилирования производительности, отображающую результаты измерений.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="30.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/29.html", "Yii2: Логирование", "bm1235"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1235", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1235") == 1) { document.getElementById("bma1235").style.display = "block"; document.getElementById("bm1235").style.display = "none"; } else { document.getElementById("bma1235").style.display = "none"; document.getElementById("bm1235").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Логирование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1235", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

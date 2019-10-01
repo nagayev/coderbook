@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma18" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm18" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Нумерация страниц
+	</h1>
+
+	<p>Для блогов общее количество постов разбивается на отдельные страницы, чтобы меньше загружать трафик и для упрощения восприятия информации.</p>
+	<p>Навигация между страницами происходит одним из двух способов:</p>
+	<p>1. выводятся номера всех страниц со стрелками, ведущими на предыдущую и следующую страницу;</p>
+
+	<img src="gridBTSP59.png" id="image" />
+
+	<p>2. выводятся только ссылки на предыдущую и следующую страницу.</p>
+
+	<img src="gridBTSP60.png" id="image" />
+
+	<h1 id="title">
+		Все страницы
+	</h1>
+
+	<p>Нумерация делается с помощью элемента <xm>&lt;ul></xm> с классом pagination.</p>
+	<p>Номера добавляются через элементы <xm>&lt;li></xm>, при этом мы сами настраиваем их количество.</p>
+	<p>Например, если нам нужны ссылки для перехода на первую и последнюю страницу или ссылки ведущие на предыдущую и следующую страницу.</p>
+
+    <pre class="brush: csharp;">
+	<ul class="pagination">
+
+	<li class="disabled"><a href="#">&laquo;</a></li>
+
+	<li class="active"><a href="#">1</a></li>
+
+	<li ><a href="#">2</a></li>
+
+	<li><a href="#">3</a></li>
+
+	<li><a href="#">4</a></li>
+
+	<li><a href="#">5</a></li>
+
+	<li><a href="#">&raquo;</a></li>
+
+	</ul>
+	</pre>
+
+	<p>Текущий пункт навигации выделяется через класс active добавляемый к <xm>&lt;li></xm>.</p>
+	<p>Если требуется заблокировать какой-то пункт, то добавьте к нему класс disabled.</p>
+	<p>Блокирование нужно, чтобы не вводить пользователя в заблуждение.</p>
+	<p>Так, если он находится на первой странице, то переход на предыдущую страницу невозможен, потому как её просто в данный момент нет.</p>
+	<p>При наведении курсора мыши на такой пункт указатель меняет свой вид.</p>
+	<p>Для уменьшения или увеличения размера ссылок используйте соответственно классы pagination-sm и pagination-lg, добавив их к <xm>&lt;ul></xm>.</p>
+	<p>Сам класс pagination никуда не уходит при этом.</p>
+	<p>Вот как будет выглядеть код для большего размера.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="pagination pagination-lg">
+	</pre>
+
+	<h1 id="title">
+		Предыдущая и следующая страница
+	</h1>
+
+	<p>Второй тип навигации по страницам содержит только ссылки на предыдущую и следующую страницу.</p>
+	<p>Соответственно, упрощается код и вид нумерации, поскольку в списке будет всего два пункта.</p>
+	<p>При этом для <xm>&lt;ul></xm> используем класс pager, как показано в примере.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="pager">
+
+	<li><a href="#">Назад</a></li>
+
+	<li><a href="#">Вперёд</a></li>
+
+	</ul>
+	</pre>
+
+	<p>Ссылки выводятся достаточно близко друг от друга и чтобы их разнести и выровнять по левому и правому краям добавьте к ним классы previous и next.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="pager">
+
+	<li class="previous"><a href="#">Сюда</a></li>
+
+	<li class="next"><a href="#">Туда</a></li>
+
+	</ul>
+	</pre>
+
+	<p>Результат данного примера:</p>
+
+	<img src="gridBTSP61.png" id="image" />
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/bootstrap/book/18.html", "Нумерация страниц", "bm18"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm18", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm18") == 1) { document.getElementById("bma18").style.display = "block"; document.getElementById("bm18").style.display = "none"; } else { document.getElementById("bma18").style.display = "none"; document.getElementById("bm18").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Нумерация страниц") == 1) { arrs.splice(i, 1); localStorage.setItem("bm18", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

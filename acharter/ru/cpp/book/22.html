@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma43" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm43" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Цикл while в C++
+	</h1>
+	
+	<p>Оператор цикла while или цикл while — цикл, повторяющий одно и то же действие, пока условие продолжения цикла while остаётся истинным.</p>
+
+	<pre class="brush: csharp;">
+	// форма записи цикла while
+	while (/*условие продолжения цикла while*/)
+	{
+		/*блок операторов*/;
+		/*управление условием*/;
+	}
+	</pre>
+
+	<p>Условие продолжения цикла должно быть истинно true, как только условие стало ложным, выполняется выход из цикла.</p>
+	<p>Также как и в условных операторах выбора, фигурные скобочки могут опускаться в том случае, если тело цикла — это один оператор.</p>
+	<p>Но как правило в цикле выполняется несколько операторов, так как кроме выполнения полезного действия необходимо делать условие цикла while ложным, иначе цикл будет бесконечным, а это, в свою очередь, приведет к зависанию программы.</p>
+	<p>Рассмотрим применение цикла while на примере движения автомобиля.</p>
+	<p>На псевдокоде, то это будет так:</p>
+
+	<pre class="brush: csharp;">
+	// Пока скорость движения автомобиля меньше 60 км/ч, продолжать наращивать скорость.
+	</pre>
+
+	<p>Истинным условием цикла, в данном случае, является скорость автомобиля меньше 60 км/ч, а ложным — скорость автомобиля больше или равно 60 км/ч.</p>
+	<p>Повторение цикла будет продолжаться до тех пор пока скорость автомобиля не станет больше или равно 60 км/ч, после наступления этого момента условие цикла станет ложным, и программа выйдет из цикла.</p>
+	<p>Рассмотрим  фрагмент кода на C++ с циклом while решающим поставленную задачу.</p>
+
+	<pre class="brush: csharp;">
+	int speed = 5; // начальная скорость автомобиля
+	while ( speed < 60 ) // заголовок цикла while
+	speed += 10; // тело цикла
+	</pre>
+
+	<p>Для начала в строке 1 была объявлена и инициализирована переменная speed.</p>
+	<p>В строке 2 программа проверяет условие цикла while, 5 &lt; 60 = true.</p>
+	<p>Программа входит в цикл и выполняет оператор в строке 3.</p>
+	<p>Теперь уже speed = 15. Опять выполняется проверка 15 &lt; 60 = true.</p>
+	<p>Условие истинно, значение в переменной изменяется, speed = 25.</p>
+	<p>Таким образом, выполняются последовательные повторения цикла, переменная speed ещё принимает такие значения: 35, 45, 55, 65.</p>
+	<p>Последнее изменение переменной speed приводит к тому, что условие в цикле while  становится ложным 65 &lt; 60 = false, и производится выход из цикла while.</p>
+	<p>Таким образом, выполнилось 6 повторений, при этом speed = 65; — с таким значением переменной закончилась работа цикла while.</p>
+	<p>Давайте запрограммируем эту задачу, и убедимся в достоверности всего выше сказанного.</p>
+
+	<pre class="brush: csharp;">
+	// while.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		int speed = 5, count = 1;
+		while ( speed < 60 )
+		{
+			speed += 10; 
+			cout << count <<"-speed = " << speed << endl;
+			// подсчёт повторений цикла
+			count++;
+		}
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Итак, в строке 14 добавил переменную-счётчик, для подсчёта прохождений цикла.</p>
+	<p>Тело цикла увеличилось, поэтому пришлось поставить фигурные скобочки.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	1-speed = 15
+	2-speed = 25
+	3-speed = 35
+	4-speed = 45
+	5-speed = 55
+	6-speed = 65
+	</pre>
+
+	<p>Как я и говорил, всего 6 повторений цикла и после выхода из цикла while переменная speed = 65.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/22.html", "Цикл while в C++", "bm43"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm43", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm43") == 1) { document.getElementById("bma43").style.display = "block"; document.getElementById("bm43").style.display = "none"; } else { document.getElementById("bma43").style.display = "none"; document.getElementById("bm43").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Цикл while в C++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm43", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

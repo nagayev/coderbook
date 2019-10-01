@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1312" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1312" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Создание приложения Blog
+    </h1>
+
+    <p>Rails поставляется с рядом скриптов, названных генераторами, разработанных для облегчения жизни разработчика, создавая все, что необходимо для начала работы над определенной задачей.</p>
+    <p>Одним из них является генератор нового приложения, предоставляющий вам основу приложения Rails, таким образом, вам не нужно писать его самим.</p>
+    <p>Для использования этого генератора, откройте терминал, войдите в папку, в которой у вас есть права на создание файлов и напишите:</p>
+
+    <pre class="brush: csharp;">
+    $ rails new blog
+    </pre>
+
+    <p>Это создаст приложение на Rails с именем Blog в директории blog и установит гемы, зависимости от которых упомянуты в Gemfile при использовании bundle install.</p>
+    <p>При использовании Windows Subsystem for Linux, имеются некоторые ограничения на сообщения файловой системы, означающие, что следует отключить гемы spring и listen, что можно сделать, запустив rails new blog --skip-spring --skip-listen.</p>
+    <p>Можно посмотреть все возможные опции командной строки, которые принимает билдер приложения на Rails, запустив rails new -h.</p>
+    <p>После того, как вы создали приложение blog, перейдите в его папку:</p>
+
+    <pre class="brush: csharp;">
+    $ cd blog
+    </pre>
+
+    <p>В директории blog имеется несколько автоматически сгенерированных файлов и папок, задающих структуру приложения на Rails.</p>
+    <p>Большая часть работы в этом самоучителе будет происходить в папке app, но сейчас пробежимся по функциям каждой папки, которые создает Rails в новом приложении по умолчанию:</p>
+
+    <table>
+        <tr>
+            <th>Файл/Папка</th>
+            <th>Назначение</th>
+        </tr>
+        <tr>
+            <td>app/</td>
+            <td>Содержит контроллеры, модели, вьюхи, хелперы, рассыльщики, каналы, задания и ассеты вашего приложения. Мы рассмотрим эту папку подробнее далее.</td>
+        </tr>
+        <tr>
+            <td>bin/</td>
+            <td>Содержит Rails скрипты которые стартуют ваше приложение, также директория может содержать другие скрипты которые вы используете для настройки, обновления, деплоя или запуска.</td>
+        </tr>
+        <tr>
+            <td>config/</td>
+            <td>Конфигурации маршрутов, базы данных вашего приложения, и т.д.</td>
+        </tr>
+        <tr>
+            <td>config.ru</td>
+            <td>Конфигурация Rack для серверов, основанных на Rack, используемых для запуска приложения.</td>
+        </tr>
+        <tr>
+            <td>db/</td>
+            <td>Содержит текущую схему вашей базы данных, а также миграции базы данных.</td>
+        </tr>
+        <tr>
+            <td>Gemfile<br />Gemfile.lock</td>
+            <td>Эти файлы позволяют указать, какие зависимости от гемов нужны для вашего приложения на Rails. Эти файлы используются гемом Bundler.</td>
+        </tr>
+        <tr>
+            <td>lib/</td>
+            <td>Внешние модули для вашего приложения.</td>
+        </tr>
+        <tr>
+            <td>log/</td>
+            <td>Файлы логов приложения.</td>
+        </tr>
+        <tr>
+            <td>package.json</td>
+            <td>Этот файл позволяет указать, какие зависимости npm необходимы для приложения Rails. Этот файл используется Yarn.</td>
+        </tr>
+        <tr>
+            <td>public/</td>
+            <td>Единственная папка, которая доступна извне как есть. Содержит статичные файлы и скомпилированные ассеты.</td>
+        </tr>
+        <tr>
+            <td>Rakefile</td>
+            <td>Этот файл находит и загружает задачи, которые могут быть запущены в командной строке. Определенная задача доступна во всех компонентах Rails. Вместо изменения Rakefile, можно добавить свои собственные задачи, добавив файлы в директорию lib/tasks приложения.</td>
+        </tr>
+        <tr>
+            <td>README.md</td>
+            <td>Это вводный мануал для вашего приложения. Его следует отредактировать, чтобы рассказать остальным, что ваше приложение делает, как его настроить, и т.п.</td>
+        </tr>
+        <tr>
+            <td>test/</td>
+            <td>Юнит-тесты, фикстуры и прочий аппарат тестирования.</td>
+        </tr>
+        <tr>
+            <td>tmp/</td>
+            <td>Временные файлы (такие как файлы кэша и pid)</td>
+        </tr>
+        <tr>
+            <td>vendor/</td>
+            <td>Место для кода внешних разработчиков. В типичном приложении на Rails включает внешние гемы.</td>
+        </tr>
+        <tr>
+            <td>.gitignore</td>
+            <td>Этот файл сообщает git, какие файлы (явно или по шаблону) ему следует игнорировать. Подробнее об игнорировании файлов смотрите GitHub - Ignoring files.</td>
+        </tr>
+    </table>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="4.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/3.html", "Создание приложения Blog", "bm1312"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1312", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1312") == 1) { document.getElementById("bma1312").style.display = "block"; document.getElementById("bm1312").style.display = "none"; } else { document.getElementById("bma1312").style.display = "none"; document.getElementById("bm1312").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание приложения Blog") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1312", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1108" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1108" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Отображение XML с CSS
+	</h1>
+
+	<p>При помощи CSS (Каскадных таблиц стилей) можно добавить в XML документ информацию о правилах вывода.</p>
+	
+	<h1 id="title">
+		Отображение XML файлов при помощи CSS
+	</h1>
+
+	<p>При помощи CSS мы можем форматировать вывод XML документов.</p>
+	<p>Ниже представлен пример того, как использовать стили CSS для форматирования вывода XML документа:</p>
+	<p>Посмотрите на этот XML файл: </p>
+	
+	<pre class="brush: csharp;">
+		&lt;CATALOG&gt;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Empire Burlesque&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Bob Dylan&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Columbia&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;10.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1985&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Hide your heart&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Bonnie Tyler&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;CBS Records&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;9.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1988&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Greatest Hits&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Dolly Parton&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;RCA&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;9.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1982&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Still got the blues&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Gary Moore&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Virgin records&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;10.20&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1990&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Eros&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Eros Ramazzotti&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;EU&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;BMG&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;9.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1997&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;One night only&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Bee Gees&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Polydor&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;10.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1998&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Sylvias Mother&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Dr.Hook&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;CBS&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.10&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1973&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Maggie May&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Rod Stewart&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Pickwick&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.50&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1990&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Romanza&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Andrea Bocelli&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;EU&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Polydor&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;10.80&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1996&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;When a man loves a woman&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Percy Sledge&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Atlantic&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.70&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1987&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Black angel&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Savage Rose&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;EU&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Mega&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;10.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1995&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;1999 Grammy Nominees&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Many&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Grammy&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;10.20&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1999&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;For the good times&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Kenny Rogers&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Mucik Master&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.70&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1995&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Big Willie style&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Will Smith&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Columbia&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;9.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1997&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Tupelo Honey&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Van Morrison&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Polydor&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.20&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1971&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Soulsville&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Jorn Hoel&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;Norway&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;WEA&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;7.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1996&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;The very best of&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Cat Stevens&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Island&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1990&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Stop&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Sam Brown&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;A and M&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1988&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Bridge of Spies&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;T&apos;Pau&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Siren&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;7.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1987&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Private Dancer&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Tina Turner&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Capitol&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1983&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Midt om natten&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Kim Larsen&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;EU&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Medley&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;7.80&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1983&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Pavarotti Gala Concert&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Luciano Pavarotti&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;DECCA&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;9.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1991&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;The dock of the bay&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Otis Redding&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Atlantic&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;7.90&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1987&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Picture book&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Simply Red&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;EU&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;Elektra&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;7.20&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1985&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Red&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;The Communards&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;London&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;7.80&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1987&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;
+&#x9;&#x9;&#x9;&lt;CD&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;TITLE&gt;Unchain my heart&lt;/TITLE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;ARTIST&gt;Joe Cocker&lt;/ARTIST&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;COMPANY&gt;EMI&lt;/COMPANY&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;PRICE&gt;8.20&lt;/PRICE&gt;
+&#x9;&#x9;&#x9;&#x9;&lt;YEAR&gt;1987&lt;/YEAR&gt;
+&#x9;&#x9;&#x9;&lt;/CD&gt;
+&#x9;&#x9;&lt;/CATALOG&gt;
+	</pre>
+
+	<p>Теперь посмотрите на этот файл стилей: </p>
+
+	<pre class="brush: csharp;">
+	CATALOG
+	{
+		background-color: #ffffff;
+		width: 100%;
+	}
+
+	CD
+	{
+		display: block;
+		margin-bottom: 30pt;
+		margin-left: 0;
+	}
+
+	TITLE
+	{
+		color: #FF0000;
+		font-size: 20pt;
+	}
+
+	ARTIST
+	{
+		color: #0000FF;
+		font-size: 20pt;
+	}
+
+	COUNTRY,PRICE,YEAR,COMPANY
+	{
+		display: block;
+		color: #000000;
+		margin-left: 20pt;
+	}
+	</pre>
+
+	<p>Ниже показана часть этого XML файла. Вторая строка подключает к XML файлу CSS файл:</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+		&lt;?xml-stylesheet type=&quot;text/css&quot; href=&quot;http://msiter.ru/cd_catalog.css&quot;?&gt;
+		&lt;CATALOG&gt;
+		&#x9;&lt;CD&gt;
+		&#x9;&#x9;&lt;TITLE&gt;Empire Burlesque&lt;/TITLE&gt;
+		&#x9;&#x9;&lt;ARTIST&gt;Bob Dylan&lt;/ARTIST&gt;
+		&#x9;&#x9;&lt;COUNTRY&gt;USA&lt;/COUNTRY&gt;
+		&#x9;&#x9;&lt;COMPANY&gt;Columbia&lt;/COMPANY&gt;
+		&#x9;&#x9;&lt;PRICE&gt;10.90&lt;/PRICE&gt;
+		&#x9;&#x9;&lt;YEAR&gt;1985&lt;/YEAR&gt;
+		&#x9;&lt;/CD&gt;
+
+		&#x9;&lt;CD&gt;
+		&#x9;&#x9;&lt;TITLE&gt;Hide your heart&lt;/TITLE&gt;
+		&#x9;&#x9;&lt;ARTIST&gt;Bonnie Tyler&lt;/ARTIST&gt;
+		&#x9;&#x9;&lt;COUNTRY&gt;UK&lt;/COUNTRY&gt;
+		&#x9;&#x9;&lt;COMPANY&gt;CBS Records&lt;/COMPANY&gt;
+		&#x9;&#x9;&lt;PRICE&gt;9.90&lt;/PRICE&gt;
+		&#x9;&#x9;&lt;YEAR&gt;1988&lt;/YEAR&gt;
+		&#x9;&lt;/CD&gt;
+
+		&#x9;...
+		&#x9;...
+		&#x9;...
+		&lt;/CATALOG&gt;
+	</pre>
+
+	<p>Форматирование вывода XML при помощи CSS используется довольно редко.</p>
+	<p>Вместо этого W3C рекомендует использовать XSLT.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="12.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/book/11.html", "Отображение XML с CSS", "bm1108"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1108", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1108") == 1) { document.getElementById("bma1108").style.display = "block"; document.getElementById("bm1108").style.display = "none"; } else { document.getElementById("bma1108").style.display = "none"; document.getElementById("bm1108").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Отображение XML с CSS") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1108", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

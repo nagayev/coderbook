@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma931" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm931" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Инструкция if-elif-else, проверка истинности, трехместное выражение if/else
+	</h1>
+	
+	<p>Условная инструкция if-elif-else (её ещё иногда называют оператором ветвления) - основной инструмент выбора в Python.</p>
+	<p>Проще говоря, она выбирает, какое действие следует выполнить, в зависимости от значения переменных в момент проверки условия.</p>
+
+	<h1 id="title">
+		Синтаксис инструкции if
+	</h1>
+	
+	<p>Сначала записывается часть if с условным выражением, далее могут следовать одна или более необязательных частей elif, и, наконец, необязательная часть else.</p>
+	<p>Общая форма записи условной инструкции if выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+if test1:
+    state1
+elif test2:
+    state2
+else:
+    state3
+	</pre>
+
+	<p>Простой пример (напечатает 'true', так как 1 - истина):</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; if 1:
+...     print('true')
+... else:
+...     print('false')
+...
+true
+	</pre>
+
+	<p>Чуть более сложный пример (его результат будет зависеть от того, что ввёл пользователь):</p>
+
+	<pre class="brush: csharp;">
+a = int(input())
+if a < -5:
+    print('Low')
+elif -5 <= a <= 5:
+    print('Mid')
+else:
+    print('High')
+	</pre>
+
+	<p>Конструкция с несколькими elif может также служить отличной заменой конструкции switch - case в других языках программирования.</p>
+
+	<h1 id="title">
+		Проверка истинности в Python
+	</h1>
+	
+	<p>- Любое число, не равное 0, или непустой объект - истина.</p>
+	<p>- Числа, равные 0, пустые объекты и значение None - ложь</p>
+	<p>- Операции сравнения применяются к структурам данных рекурсивно</p>
+	<p>- Операции сравнения возвращают True или False</p>
+	<p>- Логические операторы and и or возвращают истинный или ложный объект-операнд</p>
+	<p>Логические операторы:</p>
+
+	<pre class="brush: csharp;">
+	X and Y
+	</pre>
+
+	<p>Истина, если оба значения X и Y истинны.</p>
+
+	<pre class="brush: csharp;">
+	X or Y
+	</pre>
+
+	<p>Истина, если хотя бы одно из значений X или Y истинно.</p>
+
+	<pre class="brush: csharp;">
+	not X
+	</pre>
+
+	<p>Истина, если X ложно.</p>
+
+	<h1 id="title">
+		Трехместное выражение if/else
+	</h1>
+	
+	<p>Следующая инструкция:</p>
+
+	<pre class="brush: csharp;">
+if X:
+    A = Y
+else:
+    A = Z
+	</pre>
+
+	<p>довольно короткая, но, тем не менее, занимает целых 4 строки.</p>
+	<p>Специально для таких случаев и было придумано выражение if/else:</p>
+
+	<pre class="brush: csharp;">
+	A = Y if X else Z
+	</pre>
+
+	<p>В данной инструкции интерпретатор выполнит выражение Y, если X истинно, в противном случае выполнится выражение Z.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; A = 't' if 'spam' else 'f'
+	&gt;&gt;&gt; A
+	't'
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/6.html", "Условный оператор if", "bm931"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm931", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm931") == 1) { document.getElementById("bma931").style.display = "block"; document.getElementById("bm931").style.display = "none"; } else { document.getElementById("bma931").style.display = "none"; document.getElementById("bm931").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Условный оператор if") == 1) { arrs.splice(i, 1); localStorage.setItem("bm931", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

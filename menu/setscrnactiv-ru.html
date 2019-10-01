@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="../css/menu.css" />
+    <title>Coder Book menu</title>
+</head>
+
+<body id="pageBody">
+    <div id="menuHeadMin">
+        <div id="headLineMenu" style="background: #939393;">
+            <div id="backButtonMenu" onclick="goBack()" ontouchstart="return true;">
+                <img src="../img/menu/backcopy.png" id="backButtonMenuImg" />
+            </div>
+            <div id="windowTitle">
+                Активность экрана
+            </div>
+        </div>
+    </div>
+
+    <div id="chartersMin">
+
+        <div id="InfoMenuButtons">
+            <span onclick="SetAction1()" name="infoMenuLink" id="infoMenuLink"><div class="infMenuButton" ontouchstart="return true;" id="colorCh1">Не отключать экран</div></span>
+            <span onclick="SetAction2()" name="infoMenuLink" id="infoMenuLink"><div class="infMenuButton" style="border: none;" ontouchstart="return true;" id="colorCh2">Использовать таймер системы</div></span>
+            <div id="aboutDev">Настроить таймер системы можно в настройках Вашего устройства.</div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../cordova.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <script type="text/javascript" src="../js/Insomnia.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { localStorage.setItem("fSize", 16); }
+        document.getElementById("windowTitle").style.fontSize = (localStorage.getItem("fSize") - (-2)) + "px";
+        document.getElementById("aboutDev").style.fontSize = (localStorage.getItem("fSize") - 4) + "px";
+        var fsText = document.getElementsByName("infoMenuLink");
+        for(var i=0;i<fsText.length;i++) { fsText[i].style.fontSize = localStorage.getItem("fSize") + "px"; }
+
+        if (localStorage.getItem("scrnAction") == 1) { document.getElementById("colorCh1").style.backgroundColor = "rgba(54, 226, 25, 0.3)"; }
+        if (localStorage.getItem("scrnAction") == 2) { document.getElementById("colorCh2").style.backgroundColor = "rgba(54, 226, 25, 0.3)"; }
+
+        function SetAction1()
+        {
+            // set actions
+            window.plugins.insomnia.keepAwake();
+            localStorage.setItem("scrnAction", 1);
+            document.getElementById("colorCh1").style.backgroundColor = "rgba(54, 226, 25, 0.3)";
+            document.getElementById("colorCh2").style.backgroundColor = "rgba(54, 226, 25, 0)";
+        }
+
+        function SetAction2()
+        {
+            // set actions
+            window.plugins.insomnia.allowSleepAgain();
+            localStorage.setItem("scrnAction", 2);
+            document.getElementById("colorCh1").style.backgroundColor = "rgba(54, 226, 25, 0)";
+            document.getElementById("colorCh2").style.backgroundColor = "rgba(54, 226, 25, 0.3)";
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                //change colors
+                document.getElementById("headLineMenu").style.backgroundColor = localStorage.getItem("#939393");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+                document.getElementById("aboutDev").style.color = "rgba(0, 0, 0, 0.4)";
+
+                var vrows = document.getElementsByName("infoMenuLink");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#404040"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#888888');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                //change colors
+                document.getElementById("headLineMenu").style.backgroundColor = localStorage.getItem("#000000");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("aboutDev").style.color = "rgba(255, 255, 255, 0.4)";
+
+                var vrows = document.getElementsByName("infoMenuLink");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#efefef"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#000000');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                //change colors
+                document.getElementById("headLineMenu").style.backgroundColor = localStorage.getItem("#6f6654");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+                document.getElementById("aboutDev").style.color = "rgba(0, 0, 0, 0.6)";
+
+                var vrows = document.getElementsByName("infoMenuLink");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#484746"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#5d5547');});
+            }
+        }
+    </script>
+
+</body>
+</html>

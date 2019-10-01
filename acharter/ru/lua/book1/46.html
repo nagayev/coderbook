@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma812" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm812" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Модули
+	</h1>
+	
+	<p>Библиотека пакетов предоставляет основные возможности для загрузки и построения модулей в Lua.</p>
+	<p>Также она (библиотека, примечание переводчика) экспортирует две функции в глобальное окружение:require и module.</p>
+	<p>Остальные экспортируются в таблицу package.</p>
+
+	<h1 id="title">
+		module (name [, ···])
+	</h1>
+
+	<p>Создает модуль.</p>
+	<p>Если package.loaded[name] содержит таблицу, то эта таблица является модулем.</p>
+	<p>В противном случае, если существует глобальная таблица t с данным именем name, то эта таблица – модуль.</p>
+	<p>Иначе, если таблица не найдена, то создается новая таблица t и эта таблица помещается в поле - package.loaded[name]</p>
+	<p>Эта функция также инициализирует t._NAME заданным именем name, t._M собственно модулем (самой t), а t._PACKAGE именем пакета (полное имя модуля без последнего компонента; см. ниже).</p>
+	<p>В конце module устанавливает t как новое окружение текущей функции и новое значение из package.loaded[name], т.о.require возвращает t.</p>
+	<p>Если name – составное (compound) имя (т.е., компоненты имени разделены точками), module создает (или повторно использует, если уже существует) таблицы для каждого компонента.</p>
+	<p>Например, если name равно a.b.c, то module сохраняет модуль в поле c поля b глобального объекта a.</p>
+	<p>Данная функция может получать дополнительные опции options после имени модуля, где каждая опция является функцией, которая будет применена к модулю.</p>
+	
+	<h1 id="title">
+		require (modname)
+	</h1>
+	
+	<p>Загружает данный модуль.</p>
+	<p>Функция начинается с проверки таблицы package.loaded для определения загружен модуль modname или нет.</p>
+	<p>Если загружен, то require возвращает значение, хранящееся в package.loaded[modname].</p>
+	<p>В противном случае, она пытается найти загрузчик (loader) для данного модуля.</p>
+	<p>При поиске загрузчика, require сначала запрашивает package.preload[modname].</p>
+	<p>Если там есть значение, это значение (оно должно быть функцией) является загрузчиком.</p>
+	<p>В противном случае require ищет Lua загрузчик, используя путь (path), хранящийся в package.path.</p>
+	<p>Если результат не достигнут, производит поиск C загрузчика, используя путь, хранящийся в package.cpath.</p>
+	<p>Если поиск также безуспешен, используется универсальный загрузчик всё-в-одном (all-in-one) (см. ниже).</p>
+	<p>При загрузке C библиотеки, require сначала использует возможность динамического связывания (dynamic link facility) для связывания (link) приложения с библиотекой.</p>
+	<p>Затем она пытается найти C функцию внутри этой библиотеки с определенным именем и использовать её как загрузчик.</p>
+	<p>Имя этой C функции составляется из строки "luaopen_" и к ней добавляется имя модуля, в котором точки заменены символом подчеркивания.</p>
+	<p>Кроме того, если имя модуля содержит дефис, то начало имени до первого дефиса (включая его) удаляется.</p>
+	<p>Например, если имя модуля a.v1-b.c, имя функции будет luaopen_b_c.</p>
+	<p>Если require не находит ни Lua библиотеки, ни C библиотеки для модуля, она вызывает универсальный загрузчик, называемый всё-в-одном (all-in-one loader).</p>
+	<p>Этот загрузчик ищет C путь для библиотеки по основному имени (root name) данного модуля. Например, при запросе a.b.c, будет произведен поиск C библиотеки для a.</p>
+	<p>Если она найдена, производится поиск открывающей функции; в нашем примере, это будет luaopen_a_b_c.</p>
+	<p>Это позволяет одному пакету содержать несколько C подмодулей (submodules) в одной библиотеке, поскольку каждый подмодуль имеет свою функцию открытия.</p>
+	<p>Как только загрузчик найден, require вызывает его с одним параметром: modname.</p>
+	<p>Если загрузчик возвращает какое либо значение, require помещает его в package.loaded[modname].</p>
+	<p>Если загрузчик ничего не возвращает, то package.loaded[modname] устанавливается функцией require в true.</p>
+	<p>В любом случае, require возвращает значение из package.loaded[modname].</p>
+	<p>Если возникают какие либо ошибки при загрузке или выполнении модуля, или если не удалось обнаружить загрузчик для модуля, то require вызывает ошибку.</p>
+
+	<h1 id="title">
+		package.cpath
+	</h1>
+
+	<p>Путь, используемый в require для поиска C  загрузчика.</p>
+	<p>Lua инициализирует C путь package.cpath аналогично инициализации Lua пути package.path, используя переменную окружения LUA_CPATH (плюс путь по умолчанию, определенный в luaconf.h).</p>
+	
+	<h1 id="title">
+		package.loaded
+	</h1>
+
+	<p>Данная таблица используется функцией require для проверки, загружен модуль или нет.</p>
+	<p>Если Вам нужен модуль modname и package.loaded[modname] не равно false, require просто возвращает значение, хранящееся там.</p>
+	
+	<h1 id="title">
+		package.loadlib (libname, funcname)
+	</h1>
+	
+	<p>Динамическое связывание хостовой программы с C библиотекой libname.</p>
+	<p>Внутри этой библиотеки производится поиск функции с именем funcname и она возвращается как C функция. </p>
+	<p>(Поэтому, funcname должно соответствовать протоколу (см. lua_CFunction)).</p>
+	<p>Это функция низкого уровня (low-level function).</p>
+	<p>Она игнорируется пакетной и модульной системой.</p>
+	<p>В отличии от require, здесь не производится поиск путей и не производится автоматическое добавление расширений (extensions). </p>
+	<p>libname должно быть полным именем файла C библиотеки, включая, если необходимо, путь и расширение. </p>
+	<p>funcname должно быть именем, которое экспортировано из C библиотеки (это имя зависит от C компилятора и компоновщика (linker)).</p>
+	<p>Эта функция не поддерживается ANSI C.</p>
+	<p>Поэтому это доступно не на всех платформах (доступно на Windows, Linux, Mac OS X, Solaris, BSD, плюс другие Unix системы, которые поддерживают dlfcn стандарт).</p>
+
+	<h1 id="title">
+		package.path
+	</h1>
+
+	<p>Путь, используемый функциейrequire для поиска Lua загрузчика.</p>
+	<p>При старте, Lua инициализирует эту переменную значением переменной окружения LUA_PATH или значением по умолчанию из luaconf.h, если переменная окружения не определена.</p>
+	<p>Любое вхождение строки ";;" в переменную среды окружения замещается значением по умолчанию.</p>
+	<p>Путь – это последовательность шаблоном (templates), разделенных точкой с запятой.</p>
+	<p>Для каждого шаблона, require будет заменять каждый вопросительный знак на имя файла filename.</p>
+	<p>Поэтому, например, если Lua путь содержит</p>
+	
+	<pre class="brush: csharp;">
+	" ./ '.lua;./ '.lc;/usr/local/ '/init.lua "
+	</pre>
+
+	<p>То при поиске загрузки модуля foo будет выполняться поиск файлов ./foo.lua, ./foo.lc и /usr/local/foo/init.lua, именно в этом порядке.</p>
+
+	<h1 id="title">
+		package.preload
+	</h1>
+	
+	<p>Таблица, хранящая загрузчики для модулей.</p>	
+
+	<h1 id="title">
+		package.seeall (module)
+	</h1>
+
+	<p>Устанавливает метатаблицу для модуля module с полем __index, ссылающимся на глобальное окружение, т.е. этот модуль наследует глобальное окружение.</p>
+	<p>Это будет использоватся как опция для функции module.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="45.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="47.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/49.html", "Модули", "bm812"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm812", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm812") == 1) { document.getElementById("bma812").style.display = "block"; document.getElementById("bm812").style.display = "none"; } else { document.getElementById("bma812").style.display = "none"; document.getElementById("bm812").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модули") == 1) { arrs.splice(i, 1); localStorage.setItem("bm812", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

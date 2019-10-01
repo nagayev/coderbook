@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma125" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm125" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Форматирование строк
+	</h1>
+
+	<p>При выводе, например, с помощью <b>Console.Write()</b> значений базовых типов (например, int или double) они автоматически преобразуются в символьные строки.</p>
+	<p>Если программиста не устраивает автоматически выбранный формат их внешнего представления, он может его изменить.</p>
+	<p>Для этого можно воспользоваться статическим методом Format класса string или использовать так называемую строку форматирования в качестве первого параметра методов, поддерживающих форматирование, например, Console.Write() и Console.WriteLine().</p>
+	<p>В обоих случаях правила подготовки исходных данных для получения желаемого результата (новой строки) одинаковы.</p>
+	<p>Рассмотрим эти правила применительно к методу класса string:</p>
+
+	<pre class="brush: csharp;">
+	public static string Format(string form, params object[ ] ar)
+	</pre>
+
+	<p>Так как синтаксис заголовков методов (функций) мы формально ещё не рассматривали, поясним элементы приведённого заголовка.</p>
+	<p><b>public</b> – модификатор доступа. Указывает что метод открытый, т.е. доступен вне класса string.</p>
+	<p><b>static</b> – модификатор, относящий метод к классу в целом, а не к его объектам.</p>
+	<p><b>string</b> – тип возвращаемого методом значения Format – имя метода.</p>
+	<p><b>form</b> – параметр, представляющий строку форматирования.</p>
+	<p><b>params</b> – модификатор, указывающий, что следующий за ним массив- параметр ar может быть заменён при обращении к функции любым количеством аргументов (включая нуль, т.е. аргументы могут отсутствовать).</p>
+	<p><b>object</b> – тип элементов массива-параметра ar. Так как object – это базовый класс для всех типов языка C#, то аргументы, соответствующие элементам массива object[ ] ar, могут иметь любой тип.</p>
+	<p>Итак, метод string.Format() возвращает строку, построенную на основе строки форматирования и значений аргументов, следующих за этой строкой в обращении к методу Format( ).</p>
+	<p>Строка форматирования включает неизменяемые символы и конструкции, называемые полями подстановок.</p>
+	<p>Структура поля подстановки: <b>{N[,W][:S[R]]}</b>, где:</p>
+	<p><b>N</b> – номер аргумента;</p>
+	<p><b>W</b> - ширина поля;</p>
+	<p><b>S</b> - спецификатор формата;</p>
+	<p><b>R</b> – спецификатор точности.</p>
+	<p>Квадратные скобки в поля подстановки не входят и обозначают необязательность ограниченного ими фрагмента (элемента) поля.</p>
+	<p>В поле подстановки разрешено опускать все элементы кроме фигурных скобок и номера аргумента.</p>
+	<p>Именно поэтому все остальные элементы поля подстановки мы ограничили квадратными скобками.</p>
+	<p>Воспользуемся этим правилом, чтобы привести первый пример.</p>
+
+	<pre class="brush: csharp;">
+	int num = 23, den = 6;
+	// ссылка на строку, с результатом
+	string result,
+	form = "Числитель: {0}, знаменатель: {1}, дробь: {0}/{1}=={2}";
+	result = string.Format(form, num, den, num / den);
+	Console.WriteLine(result);
+	</pre>
+
+	<p>В примере определены две ссылки result и form на объекты типа string.</p>
+	<p>Значение строки, связанной со ссылкой form, определено инициализирующей строковой константой.</p>
+	<p>В ней пять полей подстановок.</p>
+	<p>Номера в полях указывают, символьные представления значений каких (по счету, начиная с 0) аргументов будут подставлены вместо соответствующих полей.</p>
+	<p>В обращении к методу Format() первый аргумент – строка form, затем num – аргумент, с номером 0, den – аргумент, которому соответствует номер 1, num/den – выражение, значение которого воспринимается как аргумент с номером 2.</p>
+	<p>В результате выполнения подстановок метод Format() возвращает строку, ссылка на которую присвоена переменной result.</p>
+	<p>Выводя эту строку на консоль, получим:</p>
+
+	<pre class="brush: csharp;">
+	Числитель: 23,
+	знаменатель: 6,
+	дробь: 23/6==3
+	</pre>
+
+	<p>Обратите внимание на округление результата целочисленного деления.</p>
+	<p>В приведённом примере поля подстановок содержали только номера аргументов.</p>
+	<p>Разберём назначение других элементов, которые в поле подстановки необязательны.</p>
+	<p>Запятая и следующее за ним число (W - ширина поля) в поле подстановки определяет количество позиций, выделяемых для изображения подставляемого значения.</p>
+	<p>Если эти элементы (запятая и число) опущены, то число позиций определяется изображением выводимого значения, то есть ширина поля выбирается минимально достаточной для изображения значения.</p>
+	<p>Если ширина поля указана, и она превышает длину помещаемого в поле значения, то при положительной длине поля W значение выравнивается по правой границе.</p>
+	<p>Если перед шириной поля W стоит минус, то выравнивание выполняется по левой границе поля.</p>
+	<p>Спецификатор формата S задаёт вид изображаемого значения.</p>
+	<p>Для разных типов данных этот спецификатор выбирается по-разному.</p>
+	<p>Следующая за ним цифра – спецификатор точности R – влияет на формируемое значение, и это влияние зависит от спецификатора формата.</p>
+
+	<p>Спецификаторы формата S и точности R:</p>
+
+	<table>
+		<tr>
+			<th>Спецификатор S</th>
+			<th>Название формата</th>
+			<th>Роль спецификатора точности R</th>
+		</tr>
+		<tr>
+			<td>С или с</td>
+			<td>Валютный</td>
+			<td>Количество десятичных разрядов</td>
+		</tr>
+		<tr>
+			<td>D или d</td>
+			<td>Целочисленный</td>
+			<td>Минимальное число цифр</td>
+		</tr>
+		<tr>
+			<td>E или e</td>
+			<td>Экспоненциальный</td>
+			<td>Число разрядов после точки</td>
+		</tr>
+		<tr>
+			<td>F или f</td>
+			<td>С фиксированной точкой</td>
+			<td>Число разрядов после точки</td>
+		</tr>
+		<tr>
+			<td>N или n</td>
+			<td>Число с разделителем триад</td>
+			<td>Число знаков после точки</td>
+		</tr>
+		<tr>
+			<td>P или p</td>
+			<td>Значение в процентах (%)</td>
+			<td>Число знаков после точки</td>
+		</tr>
+		<tr>
+			<td>G или g</td>
+			<td>Короткий из E или F</td>
+			<td>Подобен E или F</td>
+		</tr>
+		<tr>
+			<td>X или x</td>
+			<td>Шестнадцатеричный</td>
+			<td>Минимальное число цифр</td>
+		</tr>
+	</table>
+
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	double dou = 1234.567;
+	string form = "Спецификация Е4: {0:E4}, спецификация F4: {0:F4}";
+	string result = string.Format(form, dou);
+	Console.WriteLine(result);
+	</pre>
+
+	<p>В обоих полях подстановки строки форматирования опущена ширина поля, и предполагается дважды использовать только один аргумент (с номером 0).</p>
+	<p>Выводимая строка:</p>
+
+	<pre class="brush: csharp;">
+	Спецификация Е4: 1,2346E+003,
+	спецификация F4: 1234,5670
+	</pre>
+
+	<p>Обратите внимание на округление при выводе по формату Е4 и на дополнительный нуль в изображении числа с фиксированной точкой при выводе по формату F4.</p>
+	<p>Это определяется спецификатором точности, равным 4.</p>
+	<p>Пример с целочисленным значением, выводимым с разными основаниями в поля из 4-х позиций.</p>
+	<p>Обратите внимание, что ширина первого поля отрицательна:</p>
+
+	<pre class="brush: csharp;">
+	int num = 23;
+	string form = "Основание 10: {0,-4:D}\n основание 16: {0,4:X}";
+	Console.WriteLine(form, num);
+	</pre>
+
+	<p>Результат в консольном окне:</p>
+
+	<pre class="brush: csharp;">
+	Основание 10: 23
+	Основание 16: 17
+	</pre>
+
+	<p>В этом примере форматирование выполняется непосредственно при обращении к методу WriteLine().</p>
+	<p>Первый аргумент выступает в роли форматной строки, а вызов метода string.Format() осуществляется неявно.</p>
+	<p>Если в этом примере в полях подставки указать спецификаторы точности, то в изображениях целых чисел могут появиться незначащие нули.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	int num = 23;
+	string form = "Основание 10: {0,-4:D3}\n основание 16: {0,4:X3}";
+	Console.WriteLine(form, num);
+	</pre>
+
+	<p>Результат:</p>
+
+	<pre class="brush: csharp;">
+	Основание 10: 023
+	Основание 16: 017
+	</pre>
+
+	<p>Примечание: если в поле подстановки указана ширина, недостаточная для представления выводимого значения, то ширина поля будет автоматически увеличена до необходимого количества позиций.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="37.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="39.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/38.html", "Форматирование строк", "bm125"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm125", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm125") == 1) { document.getElementById("bma125").style.display = "block"; document.getElementById("bm125").style.display = "none"; } else { document.getElementById("bma125").style.display = "none"; document.getElementById("bm125").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Форматирование строк") == 1) { arrs.splice(i, 1); localStorage.setItem("bm125", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

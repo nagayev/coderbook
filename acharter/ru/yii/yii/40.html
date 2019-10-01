@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1191" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1191" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Модульное тестирование Yii
+	</h1>
+
+    <p>Поскольку тестировочная часть Yii построена на PHPUnit, рекомендуется сначала изучить документацию PHPUnit, чтобы получить общее представление о том, как писать модульные тесты.</p>
+    <p>Далее мы приведём основные принципы написания модульных тестов в Yii:</p>
+    <p>Модульный тест — это класс XyzTest, наследующий класс CTestCase или CDbTestCase, где Xyz — название тестируемого класса.</p>
+    <p>Например, для тестирования класса Post по соглашению мы называем соответствующий класс модульного теста PostTest.</p>
+    <p>Базовый класс CTestCase предназначен для общего модульного тестирования, а класс CDbTestCase — для тестирования классов моделей Active Record.</p>
+    <p>Мы можем использовать все методы этих классов, унаследованные от класса PHPUnit_Framework_TestCase, поскольку он — предок обоих классов (CTestCase и CDbTestCase).</p>
+    <p>Класс модульного теста хранится в PHP-файле с именем XyzTest.php.</p>
+    <p>По соглашению файл модульного теста может быть сохранен в директории protected/tests/unit.</p>
+    <p>Основное содержание тестового класса — набор тестовых методов с именами вида testAbc, где Abc — часто имя тестируемого метода класса.</p>
+    <p>Обычно тестовый метод содержит последовательность выражений утверждений (например, assertTrue, assertEquals), служащих контрольными точками при проверке поведения целевого класса.</p>
+    <p>Далее мы опишем, как писать модульные тесты для классов моделей Active Record.</p>
+    <p>Мы расширяем наши тестовые классы, наследуя их от класса CDbTestCase, поскольку он обеспечивает поддержку фикстур базы данных, которые мы представили в предыдущем разделе.</p>
+    <p>Предположим, что мы хотим проверить класс модели Comment в демо-блоге.</p>
+    <p>Начнем с создания класса CommentTest и сохраним его в файле protected/tests/unit/CommentTest.php:</p>
+
+    <pre class="brush: csharp;">
+    class CommentTest extends CDbTestCase
+    {
+        public $fixtures=array(
+            'posts'=>'Post',
+            'comments'=>'Comment',
+        );
+     
+        …
+    }
+    </pre>
+
+    <p>В этом классе мы определяем переменную-член класса fixtures массивом, содержащий список фикстур, используемых в данном тесте.</p>
+    <p>Массив представляет собой отображение имен фикстур на имена классов моделей или имена таблиц фикстур (например, фикстуры с именем posts на класс модели Post).</p>
+    <p>Заметим, что при отображении на имя таблицы фикстуры мы должны использовать имя таблицы с префиксом : (например, :Post), чтобы отличать его от имени класса модели.</p>
+    <p>А при использовании имен классов моделей, соответствующие таблицы будут рассматриваться в качестве таблиц фикстур.</p>
+    <p>Как описано выше, таблицы фикстур будут сброшены в некоторое известное состояние каждый раз при выполнении тестового метода.</p>
+    <p>Имя фикстуры позволяет нам получить удобный доступ к данным фикстуры в тестовых методах.</p>
+    <p>Следующий код показывает типичное использование:</p>
+
+    <pre class="brush: csharp;">
+    // возвращает все строки таблицы фикстур `Comment`
+    $comments = $this->comments;
+    
+    // возвращает строку с псевдонимом 'sample1' в таблице фикстур `Post`
+    $post = $this->posts['sample1'];
+    
+    // возвращает экземпляр класса AR, представляющего строку данных фикстуры 'sample1'
+    $post = $this->posts('sample1');
+    </pre>
+
+    <p><b>Примечание:</b> Если фикстура объявлена с использованием имени её таблицы (например, 'posts'=>':Post'), то третий пример в коде выше не является допустимым, так как мы не имеем информации о том, какой класс модели ассоциирован с таблицей.</p>
+    <p>Далее мы пишем метод testApprove для тестирования метода approve в классе модели Comment.</p>
+    <p>Код очень прямолинеен: сначала мы вставляем комментарий со статусом ожидания, затем проверяем, комментарий имеет статус ожидания или другой, извлекая его из базы данных, и, наконец, мы вызываем метод approve и проверяем, изменился ли статус, как ожидалось.</p>
+
+    <pre class="brush: csharp;">
+    public function testApprove()
+    {
+        // вставить комментарий в лист ожидания
+        $comment=new Comment;
+        $comment->setAttributes(array(
+            'content'=>'comment 1',
+            'status'=>Comment::STATUS_PENDING,
+            'createTime'=>time(),
+            'author'=>'me',
+            'email'=>'me@example.com',
+            'postId'=>$this->posts['sample1']['id'],
+        ),false);
+        $this->assertTrue($comment->save(false));
+     
+        // проверить наличие комментария в листе ожидания
+        $comment=Comment::model()->findByPk($comment->id);
+        $this->assertTrue($comment instanceof Comment);
+        $this->assertEquals(Comment::STATUS_PENDING,$comment->status);
+     
+        // вызвать метод approve() и проверить, что комментарий утвержден
+        $comment->approve();
+        $this->assertEquals(Comment::STATUS_APPROVED,$comment->status);
+        $comment=Comment::model()->findByPk($comment->id);
+        $this->assertEquals(Comment::STATUS_APPROVED,$comment->status);
+    }
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="39.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="41.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/40.html", "Модульное тестирование Yii", "bm1191"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1191", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1191") == 1) { document.getElementById("bma1191").style.display = "block"; document.getElementById("bm1191").style.display = "none"; } else { document.getElementById("bma1191").style.display = "none"; document.getElementById("bm1191").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модульное тестирование Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1191", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

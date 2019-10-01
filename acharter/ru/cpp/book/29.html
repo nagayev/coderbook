@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma50" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm50" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Квалификатор const в С++
+	</h1>
+
+	<p>Квалификатор типов const (от анг. type qualifier) – зарезервированное ключевое слово в языке программирования С++, которое не даёт модифицировать значения переменных.</p>
+	<p>Отсюда и возникло в программировании такое понятие, как константы или константные переменные, то есть неизменные.</p>
+	<p>Необходимо запомнить, что при объявлении константы, её нужно инициализировать.</p>
+
+	<pre class="brush: csharp;">
+	//Синтаксис объявления константы
+	const  /*тип данных*/ /*имя переменной*/ =  /*инициализатор ( значение) */;  // объявление константной переменной
+	</pre>
+
+	<p>Объявление константной переменной от обычной переменной отличается ключевым словом const, которое ставится перед типом данных объявляемой переменной.</p>
+	<p>Рассмотрим фрагмент кода объявления константной переменной.</p>
+
+	<pre class="brush: csharp;">
+	// объявление и инициализация константной переменной типа int с именем value
+	const int value = 8;
+	</pre>
+
+	<p>Была объявлена константа целого типа с именем value и инициализирована значением 8.</p>
+	<p>Если убрать инициализатор и откомпилировать программу, то компилятор выдаст ошибку.</p>
+
+	<p>В зависимости от компилятора сообщение об ошибке может быть другим, но суть ошибки не поменяется.</p>
+	<p>Данное сообщение было сгенерировано компилятором MVS2010.</p>
+	<p>Компилятор сообщает, что константную переменную value необходимо инициализировать.</p>
+
+	<p>Допустим мы захотели изменить значение в константе value, для этого дописали ниже строку, в которой переменной value присваивается значение.</p>
+
+	<pre class="brush: csharp;">
+	// попытка изменить значение в конста value
+	// объявление константы
+	const int value = 8;
+	
+	// присваиваем константе value значение 16
+	value = 16;
+	</pre>
+
+	<p>В этом случае, компилятор сгенерирует сообщение:</p>
+
+	<pre class="brush: csharp;">
+	Eror C3892: ...
+	</pre>
+
+	<p>Нам не удалось изменить значение в переменной value.</p>
+	<p>Вот в этом и заключается суть квалификатора const, а именно, как уже выше было сказано, квалификатор const не даёт модифицировать значение переменной, потому-то такие переменные и называются константами.</p>
+	<p>Но всё это было предопределено, программистом, который писал этот фрагмент кода.</p>
+	<p>То есть мы специально пытались перезаписать значение в переменной value, тогда какой смысл в квалификаторе const, если специально не пытаться изменить значение константы?</p>
+	<p>А смысл такой, что квалификатор const предотвращает случайное изменение значений переменных.</p>
+	<p>Случайное изменение значений не только возможно, но и трудно заметно.</p>
+	<p>В итоге, программа сработала, а результат работы программы получился неправильный.</p>
+	<p>Чаще всего случайное изменение значений переменных происходит из-за логических ошибок.</p>
+	<p>Например, рассмотрим фрагмент кода, в котором есть скрытая логическая ошибка.</p>
+
+	<pre class="brush: csharp;">
+	int value = 8;
+	// логическая ошибка в этой строке
+	if (value = 1 )
+	cout << "*" << endl;
+	else
+	cout << "********" << endl;
+	</pre>
+
+	<p>В строке 1 объявлена, переменная целого типа, но не константная.</p>
+	<p>В строке 3 проверяется условие в операторе условного выбора if else.</p>
+	<p>От того какое условие, истинное или ложное, выполнится третья или пятая строка.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	*
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Как видно из результата условие оператора условного выбора if else истинно, так как напечаталась одна звёздочка.</p>
+	<p>Хотя на первый взгляд кажется, что условие ложно.</p>
+	<p>Так вот, дело в том, что в условии оператора if else вместо знака отношения == стоит знак присвоить.</p>
+	<p>Переменной value присваивается значение 1.</p>
+	<p>А как нам уже известно, что 1- это логическая истина.</p>
+	<p>Если бы переменная value была объявлена как константа, то компилятор нам бы сразу сообщил о допущенной логической ошибке.</p>
+	<p>Когда пишутся большие программы, где тысячи строк кода, то такую ошибку будет очень сложно отследить.</p>
+	<p>Таким образом, если нет необходимости изменять значение переменной, то лучше подстраховаться и объявить эту переменную как константу.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="30.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/29.html", "Квалификатор const", "bm50"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm50", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm50") == 1) { document.getElementById("bma50").style.display = "block"; document.getElementById("bm50").style.display = "none"; } else { document.getElementById("bma50").style.display = "none"; document.getElementById("bm50").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Квалификатор const") == 1) { arrs.splice(i, 1); localStorage.setItem("bm50", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

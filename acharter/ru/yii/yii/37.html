@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1188" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1188" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Использование сторонних библиотек
+	</h1>
+
+    <p>Yii изначально спроектирован таким образом, чтобы использование сторонних библиотек с целью расширения функциональности Yii, происходило легко и непринужденно.</p>
+    <p>Очень часто при использовании в работе сторонних библиотек разработчики сталкиваются с проблемами именования классов и подключения файлов.</p>
+    <p>Поскольку все классы Yii имеют префикс C, то вероятность возникновения конфликтов имён существенно ниже.</p>
+    <p>А благодаря тому, что для подключения файлов Yii использует автозагрузку SPL, работа с библиотеками, использующими для подключения файлов классов этот механизм автозагрузки или же относительный путь подключения в РНР (PHP include path), становится существенно приятнее.</p>
+    <p>Ниже приведён пример, иллюстрирующий использование в Yii приложении компонента Zend_Search_Lucene из Zend Framework.</p>
+    <p>Первым делом, распаковываем релиз с Zend Framework в директорию protected/vendors, где protected — это базовая директория приложения.</p>
+    <p>Убедитесь в том, что файл protected/vendors/Zend/Search/Lucene.php существует.</p>
+    <p>Далее, в самом начале файла, содержащего класс контроллера, добавляем строку:</p>
+
+    <pre class="brush: csharp;">
+    Yii::import('application.vendors.*');
+    require_once('Zend/Search/Lucene.php');
+    </pre>
+
+    <p>Код, приведённый выше, подключает файл Lucene.php.</p>
+    <p>Поскольку используется относительный путь, то необходимо изменить относительный путь подключения в РНР (PHP include path) таким образом, чтобы приложение могло найти файл.</p>
+    <p>Делается это путём вызова метода Yii::import перед require_once.</p>
+    <p>После того как проделано всё описанное, можно использовать класс Lucene в действиях контроллера следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $lucene=new Zend_Search_Lucene($pathOfIndex);
+    $hits=$lucene->find(strtolower($keyword));
+    </pre>
+
+    <h2 id="title">
+        Подключение библиотек, использующих пространства имён
+    </h2>
+
+    <p>Для того чтобы подключить библиотеку, использующую пространство имён согласно соглашению PSR-0 (например, Zend Framework 2 или Symfony2), необходимо зарегистрировать её корень как псевдоним пути.</p>
+    <p>В качестве примера будем использовать Imagine. Если мы скопируем директорию Imagine в protected/vendors, то использовать библиотеку можно будет следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine'));
+     
+    // Далее стандартный код из руководства Imagine:
+    // $imagine = new Imagine\Gd\Imagine();
+    // и т.д.
+    </pre>
+
+    <p>В приведённом выше коде имя заданного нами псевдонима должно соответствовать первой части пространства имён, которое используется в библиотеке.</p>
+
+    <h2 id="title">
+        Использование стронних загрузчиков классов
+    </h2>
+
+    <p>Некоторые сторонние библиотеки, такие как PHPUnit, используют собственные загрузчики классов, не совместимые с Yii.</p>
+    <p>Так как загрузчик классов Yii, если класс не удаётся найти, пробует загрузку из include path PHP, то регистрация сторонних загрузчиков может дать PHP Warning:</p>
+
+    <pre class="brush: csharp;">
+    include(PHPUnit_Framework_TestCase.php) [function.include]: failed to open stream: No such file or directory
+    </pre>
+
+    <p>Для избежания данной проблемы стоит регистрировать сторонние загрузчики до загрузчика Yii:</p>
+
+    <pre class="brush: csharp;">
+    require_once('PHPUnit/Autoload.php'); // register 3rd-party autoloader
+    require_once('/path/to/framework/yii.php'); // register Yii autoloader
+    ...
+    </pre>
+
+    <p>Если сторонний загрузчик реализован в виде отдельной функции или метода, можно использовать Yii::registerAutoloader() для его регистрации.</p>
+    <p>В этом случае он будет зарегистриован до загрузчика Yii автоматически.</p>
+
+    <pre class="brush: csharp;">
+    require_once('/path/to/framework/yii.php'); // регистрируем загрузчик Yii
+    ...
+    Yii::registerAutoloader(array('SomeLibrary','autoload')); // регистрируем сторонний загрузчик
+    ...
+    </pre>
+
+    <p>Ещё один способ избежать проблем со сторонними загрузчиками — запретить PHP include path выставив YiiBase::$enableIncludePath в false до запуска приложения:</p>
+
+    <pre class="brush: csharp;">
+    require_once('/path/to/framework/yii.php');
+    $configFile='/path/to/config/main.php';
+    Yii::$enableIncludePath = false; // запрещаем PHP include path
+    Yii::createWebApplication($configFile)->run();
+    </pre>
+
+    <h2 id="title">
+        Использование Yii в сторонних системах
+    </h2>
+
+    <p>Yii может быть использован как библиотека для разработки и улучшения сторонних систем, таких как WordPress, Joomla и других.</p>
+    <p>Для того чтобы воспользоваться Yii, необходимо включить приведённый ниже код в стороннюю систему:</p>
+
+    <pre class="brush: csharp;">
+    require_once('путь/к/yii.php');
+    Yii::createWebApplication('путь/к/config.php');
+    </pre>
+
+    <p>Приведённый код очень похож на тот, который используется в index.php обычного приложения.</p>
+    <p>Отличие состоит в том, что после создания экземпляра приложения не вызывается метод run().</p>
+    <p>Теперь при разработке сторонней системы можно использовать большинство возможностей Yii.</p>
+    <p>Например, для получения доступа к экземпляру приложения можно использовать Yii::app().</p>
+    <p>Также можно использовать DAO, ActiveRecord модели, валидацию и т.д.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="36.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="38.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/37.html", "Использование сторонних библиотек", "bm1188"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1188", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1188") == 1) { document.getElementById("bma1188").style.display = "block"; document.getElementById("bm1188").style.display = "none"; } else { document.getElementById("bma1188").style.display = "none"; document.getElementById("bm1188").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Использование сторонних библиотек") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1188", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

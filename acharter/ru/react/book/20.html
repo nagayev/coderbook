@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma974" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm974" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Итоговый сценарий
+	</h1>
+
+	<p>Кхм, итоговый сценарий:</p>
+	<p>js/app.js</p>
+
+	<pre class="brush: csharp;">
+	'use strict';
+	var my_news = [
+	{
+		author: 'Саша Печкин',
+		text: 'В четчерг, четвертого числа...',
+		bigText: 'в четыре с четвертью часа четыре чёрненьких чумазеньких чертёнка чертили чёрными чернилами чертёж.'
+	},
+	{
+		author: 'Просто Вася',
+		text: 'Считаю, что $ должен стоить 35 рублей!',
+		bigText: 'А евро 42!'
+	},
+	{
+		author: 'Гость',
+		text: 'Бесплатно. Скачать. Лучший сайт - http://localhost:3000',
+		bigText: 'На самом деле платно, просто нужно прочитать очень длинное лицензионное соглашение'
+	}
+	];
+
+	window.ee = new EventEmitter();
+	var Article = React.createClass(
+	{
+		propTypes:
+		{
+			data: React.PropTypes.shape(
+			{
+				author: React.PropTypes.string.isRequired,
+				text: React.PropTypes.string.isRequired,
+				bigText: React.PropTypes.string.isRequired
+			})
+		},
+		getInitialState: function()
+		{
+			return
+			{
+				visible: false
+			};
+		},
+		readmoreClick: function(e)
+		{
+			e.preventDefault();
+			this.setState({visible: true});
+		},
+		render: function()
+		{
+			var author = this.props.data.author,
+			text = this.props.data.text,
+			bigText = this.props.data.bigText,
+			visible = this.state.visible;
+			
+			return (
+				&lt;div className=&apos;article&apos;&gt;
+					&lt;p className=&apos;news__author&apos;&gt;{author}:&lt;/p&gt;
+					&lt;p className=&apos;news__text&apos;&gt;{text}&lt;/p&gt;
+					&lt;a href=&quot;#&quot; onClick={this.readmoreClick} className={&apos;news__readmore &apos; + (visible ? &apos;none&apos;: &apos;&apos;)}&gt;Подробнее&lt;/a&gt;
+					&lt;p className={&apos;news__big-text &apos; + (visible ? &apos;&apos;: &apos;none&apos;)}&gt;{bigText}&lt;/p&gt;
+				&lt;/div&gt;
+			)
+		}
+	});
+
+	var News = React.createClass(
+	{
+		propTypes:
+		{
+			data: React.PropTypes.array.isRequired
+		},
+		getInitialState: function()
+		{
+			return
+			{
+				counter: 0
+			}
+		},
+		render: function()
+		{
+			var data = this.props.data;
+			var newsTemplate;
+			
+			if (data.length > 0)
+			{
+				newsTemplate = data.map(function(item, index)
+				{
+					return (
+						&lt;div key={index}&gt;
+							&lt;Article data={item} /&gt;
+						&lt;/div&gt;
+					)
+				})
+			}
+			else
+			{
+				newsTemplate = &lt;p&gt;К сожалению новостей нет&lt;/p&gt;
+			}
+		
+			return (
+				&lt;div className=&apos;news&apos;&gt;
+					{newsTemplate}
+					&lt;strong&#x9;className={&apos;news__count &apos; + (data.length &gt; 0 ? &apos;&apos;:&apos;none&apos;) }&gt;Всего новостей: {data.length}&lt;/strong&gt;
+				&lt;/div&gt;
+			);
+		}
+	});
+	
+	var Add = React.createClass(
+	{
+		getInitialState: function()
+		{
+			return
+			{
+				agreeNotChecked: true,
+				authorIsEmpty: true,
+				textIsEmpty: true
+			};
+		},
+		componentDidMount: function()
+		{
+			ReactDOM.findDOMNode(this.refs.author).focus();
+		},
+		onBtnClickHandler: function(e)
+		{
+			e.preventDefault();
+			var textEl = ReactDOM.findDOMNode(this.refs.text);
+			var author = ReactDOM.findDOMNode(this.refs.author).value;
+			var text = textEl.value;
+			
+			var item = [{
+				author: author,
+				text: text,
+				bigText: '...'
+			}];
+	
+			window.ee.emit('News.add', item);
+			textEl.value = '';
+			this.setState({textIsEmpty: true});
+		},
+		onCheckRuleClick: function(e)
+		{
+			this.setState({agreeNotChecked: !this.state.agreeNotChecked});
+		},
+		onFieldChange: function(fieldName, e)
+		{
+			if (e.target.value.trim().length > 0)
+			{
+				this.setState({[''+fieldName]:false})
+			}
+			else
+			{
+				this.setState({[''+fieldName]:true})
+			}
+		},
+		render: function()
+		{
+			var agreeNotChecked = this.state.agreeNotChecked,
+			authorIsEmpty = this.state.authorIsEmpty,
+			textIsEmpty = this.state.textIsEmpty;
+			
+			return (
+				&lt;form className=&apos;add cf&apos;&gt;
+					&lt;input type=&apos;text&apos; className=&apos;add__author&apos; onChange={this.onFieldChange.bind(this, &apos;authorIsEmpty&apos;)} placeholder=&apos;Ваше имя&apos; ref=&apos;author&apos; /&gt;
+					&lt;textarea className=&apos;add__text&apos; onChange={this.onFieldChange.bind(this, &apos;textIsEmpty&apos;)} placeholder=&apos;Текст новости&apos; ref=&apos;text&apos;&gt;&lt;/textarea&gt;
+					&lt;label className=&apos;add__checkrule&apos;&gt;
+						&lt;input type=&apos;checkbox&apos; ref=&apos;checkrule&apos; onChange={this.onCheckRuleClick}/&gt;Я согласен с правилами
+					&lt;/label&gt;
+					&lt;button className=&apos;add__btn&apos; onClick={this.onBtnClickHandler} ref=&apos;alert_button&apos; disabled={agreeNotChecked || authorIsEmpty || textIsEmpty}&gt;
+						Опубликовать новость
+					&lt;/button&gt;
+				&lt;/form&gt;
+			);
+		}
+	});
+
+	var App = React.createClass(
+	{
+		getInitialState: function()
+		{
+			return
+			{
+				news: my_news
+			};
+		},
+		componentDidMount: function()
+		{
+			var self = this;
+			
+			window.ee.addListener('News.add', function(item)
+			{
+				var nextNews = item.concat(self.state.news);
+				self.setState({news: nextNews});
+			});
+		},
+		componentWillUnmount: function()
+		{
+			window.ee.removeListener('News.add');
+		},
+		render: function()
+		{
+			console.log('render');
+			
+			return (
+				&lt;div className=&apos;app&apos;&gt;
+					&lt;Add /&gt;
+					&lt;h3&gt;Новости&lt;/h3&gt;
+					&lt;News data={this.state.news} /&gt;
+				&lt;/div&gt;
+			);
+		}
+	});
+
+	ReactDOM.render(
+		&lt;App /&gt;,
+		document.getElementById('root')
+	);
+	</pre>
+
+	<p>Ужасно длинный файл.</p>
+	<p>Так хочется разбить его на кусочки, использовать ES6 синтаксис, модули, сжимать его в конце-концов...</p>
+	<p>Не торопите события!</p>
+	<p>На данный момент было важно показать вам именно работу с реактом, как с "просто еще одной библиотекой".</p>
+	<p>Организация кода "на современный лад" - входит в мои планы.</p>
+	<p>Быть может, когда вы будете читать этот текст, соответствующая глава уже будет написана.</p>
+	<p>Итого: Мы научили компоненты совместной работе.</p>
+	<p>Посмотрели на реализацию EventEmitter для браузера.</p>
+	<p>Данный урок хорош тем, что он показывает подход к реализации глобальной системы событий в React.js</p>
+	<p>Мне очень симпатичен Redux, который элегантно решает эту проблему.</p>
+	<p>Рекомендую к изучению.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="19.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book/20.html", "Итоговый сценарий", "bm974"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm974", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm974") == 1) { document.getElementById("bma974").style.display = "block"; document.getElementById("bm974").style.display = "none"; } else { document.getElementById("bma974").style.display = "none"; document.getElementById("bm974").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Итоговый сценарий") == 1) { arrs.splice(i, 1); localStorage.setItem("bm974", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

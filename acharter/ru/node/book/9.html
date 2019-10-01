@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1318" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1318" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Асинхронность в Node.js
+	</h1>
+
+    <p>Асинхронность представляет возможность одновременно выполнять сразу несколько задач.</p>
+    <p>Асинхронность играет большую роль в Node.js.</p>
+    <p>Например, допустим в файле приложения app.js у нас расположен следующий код:</p>
+
+    <pre class="brush: csharp;">
+    function displaySync(data){
+        console.log(data);
+    }
+    
+    console.log("Начало работы программы");
+    
+    displaySync("Обработка данных...");
+    
+    console.log("Завершение работы программы");
+    </pre>
+
+    <p>Это стандартный синхронный код, все вызовы здесь выполняются последовательно, что мы можем увидеть, если мы запустим приложение:</p>
+
+    <img src="n20.png" id="image" />
+    
+    <p>Для рассмотрения асинхронности изменим код файла app.js следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    function display(data, callback){
+    
+        // с помощью случайного числа определяем ошибку
+        var randInt = Math.random() * (10 - 1) + 1;
+        var err = randInt>5? new Error("Ошибка выполнения. randInt больше 5"): null;
+        
+        setTimeout(function(){
+            callback(err, data);
+        }, 0);
+    }
+    
+    console.log("Начало работы программы");
+    
+    display("Обработка данных...", function (err, data){
+    
+        if(err) throw err;
+        console.log(data);
+    });
+    
+    console.log("Завершение работы программы");
+    </pre>
+
+    <p>Вначале также определяется функция display, но теперь кроме данных в качестве второго параметра она принимает функцию обратного вызова, которая и обрабатывает данные.</p>
+    <p>Эта функция callback принимает два параметра - информацию об ошибке и собственно данные.</p>
+    <p>Это общая модель функций обратного вызова, которые передаются в асинхронные методы - первым идет параметр, представляющий ошибку, а второй - данные.</p>
+    <p>Для имитации ошибки используется случайное число: если оно больше 5, то создаем объект ошибки - объект Error, иначе же он равен null.</p>
+    <p>И последний важный момент - выполнение функции обратного вызова в функции setTimeout().</p>
+    <p>Это глобальная функция, которая принимает в качестве первого параметра функцию обратного вызова, а в качестве второго - промежуток, через который функция обратного вызова будет выполняться.</p>
+    <p>Для нашей задачи вполне подойдет промежуток в 0 миллисекунд.</p>
+    <p>При вызове функции display в нее передается функция, которая в случае отсутствия ошибок просто выводит данные на консоль:</p>
+
+    <pre class="brush: csharp;">
+    display("Обработка данных...", function (err, data){
+    
+        if(err) throw err;
+        console.log(data);
+    });
+    </pre>
+
+    <p>Теперь если мы запустим приложение, то увидим, следующую картину:</p>
+
+    <img src="n21.png" id="image" />
+
+    <p>Несмотря на то, что в setTimeout передается промежуток 0, фактическое выполнение функции display завершается после всех остальных функций, которые определены в программе.</p>
+    <p>В итоге выполнение на функции display не блокируется, а идет дальше. И это особенно актуально, если в приложении идет какая-либо функция ввода-вывода, например, чтения файла или взаимодействия с базой данных, выполнение которой может занять продолжительное время.</p>
+    <p>То общее выполнение приложение не блокируется, а идет дальше.</p>
+    <p>Почему так происходит?</p>
+    <p>Потому что все колбеки или функции обратного вызова в асинхронных функциях (в качестве таковой здесь используется функция setTimeout) помещаются в специальную очередь, и начинают выполняться после того, как все остальные синхронные вызовы в приложении завершат свою работу.</p>
+    <p>Собственно поэтому выполнение колбека из функции setTimeout в примере выше происходит после выполнения вызова <b>console.log("Завершение работы программы");</b>.</p>
+    <p>И стоит подчеркнуть, что в очередь колбеков переходит не функция, которая передается в display, а функция, которая передается в setTimeout.</p>
+    <p>Рассмотрим пример с двумя асинхронными вызовами:</p>
+
+    <pre class="brush: csharp;">
+    function displaySync(callback){
+        callback();
+    }
+    
+    console.log("Начало работы программы");
+    
+    setTimeout(function(){
+            
+            console.log("timeout 500");
+    }, 500);
+    
+    setTimeout(function(){
+            
+            console.log("timeout 100");
+    }, 100);
+    
+    displaySync(function(){console.log("without timeout")});
+    console.log("Завершение работы программы");
+    </pre>
+
+    <p>Результат выполнения:</p>
+
+    <img src="n22.png" id="image" />
+
+    <p>Несмотря на то, что в функцию display передается колбек, но эта функция с колбеком будет выполняться синхронно.</p>
+    <p>А колбеки из функций setTimeout будут выполняться только после всех остальных вызовов приложения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="8.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="10.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/9.html", "Асинхронность в Node.js", "bm1318"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1318", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1318") == 1) { document.getElementById("bma1318").style.display = "block"; document.getElementById("bm1318").style.display = "none"; } else { document.getElementById("bma1318").style.display = "none"; document.getElementById("bm1318").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Асинхронность в Node.js") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1318", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

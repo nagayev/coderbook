@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1333" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1333" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Представления Handlebars
+	</h1>
+    
+    <p>Как правило, приложения Express для определения визуального интерфейса использует не стандартные файлы html, а специальные сущности - представления, из которых затем создаются html-файлы.</p>
+    <p>Преимуществом представлений является то, что мы можем определять в них некоторые шаблоны, вместо которых затем вставляется какое-то динамическое содержимое с помощью кода javascript.</p>
+    <p>Управляет представлениями специальный компонент - движок представлений (view engine), который также называют движок шаблонов (templte engine).</p>
+    <p>Вообще движков представлений в Express довольно много: Pug, Jade, Dust, Nunjucks, EJS, Handlebars и другие.</p>
+    <p>Вопрос выбора движка представлений - в основном вопрос предпочтений, все они предоставляют схожую функциональность, различаясь лишь в каких-то деталях.</p>
+    <p>Но в данном случае для примера рассмотрим работу с представлениями на основе движка Handlebars или сокращенно hbs.</p>
+    <p>Для работы с представлениями установим пакет hbs в проект с помощью команды</p>
+
+    <pre class="brush: csharp;">
+    npm install hbs --save
+    </pre>
+
+    <p>Для хранения представлений определим в проекте папку views.</p>
+    <p>Затем в нее добавим новый файл contact.hbs.</p>
+    <p><b>hbs</b> - это расширение по умолчанию для представлений, которые обрабатываются движком Handlebars.</p>
+    <p>Определим в файле contact.hbs простейший html-код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Контакты&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Контакты&lt;/h1&gt;
+        &lt;p&gt;Электронный адрес: admin@mycorp.com&lt;/p&gt;
+    &lt;/body&gt;
+    &lt;html&gt;
+    </pre>
+
+    <p>Представление выглядит как обычная веб-страница, однако на самом деле это уже не html-страница, просто пока она не содержит никаких шаблонов.</p>
+    <p>Изменим файл приложения app.js:</p>
+
+    <pre class="brush: csharp;">
+    var express = require("express");
+    
+    var app = express();
+    
+    app.set("view engine", "hbs");
+    
+    app.get("/", function(request, response){
+        
+        response.send("Главная страница");
+    });
+    app.get("/contact", function(request, response){
+        
+        response.render("contact.hbs");
+    });
+    app.listen(3000);
+    </pre>
+
+    <p>Чтобы установить Handlebars в качестве движка представлений в Express, вызывается функция:</p>
+
+    <pre class="brush: csharp;">
+    app.set("view engine", "hbs");
+    </pre>
+
+    <p>Для маршрута "/contact" используется функция обработчика, которая производит рендеринг представления "contact.hbs" с помощью функции response.render().</p>
+    <p>Эта функция на основе представления создает страницу html, которая отправляется клиенту.</p>
+    <p>Запустим приложение и обратимся в веб-браузере с запросом "http://localhost:3000/contact":</p>
+
+    <img src="n52.png" id="image" />
+
+    <h2 id="title">
+        Модель представления
+    </h2>
+    
+    <p>Одним из преимуществ шаблонов является то, что мы можем передавать в представления на место шаблонов модели представления - специальные объекты, данные которые использует движок представлений для рендеринга.</p>
+    <p>Так, изменим файл app.js следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    var express = require("express");
+    
+    var app = express();
+    
+    app.set("view engine", "hbs");
+    
+    app.get("/", function(request, response){
+        
+        response.send("Главная страница");
+    });
+    app.get("/contact", function(request, response){
+        
+        response.render("contact.hbs", {
+            title: "Мои контакты",
+            email: "gavgav@mycorp.com",
+            phone: "+1234567890"
+        });
+    });
+    app.listen(3000);
+    </pre>
+
+    <p>Теперь в качестве второго параметра в функцию response.render() передается специальный объект с тремя свойствами.</p>
+    <p>Далее изменим код представления contact.hbs:</p>
+
+    <pre class="brush: csharp;">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;{{title}}&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;{{title}}&lt;/h1&gt;
+        &lt;p&gt;Электронный адрес: {{email}}&lt;/p&gt;
+        &lt;p&gt;Телефон: {{phone}}&lt;/p&gt;
+    &lt;/body&gt;
+    &lt;html&gt;
+    </pre>
+
+    <p>Вместо конкретных данных в коде представления используются те данные, которые определены в модели.</p>
+    <p>Чтобы обратиться к свойствам модели в двойных фигурных скобках указывается нужное свойство: {{title}}.</p>
+    <p>При рендеринге представления вместо подобных выражений будут вставляться значения соответствующих свойств модели.</p>
+    <p>Перезапустим приложение и вновь обратимся по тому же адресу:</p>
+
+    <img src="n53.png" id="image" />
+
+    <p>Рассмотрим более сложный случай, пусть в представление передается массив:</p>
+
+    <pre class="brush: csharp;">
+    var express = require("express");
+    
+    var app = express();
+    app.set("view engine", "hbs");
+    
+    app.get("/", function(request, response){
+        
+        response.send("Главная страница");
+    });
+    app.get("/contact", function(request, response){
+        
+        response.render("contact.hbs", {
+            title: "Мои контакты",
+            emailsVisible: true,
+            emails: ["gavgav@mycorp.com", "mioaw@mycorp.com"],
+            phone: "+1234567890"
+        });
+    });
+    app.listen(3000);
+    </pre>
+
+    <p>Для вывода данных изменим представление contact.hbs:</p>
+
+    <pre class="brush: csharp;">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;{{title}}&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        
+        &lt;h1&gt;{{title}}&lt;/h1&gt;
+        
+        {{#if emailsVisible}}
+            &lt;h3&gt;Электронные адреса&lt;/h3&gt;
+            &lt;ul&gt;
+                {{#each emails}}
+                    &lt;li&gt;{{this}}&lt;/li&gt;
+                {{/each}}
+            &lt;/ul&gt;
+        {{/if}}
+        &lt;p&gt;Телефон: {{phone}}&lt;/p&gt;
+    &lt;/body&gt;
+    &lt;html&gt;
+    </pre>
+
+    <p>Выражение типа</p>
+
+    <pre class="brush: csharp;">
+    {{#if emailsVisible}}
+    // код
+    {{/if}}
+    </pre>
+    
+    <p>позволяет определить видимость кода в зависимости от значения свойства emailsVisible - если это свойство равно true, то блок кода между {{#if emailsVisible}} и {{/if}} добавляется на веб-страницу.</p>
+    <p>Для перебора массивов можно воспользоваться конструкцией each</p>
+
+    <pre class="brush: csharp;">
+    {{#each emails}}
+        &lt;li&gt;{{this}}&lt;/li&gt;
+    {{/each}}
+    </pre>
+
+    <p>Эта конструкция перебирает все элементы из массива emails и создает для них элемент &lt;li&gt;.</p>
+    <p>Текущий перебираемый элемент помещается в переменную this.</p>
+    <p>В итоге при обращении по пути "/contact" на веб-странице в виде списка будет отображаться массив:</p>
+
+    <img src="n54.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="23.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="25.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/24.html", "Представления Handlebars", "bm1333"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1333", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1333") == 1) { document.getElementById("bma1333").style.display = "block"; document.getElementById("bm1333").style.display = "none"; } else { document.getElementById("bma1333").style.display = "none"; document.getElementById("bm1333").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Представления Handlebars") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1333", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

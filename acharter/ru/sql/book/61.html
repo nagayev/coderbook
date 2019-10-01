@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1075" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1075" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Что такое добавление данных
+	</h1>
+
+	<p>Несомненно, SELECT является наиболее часто используемым оператором языка SQL (именно поэтому мы посвятили его рассмотрению 14 уроков).</p>
+	<p>Но помимо него в SQL часто применяются еще три оператора, которыми вам необходимо уметь пользоваться.</p>
+	<p>Первый из них — оператор INSERT.</p>
+	<p>О двух других мы расскажем в следующем уроке.</p>
+	<p>Как следует из названия, оператор INSERT используется для ввода (добавления) строк в таблицу базы данных.</p>
+	<p>Добавление можно осуществить несколькими способами:</p>
+	<p>- добавить одну полную строку;</p>
+	<p>- добавить часть одной строки;</p>
+	<p>- добавить результаты запроса.</p>
+	<p>Далее мы рассмотрим все эти варианты.</p>
+	<p><b>Оператор INSERT и безопасность системы</b></p>
+	<p>Для использования оператора insert могут потребоваться особые права на доступ в СУБД со структурой клиент-сервер.</p>
+	<p>Прежде чем применять оператор insert, убедитесь в том, что у вас есть на это право.</p>
+
+	<h1 id="title">
+		Добавление полных строк
+	</h1>
+
+	<p>Простейший способ добавления данных в таблицу может быть реализован при использовании основного синтаксиса оператора INSERT.</p>
+	<p>Для этого нужно указать имя таблицы и значения, которые должны быть введены в новую строку.</p>
+	<p>Вот пример:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	INSERT INTO Customers
+	VALUES('1000000006' ,
+	'Toy Land',
+	'123 Any Street',
+	'New York',
+	'NY' ,
+	'11111',
+	'USA' ,
+	NULL,
+	NULL);
+	</pre>
+
+	<p>В этом примере в таблицу добавляются сведения о новом клиенте.</p>
+	<p>Данные, которые должны быть сохранены в каждом столбце таблицы, указываются в условии VALUES, значения должны быть приведены для каждого столбца.</p>
+	<p>Если для какого-то столбца не имеется соответствующего значения (например, как это произошло для столбцов cust_contact и cust_email в данном примере), следует использовать значение NULL (предполагается, что для данной таблицы разрешено не указывать значения в этих столбцах).</p>
+	<p>Столбцы должны заполняться в порядке, в котором они появились в определении таблицы.</p>
+	<p><b>Ключевое слово INTO</b></p>
+	<p>В некоторых реализациях SQL вслед за оператором INSERT опционально указывается ключевое слово INTO.</p>
+	<p>Однако хорошим тоном считается указание этого ключевого слова даже в случаях, когда это не является необходимым.</p>
+	<p>Поступая таким образом, вы обеспечите переносимость своего кода между СУБД.</p>
+	<p>Этот синтаксис довольно прост, но он не вполне безопасен, поэтому его применения следует всячески избегать.</p>
+	<p>Результаты применения вышеприведенного оператора SQL весьма чувствительны к порядку, в котором столбцы определены в таблице.</p>
+	<p>Они также зависят от того, соблюдается ли в действительности этот порядок.</p>
+	<p>Однако даже если в данный момент порядок соблюдается, нет гарантий, что столбцы будут расположены в том же самом порядке, когда таблица будет реконструироваться в следующий раз.</p>
+	<p>Следовательно, использовать оператор SQL, результаты применения которого зависят от порядка следования столбцов, весьма небезопасно.</p>
+	<p>Если вы будете пренебрегать этим советом, вас ждут неприятности.</p>
+	<p>Безопасный (и, к сожалению, более громоздкий) способ записи оператора INSERT таков:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	INSERT INTO Customers(cust_id,
+	cust_name,
+	cust_address,
+	cust_city, cust_state,
+	cust_ZIP,
+	cust_country,
+	cust_contact,
+	cus,t_email) VALUES('1000000006',
+	'Toy Land',
+	'123 Any Street',
+	'New York',
+	'NYJ' ,
+	'11111', 'USA',
+	NULL,
+	NULL);
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>В этом примере делается в точности то же самое, что и в предыдущем варианте применения оператора INSERT, но на этот раз имена столбцов явно указаны в круглых скобках, следующих после имени таблицы.</p>
+	<p>Когда строка вводится в таблицу, СУБД устанавливает соответствие каждого предмета в списке столбцов с соответствующим значением в списке VALUES.</p>
+	<p>Первое значение в списке VALUES соответствует первому указанному имени столбца, второе значение соответствует имени второго столбца и т.д.</p>
+	<p>Поскольку имена столбцов предоставлены, условие VALUES должно подобрать названные имена столбцов в порядке, в котором указаны столбцы, причем не обязательно в порядке, в каком они следуют в реальной таблице.</p>
+	<p>Преимущество этого способа таково: даже если расположение столбцов в таблице изменяется, оператор INSERT все равно будет работать корректно.</p>
+	<p>Следующий оператор INSERT заполняет все столбцы строки (так же, как и в предыдущем примере), но делает это в другом порядке.</p>
+	<p>Поскольку имена столбцов указываются, добавление будет выполнено правильно:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	INSERT INTO Customers(cust_id,
+	cust_contact,
+	cust_email,
+	cust_name,
+	cust_address,
+	cust_city,
+	cust_sCate,
+	cust_ZIP,
+	VALUES('1000000006',
+	NULL,
+	NULL,
+	'Toy Land',
+	'123 Any Street',
+	'New York',
+	'NY' ,
+	'11111',
+	</pre>
+
+	<p><b>Всегда используйте список столбцов</b></p>
+	<p>Как правило, оператор insert не используется без явного указания списка столбцов.</p>
+	<p>Благодаря этому значительно возрастает вероятность того, что вы сможете продолжать работу, даже если в таблице произойдут изменения.</p>
+	<p><b>Аккуратно используйте предложение VALUES</b></p>
+	<p>Независимо от синтаксиса, используемого для оператора INSERT, должны быть правильно указаны значения в предложении VALUES.</p>
+	<p>Если имена столбцов не указываются, должно быть указано значение для каждого столбца таблицы.</p>
+	<p>Если имена столбцов указываются, должно наличествовать какое-то значение для каждого столбца, включенного в список.</p>
+	<p>Если что-то не указано, будет сгенерировано сообщение об ошибке, и строка не будет вставлена.</p>
+
+	<h1 id="title">
+		Добавление части строки
+	</h1>
+
+	<p>Рекомендуемый в предыдущем разделе способ использования оператора INSERT состоит в явном указании имен столбцов таблицы.</p>
+	<p>Используя такой синтаксис, вы также получаете возможность пропустить некоторые столбцы.</p>
+	<p>Это означает, что вы вводите значения для одних столбцов и не предлагаете для других.</p>
+	<p>Рассмотрим следующий пример:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	INSERT INTO Customers(cust_id,
+	cust_name,
+	cust_address,
+	cust_city,
+	cust_state,
+	t:ust_ZIP,
+	cust_country)
+	VALUES('1000000006',
+	'Toy Land',
+	'123 Any Street',
+	' New York',
+	'NY1',
+	'11111',
+	'USA');
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>В примере, приведенном ранее в этом уроке, значения не предлагаются для двух столбцов, cust_contact и cust_email.</p>
+	<p>Это означает, что в данном случае нет причин включать эти столбцы в оператор INSERT.</p>
+	<p>Поэтому данный оператор INSERT не включает эти два столбца и два соответствующих им значения.</p>
+	<p><b>Попуск столбцов</b></p>
+	<p>Вы можете исключать некоторые столбцы из операции INSERT, если это позволяет делать определение таблицы.</p>
+	<p>Должно соблюдаться одно из следующих условий:</p>
+	<p>- Этот столбец определен как допускающий значения NULL (отсутствие какого-либо значения).</p>
+	<p>- В определении таблицы указано значение по умолчанию. Это означает, что, если не указано никакое значение, будет использовано значение по умолчанию.</p>
+	<p>Если вы пропускаете столбец таблицы, которая не допускает появления в своих строках значений NULL и не имеет значения, определенного для использования по умолчанию, СУБД выдаст сообщение об ошибке, и эта строка не будет добавлена.</p>
+
+	<h1 id="title">
+		Добавление выбранных данных
+	</h1>
+
+	<p>Обычно оператор INSERT служит для добавления строки в таблицу с использованием указанных значений.</p>
+	<p>Существует и другая форма оператора INSERT, она может быть использована для добавления в таблицу результата применения оператора SELECT.</p>
+	<p>Известна эта форма как оператор INSERT SELECT и, как подсказывает название последнего, данный оператор выполняет то же самое, что делают операторы INSERT и SELECT.</p>
+	<p>Предположим, вы хотите ввести в таблицу Customers список клиентов из другой таблицы.</p>
+	<p>Вместо того чтобы считывать по одной строке и затем добавлять ее посредством оператора INSERT, вы можете сделать следующее.</p>
+	<p><b>Инструкции для следующего примера</b></p>
+	<p>В следующем примере данные импортируются из таблицы CustNew в таблицу Customers.</p>
+	<p>Сначала создайте и наполните таблицу CustNew.</p>
+	<p>Формат таблицы CustNew должен быть таким же, как и таблицы Customers, описанной в приложении А.</p>
+	<p>После заполнения CustNew удостоверьтесь в том, что не были использованы значения cust_id, которые уже применялись в таблице Customers (последующая операция INSERT потерпит неудачу, если значения первичного ключа будут повторяться).</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	INSERT INTO Customers (cust_id, cust_contact,
+	cust_email,
+	cust_name,
+	cust_address,
+	cust_city,
+	cust_scate,
+	cust_ZIP,
+	cust_country) SELECT cust_id,
+	cust_contacc,
+	cust_email,
+	cust_name,
+	cust_address,
+	cust_city,
+	cust_state,
+	cust_ZIP,
+	cust_country FROM CustNew;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В этом примере для импорта всех данных из таблицы CustNew в таблицу Customers используется оператор INSERT SELECT.</p>
+	<p>Вместо того чтобы перечислять значения, которые должны быть добавлены, оператор SELECT выбирает их из таблицы CustNew.</p>
+	<p>Каждый столбец в операторе SELECT соответствует столбцу в списке указанных столбцов.</p>
+	<p>Сколько же строк добавит этот оператор?</p>
+	<p>Это зависит от того, сколько строк содержится в таблице CustNew.</p>
+	<p>Если таблица пуста, никакие строки добавлены не будут (и никакое сообщение об ошибке не будет выдано, поскольку эта операция остается правомерной).</p>
+	<p>Если таблица содержит данные, все они будут добавлены в таблицу Customers.</p>
+	<p><b>Имена столбцов в операторе INSERT SELECT</b></p>
+	<p>В этом примере были использованы одинаковые имена столбцов в операторах INSERT И SELECT.</p>
+	<p>Учтите, что к именам столбцов не предъявляются никакие требования.</p>
+	<p>В действительности СУБД вообще не обращает внимания на имена столбцов, возвращаемых оператором SELECT.</p>
+	<p>Точнее, ею используется положение столбца, так что первый столбец в SELECT (независимо от имени) будет использован для заполнения первого указанного столбца таблицы и т.д.</p>
+	<p>Оператор SELECT, используемый в INSERT SELECT, может включать предложение WHERE для фильтрации данных, которые должны быть добавлены.</p>
+	<p><b>Добавление нескольких строк</b></p>
+	<p>Оператор INSERT обычно добавляет только одну строку.</p>
+	<p>Чтобы добавить несколько строк, нужно выполнить несколько операторов INSERT.</p>
+	<p>Исключением из этого правила является оператор INSERT SELECT, который может быть использован для добавления многих строк посредством одного оператора - какие бы данные ни возвратил оператор SELECT, они могут быть добавлены в таблицу посредством оператора INSERT.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="60.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="62.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/61.html", "Добавление данных", "bm1075"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1075", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1075") == 1) { document.getElementById("bma1075").style.display = "block"; document.getElementById("bm1075").style.display = "none"; } else { document.getElementById("bma1075").style.display = "none"; document.getElementById("bm1075").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Добавление данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1075", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

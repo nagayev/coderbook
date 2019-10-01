@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma76" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm76" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Static: Многоцелевое ключевое слово
+	</h1>
+
+	<p>Большинство ключевых слов C++ позволяют сделать одну вещь.</p>
+	<p>Вы используете int для объявления целочисленной переменной, или тогда, когда функция возвращает целое значение, или принимает целое число в качестве аргумента.</p>
+	<p>Вы используете оператор new для выделения памяти, а оператор delete — для ее освобождения.</p>
+	<p>Вы можете использовать const для указания, что значение переменной не может быть изменено.</p>
+	<p>По иронии судьбы, ключевое слово static, хотя и означает "неизменный", имеет несколько (и, видимо, не связанных между собой) способов использования.</p>
+	<p>Ключевое слово static может быть использовано в трех основных контекстах:</p>
+	<p>- внутри функции;</p>
+	<p>- внутри определения класса;</p>
+	<p>- перед глобальной переменной внутри файла, составляющего многофайловую программу.</p>
+	<p>Использование static внутри функции является самым простым.</p>
+	<p>Это просто означает, что после того, как переменная была инициализирована, она остается в памяти до конца программы.</p>
+	<p>Вы можете думать об этом, как о переменной, которая хранит свое значение до полного завершения программы.</p>
+	<p>Например, вы можете использовать статическую переменную для записи количества раз, когда функция была вызвана, просто добавив строки static int count = 0; и count++; в функцию.</p>
+	<p>Так как count является статической переменной, строка static int count = 0; будет выполняться только один раз.</p>
+	<p>Всякий раз, когда функция вызывается, count будет иметь последнее значение, данное ему.</p>
+	<p>Вы также можете использовать static таким образом, чтобы предотвратить переинициализацию переменной внутри цикла.</p>
+	<p>Например, в следующем коде переменная number_of_times будет равна 100, несмотря на то что строка static int number_of_times = 0; находится внутри цикла, где она, по-видимому, должна исполнятся каждый раз, когда программа доходит до цикла.</p>
+	<p>Хитрость заключается в том, что ключевое слово static препятствует повторной инициализации переменной.</p>
+	<p>Одной из особенностей использования ключевого слова static является то, что оно автоматически устанавливает переменную в ноль для вас — но не полагайтесь на это (это делает ваши намерения неясными).</p>
+
+	<pre class="brush: csharp;">
+	for(int ix=0; ix < 10; ix++)
+	{
+		for(int iy = 0; iy < 10; iy++)
+		{
+			static int number_of_times = 0;
+			number_of_times++;
+		}
+	}
+	</pre>
+
+	<p>Вы можете использовать статические переменные для сохранения информации о последнем значении возвращенной функции, например, если вы хотите сохранить максимальное значение, рассчитанное по функции.</p>
+	<p>Если вы делаете разбор строки, вы можете также хранить последний знак, возвращенный функцией, для того, чтобы иметь возможность вызвать ее с аргументом, означающим, что она должна вернуть последний знак.</p>
+	<p>Второе использование static — внутри определения класса.</p>
+	<p>Хотя большинство переменных, объявленных внутри класса могут иметь разное значение в каждом экземпляре класса, статические поля класса будут иметь то же значение для всех экземпляров данного класса и даже не обязательно создавать экземпляр этого класса.</p>
+	<p>Полезно представить себе, что статические переменные класса содержат информацию, необходимую для создания новых объектов (например в фабрике классов).</p>
+	<p>Например, если вы хотите пронумеровать экземпляры класса, можно использовать статическую переменную для отслеживания последнего используемого номера.</p>
+	<p>Важно отметить, что хорошим тоном при использовании статических переменных класса является использование class_name::х;, а не instance_of_class.x;.</p>
+	<p>Это помогает напомнить программисту, что статические переменные не принадлежат к одному экземпляру класса, и что вам не обязательно создавать экземпляр этого класса.</p>
+	<p>Как вы уже, наверное, заметили, для доступа к static можно использовать оператор области видимости, ::, когда вы обращаетесь к нему через имя класса.</p>
+	<p>Важно иметь в виду, при отладке или реализации программы с использованием static, что вы не можете инициализировать его внутри класса.</p>
+	<p>В самом деле, если вы решите написать весь код класса в файл заголовка, вы даже не сможете инициализировать статическую переменную внутри файла заголовка; сделайте это в файле .cpp.</p>
+	<p>Кроме того, вам необходимо инициализировать статические члены класса, или их не будет в области видимости.</p>
+	<p>(Синтаксис немного странный: type class_name::static_variable = value.)</p>
+	<p>У вас также могут быть статические функции класса.</p>
+	<p>Статические функции — это функции, которые не требуют экземпляра класса и вызываются так же, по аналогии со статическими переменным, с именем класса, а не с именем объекта.</p>
+	<p>Например, a_class::static_function();, а не an_instance.function();.</p>
+	<p>Статические функции могут работать только со статическими членами класса, так как они не относятся к конкретным экземплярам класса.</p>
+	<p>Статические функции могут быть использованы для изменения статических переменных, отслеживать их значения — например, вы можете использовать статическую функцию, если вы решили использовать счетчик, чтобы дать каждому экземпляру класса уникальный идентификатор.</p>
+	<p>Например, вы можете использовать следующий код:</p>
+
+	<pre class="brush: csharp;">
+	class user
+	{
+		private:
+		int id;
+		static int next_id;
+		public:
+		static int next_user_id()
+		{
+			next_id++;
+			return next_id;
+		}
+
+		// остальные методы для класса user
+		// конструктор класса
+		user()
+		{
+			// или вызов метода, id = user.next_user_id();
+			id = user::next_id++;
+		}
+	};
+	int user::next_id = 0;
+	</pre>
+
+	<p>Обратите внимание, что вы должны включать тип статической переменной, когда вы устанавливаете его!</p>
+	<p>Строка:</p>
+
+	<pre class="brush: csharp;">
+	user a_user;
+	</pre>
+
+	<p>установит идентификатор на следующий идентификационный номер, не используемый любым другим объектом user.</p>
+	<p>Обратите внимание, что это хороший стиль объявления идентификатора как константы.</p>
+	<p>Последнее использование static — глобальная переменная в файле кода.</p>
+	<p>В этом случае использование static указывает, что исходный код в других файлах, которые являются частью проекта, не может получить доступ к переменной.</p>
+	<p>Только код внутри того же файла может увидеть переменную (её область видимости ограничена файлом).</p>
+	<p>Эта техника может быть использована для моделирования объектно-ориентированного кода, потому что она ограничивает видимость переменных и таким образом помогает избежать конфликта имен.</p>
+	<p>Этот способ использования static является пережитком Cи.</p>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="54.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="56.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/55.html", "Многоцелевое ключевое слово", "bm76"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm76", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm76") == 1) { document.getElementById("bma76").style.display = "block"; document.getElementById("bm76").style.display = "none"; } else { document.getElementById("bma76").style.display = "none"; document.getElementById("bm76").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Многоцелевое ключевое слово") == 1) { arrs.splice(i, 1); localStorage.setItem("bm76", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

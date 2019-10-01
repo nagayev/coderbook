@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma15" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm15" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Ниспадающее меню
+	</h1>
+
+	<p>Такой тип меню прочно завоевал место в операционных системах и программах.</p>
+	<p>На сайтах также применяется довольно часто из-за своей компактности и иерархической структуры — каждый пункт меню может содержать подменю, а тот в свою очередь ещё одно.</p>
+	<p>Впрочем, из-за этого имеются некоторые проблемы связанные с удобством восприятия.</p>
+	<p>По виду меню невозможно сразу понять сколько пунктов оно содержит, а вложенные подменю затрудняют навигацию.</p>
+	<p>По этим причинам Microsoft в некоторых своих программах отказалась от ниспадающего меню в пользу ленточного интерфейса, как у Word.</p>
+	<p>Но главное, есть инструмент, а уж как им пользоваться решать вам, исходя из своих задач.</p>
+	<p>В Bootstrap само меню и кнопка для его вызова — это два разных элемента объединённых в один блок с классом <b>dropdown</b>.</p>
+	<p>Внутрь добавляем кнопку с атрибутом data-toggle и значением dropdown.</p>
+	<p>Традиционно возле текста указывается небольшая стрелка вниз — она означает, что пользователь имеет дело именно с ниспадающим меню, а не с обычной кнопкой или текстом.</p>
+	<p>Для её создания просто вставьте <xm>&lt;span class="caret">&lt;/span></xm> после надписи на кнопке.</p>
+
+	<pre class="brush: csharp;">
+	<div class="dropdown">
+
+	<button class="btn btn-default" id="dropdownMenu" type="button" data-toggle="dropdown" aria-expanded="false">
+
+	Меню <span class="caret"></span>
+
+	</button>
+
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулька</a></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулькарии</a></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепуление</a></li>
+
+	</ul>
+	</div>
+	</pre>
+
+	<p>Ниже кнопки мы добавляем список с пунктами меню и пишем класс <b>dropdown-menu</b>.</p>
+	<p>Всё остальное берёт на себя Bootstrap, так что дополнительных действий от нас не требуется.</p>
+	<p>В результате получим следующее меню.</p>
+
+	<img src="gridBTSP49.png" id="image" />
+
+	<h1 id="title">
+		Разделитель
+	</h1>
+
+	<p>Чтобы визуально отделить один или несколько пунктов меню от других применяется горизонтальный разделитель.</p>
+	<p>Вместо обычной ссылки вставьте пустой элемент <xm>&lt;li></xm> с классом divider, как показано в примере.</p>
+
+	<pre class="brush: csharp;">
+	<div class="dropdown">
+
+	<button class="btn btn-default" id="dropdownMenu" type="button" data-toggle="dropdown" aria-expanded="false">
+
+	Меню <span class="caret"></span>
+
+	</button>
+
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулька</a></li>
+
+	<li role="presentation" class="divider"></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулькарии</a></li>
+
+	<li role="presentation" class="divider"></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепуление</a></li>
+
+	</ul>
+	</div>
+	</pre>
+
+	<p>Результат данного примера:</p>
+
+	<img src="gridBTSP50.png" id="image" />
+
+	<h1 id="title">
+		Блокирование пунктов меню
+	</h1>
+
+	<p>Если некоторые пункты меню требуется сделать неактивными, то к элементу <xm>&lt;li></xm> следует добавить класс <b>disabled</b>.</p>
+
+	<pre class="brush: csharp;">
+	<div class="dropdown">
+
+	<button class="btn btn-default" id="dropdownMenu" type="button" data-toggle="dropdown" aria-expanded="false">
+
+	Меню <span class="caret"></span>
+
+	</button>
+
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+
+	<li role="presentation" class="disabled"><a role="menuitem" href="#">Сепулька</a></li>
+
+	<li role="presentation" class="divider"></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулькарии</a></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепуление</a></li>
+
+	</ul>
+	</div>
+	</pre>
+
+	<p>Такой пункт меню будет виден, но он отображается другим цветом, на него нельзя щёлкнуть, а при наведении на пункт курсора мыши указатель меняется.</p>
+
+	<img src="gridBTSP51.png" id="image" />
+
+	<h1 id="title">
+		Открытое меню
+	</h1>
+
+	<p>Пользователю можно сразу показать открытое меню, тогда ему не придётся лишний раз щёлкать по нему чтобы посмотреть, что за ним скрывается.</p>
+	<p>Просто добавьте класс open к родительскому <xm>&lt;div></xm>.</p>
+
+	<pre class="brush: csharp;">
+	<div class="dropdown open">
+	</pre>
+
+	<h1 id="title">
+		Вид кнопок
+	</h1>
+
+	<p>Кроме добавления традиционных кнопок допустимо вставить кнопку, у которой стрелка от текста визуально отделена.</p>
+
+	<img src="gridBTSP52.png" id="image" />
+
+	<p>Для создания такого элемента сделаем две кнопки — одна с текстом, другая со стрелкой и объединим их в группу, добавив класс <b>btn-group</b>.</p>
+
+	<pre class="brush: csharp;">
+	<div class="dropdown btn-group">
+
+	<button class="btn btn-default" id="dropdownMenu" type="button">Меню</button>
+
+	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+
+	<span class="caret"></span>
+
+	</button>
+
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулька</a></li>
+
+	<li role="presentation" class="divider"></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепулькарии</a></li>
+
+	<li role="presentation"><a role="menuitem" href="#">Сепуление</a></li>
+
+	</ul>
+	</div>
+	</pre>
+
+	<p>Поскольку мы теперь имеем дело с двумя кнопками, возможны разные эксперименты.</p>
+	<p>Например, можно задать разный цвет у кнопки с текстом и стрелкой или поменять их местами.</p>
+
+	<pre class="brush: csharp;">
+	<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+
+	<span class="caret"></span>
+
+	</button>
+
+	<button class="btn btn-default" id="dropdownMenu" type="button">Меню</button>
+	</pre>
+
+	<p>В данном случае белая стрелка на зелёном фоне будет слева от текста "Меню".</p>
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/bootstrap/book/15.html", "Ниспадающее меню", "bm15"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm15", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm15") == 1) { document.getElementById("bma15").style.display = "block"; document.getElementById("bm15").style.display = "none"; } else { document.getElementById("bma15").style.display = "none"; document.getElementById("bm15").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ниспадающее меню") == 1) { arrs.splice(i, 1); localStorage.setItem("bm15", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

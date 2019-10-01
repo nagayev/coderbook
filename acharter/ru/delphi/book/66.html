@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma452" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm452" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Многомерные массивы
+	</h1>
+
+	<p>Мы уже научились работать со статическими и с динамическими массивами, однако все эти массивы были одномерными.</p>
+	<p>Посмотрите пример:</p>
+
+	<pre class="brush: csharp;">
+	a : array [0..9] of String;
+	</pre>
+
+	<p>Здесь мы объявили массив строк из 10 элементов.</p>
+	<p>Этот массив можно представить в виде таблицы с десятью колонками и одной строкой:</p>
+
+	<table>
+		<tr>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+			<td>10</td>
+		</tr>
+	</table>
+
+	<p>А как быть, если нам нужно обработать таблицу с более чем одной строкой?</p>
+
+	<p>Тут на помощь приходят многомерные массивы.</p>
+	<p>Чтобы объявить массив из 10 колонок и 5 строк, мы делаем такое объявление:</p>
+
+	<pre class="brush: csharp;">
+	a : array [0..4, 0..9] of string;
+	</pre>
+
+	<p>Как видите, вначале задается диапазон индексов строк, затем через запятую диапазон индексов столбцов.</p>
+	<p>Работа с такими массивами ничем не отличается от одномерных массивов, только в качестве индекса придется указывать сразу два элемента – строку и столбец.</p>
+	<p>Например, код</p>
+
+	<pre class="brush: csharp;">
+	a[1][0] := 'Строка';
+	</pre>
+
+	<p>присвоит строку "Строка" второй строке первого столбца (не забывайте, что нижним индексом мы объявили ноль).</p>
+	<p>Можно воспользоваться и другим вариантом адресации:</p>
+
+	<pre class="brush: csharp;">
+	a[1, 0] := 'Строка';
+	</pre>
+
+	<p>Оба эти варианта идентичны и сделают одно и то же – присвоят второй строке и первому столбцу строку "Строка".</p>
+	<p>В дальнейшем мы можем вызвать эту строку, например, таким образом:</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage(a[1,0]);
+	</pre>
+
+	<p>Однако, для Delphi двухмерные массивы – не предел.</p>
+	<p>Можно объявлять и трехмерные, и четырехмерные, и сколько угодно мерные, вот только обрабатывать такие массивы будет сложней с каждой новой размерностью.</p>
+	<p>Давайте посмотрим пример присвоения всем элементам одномерного массива какой-то строки:</p>
+
+	<pre class="brush: csharp;">
+var
+  a : array [0..9] of string;
+  i : Integer;
+  s : string;
+
+begin
+  for i := 0 to 9 do begin
+    a[i] := 'Строка №'+IntToStr(i);
+    s := s + a[i]+#13+#10;
+  end; //for
+
+  ShowMessage(s);
+
+end; //конец процедуры
+	</pre>
+
+	<p>В данном примере, с помощью цикла for мы в элемент массива a[i] присваивали строку "Строка №0", причем номер строки менялся при каждом проходе цикла.</p>
+	<p>Затем полученную строку мы добавляли в строковую переменную s, также добавляли и символы перехода на новую строку, чтобы в конце вывести все это с помощью ShowMessage().</p>
+	<p>Попробуйте сделать новое приложение с одной кнопкой на форме, и присвойте этот код обработке кнопки.</p>
+	<p>Теперь рассмотрим такой же пример, но уже для двухмерного массива:</p>
+
+	<pre class="brush: csharp;">
+var
+  a : array [0..9, 0..4] of string;
+  i,j : Integer;
+  s : string;
+begin
+  for i := 0 to 9 do
+    for j := 0 to 4 do begin
+      a[i, j] := 'Строка №'+IntToStr(i)+
+        ' Столбец №'+IntToStr(j);
+      s := s + a[i,j]+#13+#10;
+    end; //for 2
+
+  ShowMessage(s);
+
+end; //конец процедуры
+	</pre>
+
+	<p>Как видите, теперь нам приходится использовать два цикла for – один для строк, и один для столбцов.</p>
+	<p>Вначале выполняется цикл для первой строки, и управление передается на вложенный цикл.</p>
+	<p>Там происходит обработка массива от первого до последнего столбца первой строки.</p>
+	<p>Потом программа возвращается в первый цикл, прибавляет к счетчику единицу и происходит такая же обработка для второй строки, от первого до последнего столбца.</p>
+	<p>И так далее, пока не будет обработан последний столбец последней строки!</p>
+	<p>Трехмерные массивы обрабатывать еще сложней.</p>
+	<p>Такая таблица будет выглядеть уже как кубическая:</p>
+
+	<img src="delphi27.png" id="image" />
+
+	<p>Объявляться такой массив будет уже так:</p>
+
+	<pre class="brush: csharp;">
+	a : array [0..9, 0..4, 0..7] of string;
+	</pre>
+
+	<p>И для его циклической обработки потребуется уже три цикла for!</p>
+	<p>Как будет выглядеть четырехмерный массив, графическим образом вообще невозможно описать.</p>
+	<p>Несмотря на то, что у вас есть возможность работать хоть с десятимерным массивом, надобность более, чем в трехмерном в практике программиста почти не встречается, а чаще всего приходится работать с одно- и двухмерными массивами.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="65.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="67.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/66.html", "Многомерные массивы", "bm452"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm452", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm452") == 1) { document.getElementById("bma452").style.display = "block"; document.getElementById("bm452").style.display = "none"; } else { document.getElementById("bma452").style.display = "none"; document.getElementById("bm452").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Многомерные массивы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm452", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

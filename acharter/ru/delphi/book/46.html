@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma432" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm432" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Файлы проекта
+	</h1>
+
+	<p>Мы уже говорили, что проект состоит из множества файлов.</p>
+	<p>Откройте папку с проектом MyNotebook, и посмотрите, какие файлы там есть.</p>
+	<p>В таблице ниже приведены описания файлов, составляющих проект, и их расширений:</p>
+
+	<table>
+		<tr>
+			<th>Расширение</th>
+			<th>Описание файла</th>
+		</tr>
+		<tr>
+			<td>*.cfg</td>
+			<td>Этот файл содержит конфигурацию всего проекта, поэтому он один, и имеет имя, как у проекта.<br /><br />Редактировать этот файл вручную не стоит, если не хотите испортить проект.</td>
+		</tr>
+		<tr>
+			<td>*.dof</td>
+			<td>Этот файл содержит опции проекта – настройки, версию Delphi, версию проекта, используемые модули и многое другое.<br /><br />Редактировать этот файл вручную нельзя.</td>
+		</tr>
+		<tr>
+			<td>*.dpr</td>
+			<td>Это сам проект.<br /><br />Это текстовый файл с описанием используемых форм и модулей, а также процедура инициализации программы.<br /><br />Редактировать такой файл вручную можно, но только опытным программистам, которые точно знают, что они делают, и для чего это нужно.<br /><br />Даже им это бывает необходимо очень редко, поэтому лучше файл не трогать.<br /><br />Однако можно загрузить проект, просто щелкнув по нему дважды, либо поставить на него курсор и нажать Enter.<br /><br />Если Delphi не загружена, она загрузится и загрузит проект.</td>
+		</tr>
+		<tr>
+			<td>*.res</td>
+			<td>Файл ресурсов проекта, таких как иконки, курсоры и так далее.</td>
+		</tr>
+		<tr>
+			<td>*.pas</td>
+			<td>Модуль формы.<br /><br />Этот файл мы видим в редакторе кода, его мы редактируем.<br /><br />Таких файлов имеется по одному на каждую форму проекта.</td>
+		</tr>
+		<tr>
+			<td>*.dfm</td>
+			<td>Это файлы с информацией о форме.<br /><br />Тут содержатся описания используемых компонентов и их настройки.</td>
+		</tr>
+		<tr>
+			<td>*.ddp</td>
+			<td>Это вспомогательные файлы модуля, они генерируются автоматически.</td>
+		</tr>
+		<tr>
+			<td>*.dcu</td>
+			<td>Откомпилированный файл модуля.<br /><br />Фактически, та же программа, но только для одного модуля.<br /><br />Работать самостоятельно она не может.</td>
+		</tr>
+		<tr>
+			<td>*.exe</td>
+			<td>Готовая программа.<br /><br />Компилятор собирает все *.dcu в единый исполняемый файл.<br /><br />Если вы в проекте не использовали других файлов, таких как базы данных, например, то этот файл единственный, который нужен.<br /><br />При распространении программы отдавайте пользователю только его.<br /><br />Однако это не значит, что все остальные файлы можно удалить.<br /><br />Ведь в них ваш проект!<br /><br />В будущем, возможно, вам понадобится процедура или функция, аналогичная той, которую вы использовали в проекте.<br /><br />Чтобы заново не изобретать велосипед, просто откройте старый проект и посмотрите, как вы реализовали эту функцию.<br /><br />Скопируйте ее и вставьте в новый проект, если нужно.</td>
+		</tr>
+		<tr>
+			<td>*.~*</td>
+			<td>Файлы, расширение которых начинается с тильды – это резервные копии модулей и форм.<br /><br />Когда вы производите изменения и сохраняете проект, появляется такой файл.<br /><br />Это предыдущее сохранение.<br /><br />Если вы сохранили проект, и увидели, что ошиблись – его можно восстановить из этого файла.<br /><br />Однако лучше всего делать архивные копии проекта перед каждым серьезным изменением программы.</td>
+		</tr>
+	</table>
+
+	<p>Описание содержит основные файлы проекта.</p>
+	<p>Иногда приходится использовать в проекте и другие файлы, и мы будем их изучать, когда придет время применять их на практике.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="45.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="47.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/46.html", "Файлы проекта", "bm432"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm432", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm432") == 1) { document.getElementById("bma432").style.display = "block"; document.getElementById("bm432").style.display = "none"; } else { document.getElementById("bma432").style.display = "none"; document.getElementById("bm432").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Файлы проекта") == 1) { arrs.splice(i, 1); localStorage.setItem("bm432", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

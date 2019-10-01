@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1347" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1347" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Контрмеры CSRF
+    </h1>
+    
+    <p>Во-первых, как это требуется W3C, используйте надлежащим образом GET и POST.</p>
+    <p>Во-вторых, токен безопасности в не-GET запросах защитит ваше приложение от CSRF.</p>
+    <p>Протокол HTTP, по существу, представляет два основных типа запросов - GET и POST (DELETE, PUT и PATCH должны использоваться как POST).</p>
+    <p>Консорциум Всемирной паутины (W3C) предоставляет контрольный список для выбора между HTTP методами GET или POST:</p>
+    <p>Используйте GET, если:</p>
+
+    <ul>
+        <li>Взаимодействие более похоже на вопрос (например, это безопасная операция, такая как запрос, операция чтения или поиска).</li>
+    </ul>
+
+    <p>Используйте POST, если:</p>
+
+    <ul>
+        <li>Взаимодействие более похоже на распоряжение, или</li>
+        <li>Взаимодействие изменяет состояние ресурса способом, который пользователь будет осознавать (например, подписка на услугу), или</li>
+        <li>Пользователь несет ответственность за результат взаимодействия.</li>
+    </ul>
+
+    <p>Если Ваше приложение является RESTful, можете использовать дополнительные методы HTTP, такие как PATCH, PUT или DELETE.</p>
+    <p>Некоторые устаревшие веб-браузеры, однако, не поддерживают их - только GET и POST.</p>
+    <p>Rails использует скрытое поле _method для обработки этих случаев.</p>
+    <p>Запросы POST также могут быть посланы автоматически.</p>
+    <p>В этом примере, ссылка www.harmless.com показывается как назначение в статус-баре браузера.</p>
+    <p>Но фактически она динамически создает новую форму, посылающую запрос POST.</p>
+
+    <pre class="brush: csharp;">
+    &lt;a href=&quot;http://www.harmless.com/&quot; onclick=&quot;
+      var f = document.createElement(&apos;form&apos;);
+      f.style.display = &apos;none&apos;;
+      this.parentNode.appendChild(f);
+      f.method = &apos;POST&apos;;
+      f.action = &apos;http://www.example.com/account/destroy&apos;;
+      f.submit();
+      return false;&quot;&gt;To the harmless survey&lt;/a&gt;
+    </pre>
+
+    <p>Или злоумышленник поместит код в обработчик события onmouseover изображения:</p>
+
+    <pre class="brush: csharp;">
+    &lt;img src=&quot;http://www.harmless.com/img&quot; width=&quot;400&quot; height=&quot;400&quot; onmouseover=&quot;...&quot; /&gt;
+    </pre>
+
+    <p>Имеется множество других возможностей, наподобие использования тега &lt;script&gt; для осуществления межсайтового запроса к URL с откликом JSONP или JavaScript.</p>
+    <p>Откликом является запускаемый код, для которого злоумышленник может найти способ запуска, возможно с извлечением деликатных данных.</p>
+    <p>Для защиты от утечки этих данных мы должны запрещать межсайтовые теги &lt;script&gt;.</p>
+    <p>Однако, запросы Ajax подчиняются доменной политике браузера (только вашему сайту разрешено инициировать XmlHttpRequest), поэтому мы можем безопасно разрешить им возвращать отклики JavaScript.</p>
+    <p><b>Note:</b> Мы не можем отличить домен тега &lt;script&gt; - был ли это тег на вашем сайте или на сайте злоумышленника - поэтому мы должны блокировать &lt;script&gt; всегда и везде, даже если это фактически безопасный скрипт, отданный с вашего сайта на вашем домене.</p>
+    <p>В таких случаях, явно отменяйте защиту CSRF на экшнах, обслуживающих JavaScript, в том числе от тега &lt;script&gt;.</p>
+    <p>Для защиты от остальных подделанных запросов, мы представляем обязательный токен безопасности, который знает ваш сайт, но не знают остальные.</p>
+    <p>Мы включаем токен безопасности в запросы и проверяем его на сервере.</p>
+    <p>Это одна строка в контроллере вашего приложения, и это значение по умолчанию для новых приложений Rails:</p>
+
+    <pre class="brush: csharp;">
+    protect_from_forgery with: :exception
+    </pre>
+
+    <p>Это автоматически включает токен безопасности во все формы и запросы Ajax, генерируемые Rails.</p>
+    <p>Если токен безопасности не будет соответствовать ожидаемому, будет вызвано исключение.</p>
+    <p>По умолчанию, Rails включает ненавязчивый скриптовый адаптер, который добавляет заголовок, называемый X-CSRF-Token с токеном безопасности, в каждый не-GET Ajax запрос.</p>
+    <p>Без этого заголовка не-GET Ajax запросы не будут приняты Rails.</p>
+    <p>При использовании другой библиотеки для Ajax запросов, необходимо добавить токен безопасности как заголовок по умолчанию в Ajax запросах в вашей библиотеке.</p>
+    <p>Для получения токена, посмотрите на тег &lt;meta name=&apos;csrf-token&apos; content=&apos;THE-TOKEN&apos;&gt;, получаемый с помощью <%= csrf_meta_tags %> во вьюхах вашего приложения.</p>
+    <p>Является обычной практикой использование постоянных куки для хранения пользовательской информации, к примеру с помощью cookies.permanent.</p>
+    <p>В этом случае куки не будут очищены и встроенная защита от CSRF не будет эффективна.</p>
+    <p>Если для этой информации вы используете хранилище куки иное, чем сессия, то должны указать, что делать, самостоятельно:</p>
+
+    <pre class="brush: csharp;">
+    rescue_from ActionController::InvalidAuthenticityToken do |exception|
+      sign_out_user # Метод для примера, уничтожающий куки пользователя
+    end
+    </pre>
+
+    <p>Вышеуказанный метод должен быть помещен в ApplicationController и вызываться, когда отсутствует или неправильный токен CSRF для не-GET запроса.</p>
+    <p>Отметьте, что уязвимости межсайтового скриптинга (XSS) обходят все защиты от CSRF.</p>
+    <p>XSS дает злоумышленнику доступ ко всем элементам на странице, поэтому он может прочитать токен безопасности CSRF из формы или непосредственно утвердить форму.</p>
+    <p>Читайте более подробно о XSS позже.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="8.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="10.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/9.html", "Контрмеры CSRF", "bm1347"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1347", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1347") == 1) { document.getElementById("bma1347").style.display = "block"; document.getElementById("bm1347").style.display = "none"; } else { document.getElementById("bma1347").style.display = "none"; document.getElementById("bm1347").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Контрмеры CSRF") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1347", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

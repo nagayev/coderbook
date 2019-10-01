@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1096" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1096" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Что такое триггеры
+	</h1>
+
+	<p>Триггеры — это особые хранимые процедуры, автоматически выполняемые при использовании базы данных определенным образом.</p>
+	<p>С любой операцией, вызывающей изменение содержимого таблицы, можно связать сопутствующее действие (триггер), которое СУБД должна выполнять при выполнении каждой такой операции.</p>
+	<p>Триггеры могут быть связаны с выполнением операций INSERT, UPDATE и DELETE (или какой-то их комбинацией) по отношению к указанным таблицам.</p>
+	<p>Поддержка в MySQL Когда эта книга готовилась к печати, СУБД MySQL еще не поддерживала триггеры (их поддержку планировалось ввести в версии MySQL 5.1).</p>
+	<p>В отличие от хранимых процедур (которые представляют собой просто хранимые операторы SQL) триггеры привязаны к отдельным таблицам.</p>
+	<p>Триггер, ассоциирующийся с операциями INSERT по отношению к таблице Orders, будет выполняться только в том случае, если строка добавляется в таблицу Orders.</p>
+	<p>Аналогично, триггер, относящийся к операциям INSERT и UPDATE для таблицы Customers, будет выполняться только в случае выполнения названных операций по отношению к указанной таблице.</p>
+	<p>Будучи примененным в триггере, ваш код может иметь доступ к следующим данным: </p>
+	<p>- ко всем новым данным в операциях INSERT; </p>
+	<p>- ко всем новым и старым данным в операциях UPDATE;</p>
+	<p>- к удаляемым данным в операциях DELETE.</p>
+	<p>В зависимости от СУБД, которую вы используете, триггер может выполняться до или после связанной с ним операции.</p>
+	<p>Чаще всего триггеры используются:</p>
+	<p>- для обеспечения непротиворечивости данных (например, для преобразования всех названий штатов в верхний регистр во время выполнения операций INSERT или UPDATE);</p>
+	<p>- для выполнения действий по отношению к другим таблицам, основанных на изменениях, которые были сделаны в какой-то таблице (например, для внесения записи в контрольный журнал с целью регистрации каждого случая обновления или удаления строки);</p>
+	<p>- для выполнения дополнительной проверки и отмены введения данных (например, чтобы удостовериться в том, что разрешенная для клиента сумма кредита не превышена, в противном случае операция блокируется);</p>
+	<p>- для подсчета значений вычисляемых полей или обновления меток даты/времени.</p>
+	<p>Как вы, наверное, уже догадываетесь, синтаксис создания триггеров весьма различен для разных СУБД.</p>
+	<p>За подробностями обратитесь к документации своей СУБД.</p>
+	<p>В следующем примере создается триггер, преобразующий значения столбца cust_state в таблице Customers в верхний регистр при выполнении любых операций INSERT И UPDATE.</p>
+	<p>Вот версия для SQL Server:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE TRIGGER customer_state
+	ON Customers
+	FOR INSERT, UPDATE
+	AS
+	UPDATE Customers
+	SET cust_state = Upper(cust_state)
+	WHERE Customers.cust_id = inserted.cust_id;
+	</pre>
+
+	<p>А вот версия для Oracle и PostgreSQL:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE TRIGGER customer_state
+	AFTER INSERT OR UPDATE
+	FOR EACH ROW
+	BEGIN
+	UPDATE Customers
+	SET cust_state = Upper(cust_state)
+	WHERE Customers.cust_id = :OLD.cust_id
+	END;
+	</pre>
+
+	<p><b>Ограничения работают быстрее, чем триггеры</b></p>
+	<p>Как правило, ограничения обрабатываются быстрее, чем триггеры, поэтому старайтесь использовать именно их, когда это возможно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="81.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="83.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/82.html", "Что такое триггеры", "bm1096"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1096", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1096") == 1) { document.getElementById("bma1096").style.display = "block"; document.getElementById("bm1096").style.display = "none"; } else { document.getElementById("bma1096").style.display = "none"; document.getElementById("bm1096").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Что такое триггеры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1096", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

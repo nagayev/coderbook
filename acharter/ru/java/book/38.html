@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma639" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm639" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Применение приведений
+	</h1>
+
+	<p>Теперь, когда рассмотрены все виды преобразований, перейдем к ситуациям в коде, где могут встретиться или потребоваться приведения.</p>
+	<p>Такие ситуации могут быть сгруппированы следующим образом.</p>
+	<p><b>* Присвоение значений переменным (assignment).</b></p>
+	<p>Не все переходы допустимы при таком преобразовании - ограничения выбраны таким образом, чтобы не могла возникнуть ошибочная ситуация.</p>
+	<p><b>* Вызов метода.</b></p>
+	<p>Это преобразование применяется к аргументам вызываемого метода или конструктора.</p>
+	<p>Допускаются почти те же переходы, что и для присвоения значений.</p>
+	<p>Такое приведение никогда не порождает ошибок.</p>
+	<p>Так же приведение осуществляется при возвращении значения из метода.</p>
+	<p><b>* Явное приведение.</b></p>
+	<p>В этом случае явно указывается, к какому типу требуется привести исходное значение.</p>
+	<p>Допускаются все виды преобразований, кроме приведений к строке и запрещенных.</p>
+	<p>Может возникать ошибка времени исполнения программы.</p>
+	<p><b>* Оператор конкатенации производит преобразование к строке своих аргументов.</b></p>
+	<p><b>* Числовое расширение (numeric promotion).</b></p>
+	<p>Числовые операции могут потребовать изменения типа аргумента(ов).</p>
+	<p>Это преобразование имеет особое название - расширение (promotion), так как выбор целевого типа может зависеть не только от исходного значения, но и от второго аргумента операции.</p>
+	<p>Рассмотрим все случаи более подробно.</p>
+
+	<h1 id="title">
+		Присвоение значений
+	</h1>
+
+	<p>Такие ситуации неоднократно применялись в этой лекции для иллюстрации видов преобразования.</p>
+	<p>Приведение может потребоваться, если переменной одного типа присваивается значение другого типа.</p>
+	<p>Возможны следующие комбинации.</p>
+	<p>Если сочетание этих двух типов образует запрещенное приведение, возникнет ошибка.</p>
+	<p>Например, примитивные значения нельзя присваивать объектным переменным, включая следующие примеры:</p>
+
+	<pre class="brush: csharp;">
+	// пример вызовет ошибку компиляции примитивное значение нельзя присвоить объектной переменной
+	Parent p = 3;
+
+	// приведение к классу-"обертке" также запрещено
+	Long a=5L;
+
+	// универсальное приведение к строке возможно только для оператора +
+	String s=true;
+	</pre>
+
+	<p>Далее, если сочетание этих двух типов образует расширение (примитивных или ссылочных типов), то оно будет осуществлено автоматически, неявным для разработчика образом:</p>
+
+	<pre class="brush: csharp;">
+	int i=10;
+	long a=i;
+	Child c = new Child();
+	Parent p=c;
+	</pre>
+
+	<p>Если же сочетание оказывается сужением, то возникает ошибка компиляции, такой переход не может быть проведен неявно:</p>
+
+	<pre class="brush: csharp;">
+	// пример вызовет ошибку компиляции
+	int i=10;
+
+	// ошибка! сужение!
+	short s=i;
+	Parent p = new Child();
+
+	// ошибка! сужение!
+	Child c=p;
+	</pre>
+
+	<p>Как уже упоминалось, в подобных случаях необходимо выполнять преобразование явно:</p>
+
+	<pre class="brush: csharp;">
+	int i=10;
+	short s=(short)i;
+	Parent p = new Child();
+	Child c=(Child)p;
+	</pre>
+
+	<p>Более подробно явное сужение рассматривается ниже.</p>
+	<p>Здесь может вызвать удивление следующая ситуация, которая не порождает ошибок компиляции:</p>
+
+	<pre class="brush: csharp;">
+	byte b=1;
+	short s=2+3;
+	char c=(byte)5+'a';
+	</pre>
+
+	<p>В первой строке переменной типа byte присваивается значение целочисленного литерала типа int, что является сужением.</p>
+	<p>Во второй строке переменной типа short присваивается результат сложения двух литералов типа int, а тип этой суммы также int.</p>
+	<p>Наконец, в третьей строке переменной типа char присваивается результат сложения числа 5, приведенного к типу byte, и символьного литерала.</p>
+	<p>Однако все эти примеры корректны.</p>
+	<p>Для удобства разработчика компилятор проводит дополнительный анализ при присвоении значений переменным типа byte, short и char.</p>
+	<p>Если таким переменным присваивается величина типа byte, short, char или int, причем ее значение может быть получено уже на момент компиляции, и оказывается, что это значение укладывается в диапазон типа переменной, то явного приведения не требуется.</p>
+	<p>Если бы такой возможности не было, пришлось бы писать так:</p>
+
+	<pre class="brush: csharp;">
+	byte b=(byte)1;
+
+	// преобразование необязательно
+	short s=(short)(2+3);
+
+	// преобразование необязательно
+	char c=(char)((byte)5+'a');
+
+	// преобразование необязательно
+	// преобразование необходимо, так как число 200 не укладывается в тип byte
+	byte b2=(byte)200;
+	</pre>
+
+	<h1 id="title">
+		Вызов метода
+	</h1>
+
+	<p>Это приведение возникает в случае, когда вызывается метод с объявленными параметрами одних типов, а при вызове передаются аргументы других типов.</p>
+	<p>Объявление методов рассматривается в следующих лекциях курса, однако такой простой пример вполне понятен:</p>
+
+	<pre class="brush: csharp;">
+	// объявление метода с параметром типа long
+	void calculate(long l)
+	{
+		...
+	}
+
+	void main()
+	{
+		calculate(5);
+	}
+	</pre>
+
+	<p>Как видно, при вызове метода передается значение типа int, а не long, как определено в объявлении этого метода.</p>
+	<p>Здесь компилятор предпринимает те же шаги, что и при приведении в процессе присвоения значений переменным.</p>
+	<p>Если типы образуют запрещенное преобразование, возникнет ошибка.</p>
+
+	<pre class="brush: csharp;">
+	// пример вызовет ошибку компиляции
+	void calculate(long a)
+	{
+		...
+	}
+
+	void main()
+	{
+		calculate(new Long(5));
+		// здесь будет ошибка
+	}
+	</pre>
+
+	<p>Если сужение, то компилятор не сможет осуществить приведение и потребуются явные указания.</p>
+
+	<pre class="brush: csharp;">
+	void calculate(int a)
+	{
+		...
+	}
+
+	void main()
+	{
+		long a=5;
+		// calculate(a);
+		// сужение! так будет ошибка.
+		// корректный вызов
+		calculate((int)a);
+	}
+	</pre>
+
+	<p>Наконец, в случае расширения, компилятор осуществит приведение сам, как и было показано в примере в начале этого раздела.</p>
+	<p>Надо отметить, что, в отличие от ситуации присвоения, при вызове методов компилятор не производит преобразований примитивных значений от byte, short, char или int к byte, short или char.</p>
+	<p>Это привело бы к усложнению работы с перегруженными методами.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	// пример вызовет ошибку компиляции
+	// объявляем перегруженные методы с аргументами (byte, int) и (short, short)
+
+	int m(byte a, int b) { return a+b; }
+	int m(short a, short b) { return a-b; }
+
+	void main()
+	{
+		// ошибка компиляции!
+		print(m(12, 2));
+	}
+	</pre>
+
+	<p>В этом примере компилятор выдаст ошибку, так как при вызове аргументы имеют тип ( int, int ), а метода с такими параметрами нет.</p>
+	<p>Если бы компилятор проводил преобразование для целых величин, подобно ситуации с присвоением значений, то пример стал бы корректным, но пришлось бы прилагать дополнительные усилия, чтобы указать, какой из двух возможных перегруженных методов хотелось бы вызвать.</p>
+	<p>Аналогичное преобразование потребуется при возвращении значения из метода, если тип результата и заявленный тип возвращаемого значения не совпадают.</p>
+
+	<pre class="brush: csharp;">
+	long get()
+	{
+		return 5;
+	}
+	</pre>
+
+	<p>Хотя в выражении return указан целочисленный литерал типа int, во всех местах, где будет вызван этот метод, будет получено значение типа long.</p>
+	<p>Для такого преобразования действуют те же правила, что и для присвоения значения.</p>
+	<p>В заключение рассмотрим пример, включающий в себя все рассмотренные случаи преобразования:</p>
+
+	<pre class="brush: csharp;">
+	short get(Parent p)
+	{
+		return 5+'A';
+		// приведение при возвращении значения
+	}
+
+	void main()
+	{
+		long a =  5L;
+		// приведение при присвоении значения
+		
+		get(new Child());
+		// приведение при вызове метода
+	}
+	</pre>
+
+	<h1 id="title">
+		Явное приведение
+	</h1>
+
+	<p>Явное приведение уже многократно использовалось в примерах.</p>
+	<p>При таком преобразовании слева от выражения, тип значения которого необходимо преобразовать, в круглых скобках указывается целевой тип.</p>
+	<p>Если преобразование пройдет успешно, то результат будет точно указанного типа.</p>
+	<p>Примеры:</p>
+
+	<pre class="brush: csharp;">
+	(byte)5
+	(Parent)new Child()
+	(Flat)getCity().getStreet().getHouse().getFlat()
+	</pre>
+
+	<p>Если комбинация типов образует запрещенное преобразование, возникает ошибка компиляции.</p>
+	<p>Допускаются тождественные преобразования, расширения простых и объектных типов, сужения простых и объектных типов.</p>
+	<p>Первые три всегда выполняются успешно.</p>
+	<p>Последние два могут стать причиной ошибки исполнения, если значения оказались несовместимыми.</p>
+	<p>Как следствие, выражение null всегда может быть успешно преобразовано к любому ссылочному типу.</p>
+	<p>Но можно найти способ все-таки закодировать запрещенное преобразование.</p>
+
+	<pre class="brush: csharp;">
+	Child c=new Child();
+	// Child2 c2=(Child2)c;
+	// запрещенное преобразование
+	
+	// расширение
+	Parent p=c;
+	
+	// сужение
+	Child2 c2=(Child2)p;
+	</pre>
+
+	<p>Такой код будет успешно скомпилирован, однако, разумеется, при исполнении он всегда будет генерировать ошибку в последней строке.</p>
+	<p>"Обманывать" компилятор смысла нет.</p>
+
+	<h1 id="title">
+		Оператор конкатенации строк
+	</h1>
+
+	<p>Этот оператор уже рассматривался достаточно подробно.</p>
+	<p>Если обоими его аргументами являются строки, то происходит обычная конкатенация.</p>
+	<p>Если же тип String имеет лишь один из аргументов, то второй необходимо преобразовать в текст.</p>
+	<p>Это единственная операция, при которой производится универсальное приведение любого значения к типу String.</p>
+	<p>Это одно из свойств, выделяющих класс String из общего ряда.</p>
+	<p>Правила преобразования уже были подробно описаны в этой лекции, а оператор конкатенации рассматривался в лекции "Типы данных".</p>
+	<p>Небольшой пример:</p>
+
+	<pre class="brush: csharp;">
+	int i=1;
+	double d=i/2.;
+	String s="text";
+	print("i="+i+", d="+d+", s="+s);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	i=1, d=0.5, s=text
+	</pre>
+
+	<h1 id="title">
+		Числовое расширение
+	</h1>
+
+	<p>Наконец, последний вид преобразований применяется при числовых операциях, когда требуется привести аргумент(ы) к типу длиной в 32 или 64 бита для проведения вычислений.</p>
+	<p>Таким образом, при числовом расширении осуществляется только расширение примитивных типов.</p>
+	<p>Различают унарное и бинарное числовое расширение.</p>
+
+	<h1 id="title">
+		Унарное числовое расширение
+	</h1>
+
+	<p>Это преобразование расширяет примитивные типы byte, short или char до типов int по правилам расширения примитивных типов.</p>
+	<p>Унарное числовое расширение может выполняться при следующих операциях:</p>
+	<p><b>*</b> унарные операции + и - ;</p>
+	<p><b>*</b> битовое отрицание ~ ;</p>
+	<p><b>*</b> операции битового сдвига &lt;&lt;, &gt;&gt;, &gt;&gt;&gt;.</p>
+	<p>Операторы сдвига имеют два аргумента, но они расширяются независимо друг от друга, поэтому данное преобразование является унарным.</p>
+	<p>Таким образом, результат выражения 5&lt;&lt;3L имеет тип int.</p>
+	<p>Вообще, результат операторов сдвига всегда имеет тип int или long.</p>
+	<p>Примеры работы всех этих операторов с учетом расширения подробно рассматривались в предыдущих лекциях.</p>
+
+	<h1 id="title">
+		Бинарное числовое расширение
+	</h1>
+
+	<p>Это преобразование расширяет все примитивные числовые типы, кроме double, до типов int, long, float, double по правилам расширения примитивных типов.</p>
+	<p>Бинарное числовое расширение происходит при числовых операторах, имеющих два аргумента, по следующим правилам:</p>
+	<p><b>*</b> если любой из аргументов имеет тип double, то и второй приводится к double ;</p>
+	<p><b>*</b> иначе, если любой из аргументов имеет тип float, то и второй приводится к float ;</p>
+	<p><b>*</b> иначе, если любой из аргументов имеет тип long, то и второй приводится к long ;</p>
+	<p><b>*</b> иначе оба аргумента приводятся к int.</p>
+	<p>Бинарное числовое расширение может выполняться при следующих операциях:</p>
+	<p><b>*</b> арифметические операции +, -, *, /, %;</p>
+	<p><b>*</b> операции сравнения &lt;, &lt;=, &gt;, &gt;=, ==, !=;</p>
+	<p><b>*</b> битовые операции &, |, ^;</p>
+	<p><b>*</b> в некоторых случаях для операции с условием ?:.</p>
+	<p>Примеры работы всех этих операторов с учетом расширения подробно рассматривались в предыдущих лекциях.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="37.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="39.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/38.html", "Применение приведений", "bm639"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm639", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm639") == 1) { document.getElementById("bma639").style.display = "block"; document.getElementById("bm639").style.display = "none"; } else { document.getElementById("bma639").style.display = "none"; document.getElementById("bm639").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Применение приведений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm639", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

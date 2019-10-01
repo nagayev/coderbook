@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma806" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm806" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Интерфейсы отладки
+	</h1>
+	
+	<p>Lua не имеет встроенных удобных средств отладки.</p>
+	<p>Вместо этого существует специальный интерфейс посредством функции и hook -функций.</p>
+	<p>С его помощью можно создавать различные отладчики, профайлеры и другие инструменты, требующие «внутренней информации», предоставляемой интерпретатором.</p>
+
+	<h1 id="title">
+		lua_Debug
+	</h1>
+	
+	<pre class="brush: csharp;">
+	typedef struct lua_Debug
+	{
+		int event;
+	
+		const char *name;
+		/* (n) */
+	
+		const char *namewhat;
+		/* (n) */
+	
+		const char *what;
+		/* (S) */
+	
+		const char *source;
+		/* (S) */
+	
+		int currentline;
+		/* (l) */
+	
+		int nups;
+		/* (u) number of upvalues */
+	
+		int linedefined;
+		/* (S) */
+	
+		int lastlinedefined;
+		/* (S) */
+	
+		char short_src[LUA_IDSIZE];
+		/* (S) */
+	
+		/* private part */
+		other fields
+	}
+	lua_Debug;
+	</pre>
+
+	<p>Эта структура используется для предоставления информации об активной функции.</p>
+	<p>lua_getstack используется для заполнения только private-части этой структуры.</p>
+	<p>Для того, чтобы заполнить остальные поля lua_Debug используйте lua_getinfo.</p>
+	<p>Поля структуры lua_Debug имеют следующее значение:</p>
+	<p>- <b>source:</b> Если функция была определена в строке, то source будет содержать эту строку. Если же функция была определена в файле, тогда source начинается с символа '@' за которым следует имя файла.</p>
+	<p>- <b>short_src:</b> «пригодная для печати» версия source, используемая в сообщениях об ошибках.</p>
+	<p>- <b>linedefined:</b> номер строки, в которой начинается описание функции.</p>
+	<p>- <b>lastlinedefined:</b> номер строки, в которой заканчивается описание функции.</p>
+	<p>- <b>what:</b> Строка "Lua", если функция является функцией LUA>, строка "C" если «Си-шная», "main" если это основная часть chunk и "tail" если это функция, которая совершает завершающий вызов (if it was a function that did a tail call). В последнем случае, Lua не имеет более никакой информации об этой функции.</p>
+	<p>- <b>currentline:</b> Текущая строка, где данная функция выполняется. Когда информация о текущей строке недоступна, currentline устанавливается равной -1.</p>
+	<p>- <b>name:</b> Подходящее имя (a reasonable) для данной функции name. Поскольку функции в Lua являются first class объектами, они не имеют фиксированного имени: одни функции могут быть значениями множества глобальный переменных, в то время как другие могут храниться только в полях таблицы. Функция lua_getinfo проверяет как функция была вызвана для того, чтобы найти подходящее имя. Если имя найти не удалось, то значение поля name устанавливается в NULL.</p>
+	<p>- <b>namewhat:</b> Объясняет поле name. Может принимать значения "global", "local", "method", "field", "upvalue", или "" (пустая строка), в соответствии с тем, как функция была вызвана. (Lua использует пустую строку, когда никакие другие значения не подходят)</p>
+	<p>- <b>nups:</b> число внешних локальных переменных функции.</p>
+
+	<h1 id="title">
+		lua_gethook
+	</h1>
+	
+	<pre class="brush: csharp;">
+		lua_Hook lua_gethook (lua_State *L);
+	</pre>
+
+	<p>Возвращает текущую hook-функцию.</p>
+
+	<h1 id="title">
+		lua_gethookcount
+	</h1>
+	
+	<pre class="brush: csharp;">
+		int lua_gethookcount (lua_State *L);
+	</pre>
+
+	<p>Возвращает текущее количество инструкций, после которых происходит вызов hook-функций.</p>
+
+	<h1 id="title">
+		lua_gethookmask
+	</h1>
+	
+	<pre class="brush: csharp;">
+		int lua_gethookmask (lua_State *L);
+	</pre>
+
+	<p>Возвращает текущую маску hook’а.</p>
+
+	<h1 id="title">
+		lua_getinfo
+	</h1>
+	
+	<pre class="brush: csharp;">
+		int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar);
+	</pre>
+
+	<p>Возвращает информацию об определенной функции или вызовах функции.</p>
+	<p>Для получения информации о вызовах функции параметр ar должен быть активирующей записью, которая была заполнена предыдущим вызовом lua_getstack или передана в качестве аргумента hook’у (см. lua_Hook).</p>
+	<p>Для того, чтобы получить информацию о функции, вы должны ее поместить в стек и в начало строки what добавить символ '&gt;'.</p>
+	<p>(В этом случае, lua_getinfo помещает функцию на вершину стека).</p>
+	<p>Например, для того чтобы узнать, на какой строке определена функция f, можно использовать следующий код:</p>
+
+	<pre class="brush: csharp;">
+	lua_Debug ar;
+	lua_getfield(L, LUA_GLOBALSINDEX, "f");  /* get global 'f' */
+	lua_getinfo(L, ">S", &ar);
+	printf("%d\n", ar.linedefined);
+	</pre>
+
+	<p>Каждый символ строки what определяет, какие поля структуры ar должны быть заполнены, или какое значение должно быть помещено в стек:</p>
+	<p>- <b>'n':</b> заполнять поля name и namewhat;</p>
+	<p>- <b>'S':</b> заполнять поля source, short_src, linedefined, lastlinedefined, и what;</p>
+	<p>- <b>'l':</b> заполнить поле currentline;</p>
+	<p>- <b>'u':</b> заполнить поле nups;</p>
+	<p>- <b>'f':</b> поместить в стек функцию, которая выполняется на заданном уровне;</p>
+	<p>- <b>'L':</b> поместить в стек таблицу, индексы которой являются номерами функциональных строк функции. (Функциональная строка – это такая строка, которая содержит некоторый код, и на которой можно поставить точку останова. Не функциональными строками являются пустые строчки и комментарии)</p>
+	<p>Функция возвращает 0 при ошибке.</p>
+	<p>(Например, при неправильной опции в строке what).</p>
+
+	<h1 id="title">
+		lua_getlocal
+	</h1>
+	
+	<pre class="brush: csharp;">
+		const char *lua_getlocal (lua_State *L, lua_Debug *ar, int n);
+	</pre>
+
+	<p>Получает информацию о локальной переменной данной структуры активации.</p>
+	<p>Параметр ar должен быть структурой активации, которая была заполнена предыдущим вызовом lua_getstack или передана в качестве аргумента hook’у (см. lua_Hook).</p>
+	<p>Параметр n определяет какую локальную переменную необходимо рассматривать.</p>
+	<p>(1 означает первый параметр или активную локальную переменную и так далее до последней активной локальной переменной).</p>
+	<p>lua_getlocal помещает значение переменной в стек и возвращает ее имя.</p>
+	<p>Переменные, имена которых начинаются с '(' (открывающаяся круглая скобка) представляют собой внутренние переменные (счетчики циклов, временные переменные, и локальные переменные функций на C).</p>
+	<p>Возвращает NULL (и ничего не помещает в стек) когда значение индекса больше чем количество активных локальных переменных.</p>
+
+	<h1 id="title">
+		lua_getstack
+	</h1>
+	
+	<pre class="brush: csharp;">
+		int lua_getstack (lua_State *L, int level, lua_Debug *ar);
+	</pre>
+
+	<p>Получает информацию о стеке времени выполнения.</p>
+	<p>Функция заполняет часть структуры lua_Debug с идентификацией структуры активации функции, выполняемой на заданном уровне.</p>
+	<p>Уровень 0 – это выполняемая в данный момент функция, тогда как уровень n+1 это функция, которая была вызвана с уровня n..</p>
+	<p>Когда не было обнаружено ошибок, lua_getstack возвращает 1; когда значение уровня больше чем высота стека – будет возвращен 0.</p>
+
+	<h1 id="title">
+		lua_getupvalue
+	</h1>
+	
+	<pre class="brush: csharp;">
+		const char *lua_getupvalue (lua_State *L, int funcindex, int n);
+	</pre>
+
+	<p>Получает информацию о внешней локальной переменной (upvalue) экземпляра (closure) функции.</p>
+	<p>(Функции Lua используют такие переменные и, следовательно, включают их в экземпляр).</p>
+	<p>Функция lua_getupvalue получает индекс n внешней локальной переменной, извлекает ее значение в стек и возвращает ее имя.</p>
+	<p>Значение funcindex указывает на положение экземпляра в стеке.</p>
+	<p>(Внешние локальные переменные не имеют своего порядка, так как они активны в течение всего времени выполнения функции. Поэтому, они имеют случайный порядок.)</p>
+	<p>Возвращает NULL (и ничего не помещает в стек) когда индекс больше чем число внешних локальных переменных.</p>
+	<p>Для функций, написанных на C, используется пустая строка "" в качестве имени всех внешних локальных переменных.</p>
+
+	<h1 id="title">
+		lua_Hook
+	</h1>
+	
+	<pre class="brush: csharp;">
+		typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);
+	</pre>
+
+	<p>Тип данных для отладки hook-функций.</p>
+	<p>Каждый раз, когда вызывается hook, у аргумента ar поле event принимает значение события, которое инициировало запуск.</p>
+	<p>Lua определяет эти события при помощи следующих констант: LUA_HOOKCALL, LUA_HOOKRET, LUA_HOOKTAILRET, LUA_HOOKLINE, и LUA_HOOKCOUNT.</p>
+	<p>Кроме того, если произошло событие LUA_HOOKLINE, заполняется еще и поле currentline.</p>
+	<p>Для получения значение любого другого поля в структуре ar, hook должен вызвать lua_getinfo.</p>
+	<p>Для возвращения событий, event может быть LUA_HOOKRET, обычное значение или LUA_HOOKTAILRET.</p>
+	<p>В последнем случае, Lua имитирует возвращение из функции, которая совершает завершающий вызов, при этом вызывать функцию lua_getinfo бесполезно.</p>
+	<p>Пока Lua выполняет hook, другие обращения к нему блокируются.</p>
+	<p>Поэтому, если hook обращается обратно к Lua для выполнения функции или chunk, это выполнение произойдет без каких-либо обращений к hook-ам.</p>
+
+	<h1 id="title">
+		lua_sethook
+	</h1>
+	
+	<pre class="brush: csharp;">
+		int lua_sethook (lua_State *L, lua_Hook f, int mask, int count);
+	</pre>
+
+	<p>Устанавливает отладочную hook функцию.</p>
+	<p>Аргумент f – это hook-функция.</p>
+	<p>Параметр mask определяет, при каких события эта функция будет вызвана: Он формируется из констант LUA_MASKCALL, LUA_MASKRET, LUA_MASKLINE и LUA_MASKCOUNT побитовым «или».</p>
+	<p>Аргумент count имеет смысл только если маска содержит константу LUA_MASKCOUNT.</p>
+	<p>Для каждого другого события, hook вызывается согласно тому, как это объяснено ниже:</p>
+	<p>- <b>Hook вызова:</b> выполняется, когда интерпретатор вызывает функцию сразу после того как Lua входит в новую функцию, но перед тем, как функция получит свои аргументы.</p>
+	<p>- <b>Hook возвращения:</b> выполняется когда интерпретатор выходит из функции.Hook вызывается сразу после того, как Lua покидает функцию, при этом нет никакого доступа к значение, которые функция возвратила.</p>
+	<p>- <b>Hook строки:</b> выполняется, когда интерпретатор собирается начать выполнение новой строки кода или когда переходит назад в коде (даже на ту же строчку). (Это событие происходит только, когда Lua выполняет функции Lua)</p>
+	<p>- <b>Hook подсчета:</b> выполняется после того, как интерпретатор выполнит каждую count–ую инструкцию. (Это событие происходит только, когда Lua выполняет функции Lua)</p>
+	<p>Для того, чтобы запретить hook, необходимо установить mask в ноль.</p>
+
+	<h1 id="title">
+		lua_setlocal
+	</h1>
+	
+	<pre class="brush: csharp;">
+		const char *lua_setlocal (lua_State *L, lua_Debug *ar, int n);
+	</pre>
+
+	<p>Устанавливает значение локальной переменной данной активационной структуры.</p>
+	<p>Параметры ar и n are такие же как и в lua _getlocal (см. lua_getlocal).</p>
+	<p>lua_setlocal назначает значение, находящееся на вершине стека переменной и возвращает ее имя, при этом значение из стека извлекается.</p>
+	<p>Возвращает NULL (и ничего не выталкивает из стека) когда индекс больше чем количество активных локальных переменных.</p>
+
+	<h1 id="title">
+		lua_setupvalue
+	</h1>
+	
+	<pre class="brush: csharp;">
+		const char *lua_setupvalue (lua_State *L, int funcindex, int n);
+	</pre>
+
+	<p>Устанавливает значение внешней локальной переменной экземпляра функции.</p>
+	<p>Назначает значение, находящееся на вершине стека внешней локальной переменной и возвращает ее имя. Назначенное значение из стека выталкивается..</p>
+	<p>Параметры funcindex и n are такие же как и в lua_getupvalue (см. lua_getupvalue).</p>
+	<p>Возвращает NULL (и ничего из стека не выталкивает) когда значение индекса больше чем количество внешних локальных переменных.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="39.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="41.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/40.html", "Интерфейсы отладки", "bm806"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm806", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm806") == 1) { document.getElementById("bma806").style.display = "block"; document.getElementById("bm806").style.display = "none"; } else { document.getElementById("bma806").style.display = "none"; document.getElementById("bm806").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Интерфейсы отладки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm806", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

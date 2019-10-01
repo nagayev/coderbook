@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma173" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm173" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Структуры
+	</h1>
+
+	<p>Структуры во многом похожи на классы, но имеют и существенные отличия.</p>
+	<p>Как и класс, структура вводит тип.</p>
+	<p>Однако, в отличие от классов структуры не могут участвовать в наследовании и поэтому в декларации структуры отсутствует спецификация базы.</p>
+	<p>Определение (иначе декларация или объявление) структуры (структурного типа) имеет следующий формат (указаны не все части полного формата):</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_структуры opt struct
+	имя_структуры
+	интерфейсы_структуры opt
+	тело_структуры
+	</pre>
+
+	<p>В декларации структуры struct – служебное слово, имя_структуры – выбранный программистом идентификатор, определяющий имя структурного типа.</p>
+	<p>Тело_структуры – заключенная в фигурные скобки последовательность объявлений (деклараций) членов структуры.</p>
+	<p>Модификаторов структуры меньше чем модификаторов класса.</p>
+	<p>Могут использоваться: new, public, protected, internal, private.</p>
+	<p>Модификаторы определяют статус доступа структурного типа и они практически все уже рассмотрены в связи с классами.</p>
+	<p>Структуры не участвуют в наследовании, однако, структуры могут служить реализацией интерфейсов, перечисленных в декларации после имени структуры.</p>
+	<p>Элемент декларации <b>интерфейсы_структуры opt</b> – это список интерфейсов, перед которым помещено двоеточие.</p>
+	<p>Членами структуры могут быть: константы, поля, методы, свойства, индексаторы, события, операции, конструкторы экземпляров, статические конструкторы и вложенные типы.</p>
+	<p>В отличие от классов членом структуры не может быть финализатор деструктор.</p>
+	<p>Структуры всегда наследуются от System.ValueType, которой в свою очередь является производным классом от System.Object.</p>
+	<p>Поэтому в структурах присутствуют уже рассмотренные ранее открытые и защищённые методы класса Object.</p>
+	<p>Напомним основные из них: ToString(), GetHashCode(), Equals(), GetType().</p>
+	<p>Существенным отличием структур от классов является то, что класс вводит тип ссылок, а структура – тип значений.</p>
+	<p>Таким образом, каждой переменной структурного типа соответствует конкретный экземпляр структуры.</p>
+	<p>И, присвоив новой переменной значение другой переменной, уже связанной с объектом структурного типа, мы получим еще одну копию объекта.</p>
+	<p>Прежде чем привести пример, отметим ещё некоторые отличия структур от классов.</p>
+	<p>Во-первых, в объявлении поля структуры нельзя использовать инициализатор.</p>
+	<p>Во-вторых, в каждое объявление структуры автоматически встраивается конструктор умолчания без параметров.</p>
+	<p>Назначение этого конструктора – инициализировать все члены структуры значениями, которые соответствуют их типам по умолчанию.</p>
+	<p>В-третьих, в структуре нельзя явно объявить конструктор умолчания без параметров.</p>
+	<p>В качестве иллюстрации возьмем класс "точка на плоскости" и эквивалентную ему структуру:</p>
+
+	<pre class="brush: csharp;">
+	// 15_07.cs - структуры и классы "точка на плоскости"
+	using System;
+	// класс
+	class PointC
+	{
+		double x = 10, y = 20;
+		public PointC() { y -= 5; }
+		public double X { get { return x; } set { x = value; } }
+		public double Y { get { return y; } set { y = value; } }
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			PointC pc = new PointC();
+			PointC pc1 = pc;
+			pc1.X = 10.2;
+			Console.WriteLine("X={0}; Y={1}", pc.X, pc.Y);
+			PointS ps = new PointS();
+			PointS ps1 = ps;
+			ps1.X = 10.2;
+			Console.WriteLine("X={0}; Y={1}", ps.X, ps.Y);
+		}
+	}
+
+	// структура
+	struct PointS
+	{
+		//double x = 10, y = 20; // Error!
+		//public PointS() { y -= 5; } // Error!
+		double x, y;
+		public double X { get { return x; } set { x = value; } }
+		public double Y { get { return y; } set { y = value; } }
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	X=10,2; Y=15
+	X=0; Y=0
+	</pre>
+
+	<p>В классе PointC выполняется явная инициализация полей x, y.</p>
+	<p>Конструктор умолчания PointC() изменяет значение поля y.</p>
+	<p>В структурах инициализация полей невозможна и недопустимо присутствие явного определения конструктора умолчания.</p>
+	<p>Попытки нарушить эти правила в структуре PointS отмечены в тексте программы комментариями</p>
+	<p><b>// Error!</b></p>
+	<p>В программе pc – имя ссылки, ассоциированной с объектом класса PointC.</p>
+	<p>В противоположность этому ps – имя переменной, значением которой является объект типа PointS.</p>
+	<p>Объявив ещё одну ссылку pc1 типа PointC и присвоив ей значение pc, мы связываем две ссылки с одним объектом класса PointC.</p>
+	<p>Квалифицированные имена pc.X и pc1.X обеспечивают доступ к одному и тому же свойству одного и того же объекта класса PointC.</p>
+	<p>Выполнение присваивания PointS ps1 = ps; приводит к созданию копии структуры, представляемой переменной ps.</p>
+	<p>Таким образом, после выполнения присваивания квалифицированные имена ps.X и ps1.X именуют свойства независимых друг от друга объектов одного структурного типа PointS.</p>
+	<p>Поясним отсутствие в структурах финализатора.</p>
+	<p>Финализатор – это метод, который автоматически вызывается всякий раз, когда сборщик мусора убирает более неиспользуемый в программе объект из той части памяти, которую называют кучей.</p>
+	<p>Так как для объектов с типами значений память выделяется не в куче а в стеке, а сборка мусора на стек не распространяется, то финализатор для структур не нужен.</p>
+	<p>Копирование структуры выполняется не только при выполнении присваивания переменных структурного типа, но и при их использовании в качестве передаваемых по значениям параметров методов.</p>
+	<p>Следующая программа иллюстрирует особенности применения структур в методах.</p>
+
+	<pre class="brush: csharp;">
+	// 15_08.cs - структуры и методы
+	using System;
+	// структура
+	struct PointS
+	{
+		double x, y;
+		public double X { get { return x; } set { x = value; } }
+		public double Y { get { return y; } set { y = value; } }
+		public PointS(double xi, double yi) { x = xi; y = yi; }
+	}
+
+	class Program
+	{
+		static PointS reverse(PointS dot)
+		{
+			dot.X = -dot.X;
+			dot.Y = -dot.Y;
+			return dot;
+		}
+		static void Main()
+		{
+			PointS one = new PointS(12, 8);
+			PointS two = reverse(one);
+			Console.WriteLine("one.X={0}; one.Y={1}", one.X, one.Y);
+			Console.WriteLine("two.X={0}; two.Y={1}", two.X, two.Y);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	one.X=12; one.Y=8
+	two.X=-12; two.Y=-8
+	</pre>
+
+	<p>В программе объявлен структурный тип PointS.</p>
+	<p>В нём два закрытых поля (x,y), два ассоциированных с этими полями открытых свойства (X,Y) и открытый конструктор общего вида.</p>
+	<p>В классе Program два статических метода.</p>
+	<p>Первый из них reverse() получает в качестве передаваемого по значению параметра структуру, изменяет с помощью свойств значения её полей x и y, и возвращает структуру как результат в точку вызова метода.</p>
+	<p>В методе Main() объявлены две переменные PointS one и PointS two.</p>
+	<p>Первая из них связана со структурой, инициализированной обращением к конструктору PointS(12,8).</p>
+	<p>Вторая получает в качестве значения результат, возвращаемый методом reverse(one).</p>
+	<p>Очень важен тот факт, что после выполнения метода reverse(), аргументом которого служит объект one, значение этого объекта не изменилось.</p>
+	<p>Это подтверждает тот факт, что при присваивании структур, при использовании структуры в качестве передаваемого по значению параметра или возвращаемого методом значения создаётся копия структуры, в дальнейшем полностью независимая от оригинала.</p>
+	<p>Если в рассмотренной программе заменить структуру на класс (т.е. заменить struct PointS на class PointC), то результат выполнения программы будет таким:</p>
+
+	<pre class="brush: csharp;">
+	one.X=-12; one.Y=-8
+	two.X=-12; two.Y=-8
+	</pre>
+
+	<p>Тот же самый результат будет получен, если параметр структурного типа будет передаваться по ссылке.</p>
+	<p>Для этого в нашей программе нужно следующим образом изменить заголовок метода:</p>
+
+	<pre class="brush: csharp;">
+	static PointS reverse(ref PointS dot).
+	</pre>
+
+	<p>Соответствующим образом изменится вызов метода:</p>
+
+	<pre class="brush: csharp;">
+	two = reverse(ref one);
+	</pre>
+
+	<p>Как уже сказано, в объявлениях структур нельзя инициализировать поля.</p>
+	<p>Кроме того, нельзя явным образом определить конструктор без параметров.</p>
+	<p>Все поля объектов структурного типа без вмешательства извне инициализируются умалчиваемыми значениями, соответствующими типам полей.</p>
+	<p>Например, для арифметических типов это нули, для ссылок null.</p>
+	<p>Например, объявим ссылку на массив структур и определим массив: <b>PointS[ ] ar = new PointS[50];</b></p>
+	<p>Элементами массива в этом примере станут структуры, для которых поля x и y будут иметь нулевые значения.</p>
+	<p>Переменную с типом структуры можно создать без явного обращения к конструктору и без применения операции new.</p>
+	<p>Однако такая переменная в этом случае создаётся как неинициализированная и ей нужно присвоить подобающее ей значение.</p>
+	<p>После этого всем членам структуры, присваиваются значения полей инициализирующей структуры.</p>
+	<p>Следующая программа иллюстрирует приведённые сведения о структурах.</p>
+
+	<pre class="brush: csharp;">
+	// 15_09.cs - структуры, конструктор умолчания
+	using System;
+	// структура
+	struct PointS
+	{
+		double x, y;
+		public double X { get { return x; } set { x = value; } }
+		public double Y { get { return y; } set { y = value; } }
+	}
+	
+	class Program
+	{
+		static void Main()
+		{
+			PointS[] ar = new PointS[50];
+			Console.WriteLine("ar[0].X={0}; ar[0].Y={1}", ar[0].X, ar[0].Y);
+			PointS three = new PointS();
+			three.Y = 2.34;
+			Console.WriteLine("three.X={0}; three.Y={1}", three.X, three.Y);
+			// неинициализированная переменная!
+			PointS four;
+			four = three;
+			Console.WriteLine("four.X={0}; four.Y={1}", four.X, four.Y);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	ar[0].X=0; ar[0].Y=0
+	three.X=0; three.Y=2,34
+	four.X=0; four.Y=2,34
+	</pre>
+
+	<p>Так как структура вводит тип значений, то использование структур вместо классов в ряде случаев повышает быстродействие программ и уменьшается объём занимаемой памяти.</p>
+	<p>Связано это с тем, что доступ к объекту класса выполняется косвенно, а обращение к структуре – непосредственно.</p>
+	<p>Имя экземпляра структуры является именем переменной, значением которой служит объект структурного типа.</p>
+	<p>В то же время при использовании структуры в качестве параметра, передаваемого по значению, или возвращаемого методом значения необходимы временные затраты на копирование всех полей структуры.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="85.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="87.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/86.html", "Структуры", "bm173"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm173", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm173") == 1) { document.getElementById("bma173").style.display = "block"; document.getElementById("bm173").style.display = "none"; } else { document.getElementById("bma173").style.display = "none"; document.getElementById("bm173").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Структуры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm173", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

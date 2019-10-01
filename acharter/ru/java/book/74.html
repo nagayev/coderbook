@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma675" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm675" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Утилиты для работы с сетью
+	</h1>
+
+	<p>Рассмотрим основные программы, позволяющие читать и изменять сетевые параметры, диагностировать и выявлять ошибки при работе сети.</p>
+	<p>В различных ОС существуют свои наборы утилит.</p>
+	<p>Сравним их для двух систем, например, Microsoft Windows NT и Sun Solaris.</p>
+	<p>Какими бы разными ни были эти ОС, в каждой из них реализована модель OSI.</p>
+	<p>Естественно, программная и аппаратная реализация стека этой модели у них различается, но взаимодействие всех уровней осуществляется по установленному стандарту.</p>
+
+	<h1 id="title">
+		IPCONFIG (IFCONFIG)
+	</h1>
+
+	<p>Начнем с утилиты, которая позволяет просматривать, проверять и изменять сетевые настройки.</p>
+	<p>Обычно эти настройки включают в себя информацию 3-го (сетевого) уровня – IP-адрес, маску подсети и т.д.</p>
+	<p>Для работы с ними в ОС Windows можно использовать команду ipconfig.</p>
+	<p>Она выдает информацию об IP- адресе, маске подсети (netmask), роутере по умолчанию (default gateway).</p>
+	<p>Задав дополнительный параметр -all, можно получить более подробную информацию – имя компьютера, имя домена, тип сетевой карты, MAC-адрес и т.д.</p>
+
+	<p>В ОС Solaris для получения IP-адреса и прочих сетевых настроек используется команда ifconfig.</p>
+	<p>Она также показывает название интерфейса, IP-адреса, маску подсети, MAC-адрес.</p>
+
+	<h1 id="title">
+		ARP
+	</h1>
+
+	<p>Как уже было сказано ранее, в оперативной памяти компьютера находится ARP-таблица. В ней содержатся MAC-адрес удаленной машины и соответствующий ему IP-адрес.</p>
+	<p>Для просмотра этой таблицы используется команда arp. Например, arp –a выводит все известные MAC- адреса.</p>
+	<p>Существует два типа записей в ARP-таблице – статический и динамический.</p>
+	<p>Статическая запись вносится вручную и существует до тех пор, пока вручную же не будет удалена, или компьютер (маршрутизатор) не будет перезагружен.</p>
+	<p>Динамическая запись появляется при попытке отправить сообщение на IP- адрес, для которого неизвестен MAC-адрес.</p>
+	<p>В этом случае формируется ARP-запрос, который позволяет этот адрес определить, после чего соответствующая динамическая запись добавляется в ARP-таблицу.</p>
+	<p>Храниться там она будет не постоянно. После определенного времени она будет автоматически удалена, если к данному IP-адресу не было обращений.</p>
+	<p>Задержка на получение MAC-адреса составляет порядка нескольких миллисекунд, так что для пользователя это будет практически незаметно, зато появляется возможность отследить изменения в конфигурации сети (в соответствии IP- и MAC-адресов).</p>
+
+	<h1 id="title">
+		Ping
+	</h1>
+
+	<p>Для выявления различных неполадок в сети существует несколько утилит, которые позволяют определить, на каком уровне модели OSI произошел сбой, или указаны неверные настройки сетевых протоколов.</p>
+	<p>Одна из таких утилит – ping.</p>
+	<p>Эта утилита позволяет определить ошибки на сетевом уровне (layer 3), используя протокол ICMP (Internet Control Message Protocol) – протокол межсетевых управляющих сообщений.</p>
+	<p>Формат использования этой утилиты довольно прост: ping 194.87.0.50 (где 194.87.0.50 – IP-адрес удаленного компьютера).</p>
+	<p>Если сеть работает корректно, в результате выводится время ожидания прихода ответа от удаленного компьютера и время жизни пакета (TTL, time to live, количество "хопов", после которого пакет был бы отброшен; этот параметр показывает, сколько оставалось допустимых переходов у пакета-ответа).</p>
+	<p>Протокол ICMP находится на стыке двух уровней – сетевого и транспортного.</p>
+	<p>Основной принцип действия этого протокола – формирование ICMP эхо-запроса (echo-request) и эхо-ответа (echo-reply).</p>
+	<p>Запрос эха и ответ на него может использоваться для проверки достижимости хоста- получателя и его способности отвечать на запросы.</p>
+	<p>Также прохождение эхо-запроса и эхо-ответа проверяет работоспособность основной части транспортной системы, маршрутизацию на машине источника, работоспособность и корректную маршрутизацию на роутерах между источником и получателем, а также работоспособность и правильность маршрутизации получателя.</p>
+	<p>Таким образом, если на посланный echo-request возвращается корректный echo-reply от машины, которой был послан запрос, можно сказать, что транспортная система работает корректно.</p>
+	<p>И если браузер не может отобразить web-страницу, то проблема, по всей видимости, не в первых трех уровнях модели OSI.</p>
+	<p>Из примера видно, что по умолчанию размер посылаемого пакета - 32 байта, далее выводится время задержки ответа и TTL. В этом примере показано успешное выполнение команды ping.</p>
+	<p>В случаях, когда запросы echo request посылаются, но echo reply не возвращаются, выводится сообщение об истечении времени ожидания ответа.</p>
+
+	<h1 id="title">
+		Traceroute
+	</h1>
+
+	<p>Утилита traceroute также использует протокол ICMP для определения маршрута прохождения пакета.</p>
+	<p>При отсылке traceroute устанавливает значение TTL последовательно от 1 до 30.</p>
+	<p>Каждый маршрутизатор, через который проходит пакет на пути к назначенному хосту, уменьшает значение TTL на единицу.</p>
+	<p>С помощью TTL происходит предотвращение зацикливания пакета в "петлях" маршрутизации, иначе "заблудившиеся" пакеты окончательно перегрузили бы сеть.</p>
+	<p>Однако, при выходе маршрутизатора или линии связи из строя требуется несколько дополнительных переходов для понимания, что данный маршрут потерян и его необходимо обойти.</p>
+	<p>Чтобы предотвратить потерю датаграммы, поле TTL устанавливается на максимальную величину.</p>
+	<p>Когда маршрутизатор получает IP-датаграмму с TTL, равным 0 или 1, он уничтожает ее и посылает хосту, который ее отправил, ICMP-сообщение "время истекло" (time exceeded).</p>
+	<p>Принцип работы traceroute заключается в том, что IP-датаграмма, содержащая это ICMP-сообщение, имеет в качестве адреса источника IP-адрес маршрутизатора.</p>
+	<p>Теперь легко понять, как работает traceroute.</p>
+	<p>На хост назначения отправляется IP- датаграмма с TTL, равным единице.</p>
+	<p>Первый маршрутизатор, который должен обработать датаграмму, уничтожает ее (так как TTL равно 1) и отправляет ICMP-сообщение об истечении времени (time exceeded).</p>
+	<p>Таким образом определяется первый маршрутизатор в маршруте.</p>
+	<p>Затем traceroute отправляет датаграмму с TTL, равным 2, что позволяет получить IP-адрес второго маршрутизатора.</p>
+	<p>Так продолжается до тех пор, пока датаграмма не достигнет хоста назначения.</p>
+	<p>Утилита traceroute может посылать в качестве такой датаграммы UDP-сообщение с номером порта, который заведомо не будет обработан приложением (порт выше 30000), поэтому хост назначения ответит "порт недоступен" (port unreachable).</p>
+	<p>При получении такого ответа делается вывод, что удаленный хост работает корректно.</p>
+	<p>В противном случае максимального значения TTL (по умолчанию 30) не хватило для того, чтобы его достигнуть.</p>
+	<p>Рассмотрим пример выполнения утилиты traceroute.</p>
+
+	<pre class="brush: csharp;">
+	traceroute to netserv1.chg.ru (193.233.46.3), 30 hops max, 38 byte packets
+	1 n3-core.mipt.ru (194.85.80.1) 1.508 ms 0.617 ms 0.798 ms
+	2 mipt-gw-eth0.mipt.ru (193.125.142.177) 2.362 ms 2.666 ms 1.449 ms
+	3 msu-mipt-atm0.mipt.ru (212.16.1.1) 5.536 ms 5.993 ms 10.431 ms
+	4 M9-LYNX.ATM6-0.11.M9-R2.msu.net (193.232.127.229) 12.994 ms 7.830 ms 6.816 ms
+	5 Moscow-BNS045-ATM4-0-3.free.net (147.45.20.37) 12.228 ms 7.041 ms 8.731 ms
+	6 ChgNet-gw.free.net (147.45.20.222) 77.103 ms 75.234 ms 92.334 ms
+	7 netserv1.chg.ru (193.233.46.3) 96.627 ms 94.714 ms 134.676 ms
+	</pre>
+
+	<p>Первая строка содержит имя и IP-адрес хоста назначения, максимальное значение TTL и размер посылаемого пакета (38 байт).</p>
+	<p>Последующие строки начинаются с TTL, после чего следует имя хоста, или маршрутизатора и его IP-адрес.</p>
+	<p>Для каждого значения TTL отправляются три датаграммы.</p>
+	<p>Для каждой возвращенной датаграммы определяется и выводится время возврата.</p>
+	<p>Если в течение 3-х секунд на каждую из 3-х датаграмм не был получен ответ, то посылается следующая датаграмма, а вместо значения времени выводится звездочка.</p>
+	<p>Время возврата – это время прохождения датаграммы от источника (хоста, выполняющего программу traceroute ) до маршрутизатора.</p>
+	<p>Если нас интересует время, потраченное на пересылку между, например, 5 и 6 узлом, необходимо вычесть из значения времени TTL 6 время TTL 5.</p>
+	<p>В каждой из операционных систем сетевая часть утилиты реализована практически одинаково, но реализация на уровне приложений различается.</p>
+	<p>В ОС Solaris используется утилита traceroute.</p>
+	<p>В качестве параметра задается IP-адрес, или доменное имя удаленного хоста, связь до которого требуется проверить.</p>
+	<p>В примере, приведенном выше, видно успешное выполнение traceroute и корректную работу сете- зависимых уровней (физический, канальный, сетевой).</p>
+	<p>В ОС Windows утилита называется tracert.</p>
+	<p>Используется она так же, как и в ОС Solaris ( tracert netserv1.chg.ru ).</p>
+	<p>Принципиального различия между утилитами tracert и traceroute нет.</p>
+	<p>Особенностью traceroute является наличие большего количества функций (например, можно указать, начиная с какого TTL выводить информацию).</p>
+	<p>В случае какой-либо неполадки выводится соответствующее сообщение.</p>
+	<p>Например, при недоступности сети на маршрутизаторе выдается сообщение !N (net unreachable):</p>
+
+	<pre class="brush: csharp;">
+	Moscow-BNS045-ATM4-0-3.free.net (147.45.20.37)
+	947.327 ms !N 996.548 ms !N 995.257 ms
+	</pre>
+
+	<p>Это означает, что 147.45.20.37 – маршрутизатор, начиная с которого, последующий маршрут недоступен.</p>
+	<p>Если недоступен сам хост, то сообщение будет выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+	msu-mipt-atm0.mipt.ru (212.16.1.1)
+	5.536 ms !H 5.993 ms !H 10.431 ms !H.
+	</pre>
+
+	<p>Ошибка !P означает недоступность протокола (protocol unreachable).</p>
+
+	<h1 id="title">
+		Route
+	</h1>
+
+	<p>Для просмотра и редактирования таблицы маршрутов используется утилита route.</p>
+	<p>Типичный пример таблицы маршрутизации на персональном компьютере:</p>
+	<p><b>Для ОС Windows:</b></p>
+
+	<pre class="brush: csharp;">
+	route print
+	</pre>
+
+	<p>В таблице маршрутизации указывается сеть, маска сети, маршрутизатор, через который доступна эта сеть, интерфейс и метрика маршрута.</p>
+	<p>Из приведенной таблицы видно, что маршрут по умолчанию доступен через маршрутизатор 192.168.1.1.</p>
+	<p>Сеть 192.168.1.0 с маской 255.255.255.0 является локальной сетью.</p>
+	<p>При добавлении маршрута можно использовать следующую команду.</p>
+
+	<pre class="brush: csharp;">
+	route ADD 157.0.0.0 MASK 255.0.0.0 157.55.80.1
+	</pre>
+
+	<p>157.0.0.0 – удаленная сеть, 255.0.0.0 – маска удаленной сети, 157.55.80.1 – маршрутизатор, через который доступна эта сеть.</p>
+	<p>Примерно такой же синтаксис используется при удалении маршрута: route DELETE 157.0.0.0.</p>
+	<p>В ОС Solaris для просмотра таблицы маршрутизации используется немного другая команда – <b>netstat –r</b>.</p>
+	<p>Добавление и удаление маршрутов выполняется командой route: route add –net 157.6 157.6.1.20, где 157.6 – сокращенный адрес подсети, а 157.6.1.20 – маршрут, по которому эта сеть доступна.</p>
+	<p>Также удаление маршрутов в таблице маршрутизации: route del –net 157.6.</p>
+
+	<h1 id="title">
+		Netstat
+	</h1>
+
+	<p>Утилита netstat позволяет определить, какие порты открыты и по каким портам происходит передача данных между узлами сети.</p>
+	<p>Например, если запустить web-браузер и открыть для просмотра web-страницу, то, запустив netstat, можно увидеть следующую строку:</p>
+
+	<pre class="brush: csharp;">
+	TCP mycomp:3687 www.ru:http ESTABLISHED
+	</pre>
+
+	<p>В приведенном примере первое значение – TCP – тип протокола (может быть TCP или UDP), далее следует имя локальной машины и локальный порт, www.ru:http – имя удаленного хоста и порта, к которому производится обращение (поскольку использовался порт по умолчанию для протокола HTTP, то отображается не его числовое значение 80, а имя протокола), ESTABLISHED – показывает, что TCP-соединение установлено.</p>
+	<p>В ОС Windows с помощью команды netstat –an можно получить список всех открытых портов (параметр –n не определяет DNS-имя, а выводит только IP-адрес).</p>
+	<p>Из примера выше видно, что установленных соединений нет, а все открытые порты находятся в состоянии "прослушивания", т.е. к этому порту можно обратиться для установки соединения.</p>
+	<p>TCP-порт 139 отвечает за установку Netbios-сессий (например, для передачи данных через "сетевое окружение").</p>
+	<p>В ОС Solaris для получения информации об используемых портах также применяется утилита netstat.</p>
+	<p>Формат вывода практически одинаков.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="73.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="75.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/74.html", "Утилиты для работы с сетью", "bm675"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm675", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm675") == 1) { document.getElementById("bma675").style.display = "block"; document.getElementById("bm675").style.display = "none"; } else { document.getElementById("bma675").style.display = "none"; document.getElementById("bm675").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Утилиты для работы с сетью") == 1) { arrs.splice(i, 1); localStorage.setItem("bm675", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

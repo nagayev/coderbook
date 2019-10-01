@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma16" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm16" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Вкладки
+	</h1>
+
+	<p>Вкладки как элемент интерфейса пришли из делопроизводства.</p>
+	<p>В обычные деловые папки вставляют небольшие кусочки картона с надписями, которые позволяют быстро сориентироваться в содержании и перейти к нужному разделу.</p>
+	<p>На сайтах вкладки применяются там, где требуется компактно и наглядно скомпоновать информацию по блокам.</p>
+	<p>Переход по вкладкам происходит без перезагрузки страницы, что ускоряет работу и упрощает пользователю жизнь.</p>
+	<p>Код вкладок состоит из двух частей — это отображение самих вкладок, а также информации с ними связанных.</p>
+	<p>Вначале создаём список <xm>&lt;ul></xm> с классами nav и nav-tabs.</p>
+	<p>Важны оба класса, иначе мы не получим желаемый вид.</p>
+	<p>Каждая вкладка формируется элементом <xm>&lt;li></xm>, для текущей открытой вкладки требуется добавить класс active.</p>
+	<p>Текст на вкладках делается с помощью ссылок, для каждой из них следует добавить атрибут data-toggle со значением tab.</p>
+	<p>Сама ссылка указывает на элемент с идентификатором, который должен отображаться при открытии вкладки.</p>
+	<p>Вот что в итоге получится.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="nav nav-tabs" role="tablist">
+
+	<li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab">Сепульки</a></li>
+
+	<li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Сепулькарии</a></li>
+
+	<li role="presentation"><a href="#tab3" role="tab" data-toggle="tab">Сепуление</a></li>
+
+	</ul>
+	</pre>
+
+	<p>Даже с этим куцым кодом вкладки должны уже работать и визуально переключаться.</p>
+	<p>Переходим к выводимому тексту.</p>
+	<p>Оборачиваем всё элементом <xm>&lt;div></xm> с классом tab-content, внутри для каждой вкладки делаем отдельный <xm>&lt;div></xm> с классом tab-pane.</p>
+	<p>Плюс добавляем уникальный идентификатор, связывающий текст с самой вкладкой.</p>
+	<p>Последний штрих — для текущей вкладки указываем класс active.</p>
+
+	<pre class="brush: csharp;">
+	<div class="tab-content">
+
+	<div role="tabpanel" class="tab-pane active" id="tab1">
+
+	Важный элемент цивилизации ардритов с планеты Энтеропия.
+
+	</div>
+
+	<div role="tabpanel" class="tab-pane" id="tab2">
+
+	Устройства для сепуления.
+
+	</div>
+
+	<div role="tabpanel" class="tab-pane" id="tab3">
+
+	Занятие ардритов с планеты Энтеропия.
+
+	</div>
+	</div>
+	</pre>
+
+	<p>Соединяем вместе два фрагмента и получаем итоговый код для создания вкладок.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="nav nav-tabs" role="tablist">
+
+	<li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab">Сепульки</a></li>
+
+	<li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Сепулькарии</a></li>
+
+	<li role="presentation"><a href="#tab3" role="tab" data-toggle="tab">Сепуление</a></li>
+
+	</ul>
+
+	<div class="tab-content">
+
+	<div role="tabpanel" class="tab-pane active" id="tab1">
+
+	Важный элемент цивилизации ардритов с планеты Энтеропия.
+
+	</div>
+
+	<div role="tabpanel" class="tab-pane" id="tab2">
+
+	Устройства для сепуления.
+
+	</div>
+
+	<div role="tabpanel" class="tab-pane" id="tab3">
+
+	Занятие ардритов с планеты Энтеропия.
+
+	</div>
+	</div>
+	</pre>
+
+	<p>Результат данного примера:</p>
+
+	<img src="gridBTSP53.png" id="image" />
+
+	<h1 id="title">
+		Плавный переход
+	</h1>
+
+	<p>Переход между вкладками происходит мгновенно, но можно сделать это с небольшим эффектом, если добавить класс fade к блоку с текстом.</p>
+	<p>Тогда текст будет плавно исчезать и появляться.</p>
+	<p>Для активной вкладки обязательно надо включить ещё один класс in, без него возникнут ошибки.</p>
+
+	<pre class="brush: csharp;">
+	<div class="tab-content">
+
+	<div role="tabpanel" class="tab-pane active in fade" id="tab1">
+
+	Важный элемент цивилизации ардритов с планеты Энтеропия.
+
+	</div>
+
+	<div role="tabpanel" class="tab-pane fade" id="tab2">
+
+	Устройства для сепуления.
+
+	</div>
+
+	<div role="tabpanel" class="tab-pane fade" id="tab3">
+
+	Занятие ардритов с планеты Энтеропия.
+
+	</div>
+	</div>
+	</pre>
+
+	<h1 id="title">
+		Вкладки на всю ширину
+	</h1>
+
+	<p>Размер вкладки зависит от длины текста в ней, но можно насильно изменить их ширину, чтобы вкладки занимали всё доступную ширину.</p>
+	<p>Просто добавьте класс <b>nav-justified</b> к элементу <xm>&lt;ul></xm>.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="nav nav-tabs nav-justified" role="tablist">
+	</pre>
+
+	<p>Вот как выглядят подобные вкладки.</p>
+
+	<img src="gridBTSP54.png" id="image" />
+
+	<p>При уменьшении размера окна такие вкладки меняют свой вид и выстраиваются не по горизонтали, а друг под другом.</p>
+
+	<img src="gridBTSP55.png" id="image" />
+
+	<h1 id="title">
+		Вид вкладок
+	</h1>
+
+	<p>Традиционно вкладки имеют вид унаследованный из жизни — выступающие из папки кусочки картона с надписью.</p>
+	<p>Заменив класс nav-tabs на nav-pills получим вкладки в виде пилюль.</p>
+
+	<img src="gridBTSP56.png" id="image" />
+
+	<p>Код будет таким.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="nav nav-pills" role="tablist">
+	</pre>
+
+	<p>Вкладки также можно расположить вертикально, для этого предназначен класс nav-stacked.</p>
+
+	<pre class="brush: csharp;">
+	<ul class="nav nav-pills nav-stacked" role="tablist">
+	</pre>
+
+	<p>Вид таких вкладок:</p>
+
+	<img src="gridBTSP57.png" id="image" />
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="15.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="17.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/bootstrap/book/16.html", "Вкладки", "bm16"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm16", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm16") == 1) { document.getElementById("bma16").style.display = "block"; document.getElementById("bm16").style.display = "none"; } else { document.getElementById("bma16").style.display = "none"; document.getElementById("bm16").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Вкладки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm16", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

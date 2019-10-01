@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1236" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1236" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Компоненты
+	</h1>
+
+    <p>Компоненты — это главные строительные блоки приложений основанных на Yii.</p>
+    <p>Компоненты наследуются от класса [[yii\base\Component]] или его наследников.</p>
+    <p>Три главные возможности, которые компоненты предоставляют для других классов:</p>
+
+    <ul>
+        <li>Свойства.</li>
+        <li>События.</li>
+        <li>Поведения.</li>
+    </ul>
+
+    <p>Как по отдельности, так и вместе, эти возможности делают классы Yii более простыми в настройке и использовании.</p>
+    <p>Например, пользовательские компоненты, включающие в себя [[yii\jui\DatePicker|виджет выбора даты]], могут быть использованы в представлении для генерации интерактивных элементов выбора даты:</p>
+
+    <pre class="brush: csharp;">
+    use yii\jui\DatePicker;
+    
+    echo DatePicker::widget([
+        'language' =&gt; 'ru',
+        'name'  =&gt; 'country',
+        'clientOptions' =&gt; [
+            'dateFormat' =&gt; 'yy-mm-dd',
+        ],
+    ]);
+    </pre>
+
+    <p>Свойства виджета легко доступны для записи потому, что его класс унаследован от класса [[yii\base\Component]].</p>
+    <p>Компоненты — очень мощный инструмент.</p>
+    <p>Но в то же время они немного тяжелее обычных объектов, потому что на поддержку событий и поведений тратится дополнительные память и процессорное время.</p>
+    <p>Если ваши компоненты не нуждаются в этих двух возможностях, вам стоит унаследовать их от [[yii\base\BaseObject]], а не от [[yii\base\Component]].</p>
+    <p>Поступив так, вы сделаете ваши компоненты такими же эффективными, как и обычные PHP объекты, но с поддержкой свойств.</p>
+    <p>При наследовании ваших классов от [[yii\base\Component]] или [[yii\base\BaseObject]], рекомендуется следовать некоторым соглашениям:</p>
+
+    <ul>
+        <li>Если вы переопределяете конструктор, то добавьте последним аргументом параметр $config и затем передайте его в конструктор предка.</li>
+        <li>Всегда вызывайте конструктор предка в конце вашего переопределенного конструктора.</li>
+        <li>Если вы переопределяете метод [[yii\base\BaseObject::init()]], убедитесь, что вы вызываете родительскую реализацию этого метода в начале вашего метода init().</li>
+    </ul>
+
+    <p>Пример:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace yii\components\MyClass;
+    
+    use yii\base\BaseObject;
+    
+    class MyClass extends BaseObject
+    {
+        public $prop1;
+        public $prop2;
+    
+        public function __construct($param1, $param2, $config = [])
+        {
+            // ... инициализация происходит перед тем, как будет применена конфигурация.
+    
+            parent::__construct($config);
+        }
+    
+        public function init()
+        {
+            parent::init();
+    
+            // ... инициализация происходит после того, как была применена конфигурация.
+        }
+    }
+    </pre>
+
+    <p>Следуя этому руководству вы позволите настраивать ваш компонент при создании.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $component = new MyClass(1, 2, ['prop1' =&gt; 3, 'prop2' =&gt; 4]);
+    // альтернативный способ
+    $component = \Yii::createObject([
+        'class' =&gt; MyClass::className(),
+        'prop1' =&gt; 3,
+        'prop2' =&gt; 4,
+    ], [1, 2]);
+    </pre>
+
+    <p><b>Информация:</b> Способ инициализации через вызов [[Yii::createObject()]] выглядит более сложным. Но в то же время он более мощный из-за того, что он реализован на самом верху контейнера внедрения зависимостей.</p>
+    <p>Жизненный цикл объектов класса [[yii\base\BaseObject]] содержит следующие этапы:</p>
+
+    <ol>
+        <li>Предварительная инициализация в конструкторе. Здесь вы можете установить значения свойств по умолчанию.</li>
+        <li>Конфигурация объекта с помощью $config. Во время конфигурации могут быть перезаписаны значения свойств по умолчанию, установленные в конструкторе.</li>
+        <li>Конфигурация после инициализации в методе [[yii\base\BaseObject::init()|init()]]. Вы можете переопределить этот метод, для проверки готовности объекта и нормализации свойств.</li>
+        <li>Вызов методов объекта.</li>
+    </ol>
+
+    <p>Первые три шага всегда выполняются из конструктора объекта. Это значит, что если вы получите экземпляр объекта, он уже будет проинициализирован и готов к работе.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="29.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="31.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/30.html", "Yii2: Компоненты", "bm1236"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1236", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1236") == 1) { document.getElementById("bma1236").style.display = "block"; document.getElementById("bm1236").style.display = "none"; } else { document.getElementById("bma1236").style.display = "none"; document.getElementById("bm1236").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Компоненты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1236", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

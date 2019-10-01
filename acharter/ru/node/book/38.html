@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1347" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1347" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Mongoose
+	</h1>
+    
+    <p>Mongoose представляет специальную ODM-библиотеку (Object Data Modelling) для работы с MongoDB, которая позволяет сопоставлять объекты классов и документы коллекций из базы данных.</p>
+    <p>Грубо говоря, Mongoose работает подобно инструментам ORM.</p>
+    <p>Официальный сайт библиотеки, где можно посмотреть всю необходимую документацию:</p>
+
+    <pre class="brush: csharp;">
+    http://mongoosejs.com
+    </pre>
+
+    <p>Для работы с Mongoose продолжим работу с проектом из прошлых тем и вначале установим саму библиотеку с помощью команды:</p>
+
+    <pre class="brush: csharp;">
+    npm install mongoose --save
+    </pre>
+
+    <p>Далее определим следующий код в файле приложения app.js:</p>
+
+    <pre class="brush: csharp;">
+    var mongoose = require("mongoose");
+    var Schema = mongoose.Schema;
+    // для работы с promise
+    mongoose.Promise = global.Promise;
+    
+    // установка схемы
+    var userScheme = new Schema({
+        name: String,
+        age: Number
+    });
+    
+    // подключение
+    mongoose.connect("mongodb://localhost:27017/usersdb");
+    
+    var User = mongoose.model("User", userScheme);
+    var user = new User({
+        name: "Bill",
+        age: 41
+    });
+    
+    user.save(function(err){
+        mongoose.disconnect();  // отключение от базы данных
+        
+        if(err) return console.log(err);
+        console.log("Сохранен объект", user);
+    });
+    </pre>
+
+    <p>Здесь прежде всего нам надо подключить mongoose:</p>
+
+    <pre class="brush: csharp;">
+    var mongoose = require("mongoose");
+    </pre>
+
+    <p>Так как при обращении к базе данных мы работаем с объектами <b>promise</b>, то необходимо вначале установить их реализацию для свойства Promise:</p>
+
+    <pre class="brush: csharp;">
+    mongoose.Promise = global.Promise;
+    </pre>
+
+    <p>Данные, которые используются в Mongoose, описываются определенной схемой.</p>
+    <p>Например, в прошлых темах мы сохраняли в базу данных объекты с двумя свойствами name и age.</p>
+    <p>Поэтому описываем здесь следующую схему:</p>
+
+    <pre class="brush: csharp;">
+    var Schema = mongoose.Schema;
+    
+    // установка схемы
+    var userScheme = new Schema({
+        name: String,
+        age: Number
+    });
+    </pre>
+
+    <p>Схема содержит метаданные объектов.</p>
+    <p>В частности, здесь устанавливаем, какие свойства будет иметь объект и какой у них будет тип данных.</p>
+    <p>То есть это схема, которая описывает объект пользователя.</p>
+    <p>Затем, используя эту схему, создаем модель пользователя:</p>
+
+    <pre class="brush: csharp;">
+    var User = mongoose.model("User", userScheme);
+    </pre>
+
+    <p>Первый параметр в методе <b>mongoose.model</b> указывает на название модели, а второй параметр - собственно схема.</p>
+    <p>Далее мы можем создавать объекты этой модели:</p>
+
+    <pre class="brush: csharp;">
+    var user = new User({
+        name: "Bill",
+        age: 41
+    });
+    </pre>
+
+    <p>Для подключения к базе данных применяется метод <b>mongoose.connect()</b>, в который передается адрес базы данных на сервере mongo:</p>
+
+    <pre class="brush: csharp;">
+    mongoose.connect("mongodb://localhost:27017/usersdb");
+    </pre>
+
+    <p>И в конце у объекта вызывается метод save.</p>
+    <p>Этот метод определен для всех создаваемых моделей, он сохраняет текущий объект в базу данных:</p>
+
+    <pre class="brush: csharp;">
+    user.save(function(err){
+        
+        mongoose.disconnect();  // отключение от базы данных
+        if(err) return console.log(err);
+        
+        console.log("Сохранен объект", user);
+    });
+    </pre>
+
+    <p>С помощью метода <b>mongoose.disconnect();</b> происходит отключение от бд.</p>
+    <p>Так как метод save возвращает promise, то есть и другая форма сохранения объекта:</p>
+
+    <pre class="brush: csharp;">
+    user.save()
+    .then(function(doc){
+        console.log("Сохранен объект", doc);
+        mongoose.disconnect();  // отключение от базы данных
+    })
+    .catch(function (err){
+        console.log(err);
+        mongoose.disconnect();
+    });
+    </pre>
+
+    <p>С помощью метода then мы можем получить данные, которые возвратил нам сервер и выполнить обработку результата.</p>
+    <p>Запустим приложение и выполним добавление объекта:</p>
+
+    <img src="n80.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="37.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="39.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/38.html", "Mongoose", "bm1347"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1347", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1347") == 1) { document.getElementById("bma1347").style.display = "block"; document.getElementById("bm1347").style.display = "none"; } else { document.getElementById("bma1347").style.display = "none"; document.getElementById("bm1347").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Mongoose") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1347", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

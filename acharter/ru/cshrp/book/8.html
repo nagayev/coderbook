@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma95" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm95" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Объявления переменных и констант базовых типов
+	</h1>
+
+	<p>По традиции, унаследованной от языков Си и С++, новый экземпляр (переменная) простого типа вводится с помощью объявления:</p>
+
+	<pre class="brush: csharp;">
+	type name = expression;
+	</pre>
+
+	<p>- где type – название типа;</p>
+	<p>- name – имя экземпляра (переменной);</p>
+	<p>- expression – инициализирующее выражение "инициализирующее выражение" (например, константа).</p>
+	<p>Объявление обязательно завершается точкой с запятой.</p>
+	<p>Названия базовых типов с примерами объявлений приведены в таблице ниже.</p>
+	<p>В одном объявлении могут быть определены несколько переменных одного типа: type name1 = expression1, name2 = expression 2;</p>
+	<p>Переменные одного объявления отделяются друг от друга запятыми.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	double pi=3.141593, e=2.718282, c=535.491656;
+	</pre>
+
+	<p>Простые (базовые) типы значений "базовые типы значений" \y "базовый тип значений"</p>
+
+	<table>
+		<tr>
+			<th>Тип</th>
+			<th>Описание</th>
+			<th>Пример</th>
+		</tr>
+		<tr>
+			<td>sbyte</td>
+			<td>8-битовый знаковый целый (1 байт)</td>
+			<td>sbyte val = 12; </td>
+		</tr>
+		<tr>
+			<td>short</td>
+			<td>16-битовый знаковый целый (2 байта)</td>
+			<td>short val = 12;</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>32-битовый знаковый целый (4 байта)</td>
+			<td>int val = 12;</td>
+		</tr>
+		<tr>
+			<td>long</td>
+			<td>64-битовый знаковый целый (8 байтов)</td>
+			<td>long val1 = 12;<br />long val2 = 34L;</td>
+		</tr>
+		<tr>
+			<td>byte</td>
+			<td>8-битовый беззнаковый целый (1 байт)</td>
+			<td>byte val1 = 12;</td>
+		</tr>
+		<tr>
+			<td>ushort</td>
+			<td>16-битовый беззнаковый целый (2 байта)</td>
+			<td>ushort val1 = 12;</td>
+		</tr>
+		<tr>
+			<td>uint</td>
+			<td>32- битовый беззнаковый целый (4 байта)</td>
+			<td>uint val1 = 12;<br />uint val2 = 34U;</td>
+		</tr>
+		<tr>
+			<td>ulong</td>
+			<td>64- битовый беззнаковый целый (8 байтов)</td>
+			<td>ulong val1 = 12;<br />ulong val2 = 34U;<br />ulong val3 = 56L;<br />ulong val4 = 78UL;</td>
+		</tr>
+		<tr>
+			<td>float</td>
+			<td>Вещественный с плавающей точкой с одинарной точностью (4 байта)</td>
+			<td>float val = 1.23F;</td>
+		</tr>
+		<tr>
+			<td>double</td>
+			<td>Вещественный с плавающей точкой с двойной точностью (8 байтов)</td>
+			<td>double val1 = 1.23;<br />double val2 = 4.56D;</td>
+		</tr>
+		<tr>
+			<td>bool</td>
+			<td>Логический тип; значение или false, или true</td>
+			<td>bool val1 = true;<br />bool val2 = false;</td>
+		</tr>
+		<tr>
+			<td>char</td>
+			<td>Символьный тип; значение – один символ Юникода (2 байта)</td>
+			<td>char val = 'h';</td>
+		</tr>
+		<tr>
+			<td>decimal</td>
+			<td>Точный денежный тип, по меньшей мере 28 значимых десятичных разрядов (12 байтов)</td>
+			<td>decimal val = 1.23M;</td>
+		</tr>
+	</table>
+
+	<p>Введя формат объявления переменных, следует остановиться на вопросе выбора их имен.</p>
+	<p>Имя переменной – выбранный программистом идентификатор.</p>
+	<p>Идентификатор — это последовательность букв, десятичных цифр и символов подчеркивания, которая начинается не с цифры.</p>
+	<p>В языке C# в качестве букв допустимо применять буквы национальных алфавитов.</p>
+	<p>Таким образом, правильными идентификаторами будут, например, такие последовательности: Number_of_Line, объем_в_литрах, x14, mass.</p>
+	<p>В качестве имен, вводимых программистом, запрещено использовать служебные (ключевые) слова языка C#.</p>
+	<p>Перечень служебных слов можно найти в справочнике C#.</p>
+
+	<p>Инициализирующее выражение чаще всего константа, однако, может быть любым выражением, операнды которого имеют конкретные значения в момент объявления переменной.</p>
+	<p>По типу вычисляемого значения инициализирующее выражение должно соответствовать типу создаваемой переменной.</p>
+	<p>Примеры объявлений переменных:</p>
+
+	<pre class="brush: csharp;">
+	double pi2=6.28; int два=2;
+	</pre>
+
+	<p>В объявлении переменной может отсутствовать инициализация.</p>
+	<p>Однако, язык С# очень строг и не допускает существования в программе переменных с неопределёнными значениями.</p>
+	<p>Поэтому после объявления переменной без её инициализации необходимо каким-то образом присвоить ей значение.</p>
+	<p>Обычно для этого используют оператор присваивания:</p>
+
+	<pre class="brush: csharp;">
+	имя_переменной = выражение;
+	</pre>
+
+	<p>Пример (удельный заряд электрона в единицах СГСЭ/г):</p>
+
+	<pre class="brush: csharp;">
+	// объявление
+	double electron_charge;
+
+	// присваивание значения
+	electron_charge=5.27e+17;
+	</pre>
+
+	<p>В отличие от литералов, которые сами по себе представляют собственные значения и не требуют предварительных объявлений, именованные константы вводятся с помощью конструкции:</p>
+
+	<pre class="brush: csharp;">
+	const type name = expression;
+	</pre>
+
+	<p>Отличие от объявления переменной: наличие модификатора const и обязательность инициализации.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="7.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="9.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/8.html", "Объявления", "bm95"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm95", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm95") == 1) { document.getElementById("bma95").style.display = "block"; document.getElementById("bm95").style.display = "none"; } else { document.getElementById("bma95").style.display = "none"; document.getElementById("bm95").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объявления") == 1) { arrs.splice(i, 1); localStorage.setItem("bm95", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

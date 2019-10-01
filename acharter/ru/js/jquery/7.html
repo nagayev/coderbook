@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma715" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm715" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Создание AJAX запросов в jQuery
+	</h1>
+
+	<p>С помощью JavaScript Вы можете создавать асинхронные запросы и отправлять их на сервер.</p>
+	<p>Использование асинхронных запросов позволяет значительно ускорить загрузку страниц, так как в этом случае обновляться будет только та часть страницы, которая содержит новые данные, а не страница целиком.</p>
+	<p>Техника использования асинхронных запросов называется AJAX - Asynchronous JavaScript And XML (Асинхронный JavaScript и XML).</p>
+	<p>Создание AJAX запросов на "чистом" JavaScript имеет несколько недостатков:</p>
+	<p>- Код даже самого простого AJAX запроса получается достаточно громоздким и сложным для понимания без специального ознакомления.</p>
+	<p>- Необходимо добавлять дополнительный код для поддержки старых версий браузеров.</p>
+	<p>AJAX запрос созданный с помощью jQuery занимает всего одну строчку кода, и уже оптимизирован для использования и с новыми и старыми версиями браузеров.</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	$("селектор").load(url,данные,функция)
+	</pre>
+
+	<p><b>селектор</b> выбирает элемент, в котором будет отображен результат запроса.</p>
+	<p><b>url адрес</b> - адрес файла, который будет запрошен у сервера с помощью AJAX.</p>
+	<p><b>данные</b> - данные, которые будут переданы запрошенному файлу. Если Вы хотите запросить файл, при этом не передавать никаких данных, оставьте данный параметр пустым.</p>
+	<p><b>функция</b> - имя функции, которая будет вызвана после выполнения запроса.</p>
+
+	<p>Теперь приведем пример запроса, который пересылает данные.</p>
+	<p>В примере ниже мы пересылаем скрипту add.php переменную x со значением 4 и переменную y со значением 5 скрипт в свою очередь принимает эти переменные, производит их сложение и отправляет результат обратно.</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#but1").click(function()
+		{
+			$("#par1").load("add.php","x=4&y=5");
+		})
+	});
+	</pre>
+
+	<h1 id="title">
+		Сопровождающие функции
+	</h1>
+
+	<p>Сопровождающие функции позволяют выполнять различный код в зависимости от состояния выполнения AJAX запроса.</p>
+	<p>Метод <b>ajaxSend()</b> выполняет переданный в него код во время отправления AJAX запроса.</p>
+	<p>Метод <b>ajaxComplete</b> выполняет переданный в него код после завершения выполнения AJAX запроса (при этом неважно произошла ошибка или нет).</p>
+
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#par1").ajaxSend(function()
+		{
+			$("#img1").css("display","block");
+		})
+
+		$("#par1").ajaxComplete(function()
+		{
+			$("#img1").css("display","none");
+		})
+
+		$("#but1").click(function()
+		{
+			$("#par1").load("add.php","x=10&y=100");
+		})
+	});
+	</pre>
+
+	<p>Метод <b>ajaxSuccess</b> выполняет переданный в него код, если выполнение AJAX запроса завершается успешно.</p>
+	<p>Метод <b>ajaxError</b> выполняет переданный в него код, если выполнение AJAX запроса завершается с ошибкой.</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#par1").ajaxSend(function()
+		{
+			$("#img1").css("display","block");
+		});
+
+		$("#par1").ajaxComplete(function()
+		{
+			$("#img1").css("display","none");
+		});
+
+		$("#par1").ajaxError(function()
+		{
+			alert("Выполнение AJAX запроса завершено с ошибкой.\nПроверьте Ваш запрос на наличие ошибок и попробуйте отправить его еще раз.");
+		});
+
+		$("#par1").ajaxSuccess(function()
+		{
+			alert("AJAX запрос успешно выполнен!");
+		});
+
+		$("#but1").click(function()
+		{
+			$("#par1").load("add.php","x=10&y=100");
+		});
+
+		$("#but2").click(function()
+		{
+			$("#par1").load("abb.php","x=10&y=100");
+		});
+	});
+	</pre>
+
+	<p>Методы <b>ajaxStart</b> и <b>ajaxStop</b> используются для сопровождения группы AJAX запросов.</p>
+	<p>Метод <b>ajaxStart</b> выполняет переданный в него код при отправлении первого запроса из группы.</p>
+	<p>Метод <b>ajaxStop</b> выполняет переданный в него код при завершении последнего запроса из группы.</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#par1").ajaxStart(function()
+		{
+			$("#wrap").css("display","block");
+		});
+		
+		$("#par1").ajaxStop(function()
+		{
+			$("#wrap").css("display","none");
+		});
+		
+		$("#but1").click(function()
+		{
+			$("#par1").load("add.php","x=5&=10");
+			$("#par1").load("add.php","x=10&y=100");
+			$("#par1").load("testfile.txt");
+			$("#par1").load("add.php","x=45&y=32");
+		});
+	});
+	</pre>
+
+	<h1 id="title">
+		Низкоуровневые AJAX запросы
+	</h1>
+
+	<p>Высокоуровневые методы создания AJAX запросов (т.е. методы которые были разобраны ранее в данной главе) подходят для создания большей части запросов, но иногда их функциональности становится недостаточно.</p>
+	<p>Низкоуровневые AJAX запросы предоставляют более широкую функциональность, но более сложны в использовании.</p>
+	<p>Синтаксис высокоуровневого AJAX запроса:</p>
+
+	<pre class="brush: csharp;">
+	$("#par1").load("add.php","x=4&y=5")
+	</pre>
+
+	<p>Синтаксис аналогичного низкоуровневого AJAX запроса:</p>
+
+	<pre class="brush: csharp;">
+	$("#but1").click(function()
+	{
+		$.ajax({url:"add.php",
+		data:"x=4&y=5",
+		success:function(result)
+		{$("#par1").html(result)}
+		});
+	});
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/jquery/7.html", "jQuery AJAX", "bm715"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm715", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm715") == 1) { document.getElementById("bma715").style.display = "block"; document.getElementById("bm715").style.display = "none"; } else { document.getElementById("bma715").style.display = "none"; document.getElementById("bm715").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("jQuery AJAX") == 1) { arrs.splice(i, 1); localStorage.setItem("bm715", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

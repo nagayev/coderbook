@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1189" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1189" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Тестирование Yii
+	</h1>
+
+    <p>Тестирование — важная составляющая процесса разработки ПО.</p>
+    <p>Вне зависимости от того, осознаём ли мы это или нет, мы проводим тестирование на протяжении всего процесса разработки приложения.</p>
+    <p>К примеру, при написании PHP-класса мы используем echo или die для того, чтобы проверить корректность выполнения метода.</p>
+    <p>При создании страницы, содержащей сложные HTML-формы, мы вводим некоторые тестовые данные, чтобы проверить её работу.</p>
+    <p>Более опытные разработчики напишут код, автоматизирующий этот процесс и дающий возможность выполнить все тесты автоматически за один раз.</p>
+    <p>Этот процесс называется автоматизированное тестирование и является главной темой данного раздела.</p>
+    <p>В Yii поддерживается модульное тестирование и функциональное тестирование.</p>
+    <p>Модульный тест проверяет, что единица кода работает так, как должна.</p>
+    <p>В ООП такой единицей является класс.</p>
+    <p>Поэтому модульный тест должен проверить, что каждый открытый метод класса работает должным образом.</p>
+    <p>То есть, имея входные тестовые данные, тест проверяет, что метод возвращает ожидаемый результат.</p>
+    <p>Модульные тесты обычно пишутся теми же, кто разрабатывает сам класс.</p>
+    <p>Функциональный тест проверяет, что некоторая возможность (например, управление записями блога) работает как надо.</p>
+    <p>Функциональный тест, по сравнению с модульным, относится к более высокому уровню так как чаще всего производится проверка работы нескольких классов.</p>
+    <p>Функциональные тесты обычно разрабатываются теми, кто очень хорошо знает требования к системе (это могут быть как разработчики, так и инженеры QA).</p>
+
+    <h2 id="title">
+        Разработка через тестирование
+    </h2>
+
+    <p>Ниже приведён цикл разработки через тестирование (TDD):</p>
+
+    <ol>
+        <li>Создаём новый тест, описывающий функциональность планируемой возможности. Тест должен при первом запуске завершиться неудачей, так как сама возможность ещё не реализована.</li>
+        <li>Запускаем все тесты. Проверяем, что все они завершились неудачно.</li>
+        <li>Пишем код, который проходит тесты.</li>
+        <li>Запускаем все тесты. Проверяем, что все они завершились удачно.</li>
+        <li>Рефакторим написанный код и проверяем, что он всё ещё проходит тесты.</li>
+    </ol>
+
+    <p>Повторяем шаги 1 — 5 для новой функциональности.</p>
+
+    <h2 id="title">
+        Настройка тестового окружения
+    </h2>
+
+    <p>Тестирование в Yii требует установленного PHPUnit 3.5+ и Selenium Remote Control 1.0+.</p>
+    <p>Как устанавливать PHPUnit и Selenium Remote Control вы можете прочитать в их документации.</p>
+    <p>При использовании консольной команды yiic webapp для создания нового приложения генерируются следующие директории, позволяющие писать и выполнять тесты:</p>
+
+    <pre class="brush: csharp;">
+    testdrive/
+       protected/                файлы приложения
+          tests/                 тесты
+             fixtures/           фикстуры БД
+             functional/         функциональные тесты
+             unit/               модульные тесты
+             report/             отчёты по покрытию кода тестами
+             bootstrap.php       загрузчик
+             phpunit.xml         конфигурация для PHPUnit
+             WebTestCase.php     базовый класс для функциональных тестов страниц
+    </pre>
+
+    <p>Как показано выше, код тестов главным образом находится в трёх директориях: fixtures, functional и unit.</p>
+    <p>Директория report используется для хранения генерируемых отчётов о покрытии кода тестами.</p>
+    <p>Для того, чтобы запустить тесты (как модульные, так и функциональные), необходимо выполнить следующие команды в консоли:</p>
+
+    <pre class="brush: csharp;">
+    % cd testdrive/protected/tests
+    % phpunit functional/PostTest.php // запускает отдельный тест
+    % phpunit --verbose functional    // запускает все тесты в директории 'functional'
+    % phpunit --coverage-html ./report unit
+    </pre>
+
+    <p>Последняя команда выполнит все тесты в директории unit и создаст отчёт о покрытии кода в директории report.</p>
+    <p>Стоит отметить, что для отчётов требуется установленное расширение xdebug.</p>
+
+    <h2 id="title">
+        Загрузчик тестов
+    </h2>
+
+    <p>Давайте посмотрим, что может находиться в файле bootstrap.php.</p>
+    <p>Мы уделяем ему большое внимание, так как он играет такую же роль, как входной скрипт и является стартовой точкой при запуске набора тестов.</p>
+
+    <pre class="brush: csharp;">
+    $yiit='path/to/yii/framework/yiit.php';
+    $config=dirname(__FILE__).'/../config/test.php';
+    require_once($yiit);
+    require_once(dirname(__FILE__).'/WebTestCase.php');
+    Yii::createWebApplication($config);
+    </pre>
+
+    <p>В приведённом коде мы сначала подключаем файл yiit.php, который инициализирует некоторые глобальные константы и подключает необходимые базовые классы тестов.</p>
+    <p>Затем мы создаём экземпляр приложения, используя файл конфигурации test.php. Конфигурация в нём наследуется от main.php и добавляет компонент fixture (класс CDbFixtureManager).</p>
+    <p>Фикстуры будут детально описаны в следующем разделе.</p>
+
+    <pre class="brush: csharp;">
+    return CMap::mergeArray(
+        require(dirname(__FILE__).'/main.php'),
+        array(
+            'components'=>array(
+                'fixture'=>array(
+                    'class'=>'system.test.CDbFixtureManager',
+                ),
+                /* раскомментируйте, если вам нужно подключение к тестовой БД
+                'db'=>array(
+                    'connectionString'=>'DSN для БД',
+                ),
+                */
+            ),
+        )
+    );
+    </pre>
+
+    <p>При запуске тестов, включающих работу с базой данных, необходимо переопределить БД для того, чтобы не испортить реальные данные или данные, используемые при разработке.</p>
+    <p>Для этого необходимо раскомментировать конфигурацию db выше и указать DSN тестовой базы в свойстве connectionString.</p>
+    <p>При помощи такого входного скрипта при запуске тестов мы получаем экземпляр приложения, максимально приближённый к реальному.</p>
+    <p>Главное отличие в том, что в нём есть поддержка фикстур и используется тестовая БД.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="37.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="39.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/38.html", "Тестирование Yii", "bm1189"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1189", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1189") == 1) { document.getElementById("bma1189").style.display = "block"; document.getElementById("bm1189").style.display = "none"; } else { document.getElementById("bma1189").style.display = "none"; document.getElementById("bm1189").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Тестирование Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1189", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

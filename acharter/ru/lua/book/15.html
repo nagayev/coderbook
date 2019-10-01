@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma765" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm765" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Загрузка модулей
+	</h1>
+
+	<p>Чтобы модулем можно было пользоваться, его надо загрузить.</p>
+	<p>Для этого нужно вызвать глобальную функцию require(name).</p>
+	<p>Эта функция начинает с просмотра таблицы package.loaded, чтобы определить, модуль name  уже загружен или еще нет.</p>
+	<p>Если модуль name загружен, то require возвращает значение package.loaded[name].</p>
+	<p>Если же нет, то require ищет загрузчик модуля.</p>
+	<p>Загрузчики модулей хранятся втаблице package.loaders.</p>
+	<p>Каждое поле этой таблицы является функцией поиска.</p>
+	<p>Когда функция require ищет модуль, то она вызывает эти функции по очереди.</p>
+	<p>Функция поиска может вернуть либо другую функцию (загрузчик модуля), либо строку, которая разъясняет, почему модуль не был найден (либо nil, если ей нечего сказать).</p>
+	<p>Lua инициализирует таблицу package.loaders четырьмя функциями.</p>
+	<p>Первая функция ищет загрузчик в таблице package.preload.</p>
+	<p>Вторая функция ищет загрузчик Lua-библиотек, используя пути, прописанные в package.path.</p>
+	<p>Путь - это последовательность шаблонов, разделенных точкой с запятой.</p>
+	<p>В каждый шаблон функция поиска будет подставлять имя модуля, а затем будет пытаться открыть файл с именем, полученным из шаблона.</p>
+	<p>Например, если </p>
+
+	<pre class="brush: csharp;">
+	package.path = "./?.lua;./?.lc;/usr/local/?/init.lua"
+	</pre>
+
+	<p>то для загрузки модуля foo Lua будет пытаться открыть следующие файлы (порядок поиска совпадает с порядком задания шаблонов):</p>
+
+	<pre class="brush: csharp;">
+	./foo.lua, ./foo.lc, and /usr/local/foo/init.lua.
+	</pre>
+
+	<p>Третья функция ищет загрузчик С-библиотек, используя пути, прописанные в package.cpath.</p>
+	<p>Например, если </p>
+
+	<pre class="brush: csharp;">
+	package.cpath = "./?.so;./?.dll;/usr/local/?/init.so"
+	</pre>
+
+	<p>то загрузчик будет пытаться открыть следующие файлы (порядок сохранен):</p>
+
+	<pre class="brush: csharp;">
+	./foo.so, ./foo.dll, and /usr/local/foo/init.so. 
+	</pre>
+
+	<p>Первая найденная библиотека динамически линкуется с программой.</p>
+	<p>Затем загрузчик пытается найти С-функцию внутри библиотеки, чтобы использовать ее для загрузки.</p>
+	<p>Имя этой С-функции должно быть "luaopen_" + копия имени модуля, причем в имени модуля все точки должны быть заменены на подчеркивания.</p>
+	<p>Кроме того, если в имени модуля есть дефис, то весь префикс, включая знак дефис, должен быть удален.</p>
+	<p>Например, если имя модуля a.v1-b.c, то имя функции должно быть luaopen_b_c. </p>
+	<p>Четвертая функция пытается использовать загрузчик "все в одном".</p>
+	<p>Эта функция использует шаблоны для загрузки С-библиотек, чтобы найти библиотеку для корневого модуля.</p>
+	<p>Например, для модуля a.b.c эта функция будет искать С-библиотеку модуля a.</p>
+	<p>Если такая библиотека найдена, то внутри нее ищется функция для загрузки субмодулей.</p>
+	<p>В нашем примере такая функция должна иметь имя luaopen_a_b_c.</p>
+	<p>Такая организация позволяет упаковывать несколько субмодулей внутри одной библиотеки, используя для загрузки каждого субмодуля отдельную функцию.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book/15.html", "Загрузка модулей", "bm765"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm765", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm765") == 1) { document.getElementById("bma765").style.display = "block"; document.getElementById("bm765").style.display = "none"; } else { document.getElementById("bma765").style.display = "none"; document.getElementById("bm765").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if(arrs[i].indexOf("Загрузка модулей") == 1) { arrs.splice(i, 1); localStorage.setItem("bm765", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1231" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1231" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Запросы
+	</h1>
+
+    <p>Запросы, сделанные к приложению, представлены в терминах [[yii\web\Request]] объектов, которые предоставляют информацию о параметрах запроса, HTTP заголовках, cookies и т.д.</p>
+    <p>Для получения доступа к текущему запросу вы должны обратиться к объекту request application component, который по умолчанию является экземпляром [[yii\web\Request]].</p>
+
+    <h2 id="title">
+        Параметры запроса
+    </h2>
+
+    <p>Чтобы получить параметры запроса, вы должны вызвать методы [[yii\web\Request::get()|get()]] и [[yii\web\Request::post()|post()]] компонента request.</p>
+    <p>Они возвращают значения переменных $_GET и $_POST соответственно. Например,</p>
+
+    <pre class="brush: csharp;">
+    $request = Yii::$app->request;
+    
+    $get = $request->get(); 
+    // эквивалентно: $get = $_GET;
+    
+    $id = $request->get('id');   
+    // эквивалентно: $id = isset($_GET['id']) ? $_GET['id'] : null;
+    
+    $id = $request->get('id', 1);   
+    // эквивалентно: $id = isset($_GET['id']) ? $_GET['id'] : 1;
+    
+    $post = $request->post(); 
+    // эквивалентно: $post = $_POST;
+    
+    $name = $request->post('name');   
+    // эквивалентно: $name = isset($_POST['name']) ? $_POST['name'] : null;
+    
+    $name = $request->post('name', '');   
+    // эквивалентно: $name = isset($_POST['name']) ? $_POST['name'] : '';
+    </pre>
+
+    <p><b>Информация:</b> Вместо того, чтобы обращаться напрямую к переменным $_GET и $_POST для получения параметров запроса, рекомендуется чтобы вы обращались к ним через компонент request как было показано выше. Это упростит написание тестов, поскольку вы можете создать mock компонент запроса с не настоящими данными запроса.</p>
+    <p>При реализации RESTful API, зачастую вам требуется получить параметры, которые были отправлены через PUT, PATCH или другие методы запроса.</p>
+    <p>Вы можете получить эти параметры, вызвав метод [[yii\web\Request::getBodyParam()]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $request = Yii::$app->request;
+    
+    // возвращает все параметры
+    $params = $request->bodyParams;
+    
+    // возвращает параметр "id"
+    $param = $request->getBodyParam('id');
+    </pre>
+
+    <p><b>Информация:</b> В отличии от GET параметров, параметры, которые были переданы через POST, PUT, PATCH и д.р. отправляются в теле запроса. Компонент request будет обрабатывать эти параметры, когда вы попробуете к ним обратиться через методы, описанные выше. Вы можете настроить способ обработки этих параметров через настройку свойства [[yii\web\Request::parsers]].</p>
+
+    <h2 id="title">
+        Методы запроса
+    </h2>
+
+    <p>Вы можете получить названия HTTP метода, используемого в текущем запросе, обратившись к выражению Yii::$app->request->method.</p>
+    <p>Также имеется целый набор логических свойств для проверки соответствует ли текущий метод определённому типу запроса.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $request = Yii::$app->request;
+    
+    if ($request->isAjax) { /* текущий запрос является AJAX запросом */ }
+    if ($request->isGet)  { /* текущий запрос является GET запросом */ }
+    if ($request->isPost) { /* текущий запрос является POST запросом */ }
+    if ($request->isPut)  { /* текущий запрос является PUT запросом */ }
+    </pre>
+
+
+    <h2 id="title">
+        URL запроса
+    </h2>
+
+    <p>Компонент request предоставляет множество способов изучения текущего запрашиваемого URL.</p>
+    <p>Если предположить, что URL запроса будет</p>
+
+    <pre class="brush: csharp;">
+    http://example.com/admin/index.php/product?id=100
+    </pre>
+
+    <p>то вы можете получить различные части этого адреса так как это показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::url|url]]
+    </pre>
+
+    <p>вернёт адрес /admin/index.php/product?id=100, который содержит URL без информации об имени хоста.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::absoluteUrl|absoluteUrl]]
+    </pre>
+
+    <p>вернёт адрес http://example.com/admin/index.php/product?id=100, который содержит полный URL, включая имя хоста.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::hostInfo|hostInfo]]
+    </pre>
+
+    <p>вернёт адрес http://example.com, который содержит только имя хоста.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::pathInfo|pathInfo]]
+    </pre>
+
+    <p>вернёт адрес /product, который содержит часть между адресом начального скрипта и параметрами запроса, которые идут после знака вопроса.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::queryString|queryString]]
+    </pre>
+
+    <p>вернёт адрес id=100, который содержит часть URL после знака вопроса.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::baseUrl|baseUrl]]
+    </pre>
+
+    <p>вернёт адрес /admin, который является частью URL после информации о хосте и перед именем входного скрипта.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::scriptUrl|scriptUrl]]
+    </pre>
+
+    <p>вернёт адрес /admin/index.php, который содержит URL без информации о хосте и параметрах запроса.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::serverName|serverName]]
+    </pre>
+
+    <p>вернёт адрес example.com, который содержит имя хоста в URL.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::serverPort|serverPort]]
+    </pre>
+
+    <p>вернёт 80, что является адресом порта, который использует веб-сервер.</p>
+
+    <h2 id="title">
+        HTTP заголовки
+    </h2>
+
+    <p>Вы можете получить информацию о HTTP заголовках через</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\HeaderCollection|header collection]]
+    </pre>
+
+    <p>возвращаемыми свойством [[yii\web\Request::headers]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // переменная $headers является объектом yii\web\HeaderCollection 
+    $headers = Yii::$app->request->headers;
+    
+    // возвращает значения заголовка Accept
+    $accept = $headers->get('Accept');
+    
+    if ($headers->has('User-Agent')) { /* в запросе есть заголовок User-Agent */ }
+    </pre>
+
+    <p>Компонент request также предоставляет доступ к некоторым часто используемым заголовкам, включая</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::userAgent|userAgent]]
+    </pre>
+
+    <p>возвращает значение заголовка User-Agent.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::contentType|contentType]]
+    </pre>
+
+    <p>возвращает значение заголовка Content-Type, который указывает на MIME тип данных в теле запроса.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::acceptableContentTypes|acceptableContentTypes]]
+    </pre>
+
+    <p>возвращает список MIME типов данных, которые принимаются пользователем.</p>
+    <p>Возвращаемый список типов будет отсортирован по показателю качества.</p>
+    <p>Типы с более высокими показателями будут первыми в списке.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::acceptableLanguages|acceptableLanguages]]
+    </pre>
+
+    <p>возвращает языки, которые поддерживает пользователь.</p>
+    <p>Список языков будет отсортирован по уровню предпочтения.</p>
+    <p>Наиболее предпочитаемый язык будет первым в списке.</p>
+    <p>Если ваше приложение поддерживает множество языков и вы хотите показать страницу на языке, который предпочитает пользователь, то вы можете воспользоваться языковым методом согласования (negotiation)</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::getPreferredLanguage()]]
+    </pre>
+
+    <p>Этот метод принимает список поддерживаемых языков в вашем приложении, сравнивает их с</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::acceptableLanguages|acceptableLanguages]]
+    </pre>
+
+    <p>и возвращает наиболее подходящий язык.</p>
+    <p><b>Подсказка:</b> Вы также можете использовать фильтр</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\ContentNegotiator|ContentNegotiator]]
+    </pre>
+
+    <p>для динамического определения какой тип содержимого и язык должен использоваться в ответе.</p>
+    <p>Фильтр реализует согласование содержимого на основе свойств и методов, описанных выше.</p>
+
+    <h2 id="title">
+        Информация о клиенте
+    </h2>
+
+    <p>Вы можете получить имя хоста и IP адрес пользователя через свойства</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::userHost|userHost]]
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Request::userIP|userIP]]
+    </pre>
+
+    <p>соответственно. Например,</p>
+
+    <pre class="brush: csharp;">
+    $userHost = Yii::$app->request->userHost;
+    $userIP = Yii::$app->request->userIP;
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="24.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="26.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/25.html", "Yii2: Запросы", "bm1231"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1231", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1231") == 1) { document.getElementById("bma1231").style.display = "block"; document.getElementById("bm1231").style.display = "none"; } else { document.getElementById("bma1231").style.display = "none"; document.getElementById("bm1231").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Запросы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1231", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

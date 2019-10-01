@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma381" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm381" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Примеси
+	</h1>
+
+	<p>Примеси (или миксины, от англ. mixin) — одна из самых могучих штук в Sass и по своему действию напоминают функции в языках программирования.</p>
+	<p>Иными словами, это фрагмент кода, который можно вставлять несколько раз.</p>
+	<p>При этом примеси обладают рядом возможностей:</p>
+	<p>- в качестве значений можно передавать переменные, что придаёт примесям гибкость;</p>
+	<p>- существуют библиотеки примесей вроде Bourbon, в которых реализовано множество готовых типовых задач;</p>
+	<p>- примеси можно вынести в отдельный файл и подгружать их по мере необходимости через команду @import.</p>
+	<p>Код при этом сокращается и упрощается.</p>
+
+	<h1 id="title">
+		Использование примесей
+	</h1>
+
+	<p>Для создания примеси используется команда @mixin, после которой через пробел идёт произвольное имя.</p>
+	<p>Внутри в фигурных скобках пишем стилевые правила.</p>
+	<p>В том месте, куда нам надо вставить примесь, добавляем команду @include с её именем.</p>
+
+	<pre class="brush: csharp;">
+	@mixin my_opacity
+	{
+		-webkit-transition: opacity 1s ease-in;
+		-moz-transition: opacity 1s ease-in;
+		transition: opacity 1s ease-in;
+	}
+
+	.block
+	{
+		height: 100px;
+		background: #fc0;
+	}
+
+	.block:hover
+	{
+		opacity: 0.5;
+		@include my_opacity;
+	}
+	</pre>
+
+	<p>На выходе получим следующий CSS.</p>
+
+	<pre class="brush: csharp;">
+	.block
+	{
+		height: 100px;
+		background: #fc0;
+	}
+
+	.block:hover
+	{
+		opacity: 0.5;
+		-webkit-transition: opacity 1s ease-in;
+		-moz-transition: opacity 1s ease-in;
+		transition: opacity 1s ease-in;
+	}
+	</pre>
+
+	<h1 id="title">
+		Переменные в примесях
+	</h1>
+
+	<p>Примеси хороши уже сами по себе, поскольку оптимизируют стилевой код.</p>
+	<p>Но часто требуется вызывать несколько раз похожий фрагмент кода, который различается лишь одним-двумя значениями.</p>
+	<p>Тогда нам опять помогут примеси, потому что они могут включать в себя параметры, а их значения подставляются в заданных местах кода.</p>
+	<p>Получается, что написав один раз примесь, мы можем вызывать её неоднократно, лишь меняя значения параметров.</p>
+	<p>В примере ниже мы создаём примесь с именем box, у которой три параметра с именами $width, $color и $bg.</p>
+	<p>Для параметра $bg зададим также значение по умолчанию, тогда не придётся указывать его в обязательном порядке.</p>
+	<p>Далее к селектору добавляем примесь через команду @include.</p>
+	<p>Внутри скобок пишем желаемые значения, их может быть три или два, ведь цвет фона задан по умолчанию.</p>
+
+	<pre class="brush: csharp;">
+	@mixin box($width, $color, $bg: #f0f0f0)
+	{
+		border: $width solid $color;
+		padding: 20px;
+		background: $bg;
+	}
+
+	.block
+	{
+		@include box(2px, #333);
+	}
+	</pre>
+
+	<p>На выходе мы получим следующий результат.</p>
+
+	<pre class="brush: csharp;">
+	.block
+	{
+		border: 2px solid #333;
+		padding: 20px;
+		background: #f0f0f0;
+	}
+	</pre>
+
+	<p>Такого рода примеси удобно применять для вендорных свойств.</p>
+	<p>Это свойства с префиксами -moz, -webkit, -ms работающие только в определённом браузере.</p>
+	<p>Например, сделаем примесь, которая разбивает текст на заданное число колонок.</p>
+	<p>Старые версии браузеров не понимают свойство columns, поэтому для них мы продублируем это свойство с префиксами, как показано ниже.</p>
+
+	<pre class="brush: csharp;">
+	@mixin column($count, $width)
+	{
+		-webkit-columns: $count $width;
+		-moz-columns: $count $width;
+		columns: $count $width;
+	}
+
+	.page
+	{
+		@include column(2, 200px);
+	}
+	</pre>
+
+	<p>На выходе мы получим следующее.</p>
+
+	<pre class="brush: csharp;">
+	.page
+	{
+		-webkit-columns: 2 200px;
+		-moz-columns: 2 200px;
+		columns: 2 200px;
+	}
+	</pre>
+
+	<p>Как видно, примеси позволяют хранить повторяющийся код в одном месте, легко редактировать его и при желании изменять параметры.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="sass12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="sass14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/sass/sass13.html", "Примеси", "bm381"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm381", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm381") == 1) { document.getElementById("bma381").style.display = "block"; document.getElementById("bm381").style.display = "none"; } else { document.getElementById("bma381").style.display = "none"; document.getElementById("bm381").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Примеси") == 1) { arrs.splice(i, 1); localStorage.setItem("bm381", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

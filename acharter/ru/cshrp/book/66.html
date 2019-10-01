@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma153" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm153" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Принцип инкапсуляции и методы объектов
+	</h1>
+
+	<p>Объектно-ориентированное программирование базируется на трех принципах: полиморфизм, инкапсуляция и наследование.</p>
+	<p>С одним из проявлений полиморфизма, а именно с перегрузкой методов, мы уже познакомились.</p>
+	<p>Инкапсуляцию можно рассматривать как сокрытие особенностей реализации того или иного фрагмента программы от внешнего пользователя.</p>
+	<p>Фрагмент должен быть доступен для обращений к нему только через внешний интерфейс фрагмента.</p>
+	<p>Описания внешнего интерфейса должно быть достаточно для использования фрагмента.</p>
+	<p>Если таким фрагментом является процедура (или функция), то нужно знать, как следует обратиться к процедуре, как передать ей необходимые входные данные и как получить результаты выполнения процедуры.</p>
+	<p>Подробности внутренней реализации процедуры не должны интересовать того программиста, который использует процедуру.</p>
+	<p>Именно принцип инкапсуляции лежит в основе запрета на использование в процедурах и функциях глобальных переменных.</p>
+	<p>Ведь глобальная переменная определена вне процедуры и доступна внешним изменениям, не зависящим от обработки данных в её теле.</p>
+	<p>Если фрагментом инкапсуляции является класс, то при его проектировании очень важно выделить в нем средства, обеспечивающие внешний интерфейс, и отделить их от механизмов реализации (внутреннего построения) класса.</p>
+	<p>При этом нужно стремиться к достижению следующих трех целей:</p>
+	<p>возможность повторного использования объектов класса, например, в других программах (в этих других программах понадобится только знание внешнего интерфейса объектов класса);</p>
+	<p>возможность модифицировать внутреннюю реализацию класса без изменения тех программ, где применяются объекты этого класса;</p>
+	<p>достижение защиты объекта от нежелательных и непредсказуемых взаимодействий с ним других фрагментов программ, в которых он используется.</p>
+	<p>Для реализации в классах принципа инкапсуляции используется разграничение доступа к его членам.</p>
+	<p>Основной принцип состоит в следующем.</p>
+	<p>Доступ к данным (к полям) объектов должен быть возможен только через средства внешнего интерфейса, предоставляемые классом.</p>
+	<p>Если не рассматривать применений классов в цепочках наследования и в сборках (всему свое время), то реализацию класса определяют его закрытые члены (со спецификатором private), а внешний интерфейс – открытые (со спецификатором public).</p>
+	<p>Обычная практика – закрывать все поля класса и открывать только те средства (например, методы), которых достаточно для работы с объектами класса.</p>
+	<p>Итак, поля классов рекомендуется определять как закрытые, а для обеспечения достаточно полного интерфейса вводить нужное количество открытых методов.</p>
+	<p>Полнота внешнего интерфейса определяется требованиями тех программ, которые должны работать с классом и его объектами.</p>
+	<p>Объектно-ориентированный подход к программированию традиционно рекомендует для расширения внешнего интерфейса класса и его объектов вводить в класс специальные методы, позволяющие получать значения закрытых полей и позволяющие желаемым способом задавать их значения.</p>
+	<p>По-английски эти методы называют, соответственно, get method(accessor) – метод доступа и set method(mutator) – метод изменения.</p>
+	<p>В зависимости от целей решаемых задач для каждого поля могут быть заданы или оба метода, или один из них.</p>
+	<p>В качестве примера рассмотрим программу с классом, объекты которого содержат сведения о людях.</p>
+	<p>Для каждого человека в закрытых полях определены его фамилия (string фамилия) и год рождения (int год_рождения).</p>
+	<p>Для поля с фамилией определим метод получения getName() и метод изменения setName() значения.</p>
+	<p>Для поля, определяющего год рождения, введем только метод получения значения getAge().</p>
+	<p>Класс с названными методами может быть таким (программа 12_01.cs):</p>
+
+	<pre class="brush: csharp;">
+	// Класс человек
+	class Person
+	{
+		// Закрытые поля:
+		readonly int год_рождения;
+		string фамилия;
+		// конструктор
+			public Person(string name, int year)
+			{
+				фамилия = name;
+				год_рождения = year;
+			}
+		// аксессор
+		public string getName() { return фамилия; }
+		// мутатор
+		public void setName(string name) { фамилия = name; }
+		// аксессор
+		public int getAge() { return год_рождения; }
+	}
+	</pre>
+
+	<p>В классе определен конструктор общего вида, позволяющий при создании объекта указать фамилию и год рождения человека.</p>
+	<p>Обратите внимание, что для поля год_рождения использован модификатор readonly.</p>
+	<p>В классе нет метода, позволяющего изменить значение поля год_рождения после создания объекта класса.</p>
+	<p>Это соответствует смыслу поля.</p>
+	<p>Следующий фрагмент программы иллюстрирует применение методов класса person (см. программу 12_01.cs).</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		Person one = new Person("Кулик", 1976);
+		Console.WriteLine("Фамилия: {0}, год рождения: {1}",
+		one.getName( ), one.getAge( ));
+		Console.Write("Введите новую фамилию: ");
+		string name = Console.ReadLine( );
+		one.setName(name);
+		Console.WriteLine("Фамилия: {0}, год рождения: {1}",
+		one.getName( ), one.getAge( ));
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Фамилия: Кулик, год рождения: 1976
+
+	Введите новую фамилию: Смирнова&lt;ENTER&gt;
+
+	Фамилия: Смирнова, год рождения: 1976
+	</pre>
+
+	<p>В связи с рассмотрением доступности членов класса полезно привести относящиеся к классам сведения по системе обозначений языка UML (Unified Modeling Language – Унифицированный язык моделирования).</p>
+	<p>В UML класс изображают как прямоугольник, разделённый по вертикали на три части.</p>
+	<p>Верхняя содержит имя класса, средняя – его атрибуты (поля, свойства), нижняя – методы класса.</p>
+	<p>Для атрибутов и методов введены условные обозначения их доступности.</p>
+	<p>Дефис (–) обозначает вид доступа private (закрытый), диез (#) – protected (защищённый), плюс (+) – public (открытый).</p>
+	<p>В Visual Studio используется основанная на UML, но немного модифицированная система графического представления классов.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="65.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="67.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/66.html", "Принцип инкапсуляции", "bm153"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm153", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm153") == 1) { document.getElementById("bma153").style.display = "block"; document.getElementById("bm153").style.display = "none"; } else { document.getElementById("bma153").style.display = "none"; document.getElementById("bm153").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Принцип инкапсуляции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm153", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

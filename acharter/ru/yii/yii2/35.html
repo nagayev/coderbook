@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1241" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1241" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Псевдонимы
+	</h1>
+
+    <p>Псевдонимы используются для обозначения путей к файлам или URL адресов и помогают избежать использования абсолютных путей или URL в коде.</p>
+    <p>Для того, чтобы не перепутать псевдоним с обычным путём к файлу или URL, он должен начинаться с @.</p>
+    <p>В Yii имеется множество заранее определённых псевдонимов.</p>
+    <p>Например, @yii указывает на директорию, в которую был установлен Yii framework, а @web можно использовать для получения базового URL текущего приложения.</p>
+
+    <h2 id="title">
+        Создание псевдонимов
+    </h2>
+
+    <p>Для создания псевдонима пути к файлу или URL используется метод [[Yii::setAlias()]]:</p>
+
+    <pre class="brush: csharp;">
+    // псевдоним пути к файлу
+    Yii::setAlias('@foo', '/path/to/foo');
+    
+    // псевдоним URL
+    Yii::setAlias('@bar', 'http://www.example.com');
+    </pre>
+
+    <p><b>Примечание:</b> псевдоним пути к файлу или URL не обязательно указывает на существующий файл или ресурс.</p>
+    <p>Используя уже заданный псевдоним, вы можете получить на основе него новый без вызова [[Yii::setAlias()]].</p>
+    <p>Сделать это можно, добавив в его конец /, за которым следует один или более сегментов пути.</p>
+    <p>Псевдонимы, определённые при помощи [[Yii::setAlias()]], являются корневыми псевдонимами, в то время как полученные из них называются производными псевдонимами.</p>
+    <p>К примеру, @foo является корневым псевдонимом, а @foo/bar/file.php — производным.</p>
+    <p>Вы можете задать новый псевдоним, используя ранее созданный псевдоним (не важно, корневой он или производный):</p>
+
+    <pre class="brush: csharp;">
+    Yii::setAlias('@foobar', '@foo/bar');
+    </pre>
+
+    <p>Корневые псевдонимы, как правило, создаются на этапе предварительной загрузки (bootstrapping).</p>
+    <p>Например, вы можете вызвать [[Yii::setAlias()]] в входном скрипте.</p>
+    <p>Для удобства, в приложении (Application) предусмотрено свойство aliases, которое можно задать через конфигурацию приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'aliases' =&gt; [
+            '@foo' =&gt; '/path/to/foo',
+            '@bar' =&gt; 'http://www.example.com',
+        ],
+    ];
+    </pre>
+
+    <h2 id="title">
+        Преобразование псевдонимов
+    </h2>
+
+    <p>Метод [[Yii::getAlias()]] преобразует корневой псевдоним в путь к файлу или URL, который этот псевдоним представляет.</p>
+    <p>Этот же метод может работать и с производными псевдонимами:</p>
+
+    <pre class="brush: csharp;">
+    echo Yii::getAlias('@foo');               // выведет: /path/to/foo
+    echo Yii::getAlias('@bar');               // выведет: http://www.example.com
+    echo Yii::getAlias('@foo/bar/file.php');  // выведет: /path/to/foo/bar/file.php
+    </pre>
+
+    <p>Путь или URL, представленный производным псевдонимом, определяется путём замены в нём части, соответствующей корневому псевдониму, на соответствующий ему путь или URL.</p>
+    <p><b>Примечание:</b> Метод [[Yii::getAlias()]] не проверяет фактического существования получаемого пути или URL.</p>
+    <p>Корневой псевдоним может содержать знаки '/'. При этом метод [[Yii::getAlias()]] корректно определит, какая часть псевдонима является корневой и верно сформирует путь или URL:</p>
+
+    <pre class="brush: csharp;">
+    Yii::setAlias('@foo', '/path/to/foo');
+    Yii::setAlias('@foo/bar', '/path2/bar');
+    Yii::getAlias('@foo/test/file.php');  // выведет: /path/to/foo/test/file.php
+    Yii::getAlias('@foo/bar/file.php');   // выведет: /path2/bar/file.php
+    </pre>
+
+    <p>Если бы @foo/bar не был объявлен корневым псевдонимом, последняя строка вывела бы /path/to/foo/bar/file.php.</p>
+
+    <h2 id="title">
+        Использование псевдонимов
+    </h2>
+
+    <p>Псевдонимы распознаются во многих частях Yii без необходимости предварительно вызывать [[Yii::getAlias()]] для получения пути или URL.</p>
+    <p>Например, [[yii\caching\FileCache::cachePath]] принимает как обычный путь к файлу, так и псевдоним пути благодаря префиксу @, который позволяет их различать.</p>
+
+    <pre class="brush: csharp;">
+    use yii\caching\FileCache;
+    
+    $cache = new FileCache([
+        'cachePath' =&gt; '@runtime/cache',
+    ]);
+    </pre>
+
+    <p>Для того, чтобы узнать поддерживает ли метод или свойство псевдонимы, обратитесь к документации API.</p>
+
+    <h2 id="title">
+        Заранее определённые псевдонимы
+    </h2>
+
+    <p>В Yii заранее определены псевдонимы для часто используемых путей к файлам и URL:</p>
+
+    <ul>
+        <li>@yii: директория, в которой находится файл BaseYii.php (директория фреймворка).</li>
+        <li>@app: [[yii\base\Application::basePath|базовый путь]] текущего приложения.</li>
+        <li>@runtime: [[yii\base\Application::runtimePath|директория runtime]] текущего приложения.</li>
+        <li>@vendor: [[yii\base\Application::vendorPath|директория vendor Composer]].</li>
+        <li>@webroot: вебрут текущего веб приложения (там где находится входной скрипт index.php).</li>
+        <li>@web: базовый URL текущего приложения.</li>
+    </ul>
+
+    <p>Псевдоним @yii задаётся в момент подключения файла Yii.php во входном скрипте.</p>
+    <p>Остальные псевдонимы задаются в конструкторе приложения в момент применения конфигурации.</p>
+
+    <h2 id="title">
+        Псевдонимы расширений
+    </h2>
+
+    <p>Для каждого расширения, устанавливаемого через Composer, автоматически задаётся псевдоним.</p>
+    <p>Его имя соответствует корневому пространству имён расширения в соответствии с его composer.json.</p>
+    <p>Псевдоним представляет путь к корневой директории пакета.</p>
+    <p>Например, если вы установите расширение yiisoft/yii2-jui, то вам автоматически станет доступен псевдоним @yii/jui.</p>
+    <p>Он создаётся на этапе первоначальной загрузки (bootstrapping) примерно так:</p>
+
+    <pre class="brush: csharp;">
+    Yii::setAlias('@yii/jui', 'VendorPath/yiisoft/yii2-jui');
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="34.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="36.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/35.html", "Yii2: Псевдонимы", "bm1241"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1241", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1241") == 1) { document.getElementById("bma1241").style.display = "block"; document.getElementById("bm1241").style.display = "none"; } else { document.getElementById("bma1241").style.display = "none"; document.getElementById("bm1241").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Псевдонимы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1241", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

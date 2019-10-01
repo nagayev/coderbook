@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1315" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1315" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		NPM
+	</h1>
+    
+    <p>Кроме встроенных и кастомных модулей Node.js существует огромный пласт различных библиотек и фреймворков, разнообразных утилит, которые создаются сторонними производителями и которые также можно использовать в проекте, например, express, grunt, gulp и так далее.</p>
+    <p>И они тоже нам доступны в рамках Node.js.</p>
+    <p>Чтобы удобнее было работать со всеми сторонними решениями, они распространяются в виде пакетов.</p>
+    <p>Пакет по сути представляет набор функциональностей.</p>
+    <p>Для автоматизации установки и обновления пакетов, как правило, применяются систему управления пакетами или менеджеры.</p>
+    <p>Непосредственно в Node.js для этой цели используется пакетный менеджер NPM (Node Package Manager).</p>
+    <p>NPM по умолчанию устанавливается вместе с Node.js, поэтому ничего доустанавливать не требуется.</p>
+    <p>Но можно обновить установленную версию до самой последней. Для этого в командной строке/терминале надо запустить следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    npm install npm@latest -g
+    </pre>
+
+    <p>Чтобы узнать текущую версию npm, в командной строке/терминале надо ввести следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    npm -v
+    </pre>
+
+    <p>Для нас менеджер npm важен в том плане, что с его помощью легко управлять пакетами.</p>
+    <p>К примеру, создадим на жестком диске новую папку modulesapp (В моем случае папка будет находиться по пути C:\node\modulesapp).</p>
+    <p>Далее для примера установим в проект express.</p>
+    <p>Express представляет легковесный веб-фреймворк для упрощения работы с Node.js.</p>
+    <p>В данном случае мы не будем пока подробно рассматривать фреймворк Express, так как это отдельная большая тема.</p>
+    <p>А используем его лишь для того, чтобы понять, как устанавливаются сторонние модули в проект.</p>
+    <p>Для установки функциональности Express в проект вначале перейдем к папке проекта с помощью команды cd.</p>
+    <p>Затем введем команду</p>
+
+    <pre class="brush: csharp;">
+    npm install express
+    </pre>
+
+
+    <img src="n13.png" id="image" />
+
+    <p>После установки express в папке проекта modulesapp появится подпапка node_modules, в которой будут хранится все установленные внешние модули.</p>
+    <p>В частности, в подкаталоге node_modules/express будут располагаться файлы фреймворка Express.</p>
+    <p>Далее определим файл простейшего сервера.</p>
+    <p>Для этого в корневую папку проекта modulesapp добавим новый файл app.js:</p>
+
+    <pre class="brush: csharp;">
+    // получаем модуль Express
+    var express = require("express");
+    // создаем приложение
+    var app = express();
+     
+    // устанавливаем обработчик для маршрута "/"
+    app.get("/", function(request, response){
+     
+        response.end("Hello from Express!");
+    });
+    // начинаем прослушивание подключений на 3000 порту
+    app.listen(3000);
+    </pre>
+
+    <p>Первая строка получает установленный модуль express, а вторая создает объект приложения.</p>
+    <p>В Express мы можем связать обработку запросов с определенными маршрутами.</p>
+    <p>Например, "/" - представляет главную страницу или корневой маршрут.</p>
+    <p>Для обработки запроса вызывается функция app.get().</p>
+    <p>Первый параметр функции - маршрут, а второй - функция, которая будет обрабатывать запрос по этому маршруту.</p>
+    <p>И чтобы сервер начал прослушивать подключения, надо вызвать метод app.listen(), в который передается номер порта.</p>
+    <p>Запустим сервер командой node app.js:</p>
+
+    <img src="n14.png" id="image" />
+
+    <p>И в адресной строке браузера введем адрес http://localhost:3000/:</p>
+
+    <img src="n15.png" id="image" />
+
+    <h2 id="title">
+        Файл package.json
+    </h2>
+    
+    <p>Для более удобного управления конфигурацией и пакетами приложения в npm применяется файл конфигурации package.json.</p>
+    <p>Так, добавим в папку проекта modulesapp новый файл package.json:</p>
+
+    <pre class="brush: csharp;">
+    {
+      "name": "modulesapp",
+      "version": "1.0.0"
+    }
+    </pre>
+
+    <p>Здесь определены только две секции: имя проекта - modulesapp и его версия - 1.0.0.</p>
+    <p>Это минимально необходимое определение файла package.json.</p>
+    <p>Данный файл может включать гораздо больше секций.</p>
+    <p>Подробнее можно посмотреть в документации.</p>
+    <p>Далее удалим из проекта каталог node_modules.</p>
+    <p>То есть в папке проекта modulesapp будут два файла Server.js и package.json.</p>
+    <p>Теперь снова добавим express с помощью следующей команды:</p>
+
+    <pre class="brush: csharp;">
+    npm install express --save
+    </pre>
+
+    <p>Флаг <b>--save</b> указывает, что информацию о добавленном пакете надо добавить в файл package.json.</p>
+
+    <img src="n16.png" id="image" />
+
+    <p>И после выполнения команды, если мы откроем файл package.json, то мы увидим информацию о пакете:</p>
+
+    <pre class="brush: csharp;">
+    {
+      "name": "modulesapp",
+      "version": "1.0.0",
+      "dependencies": {
+        "express": "^4.14.0"
+      }
+    }
+    </pre>
+
+    <p>Информация обо всех добавляемых пакетах, которые используются при запуске приложения, добавляется в секцию dependencies.</p>
+    <p>Файл package.json играет большую роль и может облегчить разработку в различных ситуациях.</p>
+    <p>Например, при размещении в разных репозиториях нередко мы ограничены выделяемым дисковым пространством, тогда как папка node_modules со всеми загруженными пакетами может занимать довольно приличное пространство.</p>
+    <p>В этом случае удобнее разместить основной код проекта без node_modules.</p>
+    <p>В этом случае мы можем определить все пакеты в файле package.json, а затем для загрузки всех пакетов выполнить команду</p>
+
+    <pre class="brush: csharp;">
+    npm install
+    </pre>
+
+    <p>Эта команда возьмет определение всех пакетов из секций dependencies и загрузит их в проект.</p>
+
+    <h2 id="title">
+        devDependencies
+    </h2>
+
+    <p>Кроме пакетов, которые применяются в приложении, когда оно запущено, например, express, то есть в состоянии "production", есть еще пакеты, которые применяются при разработке приложения и его тестировании.</p>
+    <p>Такие пакеты добавляются в другую секцию - devDependencies.</p>
+    <p>В вышеприведенном примере она не определена, но если бы мы добавили какой-нибудь grunt или gulp, то они бы были именно в секции devDependencies.</p>
+    <p>Например, загрузим в проект пакет jasmine-node, который используется для тестирования приложения:</p>
+
+    <pre class="brush: csharp;">
+    npm install jasmine-node --save-dev
+    </pre>
+
+    <p>Флаг --save-dev указывается, что информацию о пакете следует сохранить в секции devDependencies файла package.json:</p>
+
+    <pre class="brush: csharp;">
+    {
+      "name": "modulesapp",
+      "version": "1.0.0",
+      "dependencies": {
+        "express": "^4.14.0"
+      },
+      "devDependencies": {
+        "jasmine-node": "^1.14.5"
+      }
+    }
+    </pre>
+    
+    <h2 id="title">
+        Удаление пакетов
+    </h2>
+
+    <p>Для удаления пакетов используется команда npm uninstall.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    npm uninstall express
+    </pre>
+    <p>Эта команда удаляет пакет из папки node_modules, в то же время в файле package.json информация о данном пакете остается.</p>
+    <p>Чтобы удалить информацию также и из package.json, применяется флаг --save:</p>
+
+    <pre class="brush: csharp;">
+    npm uninstall express --save
+    </pre>
+    
+    <h2 id="title">
+        Семантическое версионирование
+    </h2>
+    
+    <p>При определении версии пакета применяется семантическое версионирование.</p>
+    <p>Номер версии, как правило, задается в следующем формате "major.minor.patch".</p>
+    <p>Если в приложении или пакете обнаружен какой-то баг и он исправляется, то увеличивается на единицу число "patch".</p>
+    <p>Если в пакет добавляется какая-то новая функциональность, которая совместима с предыдущей версией пакета, то это небольшое изменение, и увеличивается число "minor".</p>
+    <p>Если же в пакет вносятся какие-то большие изменения, которые несовместимы с предыдущей версией, то увеличивается число "major".</p>
+    <p>То есть глядя на разные версии пакетов, мы можем предположить, насколько велики в них различия.</p>
+    <p>В примере с express версия пакета содержала, коме того, дополнительный символ карет: "^4.14.0".</p>
+    <p>Этот символ означает, что при установки пакета в проект с помощью команды npm install будет устанавливаться последняя доступная версия от 4.14.0.</p>
+    <p>Фактически это будет последняя доступная версия в промежутке от 4.14.0 до 5.0.0 (&gt;=4.14.0 и &lt;5.0.0).</p>
+
+    <h2 id="title">
+        Команды npm
+    </h2>
+    
+    <p>NPM позволяет определить команды, который выполняют определенные действия.</p>
+    <p>Например, изменим файл package.json следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    {
+      "name": "modulesapp",
+      "version": "1.0.0",
+      "dependencies": {
+        "express": "^4.14.0"
+      },
+      "scripts" : {
+        "start" : "node app.js"
+      },
+      "devDependencies": {
+        "jasmine-node": "^1.14.5"
+      }
+    }
+    </pre>
+
+    <p>Здесь добавлена секция scripts, которая определяет одну команду start (но вообще команд может быть множество).</p>
+    <p>Команда start предполагает выполнение команды "node app.js".</p>
+    <p>То есть для запуска приложения в командной строке мы можем набрать команду:</p>
+
+    <pre class="brush: csharp;">
+    npm start
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/6.html", "NPM", "bm1315"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1315", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1315") == 1) { document.getElementById("bma1315").style.display = "block"; document.getElementById("bm1315").style.display = "none"; } else { document.getElementById("bma1315").style.display = "none"; document.getElementById("bm1315").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("NPM") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1315", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

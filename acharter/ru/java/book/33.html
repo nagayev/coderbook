@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma634" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm634" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Соглашения по именованию
+	</h1>
+
+	<p>Для того, чтобы код, написанный на Java, было легко читать и понять не только его автору, но и другим разработчикам, а также для устранения некоторых конфликтов имен, предлагаются следующие соглашения по именованию элементов языка Java.</p>
+	<p>Стандартные библиотеки и классы Java также следуют им там, где это возможно.</p>
+	<p>Соглашения регулируют именование следующих конструкций:</p>
+	<p>- пакеты;</p>
+	<p>- типы (классы и интерфейсы);</p>
+	<p>- методы;</p>
+	<p>- поля;</p>
+	<p>- поля-константы;</p>
+	<p>- локальные переменные и параметры методов и др.</p>
+	<p>Рассмотрим их последовательно.</p>
+	<p>Правила построения имен пакетов уже подробно рассматривались в этой главе.</p>
+	<p>Имя каждого пакета начинается с маленькой буквы и представляет собой, как правило, одно недлинное слово.</p>
+	<p>Если требуется составить название из нескольких слов, можно воспользоваться знаком подчеркивания или начинать следующее слово с большой буквы.</p>
+	<p>Имя пакета верхнего уровня обычно соответствует доменному имени первого уровня.</p>
+	<p>Названия java и javax ( Java eXtension ) зарезервированы компанией Sun для стандартных пакетов Java.</p>
+	<p>При возникновении ситуации "заслоняющего" объявления (obscuring) можно изменить имя локальной переменной, что не повлечет за собой глобальных изменений в коде.</p>
+	<p>Случай же конфликта с именем типа не должен возникать, согласно правилам именования типов.</p>
+	<p>Имена типов начинаются с большой буквы и могут состоять из нескольких слов, каждое следующее слово также начинается с большой буквы.</p>
+	<p>Конечно, надо стремиться к тому, чтобы имена были описательными, "говорящими".</p>
+	<p>Имена классов, как правило, являются существительными:</p>
+
+	<pre class="brush: csharp;">
+	Human
+	HighGreenOak
+	ArrayIndexOutOfBoundsException
+	</pre>
+
+	<p>(Последний пример – ошибка, возникающая при использовании индекса массива, который выходит за границы допустимого.)</p>
+	<p>Аналогично задаются имена интерфейсов, хотя они не обязательно должны быть существительными.</p>
+	<p>Часто используется английский суффикс "able":</p>
+
+	<pre class="brush: csharp;">
+	Runnable
+	Serializable
+	Cloneable
+	</pre>
+
+	<p>Проблема "заслоняющего" объявления (obscuring) для типов встречается редко, так как имена пакетов и локальных переменных (параметров) начинаются с маленькой буквы, а типов – с большой.</p>
+	<p>Имена методов должны быть глаголами и обозначать действия, которые совершает данный метод.</p>
+	<p>Имя должно начинаться с маленькой буквы, но может состоять из нескольких слов, причем каждое следующее слово начинается с заглавной буквы.</p>
+	<p>Существует ряд принятых названий для методов:</p>
+	<p>- если методы предназначены для чтения и изменения значения переменной, то их имена начинаются, соответственно, с get и set, например, для переменной size это будут getSize() и setSize() ;</p>
+	<p>- метод, возвращающий длину, называется length(), например, в классе String ;</p>
+	<p>- имя метода, который проверяет булевское условие, начинается с is, например, isVisible() у компонента графического пользовательского интерфейса;</p>
+	<p>- метод, который преобразует величину в формат F, называется toF(), например, метод toString(), который приводит любой объект к строке.</p>
+	<p>Вообще, рекомендуется везде, где возможно, называть методы похожим образом, как в стандартных классах Java, чтобы они были понятны всем разработчикам.</p>
+	<p>Поля класса имеют имена, записываемые в том же стиле, что и для методов, начинаются с маленькой буквы, могут состоять из нескольких слов, каждое следующее слово начинается с заглавной буквы.</p>
+	<p>Имена должны быть существительными, например, поле name в классе Human, или size в классе Planet.</p>
+	<p>Как для полей решается проблема "заслоняющего" объявления (obscuring), уже обсуждалось.</p>
+	<p>Поля могут быть константами, если в их объявлении стоит ключевое слово final.</p>
+	<p>Их имена состоят из последовательности слов, сокращений, аббревиатур.</p>
+	<p>Записываются они только большими буквами, слова разделяются знаками подчеркивания:</p>
+
+	<pre class="brush: csharp;">
+	PI
+	MIN_VALUE
+	MAX_VALUE
+	</pre>
+
+	<p>Иногда константы образуют группу, тогда рекомендуется использовать одно или несколько одинаковых слов в начале имен:</p>
+
+	<pre class="brush: csharp;">
+	COLOR_RED
+	COLOR_GREEN
+	COLOR_BLUE
+	</pre>
+
+	<p>Наконец, рассмотрим имена локальных переменных и параметров методов, конструкторов и обработчиков ошибок.</p>
+	<p>Они, как правило, довольно короткие, но, тем не менее, должны быть осмыслены.</p>
+	<p>Например, можно использовать аббревиатуру (имя cp для ссылки на экземпляр класса ColorPoint ) или сокращение ( buf для buffer ).</p>
+	<p>Распространенные однобуквенные сокращения:</p>
+
+	<pre class="brush: csharp;">
+	byte b;
+	char c;
+	int i,j,k;
+	long l;
+	float f;
+	double d;
+	Object o;
+	String s;
+
+	// объект, представляющий ошибку в Java
+	Exception e;
+	</pre>
+
+	<p>Двух- и трехбуквенные имена не должны совпадать с принятыми доменными именами первого уровня Internet-сайтов.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой главе был рассмотрен механизм именования элементов языка.</p>
+	<p>Для того чтобы различные части большой системы не зависели друг от друга, вводится понятие " область видимости имени", вне которой необходимо использовать не простое, а составное имя.</p>
+	<p>Затем были изучены элементы (members), которые могут быть у пакетов и ссылочных типов.</p>
+	<p>Также рассматривалась связь терминов "идентификатор" (из темы "Лексика") и имя.</p>
+	<p>Затем были рассмотрены пакеты, которые используются в Java для создания физической и логической структуры классов, а также для более точного разграничения области видимости.</p>
+	<p>Пакет содержит вложенные пакеты и типы (классы и интерфейсы).</p>
+	<p>Вопрос о платформенной поддержке пакетов привел к рассмотрению модулей компиляции как текстовых файлов, поскольку именно в виде файлов и каталогов, как правило, хранятся и распространяются Java-приложения.</p>
+	<p>Тогда же впервые был рассмотрен вопрос разграничения доступа, так как доступ к модулям компиляции определяется именно платформенной поддержкой, а точнее – операционной системой.</p>
+	<p>Модуль компиляции состоит из трех основных частей – объявление пакета, импорт-выражения и объявления верхнего уровня.</p>
+	<p>Важную роль играет безымянный пакет, или пакет по умолчанию, хотя он и не рекомендуется для применения при создании больших систем.</p>
+	<p>Были изучены детали применения двух видов импорт-выражений – импорт класса и импорт пакета.</p>
+	<p>Наконец, было начато рассмотрение объявлений верхнего уровня (эта тема будет продолжена в главе, описывающей объявление классов).</p>
+	<p>Пакеты, как и другие элементы языка, имеют определенные соглашения по именованию, призванные облегчить понимание кода и уменьшить возможность возникновения ошибок и двусмысленных ситуаций в программе.</p>
+	<p>Описание области видимости для различных элементов языка приводит к вопросу о возможных перекрытиях таких областей и, как следствие, о конфликтах имен.</p>
+	<p>Рассматриваются "затеняющие" и "заслоняющие" объявления.</p>
+	<p>Для устранения или уменьшения возможности возникновения таких ситуаций описываются соглашения по именованию для всех элементов языка.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="32.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="34.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/33.html", "Соглашения по именованию", "bm634"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm634", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm634") == 1) { document.getElementById("bma634").style.display = "block"; document.getElementById("bm634").style.display = "none"; } else { document.getElementById("bma634").style.display = "none"; document.getElementById("bm634").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Соглашения по именованию") == 1) { arrs.splice(i, 1); localStorage.setItem("bm634", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

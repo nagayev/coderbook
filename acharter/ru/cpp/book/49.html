@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma70" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm70" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Параметры функции main (argc, argv)
+	</h1>
+
+	<p>При создании консольного приложения в языке программирования С++, автоматически создается строка очень похожая на эту:</p>	
+
+	<pre class="brush: csharp;">
+	// параметры функции main()
+	int  main(int argc, char* argv[])
+	</pre>
+
+	<p>Эта строка — заголовок главной функции main(), в скобочках объявлены параметры argс и argv.</p>
+	<p>Так вот, если программу запускать через командную строку, то существует возможность передать какую-либо информацию этой программе, для этого и существуют параметры argc и argv[].</p>
+	<p>Параметр argc имеет тип данных int, и содержит количество параметров, передаваемых в функцию main.</p>
+	<p>Причем argc всегда не меньше 1, даже когда мы не передаем никакой информации, так как первым параметром считается имя функции.</p>
+	<p>Параметр argv[] это  массив указателей на строки.</p>
+	<p>Через командную строку  можно передать только данные строкового типа.</p>
+	<p>Указатели и строки — это две большие темы, под которые созданы отдельные разделы.</p>
+	<p>Так вот именно через параметр argv[] и передается какая-либо информация.</p>
+	<p>Разработаем программу, которую будем запускать через командную строку Windows, и передавать ей некоторую информацию.</p>
+
+	<pre class="brush: csharp;">
+	// argc_argv.cpp: определяет точку входа для консольного приложения.
+    #include &quot;stdafx.h&quot;
+    #include &amp;lt;iostream&amp;gt;
+    using namespace std;
+    
+    int main(int argc, char* argv[])
+    {
+        // если передаем аргументы, то argc будет больше 1(в зависимости от кол-ва аргументов)
+        if (argc &gt; 1)
+        {
+            // вывод второй строки из массива указателей на строки(нумерация в строках начинается с 0 )
+            cout &lt;&lt; argv[1]&lt;&lt;endl;
+        }
+        else
+        {
+            cout &lt;&lt; &quot;Not arguments&quot; &lt;&lt; endl;
+        }
+        system(&quot;pause&quot;);
+        return 0;
+    }
+	</pre>
+
+	<p>После того как отладили программу, открываем командную строку Windows и перетаскиваем в окно командной строки экзэшник нашей программы, в командной строке отобразится полный путь к программе(но можно прописать путь к программе в ручную), после этого можно нажимать ENTER и программа  запустится.</p>
+	<p>Так как мы просто запустили программу и не передавали ей никаких аргументов, появилось сообщение Not arguments.</p>
+	<p>Аргументом является слово Open.</p>
+	<p>Передавать можно несколько параметров сразу, отделяя их между собой запятой.</p>
+	<p>Если необходимо передать параметр состоящий из нескольких слов, то их необходимо взять в двойные кавычки, и тогда эти слова будут считаться как один параметр.</p>
+
+	<p>А если убрать кавычки.</p>
+	<p>То увидим только слово It.</p>
+	<p>Если не планируется передавать какую-либо информацию при запуске программы, то можно удалить аргументы в функции main(), также можно менять имена данных аргументов.</p>
+	<p>Иногда встречается модификации параметров argc и argv[], но это все зависит от типа создаваемого приложения или от среды разработки.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="48.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="50.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/49.html", "Параметры функции main", "bm70"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm70", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm70") == 1) { document.getElementById("bma70").style.display = "block"; document.getElementById("bm70").style.display = "none"; } else { document.getElementById("bma70").style.display = "none"; document.getElementById("bm70").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Параметры функции main") == 1) { arrs.splice(i, 1); localStorage.setItem("bm70", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

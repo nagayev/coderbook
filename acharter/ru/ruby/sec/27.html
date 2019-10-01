@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1365" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1365" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        CSS инъекция
+    </h1>
+    
+    <p>CSS инъекция - это фактически JavaScript инъекция, поскольку некоторые браузеры (IE, некоторые версии Safari и другие) разрешают JavaScript в CSS.</p>
+    <p>Подумайте дважды о допустимости пользовательского CSS в вашем веб-приложении.</p>
+    <p>CSS инъекция лучше всего объясняется известным червем MySpace Samy.</p>
+    <p>Этот червь автоматически рассылал предложение дружбы с Samy (злоумышленником), просто посетив его профиль.</p>
+    <p>В течение нескольких часов он сделал свыше 1 миллиона запросов дружбы, но создал так много трафика, что MySpace ушел в оффлайн.</p>
+    <p>Ниже следует техническое объяснение червя.</p>
+    <p>MySpace блокировал много тегов, но позволял CSS.</p>
+    <p>Поэтому автор червя поместил JavaScript в CSS следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;div style=&quot;background:url(&apos;javascript:alert(1)&apos;)&quot;&gt;
+    </pre>
+
+    <p>Таким образом загрузка происходила через атрибут стиля.</p>
+    <p>Но в загрузке не допустимы кавычки, так как одинарные и двойные кавычки уже были использованы.</p>
+    <p>Но в JavaScript имеется удобная функция eval(), которая выполняет любую строку как код.</p>
+
+    <pre class="brush: csharp;">
+    &lt;div id=&quot;mycode&quot; expr=&quot;alert(&apos;hah!&apos;)&quot; style=&quot;background:url(&apos;javascript:eval(document.all.mycode.expr)&apos;)&quot;&gt;
+    </pre>
+
+    <p>Функция eval() - это кошмар для фильтров ввода на основе черного списка, так как она позволяет атрибуту стиля спрятать слово "innerHTML":</p>
+
+    <pre class="brush: csharp;">
+    alert(eval('document.body.inne' + 'rHTML'));
+    </pre>
+
+    <p>Следующей проблемой было то, что MySpace фильтровал слово "javascript", поэтому автор использовал "java&lt;NEWLINE&gt;script" чтобы обойти это:</p>
+
+    <pre class="brush: csharp;">
+    &lt;div id=&quot;mycode&quot; expr=&quot;alert(&apos;hah!&apos;)&quot; style=&quot;background:url(&apos;java&crarr;&#x2028;script:eval(document.all.mycode.expr)&apos;)&quot;&gt;
+    </pre>
+
+    <p>Следующей проблемой для автора червя были токены безопасности CSRF.</p>
+    <p>Без них он не смог бы послать запросы дружбы через POST.</p>
+    <p>Он обошел это, посылая GET на страницу перед добавлением пользователя и парся результат на токен CSRF.</p>
+    <p>В итоге он получил 4 KB червя, которого внедрил в свою страницу профиля.</p>
+    <p>Свойство moz-binding CSS предоставляет другой способ внедрить JavaScript в CSS в основанных на Gecko браузерах (Firefox, к примеру).</p>
+
+    <h2 id="title">
+        Контрмеры
+    </h2>
+
+    <p>Этот пример снова показывает, что фильтр на основе черного списка никогда не полон.</p>
+    <p>Однако, так как пользовательский CSS в веб-приложениях достаточно редкая особенность, трудно найти хороший фильтр CSS на основе белого списка.</p>
+    <p>Если хотите разрешить пользовательские цвета или картинки, разрешите выбрать их и создайте CSS в веб-приложении.</p>
+    <p>Используйте метод Rails sanitize() как модель для фильтра CSS на основе белого списка, если это действительно нужно.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="26.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="28.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/27.html", "CSS инъекция", "bm1365"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1365", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1365") == 1) { document.getElementById("bma1365").style.display = "block"; document.getElementById("bm1365").style.display = "none"; } else { document.getElementById("bma1365").style.display = "none"; document.getElementById("bm1365").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("CSS инъекция") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1365", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1266" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1266" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Авторизация
+	</h1>
+
+    <p>Авторизация — это процесс проверки того, что пользователь имеет достаточно прав, чтобы выполнить какие-то действия.</p>
+    <p>Yii предоставляет два метода авторизации: фильтры контроля доступа (ACF) и контроль доступа на основе ролей (RBAC).</p>
+
+    <h2 id="title">
+        Фильтры контроля доступа
+    </h2>
+
+    <p>Фильтры контроля доступа (ACF) являются простым методом, который лучше всего использовать в приложениях с простым контролем доступа.</p>
+    <p>Как видно из их названия, ACF — это фильтры, которые могут присоединяться к контроллеру или модулю как поведение.</p>
+    <p>ACF проверяет набор [[yii\filters\AccessControl::rules|правил доступа]], чтобы убедиться, что пользователь имеет доступ к запрошенному действию.</p>
+    <p>Код ниже показывает, как использовать ACF фильтр, реализованный в [[yii\filters\AccessControl]]:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\AccessControl;
+    
+    class SiteController extends Controller
+    {
+        public function behaviors()
+        {
+            return [
+                'access' =&gt; [
+                    'class' =&gt; AccessControl::className(),
+                    'only' =&gt; ['login', 'logout', 'signup'],
+                    'rules' =&gt; [
+                        [
+                            'allow' =&gt; true,
+                            'actions' =&gt; ['login', 'signup'],
+                            'roles' =&gt; ['?'],
+                        ],
+                        [
+                            'allow' =&gt; true,
+                            'actions' =&gt; ['logout'],
+                            'roles' =&gt; ['@'],
+                        ],
+                    ],
+                ],
+            ];
+        }
+        // ...
+    }
+    </pre>
+
+    <p>Код выше показывает ACF фильтр, связанный с контроллером site через поведение.</p>
+    <p>Это типичный способ использования фильтров действий.</p>
+    <p>Параметр only указывает, что фильтр ACF нужно применять только к действиям login, logout и signup.</p>
+    <p>Параметр rules задаёт [[yii\filters\AccessRule|правила доступа]], которые означают следующее:</p>
+
+    <ul>
+        <li>Разрешить всем гостям (ещё не прошедшим авторизацию) доступ к действиям login и signup. Опция roles содержит знак вопроса ?, это специальный токен обозначающий "гостя".</li>
+        <li>Разрешить аутентифицированным пользователям доступ к действию logout. Символ @ — это другой специальный токен, обозначающий аутентифицированного пользователя.</li>
+    </ul>
+
+    <p>Когда фильтр ACF проводит проверку авторизации, он проверяет правила по одному сверху вниз, пока не найдёт совпадение.</p>
+    <p>Значение опции allow выбранного правила указывает, авторизовывать пользователя или нет.</p>
+    <p>Если ни одно из правил не совпало, то пользователь считается НЕавторизованным, и фильтр ACF останавливает дальнейшее выполнение действия.</p>
+    <p>По умолчанию, когда у пользователя отсутствует доступ к текущему действию, ACF делает следующее:</p>
+
+    <ul>
+        <li>Если пользователь гость, вызывается [[yii\web\User::loginRequired()]], который перенаправляет браузер на страницу входа.</li>
+        <li>Если пользователь авторизован, генерируется исключение [[yii\web\ForbiddenHttpException]].</li>
+    </ul>
+
+    <p>Вы можете переопределить это поведение, настроив свойство [[yii\filters\AccessControl::denyCallback]]:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; AccessControl::className(),
+        'denyCallback' =&gt; function ($rule, $action) {
+            throw new \Exception('У вас нет доступа к этой странице');
+        }
+    ]
+    </pre>
+
+    <p>[[yii\filters\AccessRule|Правила доступа]] поддерживают набор свойств.</p>
+    <p>Ниже дано краткое описание поддерживаемых опций.</p>
+    <p>Вы также можете расширить [[yii\filters\AccessRule]], чтобы создать свой собственный класс правил доступа.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::allow|allow]]
+    </pre>
+
+    <p>задаёт какое это правило, "allow" или "deny".</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::actions|actions]]
+    </pre>
+
+    <p>задаёт действия, соответствующие этому правилу.</p>
+    <p>Значение должно быть массивом идентификаторов действий.</p>
+    <p>Сравнение — регистрозависимо.</p>
+    <p>Если свойство пустое или не задано, то правило применяется ко всем действиям.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::controllers|controllers]]
+    </pre>
+
+    <p>задаёт контроллеры, которым соответствует правило.</p>
+    <p>Значение должно быть массивом с идентификаторами контроллеров.</p>
+    <p>Сравнение регистрозависимо.</p>
+    <p>Если свойство пустое или не задано, то правило применяется ко всем контроллерам.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::roles|roles]]
+    </pre>
+
+    <p>задаёт роли пользователей, соответствующих этому правилу.</p>
+    <p>Распознаются две специальные роли, которые проверяются с помощью [[yii\web\User::isGuest]]:</p>
+
+    <ul>
+        <li>?: соответствует гостевому пользователю (не аутентифицирован),</li>
+        <li>@: соответствует аутентифицированному пользователю.</li>
+    </ul>
+
+    <p>Использование других имён ролей будет приводить к вызову метода [[yii\web\User::can()]], который требует включения RBAC (будет описано дальше).</p>
+    <p>Если свойство пустое или не задано, то правило применяется ко всем ролям.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::ips|ips]]
+    </pre>
+
+    <p>задаёт [[yii\web\Request::userIP|IP адреса пользователей]], для которых применяется это правило.</p>
+    <p>IP адрес может содержать * в конце, так чтобы он соответствовал IP адресу с таким же префиксом.</p>
+    <p>Для примера, '192.168.*' соответствует всем IP адресам в сегменте '192.168.'.</p>
+    <p>Если свойство пустое или не задано, то правило применяется ко всем IP адресам.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::verbs|verbs]]
+    </pre>
+
+    <p>задаёт http метод (например, GET, POST), соответствующий правилу.</p>
+    <p>Сравнение — регистронезависимо.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::matchCallback|matchCallback]]
+    </pre>
+
+    <p>задаёт PHP колбек, который вызывается для определения, что правило должно быть применено.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessRule::denyCallback|denyCallback]]
+    </pre>
+
+    <p>задаёт PHP колбек, который будет вызван, если доступ будет запрещён при вызове этого правила.</p>
+    <p>Ниже показан пример, показывающий использование опции matchCallback, которая позволяет писать произвольную логику проверки доступа:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\AccessControl;
+    
+    class SiteController extends Controller
+    {
+        public function behaviors()
+        {
+            return [
+                'access' =&gt; [
+                    'class' =&gt; AccessControl::className(),
+                    'only' =&gt; ['special-callback'],
+                    'rules' =&gt; [
+                        [
+                            'actions' =&gt; ['special-callback'],
+                            'allow' =&gt; true,
+                            'matchCallback' =&gt; function ($rule, $action) {
+                                return date('d-m') === '31-10';
+                            }
+                        ],
+                    ],
+                ],
+            ];
+        }
+    
+        // Колбек сработал! Эта страница может быть отображена только 31-ого октября
+        public function actionSpecialCallback()
+        {
+            return $this->render('happy-halloween');
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Контроль доступа на основе ролей (RBAC)
+    </h2>
+
+    <p>Управление доступом на основе ролей (RBAC) обеспечивает простой, но мощный централизованный контроль доступа.</p>
+    <p>Пожалуйста, обратитесь к Wikipedia для получения информации о сравнении RBAC с другими, более традиционными, системами контроля доступа.</p>
+    <p>Yii реализует общую иерархическую RBAC, следуя NIST RBAC model.</p>
+    <p>Обеспечивается функциональность RBAC через компонент приложения [[yii\rbac\ManagerInterface|authManager]].</p>
+    <p>Использование RBAC состоит из двух частей.</p>
+    <p>Первая часть — это создание RBAC данных авторизации, и вторая часть — это использование данных авторизации для проверки доступа в том месте, где это нужно.</p>
+    <p>Для облегчения последующего описания, мы сначала введём некоторые основные понятия RBAC.</p>
+
+    <h3 id="title">
+        Основные концепции
+    </h3>
+
+    <p>Роль представляет собой набор разрешений (permissions) (например, создание сообщения, обновление сообщения).</p>
+    <p>Роль может быть назначена на одного или многих пользователей.</p>
+    <p>Чтобы проверить, имеет ли пользователь указанные разрешения, мы должны проверить, назначена ли пользователю роль, которая содержит данное разрешение.</p>
+    <p>С каждой ролью или разрешением может быть связано правило (rule).</p>
+    <p>Правило представляет собой кусок кода, который будет выполняться в ходе проверки доступа для определения может ли быть применена соответствующая роль или разрешение к текущему пользователю.</p>
+    <p>Например, разрешение "обновление поста" может иметь правило, которое проверяет является ли текущий пользователь автором поста.</p>
+    <p>Во время проверки доступа, если пользователь не является автором поста, он/она будет считаться не имеющими разрешения "обновление поста".</p>
+    <p>И роли, и разрешения могут быть организованы в иерархию.</p>
+    <p>В частности, роль может содержать другие роли или разрешения; и разрешения могут содержать другие разрешения.</p>
+    <p>Yii реализует частично упорядоченную иерархию, которая включает в себя специальные деревья иерархии.</p>
+    <p>Роль может содержать разрешение, но обратное не верно.</p>
+
+    <h3 id="title">
+        Настройка RBAC Manager
+    </h3>
+
+    <p>Перед определением авторизационных данных и проверкой прав доступа, мы должны настроить компонент приложения [[yii\base\Application::authManager|authManager]].</p>
+    <p>Yii предоставляет два типа менеджеров авторизации: [[yii\rbac\PhpManager]] и [[yii\rbac\DbManager]].</p>
+    <p>Первый использует файл с PHP скриптом для хранения данных авторизации, второй сохраняет данные в базе данных.</p>
+    <p>Вы можете использовать первый, если ваше приложение не требует слишком динамичного управления ролями и разрешениями.</p>
+
+    <h4 id="title">
+        Настройка authManager с помощью PhpManager
+    </h4>
+
+    <p>Следующий код показывает как настроить в конфигурации приложения authManager с использованием класса [[yii\rbac\PhpManager]]:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            'authManager' =&gt; [
+                'class' =&gt; 'yii\rbac\PhpManager',
+            ],
+            // ...
+        ],
+    ];
+    </pre>
+
+    <p>Теперь authManager может быть доступен через \Yii::$app->authManager.</p>
+    <p><b>Замечание:</b> По умолчанию, [[yii\rbac\PhpManager]] сохраняет данные RBAC в файлах в директории @app/rbac/.</p>
+    <p>Убедитесь что данная директория и файлы в них доступны для записи Web серверу, если иерархия разрешений должна меняться онлайн.</p>
+
+    <h4 id="title">
+        Настройка authManager с помощью DbManager
+    </h4>
+
+    <p>Следующий код показывает как настроить в конфигурации приложения authManager с использованием класса [[yii\rbac\DbManager]]:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            'authManager' =&gt; [
+                'class' =&gt; 'yii\rbac\DbManager',
+            ],
+            // ...
+        ],
+    ];
+    </pre>
+
+    <p>DbManager использует четыре таблицы для хранения данных:</p>
+
+
+    <pre class="brush: csharp;">
+    [[yii\rbac\DbManager::$itemTable|itemTable]]
+    </pre>
+
+    <p>таблица для хранения авторизационных элементов.</p>
+    <p>По умолчанию "auth_item".</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rbac\DbManager::$itemChildTable|itemChildTable]]
+    </pre>
+
+    <p>таблица для хранения иерархии элементов.</p>
+    <p>По умолчанию "auth_item_child".</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rbac\DbManager::$assignmentTable|assignmentTable]]
+    </pre>
+
+    <p>таблица для хранения назначений элементов авторизации.</p>
+    <p>По умолчанию "auth_assignment".</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rbac\DbManager::$ruleTable|ruleTable]]
+    </pre>
+
+    <p>таблица для хранения правил. По умолчанию "auth_rule".</p>
+    <p>Прежде чем вы начнёте использовать этот менеджер, вам нужно создать таблицы в базе данных.</p>
+    <p>Чтобы сделать это, вы можете использовать миграцию хранящуюся в файле @yii/rbac/migrations:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate --migrationPath=@yii/rbac/migrations
+    </pre>
+
+    <p>Теперь authManager может быть доступен через \Yii::$app->authManager.</p>
+
+    <h3 id="title">
+        Создание данных авторизации
+    </h3>
+
+    <p>Для создания данных авторизации нужно выполнить следующие задачи:</p>
+
+    <ul>
+        <li>определение ролей и разрешений;</li>
+        <li>установка отношений между ролями и правами доступа;</li>
+        <li>определение правил;</li>
+        <li>связывание правил с ролями и разрешениями;</li>
+        <li>назначение ролей пользователям.</li>
+    </ul>
+
+    <p>В зависимости от требований к гибкости авторизации перечисленные задачи могут быть выполнены разными путями.</p>
+    <p>Если иерархия прав не меняется, и количество пользователей зафиксировано, вы можете создать консольную команду, которая будет единожды инициализировать данные через APIs, предоставляемое authManager:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    namespace app\commands;
+    
+    use Yii;
+    use yii\console\Controller;
+    
+    class RbacController extends Controller
+    {
+        public function actionInit()
+        {
+            $auth = Yii::$app->authManager;
+    
+            // добавляем разрешение "createPost"
+            $createPost = $auth->createPermission('createPost');
+            $createPost->description = 'Create a post';
+            $auth->add($createPost);
+    
+            // добавляем разрешение "updatePost"
+            $updatePost = $auth->createPermission('updatePost');
+            $updatePost->description = 'Update post';
+            $auth->add($updatePost);
+    
+            // добавляем роль "author" и даём роли разрешение "createPost"
+            $author = $auth->createRole('author');
+            $auth->add($author);
+            $auth->addChild($author, $createPost);
+    
+            // добавляем роль "admin" и даём роли разрешение "updatePost"
+            // а также все разрешения роли "author"
+            $admin = $auth->createRole('admin');
+            $auth->add($admin);
+            $auth->addChild($admin, $updatePost);
+            $auth->addChild($admin, $author);
+    
+            // Назначение ролей пользователям. 1 и 2 это IDs возвращаемые IdentityInterface::getId()
+            // обычно реализуемый в модели User.
+            $auth->assign($author, 2);
+            $auth->assign($admin, 1);
+        }
+    }
+    </pre>
+
+    <p><b>Примечание:</b> Если вы используете шаблон проекта advanced, RbacController необходимо создать в директории console/controllers и сменить пространство имён на console\controllers.</p>
+    <p>После выполнения команды yii rbac/init мы получим следующую иерархию:</p>
+
+    <img src="y17.png" id="image" />
+
+    <p>Автор может создавать пост, администратор может обновлять пост и делать всё, что может делать автор.</p>
+    <p>Если ваше приложение позволяет регистрировать пользователей, то вам необходимо сразу назначать роли этим новым пользователям.</p>
+    <p>Например, для того, чтобы все вошедшие пользователи могли стать авторами в расширенном шаблоне проекта, вы должны изменить frontend\models\SignupForm::signup() как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    public function signup()
+    {
+        if ($this->validate()) {
+            $user = new User();
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->save(false);
+    
+            // нужно добавить следующие три строки:
+            $auth = Yii::$app->authManager;
+            $authorRole = $auth->getRole('author');
+            $auth->assign($authorRole, $user->getId());
+    
+            return $user;
+        }
+    
+        return null;
+    }
+    </pre>
+
+    <p>Для приложений, требующих комплексного контроля доступа с динамически обновляемыми данными авторизации, существуют специальные пользовательские интерфейсы (так называемые админ-панели), которые могут быть разработаны с использованием API, предлагаемого authManager.</p>
+
+    <h3 id="title">
+        Использование правил
+    </h3>
+
+    <p>Как упомянуто выше, правила добавляют дополнительные ограничения на роли и разрешения.</p>
+    <p>Правила — это классы, расширяющие [[yii\rbac\Rule]].</p>
+    <p>Они должны реализовывать метод [[yii\rbac\Rule::execute()|execute()]].</p>
+    <p>В иерархии, созданной нами ранее, автор не может редактировать свой пост.</p>
+    <p>Давайте исправим это.</p>
+    <p>Сначала мы должны создать правило, проверяющее что пользователь является автором поста:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\rbac;
+    
+    use yii\rbac\Rule;
+    
+    /**
+     * Проверяем authorID на соответствие с пользователем, переданным через параметры
+     */
+    class AuthorRule extends Rule
+    {
+        public $name = 'isAuthor';
+    
+        /**
+         * @param string|int $user the user ID.
+         * @param Item $item the role or permission that this rule is associated width.
+         * @param array $params parameters passed to ManagerInterface::checkAccess().
+         * @return bool a value indicating whether the rule permits the role or permission it is associated with.
+         */
+        public function execute($user, $item, $params)
+        {
+            return isset($params['post']) ? $params['post']->createdBy == $user : false;
+        }
+    }
+    </pre>
+
+    <p>Правило выше проверяет, что post был создан $user.</p>
+    <p>Мы создадим специальное разрешение updateOwnPost в команде, которую мы использовали ранее:</p>
+
+    <pre class="brush: csharp;">
+    $auth = Yii::$app->authManager;
+    
+    // add the rule
+    $rule = new \app\rbac\AuthorRule;
+    $auth->add($rule);
+    
+    // добавляем разрешение "updateOwnPost" и привязываем к нему правило.
+    $updateOwnPost = $auth->createPermission('updateOwnPost');
+    $updateOwnPost->description = 'Update own post';
+    $updateOwnPost->ruleName = $rule->name;
+    $auth->add($updateOwnPost);
+    
+    // "updateOwnPost" будет использоваться из "updatePost"
+    $auth->addChild($updateOwnPost, $updatePost);
+    
+    // разрешаем "автору" обновлять его посты
+    $auth->addChild($author, $updateOwnPost);
+    </pre>
+
+    <p>Теперь мы имеем следующую иерархию:</p>
+
+    <img src="y18.png" id="image" />
+
+    <h3 id="title">
+        Проверка доступа
+    </h3>
+
+    <p>С готовыми авторизационными данными проверка доступа — это просто вызов метода [[yii\rbac\ManagerInterface::checkAccess()]].</p>
+    <p>Так как большинство проверок доступа относятся к текущему пользователю, для удобства Yii предоставляет сокращённый метод [[yii\web\User::can()]], который можно использовать как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    if (\Yii::$app->user->can('createPost')) {
+        // create post
+    }
+    </pre>
+
+    <p>Если текущий пользователь Jane с ID=1, мы начнём с createPost и попробуем добраться до Jane:</p>
+
+    <img src="y19.png" id="image" />
+
+    <p>Для того чтобы проверить, может ли пользователь обновить пост, нам надо передать дополнительный параметр, необходимый для правила AuthorRule, описанного ранее:</p>
+
+    <pre class="brush: csharp;">
+    if (\Yii::$app->user->can('updatePost', ['post' =&gt; $post])) {
+        // update post
+    }
+    </pre>
+
+    <p>Вот что происходит если текущим пользователем является John:</p>
+
+    <img src="y20.png" id="image" />
+
+    <p>Мы начинаем с updatePost и переходим к updateOwnPost.</p>
+    <p>Для того чтобы это произошло, правило AuthorRule должно вернуть true при вызове метода execute.</p>
+    <p>Метод получает $params, переданный при вызове метода can, значение которого равно ['post' =&gt; $post].</p>
+    <p>Если всё правильно, мы увидим, что author привязан к John.</p>
+    <p>В случае Jane это немного проще, потому что она admin:</p>
+
+    <img src="y21.png" id="image" />
+
+    <p>Есть несколько способов реализовать авторизацию в контроллере.</p>
+    <p>Если вам необходимы отдельные права на добавление и удаление, то проверку стоит делать в каждом действии.</p>
+    <p>Вы можете либо использовать условие выше в каждом методе действия, либо использовать [[yii\filters\AccessControl]]:</p>
+
+    <pre class="brush: csharp;">
+    public function behaviors()
+    {
+        return [
+            'access' =&gt; [
+                'class' =&gt; AccessControl::className(),
+                'rules' =&gt; [
+                    [
+                        'allow' =&gt; true,
+                        'actions' =&gt; ['index'],
+                        'roles' =&gt; ['managePost'],
+                    ],
+                    [
+                        'allow' =&gt; true,
+                        'actions' =&gt; ['view'],
+                        'roles' =&gt; ['viewPost'],
+                    ],
+                    [
+                        'allow' =&gt; true,
+                        'actions' =&gt; ['create'],
+                        'roles' =&gt; ['createPost'],
+                    ],
+                    [
+                        'allow' =&gt; true,
+                        'actions' =&gt; ['update'],
+                        'roles' =&gt; ['updatePost'],
+                    ],
+                    [
+                        'allow' =&gt; true,
+                        'actions' =&gt; ['delete'],
+                        'roles' =&gt; ['deletePost'],
+                    ],
+                ],
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Если права на все CRUD операции выдаются вместе, то лучшее решение в этом случае — завести одно разрешение вроде managePost и проверять его в [[yii\web\Controller::beforeAction()]].</p>
+
+    <h3 id="title">
+        Использование роли по умолчанию
+    </h3>
+
+    <p>Роль по умолчанию — это роль, которая неявно присваивается всем пользователям.</p>
+    <p>Вызов метода [[yii\rbac\ManagerInterface::assign()]] не требуется, и авторизационные данные не содержат информации о назначении.</p>
+    <p>Роль по умолчанию обычно связывают с правилом, определяющим к какой роли принадлежит каждый пользователь.</p>
+    <p>Роли по умолчанию обычно используются в приложениях, которые уже имеют какое-то описание ролей.</p>
+    <p>Для примера, приложение может иметь столбец "group" в таблице пользователей, и каждый пользователь принадлежит к какой-то группе.</p>
+    <p>Если каждая группа может быть сопоставлена роли в модели RBAC, вы можете использовать роль по умолчанию для автоматического назначения каждому пользователю роли RBAC.</p>
+    <p>Давайте используем пример, чтобы понять как это можно сделать.</p>
+    <p>Предположим что в таблице пользователей у вас есть столбец group, в котором значение 1 представляет группу "администратор", а 2 — группу "автор".</p>
+    <p>Вы планируете иметь две RBAC роли: admin и author, представляющие разрешения для двух соответствующих групп.</p>
+    <p>Вы можете настроить данные роли как показано ниже.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\rbac;
+    
+    use Yii;
+    use yii\rbac\Rule;
+    
+    /**
+     * Checks if user group matches
+     */
+    class UserGroupRule extends Rule
+    {
+        public $name = 'userGroup';
+    
+        public function execute($user, $item, $params)
+        {
+            if (!Yii::$app->user->isGuest) {
+                $group = Yii::$app->user->identity->group;
+                if ($item->name === 'admin') {
+                    return $group == 1;
+                } elseif ($item->name === 'author') {
+                    return $group == 1 || $group == 2;
+                }
+            }
+            return false;
+        }
+    }
+    
+    $auth = Yii::$app->authManager;
+    
+    $rule = new \app\rbac\UserGroupRule;
+    $auth->add($rule);
+    
+    $author = $auth->createRole('author');
+    $author->ruleName = $rule->name;
+    $auth->add($author);
+    // ... add permissions as children of $author ...
+    
+    $admin = $auth->createRole('admin');
+    $admin->ruleName = $rule->name;
+    $auth->add($admin);
+    $auth->addChild($admin, $author);
+    // ... add permissions as children of $admin ...
+    </pre>
+
+    <p>Обратите внимание, так как "author" добавлен как дочерняя роль к "admin", следовательно в реализации метода execute() класса правила вы должны учитывать эту иерархию.</p>
+    <p>Именно поэтому для роли "author" метод execute() вернёт истину, если пользователь принадлежит к группам 1 или 2 (это означает, что пользователь находится в группе администраторов или авторов)</p>
+    <p>Далее настроим authManager с помощью перечисления ролей в свойстве [[yii\rbac\BaseManager::$defaultRoles]]:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            'authManager' =&gt; [
+                'class' =&gt; 'yii\rbac\PhpManager',
+                'defaultRoles' =&gt; ['admin', 'author'],
+            ],
+            // ...
+        ],
+    ];
+    </pre>
+
+    <p>Теперь, если вы выполните проверку доступа, для обоих ролей admin и author будет выполнена проверка правила, асоциированного с ними.</p>
+    <p>Если правило вернёт истину, это будет означать, что роль применяется к текущему пользователю.</p>
+    <p>На основании правила, реализованного выше: если пользователь входит в группу 1, пользователю будет назначена роль admin; и если значение group равно 2, будет применена роль author.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="59.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="61.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/60.html", "Yii2: Авторизация", "bm1266"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1266", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1266") == 1) { document.getElementById("bma1266").style.display = "block"; document.getElementById("bm1266").style.display = "none"; } else { document.getElementById("bma1266").style.display = "none"; document.getElementById("bm1266").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Авторизация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1266", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1063" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1063" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Создание объединения
+	</h1>
+
+	<p>Создание объединения — очень простая процедура.</p>
+	<p>Нужно указать все таблицы, которые должны быть включены в объединение, а также "объяснить" СУБД, как они должны быть соотнесены между собой.</p>
+	<p>Посмотрите на следующий пример.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_name, prod_name, prod_price
+	FROM Vendors, Products
+	WHERE Vendors.vend_id = Products.vend_id;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_name prod_name prod_price
+	Doll House Inc. Fish bean bag toy- 3.4900
+	Doll House Inc. Bird bean bag toy 3.4900
+	Doll House Inc. Rabbit bean bag toy 3.4900
+	Bears R Us 8 inch teddy bear 5.9900
+	Bears R Us 12 inch teddy bear 8.9900
+	Bears R Us 18 inch teddy bear 11.9900
+	Doll House Inc. Raggedy Ann 4.9900
+	Fuji and Games King doll 9.4900
+	Fun and Games Queen doll 9.4900
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>Рассмотрим представленный выше код.</p>
+	<p>Оператор SELECT начинается точно так же, как все операторы, которые мы до сих пор рассматривали, — с указания столбцов, которые должны быть выбраны.</p>
+	<p>Существенная разница состоит в том, что два из указанных столбцов (prod_name и prod_price) находятся в одной таблице, а третий (vend_name) — в другой.</p>
+	<p>Теперь посмотрим на предложение FROM.</p>
+	<p>В отличие от предыдущих операторов SELECT, этот содержит две таблицы, указанные в предложении FROM, Vendors и Products.</p>
+	<p>Это имена двух таблиц, которые должны быть объединены в данном операторе SELECT.</p>
+	<p>Таблицы корректно объединяются в предложении WHERE, которое указывает СУБД связывать идентификатор поставщика vend_id из таблицы Vendors со значением vend_id таблицы Products.</p>
+	<p>Обратите внимание на то, что эти столбцы указаны как Vendors.vend_id и Products.vend_id.</p>
+	<p>Такие полностью определенные имена необходимы здесь потому, что, если вы укажете только vend_id, СУБД не сможет понять, на какие именно столбцы vend_id вы ссылаетесь.</p>
+	<p>Их два, по одному в каждой таблице.</p>
+	<p>Как можно видеть из представленного результата, один оператор SELECT возвращает данные из двух разных таблиц.</p>
+	<p><b>Полностью определенные имена столбцов</b></p>
+	<p>Используйте полностью определенные имена столбцов (таблицы и столбцы разделяются точкой) всякий раз, когда может возникнуть неоднозначность относительно того, на какой столбец вы ссылаетесь.</p>
+	<p>В большинстве СУБД будет возвращено сообщение об ошибке, если вы укажете неоднозначное имя столбца, не определив его полностью путем указания имени таблицы</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="48.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="50.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/49.html", "Создание объединения", "bm1063"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1063", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1063") == 1) { document.getElementById("bma1063").style.display = "block"; document.getElementById("bm1063").style.display = "none"; } else { document.getElementById("bma1063").style.display = "none"; document.getElementById("bm1063").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание объединения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1063", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1054" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1054" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Фильтрующие группы
+	</h1>
+
+	<p>В дополнение к способности группировать данные с помощью предложения GROUP BY, SQL также позволяет осуществлять фильтрацию – указывать, какие группы должны быть включены в результат, а какие исключены из него.</p>
+	<p>Например, вам может понадобиться список клиентов, которые сделали хотя бы два заказа.</p>
+	<p>Чтобы получить такие данные, необходим фильтр, относящийся к целой группе, а не к отдельным строкам.</p>
+	<p>Вы уже знаете, как действует предложение WHERE (его мы рассматривали ранее, в уроке 4, "Фильтрация данных").</p>
+	<p>Однако в данном случае предложение WHERE использовать нельзя, поскольку фильтры WHERE указывают строки, а не группы.</p>
+	<p>Собственно говоря, WHERE "не знает", что такое группы.</p>
+	<p>Но тогда что можно использовать вместо предложения WHERE?</p>
+	<p>SQL предлагает другое предложение, подходящее для этих целей: предложение HAVING.</p>
+	<p>Предложение HAVING очень похоже на предложение WHERE.</p>
+	<p>И действительно, все типы выражений в предложении WHERE, с которыми вы уже знакомы, могут быть также использованы с предложением HAVING.</p>
+	<p>Единственная разница состоит в том, что WHERE фильтрует строки, a HAVING – группы.</p>
+	<p><b>Предложение HAVING МОЖНО использовать со всеми операторами</b></p>
+	<p>Из уроков 4 и 5 вы знаете, как можно применять предложение WHERE (включая использование метасимволов и логических операций).</p>
+	<p>Все эти методы и опции могут быть применены и по отношению к HAVING.</p>
+	<p>Синтаксис такой же, отличаются только ключевые слова.</p>
+	<p>Вспомним, как фильтруются строки.</p>
+	<p>Посмотрите на следующий пример.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cusC_id, COUNT)*) AS orders
+	FROM Orders
+	GROUP ВУ cust_id
+	HAVING COUNT(*) >= 2;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id orders
+	1000000001 2
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Первые три строки этого оператора SELECT аналогичны оператору, рассмотренному ранее.</p>
+	<p>Последняя строка добавляет к нему предложение HAVING, которое фильтрует эти группы с помощью функции COUNT (*) &gt;= 2 – два или больше заказов.</p>
+	<p>Как видите, предложение WHERE здесь не работает, поскольку фильтрация основана на итоговом значении группы, а не на значениях указанных строк.</p>
+	<p><b>Разница между HAVING И WHERE</b></p>
+	<p>Вот как это можно рассматривать: WHERE фильтрует до того, как данные будут сгруппированы, a HAVING фильтрует после того, как данные были сгруппированы.</p>
+	<p>Это– важное различие!</p>
+	<p>Строки, которые были выброшены по предложению WHERE, не будут включены в группу, иначе это могло бы изменить вычисляемые значения, которые, в свою очередь, могли бы повлиять на фильтрацию групп в предложении HAVING.</p>
+	<p>А теперь подумаем: возникает ли необходимость в использовании как предложения WHERE, так и предложения HAVING в одном операторе?</p>
+	<p>Конечно, возникает.</p>
+	<p>Предположим, вы хотите усовершенствовать фильтр предыдущего оператора таким образом, чтобы он возвращал имена всех клиентов, которые сделали два или больше заказов за последние 12 месяцев.</p>
+	<p>Чтобы добиться этого, вы можете добавить предложение WHERE, которое берет во внимание только заказы, сделанные в последние 12 месяцев.</p>
+	<p>Затем вы добавляете предложение HAVING, чтобы отфильтровать только те группы, в которых имеются две или больше строк.</p>
+	<p>Чтобы лучше разобраться в этом, рассмотрим следующий пример, где перечисляются все поставщики, которые предлагают несколько продуктов по цене 4 и более за единицу:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_id, COUNT(*) AS num_prods
+	FROM Products
+	WHERE prod_price >= 4
+	GROUP BY vend_id
+	HAVING COUNT(*) >= 2;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_id num_prods
+	BRS01 3
+	FNG01 2
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>Этот пример нуждается в пояснении.</p>
+	<p>Первая строка представляет собой основной оператор SELECT, использующий статистическую функцию, — точно так же, как в пре- дыдущих примерах.</p>
+	<p>Предложение WHERE фильтрует все строки со значениями в столбце prod_price не менее 4.</p>
+	<p>Затем данные группируются по столбцу vend_id, а потом предложение HAVING фильтрует только группы, содержащие не менее двух членов.</p>
+	<p>При отсутствии предложения WHERE была бы получена лишняя строка (поставщик, пред- лагающий 4 продукта, каждый из которых дешевле 4), как показано ниже.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_id, COUNT(*) AS num_prods
+	FROM Products
+	GROUP BY vend_id
+	HAVING COUNT(*) >= 2;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_id num_prods
+	BRS01 3
+	DLL01 4
+	FNG01 2
+	</pre>
+
+	<p><b>Использование предложений HAVING и WHERE</b></p>
+	<p>Предложение HAVING так похоже на предложение WHERE, что в большинстве СУБД оно трактуется точно так же, если только не указано никакое предложение GROUP BY.</p>
+	<p>И все же вы должны знать, что между ними существует разница.</p>
+	<p>Используйте предложение HAVING только вместе с предложениями GROUP BY, а предложение WHERE — для стандартной фильтрации на уровне строк.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="39.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="41.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/40.html", "Фильтрующие группы", "bm1054"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1054", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1054") == 1) { document.getElementById("bma1054").style.display = "block"; document.getElementById("bm1054").style.display = "none"; } else { document.getElementById("bma1054").style.display = "none"; document.getElementById("bm1054").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Фильтрующие группы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1054", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

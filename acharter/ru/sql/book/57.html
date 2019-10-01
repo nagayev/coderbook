@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1071" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1071" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Использование объединений со статистическими функциями
+	</h1>
+
+	<p>Как вы узнали из урока "Суммирование данных", статистические функции применяют для получения статистических сведений о данных.</p>
+	<p>Хотя во всех до сих пор рас- смотренных примерах посредством статистических функций получались данные только для одной таблицы, эти функции можно использовать также по отношению к объедине- ниям.</p>
+	<p>Рассмотрим пример.</p>
+	<p>Допустим, вы хотите выбрать список всех клиентов и число сделанных ими заказов.</p>
+	<p>Чтобы получить искомое, в следующем коде применяется функция COUNT().</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT Customers.cust_id, COUNT(Orders.order_num) AS
+	num_ord
+	FROM Customers INNER JOIN Orders
+	ON Customers.cust_id = Orders.cust_id
+	GROUP BY Customers.cust_id;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id num_ord
+	1000000001 2
+	1000000003 1
+	1000000004 1
+	1000000005 1
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>В этом операторе SELECT используются ключевые слова INNER JOIN для связи таблиц Customers и Orders между собой.</p>
+	<p>Предложение GROUP BY служит для получения ито- говых данных по клиентам, и, таким образом, обращение к функции COUNT (Orders.order_num) позволяет подсчитать количество заказов каждого клиента и возвратить результат в виде столбца num_ord.</p>
+	<p>Статистические функции можно использовать с объединениями других типов:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT Customers.cusc_id, COUNT(Orders.order_num) AS
+	num_ord
+	FROM Customers LEFT OUTER JOIN Orders
+	ON Customers.cust_id = Orders.cust_id
+	GROUP BY Customers.cust_id;
+	</pre>
+
+	<p><b>Никаких AS в Oracle</b></p>
+	<p>Еще раз напоминаем пользователям Oracle о необходимости удаления as из кода запроса.</p>
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id num ord
+	1000000001 2
+	1000000002 0
+	1000000003 1
+	1000000004 1
+	1000000005 1
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>В этом примере используется левое внешнее объединение для включения в результат всех клиентов, даже тех, которые не сделали ни одного заказа.</p>
+	<p>Как видите, клиент 1000000002 также включен в результат, хотя на данный момент у него было 0 заказов.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="56.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="58.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/57.html", "Объединения с функциями", "bm1071"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1071", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1071") == 1) { document.getElementById("bma1071").style.display = "block"; document.getElementById("bm1071").style.display = "none"; } else { document.getElementById("bma1071").style.display = "none"; document.getElementById("bm1071").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объединения с функциями") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1071", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

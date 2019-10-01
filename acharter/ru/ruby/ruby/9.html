@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1381" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1381" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Массивы и итераторы
+    </h1>
+    
+    <p>Давайте напишем программу, которая просит нас ввести сколько угодно слов (по одному слову в строке до тех пор, пока мы не нажмём Enter на пустой строке) и которая затем повторяет нам эти слова в алфавитном порядке.</p>
+    <p>Идёт?</p>
+    <p>Так... сначала мы — ээ... ну... хммм... Хорошо, мы могли бы — ээ... ну...</p>
+    <p>Вы знаете, я не думаю, что мы сможем это сделать.</p>
+    <p>Нам нужен способ хранить неизвестное количество слов и как-то держать их все вместе, чтобы они не смешивались с другими переменными.</p>
+    <p>Нам нужно поместить их все в какое-то подобие списка.</p>
+    <p>Нам нужны массивы.</p>
+    <p><b>Массив — это просто список</b> в вашем компьютере.</p>
+    <p>Каждая ячейка в списке ведёт себя как переменная: вы можете посмотреть, на какой объект указывает определённая ячейка, и вы можете сделать так, чтобы она указывала на другой объект.</p>
+    <p>Давайте посмотрим на некоторые массивы:</p>
+
+    <pre class="brush: csharp;">
+    []                             #  пустой массив           
+    [5]                            #  массив из одного числа
+    ['Привет', 'До свидания']      #  массив из 2-х строк
+    
+    flavor = 'ванильный'           #  Это не массив, конечно...
+    [89.9, flavor, [true, false]]  #  ...но это — массив.
+    </pre>
+
+    <p>Итак, сначала у нас есть пустой массив, затем массив, содержащий единственное число, затем массив, содержащий две строки.</p>
+    <p>Потом у нас имеется простое присваивание; затем — массив, содержащий три объекта, последний из которых — это массив [true, false].</p>
+    <p>Помните, что переменные — это не объекты, поэтому наш последний массив в действительности указывает на число с плавающей точкой, на строку и на массив.</p>
+    <p>Даже если бы мы сделали, чтобы переменная flavor указывала на что-нибудь другое, это не изменило бы этот массив.</p>
+    <p>Чтобы помочь нам с поиском конкретных объектов в массиве, каждой ячейке даётся номер — индекс.</p>
+    <p>Программисты (и, по случайному совпадению, большинство математиков) начинают считать их с нуля, так что первая ячейка в массиве — это ячейка номер ноль.</p>
+    <p>Вот как мы должны адресоваться к объектам в массиве:</p>
+
+    <pre class="brush: csharp;">
+    names = ['Ада', 'Белль', 'Крис']
+
+    puts names
+    puts names[0]
+    puts names[1]
+    puts names[2]
+    puts names[3]  #  Это вне диапазона массива.
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    Ада
+    Белль
+    Крис
+    Ада
+    Белль
+    Крис
+    nil
+    </pre>
+
+    <p>Итак, мы видим, что puts names выводит каждое имя в массиве names.</p>
+    <p>Затем мы используем puts names[0], чтобы напечатать "первое" имя в массиве и puts names[1], чтобы напечатать "второе"...</p>
+    <p>Уверен, что это кажется запутанным, но вы непременно привыкните к этому.</p>
+    <p>Вы просто должны действительно начать думать, что отсчёт начинается с нуля, и перестать использовать такие слова, как "первый" и "второй".</p>
+    <p>Если вы идёте на обед из пяти блюд, не говорите о "первом" блюде; говорите о блюде ноль (а у себя в голове думайте о course[0]).</p>
+    <p>На правой руке у вас пять пальцев с номерами 0, 1, 2, 3 и 4.</p>
+    <p>Моя жена и я умеем жонглировать.</p>
+    <p>Когда мы жонглируем шестью булавами, мы жонглируем булавами 0-5.</p>
+    <p>Надеемся, что через несколько месяцев мы сможем жонглировать булавой номер 6 (и таким образом будем жонглировать между собой семью булавами).</p>
+    <p>Вы поймёте, что привыкли к этому, когда начнёте использовать слово "нулевой". :-)</p>
+    <p>Да, в самом деле есть такое слово: спросите у любого программиста или математика.</p>
+    <p>Наконец, мы попытались выполнить puts names[3], просто чтобы посмотреть, что же получится.</p>
+    <p>Вы ожидали ошибку?</p>
+    <p>Иногда, когда вы задаёте вопрос, ваш вопрос не имеет смысла (по крайней мере для вашего компьютера); и тогда вам выдаётся ошибка.</p>
+    <p>Иногда, однако, вы можете задать вопрос и ответ на него будет: ничего.</p>
+    <p>Что в ячейке номер три?</p>
+    <p>Ничего.</p>
+    <p>Что в names[3]?</p>
+    <p><b>nil</b>: таким способом Ruby говорит "ничего".</p>
+    <p><b>nil — это особенный объект</b>, который обычно означает "никакой из объектов".</p>
+    <p>Если вся эта смешная нумерация ячеек массивов начинает вас "доставать", не бойтесь!</p>
+    <p>Часто мы сможем обойтись совершенно без неё, используя различные методы массивов, как вот этот:</p>
+
+    <h2 id="title">
+        Метод each
+    </h2>
+    
+    <p><b>each</b> позволяет нам делать что-нибудь (всё, что мы хотим) с каждым объектом, на который указывает массив.</p>
+    <p>Так, если мы хотим сказать что-либо приятное о языке в приведённом ниже массиве, мы сделаем так:</p>
+
+    <pre class="brush: csharp;">
+    languages = ['английский', 'немецкий', 'Ruby']
+    
+    languages.each do |lang|
+      puts 'Мне нравится ' + lang + '!'
+      puts 'А вам?'
+    end
+    
+    puts 'А теперь давайте послушаем мнение о C++!'
+    puts '...'
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    Мне нравится английский!
+    А вам?
+    Мне нравится немецкий!
+    А вам?
+    Мне нравится Ruby!
+    А вам?
+    А теперь давайте послушаем мнение о C++!
+    ...
+    </pre>
+
+    <p>Так что же сейчас произошло?</p>
+    <p>Вот, мы смогли обойти каждый из объектов в массиве совсем без использования номеров, и это определённо приятно.</p>
+    <p>В переводе на русский, приведённую выше программу можно прочитать примерно так: для каждого (each) объекта в languages, пусть переменная lang указывает на этот объект и затем выполнится (do) всё, что я скажу вам, пока вы не дойдёте до конца (end).</p>
+    <p>Чтобы вы знали: C++ это ещё один язык программирования.</p>
+    <p>Его гораздо труднее изучить, чем Ruby; обычно, программа на C++ будет во много раз длиннее, чем программа на Ruby, которая делает то же самое.</p>
+    <p>Вы, должно быть, думаете: "Это очень похоже на циклы, о которых мы узнали до этого".</p>
+    <p>Ну да, похоже.</p>
+    <p>Одно важное отличие заключается в том, что метод each — это просто-напросто метод.</p>
+    <p><b>while</b> и <b>end</b> (также как do, if, else и все другие синие слова) это не методы.</p>
+    <p>Они являются основополагающей частью языка Ruby, как и операция = или скобки; они похожи на знаки пунктуации в английском языке.</p>
+    <p>Но не each; each — это просто ещё один метод массива.</p>
+    <p>Такие методы, как each, которые "ведут себя как" циклы, часто называют итераторами.</p>
+    <p>Нужно отметить ещё одну вещь об итераторах: за ними всегда следует <b>do...end</b>.</p>
+    <p>Около while и if никогда не бывает do; мы используем do только с итераторами.</p>
+    <p>А вот другой маленький симпатичный  итератор, но это не метод массива...</p>
+    <p>Это метод целого числа!</p>
+
+    <pre class="brush: csharp;">
+    3.times do
+      puts 'Гип-гип-ура!'
+    end
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    Гип-гип-ура!
+    Гип-гип-ура!
+    Гип-гип-ура!
+    </pre>
+
+    <h2 id="title">
+        Другие методы массивов
+    </h2>
+    
+    <p>Итак, мы изучили each, но у массивов есть много других методов... почти столько же много, как методов у строк!</p>
+    <p>В сущности, некоторые из них (такие, как length, reverse, + и *) работают так же, как и со строками, только они оперируют с ячейками массива, а не с буквами в строке.</p>
+    <p>Другие, например, last и join, характерны только для массивов.</p>
+    <p>Третьи, такие как push и pop, фактически изменяют массив.</p>
+    <p>И так же, как с методами строк, вам не нужно помнить их все, покуда вы помните, где можно узнать о них (прямо здесь).</p>
+    <p>Сначала давайте взглянем на to_s и join.</p>
+    <p>Метод join работает во многом схоже с методом to_s, за исключением того, что он добавляет строку между объектами массива.</p>
+    <p>Давайте посмотрим:</p>
+
+    <pre class="brush: csharp;">
+    foods = ['артишок', 'бриошь', 'карамель']
+    
+    puts foods
+    puts
+    puts foods.to_s
+    puts
+    puts foods.join(', ')
+    puts
+    puts foods.join('  :)  ') + '  8)'
+    
+    200.times do
+      puts []
+    end
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    артишок
+    бриошь
+    карамель
+    
+    артишокбриошькарамель
+    
+    артишок, бриошь, карамель
+    
+    артишок  :)  бриошь  :)  карамель  8)
+    </pre>
+
+    <p>Как видите, метод puts обращается с массивами не так, как с другими объектами: он просто вызывает puts для каждого из объектов в массиве.</p>
+    <p>Вот почему вывод через puts пустого массива 200 раз ничего не делает: массив ни на что не указывает, так что нечего выводить с помощью puts.</p>
+    <p>Ничего не делать 200 раз — значит всё равно ничего не делать.</p>
+    <p>Попробуйте вывести методом puts массив, содержащий другие массивы: он делает то, что вы ожидали?</p>
+    <p>Кроме того, вы заметили, что я не употреблял в puts пустые строки, когда хотел вывести чистую строку?</p>
+    <p>Получилось то же самое.</p>
+    <p>Теперь давайте посмотрим на push, pop и last.</p>
+    <p>Методы push и pop в каком-то смысле противоположны, как <b>+</b> и <b>-</b>.</p>
+    <p><b>push</b> добавляет объект в конец вашего массива, а pop удаляет последний объект из массива (и сообщает вам, что это был за объект).</p>
+    <p><b>last</b> похож на pop в том, что он сообщает вам, что находится в конце массива, только он оставляет массив нетронутым.</p>
+    <p>Повторю снова: push и pop действительно изменяют массив:</p>
+
+    <pre class="brush: csharp;">
+    favorites = []
+    favorites.push 'капли дождя на розах'
+    favorites.push 'капли виски на котах'
+    
+    puts favorites[0]
+    puts favorites.last
+    puts favorites.length
+    
+    puts favorites.pop
+    puts favorites
+    puts favorites.length
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    капли дождя на розах
+    капли виски на котах
+    2
+    капли виски на котах
+    капли дождя на розах
+    1
+    </pre>
+
+    <h2 id="title">
+        Попробуйте ещё кое-что
+    </h2>
+
+    <ul>
+        <li>
+        Напишите программу, о которой мы говорили в самом начале этой главы.
+        <b>Подсказка:</b> Есть прекрасный метод массива, который вернёт вам отсортированную версию массива: sort. Используйте его!
+        </li>
+        <li>Попробуйте написать указанную программу без использования метода sort. Большая часть программирования - это преодоление сложностей, так что практикуйтесь чаще, насколько это возможно!</li>
+        <li>Перепишите вашу  программу "Содержание" (из главы о методах). Начните программу с массива, содержащего всю информацию для вашей таблицы с содержанием (названия глав, номера страниц и т. д.). Затем напечатайте информацию из массива в виде красиво отформатированного содержания.</li>
+    </ul>
+
+    <p>До сих пор мы изучили довольно много разных методов.</p>
+    <p>А сейчас пора научиться, как сделать свои собственные.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="8.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="10.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/ruby/9.html", "Массивы и итераторы", "bm1381"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1381", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1381") == 1) { document.getElementById("bma1381").style.display = "block"; document.getElementById("bm1381").style.display = "none"; } else { document.getElementById("bma1381").style.display = "none"; document.getElementById("bm1381").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Массивы и итераторы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1381", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

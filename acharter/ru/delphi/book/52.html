@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma438" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm438" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Диалоги (ч. 2)
+	</h1>
+
+	<p>Дальше – сложней.</p>
+	<p>Открыть файл просто, но вот при сохранении нам придется учитывать много вещей:</p>
+	<p>1) <b>Пользователь может сохранять новый файл, который он только что набрал.</b></p>
+	<p>То есть, переменная myfile пуста и не содержит имя файла.</p>
+	<p>В таком случае придется выводить диалог SaveDialog1, чтобы пользователь указал имя файла.</p>
+	<p>Когда он укажет имя, присвоить его переменной myfile и сохранить Memo в указанный файл.</p>
+	<p>2) <b>Пользователь может сохранять новый файл, как в предыдущем примере.</b></p>
+	<p>Мы выведем диалог, но он его не завершит – нажмет кнопку "отмена" или красный крестик в верхней части окна справа.</p>
+	<p>Значит, сохранять ничего не нужно, мы ведь не знаем, куда сохранять!</p>
+	<p>Но придется его предупредить, что файл не сохранен!</p>
+	<p>3) <b>Пользователь может сначала открыть файл и изменить его, а потом сохранять.</b></p>
+	<p>В переменной myfile это имя уже есть, диалог не нужен, просто перезаписываем этот файл.</p>
+	<p>4) <b>Пользователь может сохранять файл, текст которого не изменялся.</b></p>
+	<p>В таком случае, просто игнорируем его команду!</p>
+	<p><b>Видите?</b></p>
+	<p>Пользоваться диалогами несложно, но как много приходится учитывать во время проверок действий пользователя!</p>
+	<p>Нужно учитывать каждую мелочь, иначе вам скажут, что ваша программа полна "багов" - мелких неисправностей.</p>
+	<p>Итак, пишем процедуру сохранения, сразу под процедурой открытия:</p>
+
+	<pre class="brush: csharp;">
+{Процедура сохранения файла}
+procedure Sohranyaem;
+begin
+  with fMain do begin
+    //если изменений не было, выходим из процедуры,
+    //ничего не делая:
+    if not izmen then Exit;
+
+    //Если файл уже открывался, и в переменной myfile
+    //есть его адрес и имя, просто перезаписываем этот файл:
+    if myfile &lt;&gt; '' then begin
+      Memo1.Lines.SaveToFile(myfile);
+      izmen := False;
+      Exit;  //выходим после сохранения
+    end; //if
+
+    {Файл новый, переменная myfile еще пуста. Дальше есть два варианта:
+    пользователь выберет или укажет файл в диалоге, или не сделает этого}
+
+    //если выбрал файл:
+    if SaveDialog1.Execute then begin
+      //прописываем адрес и имя файла в переменную:
+      myfile := SaveDialog1.FileName;
+      //если нет расширения *.txt то добавляем его:
+      if copy(myfile, length(myfile)-3, 4) &lt;&gt; '.txt' then
+        myfile := myfile + '.txt';
+      //сохраняем Memo в указанный файл:
+      Memo1.Lines.SaveToFile(myfile);
+      //файл сохранен, изменений нет:
+      izmen := False;
+    end //if
+    //если не выбрал файл:
+    else ShowMessage('Вы не указали имя файла, файл не сохранен!');
+
+  end; //with
+end;
+	</pre>
+
+	<p>Приведенный выше код имеет достаточно подробные комментарии, так что все должно быть понятно.</p>
+	<p>Новое, что вы могли увидеть – директива Exit.</p>
+	<p>Эта директива досрочно завершает работу процедуры (или функции).</p>
+	<p>То есть, если выполнено условие и отработан нужный код, Exit заставляет процедуру завершить работу.</p>
+	<p>Остальной код, который есть в этой процедуре, не выполняется.</p>
+	<p>Теперь мы можем создать обработчик главного меню "Файл – Сохранить", и там прописать вызов этой процедуры:</p>
+
+	<pre class="brush: csharp;">
+	Sohranyaem;
+	</pre>
+
+	<p>Тоже самое делаем для команды PopupMenu "Сохранить".</p>
+	<p>Далее идет команда главного и всплывающего меню "Выход".</p>
+	<p>Тут все просто, в обоих случаях пишем команду</p>
+
+	<pre class="brush: csharp;">
+	Close;
+	</pre>
+
+	<p>Далее идет раздел "Параметры".</p>
+	<p>Создаем обработчик "Выбрать шрифт", там все просто:</p>
+
+	<pre class="brush: csharp;">
+	if FontDialog1.Execute then
+		Memo1.Font := FontDialog1.Font;
+	</pre>
+
+	<p>Точно также и с подразделом "Выбрать цвет":</p>
+
+	<pre class="brush: csharp;">
+	if ColorDialog1.Execute then
+		Memo1.Color := ColorDialog1.Color;
+	</pre>
+
+	<p>Далее вернемся в раздел "Файл".</p>
+	<p>Здесь у нас остался подраздел "Закрыть".</p>
+	<p>Создаем для него обработчик, и запишем текст:</p>
+
+	<pre class="brush: csharp;">
+{если файл не сохранен, предупреждаем пользователя об этом. Если он
+   желает сохранить, то вызываем процедуру сохранения:}
+  if izmen then
+    if Application.MessageBox('Файл изменен. Сохранить?', 'Внимание!',
+      MB_YESNO+MB_ICONQUESTION) = IDYES then Sohranyaem;
+
+  //теперь закрываем текущий файл:
+  Memo1.Clear;  //очищаем Мемо
+  myfile := ''; //нет имени текущего файла
+  izmen := False; //нет изменений
+	</pre>
+
+	<p>Здесь не так много текста, и он вполне понятен, поэтому не будем для него делать отдельную процедуру.</p>
+	<p>Просто скопируйте текст, создайте обработчик событий для "Закрыть" PopupMenu и вставьте этот же текст туда.</p>
+	<p>Примерно тоже самое нам придется сделать и для события формы onClose – ведь мы заранее не можем знать, каким образом пользователь закроет форму, через команду главного меню "Файл – Закрыть", через команду всплывающего меню "Закрыть", нажмет ли он красный крестик наверху или нажмет горячие клавиши &lt;Alt + F4&gt;!</p>
+	<p>Поэтому для проверки – есть ли в программе несохраненный текст, мы используем событие onClose, которое случается при попытке закрыть форму, то есть в данном случае всю программу.</p>
+	<p>Здесь код будет таким же, как и в предыдущем примере, но раз мы закрываем всю программу, нам не нужно выполнять блок закрытия файла.</p>
+	<p>Просто проверим, есть ли изменения, и если они есть, выведем запрос – сохранить ли их.</p>
+	<p>Если пользователь ответит "Да", значит, вызовем процедуру сохранения:</p>
+
+	<pre class="brush: csharp;">
+{если файл не сохранен, предупреждаем пользователя об этом. Если он
+   желает сохранить, то вызываем процедуру сохранения:}
+  if izmen then
+    if Application.MessageBox('Файл изменен. Сохранить?', 'Внимание!',
+      MB_YESNO+MB_ICONQUESTION) = IDYES then Sohranyaem;
+	</pre>
+
+	<p>Теперь введем еще одну команду для обоих меню – "Очистить".</p>
+	<p>Она будет предназначена на случай, если пользователь введет абракадабру, а потом решит очистить текст.</p>
+	<p>Я намеренно оставил это действие на конец, чтобы вы могли усвоить, что в процессе работы над программой меню может изменяться!</p>
+	<p>Откройте редактор MainMenu, в разделе "Файл" в самом низу добавьте подраздел "Очистить".</p>
+	<p>Затем мышкой перетащите его на место линии разделов, при этом линия опустится вниз, а новый подраздел встанет на ее место:</p>
+
+	<img src="delphi21.png" id="image" />
+
+	<p>Создайте для команды "Очистить" обработчик, и впишите туда текст:</p>
+
+	<pre class="brush: csharp;">
+{MainMenu - Файл - Очистить}
+procedure TfMain.N17Click(Sender: TObject);
+begin
+  //очищаем Мемо:
+  Memo1.Clear;
+  //если открытого файла нет, то нет и изменений:
+  if myfile = '' then izmen := false
+  //иначе текст изменен:
+  else izmen := true;
+end;
+	</pre>
+
+	<p>Сделайте то же самое для всплывающего меню – создайте раздел "Очистить", а в его обработчик скопируйте тот же текст.</p>
+	<p>Осталось создать модальное окно fAbout, где Вы укажете, что это текстовый редактор, второй версии.</p>
+	<p>Сделайте это самостоятельно и привяжите вызов этой формы к команде главного меню "Справка – О программе".</p>
+	<p>Все, сохраняйте, компилируйте и проверяйте, как работает программа!</p>
+	<p>У нас получился несложный, но вполне профессиональный редактор текстов.</p>
+	<p>Одно замечание: текст мы сохраняем, но вот выбранный шрифт и цвет окна Вы сохранить не можете, об этом мы будем говорить на других лекциях, когда научимся сохранять параметры.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="51.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="53.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/52.html", "Диалоги (ч. 2)", "bm438"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm438", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm438") == 1) { document.getElementById("bma438").style.display = "block"; document.getElementById("bm438").style.display = "none"; } else { document.getElementById("bma438").style.display = "none"; document.getElementById("bm438").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Диалоги (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm438", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma111" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm111" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Метки и оператор безусловного перехода
+	</h1>
+
+	<p>Перед каждым оператором может быть помещена метка, отделяемая от оператора двоеточием.</p>
+	<p>В качестве метки используется произвольно выбранный программистом уникальный идентификатор.</p>
+	<p>Пример помеченного оператора:</p>
+
+	<pre class="brush: csharp;">
+	ABC: x = 4 + x * 3;
+	</pre>
+
+	<p>Как уже сказано, объявления, после которых помещен символ "точка с запятой", считаются операторами.</p>
+	<p>Поэтому перед ними также могут помещаться метки:</p>
+
+	<pre class="brush: csharp;">
+	metka: int z = 0, d = 4;
+	// Метка перед объявлением
+	</pre>
+
+	<p>С помощью пустого оператора (перед которым имеет право стоять метка) метки можно размещать во всех точках программы, где синтаксис разрешает использовать операторы.</p>
+	<p>Говоря о помеченных операторах и метках, уместно ввести оператор безусловного перехода: <b>goto метка;</b>.</p>
+	<p>С помощью этого оператора обеспечивается безусловный переход к тому месту в программе, где размещена метка, использованная после служебного слова <b>goto</b>.</p>
+	<p>Например, оператор <b>goto АВС;</b> передаст управление приведённому выше оператору</p>
+
+	<pre class="brush: csharp;">
+	АВС:х=4+х*3;
+	</pre>
+
+	<p>В современном программировании оператор безусловного перехода используется достаточно редко, но в некоторых случаях он может оказаться весьма полезным.</p>
+	<p>Переход к метке возможен в общем случае не из всех точек программы.</p>
+	<p>Важно, где размещена метка, и где находится оператор перехода.</p>
+	<p>В связи с существующими ограничениями на выполнение переходов нужно познакомиться с понятием блока.</p>
+	<p>Блок – заключенная в фигурные скобки последовательность операторов.</p>
+	<p>Среди этих операторов могут присутствовать операторы объявлений.</p>
+	<p>В блоке локализованы все объявленные в нем объекты, в том числе и метки.</p>
+	<p>Синтаксически блок является отдельным оператором.</p>
+	<p>Однако, блок не требуется завершать точкой с запятой.</p>
+	<p>Для блока ограничителем служит закрывающая фигурная скобка.</p>
+	<p>Внутри блока каждый оператор должен оканчиваться точкой с запятой.</p>
+	<p>Примеры блоков:</p>
+
+	<pre class="brush: csharp;">
+	{ int a; char b = '0'; a = (int)b; }
+	{ func(z + 1.0, 22); e = 4 * x - 1; }
+	</pre>
+
+	<p>Говоря о блоках, нужно понимать правила определения области действия имен и ограничения видимости объектов.</p>
+	<p>Разрешено вложение блоков, причем на глубину вложения синтаксис не накладывает ограничений.</p>
+	<p>О входе в блок стоит сказать уже сейчас – запрещено извне переходить к внутренним операторам блока.</p>
+	<p>Тем самым метки внутри блока недостижимы для оператора перехода, размещённого вне блока.</p>
+	<p>В то же время, для оператора перехода, размещённого внутри блока, разрешён переход к метке вне блока.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="23.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="25.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/24.html", "Метки и оператор", "bm111"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm111", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm111") == 1) { document.getElementById("bma111").style.display = "block"; document.getElementById("bm111").style.display = "none"; } else { document.getElementById("bma111").style.display = "none"; document.getElementById("bm111").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Метки и оператор") == 1) { arrs.splice(i, 1); localStorage.setItem("bm111", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

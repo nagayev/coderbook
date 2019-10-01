@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1321" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1321" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Запуск миграции
+    </h1>
+    
+    <p>Как вы уже видели, bin/rails generate model создал файл миграции базы данных в директории <b>db/migrate</b>.</p>
+    <p>Миграции - это класс Ruby, разработанный для того, чтобы было просто создавать и модифицировать таблицы базы данных.</p>
+    <p>Rails использует команды rake для запуска миграций, и возможна отмена миграции после того, как она была применена к вашей базе данных.</p>
+    <p>Имя файла миграции включает временную метку, чтобы быть уверенным, что они выполняются в той последовательности, в которой они создавались.</p>
+    <p>Если Вы заглянете в файл <b>db/migrate/YYYYMMDDHHMMSS_create_articles.rb</b> (помните, у вас файл имеет немного другое имя), вот что там обнаружите:</p>
+
+    <pre class="brush: csharp;">
+    class CreateArticles < ActiveRecord::Migration[5.0]
+      def change
+        create_table :articles do |t|
+          t.string :title
+          t.text :text
+     
+          t.timestamps
+        end
+      end
+    end
+    </pre>
+
+    <p>Эта миграция создает метод change, вызываемый при запуске этой миграции.</p>
+    <p>Действие, определенное в этой миграции, также является обратимым, что означает, что Rails знает, как отменить изменения, сделанные этой миграцией, в случае, если вы решите их отменить позже.</p>
+    <p>Когда вы запустите эту миграцию, она создаст таблицу articles со строковым столбцом и текстовым столбцом.</p>
+    <p>Она также создаст два поля временных меток для отслеживания времени создания и обновления статьи.</p>
+    <p>Для подробностей о миграциях Rails обратитесь к руководству Миграции Active Record.</p>
+    <p>Сейчас нам нужно использовать команду bin/rails, чтобы запустить миграцию:</p>
+
+    <pre class="brush: csharp;">
+    $ bin/rails db:migrate
+    </pre>
+
+    <p>Rails запустит эту команду миграции и сообщит, что он создал таблицу Articles.</p>
+
+    <pre class="brush: csharp;">
+    ==  CreateArticles: migrating ==================================================
+    -- create_table(:articles)
+       -> 0.0019s
+    ==  CreateArticles: migrated (0.0020s) =========================================
+    </pre>
+
+    <p>Так как вы работаете по умолчанию в среде development, эта команда будет применена к базе данных, определенной в разделе development вашего файла <b>config/database.yml</b>.</p>
+    <p>Если хотите запустить миграции в другой среде, например в production, следует явно передать ее при вызове команды: <b>bin/rails db:migrate RAILS_ENV=production</b>.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="11.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="13.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/12.html", "Запуск миграции", "bm1321"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1321", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1321") == 1) { document.getElementById("bma1321").style.display = "block"; document.getElementById("bm1321").style.display = "none"; } else { document.getElementById("bma1321").style.display = "none"; document.getElementById("bm1321").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Запуск миграции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1321", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

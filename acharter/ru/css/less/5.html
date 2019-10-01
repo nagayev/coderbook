@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma231" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm231" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Вложения в Less
+	</h1>
+
+	<p>CSS не зря расшифровывается как каскадные таблицы стилей, потому что одни элементы могут находиться внутри других и к ним последовательно применяются стилевые правила.</p>
+	<p>Для наглядного представления структуры элементов в Less применяются вложения, которые затем преобразуются во вложенные селекторы.</p>
+	<p>Например, в коде HTML у нас имеется следующая структура элементов, схематично показанная ниже.</p>
+
+	<pre class="brush: csharp;">
+		&lt;aside&gt;
+		&#x9;&lt;div class=&quot;block&quot;&gt;
+		&#x9;&#x9;&lt;ul&gt;
+		&#x9;&#x9;&#x9;&lt;li&gt;...&lt;/li&gt;
+		&#x9;&#x9;&#x9;&lt;li&gt;...&lt;/li&gt;
+		&#x9;&#x9;&lt;/ul&gt;
+		&#x9;&lt;/div&gt;
+		&lt;/aside&gt;
+	</pre>
+
+	<p>Чтобы сохранить структуру в CSS мы вкладываем одни правила внутрь фигурных скобок родителя.</p>
+
+	<pre class="brush: csharp;">
+	aside
+	{
+		.block
+		{
+		  margin-bottom: 30px;
+		  ul
+		  {
+		    margin: 0;
+		    padding: 0;
+		    font-size: 14px;
+		    li
+		    {
+		      border-top: 1px solid #f4f4f4;
+		      list-style: none;
+		      color: #666;
+		      padding: 3px 0;
+		      position: relative;
+		      &:first-child
+		      {
+		        border-top: none;
+		      }
+		    }
+		  }
+		}
+	}
+	</pre>
+
+	<p>Для добавления псевдоклассов и псевдоэлементов применяется амперсанд (символ &), он говорит Less что надо взять и подставить вместо него родительский селектор, в данном случае li.</p>
+	<p>В итоге получим такой стиль.</p>
+
+	<pre class="brush: csharp;">
+	aside .block
+	{
+		margin-bottom: 30px;
+	}
+
+	aside .block ul
+	{
+		margin: 0;
+		padding: 0;
+		font-size: 14px;
+	}
+
+	aside .block ul li
+	{
+		border-top: 1px solid #f4f4f4;
+		list-style: none;
+		color: #666;
+		padding: 3px 0;
+		position: relative;
+	}
+
+	aside .block ul li:first-child
+	{
+		border-top: none;
+	}
+	</pre>
+
+	<p>Less полностью сохраняет структуру вложения и показывает её в именах селекторов.</p>
+	<p>Для сложных комбинаций вроде родственных селекторов (A+B, A&gt;B, A~B) применяется амперсанд, а после него пишется соответствующий знак.</p>
+	<p>В качестве примера рассмотрим поле для ввода чисел.</p>
+	<p>Если введённое пользователем число меньше заранее установленного минимального или больше максимального значения, то выводим сообщение об ошибке.</p>
+	<p>Для этого применяется псевдокласс :out-of-range и псевдоэлемент ::after.</p>
+	<p>Код HTML для этого будет следующий:</p>
+
+	<pre class="brush: csharp;">
+		&lt;p&gt;
+		&#x9;&lt;input type=&quot;number&quot; id=&quot;dec&quot; min=&quot;1&quot; max=&quot;10&quot; value=&quot;1&quot;&gt;
+		&#x9;&lt;label for=&quot;dec&quot;&gt;&lt;/label&gt;
+		&lt;/p&gt;
+	</pre>
+
+	<p>CSS:</p>
+
+	<pre class="brush: csharp;">
+	input[type="number"]:out-of-range
+	{
+		background: #f9c3d2;
+	}
+
+	input[type="number"]:out-of-range + label::after
+	{
+		content: 'Неверное число';
+		color: #ec008c;
+		margin-left: 0.5em;
+	}
+	</pre>
+
+	<p>Поскольку у нас используется псевдокласс и псевдоэлемент, то активно применяется амперсанд и вложения одних стилевых правил в другие.</p>
+
+	<pre class="brush: csharp;">
+	input[type="number"]
+	{
+		&:out-of-range
+		{
+		  background: #f9c3d2;
+		  & + label {
+		    &::after {
+		      content: 'Неверное число';
+		      color: #ec008c;
+		      margin-left: 0.5em;
+		    }
+		  }
+		}
+	}
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="4.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="6.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/less/5.html", "Вложения в Less", "bm231"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm231", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm231") == 1) { document.getElementById("bma231").style.display = "block"; document.getElementById("bm231").style.display = "none"; } else { document.getElementById("bma231").style.display = "none"; document.getElementById("bm231").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Вложения в Less") == 1) { arrs.splice(i, 1); localStorage.setItem("bm231", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

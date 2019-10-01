@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma645" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm645" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Полиморфизм
+	</h1>
+
+	<p>Ранее были рассмотрены правила объявления классов с учетом их наследования.</p>
+	<p>В этой лекции было введено понятие переопределенного метода.</p>
+	<p>Однако полиморфизм требует более глубокого изучения.</p>
+	<p>При объявлении одноименных полей или методов с совпадающими сигнатурами происходит перекрытие элементов из родительского и наследующего класса.</p>
+	<p>Рассмотрим, как функционируют классы и объекты в таких ситуациях.</p>
+
+	<h1 id="title">
+		Поля
+	</h1>
+
+	<p>Начнем с полей, которые могут быть статическими или динамическими.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		int a=2;
+	}
+
+	class Child extends Parent
+	{
+		int a=3;
+	}
+	</pre>
+
+	<p>Прежде всего, нужно сказать, что такое объявление корректно.</p>
+	<p>Наследники могут объявлять поля с любыми именами, даже совпадающими с родительскими.</p>
+	<p>Затем, необходимо понять, как два одноименных поля будут сосуществовать.</p>
+	<p>Действительно, объекты класса Child будут содержать сразу две переменных, а поскольку они могут отличаться не только значением, но и типом (ведь это два независимых поля), именно компилятор будет определять, какое из значений использовать.</p>
+	<p>Компилятор может опираться только на тип ссылки, с помощью которой происходит обращение к полю:</p>
+
+	<pre class="brush: csharp;">
+	Child c = new Child();
+	System.out.println(c.a);
+	Parent p = c;
+	System.out.println(p.a);
+	</pre>
+
+	<p>Обе ссылки указывают на один и тот же объект, порожденный от класса Child, но одна из них имеет такой же тип, а другая – Parent.</p>
+	<p>Отсюда следуют и результаты:</p>
+
+	<pre class="brush: csharp;">
+	3
+	2
+	</pre>
+
+	<p>Объявление поля в классе-наследнике "скрыло" родительское поле.</p>
+	<p>Данное объявление так и называется – "скрывающим" (hiding).</p>
+	<p>Это особый случай перекрытия областей видимости, отличный от "затеняющего" (shadowing) и "заслоняющего" (obscuring) объявлений.</p>
+	<p>Тем не менее, родительское поле продолжает существовать.</p>
+	<p>К нему можно обратиться и явно:</p>
+
+	<pre class="brush: csharp;">
+	class Child extends Parent
+	{
+		int a=3;
+		// скрывающее объявление
+		int b=((Parent)this).a;
+		// более громоздкое объявление
+		int c=super.a;
+		// более простое
+	}
+	</pre>
+
+	<p>Переменные b и c получат значение, хранящееся в родительском поле a.</p>
+	<p>Хотя выражение с super более простое, оно не позволит обратиться на два уровня вверх по дереву наследования.</p>
+	<p>А ведь вполне возможно, что в родительском классе это поле также было скрывающим и в родителе родителя хранится еще одно значение.</p>
+	<p>К нему можно обратиться явным приведением, как это делается для b.</p>
+	<p>Рассмотрим следующий пример:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		int x=0;
+
+		public void printX()
+		{
+			System.out.println(x);
+		}
+	}
+
+	class Child extends Parent
+	{
+		int x=-1;
+	}
+	</pre>
+
+	<p>Каков будет результат следующих строк?</p>
+
+	<pre class="brush: csharp;">
+	new Child().printX();
+	</pre>
+
+	<p>Значение какого поля будет распечатано?</p>
+	<p>Метод вызывается с помощью ссылки типа Child, но это не сыграет никакой роли.</p>
+	<p>Вызывается метод, определенный в классе Parent, и компилятор, конечно, расценил обращение к полю x в этом методе именно как к полю класса Parent.</p>
+	<p>Поэтому результатом будет 0.</p>
+	<p>Перейдем к статическим полям.</p>
+	<p>На самом деле, для них проблем и конфликтов, связанных с полиморфизмом, не существует.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		static int a=2;
+	}
+
+	class Child extends Parent
+	{
+		static int a=3;
+	}
+	</pre>
+
+	<p>Каков будет результат следующих строк?</p>
+
+	<pre class="brush: csharp;">
+	Child c = new Child();
+	System.out.println(c.a);
+	Parent p = c;
+	System.out.println(p.a);
+	</pre>
+
+	<p>Нужно вспомнить, как компилятор обрабатывает обращения к статическим полям через ссылочные значения.</p>
+	<p>Неважно, на какой объект указывает ссылка.</p>
+	<p>Более того, она может быть даже равна null.</p>
+	<p>Все определяется типом ссылки.</p>
+	<p>Поэтому рассматриваемый пример эквивалентен:</p>
+
+	<pre class="brush: csharp;">
+	System.out.println(Child.a)
+	System.out.println(Parent.a)
+	</pre>
+
+	<p>А его результат сомнений уже не вызывает:</p>
+
+	<pre class="brush: csharp;">
+	3
+	2
+	</pre>
+
+	<p>Можно привести следующее пояснение.</p>
+	<p>Статическое поле принадлежит классу, а не объекту.</p>
+	<p>В результате появление классов-наследников со скрывающими (hiding) объявлениями никак не сказывается на работе с исходным полем.</p>
+	<p>Компилятор всегда может определить, через ссылку какого типа происходит обращение к нему.</p>
+	<p>Обратите внимание на следующий пример:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		static int a;
+	}
+
+	class Child extends Parent
+	{ }
+	</pre>
+
+	<p>Каков будет результат следующих строк?</p>
+
+	<pre class="brush: csharp;">
+	Child.a=10;
+	Parent.a=5;
+	System.out.println(Child.a);
+	</pre>
+
+	<p>В этом примере поле a не было скрыто и передалось по наследству классу Child.</p>
+	<p>Однако результат показывает, что это все же одно поле:</p>
+
+	<pre class="brush: csharp;">
+	5
+	</pre>
+
+	<p>Несмотря на то, что к полю класса идут обращения через разные классы, переменная всего одна.</p>
+	<p>Итак, наследники могут объявлять поля с именами, совпадающими с родительскими полями.</p>
+	<p>Такие объявления называют скрывающими.</p>
+	<p>При этом объекты будут содержать оба значения, а компилятор будет каждый раз определять, с каким из них надо работать.</p>
+
+	<h1 id="title">
+		Методы
+	</h1>
+
+	<p>Рассмотрим случай переопределения (overriding) методов:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		public int getValue()
+		{
+			return 0;
+		}
+	}
+	
+	class Child extends Parent
+	{
+		public int getValue()
+		{
+			return 1;
+		}
+	}
+	</pre>
+
+	<p>И строки, демонстрирующие работу с этими методами:</p>
+
+	<pre class="brush: csharp;">
+	Child c = new Child();
+	System.out.println(c.getValue());
+	Parent p = c;
+	System.out.println(p.getValue());
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	1
+	1
+	</pre>
+
+	<p>Можно видеть, что родительский метод полностью перекрыт, значение 0 никак нельзя получить через ссылку, указывающую на объект класса Child.</p>
+	<p>В этом ключевая особенность полиморфизма – наследники могут изменять родительское поведение, даже если обращение к ним производится по ссылке родительского типа.</p>
+	<p>Напомним, что, хотя старый метод снаружи уже недоступен, внутри класса-наследника к нему все же можно обратиться с помощью super.</p>
+	<p>Рассмотрим более сложный пример:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		public int getValue()
+		{
+			return 0;
+		}
+		
+		public void print()
+		{
+			System.out.println(getValue());
+		}
+	}
+
+	class Child extends Parent
+	{
+		public int getValue()
+		{
+			return 1;
+		}
+	}
+	</pre>
+
+	<p>Что появится на консоли после выполнения следующих строк?</p>
+
+	<pre class="brush: csharp;">
+	Parent p = new Child();
+	p.print();
+	</pre>
+
+	<p>С помощью ссылки типа Parent вызывается метод print(), объявленный в классе Parent.</p>
+	<p>Из этого метода делается обращение к getValue(), которое в классе Parent возвращает 0.</p>
+	<p>Но компилятор уже не может предсказать, к динамическому методу какого класса произойдет обращение во время работы программы.</p>
+	<p>Это определяет виртуальная машина на основе объекта, на который указывает ссылка.</p>
+	<p>И раз этот объект порожден от Child, то существует лишь один метод getValue().</p>
+	<p>Результатом работы примера будет:</p>
+
+	<pre class="brush: csharp;">
+	1
+	</pre>
+
+	<p>Данный пример демонстрирует, что переопределение методов должно производиться с осторожностью.</p>
+	<p>Если слишком сильно изменить логику их работы, нарушить принятые соглашения (например, начать возвращать null в качестве значения ссылочного типа, если родительский метод такого не допускал), это может привести к сбоям в работе родительского класса, а значит, объекта наследника.</p>
+	<p>Более того, существуют и некоторые обязательные ограничения.</p>
+	<p>Вспомним, что заголовок метода состоит из модификаторов, возвращаемого значения, сигнатуры и throws -выражения.</p>
+	<p>Сигнатура (имя и набор аргументов) остается неизменной, если говорить о переопределении.</p>
+	<p>Возвращаемое значение также не может меняться, иначе это приведет к появлению двух разных методов с одинаковыми сигнатурами.</p>
+	<p>Рассмотрим модификаторы доступа.</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		protected int getValue()
+		{
+			return 0;
+		}
+	}
+
+	class Child extends Parent
+	{
+		protected int getValue()
+		{
+			return 1;
+		}
+	}
+	</pre>
+
+	<p>Пусть родительский метод был объявлен как protected.</p>
+	<p>Понятно, что метод наследника можно оставить с таким же уровнем доступа, но можно ли его расширить (public), или сузить (доступ по умолчанию)?</p>
+	<p>Несколько строк для проверки:</p>
+
+	<pre class="brush: csharp;">
+	Parent p = new Child();
+	p.getValue();
+	</pre>
+
+	<p>Обращение к методу осуществляется с помощью ссылки типа Parent.</p>
+	<p>Именно компилятор выполняет проверку уровня доступа, и он будет ориентироваться на родительский класс.</p>
+	<p>Но ссылка-то указывает на объект, порожденный от Child, и по правилам полиморфизма исполняться будет метод именно этого класса.</p>
+	<p>А значит, доступ к переопределенному методу не может быть более ограниченным, чем к исходному.</p>
+	<p>Итак, методы с доступом по умолчанию можно переопределять с таким же доступом, либо protected или public.</p>
+	<p>Protected -методы переопределяются такими же, или public, а для public менять модификатор доступа и вовсе нельзя.</p>
+	<p>Что касается private -методов, то они определены только внутри класса, снаружи не видны, а потому наследники могут без ограничений объявлять методы с такими же сигнатурами и произвольными возвращаемыми значениями, модификаторами доступа и т.д.</p>
+	<p>Аналогичные ограничения накладываются и на throws -выражение, которое будет рассмотрено в следующих лекциях.</p>
+	<p>Если абстрактный метод переопределяется неабстрактным, то говорят, что он его реализовал (implements).</p>
+	<p>Как ни странно, абстрактный метод может переопределить другой абстрактный, или даже неабстрактный, метод.</p>
+	<p>В первом случае такое действие может иметь смысл только при изменении модификатора доступа (расширении), либо throws -выражения.</p>
+	<p>Во втором случае полностью утрачивается старая реализация метода, что может потребоваться в особенных случаях.</p>
+	<p>Перейдем к статическим методам. Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		static public int getValue()
+		{
+			return 0;
+		}
+	}
+
+	class Child extends Parent
+	{
+		static public int getValue()
+		{
+			return 1;
+		}
+	}
+	</pre>
+
+	<p>И строки, демонстрирующие работу с этими методами:</p>
+
+	<pre class="brush: csharp;">
+	Child c = new Child();
+	System.out.println(c.getValue());
+	Parent p = c;
+	System.out.println(p.getValue());
+	</pre>
+
+	<p>Аналогично случаю со статическими переменными, вспоминаем алгоритм обработки компилятором таких обращений к статическим элементам и получаем, что код эквивалентен следующим строкам:</p>
+
+	<pre class="brush: csharp;">
+	System.out.println(Child.getValue());
+	System.out.println(Parent.getValue());
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	1
+	0
+	</pre>
+
+	<p>То есть статические методы, подобно статическим полям, принадлежат классу и появление наследников на них не сказывается.</p>
+	<p>Статические методы не могут перекрывать обычные, и наоборот.</p>
+
+	<h1 id="title">
+		Полиморфизм и объекты
+	</h1>
+
+	<p>В заключение рассмотрим несколько особенностей, вытекающих из свойств полиморфизма.</p>
+	<p>Во-первых, теперь можно точно сформулировать, что является элементами ссылочного типа.</p>
+	<p>Ссылочный тип обладает следующими элементами:</p>
+	<p><b>*</b> непосредственно объявленными в его теле;</p>
+	<p><b>*</b> объявленными в его родительском классе и реализуемых интерфейсах, кроме:</p>
+	<p>-  private -элементов;</p>
+	<p>-  "скрытых" элементов (полей и статических методов, скрытых одноименными элементами);</p>
+	<p>-  переопределенных (динамических) методов.</p>
+	<p>Во-вторых, продолжим рассматривать взаимосвязь типа переменной и типов ее возможных значений.</p>
+	<p>К случаям, описанным в предыдущей лекции, добавляются еще два.</p>
+	<p>Переменная типа абстрактный класс может ссылаться на объекты, порожденные неабстрактным наследником этого класса.</p>
+	<p>Переменная типа интерфейс может ссылаться на объекты, порожденные от класса, реализующего данный интерфейс.</p>
+	<p>Сведем эти данные в таблицу.</p>
+
+	<table>
+		<tr>
+			<th>Тип переменной</th>
+			<th>Допустимые типы ее значения</th>
+		</tr>
+		<tr>
+			<td>Абстрактный класс</td>
+			<td><p>null</p><p>неабстрактный наследник</p></td>
+		</tr>
+		<tr>
+			<td>Интерфейс</td>
+			<td><p>null</p><p>классы, реализующие интерфейс, а именно:</p><p>реализующие напрямую (заголовок содержит implements);</p><p>наследуемые от реализующих классов;</p><p>реализующие наследников этого интерфейса ;</p><p>смешанный случай - наследование от класса, реализующего наследника интерфейса</p></td>
+		</tr>
+	</table>
+
+	<p>Таким образом, Java предоставляет гибкую и мощную модель объектов, позволяющую проектировать самые сложные системы.</p>
+	<p>Необходимо хорошо разбираться в ее основных свойствах и механизмах – наследование, статические элементы, абстрактные элементы, интерфейсы, полиморфизм, разграничения доступа и другие.</p>
+	<p>Все они позволяют избегать дублирующего кода, облегчают развитие системы, добавление новых возможностей и изменение старых, помогают обеспечивать минимальную связность между частями системы, то есть повышают модульность.</p>
+	<p>Также удачные технические решения можно многократно использовать в различных системах, сокращая и упрощая процесс их создания.</p>
+	<p>Для достижения таких важных целей требуется не только знание Java, но и владение объектно-ориентированным подходом, основными способами проектирования систем и проверки качества архитектурных решений.</p>
+	<p>Платформа Java является основой и весьма удобным инструментом для применения всех этих технологий.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой лекции были рассмотрены особенности объектной модели Java.</p>
+	<p>Это, во-первых, статические элементы, позволяющие использовать интерфейс класса без создания объектов.</p>
+	<p>Нужно помнить, что, хотя для обращения к статическим элементам можно задействовать ссылочную переменную, на самом деле ее значение не используется, компилятор основывается только на ее типе.</p>
+	<p>Для правильной работы со статическими элементами вводятся понятия статического и динамического контекста.</p>
+	<p>Далее рассматривалось использование ключевых слов this и super.</p>
+	<p>Выражение this предоставляет ссылку, указывающую на объект, в контексте которого оно встречается.</p>
+	<p>Эта конструкция помогает избегать конфликтов имен, а также применяется в конструкторах.</p>
+	<p>Слово super позволяет задействовать свойства родительского класса, что необходимо для реализации переопределенных методов, а также в конструкторах.</p>
+	<p>Затем было введено понятие абстрактного метода и класса.</p>
+	<p>Абстрактный метод не имеет тела, он лишь указывает, что метод с такой сигнатурой должен быть реализован в классе-наследнике.</p>
+	<p>Поскольку он не имеет собственной реализации, классы с абстрактными методами также должны быть объявлены с модификатором abstract, который указывает, что от них нельзя порождать объекты.</p>
+	<p>Основная цель абстрактных методов – описать в родительском классе как можно больше общих свойств наследников, пусть даже и в виде заголовков методов без реализации.</p>
+	<p>Следующее важное понятие – особый тип в Java, интерфейс.</p>
+	<p>Его еще называют полностью абстрактным классом, так как все его методы обязательно абстрактные, а поля final static.</p>
+	<p>Соответственно, на основе интерфейсов невозможно создавать объекты.</p>
+	<p>Интерфейсы являются альтернативой множественному наследованию.</p>
+	<p>Классы не могут иметь более одного родителя, но они могут реализовывать сколько угодно интерфейсов.</p>
+	<p>Таким образом, интерфейсы описывают общие свойства классов, не находящихся на одной ветви дерева наследования.</p>
+	<p>Наконец, важным свойством объектной модели является полиморфизм.</p>
+	<p>Было подробно изучено поведение полей и методов, как статических, так и динамических, при переопределении.</p>
+	<p>Что позволило перейти к вопросу соответствия типов переменной и ее значения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="43.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="45.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/44.html", "Полиморфизм", "bm645"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm645", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm645") == 1) { document.getElementById("bma645").style.display = "block"; document.getElementById("bm645").style.display = "none"; } else { document.getElementById("bma645").style.display = "none"; document.getElementById("bm645").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Полиморфизм") == 1) { arrs.splice(i, 1); localStorage.setItem("bm645", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

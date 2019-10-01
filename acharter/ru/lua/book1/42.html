@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma808" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm808" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Функции и типы
+	</h1>
+
+	<p>В этой главе мы опишем все функции и типа из вспомогательной библиотеки в алфавитном порядке.</p>
+	
+	<h1 id="title">
+		luaL_addchar
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_addchar (luaL_Buffer *B, char c);
+	</pre>	
+	
+	<p>Добавляет символ c в буфер B (см. luaL_Buffer).</p>
+
+	<h1 id="title">
+		luaL_addlstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_addlstring (luaL_Buffer *B, const char *s, size_t l);
+	</pre>	
+
+	<p>Добавляет строку, на которую ссылается указатель s, длиной l в буфер B(см. luaL_Buffer).</p>
+	<p>Строка может содержать нулевые символы.</p>
+
+	<h1 id="title">
+		luaL_addsize
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_addsize (luaL_Buffer *B, size_t n);
+	</pre>	
+
+	<p>Добавляет в буфер B (см. luaL_Buffer) строку длиной n, первоначально скопированную в область буфера (см. luaL_prepbuffer).</p>	
+
+	<h1 id="title">
+		luaL_addstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_addstring (luaL_Buffer *B, const char *s);
+	</pre>	
+
+	<p>Добавляет строку с нулевым символом в конце, на которую указывает указатель s в буфер B (см. luaL_Buffer).</p>
+	<p>Строка не может содержать нулевых символов кроме последнего.</p>
+
+	<h1 id="title">
+		luaL_addvalue
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_addvalue (luaL_Buffer *B);
+	</pre>	
+
+	<p>Добавляет значение из вершины стека в буфер B (см. luaL_Buffer.</p>
+	<p>При этом, из стека это значение извлекается.</p>
+	<p>Это единственная функция, которая должна быть вызвана с дополнительным значением, размещенным в стеке, которое затем и помещается в буфер.</p>
+
+	<h1 id="title">
+		luaL_argcheck
+	</h1>
+
+	<pre class="brush: csharp;">
+	void luaL_argcheck (lua_State *L,
+	int cond,
+	int narg,
+	const char *extramsg);
+	</pre>	
+
+	<p>Проверяет на истинность условие cond.</p>
+	<p>Если значение ложно, вызывает ошибку следующего содержания (где func определяется из стека вызова):</p>
+
+	<pre class="brush: csharp;">
+		bad argument #&lt;narg&gt; to &lt;func&gt; (&lt;extramsg&gt;)
+	</pre>
+
+	<h1 id="title">
+		luaL_argerror
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_argerror (lua_State *L, int narg, const char *extramsg);
+	</pre>	
+
+	<p>вызывает ошибку следующего содержания (где func определяется из стека вызова):</p>
+
+	<pre class="brush: csharp;">
+	bad argument #&lt;narg&gt; to &lt;func&gt; (&lt;extramsg&gt;)
+	</pre>
+
+	<p>Эта функция ничего не возвращает, но для поддержки идиомы C ее можно использовать как return luaL_argerror(args).</p>
+
+	<h1 id="title">
+		luaL_Buffer
+	</h1>
+
+	<pre class="brush: csharp;">
+		typedef struct luaL_Buffer luaL_Buffer;
+	</pre>	
+
+	<p>Тип данных для буфера строк.</p>
+	<p>Буфер строк позволяет коду на C  постепенно строить строки Lua.</p>
+	<p>Использовать его можно по следующей схеме:</p>
+	<p>Сначала вы объявляете переменную b типа luaL_Buffer.</p>
+	<p>Затем вы инициализируете ее при помощи luaL_buffinit(L, &b).</p>
+	<p>После этот добавляйте фрагменты строк, вызывая любую функцию из семейства luaL_add*.</p>
+	<p>Для окончания, вызывайте luaL_pushresult(&b).</p>
+	<p>Этот вызов оставляет результирующую строку на вершине стека..</p>
+	<p>Во время обычной операции, буфер строк использует переменное количество слотов стека.</p>
+	<p>Поэтому, используя буфер, вы не можете предполагать, что вы знаете, где находится вершина стека.</p>
+	<p>Вы можете использовать стек между успешными вызовами к операциями над буфером до тех пор, пока его использование сбалансировано; т.е. когда вы вызываете операцию над буфером, стек находится на том же уровне, что и был после предыдущей операцией над буфером.</p>
+	<p>(Единственное исключение из этого правила – это luaL_addvalue.)</p>
+	<p>После вызова luaL_pushresult стек возвращается обратно на тот уровен, на котором он был, когда буфер был инициализирован, но на вершине у него будет храниться результирующая строка.</p>
+
+	<h1 id="title">
+		luaL_buffinit
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_buffinit (lua_State *L, luaL_Buffer *B);
+	</pre>	
+
+	<p>Инициализирует буфер B.</p>
+	<p>Эта функция не выделяет место в памяти; буфер должен быть объявлен как переменная (см. luaL_Buffer</p>
+
+	<h1 id="title">
+		luaL_callmeta
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_callmeta (lua_State *L, int obj, const char *e);
+	</pre>	
+
+	<p>Вызывает метаметод.</p>
+	<p>Если объект под индексом obj имеет метатаблицу и она имеет поле e, эта функция вызывает это поле и передает ему объект как единственный аргумент.</p>
+	<p>В этом случае функция возвращает 1 и записывает в стек значение, возвращаемое таким вызовом.</p>
+	<p>Если объект не имеет ни метатаблицы ни метаметода, функция возвращает 0 (и ничего не записывает в стек).</p>
+
+	<h1 id="title">
+		luaL_checkany
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_checkany (lua_State *L, int narg);
+	</pre>
+
+	<p>Проверяет, имеет ли функция аргумент любого типа (включая nil) на позиции narg.</p>
+
+	<h1 id="title">
+		luaL_checkint
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_checkint (lua_State *L, int narg);
+	</pre>	
+
+	<p>Проверяет, является ли narg-ый аргумент функции числом и возвращает это число, приведенное к типу int.</p>
+
+	<h1 id="title">
+		luaL_checkinteger
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Integer luaL_checkinteger (lua_State *L, int narg);
+	</pre>	
+
+	<p>Проверяет, является ли narg-- ый аргумент функции числом и возвращает это число, приведенное к типу lua_Integer.</p>
+
+	<h1 id="title">
+		luaL_checklong
+	</h1>
+
+	<pre class="brush: csharp;">
+		long luaL_checklong (lua_State *L, int narg);
+	</pre>	
+
+	<p>Проверяет, является ли narg-ый аргумент функции числом и возвращает это число, приведенное к типу long.</p>
+
+	<h1 id="title">
+		luaL_checklstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *luaL_checklstring (lua_State *L, int narg, size_t *l);
+	</pre>	
+
+	<p>Проверяет, является ли narg--ый аргумент функции строки и возвращает эту строку; если l не NULL, заполняет *lзначением, равным длине строки.</p>
+
+	<h1 id="title">
+		luaL_checknumber
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Number luaL_checknumber (lua_State *L, int narg);
+	</pre>	
+
+	<p>Проверяет, является ли narg-ый аргумент функции числом и возвращает это число.</p>
+
+	<h1 id="title">
+		luaL_checkoption
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_checkoption (lua_State *L,
+		int narg,
+		const char *def,
+		const char *const lst[]);
+	</pre>
+
+	<p>Проверяет, является ли narg-ый аргумент функции строкой и ищет эту строку в массиве lst (который должен оканчиваться на NULL).</p>
+	<p>Возвращает индекс элемента массива, в котором была найдена строка.</p>
+	<p>Порождает ошибку, если аргумент строкой не является, или она не была найдена в массиве.</p>
+	<p>Если def не NULL, функция использует def как значение по умолчанию, когда не существует narg-ого аргумента или если этот аргумент является nil.</p>
+	<p>Эта функция часто используется для сопоставления строк с перечисляемыми типами C.</p>
+	<p>(Обычно, в библиотеках Lua используется соглашение использовать строки вместо чисел для выбора опций.)</p>
+
+	<h1 id="title">
+		luaL_checkstack
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_checkstack (lua_State *L, int sz, const char *msg);
+	</pre>	
+
+	<p>Увеличивает размер стека до top + sz элементов, порождает ошибку, если стек не может быть увеличен до такого размера.</p>
+	<p>Строка msg содержит дополнительный текст для сообщения об ошибке.</p>
+
+	<h1 id="title">
+		luaL_checkstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *luaL_checkstring (lua_State *L, int narg);
+	</pre>
+
+	<p>Проверяет, является ли narg-ый аргумент функции строкой и возвращает эту строку.</p>
+
+	<h1 id="title">
+		luaL_checktype
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_checktype (lua_State *L, int narg, int t);
+	</pre>	
+
+	<p>Проверяет, имеет ли narg–ый аргумент функции тип t.</p>
+
+	<h1 id="title">
+		luaL_checkudata
+	</h1>
+
+	<pre class="brush: csharp;">
+		void *luaL_checkudata (lua_State *L, int narg, const char *tname);
+	</pre>	
+
+	<p>Проверяет, является ли narg-ый аргумент функции переменной C, хранящейся в переменной LUA (т.н. userdata) типа tname (см. luaL_newmetatable).</p>
+
+	<h1 id="title">
+		luaL_dofile
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_dofile (lua_State *L, const char *filename);
+	</pre>	
+
+	<p>Загружает и запускает указанный файл. Эта функция определена как следующий макрос:</p>
+
+	<pre class="brush: csharp;">
+	(luaL_loadfile(L, filename) || lua_pcall(L, 0, LUA_MULTRET, 0))
+	</pre>
+
+	<p>Возвращает 0, если в процессе выполнения не встретились ошибки, 1 в противном случае.</p>
+
+	<h1 id="title">
+		luaL_dostring
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_dostring (lua_State *L, const char *str);
+	</pre>	
+
+	<p>Загружает и запускает указанную строку. Эта функция определена как следующий макрос:</p>
+
+	<pre class="brush: csharp;">
+	(luaL_loadstring(L, str) || lua_pcall(L, 0, LUA_MULTRET, 0))
+	</pre>
+
+	<p>Возвращает 0, если в процессе выполнения не встретились ошибки, 1 в противном случае.</p>
+
+	<h1 id="title">
+		luaL_error
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_error (lua_State *L, const char *fmt, ...);
+	</pre>	
+
+	<p>Возбуждает ошибку.</p>
+	<p>Формат сообщения об ошибках задается параметром fmt и любыми дополнительными аргументами, подчиняющиеся тем же правилам, что и параметры lua_pushfstring.Кроме того, эта функция добавляет в начало сообщения имя файла и номер строки, в которых обнаружилась ошибка, если эта информация доступна.</p>
+	<p>Эта функция ничего не возвращает, но для поддержки идиомы C ее можно использовать как return luaL_error(args).</p>
+
+	<h1 id="title">
+		luaL_getmetafield
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_getmetafield (lua_State *L, int obj, const char *e);
+	</pre>	
+
+	<p>Записывает в стек поле e из метатаблицы объекта с индексом obj.</p>
+	<p>Если объект не имеет метатаблицы или она не имеет указанного поля, функция возвращает 0 и ничего в стек не записывает.</p>
+
+	<h1 id="title">
+		luaL_getmetatable
+	</h1>
+
+	<pre class="brush: csharp;">
+		   void luaL_getmetatable (lua_State *L, const char *tname);
+	</pre>	
+
+	<p>Записывает в стек метатаблицу, ассоциированную в реестре с именем tname (см. luaL_newmetatable).</p>
+
+	<h1 id="title">
+		luaL_gsub
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *luaL_gsub (lua_State *L,
+		const char *s,
+		const char *p,
+		const char *r);
+	</pre>
+
+	<p>Создает копию строки s, заменяя любое вхождение строки p строкой r.</p>
+	<p>Записывает в стек результирующую строку и возвращает ее же.</p>
+
+	<h1 id="title">
+		luaL_loadbuffer
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_loadbuffer (lua_State *L,
+		const char *buff,
+		size_t sz,
+		const char *name);
+	</pre>
+
+	<p>Загружает буфер как модуль (chunk) Lua.</p>
+	<p>Эта функция использует lua_load для загрузки модули в буфер, на который указывает buff размером sz.</p>
+	<p>Эта функция возвращает те же результаты, что и lua_load.</p>
+	<p>Параметр name - это имя модуля (chunk), используемое для отладочной информации и в сообщениях об ошибках.</p>
+
+	<h1 id="title">
+		luaL_loadfile
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_loadfile (lua_State *L, const char *filename);
+	</pre>	
+
+	<p>Загружает файл как модуль (chunk) Lua.</p>
+	<p>Эта функция использует lua_load для загрузки модуля из файла с именем filename.</p>
+	<p>Если filename является NULL, тогда загрузка происходит из стандартного потока ввода.</p>
+	<p>Первая строка файла игнорируется, если она начинается с символа #.</p>
+	<p>Эта функция возвращает такие же результаты, что и lua_load, но помимо этого обладает дополнительным кодом ошибки LUA_ERRFILE на тот случае, если невозможно открыть или прочитать файл.</p>
+	<p>Как и lua_load, эта функция, только загружает модуль (chunk), но не запускает его.</p>
+
+	<h1 id="title">
+		luaL_loadstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_loadstring (lua_State *L, const char *s);
+	</pre>	
+
+	<p>Загружает строку как модуль (chunk) Lua.</p>
+	<p>Эта функция используетlua_load для загрузки модуля (chunk) в оканчивающейся нулем строке s.</p>
+	<p>Эта функция возвращает такие же результаты, как и lua_load.</p>
+	<p>Как и lua_load, эта функция, только загружает модуль (chunk), но не запускает его.</p>
+
+	<h1 id="title">
+		luaL_newmetatable
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_newmetatable (lua_State *L, const char *tname);
+	</pre>	
+
+	<p>Если реестр уже содержит ключ tname, возвращает 0.</p>
+	<p>В противном случае, создает новую таблицу в качестве метатаблицы для переменной C, хранящейся в переменной LUA (userdata), добавляет ее в реестр с именем tname и возвращает 1.</p>
+	<p>В каждом из этих двух случаев, помещает в стек последнее значение, ассоциированное с именем tname в реестре.</p>
+
+	<h1 id="title">
+		luaL_newstate
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_State *luaL_newstate (void);
+	</pre>	
+
+	<p>Создает новое состояние Lua.</p>
+	<p>Функция вызывает lua_newstate, используя стандартную функцию C realloc для выделения памяти, а затем использует функцию обработки ошибок (см. lua_atpanic), которая выводит сообщение об ошибке на стандартный поток вывода в случае фатальных ошибок.</p>
+	<p>Возвращает новое состояние или NULL, если в процессе выделения памяти встретились ошибки.</p>
+
+	<h1 id="title">
+		luaL_openlibs
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_openlibs (lua_State *L);
+	</pre>	
+
+	<p>Открывает все стандартные библиотеки Lua в контексте заданного состояния.</p>
+
+	<h1 id="title">
+		luaL_optint
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_optint (lua_State *L, int narg, int d);
+	</pre>	
+
+	<p>Если аргумент функции narg является числом, возвращает это число, приведенное к типу int.</p>
+	<p>Если аргумент опущен или является nil – возвращает d.</p>
+	<p>В противном случае – возбуждает ошибку.</p>
+
+	<h1 id="title">
+		luaL_optinteger
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Integer luaL_optinteger (lua_State *L,
+		int narg,
+		lua_Integer d);
+	</pre>
+
+	<p>Если аргумент функции narg является числом, возвращает это число, приведенное к типу данных lua_Integer.</p>
+	<p>Если аргумент опущен или является nil – возвращает d.</p>
+	<p>В противном случае – возбуждает ошибку.</p>
+
+	<h1 id="title">
+		luaL_optlong
+	</h1>
+
+	<pre class="brush: csharp;">
+		long luaL_optlong (lua_State *L, int narg, long d);
+	</pre>
+
+	<p>Если аргумент функции narg является числом, возвращает это число, приведенное к типу данных long.</p>
+	<p>Если аргумент опущен или является nil – возвращает d.</p>
+	<p>В противном случае – возбуждает ошибку.</p>
+
+	<h1 id="title">
+		luaL_optlstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *luaL_optlstring (lua_State *L,
+		int narg,
+		const char *d,
+		size_t *l);
+	</pre>
+
+	<p>Если аргумент функции narg является строкой, то возвращает эту строку.</p>
+	<p>Если аргумент опущен или является nil – возвращает d.</p>
+	<p>В противном случае – возбуждает ошибку.</p>
+	<p>Если l не является NULL, записывает в положение *l длину результата.</p>
+
+	<h1 id="title">
+		luaL_optnumber
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Number luaL_optnumber (lua_State *L, int narg, lua_Number d);
+	</pre>	
+
+	<p>Если аргумент функции narg является числом, то возвращает это число.</p>
+	<p>Если аргумент опущен или является nil – возвращает d.</p>
+	<p>В противном случае – возбуждает ошибку.</p>
+
+	<h1 id="title">
+		luaL_optstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *luaL_optstring (lua_State *L,
+		int narg,
+		const char *d);
+	</pre>
+
+	<p>Если аргумент функции narg является строкой, то возвращает эту строку.</p>
+	<p>Если аргумент опущен или является nil – возвращает d.</p>
+	<p>В противном случае – возбуждает ошибку.</p>
+
+	<h1 id="title">
+		luaL_prepbuffer
+	</h1>
+
+	<pre class="brush: csharp;">
+		char *luaL_prepbuffer (luaL_Buffer *B);
+	</pre>	
+
+	<p>Возвращает указатель на место в памяти, размером LUAL_BUFFERSIZE, где можно копировать строку для добавления в буфер B (см. luaL_Buffer).</p>
+	<p>После копирования строки в эту область памяти необходимо вызватьluaL_addsize с указанием размера строки, чтобы действительно добавить ее в буфер.</p>
+
+	<h1 id="title">
+		luaL_pushresult
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_pushresult (luaL_Buffer *B);
+	</pre>	
+
+	<p>Завершает использование буфера B, оставляя окончательную строчку на вершине стека.</p>
+
+	<h1 id="title">
+		luaL_ref
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_ref (lua_State *L, int t);
+	</pre>
+
+	<p>Создает и возвращает ссылку на элемент таблицы с индексом t, для объекта на вершине стека (и выталкивает объект).</p>
+	<p>Ссылка является уникальным целочисленным ключом.</p>
+	<p>До тех пор, пока вы не добавляете вручную ключи в таблицу t, luaL_ref гарантирует уникальность возвращаемых значений.</p>
+	<p>Получить объект, на который ссылается ссылка r можно, вызывая lua_rawgeti(L, t, r). Функция luaL_unref освобождает ссылку и ассоциированный с ней объект.</p>
+	<p>Если объект на вершине стека nil, luaL_ref возвращает константу LUA_REFNIL.</p>
+	<p>Константа LUA_NOREF всегда является отличной от любой ссылки, возвращаемой luaL_ref.</p>
+
+	<h1 id="title">
+		luaL_Reg
+	</h1>
+
+	<pre class="brush: csharp;">
+		typedef struct luaL_Reg
+		{
+			const char *name;
+			lua_CFunction func;
+		}
+
+		luaL_Reg;
+	</pre>
+
+	<p>Тип для массивов функций, регистрируемых функциейluaL_register.</p>
+	<p>Параметр name – имя функции, func – указатель на эту функцию.</p>
+	<p>Каждый массив luaL_Regдолжен оканчиваться предупреждающей записью, в которой name и func являются NULL.</p>
+
+	<h1 id="title">
+		luaL_register
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_register (lua_State *L,
+		const char *libname,
+		const luaL_Reg *l);
+	</pre>
+
+	<p>Открывает библиотеку.</p>
+	<p>При вызове со значением libname равным NULL, эта функция просто регистрирует все функции в списке l (см. luaL_Regв таблице на вершине стека.</p>
+	<p>При вызове с не null значением libname, luaL_register создает новую таблицу t, устанавливает ее как значение глобальной переменной libname, устанавливает ее также как значение package.loaded[libname] и регистрирует в ней все функции из списка l.</p>
+	<p>Если таблица уже находится в package.loaded[libname] или в переменной libname, использует заново эту таблицу взамен создания новой.</p>
+	<p>В любом случае, функция оставляет таблицу на вершине стека.</p>
+
+	<h1 id="title">
+		luaL_typename
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *luaL_typename (lua_State *L, int idx);
+	</pre>	
+
+	<p>Возвращает имя типа данных значения с индексом idx.</p>
+
+	<h1 id="title">
+		luaL_typerror
+	</h1>
+
+	<pre class="brush: csharp;">
+		int luaL_typerror (lua_State *L, int narg, const char *tname);
+	</pre>	
+
+	<p>Генерирует ошибку с сообщением, подобным следующему:</p>
+
+	<pre class="brush: csharp;">
+	location: bad argument narg to 'func' (tname expected, got rt)
+	</pre>
+
+	<p>где location заполняется luaL_where,func имя текущей функции и rt имя типа актуального аргумента.</p>
+
+	<h1 id="title">
+		luaL_unref
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_unref (lua_State *L, int t, int ref);
+	</pre>	
+
+	<p>Освобождение ссылки ref из таблицы с индексом t (см. luaL_ref).</p>
+	<p>Запись удаляется из таблицы, таким образом, что объекты, на которые они ссылаются, могут быть собраны.</p>
+	<p>Ссылка ref is также освобождается для дальнейшего использования.</p>
+	<p>Если ref имеет значение LUA_NOREF или LUA_REFNIL, функция luaL_unref не выполняет никаких действий.</p>
+
+	<h1 id="title">
+		luaL_where
+	</h1>
+
+	<pre class="brush: csharp;">
+		void luaL_where (lua_State *L, int lvl);
+	</pre>
+
+	<p>Записывает в стек строку, идентифицирующую текущее положение котролирующей единицы с уровнем lvl в стеке вызова.</p>
+	<p>Обычно, эта строка имеет следующий формат:</p>
+
+	<pre class="brush: csharp;">
+		chunkname:currentline
+	</pre>	
+
+	<p>Уровень 0 - это выполняемая функция, уровень 1 - это функция, которая вызвала выполняемую функцию и т.д.</p>
+	<p>Эта функция используется для построения префикса для сообщений об ошибках.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="41.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="43.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/42.html", "Функции и типы", "bm808"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm808", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm808") == 1) { document.getElementById("bma808").style.display = "block"; document.getElementById("bm808").style.display = "none"; } else { document.getElementById("bma808").style.display = "none"; document.getElementById("bm808").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Функции и типы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm808", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1161" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1161" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Представление Yii
+	</h1>
+
+    <p>Представление — это PHP-скрипт, состоящий преимущественно из элементов пользовательского интерфейса.</p>
+    <p>Он может включать выражения PHP, однако рекомендуется, чтобы эти выражения не изменяли данные и оставались относительно простыми.</p>
+    <p>Следуя концепции разделения логики и представления, большая часть кода логики должна быть помещена в контроллер или модель, а не в скрипт представления.</p>
+    <p>У представления есть имя, которое используется, чтобы идентифицировать файл скрипта представления в процессе рендеринга.</p>
+    <p>Имя представления должно совпадать с названием файла представления.</p>
+    <p>К примеру, для представления edit соответствующий файл скрипта должен называться edit.php.</p>
+    <p>Чтобы отобразить представление, необходимо вызвать метод CController::render(), указав имя представления.</p>
+    <p>При этом метод попытается найти соответствующий файл в директории protected/views/ControllerID.</p>
+    <p>Внутри скрипта представления экземпляр контроллера доступен через $this.</p>
+    <p>Таким образом, мы можем обратиться к свойству контроллера из кода представления: $this->propertyName.</p>
+    <p>Кроме того, мы можем использовать следующий способ для передачи данных представлению:</p>
+
+    <pre class="brush: csharp;">
+    $this->render('edit', array(
+        'var1'=>$value1,
+        'var2'=>$value2,
+    ));
+    </pre>
+
+    <p>В приведённом коде метод render() преобразует второй параметр — массив — в переменные.</p>
+    <p>Как результат, внутри представления будут доступны локальные переменные $var1 и $var2.</p>
+
+    <h2 id="title">
+        Макет
+    </h2>
+
+    <p>Макет (layout) — это специальное представление для декорирования других представлений.</p>
+    <p>Макет обычно содержит части пользовательского интерфейса, общие для нескольких представлений.</p>
+    <p>Например, макет может содержать верхнюю и нижнюю части страницы, заключая между ними содержание другого представления:</p>
+
+    <pre class="brush: csharp;">
+    …здесь верхняя часть…
+    &lt;?php echo $content; ?&gt;
+    …здесь нижняя…
+    </pre>
+
+    <p>Здесь $content хранит результат рендеринга представления.</p>
+    <p>Макет применяется неявно при вызове метода render().</p>
+    <p>По умолчанию в качестве макета используется представление protected/views/layouts/main.php.</p>
+    <p>Его можно изменить путём установки значений CWebApplication::layout или CController::layout.</p>
+    <p>Для рендеринга представления без применения макета необходимо вызвать renderPartial().</p>
+
+    <h2 id="title">
+        Виджет
+    </h2>
+
+    <p>Виджет (widget) — это экземпляр класса CWidget или унаследованного от него. Это компонент, применяемый, в основном, с целью оформления.</p>
+    <p>Виджеты обычно встраиваются в представления для формирования некоторой сложной, но в то же время самостоятельной части пользовательского интерфейса.</p>
+    <p>К примеру, виджет календаря может быть использован для рендеринга сложного интерфейса календаря.</p>
+    <p>Виджеты позволяют повторно использовать код пользовательского интерфейса.</p>
+    <p>Для подключения виджета необходимо выполнить в коде:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php $this->beginWidget('path.to.WidgetClass'); ?&gt;
+    …некое содержимое, которое может быть использовано виджетом…
+    &lt;?php $this->endWidget(); ?&gt;
+    </pre>
+
+    <p>или</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php $this->widget('path.to.WidgetClass'); ?&gt;
+    </pre>
+
+    <p>Последний вариант используется, когда виджет не имеет внутреннего содержимого.</p>
+    <p>Изменить поведение виджета можно путём установки начальных значений его свойств при вызове CBaseController::beginWidget или CBaseController::widget.</p>
+    <p>Например, при использовании виджета CMaskedTextField можно указать используемую маску, передав массив начальных значений свойств как показано ниже, где ключи массива являются именами свойств, а значения — начальными значениями соответствующих им свойств виджета:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    $this->widget('CMaskedTextField',array(
+        'mask'=>'99/99/9999'
+    ));
+    ?&gt;
+    </pre>
+
+    <p>Чтобы создать новый виджет, необходимо расширить класс CWidget и переопределить его методы init() и run():</p>
+
+    <pre class="brush: csharp;">
+    class MyWidget extends CWidget
+    {
+        public function init()
+        {
+            // этот метод будет вызван внутри CBaseController::beginWidget()
+        }
+     
+        public function run()
+        {
+            // этот метод будет вызван внутри CBaseController::endWidget()
+        }
+    }
+    </pre>
+
+    <p>Как и у контроллера, у виджета может быть собственное представление.</p>
+    <p>По умолчанию файлы представлений виджета находятся в поддиректории views директории, содержащей файл класса виджета.</p>
+    <p>Эти представления можно рендерить при помощи вызова CWidget::render() точно так же, как и в случае с контроллером.</p>
+    <p>Единственное отличие состоит в том, что для представления виджета не используются макеты.</p>
+    <p>Также следует отметить, что $this в представлении указывает на экземпляр виджета, а не на экземпляр контроллера.</p>
+    <p><b>Подсказка:</b> свойство CWidgetFactory::widgets может быть использовано для настройки умолчаний для отдельных виджетов во всём приложении. Подробнее об этом можно прочитать в разделе «Темы оформления, глобальная настройка виджетов» (<a href="45.html">перейти</a>).</p>
+
+    <h2 id="title">
+        Системные представления
+    </h2>
+
+    <p>Системные представления относятся к представлениям, используемым Yii для отображения ошибок и информации лога.</p>
+    <p>Например, когда пользователь запрашивает несуществующий контроллер или действие, Yii генерирует исключение, раскрывающее суть ошибки.</p>
+    <p>Такое исключение будет отображено с помощью системного представления.</p>
+    <p>Именование системных представлений подчиняется некоторым правилам. Имена типа errorXXX относятся к представлениям, служащим для отображения исключений CHttpException с кодом ошибки XXX.</p>
+    <p>Например, если исключение CHttpException сгенерировано с кодом ошибки 404, будет использовано представление error404.</p>
+    <p>Yii предоставляет стандартный набор системных представлений, расположенных в framework/views.</p>
+    <p>Их можно изменить, создав файлы представлений с теми же названиями в директории protected/views/system.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="9.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="11.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/10.html", "Представление Yii", "bm1161"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1161", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1161") == 1) { document.getElementById("bma1161").style.display = "block"; document.getElementById("bm1161").style.display = "none"; } else { document.getElementById("bma1161").style.display = "none"; document.getElementById("bm1161").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Представление Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1161", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma788" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm788" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Вызовы функций
+	</h1>
+
+	<p>Вызовы функций в Lua имеют следующий синтаксис:</p>
+	
+	<pre class="brush: csharp;">
+	functioncall ::= prefixexp args
+	</pre>
+
+	<p>В вызове функции сначала вычисляются префиксное выражение и аргументы.</p>
+	<p>Если значение префиксного выражения имеет тип <b>function</b>, то эта функция будет вызвана с указанными аргументами.</p>
+	<p>В противном случае вызывается метаметод “call”, параметрами которого будет значение префиксного выражения, за которым следуют первоначальные аргументы.</p>
+	<p>Форма записи:</p>
+
+	<pre class="brush: csharp;">
+	functioncall ::= prefixexp ':' Name args
+	</pre>
+
+	<p>может использоваться для вызова "методов".</p>
+	<p>Запись <b>v:name(args)</b> синтаксически аналогична записи v.name(v,args), только v вычисляется один раз.</p>
+	<p>Аргументы описываются следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	args ::= '(' [explist1] ')'
+	args ::= tableconstructor
+	args ::= String
+	</pre>
+
+	<p>Все выражения вычисляются перед вызовом.</p>
+	<p>Вызов в форме <b>f{fields}</b> синтаксически аналогичен f({fields}); то есть список аргументов  является по сути новой таблицей.</p>
+	<p>Вызов в форме <b>f'string'</b> (или f"string" или f[[string]]) синтаксически равен f('string'); в данном случае список аргументов - единстванная символьная строка.</p>
+	<p>Исключением в довольно свободном синтаксисе Lua является правило, по которому нельзя переходить на новую строку непосредственно перед символом '(' в вызове функции.</p>
+	<p>Это ограничение позволяет избежать некоторой двусмысленности в языке.</p>
+	<p>Если вы напишите</p>
+
+	<pre class="brush: csharp;">
+	a = f
+	(g).x(a)
+	</pre>
+
+	<p>Lua трактует эту запись как выражение <b>a = f(g).x(a)</b>.</p>
+	<p>Поэтому, если вам нужно 2 выражения, вы должны добавить точку с запятой между ними.</p>
+	<p>Если вы действительно хотите вызвать f, вы необходимо убрать переход на новую строку перед (g).</p>
+	<p>Вызов в форме <b>return functioncall</b> называется концевым вызовом.</p>
+	<p>Lua также поддерживает концевой вызов «себя» (или <b>рекурсивный</b> концевой вызов): в этом случае вызванная функция использует стек вызывающей функции.</p>
+	<p>Поэтому количество вложенных концовых вызовов может быть любым.</p>
+	<p>Заметим только, что концевой вызов стирает отладочную информацию о вызывающей функции.</p>
+	<p>Синтаксис концевого вызова допускает только единичный вызов функции после оператора <b>return</b>.</p>
+	<p>Таким образом, return вернет в точности тот результат, что вернет вызов функции.</p>
+	<p>Ни один из представленных ниже примеров не является допустимым концевым вызовом:</p>
+
+	<pre class="brush: csharp;">
+	return (f(x)) -- список-результат обрезается
+	return 2 * f(x) -- удвоение результата функции
+	return x, f(x) -- возвращается несколько значений
+	f(x); return -- результат вызова отбрасывается
+	return x or f(x) -- список-результат обрезается
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/22.html", "Вызовы функций", "bm788"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm788", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm788") == 1) { document.getElementById("bma788").style.display = "block"; document.getElementById("bm788").style.display = "none"; } else { document.getElementById("bma788").style.display = "none"; document.getElementById("bm788").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Вызовы функций") == 1) { arrs.splice(i, 1); localStorage.setItem("bm788", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

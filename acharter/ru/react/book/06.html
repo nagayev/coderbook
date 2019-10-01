@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma960" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm960" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		If-else, тернарный оператор
+	</h1>
+
+	<p>Помните, у нас была фраза "новостей нет"?</p>
+	<p>Хорошо бы ее отображать, если новостей действительно нет.</p>
+	<p>Для начала, научимся отображать общее количество новостей, допустим внизу, после списка новостей.</p>
+	<p>Как бы сказал участник игры "Угадай JS" - я напишу это за одну строку.</p>
+	<p>Что скажете вы?</p>
+	<p>Подсказка:</p>
+
+	<pre class="brush: csharp;">
+	var News = React.createClass(
+	{
+		render: function()
+		{
+			var data = this.props.data;
+			var newsTemplate = data.map(function(item, index)
+			{
+				return (
+					&lt;div key={index}&gt;
+					&#x9;&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+					&#x9;&lt;p className=&quot;news__text&quot;&gt;{item.text}&lt;/p&gt;
+					&lt;/div&gt;
+				)
+			})
+
+			return (
+				&lt;div className=&quot;news&quot;&gt;
+					{newsTemplate}
+					ЭТА_СТРОКА_ЗДЕСЬ
+				&lt;/div&gt;
+			);
+		}
+	});
+	</pre>
+
+	<p>Ответ:</p>
+
+	<pre class="brush: csharp;">
+		&lt;strong&gt;Всего новостей: {data.length}&lt;/strong&gt;
+	</pre>
+
+	<p>Поиграйтесь с переменной my_news.</p>
+	<p>Сделайте ее пустым массивом, добавьте/удалите элементы.</p>
+	<p>Пообновляйте страницу. Количество новостей должно работать корректно.</p>
+	<p>Вернемся к нашей задаче.</p>
+	<p>Алгоритм прост:</p>
+	<p>Создаем переменную newsTemplate, если новости есть - в переменную по-прежнему будем передавать результат работы фунции map, иначе - будем передавать сразу разметку.</p>
+	<p>Компонент News:</p>
+
+	<pre class="brush: csharp;">
+	var News = React.createClass(
+	{
+		render: function()
+		{
+			var data = this.props.data;
+			var newsTemplate;
+			
+			if (data.length > 0)
+			{
+				newsTemplate = data.map(function(item, index)
+				{
+					return (
+						&lt;div key={index}&gt;
+						&#x9;&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+						&#x9;&lt;p className=&quot;news__text&quot;&gt;{item.text}&lt;/p&gt;
+						&lt;/div&gt;
+					)
+				})
+			}
+			else
+			{
+				newsTemplate = &lt;p&gt;К сожалению новостей нет&lt;/p&gt;
+			}
+
+			return (
+				&lt;div className=&quot;news&quot;&gt;
+					{newsTemplate}
+					&lt;strong&gt;Всего новостей: {data.length}&lt;/strong&gt;
+				&lt;/div&gt;
+			);
+		}
+	});
+	</pre>
+
+	<p>Неплохо, но если нет новостей - зачем нам показывать, что всего новостей 0?</p>
+	<p>Давайте решим это с помощью css класса .none, который будем добавлять если новостей нет.</p>
+	<p>Для этого создайте css файл с содержимым:</p>
+
+	<pre class="brush: csharp;">
+		css/app.css
+		.none
+		{
+			display: none !important;
+		}
+	</pre>
+
+	<p>и подключите его в index.html</p>
+	<p>index.html</p>
+
+	<pre class="brush: csharp;">
+		&lt;!DOCTYPE html&gt;
+		&lt;html&gt;
+		&#x9;&lt;head&gt;
+		&#x9;&#x9;&lt;title&gt;React [RU] Tutorial&lt;/title&gt;
+		&#x9;&#x9;&lt;link rel=&quot;stylesheet&quot; href=&quot;css/app.css&quot;&gt;
+		&#x9;&lt;/head&gt;
+
+		&#x9;&lt;body&gt;
+		&#x9;&#x9;&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+		&#x9;&#x9;&lt;script src=&quot;js/react/react.js&quot;&gt;&lt;/script&gt;
+		&#x9;&#x9;&lt;script src=&quot;js/react/react-dom.js&quot;&gt;&lt;/script&gt;
+		&#x9;&#x9;&lt;script src=&quot;js/react/browser.min.js&quot;&gt;&lt;/script&gt;
+		&#x9;&#x9;&lt;script type=&quot;text/babel&quot; src=&quot;js/app.js&quot;&gt;&lt;/script&gt;
+		&#x9;&lt;/body&gt;
+		&lt;/html&gt;
+	</pre>
+
+	<p>С классом .none все вновь решается в одну строку.</p>
+	<p>Измените строку про количество новостей следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;strong className={data.length &gt; 0 ? '':'none'}>Всего новостей: {data.length}&lt;/strong&gt;
+	</pre>
+
+	<p>Проще простого: есть новости ? ' пустой класс ' : ' класс .none '</p>
+	<p>Для работы с классами, когда их становится больше и условия становятся сложнее, можно использовать classNames (NPM пакет).</p>
+	<p>Но сейчас в этом нет необходимости.</p>
+	<p>Итого: если вам нужно отобразить что-то в зависимости от условий, делайте это так же, как если бы react не был подключен.</p>
+	<p>Для удобства, мы использовали переменную-шаблон, которую объявили заранее, а затем в зависимости от условия сохраняли в нее необходимую разметку.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="05.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="07.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book/06.html", "If-else", "bm960"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm960", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm960") == 1) { document.getElementById("bma960").style.display = "block"; document.getElementById("bm960").style.display = "none"; } else { document.getElementById("bma960").style.display = "none"; document.getElementById("bm960").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("If-else") == 1) { arrs.splice(i, 1); localStorage.setItem("bm960", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

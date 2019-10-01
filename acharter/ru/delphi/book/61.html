@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma447" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm447" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Работа с файлами
+	</h1>
+
+	<p>Под словом файл в Delphi (и в любом языке программирования) понимается область внешней памяти ПК (жесткий диск, дискета, компакт- диск и т.п.), которая имеет имя.</p>
+	<p>Файлы в Delphi могут обрабатываться различными способами, в том числе и через функции WinAPI.</p>
+	<p>Файлы могут быть трех вариантов:</p>
+	<p><b>Типизированные.</b></p>
+	<p>Такие файлы принадлежат к какому-то типу данных, и могут работать только с ним.</p>
+	<p>Это очень удобно для создания файлов записей.</p>
+	<p>Такие файлы мы будем изучать чуть позже.</p>
+	<p><b>Текстовые файлы.</b></p>
+	<p>Такой тип файлов предназначен для работы с текстом.</p>
+	<p><b>Нетипизированные файлы.</b></p>
+	<p>Предназначены для побайтовой работы с файлами любого типа.</p>
+	<p>Например, такой тип удобно использовать для копирования файла, его переноса или переименования.</p>
+	<p>Файлы объявляются следующим образом:</p>
+
+	<pre class="brush: csharp;">
+var
+    f1 : File of &lt;тип&gt;;  //типизированные файлы
+    f2 : TextFile;  //текстовый тип файлов
+    f3 : File;  //нетипизированные файлы
+	</pre>
+
+	<p>Однако, присвоив какой-то переменной файловый тип, мы еще не можем работать с файлом.</p>
+	<p>Для этого мы вначале должны связать эту переменную с файлом.</p>
+	<p>Делается это следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	AssignFile(f1, 'filename.txt');
+	//связывание переменной с файлом
+	</pre>
+
+	<p>После этой функции, мы можем обращаться с переменной f1 как с файлом filename.txt.</p>
+	<p>Однако, если такого файла нет, мы получим ошибку, поэтому перед использованием связывания желательно делать проверку на наличие файла.</p>
+	<p>Такая проверка проводится функцией FileExists().</p>
+	<p>Ее синтаксис следующий:</p>
+
+	<pre class="brush: csharp;">
+	FileExists('c:\01\myfile.txt');
+	</pre>
+
+	<p>В качестве параметра в функцию передается адрес файла и его имя.</p>
+	<p>Можно передавать только имя, но тогда программа будет искать файл в текущей директории.</p>
+	<p>Функция возвращает True, если такой файл существует, и False в противном случае.</p>
+	<p>Поэтому мы можем использовать ее для проверки наличия файла:</p>
+
+	<pre class="brush: csharp;">
+adres := 'c:\01\myfile.txt';
+if FileExists(adres) then begin
+    AssignFile(f1, adres); //связали файловую переменную с файлом
+     … //дальнейшая работа с файлом
+end; //if
+	</pre>
+
+	<p>В дальнейшем, при работе с файлом, может возникнуть исключительная ситуация.</p>
+	<p><b>Внимание!</b></p>
+	<p>Такой термин мы встречаем в первый раз, однако он очень важен для понимания.</p>
+	<p>Что такое исключительная ситуация?</p>
+	<p>Это любая ошибка программы, которая может произойти во время работы.</p>
+	<p>Например, вы открыли какой-то сетевой файл и начали работу с ним.</p>
+	<p>А другой пользователь в это время взял да удалил этот файл.</p>
+	<p>При попытке чтения из несуществующего файла, или записи в него, произойдет ошибка и создастся исключительная ситуация.</p>
+	<p>Если вы не обработаете эту ошибку, то компьютер, скорее всего, намертво повиснет.</p>
+	<p>Поэтому в любой ситуации, когда имеется риск возникновения исключительной ситуации, программист ВСЕГДА должен ее обработать.</p>
+	<p>Для этого существует блок try-finally-end:</p>
+
+	<pre class="brush: csharp;">
+try
+   //блок кода, в котором может произойти ошибка
+finally
+   //код, который должен выполниться в любом случае, 
+   //например, код закрытия файла
+end;  //try
+	</pre>
+
+	<p>Если наша программа совершила непоправимую ошибку, то код, заключенный в блоке finally выполнится в любом случае.</p>
+	<p>Таким кодом обычно делают закрытие файла.</p>
+	<p>Если даже ошибка и совершится, файл все равно будет закрыт и программа не повиснет, а будет продолжать работу.</p>
+	<p>Приучите себя ВСЕГДА использовать этот блок при работе с сомнительным кодом.</p>
+	<p>Как бы хороша ни была программа, всегда найдется пользователь, который заставит ее сделать ошибку.</p>
+	<p>Давайте создадим проект, который будет копировать файл в другое место, и на этом примере познакомимся с реальной работой с файлами.</p>
+	<p>Создаем новый проект.</p>
+	<p>Устанавливаем на форму Edit, в поле которого будем писать, куда мы хотим копировать файл.</p>
+	<p>Также над ним можно установить Label, в котором введем: "Укажите папку, куда мы будем копировать".</p>
+	<p>Устанавливаем на форму кнопку, на которой пишем "Копировать файл".</p>
+	<p>Также с вкладки Dialogs устанавливаем на форму компонент OpenDialog, чтобы мы могли выбрать файл для копирования.</p>
+
+	<img src="delphi25.png" id="image" />
+
+	<p>Далее, нам осталось обработать нажатие на кнопку.</p>
+	<p>Все наши действия по открытию файла и его копированию будут происходить в процедуре нажатия на кнопку.</p>
+	<p>Вот полный листинг этой процедуры:</p>
+
+	<pre class="brush: csharp;">
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  fFrom, fTo : File;  //нетипизированные файл-источник, и файл-копия
+  colRead, colWrite : Integer;  //количество прочитанных и записанных байт
+  buf : array [1..2048] of Char;  //буфер символов для копируемого текста
+  filename : string;  //переменная с адресом и именем файла
+begin
+  //если нет адреса, куда копировать, то выходим
+  if Edit1.Text = '' then begin
+    ShowMessage('Укажите папку, куда нужно копировать файл!');
+    Edit1.SetFocus;
+    Exit;
+  end; //if
+
+  //если не выбрали файл, то выходим
+  if not OpenDialog1.Execute then Exit;
+  //смотрим адрес и имя файла:
+  filename := OpenDialog1.FileName;
+
+try
+  //связываем переменные с файлами:
+  AssignFile(fFrom, filename);  //откуда
+  AssignFile(fTo, Edit1.Text+'\'+ExtractFileName(filename));  //куда
+
+  //открываем файл для чтения:
+  Reset(fFrom, 1);
+  //открываем файл для записи:
+  Rewrite(fTo, 1);
+
+  //обнуляем переменные
+  colRead := 0;
+  colWrite := 0;
+
+  //копируем, пока не наступит конец файла:
+  while colRead = colWrite do begin
+     BlockRead(fFrom, buf, SizeOf(buf), colRead);
+     if colRead = 0 then break;
+     BlockWrite(fTo, buf, colRead, colWrite);
+  end; //while
+
+finally
+  //закрываем файлы
+  CloseFile(fFrom);
+  CloseFile(fTo);
+  ShowMessage('Файл скопирован!');
+end; //try
+end;
+	</pre>
+
+	<p>Теперь разберем этот код и познакомимся с новыми функциями.</p>
+	<p>После того, как с помощью функций AssignFile() мы связали переменные с файлами, откуда мы собираемся копировать, и куда, мы пользуемся функциями Reset и Rewrite.</p>
+	<p>Reset открывает файл только для чтения. Все попытки изменить такой файл приведут к ошибке.</p>
+	<p>При открытии файла указатель (курсор) устанавливается на начало файла.</p>
+	<p>Эта функция работает немного по- разному с разными типами файлов.</p>
+	<p>В случае нетипизированного файла, функция Reset имеет два параметра – файловую переменную и длину записи в байтах.</p>
+	<p>Мы указали в примере, что наша запись – 1 байт.</p>
+	<p>Так удобней для обработки кода.</p>
+	<p>Rewrite имеет такие же параметры, что и Reset, но она открывает файл для записи.</p>
+	<p>Причем если файла нет, то он создается, а если есть – перезаписывается.</p>
+	<p>Указатель также устанавливается в первую позицию.</p>
+	<p>Далее мы "обнулили" переменные типа Integer.</p>
+	<p>Об этих переменных речь впереди, а пока нам нужно, чтобы они были равны друг другу и имели значение 0.</p>
+	<p>Дальше мы начинаем условный цикл while, где проверяется равенство этих двух переменных.</p>
+	<p>А вот дальше идет интересная функция BlockRead.</p>
+	<p>Она предназначена для работы только с нетипизированными файлами, для работы с файлами другого типа используют функцию Read и Readln.</p>
+	<p>Функция BlockRead считывает информацию сразу блоками, что значительно ускоряет процесс копирования файлов.</p>
+	<p>Эта функция имеет четыре параметра, причем последний необязателен.</p>
+	<p>Разберемся с этими параметрами.</p>
+	<p>Переменная файлового типа, ранее связанная с файлом функцией AssignFile().</p>
+	<p>Буфер, куда будут записываться прочитанные данные.</p>
+	<p>Поскольку файл нетипизирован, данные могут быть любого типа – символьные, как в текстовом файле, или двоичные, как в программе, то есть, исполняемом файле.</p>
+	<p>В качестве буфера у нас служит массив символов, куда мы эти данные и считываем.</p>
+	<p>Чем больше такой массив, тем больше данных запишется за один раз, и тем быстрее будет происходить копирование.</p>
+	<p>Однако увлекаться увеличением буфера тоже не стоит.</p>
+	<p>В данном случае мы использовали такой размер, какой указан в справочной системе самой Delphi по функции BlockRead.</p>
+	<p>Дальнейшее увеличение размера буфера не приносит заметных преимуществ.</p>
+	<p>Количество байт, которые нужно прочитать.</p>
+	<p>Здесь мы использовали функцию SizeOf(), которая возвращает размер массива.</p>
+	<p>Тем самым мы указали, что нужно прочитать максимальное количество байт, которое поместится в этот массив.</p>
+	<p>Необязательный параметр – это переменная целого типа.</p>
+	<p>После чтения данных, в эту переменную заносится количество реально прочитанных байт.</p>
+	<p>Вообще-то количество реально прочитанных байт должно соответствовать количеству указанных байт, которые нужно прочитать.</p>
+	<p>Однако есть несколько исключений.</p>
+	<p>Во-первых, может произойти ошибка чтения данных.</p>
+	<p>Во-вторых, размер реально прочитанных байт может быть меньше заявленного размера, если мы прочитали файл до конца, и последний прочитанный кусочек оказался меньше, чем размер буфера.</p>
+	<p>И в-третьих, он может вовсе равняться нулю, если курсор (указатель) стоит на конце файла.</p>
+	<p>Итак, мы вызываем функцию BlockRead.</p>
+	<p>Мы указываем файл, из которого нужно читать, буфер, куда нужно поместить прочитанные данные, указываем количество байт, которые нужно прочитать, и даем переменную, куда запишется количество реально прочитанных байт.</p>
+	<p>И если мы прочитали 0 байт, это означает, что мы добрались до конца файла.</p>
+	<p>В этом случае мы выполняем директиву break, которая заканчивает цикл while.</p>
+	<p>Если же количество прочитанных байт больше нуля, значит, в буфере есть прочитанные данные, следовательно, их нужно записать.</p>
+	<p>Для этого мы вызываем процедуру BlockWrite, которая имеет такие же параметры, но не читает данные, а записывает их.</p>
+	<p>Посмотрите, в качестве третьего параметра мы используем переменную colRead, в которой хранится количество прочитанных ранее байт.</p>
+	<p>То есть, если в последнем кусочке у нас оказалось меньше байт, чем мы можем поместить в буфер, значит, такое же количество мы должны записать.</p>
+	<p>Вот и все премудрости копирования файлов!</p>
+	<p>Не забываем, что работа с файлом нередко приводит к ошибке, поэтому ее нужно поместить в блок try..finally..end.</p>
+	<p>В дальнейшей практике, при необходимости копировать файл желательно прибегать именно к такому способу, как к более быстрому и надежному.</p>
+	<p>В нашем примере осталось пара недостатков.</p>
+	<p>Как копирование файла выглядит с точки зрения пользователя?</p>
+	<p>Он полагает, что, отдав программе команду копировать, он получает точную копию файла, равную оригиналу во всем.</p>
+	<p>А как копирование файла выглядит с точки зрения программиста?</p>
+	<p>Программист понимает, что он открывает исходный файл, откуда будет брать данные, и создает новый файл, куда эти данные он потом запишет.</p>
+	<p>Все хорошо, вот только дата и время создания файла будут разные – копия будет иметь текущую дату.</p>
+	<p>Особой роли это не играет, однако иногда нужно и дату присваивать ту, которую имеет исходный файл.</p>
+	<p>Как это сделать, мы поговорим на "Записи".</p>
+	<p>Второй недостаток: мы твердо полагаем, что пользователь ввел в поле Edit адрес в таком формате:</p>
+
+	<pre class="brush: csharp;">
+	C:\MyDir
+	</pre>
+
+	<p>Затем к этому адресу мы добавляем обратный слэш ("\").</p>
+	<p>А если он сам уже поставил его?:</p>
+
+	<pre class="brush: csharp;">
+	C:\MyDir\
+	</pre>
+
+	<p>Тогда, в результате кода</p>
+
+	<pre class="brush: csharp;">
+	AssignFile(fTo, Edit1.Text+'\'+ExtractFileName(filename));
+	//куда
+	</pre>
+
+	<p>Мы получим ошибку, так как имя файла может выглядеть так: "C:\MyDir\\myfile.dat".</p>
+	<p>Попробуйте самостоятельно организовать проверку на наличие обратного слэша в конце адреса.</p>
+	<p>Например,</p>
+
+	<pre class="brush: csharp;">
+	if Edit1.Text[Length(Edit1.Text)] <> '\' then
+		Edit1.Text := Edit1.Text + '\';
+	</pre>
+
+	<p>А затем прибавлять имя файла к адресу уже без этого знака:</p>
+
+	<pre class="brush: csharp;">
+	AssignFile(fTo, Edit1.Text+ ExtractFileName(filename));
+	//куда
+	</pre>
+
+	<p>Перенос файла осуществляется точно так же, однако после того, как мы скопировали файл, и закрыли оба файла, исходный файл нужно удалить.</p>
+	<p>Для этого существует функция DeleteFile(), в качестве параметра которой мы указываем адрес и имя удаляемого файла.</p>
+	<p>В нашем примере мы можем указать OpenDialog1.FileName.</p>
+	<p>Функция вернет истину, если удаление произошло успешно, и ложь в противном случае.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="60.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="62.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/61.html", "Работа с файлами", "bm447"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm447", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm447") == 1) { document.getElementById("bma447").style.display = "block"; document.getElementById("bm447").style.display = "none"; } else { document.getElementById("bma447").style.display = "none"; document.getElementById("bm447").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Работа с файлами") == 1) { arrs.splice(i, 1); localStorage.setItem("bm447", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

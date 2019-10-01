@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma109" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm109" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Специфические методы и поля простых типов
+	</h1>
+
+	<p>Кроме методов, унаследованных от общего базового класса Object, каждый простой тип имеет набор собственных методов и свойств.</p>
+	<p>Рассмотрим те из них, которые являются достаточно общими и чаще всего применяются в программах.</p>
+	<p>Метод, без которого трудно обойтись в реальных программах, это метод <b>Parse()</b>, назначение которого – преобразовать текстовую строку в числовое или логическое значение.</p>
+	<p>Полезность этого метода связана с тем фактом, что при общении с программой пользователь обычно вводит числовые значения (например, с клавиатуры), в виде последовательности символов, а в программе они должны быть представлены в виде машинных кодов соответствующих чисел.</p>
+	<p>Задача перекодирования символьной строки в код числового значения, во- первых, трудоемка для программирования, а во - вторых, не каждая последовательность символов может быть преобразована в числовое значение.</p>
+	<p>Метод Parse(), определенный в каждом классе арифметических типов (Int32, Double…), позволяет автоматизировать решение задачи распознавания "правильных" записей числовых значений и задачи их преобразования в числа.</p>
+	<p>Метод Parse() убирает из строки лишние пробелы слева и справа и незначащие левые нули.</p>
+	<p>Следующая программа иллюстрирует применение метода к строковым литералам, представляющим числовые значения:</p>
+
+	<pre class="brush: csharp;">
+	// 05_02.cs - метод Parse()
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			long row = long.Parse("18");
+			long col = System.Int64.Parse(" 000123 ");
+			Console.WriteLine("row + col = " + (row + col));
+			double x = double.Parse(" -000,314159e+1");
+			Console.WriteLine("x = " + x);
+			Console.WriteLine("Double.Parse(\" 0011 \") = " +
+			Double.Parse(" 0011 "));
+		}
+	}
+	</pre>
+
+	<p>Обратите внимание, что метод Parse() является методом класса (статическим) и поэтому в его вызове нужно указать имя того класса, из которого он взят.</p>
+	<p>Имя класса может быть или системным (в нашей программе System.Int64 и System.Double), или принятым в языке C# (long, double).</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	row + col = 141
+	x = -3,14159
+	Double.Parse(" 0011 ") = 11
+	</pre>
+
+	<p>В программе строки (строковые константы–литералы), использованные в качестве аргументов метода Parse(), содержат ведущие и завершающие пробелы, а также незначащие левые нули.</p>
+	<p>Такие отклонения в строковых (символьных) представлениях чисел считаются допустимыми.</p>
+	<p>Следует обратить внимание на запятую, отделяющую дробную часть числа от целой в символьном представлении.</p>
+	<p>Это требование локализации, предполагающей, что в России используются не американские, а европейские правила записи вещественных чисел.</p>
+	<p><b>Примечание:</b> В текстах программ на C# для отделения целой части вещественного числа от ее дробной части используется точка.</p>
+	<p>При вводе и выводе, то есть во внешнем символьном представлении вещественных чисел, знак, разделяющий дробную и целую части, определяется локализацией исполняющей системы.</p>
+	<p>Локализация может быть изменена настройкой.</p>
+	<p>При неверной записи числового или логического значения в аргументе метода Parse() генерируется исключение с названием System.FormatException.</p>
+	<p>Так как мы еще не рассматривали механизм исключений, то примеры неудачных попыток применять метод Parse() с такими ошибками в записи чисел приводить преждевременно.</p>
+	<p>В .NET Framework 2.0 появился ещё один метод для преобразования строкового представления значения (арифметического, символьного, логического) в значение соответствующего простого типа.</p>
+	<p>Этот метод перегружен и его варианты есть в разных классах.</p>
+	<p>Например, в класс целых чисел типа int входит вариант этого метода с таким заголовком:</p>
+
+	<pre class="brush: csharp;">
+	static public bool TryParse (string, out);
+	</pre>
+
+	<p>Метод анализирует строку, представленную первым параметром, и если её удаётся преобразовать в целочисленное значение, то это значение передаётся в точку вызова с помощью аргумента, заменяющего второй параметр.</p>
+	<p>Кроме того метод имеет возвращаемое значение логического типа.</p>
+	<p>При успешном преобразовании возвращается значение true.</p>
+	<p>При неверном представлении в строке- аргументе значения соответствующего типа (того класса, для которого метод вызван) метод возвращает значение false.</p>
+	<p>Принципиальное отличие метода <b>TryParse()</b> от метода Parse() – отсутствие генерации исключений при неверных преобразованиях.</p>
+	<p>Поэтому его можно использовать, не применяя механизма обработки исключений.</p>
+	<p>Чтобы привести пример, в котором будут показаны некоторые возможности метода TryParse(), нам придётся несколько расширить тот арсенал средств, которыми мы до сих пор пользуемся в примерах программ.</p>
+	<p>Начнём с модификатора out, который используется в спецификации второго параметра метода TryParse().</p>
+	<p>Таким модификатором снабжается параметр, с помощью которого метод возвращает в точку вызова некоторое значение.</p>
+	<p>Аргумент, который будет подставлен на место этого параметра, должен быть пригоден для получения возвращаемого значения, и всегда снабжается в обращении к методу модификатором out.</p>
+	<p>Таким аргументом может быть имя переменной.</p>
+	<p>Наиболее часто метод TryParse() применяется для анализа входных данных, вводимых пользователем с клавиатуры.</p>
+	<p>Как мы уже показывали на примерах, последовательность символов, набранную на клавиатуре, можно "прочитать" с помощью метода</p>
+
+	<pre class="brush: csharp;">
+	static public string Console.ReadLine();
+	</pre>
+
+	<p>Метод принадлежит классу Console.</p>
+	<p>У метода ReadLine() параметры отсутствуют.</p>
+	<p>Метод "срабатывает" как только пользователь нажимает на клавиатуре клавишу ENTER.</p>
+	<p>В точку вызова метод ReadLine() возвращает строку символов, набранную на клавиатуре.</p>
+	<p>Обращение к методу ReadLine() можно использовать в качестве первого аргумента метода TryParse().</p>
+	<p>Вторым аргументом должна быть переменная того типа, значение которого мы планируем "прочитать" из входной строки.</p>
+	<p>Теперь, договорившись о новых средствах, приведём программу, которая читает из входного потока консоли (от клавиатуры) последовательность (строку) символов и анализирует её следующим образом.</p>
+	<p>Если введено логическое значение (true или false), то для true нужно вывести символ '1', а для false – символ '0'.</p>
+	<p>Если введённая последовательность символов не является изображением логического значения, то вывести знак '?'.</p>
+
+	<pre class="brush: csharp;">
+	// 05_03.cs - Метод TryParse().
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			bool bb;
+			char res;
+			Console.Write("Введите логическое зачение: ");
+			res = (bool.TryParse(Console.ReadLine(), out bb) == true) ?
+			bb ? '1' : '0' : '?';
+			Console.WriteLine("res ===> " + res);
+		}
+	}
+	</pre>
+
+	<p>Результаты нескольких выполнений программы:</p>
+
+	<pre class="brush: csharp;">
+	Введите логическое зачение: true&lt;ENTER&gt;
+	res ===> 1
+
+	Введите логическое зачение: false&lt;ENTER&gt;
+	res ===> 0
+
+	Введите логическое зачение: истина&lt;ENTER&gt;
+	res ===> ?
+	</pre>
+
+	<p>В программе используется статический метод TryParse() класса bool.</p>
+	<p>Первый аргумент – обращение к методу ReadLine() класса Console.</p>
+	<p>Второй аргумент – переменная булевого типа с именем bb.</p>
+	<p>Обращение к TryParse() - это первый операнд тернарной условной операции ?:.</p>
+	<p>Если возвращаемое методом значение равно true, то переменная bb получила одно из двух логических значений.</p>
+	<p>В зависимости от конкретного значения bb символьной переменной res присваивается '1' или '0'.</p>
+	<p>Если метод bool.TryParse() возвращает значение false, то переменная res получает значение '?'.</p>
+	<p>Результаты нескольких выполнений программы дополняют приведённые объяснения.</p>
+	<p>В каждый из классов, представляющих в C# простые (базовые) типы, входят несколько открытых статических константных полей, позволяющих оценить предельные значения переменных и констант соответствующего типа.</p>
+	<p>В классах целых типов таких полей два:</p>
+	<p><b>MaxValue</b> – максимальное допустимое значение (константа);</p>
+	<p><b>MinValue</b> – минимальное допустимое значение (константа).</p>
+	<p>В классах вещественных типов, кроме названных, присутствуют следующие статические константные поля:</p>
+	<p><b>Epsilon</b> – наименьшее отличное от нуля числовое значение, которое может принимать переменная заданного типа;</p>
+	<p><b>NaN</b> – представление значения, которое не является числом, например, результат выполнения операции при делении нуля на нуль;</p>
+	<p><b>NegativeInfinity</b> – представление отрицательной бесконечности, например, при делении отрицательного числа на нуль;</p>
+	<p><b>PositiveInfinity</b> – представление положительной бесконечности, например, при делении положительного числа на нуль.</p>
+	<p>В следующей программе выводятся значения перечисленных констант, определенных в классах, соответствующих типам int и double.</p>
+
+	<pre class="brush: csharp;">
+	// 05_04.cs – Константы и предельные значения
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			Console.WriteLine("int.MinValue = " + int.MinValue);
+			Console.WriteLine("int.MaxValue = " + int.MaxValue);
+			Console.WriteLine("double.MinValue = " + double.MinValue);
+			Console.WriteLine("double.MaxValue = " + double.MaxValue);
+			Console.WriteLine("double.Epsilon = " + double.Epsilon);
+			Console.WriteLine("double.NaN = " + double.NaN);
+			Console.WriteLine("double.PositiveInfinity = " +
+			double.PositiveInfinity);
+			Console.WriteLine("double.NegativeInfinity = " +
+			double.NegativeInfinity);
+			double zero = 0.0, value = 2.7172;
+			Console.WriteLine("value/zero = " + value / zero);
+			Console.WriteLine("0.0/zero = " + 0.0 / zero);
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения:</p>
+
+	<pre class="brush: csharp;">
+	int.MinValue = -2147483648
+	int.MaxValue = 2147483647
+	double.MinValue = -1,79769313486232E+308
+	double.MaxValue = 1,79769313486232E+308
+	double.Epsilon = 4,94065645841247E-324
+	double.NaN = NaN
+	double.PositiveInfinity = бесконечность
+	double.NegativeInfinity = -бесконечность
+	value/zero = бесконечность
+	0.0/zero = NaN
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/22.html", "Методы и поля", "bm109"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm109", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm109") == 1) { document.getElementById("bma109").style.display = "block"; document.getElementById("bm109").style.display = "none"; } else { document.getElementById("bma109").style.display = "none"; document.getElementById("bm109").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Методы и поля") == 1) { arrs.splice(i, 1); localStorage.setItem("bm109", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

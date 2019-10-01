@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1111" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1111" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		XML схемы
+	</h1>
+
+	<p>Также, как и XML DTD, XML схемы описывают структуру XML документа.</p>
+	<p>XML документ с корректной синтаксической структурой является "синтаксически верным".</p>
+	<p>XML документ, прошедший проверку по XML схеме, является "синтаксически верным" и "валидным".	</p>
+
+	<h1 id="title">
+		XML схема
+	</h1>
+
+	<p>XML схема является альтернативой DTD, основанной на XML:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;note&quot;&gt;
+		&#x9;&lt;xs:complexType&gt;
+		&#x9;&#x9;&lt;xs:sequence&gt;
+		&#x9;&#x9;&#x9;&lt;xs:element name=&quot;to&quot; type=&quot;xs:string&quot;/&gt;
+		&#x9;&#x9;&#x9;&lt;xs:element name=&quot;from&quot; type=&quot;xs:string&quot;/&gt;
+		&#x9;&#x9;&#x9;&lt;xs:element name=&quot;heading&quot; type=&quot;xs:string&quot;/&gt;
+		&#x9;&#x9;&#x9;&lt;xs:element name=&quot;body&quot; type=&quot;xs:string&quot;/&gt;
+		&#x9;&#x9;&lt;/xs:sequence&gt;
+		&#x9;&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>Приведенная выше схема интерпретируется следующим образом:</p>
+	<p><b>&lt;xs:element name=&quot;note&quot;&gt;</b> определяет элемент "note"</p>
+	<p><b>&lt;xs:complexType&gt;</b> у элемента "note" комплексный тип</p>
+	<p><b>&lt;xs:sequence&gt;</b> комплексный тип — это последовательность элементов</p>
+	<p><b>&lt;xs:element name=&quot;to&quot; type=&quot;xs:string&quot;&gt;</b> у элемента "to" строковый тип (текст)</p>
+	<p><b>&lt;xs:element name=&quot;from&quot; type=&quot;xs:string&quot;&gt;</b> у элемента "from" строковый тип</p>
+	<p><b>&lt;xs:element name=&quot;heading&quot; type=&quot;xs:string&quot;&gt;</b> у элемента "heading" строковый тип</p>
+	<p><b>&lt;xs:element name=&quot;body&quot; type=&quot;xs:string&quot;&gt;</b> у элемента "body" строковый тип</p>
+	<p>При этом все оформлено как "синтаксически верный" XML.</p>
+
+	<h1 id="title">
+		XML схема мощнее DTD
+	</h1>
+	
+	<p>- XML схема пишется на XML</p>
+	<p>- XML схема легко расширяется</p>
+	<p>- XML схема поддерживает типы данных</p>
+	<p>- XML схема поддерживает пространства имен</p>
+
+	<h1 id="title">
+		Зачем нужно использовать XML схему?
+	</h1>
+	
+	<p>С XML схемой ваш XML файл может нести собственный формат.</p>
+	<p>С XML схемой различные, не связанные друг с другом группы людей могут приходить к соглашению о стандартах пересекающихся данных.</p>
+	<p>С XML схемой вы можете проверять корректность данных.</p>
+
+	<h1 id="title">
+		XML схема поддерживает типы данных
+	</h1>
+	
+	<p>Одним из мощнейших свойств XML схемы является поддержка типов данных:</p>
+	<p>- Упрощается описание содержимого документа</p>
+	<p>- Упрощается определение ограничений по данным</p>
+	<p>- Упрощается проверка корректности данных</p>
+	<p>- Упрощается преобразование данных из одного типа в другой</p>
+
+	<h1 id="title">
+		XML схема использует синтаксис XML
+	</h1>
+	
+	<p>Еще одним из больших плюсов XML схемы является то, что она пишется на XML:</p>
+	<p>- Вам не нужно изучать новый язык программирования</p>
+	<p>- Вы можете использовать тот же XML редактор для создания файлов XML схем</p>
+	<p>- Вы можете использовать тот же XML парсер для разбора файлов XML схем</p>
+	<p>- Вы можете манипулировать XML схемами при помощи XML DOM</p>
+	<p>- Вы можете трансформировать XML схемы при помощи XSLT</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/book/14.html", "XML схемы", "bm1111"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1111", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1111") == 1) { document.getElementById("bma1111").style.display = "block"; document.getElementById("bm1111").style.display = "none"; } else { document.getElementById("bma1111").style.display = "none"; document.getElementById("bm1111").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("XML схемы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1111", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

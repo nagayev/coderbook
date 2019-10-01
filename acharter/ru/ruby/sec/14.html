@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1352" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1352" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Безопасность администратора
+    </h1>
+    
+    <p>Интранет и административные интерфейсы являются популярной целью для атак, поскольку они предоставляют привилегированный доступ.</p>
+    <p>Хотя это и может потребовать несколько дополнительных мер безопасности, таковы реалии современного мира.</p>
+    <p>В 2007 году зарегистрирован первый специально изготовленный троян, похищающий информацию из Интранета, названный "Monster for employers" по имени веб-сайта <b>Monster.com</b>, онлайн приложения по найму работников.</p>
+    <p>Специально изготовленные трояны очень редки, поэтому риск достаточно низок, но, конечно, возможен, и пример показывает, что безопасность хоста клиента тоже важна.</p>
+    <p>Однако, наибольшей угрозой для Интранета и администраторских приложений являются XSS и CSRF.</p>
+    <p><b>XSS:</b> Если ваше приложение повторно отображает введенные пользователем вредоносные данные, приложение уязвимо к XSS.</p>
+    <p>Имена пользователей, комментарии, отчеты о спаме, адреса заказов - это всего лишь обычные примеры, где может быть XSS.</p>
+    <p>Если есть всего лишь одно место в админке или Интранете, где ввод не был обработан, это делает целое приложение уязвимым.</p>
+    <p>Возможными результатами могут быть похищение привилегированных администраторских куки, встраивание iframe для похищения администраторского пароля или установка злонамеренного программного обеспечения через дыры в безопасности браузера для установления контроля над компьютером администратора.</p>
+    <p>Обратитесь к разделу про инъекции для контрмер против XSS.</p>
+    <p><b>CSRF:</b> Подделка межсайтовых запросов (CSRF), также известная как подделка межсайтовых ссылок (XSRF), - это гигантский метод атаки, он позволяет злоумышленнику делать все то, что может делать администратор или пользователь Интранета.</p>
+    <p>Так как мы уже раньше рассматривали как работает CSRF, вот несколько примеров того, как злоумышленники могут обращаться с Интранетом или административным интерфейсом.</p>
+    <p>Реальным примером является перенастройка роутера с помощью CSRF.</p>
+    <p>Злоумышленники разослали зловредные электронные письма с вложенным CSRF мексиканским пользователям.</p>
+    <p>Письма утверждали, что пользователя ждет пластиковая карточка, но они также содержали тег изображения, который приводил к запросу HTTP-GET на перенастройку роутера пользователя (наиболее популярной модели в Мексике).</p>
+    <p>Запрос изменял настройки DNS таким образом, что запросы к мексиканскому банковскому сайту направлялись на сайт злоумышленников.</p>
+    <p>Все, кто обращался к банковскому сайту через роутер, видели фальшивый сайт злоумышленников, и у них были похищены регистрационные данные.</p>
+    <p>Другой пример изменял адрес почты и пароль Google Adsense.</p>
+    <p>Если жертва входила в Google Adsense, административный интерфейс рекламных компаний Google, злоумышленник изменял ее полномочия.</p>
+    <p>Другой популярной атакой является спам от вашего веб-приложения, вашего блога или форума для распространения зловредного XSS.</p>
+    <p>Конечно, злоумышленник должен знать структуру URL, но большинство URL Rails достаточно просты или они могут быть легко найдены, если это административный интерфейс приложения с открытым кодом.</p>
+    <p>Злоумышленник даже может сделать 1,000 попыток, просто включив злонамеренный тег IMG, который пытается использовать каждую возможную комбинацию.</p>
+    <p>По контрмерам против CSRF в административных интерфейсах и приложениях Интранет, обратитесь к разделу по CSRF.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/14.html", "Безопасность администратора", "bm1352"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1352", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1352") == 1) { document.getElementById("bma1352").style.display = "block"; document.getElementById("bm1352").style.display = "none"; } else { document.getElementById("bma1352").style.display = "none"; document.getElementById("bm1352").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Безопасность администратора") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1352", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

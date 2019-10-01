@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma618" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm618" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Типы отношений между классами
+	</h1>
+
+	<p>Как правило, любая программа, написанная на объектно-ориентированном языке, представляет собой некоторый набор связанных между собой классов.</p>
+	<p>Можно провести аналогию между написанием программы и строительством дома.</p>
+	<p>Подобно тому, как стена складывается из кирпичей, компьютерная программа с использованием ООП строится из классов.</p>
+	<p>Причем эти классы должны иметь представление друг о друге, для того чтобы сообща выполнять поставленную задачу.</p>
+	<p>Возможны следующие связи между классами в рамках объектной модели (приводятся лишь наиболее простые и часто используемые виды связей, подробное их рассмотрение выходит за рамки этой ознакомительной лекции):</p>
+	<p><b>*</b> агрегация ( Aggregation );</p>
+	<p><b>*</b> ассоциация ( Association );</p>
+	<p><b>*</b> наследование ( Inheritance );</p>
+	<p><b>*</b> метаклассы ( Metaclass ).</p>
+
+	<h1 id="title">
+		Агрегация
+	</h1>
+
+	<p>Отношение между классами типа "содержит" (contain) или "состоит из" называется агрегацией, или включением.</p>
+	<p>Например, если аквариум наполнен водой и в нем плавают рыбки, то можно сказать, что аквариум агрегирует в себе воду и рыбок.</p>
+
+	<p>Такое отношение включения, или агрегации (aggregation), изображается линией с ромбиком на стороне того класса, который выступает в качестве владельца, или контейнера.</p>
+	<p>Необязательное название отношения записывается посередине линии.</p>
+	<p>В нашем примере отношение contain является двунаправленным.</p>
+	<p>Объект класса Aquarium содержит несколько объектов Fish.</p>
+	<p>В то же время каждая рыбка "знает", в каком именно аквариуме она живет.</p>
+	<p>Каждый класс имеет свою роль в агрегации, которая указывает, какое место занимает класс в данном отношении.</p>
+	<p>Имя роли не является обязательным элементом обозначений и может отсутствовать на диаграмме.</p>
+	<p>В примере можно видеть роль home класса Aquarium (аквариум является домом для рыбок), а также роль inhabitants класса Fish (рыбки являются обитателями аквариума).</p>
+	<p>Название роли обычно совпадает с названием соответствующего поля в классе.</p>
+	<p>Изображение такого поля на диаграмме излишне, если уже указано имя роли.</p>
+	<p>Т.е. в данном случае класс Aquarium будет иметь свойство (поле) inhabitants, а класс Fish - свойство home.</p>
+	<p>Число объектов, участвующих в отношении, записывается рядом с именем роли.</p>
+	<p>Запись " 0..n " означает "от нуля до бесконечности".</p>
+	<p>Приняты также обозначения:</p>
+	<p><b>" 1..n "</b> - от единицы до бесконечности;</p>
+	<p><b>" 0 "</b> - ноль;</p>
+	<p><b>" 1 "</b> - один;</p>
+	<p><b>" n "</b> - фиксированное количество;</p>
+	<p><b>" 0..1 "</b> - ноль или один.</p>
+	<p>Код, описывающий рассмотренную модель и явление агрегации, может выглядеть, например, следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	// определение класса Fish
+	public class Fish
+	{
+		// определения поля home (ссылка на объект Aquarium)
+		private Aquarium home;
+		public Fish()
+		{ }
+	}
+
+	// определение класса Aquarium
+	public class Aquarium
+	{
+		// определения поля inhabitants (массив ссылок на объекты Fish)
+		private Fish inhabitants[];
+		public Aquarium()
+		{ }
+	}
+	</pre>
+
+	<h1 id="title">
+		Ассоциация
+	</h1>
+
+	<p>Если объекты одного класса ссылаются на один или более объектов другого класса, но ни в ту, ни в другую сторону отношение между объектами не носит характера "владения", или контейнеризации, такое отношение называют ассоциацией (association).</p>
+	<p>Отношение ассоциации изображается так же, как и отношение агрегации, но линия, связывающая классы,- простая, без ромбика.</p>
+	<p>В качестве примера можно рассмотреть программиста и его компьютер.</p>
+	<p>Между этими двумя объектами нет агрегации, но существует четкая взаимосвязь.</p>
+	<p>Так, всегда можно установить, за какими компьютерами работает какой-либо программист, а также какие люди пользуются отдельно взятым компьютером.</p>
+	<p>В рассмотренном примере имеет место ассоциация "многие-ко-многим".</p>
+	<p>В данном случае между экземплярами классов Programmer и Computer в обе стороны используется отношение " 0..n ", т.к. программист, в принципе, может не работать с компьютером (если он теоретик или на пенсии).</p>
+	<p>В свою очередь, компьютер может никем не использоваться (если он новый и еще не установлен).</p>
+	<p>Код, соответствующий рассмотренному примеру, будет, например, следующим:</p>
+
+	<pre class="brush: csharp;">
+	public class Programmer
+	{
+		private Computer computers[];
+		public Programmer()
+		{ }
+	}
+
+	public class Computer
+	{
+		private Programmer programmers[];
+		public Computer()
+		{ }
+	}
+	</pre>
+
+	<h1 id="title">
+		Наследование
+	</h1>
+
+	<p>Наследование является важным случаем отношений между двумя или более классами.</p>
+	<p>Подробно оно рассматривалось выше.</p>
+
+	<h1 id="title">
+		Метаклассы
+	</h1>
+
+	<p>Итак, любой объект имеет структуру, состоящую из полей и методов.</p>
+	<p>Объекты, имеющие одинаковую структуру и семантику, описываются одним классом, который и является, по сути, определением структуры объектов, порожденных от него.</p>
+	<p>В свою очередь, каждый класс, или описание, всегда имеет строгий шаблон, задаваемый языком программирования или выбранной объектной моделью.</p>
+	<p>Он определяет, например, допустимо ли множественное наследование, какие существуют ограничения на именование классов, как описываются поля и методы, набор существующих типов данных и многое другое.</p>
+	<p>Таким образом, класс можно рассматривать как объект, у которого есть свойства (имя, список полей и их типы, список методов, список аргументов для каждого метода и т.д.).</p>
+	<p>Также класс может обладать поведением, то есть поддерживать методы.</p>
+	<p>А раз для любого объекта существует шаблон, описывающий свойства и поведение этого объекта, значит, его можно определить и для класса.</p>
+	<p>Такой шаблон, задающий различные классы, называется метаклассом.</p>
+	<p>Чтобы представить себе, что такое метакласс, рассмотрим пример некой бюрократической организации.</p>
+	<p>Будем считать, что все классы в такой системе представляют собой строгие инструкции, которые описывают, что нужно сделать, чтобы породить новый объект (например, нанять нового служащего или открыть новый отдел).</p>
+	<p>Как и полагается классам, они описывают все свойства новых объектов (например, зарплату и профессиональный уровень для сотрудников, площадь и имущество для отделов) и их поведение (обязанности служащих и функции подразделений).</p>
+	<p>В свою очередь, написание новой инструкции можно строго регламентировать.</p>
+	<p>Скажем, необходимо использовать специальный бланк, придерживаться правил оформления и заполнить все обязательные поля (например, номер инструкции и фамилии ответственных работников).</p>
+	<p>Такая "инструкция инструкций" и будет представлять собой метакласс в ООП.</p>
+	<p>Итак, объекты порождаются от классов, а классы - от метакласса.</p>
+	<p>Он, как правило, в системе только один.</p>
+	<p>Но существуют языки программирования, в которых можно создавать и использовать собственные метаклассы, например язык Python.</p>
+	<p>В частности, функциональность метакласса может быть следующая: при формировании класса он будет просматривать список всех методов в классе и, если имя метода имеет вид set_XXX или get_XXX, автоматически создавать поле с именем XXX, если такого не существует.</p>
+	<p>Поскольку метакласс сам является классом, то нет никакого смысла в создании "мета-мета-классов".</p>
+	<p>В языке Java также есть метакласс.</p>
+	<p>Это класс, который так и называется - Class (описывает классы ), он располагается в основной библиотеке java.lang.</p>
+	<p>Виртуальная машина использует его по прямому назначению.</p>
+	<p>Когда загружается очередной .class -файл, содержащий описание нового класса, JVM порождает объект класса Class, который будет хранить его структуру.</p>
+	<p>Таким образом, Java использует концепцию метакласса в самых практических целях.</p>
+	<p>С помощью Class реализована поддержка статических ( static ) полей и методов.</p>
+	<p>Наконец, этот класс содержит ряд методов, полезных для разработчиков.</p>
+	<p>Они будут рассмотрены в следующих лекциях.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/17.html", "Типы отношений", "bm618"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm618", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm618") == 1) { document.getElementById("bma618").style.display = "block"; document.getElementById("bm618").style.display = "none"; } else { document.getElementById("bma618").style.display = "none"; document.getElementById("bm618").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Типы отношений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm618", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

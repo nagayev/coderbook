@@ -1,0 +1,691 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1208" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1208" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Обновление с версии 1.1
+	</h1>
+
+    <p>Между версиями 1.1 и 2.0 существует много различий, так как Yii был полностью переписан для версии 2.0.</p>
+    <p>Таким образом, обновление с версии 1.1 не является таким же тривиальным как обновление между минорными версиями.</p>
+    <p>В данном руководстве приведены основные различия между двумя версиями.</p>
+    <p>Если прежде вы не использовали Yii 1.1, вы можете сразу перейти к разделу «Начало работы».</p>
+    <p>Также учтите, что в Yii 2.0 гораздо больше новых возможностей, чем описано далее.</p>
+    <p>Настоятельно рекомендуется, изучить всё руководство. Вполне возможно, что то, что раньше приходилось разрабатывать самостоятельно теперь является частью фреймворка.</p>
+
+    <h2 id="title">
+        Установка
+    </h2>
+
+    <p>Yii 2.0 широко использует Composer, который является основным менеджером зависимостей для PHP.</p>
+    <p>Установка как фреймворка, так и расширений, осуществляется через Composer.</p>
+    <p>Подробно о установке Yii 2.0 вы можете узнать из раздела «Установка Yii».</p>
+    <p>О том, как создавать расширения для Yii 2.0 или адаптировать уже имеющиеся расширения от версии 1.1, вы можете узнать из раздела «Создание расширений».</p>
+
+    <h2 id="title">
+        Требования PHP
+    </h2>
+
+    <p>Для работы Yii 2.0 необходим PHP 5.4 или выше.</p>
+    <p>Данная версия включает большое количество улучшений по сравнению с версией 5.2, которая использовалась Yii 1.1.</p>
+    <p>Таким образом, существует много различий в языке, которые вы должны принимать во внимание:</p>
+
+    <ul>
+        <li>Пространства имён;</li>
+        <li>Анонимные функции;</li>
+        <li>Использование короткого синтаксиса для массивов: [...элементы...] вместо array(...элементы...);</li>
+        <li>Использование короткого echo &lt;?= для вывода в файлах представлений. С версии PHP 5.4 данную возможность можно использовать не опасаясь;</li>
+        <li>Классы и интерфейсы SPL;</li>
+        <li>Позднее статическое связывание (LSB);</li>
+        <li>Классы для дат и времени;</li>
+        <li>Трейты;</li>
+        <li>Интернационализация (intl); Yii 2.0 использует расширение PHP intl для различного функционала интернационализации.</li>
+    </ul>
+
+    <h2 id="title">
+        Пространства имён
+    </h2>
+
+    <p>Одним из основных изменений в Yii 2.0 является использование пространств имён.</p>
+    <p>Почти каждый класс фреймворка находится в пространстве имён, например, yii\web\Request.</p>
+    <p>Префикс "С" в именах классов больше не используется.</p>
+    <p>Имена классов соответствуют структуре директорий.</p>
+    <p>Например, yii\web\Request указывает, что соответствующий класс находится в файле web/Request.php в директории фреймворка.</p>
+    <p>Благодаря загрузчику классов Yii, вы можете использовать любой класс фреймворка без необходимости непосредственно подключать его.</p>
+
+    <h2 id="title">
+        Компонент и объект
+    </h2>
+
+    <p>В Yii 2.0 класс CComponent из версии 1.1 был разделён на два класса: [[yii\base\BaseObject]] и [[yii\base\Component]].</p>
+    <p>Класс [[yii\base\BaseObject|BaseObject]] является простым базовым классом, который позволяет использовать геттеры и сеттеры для свойств.</p>
+    <p>Класс [[yii\base\Component|Component]] наследуется от класса [[yii\base\BaseObject|BaseObject]] и поддерживает события и поведения.</p>
+    <p>Если вашему классу не нужны события или поведения, вы можете использовать [[yii\base\BaseObject|BaseObject]] в качестве базового класса.</p>
+    <p>В основном это относится к классам, представляющим собой базовые структуры данных.</p>
+
+    <h2 id="title">
+        Конфигурация объекта
+    </h2>
+
+    <p>Класс [[yii\base\BaseObject|BaseObject]] предоставляет единый способ конфигурирования объектов.</p>
+    <p>Любой дочерний класс [[yii\base\BaseObject|BaseObject]] может определить конструктор (если нужно) как показано ниже.</p>
+    <p>Это позволит конфигурировать его универсально:</p>
+
+    <pre class="brush: csharp;">
+    class MyClass extends \yii\base\BaseObject
+    {
+        public function __construct($param1, $param2, $config = [])
+        {
+            // ... инициализация до того, как конфигурация будет применена
+    
+            parent::__construct($config);
+        }
+    
+        public function init()
+        {
+            parent::init();
+    
+            // ... инициализация после того, как конфигурация была применена
+        }
+    }
+    </pre>
+
+    <p>В примере выше, последний параметр конструктора должен быть массивом конфигурации, который содержит пары в формате ключ-значение для инициализации свойств объекта.</p>
+    <p>Вы можете переопределить метод [[yii\base\BaseObject::init()|init()]] для инициализации объекта после того, как конфигурация была применена к нему.</p>
+    <p>Следуя этому соглашению, вы сможете создавать и конфигурировать новые объекты с помощью массива конфигурации:</p>
+
+    <pre class="brush: csharp;">
+    $object = Yii::createObject([
+        'class' =&gt; 'MyClass',
+        'property1' =&gt; 'abc',
+        'property2' =&gt; 'cde',
+    ], [$param1, $param2]);
+    </pre>
+
+    <p>Более подробная информация о конфигурации представлена в разделе «Настройки», с которым мы ознакомимся далее.</p>
+
+    <h2 id="title">
+        События
+    </h2>
+
+    <p>В Yii 1, события создавались с помощью объявления метода on (например, onBeforeSave).</p>
+    <p>В Yii 2 вы можете использовать любое имя события.</p>
+    <p>Вызывать события можно при помощи метода [[yii\base\Component::trigger()|trigger()]].</p>
+
+    <pre class="brush: csharp;">
+    $event = new \yii\base\Event;
+    $component->trigger($eventName, $event);
+    </pre>
+
+    <p>Для прикрепления обработчика события используйте метод [[yii\base\Component::on()|on()]].</p>
+
+    <pre class="brush: csharp;">
+    $component->on($eventName, $handler);
+    // убираем обработчик
+    // $component->off($eventName, $handler);
+    </pre>
+
+    <p>Есть и другие улучшения по части событий, подробно описанные в разделе «События».</p>
+
+    <h2 id="title">
+        Псевдонимы пути
+    </h2>
+
+    <p>В Yii 2.0 псевдонимы используются более широко и применяются как к путям в файловой системе, так и к URL.</p>
+    <p>Теперь, для того, чтобы отличать псевдонимы от обычных путей и URL, требуется, чтобы имя псевдонима начиналось с символа @.</p>
+    <p>Например, псевдоним @yii соответствует директории, в которую установлен Yii.</p>
+    <p>Псевдонимы пути используются во многих местах.</p>
+    <p>Например, значение свойства</p>
+
+    <pre class="brush: csharp;">
+    [[yii\caching\FileCache::cachePath]]
+    </pre>
+
+    <p>может быть как псевдонимом пути так и обычным путём к папке.</p>
+    <p>Псевдонимы пути тесно связаны с пространством имён классов.</p>
+    <p>Рекомендуется определять псевдоним пути для каждого корневого пространства имён, что позволяет использовать загрузчик классов Yii без какой-либо дополнительной настройки.</p>
+    <p>Например, так как @yii соответствует директории, в которую установлен фреймворк, класс yii\web\Request может быть загружен автоматически.</p>
+    <p>Если вы используете сторонние библиотеки, например, из Zend Framework, вы можете определить псевдоним пути @Zend как директорию, в которую установлен этот фреймворк.</p>
+    <p>После этого Yii будет способен автоматически загружать любой класс Zend Framework.</p>
+
+    <h2 id="title">
+        Представления
+    </h2>
+
+    <p>Одним из основных изменений в Yii 2 является то, что специальная переменная $this в представлении, больше не соответствует текущему контроллеру или виджету.</p>
+    <p>Вместо этого, $this теперь соответствует объекту представления, новой возможности введённой в версии 2.0.</p>
+    <p>Объект представления имеет тип [[yii\web\View]], который представляет собой часть view в шаблоне проектирования MVC.</p>
+    <p>Если вы хотите получить доступ к контроллеру или виджету, используйте выражение $this->context.</p>
+
+    <p>Для рендеринга частичных представлений теперь используется метод $this->render(), а не $this->renderPartial().</p>
+    <p>Результат вызова метода render теперь должен быть выведен напрямую, так как render возвращает результат рендеринга, а не отображает его сразу:</p>
+
+    <pre class="brush: csharp;">
+    echo $this->render('_item', ['item' =&gt; $item]);
+    </pre>
+
+    <p>Кроме использования PHP в качестве основного шаблонизатора, Yii 2.0 также предоставляет официальные расширения для двух популярных шаблонизаторов: Smarty и Twig.</p>
+    <p>Шаблонизатор Prado больше не поддерживается.</p>
+    <p>Для использования данных шаблонизаторов необходимо настроить компонент приложения view задав свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::$renderers|View::$renderers]]
+    </pre>
+
+    <p>Подробнее об этом можно прочитать в разделе «Шаблонизаторы».</p>
+
+    <h2 id="title">
+        Модели
+    </h2>
+
+    <p>Yii 2.0 использует в качестве базового класса для моделей [[yii\base\Model]], аналогичный классу CModel в версии 1.1.</p>
+    <p>Класс CFormModel удалён.</p>
+    <p>Вместо него для создания модели формы в Yii 2.0 вы должны напрямую наследоваться от [[yii\base\Model]].</p>
+    <p>Появился новый метод [[yii\base\Model::scenarios()|scenarios()]] для объявления поддерживаемых сценариев, и для обозначения в каком сценарии атрибуты должны проверяться, считаться безопасными и т.п.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    public function scenarios()
+    {
+        return [
+            'backend' =&gt; ['email', 'role'],
+            'frontend' =&gt; ['email', '!role'],
+        ];
+    }
+    </pre>
+
+    <p>В примере выше, объявлено два сценария: backend и frontend.</p>
+    <p>Для backend сценария, оба атрибута email и role являются безопасными, и могут быть массово присвоены.</p>
+    <p>Для сценария frontend, атрибут email может быть массово присвоен, а атрибут role нет.</p>
+    <p>Оба атрибута email и role должны быть проверены с помощью правил валидации.</p>
+    <p>Метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Model::rules()|rules()]]
+    </pre>
+
+    <p>по-прежнему используется для объявления правил валидации.</p>
+    <p>Обратите внимание, что в связи с появлением нового метода</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Model::scenarios()|scenarios()]]
+    </pre>
+
+    <p>больше не поддерживается валидатор unsafe.</p>
+    <p>В большинстве случаев вам не нужно переопределять метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Model::scenarios()|scenarios()]]
+    </pre>
+
+    <p>если метод</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Model::rules()|rules()]]
+    </pre>
+
+    <p>полностью указывает все существующие сценарии, и если нет надобности в объявлении атрибутов небезопасными.</p>
+    <p>Более детальная информация представлена в разделе «Модели».</p>
+
+    <h2 id="title">
+        Контроллеры
+    </h2>
+
+    <p>В качестве базового класса для контроллеров в Yii 2.0 используется [[yii\web\Controller]], аналогичный CController в Yii 1.1.</p>
+    <p>Базовым классом для всех действий является [[yii\base\Action]].</p>
+    <p>Одним из основных изменений является то, что действие контроллера теперь должно вернуть результат вместо того, чтобы напрямую выводить его:</p>
+
+    <pre class="brush: csharp;">
+    public function actionView($id)
+    {
+        $model = \app\models\Post::findOne($id);
+        if ($model) {
+            return $this->render('view', ['model' =&gt; $model]);
+        } else {
+            throw new \yii\web\NotFoundHttpException;
+        }
+    }
+    </pre>
+
+    <p>Более детальная информация представлена в разделе «Контроллеры».</p>
+
+    <h2 id="title">
+        Виджеты
+    </h2>
+
+    <p>В Yii 2.0 класс [[yii\base\Widget]] используется в качестве базового класса для виджетов, аналогично CWidget в Yii 1.1.</p>
+    <p>Для лучшей поддержки фреймворка в IDE, Yii 2.0 использует новый синтаксис для виджетов.</p>
+    <p>Новые статические методы</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Widget::begin()|begin()]]
+    [[yii\base\Widget::end()|end()]]
+    [[yii\base\Widget::widget()|widget()]]
+    </pre>
+
+    <p>используются следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    use yii\widgets\Menu;
+    use yii\widgets\ActiveForm;
+    
+    // Обратите внимание что вы должны выводить результат
+    echo Menu::widget(['items' =&gt; $items]);
+    
+    // Указываем массив для конфигурации свойств объекта
+    $form = ActiveForm::begin([
+        'options' =&gt; ['class' =&gt; 'form-horizontal'],
+        'fieldConfig' =&gt; ['inputOptions' =&gt; ['class' =&gt; 'input-xlarge']],
+    ]);
+    ... поля формы ...
+    ActiveForm::end();
+    </pre>
+
+    <p>Более детальная информация представлена в разделе «Виджеты».</p>
+
+    <h2 id="title">
+        Темы
+    </h2>
+
+    <p>В Yii 2.0 темы работают совершенно по-другому.</p>
+    <p>Теперь они основаны на механизме сопоставления путей исходного файла представления с темизированным файлом.</p>
+    <p>Например, если используется сопоставление путей ['/web/views' =&gt; '/web/themes/basic'], то темизированная версия файла представления /web/views/site/index.php будет находится в /web/themes/basic/site/index.php.</p>
+    <p>По этой причине темы могут быть применены к любому файлу представления, даже к представлению, отрендеренному внутри контекста контроллера или виджета.</p>
+    <p>Также, больше не существует компонента CThemeManager.</p>
+    <p>Вместо этого, theme является конфигурируемым свойством компонента приложения view.</p>
+    <p>Более детальная информация представлена в разделе «Темизация».</p>
+
+    <h2 id="title">
+        Консольные приложения
+    </h2>
+
+    <p>Консольные приложения теперь организованы как контроллеры, аналогично веб приложениям.</p>
+    <p>Консольные контроллеры должны быть унаследованы от класса [[yii\console\Controller]], аналогичного CConsoleCommand в версии 1.1.</p>
+    <p>Для выполнения консольной команды, используйте yii &lt;маршрут&gt;, где <маршрут> это маршрут контроллера (например, sitemap/index).</p>
+    <p>Дополнительные анонимные аргументы будут переданы в качестве параметров соответствующему действию контроллера, в то время как именованные аргументы будут переданы в соответствие с объявлениями в [[yii\console\Controller::options()]].</p>
+    <p>Yii 2.0 поддерживает автоматическую генерацию справочной информации из блоков комментариев.</p>
+    <p>Более детальная информация представлена в разделе «Консольные команды».</p>
+
+    <h2 id="title">
+        I18N
+    </h2>
+
+    <p>В Yii 2.0 встроенные форматтеры времени и чисел были убраны в пользу PECL расширения PHP intl.</p>
+    <p>Перевод сообщений теперь осуществляется через компонент приложения i18n.</p>
+    <p>Данный компонент управляет множеством исходных хранилищ сообщений, что позволяет вам использовать разные хранилища для исходных сообщений в зависимости от категории сообщения.</p>
+    <p>Более детальная информация представлена в разделе «Интернационализация».</p>
+
+    <h2 id="title">
+        Фильтры действий
+    </h2>
+
+    <p>Фильтры действий теперь сделаны с помощью поведений.</p>
+    <p>Для определения нового фильтра, унаследуйтесь от [[yii\base\ActionFilter]].</p>
+    <p>Для использования фильтра, прикрепите его к контроллеру в качестве поведения.</p>
+    <p>Например, для использования фильтра [[yii\filters\AccessControl]], следует сделать следующее:</p>
+
+    <pre class="brush: csharp;">
+    public function behaviors()
+    {
+        return [
+            'access' =&gt; [
+                'class' =&gt; 'yii\filters\AccessControl',
+                'rules' =&gt; [
+                    ['allow' =&gt; true, 'actions' =&gt; ['admin'], 'roles' =&gt; ['@']],
+                ],
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Более детальная информация представлена в разделе «Фильтры».</p>
+
+    <h2 id="title">
+        Ресурсы
+    </h2>
+
+    <p>В Yii 2.0 представлена новая возможность связка ресурсов, которая заменяет концепт пакетов скриптов в Yii 1.1.</p>
+    <p>Связка ресурсов — это коллекция файлов ресурсов (например, JavaScript файлы, CSS файлы, файлы изображений, и т.п.) в определенной директории.</p>
+    <p>Каждая связка ресурсов представлена классом, унаследованным от [[yii\web\AssetBundle]].</p>
+    <p>Связка ресурсов становится доступной через веб после её регистрации методом [[yii\web\AssetBundle::register()]].</p>
+    <p>В отличие от Yii 1.1, страница, регистрирующая связку ресурсов, автоматически будет содержать ссылки на JavaScript и CSS файлы, указанные в связке.</p>
+    <p>Более детальная информация представлена в разделе «Ресурсы».</p>
+
+    <h2 id="title">
+        Хелперы
+    </h2>
+
+    <p>В Yii 2.0 включено много широко используемых статичных классов.</p>
+
+    <ul>
+        <li>[[yii\helpers\Html]]</li>
+        <li>[[yii\helpers\ArrayHelper]]</li>
+        <li>[[yii\helpers\StringHelper]]</li>
+        <li>[[yii\helpers\FileHelper]]</li>
+        <li>[[yii\helpers\Json]]</li>
+    </ul>
+
+    <p>Более детальная информация представлена в разделе «Хелперы».</p>
+
+    <h2 id="title">
+        Формы
+    </h2>
+
+    <p>Yii 2.0 вводит новое понятие поле для построения форм с помощью [[yii\widgets\ActiveForm]].</p>
+    <p>Поле — это контейнер, содержащий подпись, поле ввода, сообщение об ошибке и/или вспомогательный текст.</p>
+    <p>Поле представлено объектом [[yii\widgets\ActiveField|ActiveField]].</p>
+    <p>Используя поля, вы можете строить формы гораздо проще чем это было раньше:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php $form = yii\widgets\ActiveForm::begin(); ?&gt;
+        &lt;?= $form-&gt;field($model, &apos;username&apos;) ?&gt;
+        &lt;?= $form-&gt;field($model, &apos;password&apos;)-&gt;passwordInput() ?&gt;
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;?= Html::submitButton(&apos;Login&apos;) ?&gt;
+        &lt;/div&gt;
+    &lt;?php yii\widgets\ActiveForm::end(); ?&gt;
+    </pre>
+
+    <p>Более детальная информация представлена в разделе «Работа с формами».</p>
+
+    <h2 id="title">
+        Построитель запросов
+    </h2>
+
+    <p>В версии 1.1, построение запроса было разбросано среди нескольких классов, включая CDbCommand, CDbCriteria, и CDbCommandBuilder.</p>
+    <p>В Yii 2.0 запрос к БД представлен в рамках объекта [[yii\db\Query|Query]], который может быть превращён в SQL выражение с помощью [[yii\db\QueryBuilder|QueryBuilder]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $query = new \yii\db\Query();
+    $query->select('id, name')
+          ->from('user')
+          ->limit(10);
+    
+    $command = $query->createCommand();
+    $sql = $command->sql;
+    $rows = $command->queryAll();
+    </pre>
+
+    <p>Лучшим способом использования данных методов является работа с Active Record.</p>
+    <p>Более детальная информация представлена в разделе «Построитель запросов».</p>
+
+    <h2 id="title">
+        Active Record
+    </h2>
+
+    <p>В Yii 2.0 внесено множество изменений в работу Active Record.</p>
+    <p>Два основных из них включают в себя построение запросов и работу со связями.</p>
+    <p>Класс CDbCriteria версии 1.1 был заменен [[yii\db\ActiveQuery]].</p>
+    <p>Этот класс наследуется от [[yii\db\Query]] и таким образом получает все методы, необходимые для построения запроса.</p>
+    <p>Чтобы начать строить запрос следует вызвать метод [[yii\db\ActiveRecord::find()]]:</p>
+
+    <pre class="brush: csharp;">
+    // Получаем всех *активных* клиентов и сортируем их по ID
+    $customers = Customer::find()
+        ->where(['status' =&gt; $active])
+        ->orderBy('id')
+        ->all();
+    </pre>
+
+    <p>Для объявления связи следует просто объявить геттер, который возвращает объект [[yii\db\ActiveQuery|ActiveQuery]].</p>
+    <p>Имя свойства, определённое геттером, представляет собой название связи.</p>
+    <p>Например, следующий код объявляет связь orders (в версии 1.1, вам нужно было бы объявить связи в одном месте — методе relations()):</p>
+
+    <pre class="brush: csharp;">
+    class Customer extends \yii\db\ActiveRecord
+    {
+        public function getOrders()
+        {
+            return $this->hasMany('Order', ['customer_id' =&gt; 'id']);
+        }
+    }
+    </pre>
+
+    <p>Теперь вы можете использовать выражение $customer->orders для получения всех заказов клиента из связанной таблицы.</p>
+    <p>Вы также можете использовать следующий код, чтобы применить нужные условия «на лету»:</p>
+
+    <pre class="brush: csharp;">
+    $orders = $customer->getOrders()->andWhere('status=1')->all();
+    </pre>
+
+    <p>Yii 2.0 осуществляет жадную загрузку связи не так, как это было в 1.1.</p>
+    <p>В частности, в версии 1.1 для выбора данных из основной и связанной таблиц будет использован запрос JOIN.</p>
+    <p>В Yii 2.0 будут выполнены два запроса без использования JOIN: первый запрос возвращает данные для основной таблицы, а второй, осуществляющий фильтрацию по первичным ключами основной таблицы — для связанной.</p>
+    <p>Вместо того, чтобы при выборке большого количества записей возвращать объекты [[yii\db\ActiveRecord|ActiveRecord]], вы можете использовать в построении запроса метод [[yii\db\ActiveQuery::asArray()|asArray()]].</p>
+    <p>Это заставит вернуть результат запроса в виде массива, что при большом количестве записей может существенно снизить затрачиваемое процессорное время и объём потребляемой памяти. Например:</p>
+
+    <pre class="brush: csharp;">
+    $customers = Customer::find()->asArray()->all();
+    </pre>
+
+    <p>Ещё одно изменение связано с тем, что вы больше не можете определять значения по умолчанию через public свойства.</p>
+    <p>Вы должны установить их в методе init вашего класса, если это требуется.</p>
+
+    <pre class="brush: csharp;">
+    public function init()
+    {
+        parent::init();
+        $this->status = self::STATUS_NEW;
+    }
+    </pre>
+
+    <p>Также в версии 1.1 были некоторые проблемы с переопределением конструктора ActiveRecord.</p>
+    <p>Данные проблемы отсутствуют в версии 2.0.</p>
+    <p>Обратите внимание, что при добавлении параметров в конструктор, вам, возможно, понадобится переопределить метод [[yii\db\ActiveRecord::instantiate()]].</p>
+    <p>Существует также множество других улучшений в ActiveRecord.</p>
+    <p>Подробнее о них можно узнать в разделе «Active Record».</p>
+
+    <h2 id="title">
+        Поведения Active Record
+    </h2>
+
+    <p>В версии 2.0 отсутствует базовый класс для поведений CActiveRecordBehavior.</p>
+    <p>Если вам необходимо создать поведение для Active Record, стоит наследовать его класс напрямую от yii\base\Behavior.</p>
+    <p>Если поведение должно реагировать на какие-либо события, необходимо перекрыть метод events() следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\db\ActiveRecord;
+    use yii\base\Behavior;
+    
+    class MyBehavior extends Behavior
+    {
+        // ...
+    
+        public function events()
+        {
+            return [
+                ActiveRecord::EVENT_BEFORE_VALIDATE =&gt; 'beforeValidate',
+            ];
+        }
+    
+        public function beforeValidate($event)
+        {
+            // ...
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        User и IdentityInterface
+    </h2>
+
+    <p>Класс CWebUser из версии 1.1 теперь заменён классом [[yii\web\User]].</p>
+    <p>Также больше не существует класса CUserIdentity.</p>
+    <p>Вы должны реализовать интерфейс [[yii\web\IdentityInterface]], что гораздо проще.</p>
+    <p>Пример реализации представлен в шаблоне приложения advanced.</p>
+    <p>Более подробная информация представлена в разделах «Аутентификация», «Авторизация» и «Шаблон приложения advanced».</p>
+
+    <h2 id="title">
+        Разбор и генерация URL
+    </h2>
+
+    <p>Работа с URL в Yii 2.0 аналогична той, что была в версии 1.1.</p>
+    <p>Основное изменение заключается в том, что теперь поддерживаются дополнительные параметры.</p>
+    <p>Например, если у вас имеется правило, объявленное следующим образом, то оно совпадет с post/popular и post/1/popular.</p>
+    <p>В версии 1.1, вам пришлось бы использовать два правила, для достижения того же результата.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'pattern' =&gt; 'post/&lt;page:\d+&gt;/&lt;tag&gt;',
+        'route' =&gt; 'post/index',
+        'defaults' =&gt; ['page' =&gt; 1],
+    ]
+    </pre>
+
+    <p>Более детальная информация представлена в разделе «Разбор и генерация URL».</p>
+
+    <h2 id="title">
+        Использование Yii 1.1 вместе с 2.x
+    </h2>
+
+    <p>Информация об использовании кода для Yii 1.1 вместе с Yii 2.0 представлена в разделе «Одновременное использование Yii 1.1 и 2.0».</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="1.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="3.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/2.html", "Yii2: Обновление с версии 1.1", "bm1208"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1208", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1208") == 1) { document.getElementById("bma1208").style.display = "block"; document.getElementById("bm1208").style.display = "none"; } else { document.getElementById("bma1208").style.display = "none"; document.getElementById("bm1208").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Обновление с версии 1.1") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1208", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

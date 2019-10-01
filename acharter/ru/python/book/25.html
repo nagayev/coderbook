@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma950" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm950" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Работа с модулями: создание, подключение инструкциями import и from
+	</h1>
+
+	<p>Модулем в Python называется любой файл с программой (да-да, все те программы, которые вы писали, можно назвать модулями).</p>
+	<p>В этой статье мы поговорим о том, как создать модуль, и как подключить модуль, из стандартной библиотеки или написанный вами.</p>
+	<p>Каждая программа может импортировать модуль и получить доступ к его классам, функциям и объектам.</p>
+	<p>Нужно заметить, что модуль может быть написан не только на Python, а например, на C или C++.</p>
+	
+	<h1 id="title">
+		Подключение модуля из стандартной библиотеки
+	</h1>
+	
+	<p>Подключить модуль можно с помощью инструкции import.</p>
+	<p>К примеру, подключим модуль os для получения текущей директории:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; import os
+	&gt;&gt;&gt; os.getcwd()
+	'C:\\Python33'
+	</pre>
+
+	<p>После ключевого слова import указывается название модуля.</p>
+	<p>Одной инструкцией можно подключить несколько модулей, хотя этого не рекомендуется делать, так как это снижает читаемость кода.</p>
+	<p>Импортируем модули time и random.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; import time, random
+	&gt;&gt;&gt; time.time()
+	1376047104.056417
+	&gt;&gt;&gt; random.random()
+	0.9874550833306869
+	</pre>
+
+	<p>После импортирования модуля его название становится переменной, через которую можно получить доступ к атрибутам модуля.</p>
+	<p>Например, можно обратиться к константе e, расположенной в модуле math:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; import math
+	&gt;&gt;&gt; math.e
+	2.718281828459045
+	</pre>
+
+	<p>Стоит отметить, что если указанный атрибут модуля не будет найден, возбудится исключение AttributeError.</p>
+	<p>А если не удастся найти модуль для импортирования, то ImportError.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; import notexist
+Traceback (most recent call last):
+  File "", line 1, in
+    import notexist
+ImportError: No module named 'notexist'
+&gt;&gt;&gt; import math
+&gt;&gt;&gt; math.Ё
+Traceback (most recent call last):
+  File "", line 1, in
+    math.Ё
+AttributeError: 'module' object has no attribute 'Ё'
+	</pre>
+
+	<h1 id="title">
+		Использование псевдонимов
+	</h1>
+	
+	<p>Если название модуля слишком длинное, или оно вам не нравится по каким-то другим причинам, то для него можно создать псевдоним, с помощью ключевого слова as.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; import math as m
+	&gt;&gt;&gt; m.e
+	2.718281828459045
+	</pre>
+
+	<p>Теперь доступ ко всем атрибутам модуля math осуществляется только с помощью переменной m, а переменной math в этой программе уже не будет (если, конечно, вы после этого не напишете import math, тогда модуль будет доступен как под именем m, так и под именем math).</p>
+
+	<h1 id="title">
+		Инструкция from
+	</h1>
+
+	<p>Подключить определенные атрибуты модуля можно с помощью инструкции from.</p>
+	<p>Она имеет несколько форматов:</p>
+
+	<pre class="brush: csharp;">
+	from &lt;Название модуля&gt; import &lt;Атрибут 1&gt; [ as &lt;Псевдоним 1&gt; ], [&lt;Атрибут 2&gt; [ as &lt;Псевдоним 2&gt; ] ...]
+	from &lt;Название модуля&gt; import *
+	</pre>
+
+	<p>Первый формат позволяет подключить из модуля только указанные вами атрибуты.</p>
+	<p>Для длинных имен также можно назначить псевдоним, указав его после ключевого слова as.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; from math import e, ceil as c
+	&gt;&gt;&gt; e
+	2.718281828459045
+	&gt;&gt;&gt; c(4.6)
+	5
+	</pre>
+
+	<p>Импортируемые атрибуты можно разместить на нескольких строках, если их много, для лучшей читаемости кода:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; from math import (sin, cos,
+...           tan, atan)
+	</pre>
+
+	<p>Второй формат инструкции from позволяет подключить все (точнее, почти все) переменные из модуля.</p>
+	<p>Для примера импортируем все атрибуты из модуля sys:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; from sys import *
+	&gt;&gt;&gt; version
+	'3.3.2 (v3.3.2:d047928ae3f6, May 16 2013, 00:03:43) [MSC v.1600 32 bit (Intel)]'
+	&gt;&gt;&gt; version_info
+	sys.version_info(major=3, minor=3, micro=2, releaselevel='final', serial=0)
+	</pre>
+
+	<p>Следует заметить, что не все атрибуты будут импортированы.</p>
+	<p>Если в модуле определена переменная __all__ (список атрибутов, которые могут быть подключены), то будут подключены только атрибуты из этого списка.</p>
+	<p>Если переменная __all__ не определена, то будут подключены все атрибуты, не начинающиеся с нижнего подчёркивания.</p>
+	<p>Кроме того, необходимо учитывать, что импортирование всех атрибутов из модуля может нарушить пространство имен главной программы, так как переменные, имеющие одинаковые имена, будут перезаписаны.</p>
+
+	<h1 id="title">
+		Создание своего модуля на Python
+	</h1>
+	
+	<p>Теперь пришло время создать свой модуль.</p>
+	<p>Создадим файл mymodule.py, в которой определим какие-нибудь функции:</p>
+
+	<pre class="brush: csharp;">
+def hello():
+    print('Hello, world!')
+
+def fib(n):
+    a = b = 1
+    for i in range(n - 2):
+        a, b = b, a + b
+    return b
+	</pre>
+
+	<p>Теперь в этой же папке создадим другой файл, например, main.py:</p>
+
+	<pre class="brush: csharp;">
+import mymodule
+
+mymodule.hello()
+print(mymodule.fib(10))
+	</pre>
+
+	<p>Выведет:</p>
+
+	<pre class="brush: csharp;">
+	Hello, world!
+	55
+	</pre>
+
+	<p>Поздравляю!</p>
+	<p>Вы сделали свой модуль!</p>
+	<p>Напоследок отвечу ещё на пару вопросов, связанных с созданием модулей:</p>
+
+	<h1 id="title">
+		Как назвать модуль?
+	</h1>
+	
+	<p>Помните, что вы (или другие люди) будут его импортировать и использовать в качестве переменной.</p>
+	<p>Модуль нельзя именовать также, как и ключевое слово.</p>
+	<p>Также имена модулей нельзя начинать с цифры.</p>
+	<p>И не стоит называть модуль также, как какую-либо из встроенных функций.</p>
+	<p>То есть, конечно, можно, но это создаст большие неудобства при его последующем использовании.</p>
+
+	<h1 id="title">
+		Куда поместить модуль?
+	</h1>
+	
+	<p>Туда, где его потом можно будет найти.</p>
+	<p>Пути поиска модулей указаны в переменной sys.path.</p>
+	<p>В него включены текущая директория (то есть модуль можно оставить в папке с основной программой), а также директории, в которых установлен python.</p>
+	<p>Кроме того, переменную sys.path можно изменять вручную, что позволяет положить модуль в любое удобное для вас место (главное, не забыть в главной программе модифицировать sys.path).</p>
+
+	<h1 id="title">
+		Можно ли использовать модуль как самостоятельную программу?
+	</h1>
+
+	<p>Можно.</p>
+	<p>Однако надо помнить, что при импортировании модуля его код выполняется полностью, то есть, если программа что-то печатает, то при её импортировании это будет напечатано.</p>
+	<p>Этого можно избежать, если проверять, запущен ли скрипт как программа, или импортирован.</p>
+	<p>Это можно сделать с помощью переменной __name__, которая определена в любой программе, и равна "__main__", если скрипт запущен в качестве главной программы, и имя, если он импортирован.</p>
+	<p>Например, mymodule.py может выглядеть вот так:</p>
+	
+	<pre class="brush: csharp;">
+def hello():
+    print('Hello, world!')
+
+def fib(n):
+    a = b = 1
+    for i in range(n - 2):
+        a, b = b, a + b
+    return b
+
+if __name__ == "__main__":
+    hello()
+    for i in range(10):
+        print(fib(i))
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="24.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="26.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/25.html", "Модули", "bm950"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm950", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm950") == 1) { document.getElementById("bma950").style.display = "block"; document.getElementById("bm950").style.display = "none"; } else { document.getElementById("bma950").style.display = "none"; document.getElementById("bm950").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модули") == 1) { arrs.splice(i, 1); localStorage.setItem("bm950", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

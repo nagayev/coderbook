@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1158" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1158" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Приложение Yii
+	</h1>
+
+    <p>Объект приложения (application) инкапсулирует контекст выполнения запроса.</p>
+    <p>Основная задача приложения — собрать информацию о запросе и передать её соответствующему контроллеру для дальнейшей обработки.</p>
+    <p>Также приложение является централизованным хранилищем конфигурации приложения. Именно поэтому объект приложения также называют фронт-контроллером.</p>
+    <p>Объект приложения создаётся входным скриптом как одиночка (singleton).</p>
+    <p>Экземпляр приложения доступен из любой его точки посредством Yii::app().</p>
+
+    <h2 id="title">
+        Конфигурация приложения
+    </h2>
+
+    <p>По умолчанию объект приложения — это экземпляр класса CWebApplication, который может быть настроен с использованием конфигурационного файла (или массива).</p>
+    <p>Необходимые значения свойств устанавливаются в момент создания экземпляра приложения.</p>
+    <p>Альтернативный путь настройки приложения — расширение класса CWebApplication.</p>
+    <p>Конфигурация — это массив пар ключ-значение, где каждый ключ представляет собой имя свойства экземпляра приложения, а значение — начальное значение соответствующего свойства.</p>
+    <p>Например, следующая конфигурация устанавливает значения свойств приложения name и defaultController:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        'name'=>'Yii Framework',
+        'defaultController'=>'site',
+    )
+    </pre>
+
+    <p>Стоит отметить, что приложение, как и большинство классов Yii, является компонентом. Это означает что:</p>
+
+    <ul>
+      <li>Вы не можете присваивать значения не объявленным в классе свойствам.</li>
+      <li>Приложение поддерживает свойства, объявленные через геттеры и сеттеры, то есть можно сконфигурировать свойство, заданное setImport следующим образом:</li>
+    </ul>
+
+    <pre class="brush: csharp;">
+    array(
+        'import'=>array(
+            'application.components.*',
+        ),
+    )
+    </pre>
+
+    <p>Обычно конфигурация хранится в отдельном PHP-скрипте (например, protected/config/main.php).</p>
+    <p>Скрипт возвращает конфигурационный массив:</p>
+
+    <pre class="brush: csharp;">
+    return array(…);
+    </pre>
+
+    <p>Чтобы воспользоваться конфигурацией, необходимо передать имя конфигурационного файла в качестве аргумента конструктору приложения или методу Yii::createWebApplication(), как показано ниже.</p>
+    <p>Обычно это делается во входном скрипте:</p>
+
+    <pre class="brush: csharp;">
+    $app=Yii::createWebApplication($configFile);
+    </pre>
+
+    <p><b>Подсказка:</b> Если конфигурация очень громоздкая, можно разделить ее на несколько файлов, каждый из которых возвращает часть конфигурационного массива. Затем в основном конфигурационном файле необходимо подключить эти файлы, используя include(), и соединить массивы-части в единый конфигурационный массив.</p>
+
+    <h2 id="title">
+        Базовая директория приложения
+    </h2>
+
+    <p>Базовой директорией приложения называется корневая директория, содержащая все основные, с точки зрения безопасности, PHP-скрипты и данные.</p>
+    <p>По умолчанию это поддиректория protected, находящаяся в директории, содержащей входной скрипт.</p>
+    <p>Изменить её местоположение можно, установив свойство basePath в конфигурации приложения.</p>
+    <p>Содержимое базовой директории должно быть закрыто от доступа из веб.</p>
+    <p>При использовании веб-сервера Apache HTTP server это можно сделать путем добавления в базовую директорию файла .htaccess следующего содержания:</p>
+
+    <pre class="brush: csharp;">
+    deny from all
+    </pre>
+
+    <h2 id="title">
+        Компоненты приложения
+    </h2>
+
+    <p>Функциональность объекта приложения может быть легко модифицирована и расширена благодаря компонентной архитектуре.</p>
+    <p>Приложение управляет набором компонентов, каждый из которых реализует набор определённых возможностей.</p>
+    <p>Например, приложение производит предварительную обработку запроса пользователя, используя компоненты CUrlManager и CHttpRequest.</p>
+    <p>Изменяя значение свойства components, можно настроить классы и значения свойств любого компонента, используемого приложением.</p>
+    <p>Например, можно сконфигурировать компонент CMemCache так, чтобы он использовал несколько memcache-серверов для кэширования:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        …
+        'components'=>array(
+            …
+            'cache'=>array(
+                'class'=>'CMemCache',
+                'servers'=>array(
+                    array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+                    array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+                ),
+            ),
+        ),
+    )
+    </pre>
+
+    <p>В данном примере мы добавили элемент cache к массиву components.</p>
+    <p>Элемент cache указывает, что классом компонента является CMemCache, а также устанавливает его свойство servers.</p>
+    <p>Для доступа к компоненту приложения используйте Yii::app()->ComponentID, где ComponentID — это идентификатор компонента (например, Yii::app()->cache).</p>
+    <p>Компонент может быть деактивирован путем установки параметра enabled в его конфигурации равным false.</p>
+    <p>При обращении к деактивированному компоненту будет возвращен null.</p>
+    <p><b>Подсказка:</b> По умолчанию компоненты приложения создаются по требованию.Это означает, что экземпляр компонента может быть не создан вообще в случае, если это не требуется при обработке пользовательского запроса. В результате общая производительность приложения может не пострадать, даже если в конфигурации указано множество компонентов.</p>
+    <p>При необходимости обязательного создания экземпляров компонентов (например, CLogRouter) вне зависимости от того, используются они или нет, укажите их идентификаторы в значении конфигурационного свойства preload.</p>
+
+    <h2 id="title">
+        Ключевые компоненты приложения
+    </h2>
+
+    <p>Yii предопределяет набор компонентов ядра, которые предоставляют возможности, необходимые для большинства веб-приложений.</p>
+    <p>Например, компонент request используется для сбора информации о запросе пользователя и предоставляет различную информацию, такую как URL и cookies. Задавая свойства компонентов, можно изменять стандартное поведение Yii практически как угодно.</p>
+    <p>Далее перечислены ключевые компоненты, предопределенные классом CWebApplication:</p>
+
+    <ul>
+        <li>assetManager: CAssetManager — управляет публикацией файлов ресурсов (asset files);</li>
+        <li>authManager: CAuthManager — контролирует доступ на основе ролей (RBAC);</li>
+        <li>cache: CCache — предоставляет возможности кэширования данных; учтите, что вы должны указать используемый класс (например, CMemCache, CDbCache), иначе при обращении к компоненту будет возвращен null;</li>
+        <li>clientScript: CClientScript — управляет клиентскими скриптами (JavaScript и CSS);</li>
+        <li>coreMessages: CPhpMessageSource — предоставляет переводы системных сообщений Yii-фреймворка;</li>
+        <li>db: CDbConnection — обслуживает соединение с базой данных; обратите внимание, что для использования компонента необходимо установить свойство connectionString;</li>
+        <li>errorHandler: CErrorHandler — обрабатывает не пойманные ошибки и исключения PHP;</li>
+        <li>format: CFormatter — форматирует данные для их последующего отображения.</li>
+        <li>messages: CPhpMessageSource — предоставляет переводы сообщений, используемых в Yii-приложении;</li>
+        <li>request: CHttpRequest — содержит информацию о пользовательском запросе;</li>
+        <li>securityManager: CSecurityManager — предоставляет функции, связанные с безопасностью (например, хеширование, шифрование);</li>
+        <li>session: CHttpSession — обеспечивает функциональность, связанную с сессиями;</li>
+        <li>statePersister: CStatePersister — предоставляет метод для сохранения глобального состояния;</li>
+        <li>urlManager: CUrlManager — предоставляет функции парсинга и формирования URL;</li>
+        <li>user: CWebUser — предоставляет идентификационную информацию текущего пользователя;</li>
+        <li>themeManager: CThemeManager — управляет темами оформления.</li>
+    </ul>
+
+    <h2 id="title">
+        Жизненный цикл приложения 
+    </h2>
+
+    <p>Жизненный цикл приложения при обработке пользовательского запроса выглядит следующим образом:</p>
+
+    <ol>
+    <li>Предварительная инициализация приложения через CApplication::preinit().</li>
+    <li>Инициализация обработчика ошибок.</li>
+    <li>Регистрация компонентов ядра.</li>
+    <li>Загрузка конфигурации приложения.</li>
+    <li>Инициализация приложения CApplication::init():
+    <ul>
+        <li>регистрация поведений приложения;</li>
+        <li>загрузка статических компонентов приложения.</li>
+    </ul></li>
+    <li>Вызов события onBeginRequest.</li>
+    <li>Обработка запроса:
+    <ul>
+        <li>сбор информации о запросе;</li>
+        <li>создание контроллера;</li>
+        <li>запуск контроллера.</li>
+    </ul></li>
+    <li>Вызов события onEndRequest.</li>
+    </ol>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/7.html", "Приложение Yii", "bm1158"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1158", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1158") == 1) { document.getElementById("bma1158").style.display = "block"; document.getElementById("bm1158").style.display = "none"; } else { document.getElementById("bma1158").style.display = "none"; document.getElementById("bm1158").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Приложение Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1158", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

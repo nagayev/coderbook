@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1181" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1181" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Кэширование данных Yii
+	</h1>
+
+    <p>Кэширование данных — это сохранение некоторой переменной PHP в кэше и последующее её извлечение оттуда.</p>
+    <p>Для этой цели базовый класс компонентов кэширования CCache предоставляет два наиболее используемых метода: set() и get().</p>
+    <p>Для кэширования переменной $value мы выбираем уникальный идентификатор (ID) и вызываем метод set() для её сохранения в кэше:</p>
+
+    <pre class="brush: csharp;">
+    Yii::app()->cache->set($id, $value);
+    </pre>
+
+    <p>Данные будут оставаться в кэше до тех пор, пока не будут удалены согласно некоторой политике кэширования (например, если места для хранения кэшированых данных не осталось, тогда самые старые данные удаляются).</p>
+    <p>Чтобы изменить это поведение, мы можем установить срок действия кэша при вызове метода set().</p>
+    <p>В этом случае данные будут удалены из кэша по истечении как максимум заданного периода времени:</p>
+
+    <pre class="brush: csharp;">
+    // храним значение переменной в кэше не более 30 секунд
+    Yii::app()->cache->set($id, $value, 30);
+    </pre>
+
+    <p>Позже, когда нам требуется обратиться к этой переменной (при обработке текущего или другого веб-запроса), мы вызываем метод get() с указанным идентификатором, чтобы получить её значение из кэша.</p>
+    <p>Если будет возвращено значение false, то это означает, что переменная не доступна в кэше, и мы должны заново создать её.</p>
+
+    <pre class="brush: csharp;">
+    $value=Yii::app()->cache->get($id);
+    if($value===false)
+    {
+        // устанавливаем значение $value заново, т.к. оно не найдено в кэше,
+        // и сохраняем его в кэше для дальнейшего использования:
+        // Yii::app()->cache->set($id,$value);
+    }
+    </pre>
+
+    <p>При выборе идентификатора для кэшируемой переменной учитывайте, что он должен быть уникальным для каждой переменной из тех, что могут быть кэшированы в приложении.</p>
+    <p>НЕ требуется, чтобы идентификатор был уникальным среди нескольких приложений, компонент кэширования достаточно умён для различения идентификаторов разных приложений.</p>
+    <p>Некоторые кэш-хранилища, такие как MemCache и APC, поддерживают извлечение нескольких кэшированных значений в пакетном режиме, что может уменьшить накладные расходы при извлечении данных из кэша.</p>
+    <p>Метод mget() позволяет использовать эту возможность.</p>
+    <p>В случае если кэш-хранилище не поддерживает такую возможность, mget() будет тем не менее имитировать её.</p>
+    <p>Для удаления значения из кэша необходимо вызвать метод delete(), а для очистки всего кэша — метод flush().</p>
+    <p>Следует быть осторожным при вызове метода flush(), т.к. он также удаляет кэшированные данные других приложений.</p>
+    <p><b>Подсказка:</b> класс CCache реализует интерфейс ArrayAccess, поэтому компонент кэширования может использоваться как массив. Ниже приведены примеры:</p>
+
+    <pre class="brush: csharp;">
+    $cache=Yii::app()->cache;
+    $cache['var1']=$value1;  // эквивалентно $cache->set('var1',$value1);
+    $value2=$cache['var2'];  // эквивалентно $value2=$cache->get('var2');
+    </pre>
+
+    <h2 id="title">
+        Зависимость кэша
+    </h2>
+
+    <li>Помимо установки срока действия, кэшируемые данные также могут стать недействительными в соответствии с некоторыми изменениями зависимости (dependency).</li>
+    <li>Например, если мы кэшируем содержимое некоторого файла, и файл изменился, мы должны считать кэшированную копию недействительной и извлечь свежее содержимое из файла, а не из кэша.</li>
+    <li>Мы представляем зависимость как экземпляр класса CCacheDependency или одного из его наследников.</li>
+    <li>Мы передаём экземпляр зависимости вместе с кэшируемыми данными, когда вызываем метод set().</li>
+
+    <pre class="brush: csharp;">
+    // значение действительно не более 30 секунд
+    // кроме того, значение может стать недействительным раньше, если зависимый файл изменился
+    Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+    </pre>
+
+    <li>Теперь, если мы попытаемся извлечь значение $value из кэша, вызвав метод get(), зависимость будет проверена и, если она изменилась, мы получим значение false, означающее, что данные требуют обновления.</li>
+    <li>Ниже приведён список доступных зависимостей кэша:</li>
+
+    <ul>
+        <li>CFileCacheDependency: зависимость меняется, если время последней модификации файла изменилось.</li>
+        <li>CDirectoryCacheDependency: зависимость меняется, если любой файл в каталоге или в подкаталогах изменился.</li>
+        <li>CDbCacheDependency: зависимость меняется, если результат запроса некоторого определённого SQL-выражения изменился.</li>
+        <li>CGlobalStateCacheDependency: зависимость меняется, если значение определённого глобального состояния изменилось. Глобальное состояние — это переменная, являющаяся постоянной в многократных запросах и сессиях приложения. Её значение устанавливается с помощью метода CApplication::setGlobalState().</li>
+        <li>CChainedCacheDependency: зависимость меняется, если любая зависимость цепочки изменилась.</li>
+        <li>CExpressionDependency: зависимость меняется, если результат определённого PHP выражения изменился.</li>
+    </ul>
+
+    <h2 id="title">
+        Кэширование запросов
+    </h2>
+
+    <p>Начиная с версии 1.1.7, Yii поддерживает кэширование запросов.</p>
+    <p>Построенное на кэшировании данных, кэширование запросов хранит результат запроса к базе данных в кэше и, тем самым, экономит время, расходуемое на одни и те же запросы.</p>
+    <p><b>Информация:</b> Некоторые СУБД, такие как MySQL, поддерживают кэширование на стороне сервера базы данных. Аналогичная возможность в Yii обеспечивает большую гибкость по сравнению с кэшированием на стороне сервера БД, и потенциально она более эффективна.</p>
+
+    <h3 id="title">
+        Включение кэширования запросов
+    </h3>
+
+    <p>Для того чтобы включить кэширование запросов, убедитесь, что CDbConnection::queryCacheID содержит ID подключённого компонента, отвечающего за кэширование.</p>
+    <p>По умолчанию это компонент cache.</p>
+
+    <h3 id="title">
+        Использование кэширования запросов с DAO
+    </h3>
+
+    <p>Для того чтобы использовать кэширование запросов, необходимо вызвать метод CDbConnection::cache(), как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    $sql = 'SELECT * FROM tbl_post LIMIT 20';
+    $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+    $rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+    </pre>
+
+    <p>При выполнении приведённого кода Yii сначала проверит, есть ли в кэше актуальный результат, соответствующий SQL-запросу, который мы собираемся выполнить.</p>
+    <p>При этом проверяются следующие три условия:</p>
+
+    <ul>
+        <li>есть ли в кэше данные с запросом в качестве индекса;</li>
+        <li>не являются ли данные устаревшими (должно пройти менее 1000 секунд с момента последней записи в кэш);</li>
+        <li>не изменилась ли зависимость кэша (максимальное значение update_time осталось тем же, каким было при сохранении результата запроса в кэш).</li>
+    </ul>
+
+    <p>Если все три условия выполнены, то результат берётся из кэша. Иначе выполняется SQL-запрос, его результат записывается в кэш и возвращается.</p>
+
+    <h3 id="title">
+        Использование кеширования запросов с ActiveRecord
+    </h3>
+
+    <p>Кэширование запросов также можно использовать совместно с Active Record.</p>
+    <p>Для этого мы используем метод CActiveRecord::cache():</p>
+
+    <pre class="brush: csharp;">
+    $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+    $posts = Post::model()->cache(1000, $dependency)->findAll();
+    
+    // реляционный запрос
+    $posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
+    </pre>
+
+    <p>Метод cache() является сокращением для вызова CDbConnection::cache().</p>
+    <p>При выполнении SQL-запроса, сгенерированного ActiveRecord, Yii попытается использовать кэширование так же, как это было описано в предыдущем подразделе.</p>
+
+    <h3 id="title">
+        Кэширование нескольких запросов
+    </h3>
+
+    <p>По умолчанию, каждый раз, когда мы вызываем метод cache() (класса CDbConnection или CActiveRecord), он кэширует только следующий за его вызовом SQL-запрос.</p>
+    <p>Все остальные запросы НЕ кэшируются, пока мы не вызовем cache() ещё раз.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $sql = 'SELECT * FROM tbl_post LIMIT 20';
+    $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+     
+    $rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+    // запрос НЕ БУДЕТ закэширован
+    $rows = Yii::app()->db->createCommand($sql)->queryAll();
+    </pre>
+
+    <p>Передавая методу cache() дополнительный параметр $queryCount, мы можем закэшировать несколько подряд выполняющихся запросов.</p>
+    <p>В следующем примере мы кэшируем два запроса:</p>
+
+    <pre class="brush: csharp;">
+    // ...
+    $rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+    
+    // запрос БУДЕТ закэширован
+    $rows = Yii::app()->db->createCommand($sql)->queryAll();
+    </pre>
+
+    <p>Как известно, при выполнении реляционного AR-запроса, на самом деле могут выполняться несколько SQL-запросов (это можно узнать, проверив журнал сообщений).</p>
+    <p>Например, если связь между Post и Comment типа HAS_MANY, то код, приведённый ниже, выполнит два запроса:</p>
+
+    <ul>
+        <li>сначала будут выбраны 20 записей;</li>
+        <li>после этого будут выбраны комментарии для этих записей.</li>
+    </ul>
+
+    <pre class="brush: csharp;">
+    $posts = Post::model()->with('comments')->findAll(array(
+        'limit'=>20,
+    ));
+    </pre>
+
+    <p>Если использовать кэширование запросов, как показано ниже, закэширован будет только первый запрос к БД:</p>
+
+    <pre class="brush: csharp;">
+    $posts = Post::model()->cache(1000, $dependency)->with('comments')->findAll(array(
+        'limit'=>20,
+    ));
+    </pre>
+
+    <p>Для того чтобы в кэш попали оба запроса, необходимо передать дополнительный параметр, задающий количество кэшируемых запросов:</p>
+
+    <pre class="brush: csharp;">
+    $posts = Post::model()->cache(1000, $dependency, 2)->with('comments')->findAll(array(
+        'limit'=>20,
+    ));
+    </pre>
+
+    <h3 id="title">
+        Ограничения
+    </h3>
+
+    <p>Кэширование запросов не работает с результатами, содержащими указатели на ресурс.</p>
+    <p>Например, указатель возвращается в некоторых СУБД при использовании типа BLOB.</p>
+    <p>В некоторых хранилищах кэша есть ограничение на размер хранимых данных.</p>
+    <p>Например, в memcache максимальный размер одной единицы данных равен одному мегабайту.</p>
+    <p>Поэтому, если размер результата запроса превысит данное ограничение, то кэширование не сработает.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="29.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="31.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/30.html", "Кэширование данных Yii", "bm1181"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1181", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1181") == 1) { document.getElementById("bma1181").style.display = "block"; document.getElementById("bm1181").style.display = "none"; } else { document.getElementById("bma1181").style.display = "none"; document.getElementById("bm1181").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Кэширование данных Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1181", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

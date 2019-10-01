@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1221" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1221" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Модели
+	</h1>
+
+    <p>Модели являются частью архитектуры MVC (Модель-Вид-Контроллер).</p>
+    <p>Они представляют собой объекты бизнес данных, правил и логики.</p>
+    <p>Вы можете создавать классы моделей путём расширения класса [[yii\base\Model]] или его дочерних классов.</p>
+    <p>Базовый класс [[yii\base\Model]] поддерживает много полезных функций:</p>
+
+    <ul>
+        <li>Атрибуты: представляют собой рабочие данные и могут быть доступны как обычные свойства объекта или элементы массива;</li>
+        <li>Метки атрибутов: задают отображение атрибута;</li>
+        <li>Массовое присвоение: поддержка заполнения нескольких атрибутов в один шаг;</li>
+        <li>Правила проверки: обеспечивают ввод данных на основе заявленных правил проверки;</li>
+        <li>Экспорт Данных: разрешает данным модели быть экспортированными в массивы с настройкой форматов.</li>
+    </ul>
+
+    <p>Класс Model также является базовым классом для многих расширенных моделей, таких как Active Record.</p>
+    <p>Пожалуйста, обратитесь к соответствующей документации для более подробной информации об этих расширенных моделях.</p>
+    <p><b>Информация:</b> Вы не обязаны основывать свои классы моделей на [[yii\base\Model]]. Однако, поскольку в yii есть много компонентов, созданных для поддержки [[yii\base\Model]], обычно так делать предпочтительнее для базового класса модели.</p>
+
+	<h2 id="title">
+		Атрибуты
+	</h2>
+
+    <p>Модели предоставляют рабочие данные в терминах атрибутах.</p>
+    <p>Каждый атрибут представляет собой публично доступное свойство модели.</p>
+    <p>Метод [[yii\base\Model::attributes()]] определяет какие атрибуты имеет класс модели.</p>
+    <p>Вы можете получить доступ к атрибуту как к обычному свойству объекта:</p>
+
+    <pre class="brush: csharp;">
+    $model = new \app\models\ContactForm;
+    
+    // "name" - это атрибут модели ContactForm
+    $model->name = 'example';
+    echo $model->name;
+    </pre>
+
+    <p>Также возможно получить доступ к атрибутам как к элементам массива, спасибо поддержке ArrayAccess и Traversable в [[yii\base\Model]]:</p>
+
+    <pre class="brush: csharp;">
+    $model = new \app\models\ContactForm;
+    
+    // доступ к атрибутам как к элементам массива
+    $model['name'] = 'example';
+    echo $model['name'];
+    
+    // Модель является обходимой(traversable) с использованием foreach.
+    foreach ($model as $name =&gt; $value) {
+        echo "$name: $value\n";
+    }
+    </pre>
+
+    <h3 id="title">
+        Определение Атрибутов
+    </h3>
+
+    <p>По умолчанию, если ваш класс модели расширяется напрямую от [[yii\base\Model]], то все не статичные публичные переменные являются атрибутами.</p>
+    <p>Например, у класса модели ContactForm , который находится ниже, четыре атрибута: name, email, subject и body.</p>
+    <p>Модель ContactForm используется для представления входных данных, полученных из HTML формы.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models;
+    
+    use yii\base\Model;
+    
+    class ContactForm extends Model
+    {
+        public $name;
+        public $email;
+        public $subject;
+        public $body;
+    }
+    </pre>
+
+    <p>Вы можете переопределить метод [[yii\base\Model::attributes()]], чтобы определять атрибуты другим способом.</p>
+    <p>Метод должен возвращать имена атрибутов в модели.</p>
+    <p>Например [[yii\db\ActiveRecord]] делает так, возвращая имена столбцов из связанной таблицы базы данных в качестве имён атрибутов.</p>
+    <p>Также может понадобиться переопределить магические методы, такие как __get(), __set() для того, что бы атрибуты могли быть доступны как обычные свойства объекта.</p>
+
+    <h3 id="title">
+        Метки атрибутов
+    </h3>
+
+    <p>При отображении значений или при получении ввода значений атрибутов, часто требуется отобразить некоторые надписи, связанные с атрибутами.</p>
+    <p>Например, если атрибут назван firstName, Вы можете отобразить его как First Name, что является более удобным для пользователя, в тех случаях, когда атрибут отображается конечным пользователям в таких местах, как форма входа и сообщения об ошибках.</p>
+    <p>Вы можете получить метку атрибута, вызвав [[yii\base\Model::getAttributeLabel()]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $model = new \app\models\ContactForm;
+    
+    // отобразит "Name"
+    echo $model->getAttributeLabel('name');
+    </pre>
+
+    <p>По умолчанию, метки атрибутов автоматически генерируются из названия атрибута.</p>
+    <p>Генерация выполняется методом [[yii\base\Model::generateAttributeLabel()]].</p>
+    <p>Он превращает первую букву каждого слова в верхний регистр, если имена переменных состоят из нескольких слов.</p>
+    <p>Например, username станет Username, а firstName станет First Name.</p>
+    <p>Если Вы не хотите использовать автоматически сгенерированные метки, Вы можете переопределить метод [[yii\base\Model::attributeLabels()]], чтобы явно объявить метку атрибута.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models;
+    
+    use yii\base\Model;
+    
+    class ContactForm extends Model
+    {
+        public $name;
+        public $email;
+        public $subject;
+        public $body;
+    
+        public function attributeLabels()
+        {
+            return [
+                'name' =&gt; 'Your name',
+                'email' =&gt; 'Your email address',
+                'subject' =&gt; 'Subject',
+                'body' =&gt; 'Content',
+            ];
+        }
+    }
+    </pre>
+
+    <p>Для приложений поддерживающих мультиязычность, Вы можете перевести метки атрибутов.</p>
+    <p>Это можно сделать в методе</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Model::attributeLabels()|attributeLabels()]]
+    </pre>
+
+    <p>как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    public function attributeLabels()
+    {
+        return [
+            'name' =&gt; \Yii::t('app', 'Your name'),
+            'email' =&gt; \Yii::t('app', 'Your email address'),
+            'subject' =&gt; \Yii::t('app', 'Subject'),
+            'body' =&gt; \Yii::t('app', 'Content'),
+        ];
+    }
+    </pre>
+
+    <p>Можно даже условно определять метки атрибутов. Например, на основе сценариев и использованной в нём модели, Вы можете возвращать различные метки для одного и того же атрибута.</p>
+    <p><b>Для справки:</b> Строго говоря, метки атрибутов являются частью видов.</p>
+    <p>Но объявление меток в моделях часто очень удобно и приводит к чистоте кода и повторному его использованию.</p>
+
+    <h2 id="title">
+        Сценарии
+    </h2>
+
+    <p>Модель может быть использована в различных сценариях.</p>
+    <p>Например, модель User может быть использована для коллекции входных логинов пользователей, а также может быть использована для цели регистрации пользователей.</p>
+    <p>В различных сценариях, модель может использовать различные бизнес-правила и логику.</p>
+    <p>Например, атрибут email может потребоваться во время регистрации пользователя, но не во время входа пользователя в систему.</p>
+    <p>Модель использует свойство [[yii\base\Model::scenario]], чтобы отслеживать сценарий, в котором она используется.</p>
+    <p>По умолчанию, модель поддерживает только один сценарий с именем default.</p>
+    <p>В следующем коде показано два способа установки сценария модели:</p>
+
+    <pre class="brush: csharp;">
+    // сценарий задается как свойство
+    $model = new User;
+    $model->scenario = User::SCENARIO_LOGIN;
+    
+    // сценарий задается через конфигурацию
+    $model = new User(['scenario' =&gt; User::SCENARIO_LOGIN]);
+    </pre>
+
+    <p>По умолчанию сценарии, поддерживаемые моделью, определяются правилами валидации объявленными в модели.</p>
+    <p>Однако, Вы можете изменить это поведение путем переопределения метода [[yii\base\Model::scenarios()]] как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models;
+    
+    use yii\db\ActiveRecord;
+    
+    class User extends ActiveRecord
+    {
+        const SCENARIO_LOGIN = 'login';
+        const SCENARIO_REGISTER = 'register';
+    
+        public function scenarios()
+        {
+            return [
+                self::SCENARIO_LOGIN =&gt; ['username', 'password'],
+                self::SCENARIO_REGISTER =&gt; ['username', 'email', 'password'],
+            ];
+        }
+    }
+    </pre>
+
+    <p><b>Информация:</b> В приведенном выше и следующих примерах, классы моделей расширяются от [[yii\db\ActiveRecord]] потому, что использование нескольких сценариев обычно происходит от классов Active Record.</p>
+    <p>Метод scenarios() возвращает массив, ключами которого являются имена сценариев, а значения - соответствующие активные атрибуты. Активные атрибуты могут быть массово присвоены и подлежат валидации.</p>
+    <p>В приведенном выше примере, атрибуты username и password это активные атрибуты сценария login, а в сценарии register так же активным атрибутом является email вместе с username и password.</p>
+    <p>По умолчанию реализация scenarios() вернёт все найденные сценарии в правилах валидации задекларированных в методе [[yii\base\Model::rules()]].</p>
+    <p>При переопределении метода scenarios(), если Вы хотите ввести новые сценарии помимо стандартных, Вы можете написать код на основе следующего примера:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models;
+    
+    use yii\db\ActiveRecord;
+    
+    class User extends ActiveRecord
+    {
+        const SCENARIO_LOGIN = 'login';
+        const SCENARIO_REGISTER = 'register';
+    
+        public function scenarios()
+        {
+            $scenarios = parent::scenarios();
+            $scenarios[self::SCENARIO_LOGIN] = ['username', 'password'];
+            $scenarios[self::SCENARIO_REGISTER] = ['username', 'email', 'password'];
+            return $scenarios;
+        }
+    }
+    </pre>
+
+    <p>Возможности сценариев в основном используются валидацией и массовым присвоением атрибутов.</p>
+    <p>Однако, Вы можете использовать их и для других целей.</p>
+    <p>Например, Вы можете различным образом объявлять метки атрибутов на основе текущего сценария.</p>
+
+    <h2 id="title">
+        Правила валидации
+    </h2>
+
+    <p>Когда данные модели, получены от конечных пользователей, они должны быть проверены, для того чтобы убедиться, что данные удовлетворяют определенным правилам (так называемым правилам валидации также известными как бизнес-правила).</p>
+    <p>Например, дана модель ContactForm, возможно Вы захотите убедиться, что все атрибуты являются не пустыми значениями, а атрибут email содержит допустимый адрес электронной почты.</p>
+    <p>Если значения нескольких атрибутов не удовлетворяют соответствующим бизнес-правилам, то должны быть показаны соответствующие сообщения об ошибках, чтобы помочь конечному пользователю исправить допущенные ошибки.</p>
+    <p>Вы можете вызвать [[yii\base\Model::validate()]] для проверки полученных данных.</p>
+    <p>Данный метод будет использовать правила валидации определённые в [[yii\base\Model::rules()]] для проверки каждого соответствующего атрибута.</p>
+    <p>Если ошибок не найдено, то возвращается true, в противном случае возвращается false, а ошибки содержит свойство [[yii\base\Model::errors]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $model = new \app\models\ContactForm;
+    
+    // модель заполнения атрибутов данными, вводимыми пользователем
+    $model->attributes = \Yii::$app->request->post('ContactForm');
+    
+    if ($model->validate()) {
+        // все данные верны
+    } else {
+        // проверка не удалась:  $errors - это массив содержащий сообщения об ошибках
+        $errors = $model->errors;
+    }
+    </pre>
+
+    <p>Объявляем правила валидации связанные с моделью, переопределяем метод [[yii\base\Model::rules()]] возврата правил атрибутов модели которые следует удовлетворить.</p>
+    <p>В следующем примере показаны правила проверки объявленные в модели ContactForm:</p>
+
+    <pre class="brush: csharp;">
+    public function rules()
+    {
+        return [
+            // name, email, subject и body атрибуты обязательны
+            [['name', 'email', 'subject', 'body'], 'required'],
+    
+            // атрибут email должен быть правильным email адресом
+            ['email', 'email'],
+        ];
+    }
+    </pre>
+
+    <p>Правило может использоваться для проверки одного или нескольких атрибутов, также и атрибут может быть проверен одним или несколькими правилами.</p>
+    <p>Пожалуйста, обратитесь к разделу Проверка входных значений для более подробной информации о том, как объявлять правила проверки.</p>
+    <p>Иногда необходимо, чтобы правила применялись только в определенных сценариях.</p>
+    <p>Чтобы это сделать необходимо указать свойство on в правилах, следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    public function rules()
+    {
+        return [
+            // username, email и password требуются в сценарии "register"
+            [['username', 'email', 'password'], 'required', 'on' =&gt; self::SCENARIO_REGISTER],
+    
+            // username и password требуются в сценарии "login"
+            [['username', 'password'], 'required', 'on' =&gt; self::SCENARIO_LOGIN],
+        ];
+    }
+    </pre>
+
+    <p>Если не указать свойство on, то правило применяется во всех сценариях.</p>
+    <p>Правило называется активным правилом если оно может быть применено в текущем сценарии [[yii\base\Model::scenario|scenario]].</p>
+    <p>Атрибут будет проверяться тогда и только тогда если он является активным атрибутом объявленным в scenarios() и связанным с одним или несколькими активными правилами, объявленными в rules().</p>
+
+    <h2 id="title">
+        Массовое Присвоение
+    </h2>
+
+    <p>Массовое присвоение - это удобный способ заполнения модели данными вводимыми пользователем с помощью одной строки кода.</p>
+    <p>Он заполняет атрибуты модели путем присвоения входных данных непосредственно свойству [[yii\base\Model::$attributes]].</p>
+    <p>Следующие два куска кода эквивалентны, они оба пытаются присвоить данные из формы представленные конечными пользователями атрибутам модели ContactForm.</p>
+    <p>Ясно, что первый код гораздо чище и менее подвержен ошибкам, чем второй:</p>
+
+    <pre class="brush: csharp;">
+    $model = new \app\models\ContactForm;
+    $model->attributes = \Yii::$app->request->post('ContactForm');
+    $model = new \app\models\ContactForm;
+    $data = \Yii::$app->request->post('ContactForm', []);
+    $model->name = isset($data['name']) ? $data['name'] : null;
+    $model->email = isset($data['email']) ? $data['email'] : null;
+    $model->subject = isset($data['subject']) ? $data['subject'] : null;
+    $model->body = isset($data['body']) ? $data['body'] : null;
+    </pre>
+
+    <h3 id="title">
+        Безопасные Атрибуты
+    </h3>
+
+    <p>Массовое присвоение применяется только к так называемым безопасным атрибутам, которые являются атрибутами, перечисленными в [[yii\base\Model::scenarios()]] в текущем сценарии [[yii\base\Model::scenario|scenario]] модели.</p>
+    <p>Например, если модель User имеет следующий заданный сценарий, в данном случае это сценарий login, то только username и password могут быть массово присвоены.</p>
+    <p>Любые другие атрибуты останутся нетронутыми.</p>
+
+    <pre class="brush: csharp;">
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_LOGIN =&gt; ['username', 'password'],
+            self::SCENARIO_REGISTER =&gt; ['username', 'email', 'password'],
+        ];
+    }
+    </pre>
+
+    <p><b>Информация:</b> Причиной того, что массовое присвоение атрибутов применяется только к безопасным атрибутам, является то, что необходимо контролировать какие атрибуты могут быть изменены конечными пользователями. Например, если модель User имеет атрибут permission, который определяет разрешения, назначенные пользователю, то необходимо быть уверенным, что данный атрибут может быть изменён только администраторами через бэкэнд-интерфейс.</p>
+    <p>По умолчанию [[yii\base\Model::scenarios()]] будет возвращать все сценарии и атрибуты найденные в [[yii\base\Model::rules()]], если не переопределить этот метод, атрибут будет считаться безопасным только в случае, если он участвует в любом из активных правил проверки.</p>
+    <p>По этой причине существует специальный валидатор с псевдонимом safe, он предоставляет возможность объявить атрибут безопасным без фактической его проверки. </p>
+    <p>Например, следующие правила определяют, что оба атрибута title и description являются безопасными атрибутами.</p>
+
+    <pre class="brush: csharp;">
+    public function rules()
+    {
+        return [
+            [['title', 'description'], 'safe'],
+        ];
+    }
+    </pre>
+
+    <h3 id="title">
+        Небезопасные атрибуты
+    </h3>
+
+    <p>Как сказано выше, метод [[yii\base\Model::scenarios()]] служит двум целям: определения, какие атрибуты должны быть проверены, и определения, какие атрибуты являются безопасными (т.е. не требуют проверки).</p>
+    <p>В некоторых случаях необходимо проверить атрибут не объявляя его безопасным.</p>
+    <p>Вы можете сделать это с помощью префикса восклицательный знак ! в имени атрибута при объявлении его в scenarios() как атрибут secret в следующем примере:</p>
+
+    <pre class="brush: csharp;">
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_LOGIN =&gt; ['username', 'password', '!secret'],
+        ];
+    }
+    </pre>
+
+    <p>Когда модель будет присутствовать в сценарии login, то все три эти атрибута будут проверены.</p>
+    <p>Однако, только атрибуты username и password могут быть массово присвоены.</p>
+    <p>Назначить входное значение атрибуту secret нужно явно следующим образом,</p>
+
+    <pre class="brush: csharp;">
+    $model->secret = $secret;
+    </pre>
+
+    <h2 id="title">
+        Экспорт Данных
+    </h2>
+
+    <p>Часто нужно экспортировать модели в различные форматы.</p>
+    <p>Например, может потребоваться преобразовать коллекцию моделей в JSON или Excel формат.</p>
+    <p>Процесс экспорта может быть разбит на два самостоятельных шага.</p>
+    <p>На первом этапе модели преобразуются в массивы; на втором этапе массивы преобразуются в целевые форматы.</p>
+    <p>Вы можете сосредоточиться только на первом шаге потому, что второй шаг может быть достигнут путем универсального инструмента форматирования данных, такого как [[yii\web\JsonResponseFormatter]].</p>
+    <p>Самый простой способ преобразования модели в массив - использовать свойство [[yii\base\Model::$attributes]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $post = \app\models\Post::findOne(100);
+    $array = $post->attributes;
+    </pre>
+
+    <p>По умолчанию, свойство [[yii\base\Model::$attributes]] возвращает значения всех атрибутов объявленных в [[yii\base\Model::attributes()]].</p>
+    <p>Более гибкий и мощный способ конвертирования модели в массив - использовать метод [[yii\base\Model::toArray()]].</p>
+    <p>Его поведение по умолчанию такое же как и у [[yii\base\Model::$attributes]].</p>
+    <p>Тем не менее, он позволяет выбрать, какие элементы данных, называемые полями, поставить в результирующий массив и как они должны быть отформатированы.</p>
+    <p>На самом деле, этот способ экспорта моделей по умолчанию применяется при разработке в RESTful Web service, как описано в Response Formatting.</p>
+
+    <h3 id="title">
+        Поля
+    </h3>
+
+    <p>Поле - это просто именованный элемент в массиве, который может быть получен вызовом метода [[yii\base\Model::toArray()]] модели.</p>
+    <p>По умолчанию имена полей эквивалентны именам атрибутов.</p>
+    <p>Однако, это поведение можно изменить, переопределив методы [[yii\base\Model::fields()|fields()]] и/или [[yii\base\Model::extraFields()|extraFields()]].</p>
+    <p>Оба метода должны возвращать список определенных полей.</p>
+    <p>Поля определённые fields() являются полями по умолчанию, это означает, что toArray() будет возвращать эти поля по умолчанию.</p>
+    <p>Метод extraFields() определяет дополнительно доступные поля, которые также могут быть возвращены toArray() так много, как Вы укажите их через параметр $expand.</p>
+    <p>Например, следующий код будет возвращать все поля определённые в fields(), а также поля prettyName и fullAddress, если они определены в extraFields().</p>
+
+    <pre class="brush: csharp;">
+    $array = $model->toArray([], ['prettyName', 'fullAddress']);
+    </pre>
+
+    <p>Вы можете переопределить fields() чтобы добавить, удалить, переименовать или переопределить поля.</p>
+    <p>Возвращаемым значением fields() должен быть массив.</p>
+    <p>Ключами массива являются имена полей, а значениями - соответствующие определения полей, которые могут быть либо именами свойств/атрибутов, либо анонимными функциями, возвращающими соответствующие значения полей.</p>
+    <p>В частном случае, когда имя поля совпадает с именем его атрибута, возможно опустить ключ массива.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // использовать явное перечисление всех полей, лучше всего тогда, когда вы хотите убедиться,
+    // что изменения в вашей таблице базы данных или атрибуте модели не вызывают изменение вашего поля
+    // (для поддержания обратной совместимости API интерфейса).
+    
+    public function fields()
+    {
+        return [
+            // здесь имя поля совпадает с именем атрибута
+            'id',
+    
+            // здесь имя поля - "email", соответствующее ему имя атрибута - "email_address"
+            'email' =&gt; 'email_address',
+    
+            // здесь имя поля - "name", а значение определяется обратным вызовом PHP
+            'name' =&gt; function () {
+                return $this->first_name . ' ' . $this->last_name;
+            },
+        ];
+    }
+    
+    // использовать фильтрование нескольких полей лучше тогда, когда вы хотите наследовать
+    // родительскую реализацию и черный список некоторых "чувствительных" полей.
+    
+    public function fields()
+    {
+        $fields = parent::fields();
+    
+        // удаляем поля, содержащие конфиденциальную информацию
+        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
+    
+        return $fields;
+    }
+    </pre>
+
+    <p><b>Предупреждение:</b> по умолчанию все атрибуты модели будут включены в экспортируемый массив, вы должны проверить ваши данные и убедиться, что они не содержат конфиденциальной информации. Если такая информация присутствует, вы должны переопределить fields() и отфильтровать поля. В приведенном выше примере мы выбираем и отфильтровываем auth_key, password_hash и password_reset_token.</p>
+
+    <h2 id="title">
+        Лучшие практические методики разработки моделей
+    </h2>
+
+    <p>Модели являются центральным местом представления бизнес-данных, правил и логики.</p>
+    <p>Они часто повторно используются в разных местах.</p>
+    <p>В хорошо спроектированном приложении, модели, как правило, намного больше, чем контроллеры.</p>
+    <p>В целом, модели</p>
+
+    <ul>
+        <li>могут содержать атрибуты для представления бизнес-данных;</li>
+        <li>могут содержать правила проверки для обеспечения целостности и достоверности данных;</li>
+        <li>могут содержать методы с реализацией бизнес-логики;</li>
+        <li>не следует напрямую задавать запрос на доступ, либо сессии, либо любые другие данные об окружающей среде. Эти данные должны быть введены контроллерами в модели;</li>
+        <li>следует избегать встраивания HTML или другого отображаемого кода - это лучше делать в видах;</li>
+        <li>избегайте слишком большого количества сценариев в одной модели.</li>
+    </ul>
+
+    <p>Рекомендации выше обычно учитываются при разработке больших сложных систем.</p>
+    <p>В таких системах, модели могут быть очень большими, в связи стем, что они используются во многих местах и поэтому могут содержать множество наборов правил и бизнес-логики.</p>
+    <p>Это часто заканчивается кошмаром при поддержании кода модели, поскольку одним касанием кода можно повлиять на несколько разных мест.</p>
+    <p>Чтобы сделать код модели более легким в обслуживании, Вы можете предпринять следующую стратегию:</p>
+
+    <ul>
+        <li>Определить набор базовых классов моделей, которые являются общими для разных приложений или модулей.Эти классы моделей должны содержать минимальный набор правил и логики, которые являются общими среди всех используемых приложений или модулей.</li>
+        <li>В каждом приложении или модуле в котором используется модель, определить конкретный класс модели (или классы моделей), отходящий от соответствующего базового класса модели. Конкретный класс модели должен содержать правила и логику, которые являются специфическими для данного приложения или модуля.</li>
+    </ul>
+
+    <p>Например, в шаблоне приложения advanced, Вы можете определить базовым классом модели common\models\Post.</p>
+    <p>Тогда для frontend приложения, Вы определяете и используете конкретный класс модели frontend\models\Post, который расширяется от common\models\Post.</p>
+    <p>И аналогичным образом для backend приложения, Вы определяете backend\models\Post.</p>
+    <p>С помощью такой стратегии, можно быть уверенным, что код в frontend\models\Post используется только для конкретного frontend приложения, и если делаются любые изменения в нём, то не нужно беспокоиться, что изменения могут сломать backend приложение.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/15.html", "Yii2: Модели", "bm1221"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1221", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1221") == 1) { document.getElementById("bma1221").style.display = "block"; document.getElementById("bm1221").style.display = "none"; } else { document.getElementById("bma1221").style.display = "none"; document.getElementById("bm1221").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Модели") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1221", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

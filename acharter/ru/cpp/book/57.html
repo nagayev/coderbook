@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma78" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm78" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Перегрузка операторов в С++ (часть 2)
+	</h1>
+
+	<p>Тут будет рассмотрена перегрузка операций  =  (присваивание), == (равенство) и [ ] (индексация).</p>
+	<p>Думаю, новичкам будет полезно попрактиковаться и увидеть некоторые нюансы их перегрузки.</p>
+	<p>Поставим перед собой следующие задачи:</p>
+	<p>- создать класс, который будет содержать элементы:  int *numbers — указатель на массив целых чисел  и sizeOfArray — размер этого массива;</p>
+	<p>- перегрузить оператор [] так, чтобы мы могли из main-функции присваивать значение элементам массива класса.  Например, написав выражение Object[0] = 3, значение 3 запишется в ячейку с индексом 0 массива int *numbers. Теперь нам не придется определять и вызывать метод, который бы выполнял эту операцию (к примеру: Object.setNumber(0,3); где 0 – индекс массива а 3 – то что нужно записать);</p>
+	<p>- перегрузить оператор == чтобы можно было сравнить массивы  int *numbers  двух разных объектов класса;</p>
+	<p>- перегрузить оператор = так, чтобы записав выражение Object = Object2 массив int *numbers объекта Object  стал идентичными массиву объекта  Object2 и по количеству ячеек массива и по значениям, которые хранят ячейки массива.</p>
+	<p>Вот решение:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	class MyArray
+	{
+		int *numbers;
+		int sizeOfArray;
+		public:
+		//конструктор без параметров
+		MyArray()
+		{
+			sizeOfArray = 0;   
+			numbers = 0;
+		}
+		//-----------------------------------------------
+		//конструктор с параметрами
+		MyArray(int size)
+		{
+			sizeOfArray = size;
+			numbers = new int [sizeOfArray];
+			for(int i = 0; i < sizeOfArray; i++)
+			{
+				numbers[i] = 0;
+			}
+		}
+		//-----------------------------------------------
+		//деструктор
+		-MyArray()
+		{
+			delete [] numbers;
+		}
+		//-----------------------------------------------
+		//вывод данных массива на экран
+		void showData()
+		{
+			for(int i = 0; i < sizeOfArray; i++)
+			{
+				cout << numbers[i] << " | ";
+			}
+			cout << endl << endl;
+		}
+		//-----------------------------------------------
+		// на место вызова [] вернется по ссылке сам объект
+		//перегрузка [] 
+		int &operator[](int j)    
+		{
+			return numbers[j];
+		}
+		//-----------------------------------------------
+		//перегрузка оператора присваивания
+		MyArray& operator=( MyArray &arrInt2 )
+		{
+			delete [] numbers;
+			sizeOfArray = arrInt2.sizeOfArray;
+			numbers = new int [sizeOfArray];
+			for (int i = 0; i < sizeOfArray; i++)
+			{
+				numbers[i] = arrInt2.numbers[i];
+			}
+			return *this;
+		}
+		//-----------------------------------------------
+		//перегрузка ==
+		friend bool operator ==( MyArray &arrInt, MyArray &arrInt2 );
+	};
+
+	bool operator == ( MyArray &arrInt, MyArray &arrInt2 )
+	{
+		//сравниваем размеры массивов объектов
+		if(arrInt.sizeOfArray != arrInt2.sizeOfArray)
+		{
+			cout << "В массивах разное количество элементов\n";
+			return 0;
+		}
+		//проверяем равны ли данныев в ячейках массивов
+		else
+		{      
+			for (int i = 0; i < arrInt.sizeOfArray; i++)
+			{
+				if(arrInt.numbers[i] != arrInt2.numbers[i])
+				{
+					cout << "Значения массивов не равны\n";
+					return 0;
+				}
+			}  
+		}
+		return 1;
+	}
+	
+	int main()
+	{
+		setlocale(LC_ALL, "rus");
+		//создаем объект класса и записываем в него данные
+		MyArray ArrayInt(5);
+		//перегруженный []
+		ArrayInt[0] = 1;
+		ArrayInt[1] = 2;
+		ArrayInt[2] = 3;
+		ArrayInt[3] = 4;
+		ArrayInt[4] = 5;
+		cout << "Массив ArrayInt:  ";
+		//вывод данных массива на экран
+		ArrayInt.showData();
+		//создаем второй объект класса
+		MyArray ArrayInt2(5);
+		//перегруженный []
+		ArrayInt2[0] = 11;
+		ArrayInt2[1] = 22;
+		ArrayInt2[2] = 33;
+		ArrayInt2[3] = 44;
+		ArrayInt2[4] = 55;
+		cout << "Массив ArrayInt2: ";
+		//вывод данных массива на экран
+		ArrayInt2.showData();
+		//сравнение двух объектов класса (перегруженный ==)
+		if(ArrayInt == ArrayInt2)
+		{
+			cout << "Массив ArrayInt равен массиву ArrayInt2\n";
+		}
+		else
+		{
+			ArrayInt = ArrayInt2;
+		}
+		cout << "Массив ArrayInt после копирования:  ";
+		ArrayInt.showData();
+		// третий объект класса с массивом из 10 элементов
+		MyArray ArrayInt3(10);
+		cout << "Массив ArrayInt3: ";
+		ArrayInt3.showData();
+		// копируем массив из ArrayInt в ArrayInt3
+		ArrayInt3 = ArrayInt;
+		cout << "Массив ArrayInt3 после копирования: \n";
+		ArrayInt3.showData();
+		return 0;
+	}
+	</pre>
+
+	<p>И так — определяем класс MyArray.</p>
+	<p>В строках 9 — 28 определены конструкторы и деструктор.</p>
+	<p>Тот конструктор, который принимает параметр, будет сразу, при создании объекта класса, задавать размер sizeOfArray массива numbers.</p>
+	<p>В строках 39-43 перегружаем оператор индексирования [].</p>
+	<p>На место вызова [] вернется по ссылке сам объект и в ячейку его массива numbers под номером j мы сможем записать целое число.    </p>
+	<p>Ниже в строках 46 — 59 перегружаем = (присваивание).</p>
+	<p>Он будет копировать массив одного объекта класса MyArray в массив другого объекта класса.</p>
+	<p>Чтобы это произошло, достаточно будет написать следующее выражение Object = Object2.</p>
+	<p>При использовании перегруженного =, вызывается функция  MyArray& operator=( MyArray &arrInt2 ) определенная в классе.</p>
+	<p>Первый параметр (объект класса который прописан слева от знака = ) в нее передается неявным образом по указателю this, а тот, что в скобках – это тот объект который указан справа от =.</p>
+	<p>Далее выполняется код тела этой функции – определение нового размера массива первого объекта и корректное копирование в него данных элементов массива второго объекта.</p>
+	<p>Возвращает функция указатель на объект return *this; (указатель на самого себя, только уже с внесенными изменениями).</p>
+	<p>Перегрузка == (равенства) у нас определена в строках 64 — 83.</p>
+	<p>А в теле класса прописан ее прототип, как дружественной функции класса.</p>
+	<p>Так как оператор == используется для сравнения объектов, то функция его перегрузки будет возвращать значение типа bool.</p>
+	<p>Она вернет 1, если массивы объектов равны  и по размеру и, по значениям в ячейках массивов.</p>
+	<p>А если нет – вернет 0 и соответствующее сообщение о том,  что не совпадает.</p>
+	<p>Ну а в  main() мы просто применяем все перегруженные операторы так, как нам надо для работы.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Массив ArrayInt: 1 | 2 | 3 | 4 | 5 |
+	Массив ArrayInt2: 11 | 22 | 33 | 44 | 55 |
+	Значения массивов не равны
+	Массив ArrayInt после копирования: 11 | 22 | 33 | 44 | 55 |
+	Массив ArrayInt3: 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+	Массив ArrayInt3 после копирования:
+	11 | 22 | 33 | 44 | 55 |
+	</pre>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="56.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="58.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/57.html", "Перегрузка операторов (ч. 2)", "bm78"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm78", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm78") == 1) { document.getElementById("bma78").style.display = "block"; document.getElementById("bm78").style.display = "none"; } else { document.getElementById("bma78").style.display = "none"; document.getElementById("bm78").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перегрузка операторов (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm78", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

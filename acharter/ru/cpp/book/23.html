@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma44" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm44" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Цикл do while в C++
+	</h1>
+
+	<p>Цикл do while отличается от цикла while тем, что в do while сначала выполняется тело цикла, а затем проверяется условие продолжения цикла.</p>
+	<p>Из-за такой особенности do while называют циклом с постусловием.</p>
+	<p>Таким образом, если условие do while заведомо ложное, то хотя бы один раз блок операторов в теле цикла do while выполнится.</p>
+	<p>В итоге do while отличается от цикла while структурой.</p>
+	<p>Если в while сначала выполняется проверка условия продолжения цикла, и если условие истинно, то только тогда выполняется тело цикла.</p>
+	<p>Цикл do while работает с точностью до наоборот, сначала выполняется тело цикла, а потом проверяется условие, вот почему  тело цикла do while, хотя бы раз, выполнится.</p>
+
+	<pre class="brush: csharp;">
+	// форма записи оператора цикла do while:
+	// начало цикла do while
+	do
+	{
+		/*блок операторов*/;
+	}
+	// конец цикла do while
+	while (/*условие выполнения цикла*/);
+	</pre>
+
+	<p>В начале цикла do while пишется зарезервированное слово do, после идут фигурные скобочки, которые можно опускать, в случае использования одного оператора в теле цикла do while.</p>
+	<p>После закрывающей фигурной скобочки, обозначающей конец тела цикла do while, стоит условие цикла do while, после которого обязательно нужно ставить точку с запятой.</p>
+	<p>Рассмотрим программу с  циклом do while, которая выполняет некоторые транзакции с денежным счётом в банке.</p>
+
+	<pre class="brush: csharp;">
+	// do_while.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	#include &lt;ctime&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		srand(time(0));
+		// баланс
+		int balance = 8;
+		// начало цикла do while
+		do
+		{
+			// показать баланс
+			cout << "balance = " << balance << endl;
+			// переменная, для хранения вычитаемого значения
+			int removal = rand() % 3;
+			// показать вычитаемое значение
+			cout << "removal = " << removal << endl;
+			// управление условием
+			balance -= removal;
+		}
+		// конец цикла do while
+		while ( balance > 0 );
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строке 11 объявлена переменная balance, она отвечает за остаток денежных средств на счету.</p>
+	<p>С 12-й по 19-ю строки записан цикл do while.</p>
+	<p>В цикле do while выполняются все транзакции со счётом balance, а именно — перевод денежных средств на какой-то другой счёт, строка 17.</p>
+	<p>Строка 14 показывает остаток денежных средств на счету balance.</p>
+	<p>В строке 15 объявлена переменная, в которой хранится вычитаемое значение, причём это значение генерируется случайно в интервале [0;2].</p>
+	<p>Переменная removal один раз объявляется в теле цикла do while, и каждый раз при повторении цикла эта переменная не переопределяется.</p>
+	<p>А вот её значение меняется, в зависимости от того, какое число сгенерировалось.</p>
+	<p>В строке 19 записано условие цикла do while, как только условие станет ложным, программа передаст управление следующему оператору, после цикла do while, строка 20.</p>
+	<p>Результат работы программы показан ниже.</p>
+
+	<pre class="brush: csharp;">
+	balance = 8
+	removal = 1
+	balance = 7
+	removal = 1
+	balance = 6
+	removal = 1
+	balance = 5
+	removal = 2
+	balance = 3
+	removal = 1
+	balance = 2
+	removal = 2
+	</pre>
+
+	<p>Сначала показан остаток, а затем снятие суммы, после чего опять идёт остаток и так до тех пор, пока на счету не окажется денег.</p>
+	<p>Последней выводимой строкой оказалась строка со снимаемой суммой, а потом цикл завершил свою работу.</p>
+	<p>Хотя и не видно последнего остатка на счету, можно и так сказать, что он равен 0.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="22.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="24.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/23.html", "Цикл do while в C++", "bm44"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm44", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm44") == 1) { document.getElementById("bma44").style.display = "block"; document.getElementById("bm44").style.display = "none"; } else { document.getElementById("bma44").style.display = "none"; document.getElementById("bm44").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Цикл do while в C++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm44", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

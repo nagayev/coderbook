@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma838" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm838" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Структура программы на Турбо Паскаль
+	</h1>
+
+	<p>Программа на языке Паскаль состоит из заголовка, разделов описаний и раздела операторов.</p>
+	<p>Заголовок программы содержит имя программы, например:</p>
+
+	<pre class="brush: csharp;">
+	Program PRIM;
+	</pre>
+
+	<p>Описания могут включать в себя:</p>
+
+	<p>- раздел подключаемых библиотек (модулей);</p>
+	<p>- раздел описания меток;</p>
+	<p>- раздел описания констант;</p>
+	<p>- раздел описания типов;</p>
+	<p>- раздел описания переменных;</p>
+	<p>- раздел описания процедур и функций.</p>
+	<p>Раздел описания модулей определяется служебным словом USES и содержит имена подключаемых модулей (библиотек) как входящих в состав системы Turbo Pascal, так и написанных пользователем.</p>
+	<p>Раздел описания модулей должен быть первым среди разделов описаний.</p>
+	<p>Имена модулей отделяются друг от друга запятыми:</p>
+
+	<pre class="brush: csharp;">
+	uses CRT, Graph;
+	</pre>
+
+	<p>Любой оператор в программе может быть помечен меткой.</p>
+	<p>Имя метки задается по правилам образования идентификаторов Турбо Паскаль.</p>
+	<p>В качестве метки также могут использоваться произвольные целые числа без знака, содержащие не более четырех цифр.</p>
+	<p>Метка ставится перед оператором и отделяется от него двоеточием.</p>
+	<p>Все метки, используемые в программе, должны быть перечислены в разделе описания меток, например:</p>
+
+	<pre class="brush: csharp;">
+	label 3, 471, 29, Quit;
+	</pre>
+
+	<p>Описание констант позволяет использовать имена как синонимы констант, их необходимо определить в разделе описания констант:</p>
+
+	<pre class="brush: csharp;">
+	const K= 1024; MAX= 16384;
+	</pre>
+
+	<p>В разделе описания переменных необходимо указать все переменные, используемые в программе, и определить их тип:</p>
+
+	<pre class="brush: csharp;">
+	var P,Q,R: Integer;
+	A,B:   Char;
+	F1,F2: Boolean;
+	</pre>
+
+	<p>Описание типов, процедур и функций будет рассмотрено ниже.</p>
+	<p>Отдельные разделы описаний могут отсутствовать, но следует помнить, что в Паскаль - программе должны быть обязательно описаны все компоненты программы.</p>
+	<p>Раздел операторов представляет собой составной оператор, который содержит между служебными словами</p>
+
+	<pre class="brush: csharp;">
+	begin.......end
+	</pre>
+
+	<p>последовательность операторов.</p>
+	<p>Операторы отделяются друг от друга символом ;.</p>
+	<p>Текст программы заканчивается символом точка.</p>
+	<p>Кроме описаний и операторов Паскаль - программа может содержать комментарии, которые представляют собой произвольную последовательность символов, расположенную между открывающей скобкой комментариев { и закрывающей скобкой комментариев }.</p>
+	<p><b>Пример 1</b></p>
+
+	<pre class="brush: csharp;">
+	program Primer; {вычисление суммы двух чисел}
+	var
+	x,y,s: integer;
+	begin
+	WriteLn('Введите через пробел два числа ');
+	ReadLn(x,y);
+	s := x + y;
+	WriteLn('Сумма чисел равна ',s);
+	end.
+	</pre>
+
+	<p>Данная программа запрашивает с клавиатуры два числа, находит их сумму и выводит ответ.</p>
+	<p>Теперь сделаем так, чтобы программа сначала очищала экран, выполняла свои действия, а в конце работы позволяла пользователю посмотреть результат, ожидая его нажатия клавиши.</p>
+	<p><b>Пример 2</b></p>
+
+	<pre class="brush: csharp;">
+	program Primer; {вычисление суммы двух чисел}
+	uses Crt; {подключение модуля, необходимого для процедур очистки экрана и задержки}
+	var
+	x,y,s: integer;
+	begin
+	ClrScr; {очистка экрана}
+	WriteLn('Введите через пробел два числа ');
+	ReadLn(x,y);
+	s := x + y;
+	WriteLn('Сумма чисел равна ',s);
+	ReadKey; {ожидание нажатия клавиши}
+	end.
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/pascal/book/14.html", "Структура программы", "bm838"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm838", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm838") == 1) { document.getElementById("bma838").style.display = "block"; document.getElementById("bm838").style.display = "none"; } else { document.getElementById("bma838").style.display = "none"; document.getElementById("bm838").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Структура программы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm838", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

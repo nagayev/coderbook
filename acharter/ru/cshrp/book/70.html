@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma157" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm157" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Индексаторы, имитирующие наличие контейнера
+	</h1>
+
+	<p>Для программиста-пользователя обращение с помощью индексатора к объекту чужого класса выглядит как обращение к элементу массива.</p>
+	<p>Но массива как такового в объекте может и не быть.</p>
+	<p>Дело в том, что индексатор можно определить в классе, где контейнер (например, массив) отсутствует.</p>
+	<p>В этом случае индексатор просто-напросто заменяет метод.</p>
+	<p>Отличие состоит в синтаксисе обращения.</p>
+	<p>В качестве примера рассмотрим класс, представляющий две температурные шкалы.</p>
+	<p>Температура To по абсолютной шкале, введенной Вильямом Томсоном (лордом Кельвиным), связана с температурой to по шкале Цельсия соотношением:</p>
+
+	<pre class="brush: csharp;">
+	To = to + 273.16o.
+	</pre>
+
+	<p>Определим класс Temperature с индексатором, позволяющий получать значение To по величине to, которую будет задавать параметр индексатора.</p>
+	<p>Так как температура по Кельвину не может быть отрицательной, то примем, что при <b>to &lt; -273.16o</b> индексатор будет возвращать значение -1.</p>
+	<p>(Программа 12_06.cs.):</p>
+
+	<pre class="brush: csharp;">
+	class Temperature
+	{
+	   // Температура по Кельвину и по Цельсию.
+	   public double this[double t]
+        {
+	      get { return (t < -273.16) ? -1 : t + 273.16; }
+	   }
+	}
+	</pre>
+
+	<p>В классе нет массива, и поэтому нет смысла в индексаторе определять аксессор set.</p>
+	<p>В отличие от предыдущих примеров параметр индексатора и возвращаемое им значение имеют тип double.</p>
+	<p>Конструктор задается неявно.</p>
+	<p>Применение индексатора иллюстрирует следующий фрагмент кода:</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+	   Temperature TK = new Temperature();
+	   double t=43;
+	   Console.WriteLine("TK[{0}] = {1:f2}", t, TK[t]);
+	   t = -400;
+	   Console.WriteLine("TK[{0}] = {1:f2}", t, TK[t]);
+	   t = -273;
+	   Console.WriteLine("TK[{0}] = {1:f2}", t, TK[t]);
+	}
+	</pre>
+
+	<p>Результат выполнения:</p>
+
+	<pre class="brush: csharp;">
+	TK[43] = 316,16
+	TK[-400] = -1,00
+	TK[-273] = 0,16
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="69.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="71.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/70.html", "Индексаторы (имитирующие)", "bm157"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm157", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm157") == 1) { document.getElementById("bma157").style.display = "block"; document.getElementById("bm157").style.display = "none"; } else { document.getElementById("bma157").style.display = "none"; document.getElementById("bm157").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Индексаторы (имитирующие)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm157", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma102" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm102" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Автоматическое и явное приведение арифметических типов
+	</h1>
+
+	<p>В предыдущей главе мы рассмотрели принципы кодирования значений целочисленных типов и особенности, возникающие при вычислении выражений с целыми операндами.</p>
+	<p>Теперь уделим внимание и вещественным типам.</p>
+	<p>В соответствии со стандартом <b>ANSI/IEEE Std 754-1985</b> определены два основных формата представления в ЭВМ вещественных чисел:</p>
+	<p><b>одинарная точность</b> – четыре байта;</p>
+	<p><b>двойная точность</b> – восемь байтов.</p>
+	<p>В языке С# (точнее в платформе .NET Framework) для этих двух представлений используются данные типов float и double.</p>
+	<p>Возможности представления данных с помощью этих типов таковы:</p>
+	<p><b>float</b> – мантисса числа 23 бита, т.е. 7 десятичных знаков;</p>
+	<p><b>показатель степени</b> (экспонента) 8 бит;</p>
+	<p><b>double</b> – мантисса числа 52 бита, т.е. 15-16 десятичных знаков;</p>
+	<p><b>показатель</b> степени (экспонента) 11 бит.</p>
+	<p>Мантисса хранится в двоично-десятичном представлении, экспонента представлена в двоичном виде.</p>
+	<p>Как и для знаковых целых типов один бит в представлении вещественных чисел указывает знак мантиссы.</p>
+	<p>О внутреннем представлении вещественных данных приходится думать, только при нарушениях тех предельных значений, которые существуют для мантисс и экспонент.</p>
+	<p>Поэтому сейчас на этом не будем останавливаться.</p>
+	<p>Вещественные данные (константы и переменные) могут использоваться в арифметических выражениях совместно и в разных сочетаниях с целочисленными данными.</p>
+	<p>При этом выполняются автоматические преобразования типов.</p>
+	<p>При использовании в одном выражении операндов разных, но совместимых типов, все они автоматически приводятся к одному типу.</p>
+	<p>При этом имеет место так называемое "расширяющее преобразование", то есть преобразование выполняется к типу, имеющему большой диапазон значений по сравнению с диапазонами типов других операндов.</p>
+	<p>Например, для двух операндов с типами int и long приведение выполнится к типу long.</p>
+	<p>Для операции присваивания правила автоматического приведения типов требуют, чтобы тип операнда слева имел больший или равный диапазон представления чисел, нежели тип правого операнда.</p>
+	<p>В противном случае фиксируется ошибка компиляции.</p>
+	<p>Обратите внимание, что в тип double может быть преобразовано значение любого другого арифметического типа <b>корме decimal</b>.</p>
+	<p>В то же время, значение типа double не может быть автоматически преобразовано ни к какому другому типу.</p>
+	<p>Распространенная ошибка:</p>
+
+	<pre class="brush: csharp;">
+	float z=124.3;
+	// недопустимо! – справа значение типа double
+	</pre>
+
+	<p>Такой инициализации компилятор не допускает, так как по умолчанию (без суффикса F) константа 124.3 имеет тип double.</p>
+	<p>Преобразования типов в сложных выражениях выполняются последовательно по мере выполнения операций.</p>
+	<p>Поэтому достаточно разобрать правила преобразования для выражения с бинарной операцией.</p>
+	<p>Алгоритм приведения типов в бинарном выражении можно записать такой последовательностью шагов:</p>
+	<p>- Если один операнд decimal, то второй приводится к типу decimal;</p>
+	<p>- Если один операнд double – второй приводится к типу double;</p>
+	<p>- Если один операнд float, то второй приводится к типу float;</p>
+	<p>- Если один операнд ulong – второй приводится к типу ulong;</p>
+	<p>- Если один операнд long– второй приводится к типу long;</p>
+	<p>- Если один операнд uint – а второй sbyte или short или int, то оба операнда приводятся к типу long;</p>
+	<p>- Если один операнд uint, то второй приводится к типу uint. Иначе оба операнда приводятся к типу int.</p>
+	<p>Исключение: Если один операнд ulong, а второй sbyte или short или int или long , то фиксируется ошибка компиляции.</p>
+	<p>Важным является правило приведения обоих операндов к типу int, если в выражении нет операнда типа decimal, double, float, ulong, long.</p>
+	<p>Об этом мы уже говорили, приведя пример с операндами типа short.</p>
+	<p>В соответствии с этим правилом ошибочной будет последовательность операторов:</p>
+
+	<pre class="brush: csharp;">
+	short dd,nn=24;
+	sbyte bb=-11;
+	dd=nn*bb;
+
+	//ошибка компиляции!
+	</pre>
+
+	<p>В данном примере при вычислении выражения <b>nn*bb</b> оба операнда переводятся к типу int, и результат умножения – значение типа int.</p>
+	<p>Присваивание недопустимо – автоматическое приведение типа int к типу short невозможно.</p>
+	<p>Для правильного выполнения присваивания необходимо, в этом случае, явное приведение типов.</p>
+	<p>Выражение с операцией явного приведения типов имеет вид: (тип) операнд.</p>
+	<p>Здесь тип – наименование того типа, который должно получить значение операнда.</p>
+	<p>В нашем примере правильным будет оператор:</p>
+
+	<pre class="brush: csharp;">
+	dd=(short) (nn*bb);
+	</pre>
+
+	<p>Обратите внимание, что операция явного приведения типов имеет высокий приоритет, и бинарное выражение (nn*bb) необходимо поместить в скобки.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/15.html", "Автоматическое приведение", "bm102"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm102", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm102") == 1) { document.getElementById("bma102").style.display = "block"; document.getElementById("bm102").style.display = "none"; } else { document.getElementById("bma102").style.display = "none"; document.getElementById("bm102").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Автоматическое приведение") == 1) { arrs.splice(i, 1); localStorage.setItem("bm102", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

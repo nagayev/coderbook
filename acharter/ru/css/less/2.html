@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma228" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm228" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Комментарии в Less
+	</h1>
+
+	<p>Комментарии делают ваш код удобнее и понятнее, особенно если вы работаете в команде или периодически возвращаетесь к редактированию.</p>
+	<p>К тому же число самих комментариев никак не оказывает влияние на объём конечного файла CSS, потому что комментарии при компиляции удаляются и видны только в исходном документе.</p>
+	<p>Так что не бойтесь комментировать много и часто, это повышает читаемость.</p>
+	<p>Less поддерживает два типа комментариев: многострочные и однострочные.</p>
+
+	<h1 id="title">
+		Многострочные комментарии
+	</h1>
+
+	<p>Чтобы закомментировать блок кода поместите его между /* и */.</p>
+
+	<pre class="brush: csharp;">
+	/*
+	  style.less
+	  Версия 1.0
+	*/
+	</pre>
+
+	<h1 id="title">
+		Однострочные комментарии
+	</h1>
+
+	<p>Однострочные комментарии начинаются с // и всё, что идёт после этих символов Less игнорирует.</p>
+	<p>Так что эта форма иногда применяется для быстрого отключения отдельных свойств.</p>
+
+	<pre class="brush: csharp;">
+	@size: 200px;
+	// Ширина и высота элемента
+	</pre>
+
+	<h1 id="title">
+		Вложенные комментарии
+	</h1>
+
+	<p>Внутри одного типа комментария допустимо вставлять другой тип, как показано ниже.</p>
+
+	<pre class="brush: csharp;">
+	/*
+	  // style.less
+	  // Версия 1.0
+	*/
+
+	// Используйте /* */ для комментирования
+	</pre>
+
+	<p>Однако одинаковый тип комментария внутри другого не допустим.</p>
+	<p>Ниже показан пример, который приведёт к ошибке.</p>
+
+	<pre class="brush: csharp;">
+	/*
+	/* Так делать нельзя! */
+	*/
+	</pre>
+
+	<h1 id="title">
+		Специальные комментарии
+	</h1>
+
+	<p>Любые комментарии в итоговом CSS-файле удаляются, но иногда комментарий нужно оставить, например, информацию об авторских правах или важное пояснение.</p>
+	<p>Для таких комментариев применяется специальная форма <b>/*! !*/</b>.</p>
+
+	<pre class="brush: csharp;">
+	/*! Этот комментарий будет сохранён. !*/
+
+	/* А этот нет. */
+	</pre>
+
+	<p>Впрочем, некоторые компиляторы сохраняют даже обычные многострочные комментарии и удаляют их лишь при явно заданной минимизации кода.</p>
+	<p>Но специальные комментарии сохраняются всегда, независимо от настроек компилятора.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="1.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="3.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/less/2.html", "Комментарии в Less", "bm228"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm228", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm228") == 1) { document.getElementById("bma228").style.display = "block"; document.getElementById("bm228").style.display = "none"; } else { document.getElementById("bma228").style.display = "none"; document.getElementById("bm228").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Комментарии в Less") == 1) { arrs.splice(i, 1); localStorage.setItem("bm228", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

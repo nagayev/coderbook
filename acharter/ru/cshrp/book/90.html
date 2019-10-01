@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma177" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm177" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Системные исключения и их обработка
+	</h1>
+
+	<p>В языке C# исключение это объект класса System.Exception или производного от него класса.</p>
+	<p>В пространство имен System входят кроме Exception ещё несколько классов исключений, которыми можно пользоваться в программах.</p>
+	<p>В таблице ниже приведены исключения из пространства System, соответствующие особым ситуациям в программах на C#.</p>
+
+	<table>
+		<tr>
+			<td>Argument Exception</td>
+			<td>Недопустимое значение аргументапри вызове метода</td>
+		</tr>
+		<tr>
+			<td>Arithmetic Exception</td>
+			<td>Базовый класс для исключений, которые возникают при выполнении арифметических операций. Например, DivideByZeroException или OverflowException. </td>
+		</tr>
+		<tr>
+			<td>Array Type Mismatch Exception</td>
+			<td>Посылается при попытке присвоить элементу массива значение, тип которого не совместим с типом элементов массива.</td>
+		</tr>
+		<tr>
+			<td>Divide By Zero Exception</td>
+			<td>Посылается при попытке деления на нуль целочисленного значения.</td>
+		</tr>
+		<tr>
+			<td>Format Exception</td>
+			<td>Несоответствие параметров спецификации форматирования</td>
+		</tr>
+		<tr>
+			<td>Index Out Of Range Exception</td>
+			<td>Посылается при выходе индекса массива за пределы граничной пары (индекс отрицателен или больше верхней границы).</td>
+		</tr>
+		<tr>
+			<td>Invalid CastException</td>
+			<td>Посылается при неверном преобразовании от базового типа или базового интерфейса к производному типу.</td>
+		</tr>
+		<tr>
+			<td>Null Reference Exception</td>
+			<td>Посылается при попытке применить ссылку со значением null для обращения к объекту.</td>
+		</tr>
+		<tr>
+			<td>Out Of Memory Exception</td>
+			<td>Посылается при неудачной попытке выделить память с помощью операции new. (Недостаточно свободной памяти.)</td>
+		</tr>
+		<tr>
+			<td>Overflow Exception</td>
+			<td>Посылается при переполнениях в арифметических выражениях, выполняемых в контексте, определенном служебным словом checked.</td>
+		</tr>
+		<tr>
+			<td>Ran Exception</td>
+			<td>Несоответствие размерностей параметра и аргумента при вызове метода.</td>
+		</tr>
+		<tr>
+			<td>Stack Overflow Exception</td>
+			<td>Посылается при переполнении рабочего стека. Возникает, когда вызвано слишком много методов, например, при очень глубокой или бесконечной рекурсии.</td>
+		</tr>
+		<tr>
+			<td>Type Initialization Exception</td>
+			<td>Посылается, когда исключение посылает статический конструктор и отсутствует обработчик исключений (catch-блок) для перехвата исключения.</td>
+		</tr>
+	</table>
+
+	<p>Исключения определены не только в пространстве имён System.</p>
+	<p>В других пространствах имеются исключения, которые относятся к соответствующим разделам библиотек среды исполнения .NET.</p>
+	<p>Например, в пространстве System.Drawing.Printing имеются исключения, соответствующие особым ситуациям вывода на печать и т.д.</p>
+	<p>Исключение как объект создаётся с помощью специального оператора генерации (посылки) исключения:</p>
+	<p><b>throw выражение;</b></p>
+	<p>Однако этот оператор будет нами рассмотрен позже.</p>
+	<p>Гораздо важнее сейчас научиться распознавать появление исключений и обрабатывать эти исключения.</p>
+	<p>Дело в том, что при выявлении особых ситуаций, методы библиотечных классов, которыми мы уже пользуемся в программах, посылают исключения, и нужно уметь их распознавать и обрабатывать.</p>
+	<p>Достаточно часто начинающий программист наталкивается на исключения, возникающие из-за неверного ввода данных при выполнении совершенно правильной программы.</p>
+	<p>В качестве примера рассмотрим такой фрагмент кода (программа 16_01.cs):</p>
+
+	<pre class="brush: csharp;">
+	double x;
+	Console.Write("x = ");
+	x = double.Parse(Console.ReadLine());
+	Console.WriteLine("res = " + x);
+	</pre>
+
+	<p>Если пользователь в ответ на приглашение "x=" введёт, например, 3.3, то есть допустит ошибку, отделив дробную часть вещественного числа не запятой, а точкой, или введёт вместо цифры букву, то программа завершится аварийно и выдаст такое сообщение о необработанном исключении:</p>
+
+	<pre class="brush: csharp;">
+	Необработанное исключение:
+	System.FormatException: Входная строка имела неверный формат.
+	System.Double.Parse(String s)
+	</pre>
+
+	<p>В этом сообщении об исключении указано, что его источник – метод <b>System.Double.Parse(string s)</b>.</p>
+	<p>Для перехвата и обработки исключений используется конструкция, называемая блоком try/catch.</p>
+	<p>Она состоит из двух частей.</p>
+	<p>Первая часть – блок контроля за возникновением исключений – представляет собой заключённую в фигурные скобки последовательность операторов языка C#.</p>
+	<p>Перед открывающейся фигурной скобкой размещается служебное слово try.</p>
+	<p>Непосредственно за фигурной скобкой, закрывающей блок контроля за исключениями, размещается последовательность ловушек (иначе называемых обработчиками) исключений, а также необязательный блок завершения (finally-блок).</p>
+	<p>Каждый обработчик исключений вводится служебным словом catch.</p>
+	<p>Имеется три формы catch-инструкции:</p>
+
+	<pre class="brush: csharp;">
+	catch (тип_исключения имя) {операторы}
+	catch (тип_исключения) {операторы}
+	catch {операторы}
+	</pre>
+
+	<p>Входящий в catch-инструкцию блок операторов предназначен для выполнения действий по обработке полученного исключения.</p>
+	<p>Блок завершения имеет такой формат:</p>
+	<p><b>finally {операторы}</b></p>
+	<p>Операторы блока завершения выполняются в конце обработки каждого исключения.</p>
+	<p>Точнее, блок finally выполняется всегда независимо от того, как поток управления покидает блок try.</p>
+	<p>В стандарте языка C# конструкция try/catch/finally называется try-оператором.</p>
+	<p>Определены три формы оператора try (даже если исключение не послано):</p>
+	<p>- блок контроля, за которым следуют catch-обработчики (один или несколько);</p>
+	<p>- блок контроля, за которым следует блок завершения (finally-блок);</p>
+	<p>- блок контроля, за которым следуют catch-обработчики (один или несколько), за которыми размещён блок завершения (finally-блок).</p>
+	<p>В качестве примера применения конструкции try/catch дополним приведённую выше программу, которая аварийно завершается при неверно введённых данных, средствами для обработки исключений типа System.FormatException.</p>
+	<p>Фрагмент кода станет таким:</p>
+
+	<pre class="brush: csharp;">
+	double x;
+	while (true)
+	{
+		try
+		{
+			Console.Write("x = ");
+			x = double.Parse(Console.ReadLine());
+			Console.WriteLine("res = " + x);
+		}
+		catch (FormatException)
+		{
+			Console.WriteLine("Ошибка в формате данных!");
+			continue;
+		}
+		break;
+	}
+	</pre>
+
+	<p>В программу добавлен цикл, выход из которого возможен только при достижении конца тела цикла, где находится оператор break.</p>
+	<p>В теле цикла – блок контроля за возникновением исключений, где размещены три оператора:</p>
+
+	<pre class="brush: csharp;">
+	Console.Write("x = ");
+	x = double.Parse(Console.ReadLine());
+	Console.WriteLine("res = " + x);
+	</pre>
+
+	<p>Во втором из них возможна генерация исключения System.FormatException.</p>
+	<p>Если оно появляется, то управление передаётся за пределы блока контроля (его третий оператор пропускается).</p>
+	<p>Ловушка (обработчик) исключений с заголовком catch (FormatException) настроена на обработку исключений типа FormatException.</p>
+	<p>В теле обработчика два оператора.</p>
+	<p>Первый из них выдаёт на консоль сообщение, второй передаёт управление на начало следующей итерации цикла.</p>
+	<p>Цикл не будет завершён, пока пользователь не введёт значение x без ошибок.</p>
+	<p>Диалог пользователя с программой может быть, например, таким:</p>
+
+	<pre class="brush: csharp;">
+	x = 3.5&lt;ENTER&gt;
+	Ошибка в формате данных!
+	x = 3d5&lt;ENTER&gt;
+	Ошибка в формате данных!
+	x = 3,5&lt;ENTER&gt;
+	res = 3,5
+	</pre>
+
+	<p>Обратите внимание, что в блоке контроля за исключениями оператор</p>
+
+	<pre class="brush: csharp;">
+	Console.WriteLine("res="+x);
+	</pre>
+
+	<p>выполняется только один раз.</p>
+	<p>Порядок действий по контролю за возникновением исключений и их обработкой следующий.</p>
+	<p>Выполняются операторы блока контроля за исключениями.</p>
+	<p>Если исключений не возникло, то все catch-обработчики пропускаются.</p>
+	<p>При возникновении исключения управление незамедлительно передаётся catch–блокам.</p>
+	<p>Обработчики исключений просматриваются последовательно до тех пор, пока не будет обнаружен обработчик, "настроенный" на переданное исключение.</p>
+	<p>После выполнения операторов этого обработчика выполняется блок завершения (если он есть) и только затем заканчивается исполнение try-оператора.</p>
+	<p>Отметим, что среди блоков обработки выполняется только один или не выполняется ни один.</p>
+	<p>Обратите внимание, что обработка исключения не прекращает выполнение программы.</p>
+	<p>В блоках catch могут быть запрограммированы действия по устранению причин появления исключений и программа продолжает выполняться.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="89.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="91.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/90.html", "Системные исключения", "bm177"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm177", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm177") == 1) { document.getElementById("bma177").style.display = "block"; document.getElementById("bm177").style.display = "none"; } else { document.getElementById("bma177").style.display = "none"; document.getElementById("bm177").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Системные исключения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm177", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

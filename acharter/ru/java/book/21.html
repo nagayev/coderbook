@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma622" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm622" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Анализ программы
+	</h1>
+
+	<p>Компилятор, анализируя программу, сразу разделяет ее на:</p>
+	<p>- пробелы (white spaces);</p>
+	<p>- комментарии (comments);</p>
+	<p>- основные лексемы (tokens).</p>
+
+	<h1 id="title">
+		Пробелы
+	</h1>
+
+	<p>Пробелами в данном случае называют все символы, разбивающие текст программы на лексемы.</p>
+	<p>Это как сам символ пробела (space, \u0020, десятичный код 32), так и знаки табуляции и перевода строки.</p>
+	<p>Они используются для разделения лексем, а также для оформления кода, чтобы его было легче читать.</p>
+	<p>Например, следующую часть программы (вычисление корней квадратного уравнения):</p>
+
+	<pre class="brush: csharp;">
+	double a = 1, b = 1, c = 6;
+	double D = b * b - 4 * a * c;
+	if (D >= 0)
+	{
+		double x1 = (-b + Math.sqrt (D)) / (2 * a);
+		double x2 = (-b - Math.sqrt (D)) / (2 * a);
+	}
+	</pre>
+
+	<p>можно записать и в таком виде:</p>
+
+	<pre class="brush: csharp;">
+	double a=1,b=1,c=6;double D=b*b-4*a*c;if(D>=0)
+	{
+		double x1=(-b+Math.sqrt(D))/(2*a);double
+		x2=(-b-Math.sqrt(D))/(2*a);
+	}
+	</pre>
+
+	<p>В обоих случаях компилятор сгенерирует абсолютно одинаковый код.</p>
+	<p>Единственное соображение, которым должен руководствоваться разработчик,— легкость чтения при дальнейшей поддержке такого кода.</p>
+	<p>Для разбиения текста на строки в ASCII используется два символа - "возврат каретки" ( carriage return, CR, \u000d, десятичный код 13) и символ новой строки ( linefeed, LF, \u000a, десятичный код 10).</p>
+	<p>Чтобы не зависеть от особенностей используемой платформы, в Java применяется наиболее гибкий подход.</p>
+	<p>Завершением строки считается:</p>
+	<p>- ASCII -символ LF, символ новой строки;</p>
+	<p>- ASCII -символ CR, "возврат каретки";</p>
+	<p>- символ CR, за которым сразу же следует символ LF.</p>
+	<p>Разбиение на строки важно для корректного разбиения на лексемы (как уже говорилось, завершение строки также служит разделителем между лексемами), для правильной работы со строковыми комментариями (см. следующую тему "Комментарии"), а также для вывода отладочной информации (при выводе ошибок компиляции и времени исполнения указывается, на какой строке исходного кода они возникли).</p>
+	<p>Итак, пробелами в Java считаются:</p>
+	<p>- ASCII -символ SP, space, пробел, \u0020, десятичный код 32;</p>
+	<p>- ASCII -символ HT, horizontal tab, символ горизонтальной табуляции, \u0009, десятичный код 9;</p>
+	<p>- ASCII -символ FF, form feed, символ перевода страницы (был введен для работы с принтером), \u000c, десятичный код 12;</p>
+	<p>- завершение строки.</p>
+
+	<h1 id="title">
+		Комментарии
+	</h1>
+
+	<p>Комментарии не влияют на результирующий бинарный код и используются только для ввода пояснений к программе.</p>
+	<p>В Java комментарии бывают двух видов:</p>
+	<p>- строчные</p>
+	<p>- блочные</p>
+	<p>Строчные комментарии начинаются с ASCII -символов // и длятся до конца текущей строки.</p>
+	<p>Как правило, они используются для пояснения именно этой строки, например:</p>
+
+	<pre class="brush: csharp;">
+	int y=1970; // год рождения
+	</pre>
+
+	<p>Блочные комментарии располагаются между ASCII -символами /* и */, могут занимать произвольное количество строк, например:</p>
+
+	<pre class="brush: csharp;">
+	/*
+		Этот цикл не может начинаться с нуля из-за особенностей алгоритма
+	*/
+
+	for (int i=1; i&lt;10; i++)
+	{
+		...
+	}
+	</pre>
+
+	<p>Часто блочные комментарии оформляют следующим образом (каждая строка начинается с * ):</p>
+
+	<pre class="brush: csharp;">
+	/*
+	* Описание алгоритма работы
+	* следующего цикла while
+	*/
+
+	while (x > 0)
+	{
+		...
+	}
+	</pre>
+
+	<p>Блочный комментарий не обязательно должен располагаться на нескольких строках, он может даже находиться в середине оператора:</p>
+
+	<pre class="brush: csharp;">
+	float s = 2*Math.PI/*getRadius()*/;
+
+	// Закомментировано для отладки
+	</pre>
+
+	<p>В этом примере блочный комментарий разбивает арифметические операции.</p>
+	<p>Выражение Math.PI предоставляет значение константы PI, определенное в классе Math.</p>
+	<p>Вызов метода getRadius() теперь закомментирован и не будет произведен, переменная s всегда будет принимать значение 2 PI.</p>
+	<p>Завершает строку строчный комментарий.</p>
+	<p>Комментарии не могут находиться в символьных и строковых литералах, идентификаторах (эти понятия подробно рассматриваются далее в этой лекции).</p>
+	<p>Следующий пример содержит случаи неправильного применения комментариев:</p>
+
+	<pre class="brush: csharp;">
+	// В этом примере текст /*…*/ станет просто
+	// частью строки s
+
+	String s = "text/*just text*/";
+	/*
+	Следующая строка станет причиной ошибки при компиляции, так как комментарий разбил имя метода getRadius()
+	*/
+
+	circle.get/*comment*/Radius();
+	</pre>
+
+	<p>А такой код допустим:</p>
+
+	<pre class="brush: csharp;">
+	// Комментарий может разделять вызовы функций:
+	circle./*comment*/getRadius();
+	// Комментарий может заменять пробелы:
+	int/*comment*/x=1;
+	</pre>
+
+	<p>В последней строке между названием типа данных int и названием переменной x обязательно должен быть пробел или, как в данном примере, комментарий.</p>
+	<p>Комментарии не могут быть вложенными. Символы /*, */, // не имеют никакого особенного значения внутри уже открытых комментариев, как строчных, так и блочных.</p>
+	<p>Таким образом, в примере:</p>
+
+	<pre class="brush: csharp;">
+	/* начало комментария /* // /** завершение: */
+	</pre>
+
+	<p>описан только один блочный комментарий. А в следующем примере (строки кода пронумерованы для удобства)</p>
+
+	<pre class="brush: csharp;">
+	/*
+	comment
+	/*
+
+	more comments
+
+	*/
+	finish
+	*/
+	</pre>
+
+	<p>компилятор выдаст ошибку.</p>
+	<p>Блочный комментарий начался в строке 1 с комбинации символов /*.</p>
+	<p>Вторая открывающая комбинация /* на строке 3 будет проигнорирована, так как находится уже внутри комментария.</p>
+	<p>Символы */ в строке 5 завершат его, а строка 7 породит ошибку – попытка закрыть комментарий, который не был начат.</p>
+	<p>Любые комментарии полностью удаляются из программы во время компиляции, поэтому их можно использовать неограниченно, не опасаясь, что это повлияет на бинарный код.</p>
+	<p>Основное их предназначение - сделать программу простой для понимания, в том числе и для других разработчиков, которым придется в ней разбираться по какой-либо причине.</p>
+	<p>Также комментарии зачастую используются для временного исключения частей кода, например:</p>
+
+	<pre class="brush: csharp;">
+	int x = 2;
+	int y = 0;
+
+	/*
+	if (x > 0)
+	y = y + x*2;
+	else
+	y = -y - x*4;
+	*/
+
+	y = y*y;// + 2*x;
+	</pre>
+
+	<p>В этом примере закомментировано выражение if-else и оператор сложения +2*x.</p>
+	<p>Как уже говорилось выше, комментарии можно писать символами Unicode, то есть на любом языке, удобном разработчику.</p>
+	<p>Кроме этого, существует особый вид блочного комментария – комментарий разработчика.</p>
+	<p>Он применяется для автоматического создания документации кода.</p>
+	<p>В стандартную поставку JDK, начиная с версии 1.0, входит специальная утилита javadoc.</p>
+	<p>На вход ей подается исходный код классов, а на выходе получается удобная документация в HTML-формате, которая описывает все классы, все их поля и методы.</p>
+	<p>При этом активно используются гиперссылки, что существенно упрощает изучение программы (например, читая описание метода, можно с помощью одного нажатия мыши перейти на описание типов, используемых в качестве аргументов или возвращаемого значения).</p>
+	<p>Однако понятно, что одного названия метода и перечисления его аргументов недостаточно для понимания его работы.</p>
+	<p>Необходимы дополнительные пояснения от разработчика.</p>
+	<p>Комментарий разработчика записывается так же, как и блочный.</p>
+	<p>Единственное различие в начальной комбинации символов – для документации комментарий необходимо начинать с /**. Например:</p>
+
+	<pre class="brush: csharp;">
+	/*
+		Вычисление модуля целого числа. Этот метод возвращает абсолютное значение аргумента x.
+	*/
+
+	int getAbs(int x)
+	{
+		if (x>=0)
+		return x;
+		else
+		return -x;
+	}
+	</pre>
+
+	<p>Первое предложение должно содержать краткое резюме всего комментария.</p>
+	<p>В дальнейшем оно будет использовано как пояснение этой функции в списке всех методов класса (ниже будут описаны все конструкции языка, для которых применяется комментарий разработчика).</p>
+	<p>Поскольку в результате создается HTML-документация, то и комментарий необходимо писать по правилам HTML.</p>
+	<p>Допускается применение тегов, таких как &lt;b&gt; и &lt;p&gt;.</p>
+	<p>Однако теги заголовков с &lt;h1&gt; по &lt;h6&gt; и &lt;hr&gt; использовать нельзя, так как они активно применяются javadoc для создания структуры документации.</p>
+	<p>Символ * в начале каждой строки и предшествующие ему пробелы и знаки табуляции игнорируются.</p>
+	<p>Их можно не использовать вообще, но они удобны, когда необходимо форматирование, скажем, в примерах кода.</p>
+
+	<pre class="brush: csharp;">
+	/*
+		Первое предложение - краткое описание метода.
+
+		<p>
+			Так оформляется пример кода:
+			<blockquote>
+				if (condition==true)
+				{
+					x = getWidth();
+					y = x.getHeight();
+				}
+			</blockquote>
+		</p>
+
+		А так описывается HTML-список:
+
+		<ul>
+			<li>Можно использовать наклонный шрифт
+				<i>курсив</i>,
+			<li>или жирный <b>жирный</b>.
+		</ul>
+	*/
+
+	public void calculate (int x, int y)
+	{
+		...
+	}
+	</pre>
+
+	<p>Из этого комментария будет сгенерирован HTML-код, выглядящий примерно так:</p>
+
+	<pre class="brush: csharp;">
+	Первое предложение – краткое описание метода.
+
+	Так оформляется пример кода:
+
+	if (condition==true)
+	{
+		x = getWidth();
+		y = x.getHeight();
+	}
+
+	А так описывается HTML-список:
+	* Можно использовать наклонный шрифт курсив,
+	* или жирный.
+	</pre>
+
+	<p>Наконец, javadoc поддерживает специальные теги.</p>
+	<p>Они начинаются с символа @.</p>
+	<p>Подробное описание этих тегов можно найти в документации.</p>
+	<p>Например, можно использовать тег @see, чтобы сослаться на другой класс, поле или метод, или даже на другой Internet-сайт.</p>
+
+	<pre class="brush: csharp;">
+	/*
+	Краткое описание.
+	Развернутый комментарий.
+
+		@see java.lang.String
+		@see java.lang.Math#PI
+		@see <a href="java.sun.com">Official
+		Java site</a>
+
+	*/
+	</pre>
+
+	<p>Первая ссылка указывает на класс String ( java.lang – название библиотеки, в которой находится этот класс), вторая – на поле PI класса Math (символ # разделяет название класса и его полей или методов), третья ссылается на официальный сайт Java.</p>
+	<p>Комментарии разработчика могут быть записаны перед объявлением классов, интерфейсов, полей, методов и конструкторов.</p>
+	<p>Если записать комментарий /** … */ в другой части кода, то ошибки не будет, но он не попадет в документацию, генерируемую javadoc.</p>
+	<p>Кроме того, можно описать пакет (так называются библиотеки, или модули, в Java).</p>
+	<p>Для этого необходимо создать специальный файл package.html, сохранить в нем комментарий и поместить его в каталог пакета.</p>
+	<p>HTML-текст, содержащийся между тегами &lt;body&gt; и &lt;/body&gt;, будет помещен в документацию, а первое предложение будет использоваться для краткой характеристики этого пакета.</p>
+
+	<h1 id="title">
+		Лексемы
+	</h1>
+
+	<p>Итак, мы рассмотрели пробелы (в широком смысле этого слова, т.е. все символы, отвечающие за форматирование текста программы) и комментарии, применяемые для ввода пояснений к коду.</p>
+	<p>С точки зрения программиста они применяются для того, чтобы сделать программу более читаемой и понятной для дальнейшего развития.</p>
+	<p>С точки зрения компилятора, а точнее его части, отвечающей за лексический разбор, основная роль пробелов и комментариев – служить разделителями между лексемами, причем сами разделители далее отбрасываются и на компилированный код не влияют.</p>
+	<p>Например, все следующие примеры объявления переменной эквивалентны:</p>
+
+	<pre class="brush: csharp;">
+	// Используем пробел в качестве разделителя.
+	int x = 3 ;
+
+	// здесь разделителем является перевод строки
+	int
+	x
+	=
+	3
+	;
+
+	// здесь разделяем знаком табуляции
+	int x = 3 ;
+
+	/*
+	Единственный принципиально необходимый разделитель между названием типа данных int и именем переменной x здесь описан комментарием блочного типа.
+	*/
+
+	int/**/x=3;
+	</pre>
+
+	<p>Конечно, лексемы очень разнообразны, и именно они определяют многие свойства языка.</p>
+	<p>Рассмотрим все их виды более подробно в следующей лекции.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="20.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="22.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/21.html", "Анализ программы", "bm622"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm622", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm622") == 1) { document.getElementById("bma622").style.display = "block"; document.getElementById("bm622").style.display = "none"; } else { document.getElementById("bma622").style.display = "none"; document.getElementById("bm622").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Анализ программы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm622", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

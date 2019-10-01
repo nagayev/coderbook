@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma644" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm644" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Интерфейсы
+	</h1>
+
+	<p>Концепция абстрактных методов позволяет предложить альтернативу множественному наследованию.</p>
+	<p>В Java класс может иметь только одного родителя, поскольку при множественном наследовании могут возникать конфликты, которые запутывают объектную модель.</p>
+	<p>Например, если у класса есть два родителя, которые имеют одинаковый метод с различной реализацией, то какой из них унаследует новый класс?</p>
+	<p>И какая будет функциональность родительского класса, который лишился своего метода?</p>
+	<p>Все эти проблемы не возникают в том случае, если наследуются только абстрактные методы от нескольких родителей.</p>
+	<p>Даже если унаследовано несколько одинаковых методов, все равно у них нет реализации и можно один раз описать тело метода, которое будет использоваться при вызове любого из этих методов.</p>
+	<p>Именно так устроены интерфейсы в Java. От них нельзя порождать объекты, но другие классы могут реализовывать их.</p>
+
+	<h1 id="title">
+		Объявление интерфейсов
+	</h1>
+
+	<p>Объявление интерфейсов очень похоже на упрощенное объявление классов.</p>
+	<p>Оно начинается с заголовка. Сначала указываются модификаторы.</p>
+	<p>Интерфейс может быть объявлен как public и тогда он будет доступен для общего использования, либо модификатор доступа может не указываться, в этом случае интерфейс доступен только для типов своего пакета.</p>
+	<p>Модификатор abstract для интерфейса не требуется, поскольку все интерфейсы являются абстрактными.</p>
+	<p>Его можно указать, но делать этого не рекомендуется, чтобы не загромождать код.</p>
+	<p>Далее записывается ключевое слово interface и имя интерфейса.</p>
+	<p>После этого может следовать ключевое слово extends и список интерфейсов, от которых будет наследоваться объявляемый интерфейс.</p>
+	<p>Родительских типов может быть много, главное, чтобы не было повторений и чтобы отношение наследования не образовывало циклической зависимости.</p>
+	<p>Наследование интерфейсов действительно очень гибкое.</p>
+	<p>Так, если есть два интерфейса, A и B, причем B наследуется от A, то новый интерфейс C может наследоваться от них обоих.</p>
+	<p>Впрочем, понятно, что указание наследования от A является избыточным, все элементы этого интерфейса и так будут получены по наследству через интерфейс B.</p>
+	<p>Затем в фигурных скобках записывается тело интерфейса.</p>
+
+	<pre class="brush: csharp;">
+	public interface Drawable extends Colorable, Resizable { }
+	</pre>
+
+	<p>Тело интерфейса состоит из объявления элементов, то есть полей-констант и абстрактных методов.</p>
+	<p>Все поля интерфейса должны быть public final static, так что эти модификаторы указывать необязательно и даже нежелательно, чтобы не загромождать код.</p>
+	<p>Поскольку поля объявляются финальными, необходимо их сразу инициализировать.</p>
+
+	<pre class="brush: csharp;">
+	public interface Directions
+	{
+		int RIGHT=1;
+		int LEFT=2;
+		int UP=3;
+		int DOWN=4;
+	}
+	</pre>
+
+	<p>Все методы интерфейса являются public abstract и эти модификаторы также необязательны.</p>
+
+	<pre class="brush: csharp;">
+	public interface Moveable
+	{
+	void moveRight();
+	void moveLeft();
+	void moveUp();
+	void moveDown();
+	}
+	</pre>
+
+	<p>Как мы видим, описание интерфейса гораздо проще, чем объявление класса.</p>
+
+	<h1 id="title">
+		Реализация интерфейса
+	</h1>
+
+	<p>Каждый класс может реализовывать любые доступные интерфейсы.</p>
+	<p>При этом в классе должны быть реализованы все абстрактные методы, появившиеся при наследовании от интерфейсов или родительского класса, чтобы новый класс мог быть объявлен неабстрактным.</p>
+	<p>Если из разных источников наследуются методы с одинаковой сигнатурой, то достаточно один раз описать реализацию и она будет применяться для всех этих методов.</p>
+	<p>Однако если у них различное возвращаемое значение, то возникает конфликт:</p>
+
+	<pre class="brush: csharp;">
+	interface A
+	{
+		int getValue();
+	}
+
+	interface B
+	{
+		double getValue();
+	}
+	</pre>
+
+	<p>Если попытаться объявить класс, реализующий оба эти интерфейса, то возникнет ошибка компиляции.</p>
+	<p>В классе оказывается два разных метода с одинаковой сигнатурой, что является неразрешимым конфликтом.</p>
+	<p>Это единственное ограничение на набор интерфейсов, которые может реализовывать класс.</p>
+	<p>Подобный конфликт с полями-константами не столь критичен:</p>
+
+	<pre class="brush: csharp;">
+	interface A
+	{
+		int value=3;
+	}
+
+	interface B
+	{
+		double value=5.4;
+	}
+
+	class C implements A, B
+	{
+		public static void main(String s[])
+		{
+			C c = new C();
+			// System.out.println(c.value); - ошибка!
+			System.out.println(((A)c).value);
+			System.out.println(((B)c).value);
+		}
+	}
+	</pre>
+
+	<p>Как видно из примера, обращаться к такому полю через сам класс нельзя, компилятор не сможет понять, какое из двух полей нужно использовать.</p>
+	<p>Но можно с помощью явного приведения сослаться на одно из них.</p>
+	<p>Итак, если имя интерфейса указано после implements в объявлении класса, то класс реализует этот интерфейс.</p>
+	<p>Наследники данного класса также реализуют интерфейс, поскольку им достаются по наследству его элементы.</p>
+	<p>Если интерфейс A наследуется от интерфейса B, а класс реализует A, то считается, что интерфейс B также реализуется этим классом по той же причине – все элементы передаются по наследству в два этапа – сначала интерфейсу A, затем классу.</p>
+	<p>Наконец, если класс C1 наследуется от класса C2, класс C2 реализует интерфейс A1, а интерфейс A1 наследуется от интерфейса A2, то класс C1 также реализует интерфейс A2.</p>
+	<p>Все это позволяет утверждать, что переменные типа интерфейс также допустимы.</p>
+	<p>Они могут иметь значение null, или ссылаться на объекты, порожденные от классов, реализующих этот интерфейс.</p>
+	<p>Поскольку объекты порождаются только от классов, а все они наследуются от Object, это означает, что значения типа интерфейс обладают всеми элементами класса Object.</p>
+
+	<h1 id="title">
+		Применение интерфейсов
+	</h1>
+
+	<p>До сих пор интерфейсы рассматривались с технической точки зрения – как их объявлять, какие конфликты могут возникать, как их разрешать.</p>
+	<p>Однако важно понимать, как применяются интерфейсы с концептуальной точки зрения.</p>
+	<p>Распространенное мнение, что интерфейс – это полностью абстрактный класс, в целом верно, но оно не отражает всех преимуществ, которые дают интерфейсы объектной модели.</p>
+	<p>Как уже отмечалось, множественное наследование порождает ряд конфликтов, но отказ от него, хоть и делает язык проще, но не устраняет ситуации, в которых требуются подобные подходы.</p>
+	<p>Возьмем в качестве примера дерева наследования классификацию живых организмов.</p>
+	<p>Известно, что растения и животные принадлежат к разным царствам.</p>
+	<p>Основным различием между ними является то, что растения поглощают неорганические элементы, а животные питаются органическими веществами.</p>
+	<p>Животные делятся на две большие группы – птицы и млекопитающие.</p>
+	<p>Предположим, что на основе этой классификации построено дерево наследования, в каждом классе определены элементы с учетом наследования от родительских классов.</p>
+	<p>Рассмотрим такое свойство живого организма, как способность питаться насекомыми.</p>
+	<p>Очевидно, что это свойство нельзя приписать всей группе птиц, или млекопитающих, а тем более растений.</p>
+	<p>Но существуют представители каждой из названных групп, которые этим свойством обладают, – для растений это росянка, для птиц, например, ласточки, а для млекопитающих – муравьеды.</p>
+	<p>Причем, очевидно, "реализовано" это свойство у каждого вида совсем по-разному.</p>
+	<p>Можно было бы объявить соответствующий метод (скажем, consumeInsect(Insect)) у каждого представителя независимо.</p>
+	<p>Но если задача состоит в моделировании, например, зоопарка, то однотипную процедуру – кормление насекомыми – пришлось бы описывать для каждого вида отдельно, что существенно осложнило бы код, причем без какой-либо пользы.</p>
+	<p>Java предлагает другое решение.</p>
+	<p>Объявляется интерфейс InsectConsumer:</p>
+
+	<pre class="brush: csharp;">
+	public interface InsectConsumer
+	{
+		void consumeInsect(Insect i);
+	}
+	</pre>
+
+	<p>Его реализуют все подходящие животные и растения:</p>
+
+	<pre class="brush: csharp;">
+	// росянка расширяет класс растение
+	public class Sundew extends
+	
+	Plant implements InsectConsumer
+	{
+		public void consumeInsect(Insect i)
+		{
+			...
+		}
+	}
+
+	// ласточка расширяет класс птица
+	public class Swallow extends
+	
+	Bird implements InsectConsumer
+	{
+		public void consumeInsect(Insect i)
+		{
+			...
+		}
+	}
+
+	// муравьед расширяет класс млекопитающее
+	public class AntEater extends
+	
+	Mammal implements InsectConsumer
+	{
+		public void consumeInsect(Insect i)
+		{
+			...
+		}
+	}
+	</pre>
+
+	<p>В результате в классе, моделирующем служащего зоопарка, можно объявить соответствующий метод:</p>
+
+	<pre class="brush: csharp;">
+	// служащий, отвечающий за кормление, расширяет класс служащий
+	class FeedWorker extends Worker
+	{
+		// с помощью этого метода можно накормить и росянку, и ласточку, и муравьеда
+		public void feedOnInsects(InsectConsumer consumer)
+		{
+			...
+			consumer.consumeInsect(insect);
+			...
+		}
+	}
+	</pre>
+
+	<p>В результате удалось свести работу с одним свойством трех разнородных классов в одно место, сделать код более универсальным.</p>
+	<p>Обратите внимание, что при добавлении еще одного насекомоядного такая модель зоопарка не потребует никаких изменений, чтобы обслуживать новый вид, в отличие от первоначального громоздкого решения.</p>
+	<p>Благодаря введению интерфейса удалось отделить классы, реализующие его (живые организмы) и использующие его (служащий зоопарка).</p>
+	<p>После любых изменений этих классов при условии сохранения интерфейса их взаимодействие не нарушится.</p>
+	<p>Данный пример иллюстрирует, как интерфейсы предоставляют альтернативный, более строгий и гибкий подход вместо множественного наследования.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="42.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="44.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/43.html", "Интерфейсы", "bm644"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm644", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm644") == 1) { document.getElementById("bma644").style.display = "block"; document.getElementById("bm644").style.display = "none"; } else { document.getElementById("bma644").style.display = "none"; document.getElementById("bm644").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Интерфейсы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm644", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

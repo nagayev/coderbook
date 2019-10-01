@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1085" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1085" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Создание представлений
+	</h1>
+
+	<p>Итак, вы знаете, что такое представления (а также отчасти знакомы с правилами, которыми следует руководствоваться при работе с ними), теперь разберемся, как они создаются.</p>
+	<p>Представления создаются с помощью оператора CREATE VIEW.</p>
+	<p>Аналогично оператору CREATE TABLE, оператор CREATE VIEW можно использовать только для создания представления, которого до сих пор не существовало.</p>
+	<p><b>Удаление представлений</b></p>
+	<p>Для удаления представления используется оператор DROP.</p>
+	<p>Его синтаксис прост:</p>
+
+	<pre class="brush: csharp;">
+	DROP VIEW
+	имя_представления;.
+	</pre>
+
+	<p>Чтобы перезаписать (или обновить) представление, вначале нужно применить по отношению к нему оператор DROP, а потом заново создать представление.</p>
+
+	<h1 id="title">
+		Использование представлений для упрощения сложных объединений
+	</h1>
+
+	<p>Чаще всего представления используются для упрощения работы с SQL, и нередко это относится к объединениям.</p>
+	<p>Посмотрите на следующий оператор:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE VIEW ProductCustomers
+	AS SELECT cust_name, cust_contact, prod_id
+	FROM Customers, Orders, OrderlCems
+	WHERE Customers.cust_id = Orders.cust_id
+	AND OrderItems.order_num = Orders.order_num;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Посредством этого оператора создается представление, названное ProductCustomers, которое объединяет три таблицы с целью возвращения списка клиентов, заказавших какой-то продукт.</p>
+	<p>Если бы был использован оператор SELECT * FROM ProductCustomers, в список был бы включен любой клиент, который сделал заказ.</p>
+	<p><b>Создание представлений и SQL Server</b></p>
+	<p>В отличие от большинства операторов SQL, Microsoft SQL Server не поддерживает использование точки с запятой после оператора CREATE VIEW.</p>
+	<p>Для выборки списка клиентов, заказавших продукт RGAN01, нужно выполнить следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name, cust_contact
+	FROM ProductCustomers
+	WHERE prod_id = 'RGAN01';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_name cust_contact
+	Fun4AIl Denise L. Stephens
+	The Toy Store Kim Howard
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Этот оператор возвращает указанные данные из представления в результате применения предложения WHERE.</p>
+	<p>Когда СУБД обрабатывает запрос, она добавляет указанное предложение WHERE к каждому уже существующему предложению WHERE в запросе к представлению, так что данные фильтруются правильно.</p>
+	<p>Таким образом, представления могут значительно упростить сложные операторы SQL.</p>
+	<p>Используя представления, вы можете один раз записать код SQL и затем повторно использовать его, если возникает такая необходимость.</p>
+	<p><b>Создание повторно используемых представлений</b></p>
+	<p>Хорошей идеей является создание представлений, не привязанных к конкретным данным.</p>
+	<p>Например, представление, созданное в предыдущем примере, возвращает имена клиентов, заказавших все продукты, а не только продукт RGAN01 (для которого представление первоначально и создавалось).</p>
+	<p>Расширение возможностей представления позволяет многократно использовать его, тем самым устраняется также необходимость создавать и хранить много похожих представлений, что делает представление еще более эффективным.</p>
+
+	<h1 id="title">
+		Использование представлений для переформатирования выбранных данных
+	</h1>
+
+	<p>Как уже говорилось выше, другим наиболее частым случаем использования представлений является переформатирование выбранных данных.</p>
+	<p>Следующий оператор SELECT (см. урок "Создание вычисляемых полей") возвращает имя поставщика и его местонахождение в одном комбинированном вычисляемом столбце:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT RTRIM(vend_name)+ ' (' + RTRIM(vend_country)	⇒ + ') ' AS vend_title
+	FROM Vendors
+	ORDER BY vend name;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend title
+	------------
+	Bear Emporium (USA)
+	Bears R Us (USA)
+	Doll House Inc. (USA)
+	Fun and Games (England)
+	Furball Inc. (USA)
+	Jouets et ours (France)
+	</pre>
+
+	<p>Следующий оператор такой же, но в нем применяется синтаксис ||:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT RTRIM(vend_name) || ' ( ' ||	⇒ RTRIM(vend_country) | ' ) ' AS vend title
+	FROM Vendors
+	ORDER BY vend name;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend title
+	------------
+	Bear Emporium (USA)
+	Bears R Us (USA)
+	Doll House Inc. (USA)
+	Fun and Games (England)
+	Furball Inc. (USA)
+	Jouets et ours (France)
+	</pre>
+
+	<p>Теперь предположим, что результаты регулярно требуются в таком формате.</p>
+	<p>Вместо того чтобы выполнять объединение каждый раз, когда в этом возникает необходимость, вы можете создать представление и использовать его вместо объединения.</p>
+	<p>Для превращения этого оператора в представление нужно сделать следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE VIEW VendorLocations AS SELECT RTRIM(vend_name) + ' ( ' + RTRIM(vend_country) ⇒ + ' ) ' AS vend_title FROM Vendors;
+	</pre>
+
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE VIEW VendorLocations AS
+	SELECT RTRIM (vend_naroe) | | ' ( ' | | ⇒ RTRIM (vend_country) || ' ) ' AS vend_title FROM Vendors;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Посредством этого оператора создается представление, использующее в точности тот же самый запрос, как и в предыдущем операторе SELECT.</p>
+	<p>Для извлечения данных, необходимых для создания почтовых наклеек, выполните следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT *
+	FROM VendorLocations;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	Bear Emporium (USA)
+	Bears R Us (USA)
+	Doll House Inc. (USA)
+	Fun and Games (England) Furball Inc.
+	(USA) Jouets et ours (France)
+	</pre>
+
+	<p><b>Все ограничения оператора SELECT сохраняются</b></p>
+	<p>Ранее в этом уроке говорилось, что синтаксис, применяемый для создания представлений, различен в разных СУБД.</p>
+	<p>Но почему так много версий синтаксиса операторов?</p>
+	<p>Представление просто скрывает оператор SELECT, и синтаксис этого оператора SELECT должен четко соответствовать правилам и ограничениям используемой СУБД.</p>
+
+	<h1 id="title">
+		Использование представлений для фильтрации нежелательных данных
+	</h1>
+
+	<p>Представления могут также оказаться полезными для применения общих предложений WHERE.</p>
+	<p>Например, вам может понадобиться определить представление CustomerEMailList таким образом, чтобы оно отфильтровывало клиентов, не имеющих адреса электронной почты.</p>
+	<p>Для того чтобы добиться этого, следует применить такой оператор:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE VIEW CustomerEMailList AS
+	SELECT cust_id, cust_name, cust_email
+	FROM Customers
+	WHERE cust_email IS NOT NULL;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Очевидно, отправляя сообщение в соответствии со списком адресов e-mail, следовало бы пропустить клиентов, у которых нет адреса электронной почты.</p>
+	<p>Предложение WHERE отфильтровывает здесь строки, имеющие значения NULL в столбцах cust_email, так что соответствующие записи не будут выбираться.</p>
+	<p>Теперь представление CustomerEMailList можно использовать подобно любой другой таблице.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT *
+	FROM CustomerEMailList;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id cust__name cust_email
+	1000000001 Village Toys sales@villagetoys.com
+	1000000003 Fun4All jjones@fun4all.com
+	1000000004 Fun4All dstephens@fun4all.com
+	</pre>
+
+	<p><b>Предложения WHERE</b></p>
+	<p>Если предложение WHERE используется при выборке данных из представления, эти два набора предложений (одно в представлении и одно передаваемое ему) будут скомбинированы автоматически.</p>
+
+	<h1 id="title">
+		Использование представлений с вычисляемыми полями
+	</h1>
+
+	<p>Представления чрезвычайно полезны для упрощения использования вычисляемых полей.</p>
+	<p>Далее приведен оператор SELECT, впервые использованный нами в уроке 7.</p>
+	<p>Он извлекает предметы указанного заказа и вычисляет суммарную стоимость для каждого предмета:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id,
+	Quantity
+	item_price,
+	quantity* item_price AS expanded_price
+	FROM OrderItems
+	WHERE order _num = 20008;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_id quantity item_price expanded_price
+	RGAN01 5 4.9900 24.9500
+	BR03 5 11.9900 59.9500
+	BNBG01 10 3.4900 34.9000
+	BNBG02 10 3.4900 34.9000
+	BNBG03 10 3.4900 34.9000
+	</pre>
+
+	<p>Для превращения его в представление необходимо выполнить следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE VIEW OrderItemsExpanded AS
+	SELECT order_num,
+	prod_id,
+	quantity,
+	item_price,
+	quantity*item_price AS expanded_price
+	FROM OrderIterns;
+	</pre>
+
+	<p>Чтобы получить информацию относительно заказа 20008 (она была выведена выше), необходимо сделать следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	FROM SELECT *
+	OrderltemsExpanded
+	WHERE order_num = 20008;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	order_num prod_id quantity item_price expanded_price
+	20008 RGAN01 5 4.99 24.95
+	20008 BR03 5 11.99 59.95
+	20008 BNBG01 10 3.49 34.90
+	20008 BNBG02 10 3.49 34.90
+	20008 BNBG03 10 3.49 34.90
+	</pre>
+
+	<p>Как видите, представления легко создавать, а использовать еще легче.</p>
+	<p>Будучи использованными корректно, представления могут существенно упростить сложные манипуляции с данными.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="70.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="72.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/71.html", "Создание представлений", "bm1085"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1085", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1085") == 1) { document.getElementById("bma1085").style.display = "block"; document.getElementById("bm1085").style.display = "none"; } else { document.getElementById("bma1085").style.display = "none"; document.getElementById("bm1085").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание представлений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1085", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

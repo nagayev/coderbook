@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma136" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm136" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Методы с переменным числом аргументов
+	</h1>
+
+	<p>У параметра с модификатором params назначение особое – он представляет в методе список аргументов неопределённой (заранее не фиксированной) длины.</p>
+	<p>Его тип – одномерный массив с элементами типа, указанного в спецификации параметра.</p>
+	<p>Как уже сказано, этот параметр может быть только последним (или единственным) в списке параметров.</p>
+	<p>В обращении к методу этот параметр заменяется списком аргументов, каждый из которых должен иметь тот же тип, что и элементы массива параметров.</p>
+	<p>В теле метода отдельные реально использованные аргументы представлены элементами массива-параметра.</p>
+	<p>Количество аргументов соответствует длине массива.</p>
+	<p>В качестве примера приведём программу с методом для вычисления значений полинома <b>Pn(x)=a0*xn+a1*xn-1+...+an-1*x+an</b>:</p>
+
+	<pre class="brush: csharp;">
+	// 09_12.cs – массив-параметр
+	using System;
+	class Program
+	{
+		// Вычисляет значение полинома c целыми коэффициентами:
+		static double polynom(double x, params int [] coef)
+		{
+			double result = 0.0;
+			for (int i = 0; i < coef.Length; i++)
+			result = result * x + coef[i];
+			return result;
+		}
+		static void Main()
+		{
+			Console.WriteLine(polynom(3.0, 3, 1, 2));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+	
+	<b>32</b>
+
+	<p>Метод polynom() возвращает значение типа double, то есть играет роль функции.</p>
+	<p>Первый параметр double x представляет значение аргумента полинома.</p>
+	<p>Второй параметр params int [ ] coef даёт возможность передать в метод список коэффициентов полинома a0, a1. ..an-1, an.</p>
+	<p>Все коэффициенты должны иметь целочисленные значения.</p>
+	<p>Их реальное количество, то есть степень полинома, при обращении определяется числом использованных аргументов, а в теле метода – значением поля coef.Length.</p>
+	<p>В теле метода:</p>
+
+	<pre class="brush: csharp;">
+	coef[0]=a0, coef[1]=a1, ..., coef[n]=an
+	</pre>
+
+	<p>Для вычисления полинома использована схема Горнера, позволяющая заменить явные возведения в степень последовательными умножениями:</p>
+
+	<pre class="brush: csharp;">
+	Pn(x)=(...(a0*x+a1)*x+a2)*x+...+an-1)*x+an
+	</pre>
+
+	<p>В том случае, когда требуется метод, принимающий произвольное число параметров любых разных типов, Дж. Рихтер предлагает использовать параметр вида params Object[ ].</p>
+	<p>Он приводит в качестве примера метод, который выводит обозначения (наименования) типов всех переданных методу аргументов.</p>
+	<p>Вот программа с этим методом:</p>
+
+	<pre class="brush: csharp;">
+	// 09_13.cs - массив-параметр "универсального" типа
+	using System;
+	class Program
+	{
+		// Метод выводит названия типов аргументов:
+		static void DisplayTypes(params Object[ ] objects)
+		{
+			foreach (Object o in objects)
+			Console.WriteLine(o.GetType( ));
+		}
+
+		static void Main( )
+		{
+			DisplayTypes("yes", 432, new Object( ));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	System.String
+	System.Int32
+	System.Object
+	</pre>
+
+	<p>Обратим внимание, что параметр, снабжённый модификатором params, обеспечивает передачу аргументов по значению, т.е. значения аргументов после выполнения метода не изменяются.</p>
+	<p>Следующая программа иллюстрирует это правило.</p>
+
+	<pre class="brush: csharp;">
+	// 09_14.cs - переменное число аргументов
+	using System;
+	class Program
+	{
+		static void varParams(params int[ ] var)
+		{
+			for (int i = 0; i < var.Length; i++)
+			{
+				var[i] *= 2;
+				Console.Write("var[{0}]={1} ", i, var[i]);
+			}
+		}
+		
+		static void Main( )
+		{
+			int a = 2, b = 3, c = 5;
+			varParams(a, b, c);
+			Console.WriteLine("\na={0}, b={1}, c={2}", a, b, c);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы</p>
+
+	<pre class="brush: csharp;">
+	var[0]=4 var[1]=6 var[2]=10
+
+	a=2, b=3, c=5
+	</pre>
+
+	<p>Значения переменных a, b, c после их использования в качестве аргументов метода varParams( ) не изменились, хотя в теле метода элементы массива-параметра присвоены новые значения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="48.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="50.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/49.html", "Непостоянные аргументы", "bm136"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm136", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm136") == 1) { document.getElementById("bma136").style.display = "block"; document.getElementById("bm136").style.display = "none"; } else { document.getElementById("bma136").style.display = "none"; document.getElementById("bm136").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Непостоянные аргументы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm136", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

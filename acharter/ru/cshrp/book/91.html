@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma178" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm178" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Свойства исключений
+	</h1>
+
+	<p>Каждое исключение это объект либо класса System.Exception, либо производного от него.</p>
+	<p>В классе Exception есть свойства, которые можно использовать при обработке исключений.</p>
+	<p>Вот два из них:</p>
+	<p><b>Message</b> – текстовое описание ситуации, при которой создано исключение;</p>
+	<p><b>Source</b> – имя объекта или приложения, пославшего исключение.</p>
+	<p>Прежде чем привести пример использования этих свойств, ещё раз обратимся к предыдущей программе, где использована catch-инструкция для FormatException.</p>
+	<p>Если пользователь введёт синтаксически правильное числовое значение, которое выходит из диапазона представимых в системе чисел, то возникает ситуация, при которой будет сгенерировано исключение, отличное от FormatException.</p>
+	<p>Например, в результате ввода:</p>
+
+	<pre class="brush: csharp;">
+	x = 1e999&lt;ENTER&gt;
+	</pre>
+
+	<p>произойдёт аварийное завершение программы с такой выдачей сообщения о необработанном исключении:</p>
+
+	<pre class="brush: csharp;">
+	Необработанное исключение: System.OverflowException: Значение было недопустимо малым или недопустимо большим для Double.
+	</pre>
+
+	<p>Чтобы защитить программу от аварийного завершения при возникновении исключений этого типа, можно включить в неё ещё один обработчик исключений с заголовком:</p>
+
+	<pre class="brush: csharp;">
+	catch (OverflowException)
+	</pre>
+
+	<p>Более общим решением является дополнение программы catch–инструкцией, настроенной на перехват всех исключений типа ArithmeticException, относящихся к обработке арифметических данных.</p>
+	<p>Чтобы получить доступ к свойствам перехваченного исключения, необходимо в заголовке catch-инструкции вслед за типом исключения поместить имя, которое будет представлять исключение в блоке обработки.</p>
+	<p>Предыдущая программа с учётом сказанного может быть такой:</p>
+
+	<pre class="brush: csharp;">
+	try
+	{
+		Console.Write("x = ");
+		x = double.Parse(Console.ReadLine());
+		Console.WriteLine("res = " + x);
+	}
+	catch (FormatException ex)
+	{
+		Console.WriteLine("ex.Message=" + ex.Message);
+		Console.WriteLine("ex.Source=" + ex.Source);
+		continue;
+	}
+	catch (ArithmeticException ex)
+	{
+		Console.WriteLine("ex.Message=" + ex.Message);
+		Console.WriteLine("ex.Source=" + ex.Source);
+		continue;
+	}
+	</pre>
+
+	<p>После блока try два обработчика.</p>
+	<p>Второй перехватывает исключения типа ArithmeticException к которым относится и OverflowException.</p>
+	<p>В каждом из обработчиков выводятся значения свойств Message и Source, а затем управление с помощью операторов continue передаётся следующей итерации цикла.</p>
+	<p>Результаты выполнения программы могут быть такими:</p>
+
+	<pre class="brush: csharp;">
+	x = 1e999&lt;ENTER&gt;
+	ex.Message=Значение было недопустимо малым или
+	недопустимо большим для Double.
+	ex.Source=mscorlib
+	x = qwer&lt;ENTER&gt;
+	ex.Message=Входная строка имела неверный формат.
+	ex.Source=mscorlib
+	x = 4.0&lt;ENTER&gt;
+	ex.Message=Входная строка имела неверный формат.
+	ex.Source=mscorlib
+	x = 4,0&lt;ENTER&gt;
+	res = 4
+	</pre>
+
+	<p><b>Обратите внимание</b>, что сообщения (значения свойства Message) различны для разных типов исключений.</p>
+	<p>Источник генерации исключений во всех примерах один – базовая библиотека Microsoft (mscorlib).</p>
+	<p><b>Примечание:</b></p>
+	<p>При анализе исключения в catch-блоке полезно выводить значение выражения ex.ToString().</p>
+	<p>В нём содержится информация как о самом исключении, так и о точке его генерации в коде программы.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="90.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="92.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/91.html", "Свойства исключений", "bm178"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm178", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm178") == 1) { document.getElementById("bma178").style.display = "block"; document.getElementById("bm178").style.display = "none"; } else { document.getElementById("bma178").style.display = "none"; document.getElementById("bm178").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Свойства исключений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm178", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

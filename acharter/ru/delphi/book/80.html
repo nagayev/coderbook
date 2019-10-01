@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma466" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm466" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Типы данных Paradox 7
+	</h1>
+
+	<table>
+		<tr>
+			<th>Тип</th>
+			<th>Буква</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>Alpha</td>
+			<td>A</td>
+			<td>Строка от 1 до 255 символов. Размер поля указывается в Size.</td>
+		</tr>
+		<tr>
+			<td>Number</td>
+			<td>N</td>
+			<td>Целое число от -10^307 до 10^308 (15 значащих цифр)</td>
+		</tr>
+		<tr>
+			<td>$ Money</td>
+			<td>$</td>
+			<td>Число в денежном формате.</td>
+		</tr>
+		<tr>
+			<td>Short</td>
+			<td>S</td>
+			<td>Короткое целое от -32768 до 32767</td>
+		</tr>
+		<tr>
+			<td>Long Integer</td>
+			<td>I</td>
+			<td>Длинное целое от -2147483648 до 2147483647</td>
+		</tr>
+		<tr>
+			<td>Date</td>
+			<td>D</td>
+			<td>Дата</td>
+		</tr>
+		<tr>
+			<td>Time</td>
+			<td>T</td>
+			<td>Время с полуночи в миллисекундах</td>
+		</tr>
+		<tr>
+			<td>Timestamp</td>
+			<td>@</td>
+			<td>Дата и время</td>
+		</tr>
+		<tr>
+			<td>Memo</td>
+			<td>M</td>
+			<td>Строковое поле неограниченной длины.<br /><br />В разделе Size можно указать длину от 1 до 240 символов, остальные символы хранятся в файле с таким же именем, но расширением mb.</td>
+		</tr>
+		<tr>
+			<td>Formated Memo</td>
+			<td>F</td>
+			<td>Как Memo, но также имеются дополнительные возможности: указать тип и размер шрифта, цвет символов, способ оформления...</td>
+		</tr>
+		<tr>
+			<td>Graphic</td>
+			<td>G</td>
+			<td>Графический файл сохраняется прямо в поле.</td>
+		</tr>
+		<tr>
+			<td>Logical</td>
+			<td>L</td>
+			<td>Логический тип.</td>
+		</tr>
+		<tr>
+			<td>Autoincrement</td>
+			<td>+</td>
+			<td>Целое число, увеличивающееся на единицу автоматически, при добавлении новой записи (счетчик).</td>
+		</tr>
+		<tr>
+			<td>Bytes</td>
+			<td>Y</td>
+			<td>Двоичные данные.</td>
+		</tr>
+		<tr>
+			<td>Binary</td>
+			<td>B</td>
+			<td>Двоичные данные. Как и Memo, хранятся в отдельном файле. Обычно содержат аудио- или видео-данные.</td>
+		</tr>
+	</table>
+
+	<p>Итак, вводим такие поля:</p>
+
+	<table>
+		<tr>
+			<th>Field</th>
+			<th>Type</th>
+			<th>Size</th>
+		</tr>
+		<tr>
+			<td>Key1</td>
+			<td>+</td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td>Avtor</td>
+			<td>I</td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td>Nazvanie</td>
+			<td>A</td>
+			<td>100</td>
+		</tr>
+		<tr>
+			<td>Exemp</td>
+			<td>S</td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td>Cena</td>
+			<td>$</td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td>Date</td>
+			<td>D</td>
+			<td> </td>
+		</tr>
+		<tr>
+			<td>Prim</td>
+			<td>M</td>
+			<td>200</td>
+		</tr>
+	</table>
+
+	<p>Теперь нажмите кнопку "Save As", файл назовите books и сохраните его в папке d:\data.</p>
+	<p>Здесь будут храниться данные о книгах.</p>
+	<p>Поле с автором мы установили как целое.</p>
+	<p>Позже мы сделаем еще одну таблицу, и в ней будем вести учет всех авторов.</p>
+	<p>И обе таблицы у нас будут объединены.</p>
+	<p>Теперь, если вы взгляните на папку d:\data, то обнаружите там два файла:</p>
+	<p><b>books.db</b> – сама таблица</p>
+	<p><b>books.MB</b> – Memo поле таблицы</p>
+	<p>Вот теперь настало время создать приложение, которое будет работать с этой таблицей.</p>
+	<p>Главная форма у нас уже есть, так что сразу создаем модуль данных (File – New – Data Module).</p>
+	<p>В свойстве Name напишите fDM, а сам модуль сохраните как DM.</p>
+	<p>Сразу же перейдите на главную форму и с помощью File – Use unit свяжите ее с DM.</p>
+	<p>Теперь устанавливаем на DM компонент Table с вкладки BDE.</p>
+	<p>В свойстве DatabaseName компонента впишите адрес нашей базы: "d:\data".</p>
+	<p>В свойстве TableName выберите нашу таблицу books.db.</p>
+	<p>Изменим имя таблицы, и укажем TBooks в свойстве Name компонента Table1.</p>
+	<p>Так как у нас в приложении будет более одной таблицы, желательно каждой из них дать осмысленное имя, чтобы потом не запутаться.</p>
+	<p>Сразу же устанавливаем на DM компонент DataSource с вкладки Data Access.</p>
+	<p>Имя компонента изменим на DS1, чтобы было покороче.</p>
+	<p>В свойстве DataSet выберем нашу таблицу.</p>
+	<p>Переходим на главную форму.</p>
+	<p>Устанавливаем главное меню и создаем такие пункты:</p>
+
+	<pre class="brush: csharp;">
+	"Файл" - "-", "Выход"
+	"Редактирование" - "Добавить книгу", "Добавить автора"
+	"Сортировка" - "По автору", "По названию книги"
+	"Помощь" - "О программе"
+	</pre>
+
+	<p>Теперь установим панель, свойству Align присвоим alTop, чтобы она заняла весь верх, свойство Caption очистим и бросим на нее два компонента Label, один под другим.</p>
+	<p>На первой напишем: "Всего книг:", на второй – "На общую сумму:".</p>
+	<p>Как следует из названий, эти данные мы будем выводить на панель.</p>
+	<p>Ниже устанавливаем сетку DBGrid с вкладки Data Controls.</p>
+	<p>Свойство Align переведем в alClient.</p>
+	<p>В свойстве DataSource выберем наш DS1.</p>
+	<p>Свойство ReadOnly переведем в True, так как для редактирования данных у нас будут другие инструменты, сетка нужна только для просмотра.</p>
+
+	<p>Теперь переходим на окно DM, выделяем компонент с таблицей и открываем ее, установив Active в True.</p>
+	<p>На главной форме сетка должна отображать данные таблицы, пока еще пустые.</p>
+	<p>Однако заголовки столбцов не очень привлекательны с точки зрения клиента.</p>
+	<p>Исправим это.</p>
+	<p>Выделите таблицу TBooks, и дважды щелкните по нему.</p>
+	<p>Должно появиться окно редактора полей:</p>
+
+	<img src="delphi41.png" id="image" />
+
+	<p>Теперь щелкните правой кнопкой по этому окну и выберите команду Add all fields (добавить все поля).</p>
+	<p>Выделяем поле Key1.</p>
+	<p>Оно нам нужно только как счетчик записей, так что пользователю его можно не отображать.</p>
+	<p>Спрячьте его, установив его свойство Visible в False.</p>
+	<p>Поле исчезло с сетки, но не потерялось – оно по-прежнему присутствует в таблице.</p>
+	<p>Далее выделите поле Avtor.</p>
+	<p>Здесь нас интересуют два свойства: DisplayLabel и DisplayWidth.</p>
+	<p>Первое отвечает за выводимый текст названия колонки, напишите здесь "Автор".</p>
+	<p>Второе отвечает за ширину колонки.</p>
+	<p>Установите 5, так как у нас здесь будут только цифры.</p>
+	<p>У поля <b>Nazvanie</b> измените выводимый текст на "Название книги".</p>
+	<p>У поля <b>Exemp</b> измените выводимый текст на "Кол-во экз.".</p>
+	<p>У поля <b>Cena</b> измените выводимый текст на "Цена".</p>
+	<p>У поля <b>Date</b> измените выводимый текст на "Дата пост.".</p>
+	<p>Наконец, поле Prim должно содержать аннотацию к книге, но поскольку это поле типа Memo, то в сетке оно все равно не выйдет.</p>
+	<p>Поэтому спрячьте это поле, также как поле Key1.</p>
+	<p>Поскольку наше приложение должно еще уметь подставлять фамилию автора книги вместо цифры, нам нужно сделать еще одну таблицу.</p>
+	<p>Снова запустите утилиту Database Desktop.</p>
+	<p>Дальше все, как и в прошлый раз: File – New – Table.</p>
+	<p>Тип таблицы Paradox 7.</p>
+	<p>Первое поле назовите Key2.</p>
+	<p>В принципе, как именно мы назовем ключ, особой разницы нет, просто мы его так назвали, чтобы не путать с первым ключом.</p>
+	<p>Итак, тип поля – Autoincrement.</p>
+	<p>Второе поле назовите FIO, тип – Alpha, размер – 30 символов.</p>
+	<p>Больше полей нам не требуется.</p>
+	<p>Конечно, можно было бы сделать отдельные поля на фамилию, на имя и отчество, однако такие усложнения займут больше времени и не добавят новых знаний, так что их не стоит делать в учебной программе.</p>
+	<p>Нажимаем кнопку "Save as", имя таблице даем avtors, а папку для таблицы – "d:\data".</p>
+	<p>Можно выходить из утилиты, таблица уже существует.</p>
+	<p>Теперь нам потребуется форма для редактирования авторов, а также еще по одному компоненту Table и DataSource.</p>
+	<p>Вначале бросьте эти компоненты в окно DM.</p>
+	<p>Таблицу переименуйте в TAvtors, а DataSource – в DS2.</p>
+	<p>Далее, у таблицы в свойстве DatabaseName напишите адрес нашей базы данных – d:\data, а в свойстве TableName выберите таблицу avtors.db.</p>
+	<p>У компонента DS2 в свойстве DataSet выберите компонент TAvtors.</p>
+	<p>Теперь приступаем к форме редактирования авторов.</p>
+	<p>Создаем новую форму, переименовываем ее в fAvtors, в свойстве Caption пишем "Авторы", свойство BorderStyle переводим в bsDialog, с помощью File – Use Unit добавляем к форме модуль DM.</p>
+	<p>Теперь сохраняем форму под именем Avtors.</p>
+	<p>Далее, устанавливаем на форму следующие компоненты:</p>
+	<p>Label – напишите на ней следующий текст: "Впишите Фамилию И.О. автора:"</p>
+	<p>Обычный Edit.</p>
+	<p>Очистите у него свойство Text, а в свойстве MaxLength (максимальная длина) укажите 30.</p>
+	<p>Именно такой размер мы указали у поля FIO при проектировании таблицы.</p>
+	<p>Ниже устанавливаем две кнопки, на которых пишем: "Добавить" и "Удалить текущую запись".</p>
+	<p>Еще ниже – сетку DBGrid, в свойстве DataSource которой нужно выбрать DS2.</p>
+	<p>Все, приготовления окончены, можно переводить таблицу TAvtors в активное состояние (Active переводим в True).</p>
+	<p>У вас должна получиться форма вроде этой:</p>
+
+	<img src="delphi42.png" id="image" />
+
+	<p>Кнопку "Добавить" сделайте пока недоступной.</p>
+	<p>Мы будем давать пользователю доступ к ней тогда, когда он что-нибудь введет в поле Edit.</p>
+	<p>Теперь так же, как мы редактировали названия полей в первой таблице, сделайте это во второй.</p>
+	<p>Поле Key2 прятать не нужно, просто в заголовке столбца укажите "№".</p>
+	<p>А в заголовке второго столбца – "Фамилия И.О.".</p>
+	<p>Перед тем, как продолжить создание нашего библиотечного каталога, необходимо познакомиться с методами редактирования данных таблицы.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="79.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="81.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/80.html", "Типы данных Paradox 7", "bm466"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm466", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm466") == 1) { document.getElementById("bma466").style.display = "block"; document.getElementById("bm466").style.display = "none"; } else { document.getElementById("bma466").style.display = "none"; document.getElementById("bm466").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Типы данных Paradox 7") == 1) { arrs.splice(i, 1); localStorage.setItem("bm466", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

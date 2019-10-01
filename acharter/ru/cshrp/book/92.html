@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma179" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm179" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Управление программой с помощью исключений
+	</h1>
+
+	<p>В качестве примера применения механизма исключений не для исправления ошибок ввода, а для управления программой, рассмотрим обработку исключения System.IndexOutOfRangeException.</p>
+	<p>Это исключение посылается при попытке обратиться к элементу массива с помощью индексного выражения, когда индекс выходит за пределы его граничной пары.</p>
+	<p>В обработке исключений будем увеличивать размер массива, то есть выполним моделирование "растущего" массива.</p>
+	<p>Напишем метод, реализующий ввод с клавиатуры целых чисел в массив.</p>
+	<p>Окончанием ввода будет служить ввод нулевого числа.</p>
+	<p>Так как количество вводимых чисел заранее неизвестно, то нужен массив, изменяющий свои размеры в процессе выполнения программы.</p>
+	<p>Предварительно определим статический метод varyArray(), позволяющий изменять размер одномерного массива по следующим правилам.</p>
+	<p>Параметры метода: ar – ссылка на исходный массив и размер int newSize нового массива, который будет сформирован методом.</p>
+	<p>Если значение параметра newSize меньше длины исходного массива, то в получаемый массив копируются только newSize первых элементов исходного массива.</p>
+	<p>Если newSize больше длины исходного массива, то значения всех элементов исходного массива присваиваются первым newSize элементам формируемого массива.</p>
+	<p>Остальные элементы (как мы знаем) по умолчанию инициализируются нулевыми значениями.</p>
+	<p>Код метода:</p>
+
+	<pre class="brush: csharp;">
+	static int[ ] varyArray(int[ ] ar, int newSize)
+	{
+		int [ ] temp = new int [newSize];
+		Array.Copy(ar, temp, newSize < ar.Length?newSize:ar.Length);
+		return temp;
+	}
+	</pre>
+
+	<p>Этот закрытый метод будем использовать вначале для организации "роста" массива, а затем для удаления из массива незаполненных при вводе правых элементов.</p>
+	<p>У приведённого в следующей программе метода с заголовком public static int[ ] arrayRead() параметров нет.</p>
+	<p>Для него исходными данными служат значения (целые числа), которые пользователь вводит с клавиатуры.</p>
+	<p>Конец ввода – ввод нулевого числа.</p>
+	<p>Текст программы с указанными методами:</p>
+
+	<pre class="brush: csharp;">
+	// 16_04.cs – растущий массив и исключения.
+	using System;
+	class Method
+	{
+		// Изменить размер массива до значения newSize:
+		static int[ ] varyArray(int[ ] ar, int newSize)
+		{
+			int [ ] temp = new int [newSize];
+			Array.Copy(ar, temp, newSize < ar.Length?newSize:ar.Length);
+			return temp;
+		}
+
+		// Читать числа в растущий массив:
+		public static int[ ] arrayRead( )
+		{
+			// Количество прочитанных чисел
+			int k=0,
+			// Текущий размер массива
+			dimAr=2,
+			// Вводимое число.
+			x;
+			int [] row = new int[dimAr];
+			while (true) {
+			do Console.Write("x = ");
+			while (!int.TryParse(Console.ReadLine(), out x));
+			if (x == 0) break;
+			try {
+			row[k] = x;
+			k++;
+			}
+			catch(IndexOutOfRangeException)
+			{
+			dimAr *= 2;
+			row = Method.varyArray(row, dimAr);
+			row[k++] = x;
+			}
+			//end while
+			}
+			row = Method.varyArray(row, k);
+			return row;
+		}
+	}
+	
+	class Program
+	{
+		static void Main()
+		{
+			int [ ] res = Method.arrayRead( );
+			foreach (int memb in res)
+			Console.Write(memb+" ");
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	x = 1&lt;ENTER&gt;
+	x = 2&lt;ENTER&gt;
+	x = 3&lt;ENTER&gt;
+	x = 4&lt;ENTER&gt;
+	x = 5&lt;ENTER&gt;
+	x = 0&lt;ENTER&gt;
+	1 2 3 4 5
+	</pre>
+
+	<p>В методе arrayRead() объявлены несколько переменных:</p>
+	<p>k – счётчик прочитанных и сохранённых в создаваемом массиве ненулевых чисел;</p>
+	<p>dimAr – текущий размер массива, который вначале равен 2;</p>
+	<p>x – переменная, которой присваивается введённые пользователем числовое значение;</p>
+	<p>row – ссылка на одномерный целочисленный массив, элементам которого присваиваются вводимые числовые значения.</p>
+	<p>Ввод чисел и сохранение их в массиве, адресованном ссылкой row, выполняется в "бесконечном" цикле с заголовком while(true).</p>
+	<p>В его теле вспомогательный цикл с постусловием (такой цикл мы уже неоднократно применяли в программах) обеспечивает корректный ввод значения x.</p>
+	<p>Если х после ввода оказывается равным нулю, то оператор break; прекращает выполнение "бесконечного" цикла.</p>
+	<p>Для ненулевого значения х делается попытка присваивания <b>row[k]=x</b>.</p>
+	<p>Если k &lt; dimAr, то присваивание выполняется благополучно, значение k увеличивается на 1 и следует переход к новой итерации цикла – читается новое значение х.</p>
+	<p>Как только k достигает значения dimAr (а вначале эта величина равна 2), выполнение row[k]=x становится невозможным и возникает исключение типа IndexOutRangeException.</p>
+	<p>Управление передаётся за пределы контролируемого блока – оператор k++; не выполняется.</p>
+	<p>Посланное исключение перехватывает соответствующий ему catch-обработчик.</p>
+	<p>В его теле удваивается значение переменной dimAr и переменной row присваивается ссылка на новый увеличенный вдвое массив, первые элементы которого получают значение уже введённые с клавиатуры.</p>
+	<p>Далее в этот массив заносится значение х, и увеличивается на 1 счётчик обработанных чисел, что обеспечивает оператор row[k++]=x;.</p>
+	<p>Блок try и соответствующий ему обработчик catch целиком размещены в конце тела цикла, поэтому следует переход к его очередной итерации.</p>
+	<p>При выходе из цикла (когда х получит нулевое значение) следует обращение к методу varyArray(row, k).</p>
+	<p>При этом k равно реальному количеству значений, присвоенных первым k элементам массива, адресованного ссылкой row.</p>
+	<p>Формируемый этим методом массив будет содержать только реально введённые пользователем ненулевые числа.</p>
+	<p>"Лишних" элементов в хвосте созданного методом arrayRead() массива не будет.</p>
+	<p>Сказанное подтверждают результаты выполнения метода Main(), где оператор foreach выводит значения всех элементов созданного массива.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="91.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="93.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/92.html", "Управление с исключениями", "bm179"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm179", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm179") == 1) { document.getElementById("bma179").style.display = "block"; document.getElementById("bm179").style.display = "none"; } else { document.getElementById("bma179").style.display = "none"; document.getElementById("bm179").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Управление с исключениями") == 1) { arrs.splice(i, 1); localStorage.setItem("bm179", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1182" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1182" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Кэширование фрагментов
+	</h1>
+
+    <p>Кэширование фрагментов относится к кэшированию фрагментов страницы.</p>
+    <p>Например, если страница отображает в таблице суммарные годовые продажи, мы можем сохранить эту таблицу в кэше с целью экономии времени, требуемого для генерации таблицы при каждом запросе.</p>
+    <p>Для использования кэширования фрагментов мы вызываем методы CController::beginCache() и CController::endCache() в скрипте представления контроллера.</p>
+    <p>Эти два метода являются метками начала и конца содержимого страницы, которое должно быть кэшировано.</p>
+    <p>Как и при кэшировании данных, нам нужен идентификатор для определения кэшируемого фрагмента.</p>
+
+    <pre class="brush: csharp;">
+    …другое HTML-содержимое…
+    &lt;?php if($this->beginCache($id)) { ?&gt;
+    …кэшируемое содержимое…
+    &lt;?php $this->endCache(); } ?&gt;
+    …другое HTML-содержимое…
+    </pre>
+
+    <p>В приведённом коде, если метод beginCache() возвращает false, то кэшированное содержимое будет автоматически вставлено в данное место; в противном случае содержимое внутри выражения if будет выполнено и сохранено в кэше, когда будет вызван метод endCache().</p>
+
+    <h2 id="title">
+        Параметры кэширования
+    </h2>
+
+    <p>Вызывая метод beginCache(), мы можем передать в качестве второго аргумента массив, содержащий параметры кэширования для управления кэшированием фрагмента.</p>
+    <p>Фактически, методы beginCache() и endCache() являются удобной обёрткой виджета COutputCache.</p>
+    <p>Поэтому параметры кэширования могут быть начальными значениями любых свойств виджета COutputCache.</p>
+
+    <h3 id="title">
+        Длительность (срок хранения)
+    </h3>
+
+    <p>Наверное, наиболее часто используемым параметром является duration, который определяет, насколько долго содержимое кэша будет оставаться действительным (валидным).</p>
+    <p>Это похоже на параметр срока действия метода CCache::set().</p>
+    <p>Следующий код помещает фрагмент в кэш не более, чем на час:</p>
+
+    <pre class="brush: csharp;">
+    …другое HTML-содержимое…
+    &lt;?php if($this->beginCache($id, array('duration'=>3600))) { ?&gt;
+    …кэшируемое содержимое…
+    &lt;?php $this->endCache(); } ?&gt;
+    …другое HTML-содержимое…
+    </pre>
+
+    <p>Если мы не установим длительность (срок хранения), она будет равна значению по умолчанию (60 секунд).</p>
+    <p>Это значит, что кэшированное содержимое станет недействительным через 60 секунд.</p>
+    <p>Начиная с версии 1.1.8, если выставить duration в 0, то соответствующее значение будет удалено из кэша.</p>
+    <p>Если же применить отрицательное значение duration, кэш будет отключён, но существующее значение в нём останется.</p>
+    <p>До 1.1.8, как при выставлении 0, так и при использовании отрицательного значения кэш отключался без очистки значения.</p>
+
+    <h3 id="title">
+        Зависимости
+    </h3>
+
+Как и в случае кэширования данных, кэшируемое содержимое фрагмента тоже может иметь зависимости.
+Например, отображение содержимого сообщения зависит от того, изменено или нет это сообщение.
+Для определения зависимости мы устанавливаем параметр dependency, который может быть либо объектом, реализующим интерфейс ICacheDependency, либо массивом настроек, который может быть использован для генерации объекта зависимости.
+Следующий код определяет содержимое фрагмента, зависящее от изменения значения столбца lastModified:
+
+    <pre class="brush: csharp;">
+    …другое HTML-содержимое…
+    &lt;?php if($this->beginCache($id, array('dependency'=>array(
+            'class'=>'system.caching.dependencies.CDbCacheDependency',
+            'sql'=>'SELECT MAX(lastModified) FROM Post')))) { ?&gt;
+    …кэшируемое содержимое…
+    &lt;?php $this->endCache(); } ?&gt;
+    …другое HTML-содержимое…
+    </pre>
+
+    <h3 id="title">
+        Вариации (изменения)
+    </h3>
+
+    <p>Кэшируемое содержимое может быть изменено в соответствии с некоторыми параметрами.</p>
+    <p>Например, личный профиль может по-разному выглядеть для разных пользователей.</p>
+    <p>Для кэширования содержимого профиля мы бы хотели, чтобы кэшированная копия была различной в соответствии с идентификатором пользователя.</p>
+    <p>По-существу, это значит, что мы должны использовать разные идентификаторы при вызове метода beginCache().</p>
+    <p>Чтобы не утруждать разработчиков варьированием идентификаторов в соответствии с некоторыми условиями, класс COutputCache уже включает в себя такую возможность.</p>
+    <p>Ниже приведён список встроенных вариаций:</p>
+
+    <ul>
+        <li>varyByRoute: если установлено в значение true, кэшированное содержимое будет изменяться в зависимости от маршрута. Поэтому каждая комбинация запрашиваемого контроллера и действия будет иметь разное кэшированное содержимое.</li>
+        <li>varyBySession: если установлено в значение true, кэшированное содержимое будет изменяться в соответствии с идентификатором сессии. Поэтому каждая пользовательская сессия может видеть различное содержимое и извлекать его из кэша.</li>
+        <li>varyByParam: установив в качестве значения массив имён, мы можем изменять кэшированное содержимое в соответствии с заданными GET параметрами. Например, если страница отображает содержимое сообщения в зависимости от GET-параметра id, мы можем определить varyByParam в виде массива array('id') и затем кэшировать содержимое каждого сообщения. Без такой вариации мы могли бы кэшировать только одно сообщение.</li>
+        <li>varyByExpression: установив в качестве значения выражение PHP, мы можем изменять кэшированное содержимое в зависимости от результата данного выражения.</li>
+    </ul>
+
+    <h3 id="title">
+        Типы запросов
+    </h3>
+
+    <p>Иногда нам требуется, чтобы кэширование фрагмента было включено только для некоторых типов запросов.</p>
+    <p>Например, страницу с формой мы хотим кэшировать только тогда, когда обращение к ней произошло впервые (посредством GET запроса).</p>
+    <p>Любое последующее отображение формы (посредством POST запроса) не должно быть кэшировано, потому что может содержать данные, введённые пользователем.</p>
+    <p>Для этого мы задаём параметр requestTypes:</p>
+
+    <pre class="brush: csharp;">
+    …другое HTML содержмое…
+    &lt;?php if($this->beginCache($id, array('requestTypes'=>array('GET')))) { ?&gt;
+    …кэшируемое содержимое…
+    &lt;?php $this->endCache(); } ?&gt;
+    …другое HTML содержмое…
+    </pre>
+
+    <h2 id="title">
+        Вложенное кэширование
+    </h2>
+
+    <p>Кэширование фрагментов может быть вложенным.</p>
+    <p>Это значит, что кэшируемый фрагмент окружён более крупным фрагментом (содержится в нём), который также кэшируется.</p>
+    <p>Например, комментарии кэшируются во внутреннем фрагменте кэша, и они же кэшируются вместе с содержимым сообщения во внешнем фрагменте кэша.</p>
+
+    <pre class="brush: csharp;">
+    …другое HTML содержмое…
+    &lt;?php if($this->beginCache($id1)) { ?&gt;
+    …внешнее кэшируемое содержимое…
+        &lt;?php if($this->beginCache($id2)) { ?&gt;
+        …внутреннее кэшируемое содержимое…
+        &lt;?php $this->endCache(); } ?&gt;
+    …внешнее кэшируемое содержимое…
+    &lt;?php $this->endCache(); } ?&gt;
+    …другое HTML содержмое…
+    </pre>
+
+    <p>Параметры кэширования могут быть различными для вложенных кэшей.</p>
+    <p>Например, внутренний и внешний кэши в вышеприведённом примере могут иметь разные сроки хранения.</p>
+    <p>Даже когда данные внешнего кэша уже не являются актуальными, внутренний кеш может содержать актуальный фрагмент.</p>
+    <p>Тем не менее, обратное не верно.</p>
+    <p>Если внешний кэш актуален, данные будут отдаваться из него даже если внутренний кэш содержит устаревшие данные.</p>
+    <p>Следует проявлять осторожность при выставлении срока хранения и задания зависимостей для вложенных кэшей.</p>
+    <p>В противном случае вы можете получить устаревшие данные.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="30.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="32.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/31.html", "Кэширование фрагментов", "bm1182"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1182", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1182") == 1) { document.getElementById("bma1182").style.display = "block"; document.getElementById("bm1182").style.display = "none"; } else { document.getElementById("bma1182").style.display = "none"; document.getElementById("bm1182").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Кэширование фрагментов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1182", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

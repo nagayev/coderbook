@@ -1,0 +1,762 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1218" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1218" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Приложения
+	</h1>
+
+    <p>Приложения это объекты, которые управляют всей структурой и жизненным циклом прикладной системы Yii.</p>
+    <p>Каждая прикладная система Yii включает в себя один объект приложения, который создается во входном скрипте и глобально доступен через \Yii::$app.</p>
+    <p><b>Информация:</b> В зависимости от контекста, когда мы говорим "приложение", это может означать как объект приложения так и приложение как прикладную систему в целом.</p>
+    <p>Существует два вида приложений: [[yii\web\Application|веб приложения]] и [[yii\console\Application|консольные приложения]].</p>
+    <p>Как можно догадаться по названию, первый тип в основном занимается обработкой веб запросов, в то время как последний - консольных команд.</p>
+
+    <h2 id="title">
+        Конфигурации приложения
+    </h2>
+
+    <p>Когда входной скрипт создаёт приложение, он загрузит конфигурацию и применит её к приложению, например:</p>
+
+    <pre class="brush: csharp;">
+    require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
+    
+    // загрузка конфигурации приложения
+    $config = require __DIR__ . '/../config/web.php';
+    
+    // создание объекта приложения и его конфигурирование
+    (new yii\web\Application($config))->run();
+    </pre>
+
+    <p>Также как и обычные конфигурации, конфигурации приложения указывают как следует инициализировать свойства объектов приложения.</p>
+    <p>Из-за того, что конфигурация приложения часто является очень сложной, она разбивается на несколько конфигурационных файлов, например, web.php - файл в приведённом выше примере.</p>
+
+    <h2 id="title">
+        Свойства приложений
+    </h2>
+
+    <p>Существует много важных свойств приложения, которые вы настраиваете в конфигурациях приложения.</p>
+    <p>Эти свойства обычно описывают окружение, в котором работает приложение.</p>
+    <p>Например, приложение должно знать каким образом загружать контроллеры, где хранить временные файлы, и т. д.</p>
+    <p>Ниже мы рассмотрим данные свойства.</p>
+
+    <h3 id="title">
+        Обязательные свойства
+    </h3>
+
+    <p>В любом приложении, вы должны настроить минимум два свойства: [[yii\base\Application::id|id]] и [[yii\base\Application::basePath|basePath]].</p>
+
+    <h3 id="title">
+        [[yii\base\Application::id|id]]
+    </h3>
+
+    <p>Свойство [[yii\base\Application::id|id]] это уникальный индекс приложения, который отличает его от других приложений.</p>
+    <p>В основном это используется внутрисистемно.</p>
+    <p>Хоть это и не обязательно, но для лучшей совместимости рекомендуется использовать буквенно-цифровые символы при указании индекса приложения.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::basePath|basePath]]
+    </h3>
+
+    <p>Свойство [[yii\base\Application::basePath|basePath]] указывает на корневую директорию приложения.</p>
+    <p>Эта директория содержит весь защищенный исходный код приложения.</p>
+    <p>В данной директории обычно могут находится поддиректории models, views, controllers, содержащие код, соответствующий шаблону проектирования MVC.</p>
+    <p>Вы можете задать свойство [[yii\base\Application::basePath|basePath]] используя путь к директории или используя псевдоним пути.</p>
+    <p>В обоих случаях, указанная директория должна существовать, иначе будет выброшено исключение.</p>
+    <p>Путь будет нормализован функцией realpath().</p>
+    <p>Свойство [[yii\base\Application::basePath|basePath]] часто используется для указания других важных путей (например, путь к директории runtime, используемой приложением).</p>
+    <p>По этой причине, псевдоним пути @app предустановлен и содержит данный путь.</p>
+    <p>Производные пути могут быть получены с использованием этого псевдонима пути (например, @app/runtime указывает на временную директорию runtime).</p>
+
+    <h3 id="title">
+        Важные свойства
+    </h3>
+
+    <p>Свойства, указанные в этом подразделе, часто нуждаются в преднастройке т.к. они разнятся от приложения к приложению.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::aliases|aliases]]
+    </h3>
+
+    <p>Это свойство позволяет настроить вам множество псевдонимов в рамках массива.</p>
+    <p>Ключами массива являются имена псевдонимов, а значениями массива - соответствующие значения пути.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'aliases' =&gt; [
+            '@name1' =&gt; 'path/to/path1',
+            '@name2' =&gt; 'path/to/path2',
+        ],
+    ]
+    </pre>
+
+    <p>Это свойство доступно таким образом, чтобы вы могли указывать псевдонимы в рамках конфигурации приложения, а не вызовов метода [[Yii::setAlias()]].</p>
+
+
+
+    <h3 id="title">
+        [[yii\base\Application::bootstrap|bootstrap]]
+    </h3>
+
+    <p>Данное свойство является очень удобным, оно позволяет указать массив компонентов, которые должны быть загружены в процессе</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Application::bootstrap()|начальной загрузки]]
+    </pre>
+
+    <p>приложения.</p>
+    <p>Например, если вы хотите, чтобы модуль производил тонкую настройку URL правил, вы можете указать его ID в качестве элемента данного свойства.</p>
+    <p>Каждый из элементов данного свойства, может быть указан в одном из следующих форматов:</p>
+
+    <ul>
+        <li>ID, указанный в компонентах;</li>
+        <li>ID модуля, указанный в модулях;</li>
+        <li>название класса;</li>
+        <li>массив конфигурации;</li>
+        <li>анонимная функция, которая создаёт и возвращает компонент.</li>
+    </ul>
+
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'bootstrap' =&gt; [
+            // ID компонента приложения или модуля
+            'demo',
+    
+            // название класса
+            'app\components\Profiler',
+    
+            // массив конфигурации
+            [
+                'class' =&gt; 'app\components\Profiler',
+                'level' =&gt; 3,
+            ],
+    
+            // анонимная функция
+            function () {
+                return new app\components\Profiler();
+            }
+        ],
+    ]
+    </pre>
+
+    <p><b>Информация:</b> Если ID модуля такой же, как идентификатор компонента приложения, то в процессе начальной загрузки будет использован компонент приложения.</p>
+    <p>Если Вы вместо этого хотите использовать модуль, то можете указать его при помощи анонимной функции похожей на эту:</p>
+
+    <pre class="brush: csharp;">
+    [
+        function () {
+            return Yii::$app->getModule('user');
+        },
+    ]
+    </pre>
+
+    <p>В процессе начальной загрузки, каждый компонент будет создан.</p>
+    <p>Если класс компонента имеет интерфейс [[yii\base\BootstrapInterface]], то также будет вызван метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\BootstrapInterface::bootstrap()|bootstrap()]]
+    </pre>
+
+    <p>Еще одним практическим примером является конфигурация базового шаблона приложения, в котором модули debug и gii указаны как bootstrap компоненты, когда приложение находится в отладочном режиме.</p>
+
+    <pre class="brush: csharp;">
+    if (YII_ENV_DEV) {
+        // настройка конфигурации для окружения 'dev'
+        $config['bootstrap'][] = 'debug';
+        $config['modules']['debug'] = 'yii\debug\Module';
+    
+        $config['bootstrap'][] = 'gii';
+        $config['modules']['gii'] = 'yii\gii\Module';
+    }
+    </pre>
+
+    <p><b>Примечание:</b> Указывание слишком большого количества компонентов в bootstrap приведет к снижению производительности приложения, потому что для каждого запроса одно и то же количество компонентов должно быть загружено. Таким образом вы должны использовать начальную загрузку разумно.</p>
+
+    <h3 id="title">
+        [[yii\web\Application::catchAll|catchAll]]
+    </h3>
+
+    <p>Данное свойство поддерживается только [[yii\web\Application|веб приложениями]].</p>
+    <p>Оно указывает действие контроллера, которое должно обрабатывать все входящие запросы от пользователя.</p>
+    <p>В основном это используется, когда приложения находится в режиме обслуживания и должно обрабатывать все запросы через одно действие.</p>
+    <p>Конфигурация это массив, первый элемент которого, определяет маршрут действия.</p>
+    <p>Остальные элементы в формате пара ключ-значение задают дополнительные параметры, которые должны быть переданы действию (методу контроллера actionXXX).</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'catchAll' =&gt; [
+            'offline/notice',
+            'param1' =&gt; 'value1',
+            'param2' =&gt; 'value2',
+        ],
+    ]
+    </pre>
+
+    <h3 id="title">
+        [[yii\base\Application::components|components]]
+    </h3>
+
+    <p>Данное свойство является наиболее важным.</p>
+    <p>Оно позволяет вам зарегистрировать список именованных компонентов, называемых компоненты приложения, которые Вы можете использовать в других местах.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'components' =&gt; [
+            'cache' =&gt; [
+                'class' =&gt; 'yii\caching\FileCache',
+            ],
+            'user' =&gt; [
+                'identityClass' =&gt; 'app\models\User',
+                'enableAutoLogin' =&gt; true,
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Каждый компонент приложения указан массивом в формате ключ-значение.</p>
+    <p>Ключ представляет собой ID компонента приложения, в то время как значение представляет собой название класса или конфигурацию.</p>
+    <p>Вы можете зарегистрировать любой компонент в приложении, позже этот компонент будет глобально доступен через выражение \Yii::$app->componentID.</p>
+    <p>Более подробная информация приведена в разделе Компоненты приложения.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::controllerMap|controllerMap]]
+    </h3>
+
+    <p>Данное свойство позволяет вам задавать соответствия(mapping) между ID контроллера и произвольным классом контроллера.</p>
+    <p>По-умолчанию, Yii задает соответствие между ID контроллера и его классом согласно данному соглашению (таким образом, ID post будет соответствовать app\controllers\PostController).</p>
+    <p>Задавая эти свойства вы можете переопределить соответствия для необходимых контроллеров.</p>
+    <p>В приведенном ниже примере, account будет соответствовать контроллеру app\controllers\UserController, в то время как article будет соответствовать контроллеру app\controllers\PostController.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'controllerMap' =&gt; [
+            'account' =&gt; 'app\controllers\UserController',
+            'article' =&gt; [
+                'class' =&gt; 'app\controllers\PostController',
+                'enableCsrfValidation' =&gt; false,
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Ключами данного свойства являются ID контроллеров, а значениями являются соответствующие названия классов(полное название класса с пространством имен) контроллера или конфигурация.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::controllerNamespace|controllerNamespace]]
+    </h3>
+
+    <p>Данное свойство указывает пространство имен, в котором по умолчанию должны находится названия классов контроллеров.</p>
+    <p>По-умолчанию значение равно app\controllers.</p>
+    <p>Если ID контроллера post, то согласно соглашению, соответствующий класс контроллера (без пространства имен) будет равен PostController, а полное название класса будет равно app\controllers\PostController.</p>
+    <p>Класс контроллера может также находиться в поддиректории директории, соответствующей этому пространству имен.</p>
+    <p>Например, ID контроллера admin/post, будет соответствовать полное имя класса контроллера app\controllers\admin\PostController.</p>
+    <p>Очень важно, чтобы полное имя класса контроллера могло быть использовано автозагрузкой и соответствующее пространство имен вашего контроллера соответствовало данному свойству.</p>
+    <p>Иначе, Вы получите ошибку "Страница не найдена", при доступе к приложению.</p>
+    <p>В случае, если вы хотите переопределить соответствия как описано выше, вы можете настроить свойство controllerMap.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::language|language]]
+    </h3>
+
+    <p>Данное свойство указывает язык приложения, на котором содержимое страницы должно быть отображено конечному пользователю.</p>
+    <p>По-умолчанию значение данного свойства равно en, что означает "Английский".</p>
+    <p>Если ваше приложение должно поддерживать несколько языков, вы должны настроить данное свойство.</p>
+    <p>Значение данного свойства определяется различными аспектами интернационализации, в том числе переводом сообщений, форматированием дат, форматированием чисел, и т. д.</p>
+    <p>Например, виджет [[yii\jui\DatePicker]] использует данное свойство для определения по умолчанию языка, на котором должен быть отображен календарь и формат данных для календаря.</p>
+    <p>Рекомендуется что вы будете указывать язык в рамках стандарта IETF.</p>
+    <p>Например, для английского языка используется en, в то время как для английского в США - en-US.</p>
+    <p>Более детальная информация приведена в разделе Интернационализация.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::modules|modules]]
+    </h3>
+
+    <p>Данное свойство указывает модули, которые содержаться в приложении.</p>
+    <p>Значениями свойства могут быть массивы имен классов модулей или конфигураций, а ключами - ID модулей. Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'modules' =&gt; [
+            // a "booking" module specified with the module class
+            'booking' =&gt; 'app\modules\booking\BookingModule',
+    
+            // a "comment" module specified with a configuration array
+            'comment' =&gt; [
+                'class' =&gt; 'app\modules\comment\CommentModule',
+                'db' =&gt; 'db',
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Более детальная информация приведена в разделе Модули.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::name|name]]
+    </h3>
+
+    <p>Свойство указывает название приложения, которое может быть показано конечным пользователям.</p>
+    <p>В отличие от свойства [[yii\base\Application::id|id]], которое должно быть уникальным, значение данного свойства нужно в основном для отображения и не обязательно должно быть уникальным.</p>
+    <p>Если ваш код не использует данное свойство, то вы можете не настраивать его.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::params|params]]
+    </h3>
+
+    <p>Данное свойство указывает массив глобально доступных параметров приложения.</p>
+    <p>Вместо того, чтобы использовать жестко фиксированные числа и строки в вашем коде, лучше объявить их параметрами приложения в едином месте и использовать в нужных вам местах кода.</p>
+    <p>Например, вы можете определить размер превью для изображений следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'params' =&gt; [
+            'thumbnail.size' =&gt; [128, 128],
+        ],
+    ]
+    </pre>
+
+    <p>Затем, когда вам нужно использовать данные значения в вашем коде, вы делаете это как представлено ниже:</p>
+
+    <pre class="brush: csharp;">
+    $size = \Yii::$app->params['thumbnail.size'];
+    $width = \Yii::$app->params['thumbnail.size'][0];
+    </pre>
+
+    <p>Если позже вам понадобится изменить размер превью изображений, вам нужно только изменить это значение в настройке приложения, не касаясь зависимого кода.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::sourceLanguage|sourceLanguage]]
+    </h3>
+
+    <p>Данное свойство указывает язык на котором написан код приложения.</p>
+    <p>По-умолчанию значение равно 'en-US', что означает "Английский" (США).</p>
+    <p>Вы должны настроить данное свойство соответствующим образом, если содержимое в вашем коде является не английским языком.</p>
+    <p>Аналогично свойству language, вы должны указать данное свойство в рамках стандарта IETF.</p>
+    <p>Например, для английского языка используется en, в то время как для английского в США - en-US.</p>
+    <p>Более детальная информация приведена в разделе Интернационализация.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::timeZone|timeZone]]
+    </h3>
+
+    <p>Данное свойство предоставляет альтернативный способ установки временной зоны в процессе работы приложения.</p>
+    <p>Путем указания данного свойства, вы по существу вызываете PHP функцию date_default_timezone_set().</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        // Europe/Moscow для России (прим. пер.)
+        'timeZone' =&gt; 'America/Los_Angeles',
+    ]
+    </pre>
+
+    <h3 id="title">
+        [[yii\base\Application::version|version]]
+    </h3>
+
+    <p>Данное свойство указывает версию приложения.</p>
+    <p>По-умолчанию значение равно '1.0'.</p>
+    <p>Вы можете не настраивать это свойство, если ваш код не использует его.</p>
+
+    <h3 id="title">
+        Полезные свойства
+    </h3>
+
+    <p>Свойства, указанные в данном подразделе, не являются часто конфигурируемыми, т. к. их значения по умолчанию соответствуют общепринятым соглашениям.</p>
+    <p>Однако, вы можете их настроить, если вам нужно использовать другие соглашения.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::charset|charset]]
+    </h3>
+
+    <p>Свойство указывает кодировку, которую использует приложение.</p>
+    <p>По-умолчанию значение равно 'UTF-8', которое должно быть оставлено как есть для большинства приложения, только если вы не работаете с устаревшим кодом, который использует большее количество данных не юникода.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::defaultRoute|defaultRoute]]
+    </h3>
+
+    <p>Свойство указывает маршрут, который должно использовать приложение, когда он не указан во входящем запросе.</p>
+    <p>Маршрут может состоять из ID модуля, ID контроллера и/или ID действия.</p>
+    <p>Например, help, post/create, admin/post/create.</p>
+    <p>Если действие не указано, то будет использовано значение по умолчанию указанное в [[yii\base\Controller::defaultAction]].</p>
+    <p>Для [[yii\web\Application|веб приложений]], значение по умолчанию для данного свойства равно 'site', что означает контроллер SiteController и его действие по умолчанию должно быть использовано.</p>
+    <p>Таким образом, если вы попытаетесь получить доступ к приложению не указав маршрут, оно покажет вам результат действия</p>
+
+    <pre class="brush: csharp;">
+    app\controllers\SiteController::actionIndex()
+    </pre>
+
+    <p>Для [[yii\console\Application|консольных приложений]], значение по умолчанию равно 'help', означающее, что встроенная команда</p>
+
+    <pre class="brush: csharp;">
+    [[yii\console\controllers\HelpController::actionIndex()]]
+    </pre>
+
+    <p>должна быть использована.</p>
+    <p>Таким образом, если вы выполните команду yii без аргументов, вам будет отображена справочная информация.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::extensions|extensions]]
+    </h3>
+
+    <p>Данное свойство указывает список расширений, которые установлены и используются приложением.</p>
+    <p>По-умолчанию, значением данного свойства будет массив, полученный из файла @vendor/yiisoft/extensions.php.</p>
+    <p>Файл extensions.php генерируется и обрабатывается автоматически, когда вы используете Composer для установки расширений.</p>
+    <p>Таким образом, в большинстве случаев вам не нужно настраивать данное свойство.</p>
+    <p>В особых случаях, когда вы хотите обрабатывать расширения в ручную, вы можете указать данное свойство следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'extensions' =&gt; [
+            [
+                'name' =&gt; 'extension name',
+                'version' =&gt; 'version number',
+                'bootstrap' =&gt; 'BootstrapClassName',  // опционально, может быть также массив конфигурации
+                'alias' =&gt; [  // опционально
+                    '@alias1' =&gt; 'to/path1',
+                    '@alias2' =&gt; 'to/path2',
+                ],
+            ],
+    
+            // ... аналогично для остальных расширений ...
+    
+        ],
+    ]
+    </pre>
+
+    <p>Свойство является массивом спецификаций расширений.</p>
+    <p>Каждое расширение указано массивом, состоящим из элементов name и version.</p>
+    <p>Если расширение должно быть выполнено в процессе начальной загрузки, то следует указать bootstrap элемент, который может являться именем класса или конфигурацией.</p>
+    <p>Расширение также может определять несколько псевдонимов.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::layout|layout]]
+    </h3>
+
+    <p>Данное свойство указывает имя шаблона по умолчанию, который должен быть использовать при формировании представлений.</p>
+    <p>Значение по умолчанию равно 'main', означающее, что должен быть использован шаблон main.php в папке шаблонов.</p>
+    <p>Если оба свойства папка шаблонов и папка представлений имеют значение по умолчанию, то файл шаблона по умолчанию может быть представлен псевдонимом пути как @app/views/layouts/main.php.</p>
+    <p>Для отключения использования шаблона, вы можете указать данное свойство как false, хотя это используется очень редко.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::layoutPath|layoutPath]]
+    </h3>
+
+    <p>Свойство указывает путь, по которому следует искать шаблоны.</p>
+    <p>Значение по умолчанию равно layouts, означающее подпапку в папке представлений.</p>
+    <p>Если значение папки представлений является значением по умолчанию, то папка шаблонов по умолчанию может быть представлена псевдонимом пути как @app/views/layouts.</p>
+    <p>Вы можете настроить данное свойство как папку так и как псевдоним.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::runtimePath|runtimePath]]
+    </h3>
+
+    <p>Свойство указывает путь, по которому хранятся временные файлы, такие как: лог файлы, кэш файлы.</p>
+    <p>По-умолчанию значение равно папке, которая представлена псевдонимом пути @app/runtime.</p>
+    <p>Вы можете настроить данное свойство как папку или как псевдоним пути.</p>
+    <p>Обратите внимание, что данная папка должна быть доступна для записи, процессом, который запускает приложение.</p>
+    <p>Также папка должна быть защищена от доступа конечными пользователями, хранимые в ней временные файлы могут содержать важную информацию.</p>
+    <p>Для упрощения работы с данной папкой, Yii предоставляет предопределенный псевдоним пути @runtime.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::viewPath|viewPath]]
+    </h3>
+
+    <p>Данное свойство указывает базовую папку,где содержаться все файлы представлений.</p>
+    <p>Значение по умолчанию представляет собой псевдоним @app/views.</p>
+    <p>Вы можете настроить данное свойство как папку так и как псевдоним.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::vendorPath|vendorPath]]
+    </h3>
+
+    <p>Свойство указывает папку сторонних библиотек, которые используются и управляются Composer.</p>
+    <p>Она содержит все сторонние библиотеки используемые приложением, включая Yii фреймворк.</p>
+    <p>Значение по умолчанию представляет собой псевдоним @app/vendor.</p>
+    <p>Вы можете настроить данное свойство как папку так и как псевдоним.</p>
+    <p>При изменении данного свойства, убедитесь что вы также изменили соответствующим образом настройки Composer.</p>
+    <p>Для упрощения работы с данной папкой, Yii предоставляет предопределенный псевдоним пути @vendor.</p>
+
+    <h3 id="title">
+        [[yii\console\Application::enableCoreCommands|enableCoreCommands]]
+    </h3>
+
+    <p>Данное свойство поддерживается только [[yii\console\Application|консольными приложениями]].</p>
+    <p>Оно указывает нужно ли использовать встроенные в Yii консольные команды. Значение по умолчанию равно true.</p>
+
+    <h2 id="title">
+        События приложения
+    </h2>
+
+    <p>В течение жизненного цикла приложения, возникает несколько событий.</p>
+    <p>Вы можете назначать обработчики событий в конфигурации приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'on beforeRequest' =&gt; function ($event) {
+            // ...
+        },
+    ]
+    </pre>
+
+    <p>Использование синтаксиса on eventName детально описано в разделе Конфигурации.</p>
+    <p>Также вы можете назначить обработчики событий в процессе начальной загрузки приложения, сразу после того как приложение будет создано.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$app->on(\yii\base\Application::EVENT_BEFORE_REQUEST, function ($event) {
+        // ...
+    });
+    </pre>
+
+    <h3 id="title">
+        [[yii\base\Application::EVENT_BEFORE_REQUEST|EVENT_BEFORE_REQUEST]]
+    </h3>
+
+    <p>Данное событие возникает до того как приложение начинает обрабатывать входящий запрос.</p>
+    <p>Настоящее имя события - beforeRequest.</p>
+    <p>На момент возникновения данного события, объект приложения уже создан и проинициализирован.</p>
+    <p>Таким образом, это является хорошим местом для вставки вашего кода с помощью событий, для перехвата управления обработкой запроса.</p>
+    <p>Например, обработчик события, может динамически подставлять язык приложения [[yii\base\Application::language]] в зависимости от некоторых параметров.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::EVENT_AFTER_REQUEST|EVENT_AFTER_REQUEST]]
+    </h3>
+
+    <p>Данное событие возникает после того как приложение заканчивает обработку запроса, но до того как произойдет отправка ответа. Настоящее имя события - afterRequest.</p>
+    <p>На момент возникновения данного события, обработка запроса завершена и вы можете воспользоваться этим для произведения постобработки запроса, с целью настройки ответа.</p>
+    <p>Обратите внимание, что в компоненте [[yii\web\Response|response]] также возникают события в процессе отправки данных конечному пользователю.</p>
+    <p>Эти события возникают после текущего события.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::EVENT_BEFORE_ACTION|EVENT_BEFORE_ACTION]]
+    </h3>
+
+    <p>Событие возникает до того как будет выполнено действие контроллера.</p>
+    <p>Настоящее имя события - beforeAction.</p>
+    <p>Событие является объектом [[yii\base\ActionEvent]].</p>
+    <p>Обработчик события может устанавливать свойство [[yii\base\ActionEvent::isValid]] равным false для предотвращения выполнения действия.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'on beforeAction' =&gt; function ($event) {
+            if (некоторое условие) {
+                $event->isValid = false;
+            } else {
+            }
+        },
+    ]
+    </pre>
+
+    <p>Обратите внимание что то же самое событие beforeAction возникает в модулях и контроллерах.</p>
+    <p>Объекты приложения являются первыми, кто возбуждает данные события, следуя за модулями (если таковые имеются) и в конце контроллерами.</p>
+    <p>Если обработчик события устанавливает свойство [[yii\base\ActionEvent::isValid]] равным false, все последующие события не возникнут.</p>
+
+    <h3 id="title">
+        [[yii\base\Application::EVENT_AFTER_ACTION|EVENT_AFTER_ACTION]]
+    </h3>
+
+    <p>Событие возникает после выполнения действия контроллера.</p>
+    <p>Настоящее имя события - afterAction.</p>
+    <p>Событие является объектом [[yii\base\ActionEvent]].</p>
+    <p>Через свойство [[yii\base\ActionEvent::result]] обработчик события может получить доступ и изменить значение выполнения действия контроллера.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'on afterAction' =&gt; function ($event) {
+            if (некоторое условие) {
+                // modify $event->result
+            } else {
+            }
+        },
+    ]
+    </pre>
+
+    <p>Обратите внимание, что то же самое событие afterAction возникает в модулях и контроллерах.</p>
+    <p>Эти объекты возбуждают событие в обратном порядке, если сравнивать с beforeAction.</p>
+    <p>Таким образом, контроллеры являются первыми, где возникает данное событие, затем в модулях (если таковые имеются), и наконец в приложениях.</p>
+
+    <h2 id="title">
+        Жизненный цикл приложения
+    </h2>
+
+    <p>Когда входной скрипт выполняется для обработки запроса, приложение будет развиваться согласно следующему жизненному циклу:</p>
+
+<ol>
+    <li>Входной скрипт загружает конфигурацию приложения в качестве массива;</li>
+    <li>
+    Входной скрипт создаёт новый объект приложения:
+        <ul>
+            <li>Вызывается метод [[yii\base\Application::preInit()|preInit()]], который настраивает некоторые жизненно важные свойства приложения, такие как [[yii\base\Application::basePath|basePath]];</li>
+            <li>Регистрируется [[yii\base\Application::errorHandler|обработчик ошибок]];</li>
+            <li>Настраиваются свойства приложения;</li>
+            <li>Вызывается метод [[yii\base\Application::init()|init()]], который затем вызывает метод [[yii\base\Application::bootstrap()|bootstrap()]] для начальной загрузки компонентов.</li>
+        </ul>
+    </li>
+    <li>
+    Входной скрипт вызывает метод [[yii\base\Application::run()]] для запуска приложения:
+        <ul>
+            <li>Возникает событие [[yii\base\Application::EVENT_BEFORE_REQUEST|EVENT_BEFORE_REQUEST]];</li>
+            <li>Обработка запроса: разбор информации запроса в маршрут с соответствующими параметрами; создание объектов модуля, контроллера и действия согласно указанному маршруту; запуск действия;</li>
+            <li>Возникает событие [[yii\base\Application::EVENT_AFTER_REQUEST|EVENT_AFTER_REQUEST]];</li>
+            <li>Ответ отсылается конечному пользователю.</li>
+        </ul>
+    </li>
+<li>Входной скрипт получает значение статуса выхода от приложения и заканчивает обработку запроса.</li>
+</ol>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="11.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="13.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/12.html", "Yii2: 0000000000001000", "bm1218"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1218", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1218") == 1) { document.getElementById("bma1218").style.display = "block"; document.getElementById("bm1218").style.display = "none"; } else { document.getElementById("bma1218").style.display = "none"; document.getElementById("bm1218").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: 0000000000001000") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1218", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

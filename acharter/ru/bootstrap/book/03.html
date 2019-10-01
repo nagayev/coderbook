@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma3" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm3" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Модульные сетки
+	</h1>
+
+	<p>Bootstrap характерен своей продуманной и гибкой системой модульных сеток, в основе которой лежит 12-колоночный макет.</p>
+
+	<img src="gridBTSP1.png" id="image" />
+
+	<p>Сами колонки не обязательно должны иметь одинаковую ширину, можно комбинировать любое число колонок, главное, чтобы они в сумме давали 12.</p>
+
+	<img src="gridBTSP2.png" id="image" />
+
+	<h1 id="title">
+		Создание колонок
+	</h1>
+
+	<p>Так, чтобы создать макет из трёх колонок используем <xm>&lt;div&gt;</xm> с классом container, внутри которого будут располагаться наши колонки.</p>
+	<p>Сами колонки находятся внутри <xm>&lt;div&gt;</xm> с классом row и содержат имена вида col-xs-N, где N — число колонок от 1 до 12 (пример ниже).</p>
+
+	<pre class="brush: csharp;">
+	&lt;!doctype html&gt;
+
+	&lt;html&gt;
+	 &lt;head&gt;
+
+	  &lt;meta charset=&quot;utf-8&quot;&gt;
+
+	  &lt;title&gt;Трёхколоночный макет&lt;/title&gt;
+
+	  &lt;link href=&quot;css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+
+	  &lt;style&gt;
+	   [class*=&quot;col-&quot;] {
+	    background-color: #eee;
+	    border-right: 2px solid #fff;
+	    text-align: center;
+	    padding-top: 15px;
+	    padding-bottom: 15px;
+	    font-size: 2rem;
+	   }
+	  &lt;/style&gt;
+
+	 &lt;/head&gt;
+	 &lt;body&gt;
+
+	  &lt;div class=&quot;container&quot;&gt;
+
+	   &lt;div class=&quot;row&quot;&gt;
+
+	    &lt;div class=&quot;col-xs-3&quot;&gt;3 колонки&lt;/div&gt;
+
+	    &lt;div class=&quot;col-xs-7&quot;&gt;7 колонок&lt;/div&gt;
+
+	    &lt;div class=&quot;col-xs-2&quot;&gt;2 колонки&lt;/div&gt;
+
+	   &lt;/div&gt;
+
+	  &lt;/div&gt;
+
+	  &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+	  &lt;script src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+
+	 &lt;/body&gt;
+	&lt;/html&gt;
+	</pre>
+
+	<p>Стиль добавлен лишь для наглядного выделения колонок.</p>
+	<p>Класс container создаёт макет фиксированной ширины, значение которой зависит от размера устройства.</p>
+	<p>Для мониторов максимальная ширина составляет 1170 пикселей, для смартфонов макет будет занимать всю доступную ширину.</p>
+	<p>Если вам не требуется ограничивать ширину макета, то вместо класса container следует использовать container-fluid (пример ниже).</p>
+
+	<pre class="brush: csharp;">
+	<div class="container-fluid">
+
+	 <div class="row">
+
+	  <div class="col-xs-4">4 колонки</div>
+
+	  <div class="col-xs-6">6 колонок</div>
+
+	  <div class="col-xs-2">2 колонки</div>
+
+	 </div>
+
+	</div>
+	</pre>
+
+	<h1 id="title">
+		Отступы между колонок
+	</h1>
+
+	<p>Колонки изначально плотно прилегают друг к другу, что не всегда полезно для макета.</p>
+	<p>Для добавления пустого пространства между колонками предназначен класс col-xs-offset-N, где N изменяется от 0 до 12.</p>
+	<p>Отступ добавляется слева от текущей колонки.</p>
+
+	<pre class="brush: csharp;">
+	<div class="container">
+
+	 <div class="row">
+
+	  <div class="col-xs-3">3 колонки</div>
+
+	  <div class="col-xs-5 col-xs-offset-1">5 колонок</div>
+
+	  <div class="col-xs-2 col-xs-offset-1">2 колонки</div>
+
+	 </div>
+
+	</div>
+	</pre>
+
+	<p>Результат данного примера в браузере показан ниже.</p>
+
+	<img src="gridBTSP3.png" id="image" />
+
+	<p>Помните, что отступы добавляются к общему числу колонок, сумма которых не должна превышать 12, в противном случае колонки начнут перемещаться на другую строку.</p>
+
+	<h1 id="title">
+		Сдвиг колонок
+	</h1>
+
+	<p>Каждую колонку можно сдвигать влево или вправо на указанное число колонок.</p>
+	<p>Опять же это делается с помощью классов. col-xs-pull-N — сдвигает колонку влево на заданное число, а col-xs-push-N сдвигает вправо (пример ниже).</p>
+	<p>Здесь N может меняться от 0 до 12.</p>
+
+	<pre class="brush: csharp;">
+	<div class="container">
+
+	 <div class="row">
+
+	  <div class="col-xs-3">3 колонки</div>
+
+	  <div class="col-xs-5 col-xs-push-1">5 колонок</div>
+
+	  <div class="col-xs-2 col-xs-push-2">2 колонки</div>
+
+	 </div>
+
+	</div>
+	</pre>
+
+	<p>Заметьте, что сдвиг это не дополнительная колонка как при использовании offset, так что суммировать все значения не нужно.</p>
+	<p>Ещё надо следить за тем, чтобы колонки не накладывались друг на друга.</p>
+
+	<h1 id="title">
+		Вложенные колонки
+	</h1>
+
+	<p>При вёрстке сложных макетов двенадцати колонок может не хватить, к тому же в одной колонке могут встречаться ещё дополнительные.</p>
+	<p>Так что нам потребуются вложения одних колонок в другие.</p>
+	<p>Делается это похожим образом.</p>
+
+	<pre class="brush: csharp;">
+	<div class="container">
+
+	 <div class="row">
+
+	  <div class="col-xs-12">Заголовок</div>
+
+	  <div class="col-xs-5">
+
+	   <div class="row">
+
+	    <div class="col-xs-12">Колонка 1</div>
+
+	    <div class="col-xs-6">Колонка 1-1</div>
+
+	    <div class="col-xs-6">Колонка 1-2</div>
+
+	   </div>
+
+	  </div>
+
+	  <div class="col-xs-5 col-xs-offset-2">Колонка 2</div>
+
+	 </div>
+
+	</div>
+	</pre>
+
+	<p>Чтобы создать вложенные колонки опять добавляем <xm>&lt;div&gt;</xm> с классом row, который содержит желаемую структуру вложенных колонок.</p>
+	<p>Таким образом можно сверстать какие угодно сложные макеты.</p>
+	<p>Заметьте, что заголовок заполняет всю ширину макета, потому что он занимает все 12 колонок.</p>
+	<p>Дополнительный контейнер row для подобных вещей вводить не обязательно, перенос остальных колонок на другую строку произойдет автоматически (рис.).</p>
+
+	<img src="gridBTSP4.png" id="image" />
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="02.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="04.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/bootstrap/book/03.html", "Модульные сетки", "bm3"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm3", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm3") == 1) { document.getElementById("bma3").style.display = "block"; document.getElementById("bm3").style.display = "none"; } else { document.getElementById("bma3").style.display = "none"; document.getElementById("bm3").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модульные сетки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm3", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

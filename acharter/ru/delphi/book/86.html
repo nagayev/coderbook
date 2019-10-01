@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma472" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm472" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Отчетность
+	</h1>
+
+	<p>Для создания отчетности существует очень много способов.</p>
+	<p>Наиболее "продвинутый", но и наиболее сложный – вывод отчета с помощью компонентов отчетности, таких как Quick Report.</p>
+	<p>Другой профессиональный способ – вывод отчета в файл MS Excel или MS Word.</p>
+	<p>Мы разберем самый простой способ отчетности – будем выводить отчет в компонент Memo, а при желании – сохранять его в файл.</p>
+	<p>Создайте новую форму.</p>
+	<p>В свойстве Name укажите fOtchet, в свойстве Caption – "Отчет", а саму форму сохраните в модуле Otchet.</p>
+	<p>Далее, в верхнюю часть формы установим Memo, и растянем его по всему верху (свойство Align = alTop ).</p>
+	<p>В нижней части поместим кнопку и компонент SaveDialog.</p>
+	<p>На кнопке напишем "Сохранить в файл".</p>
+	<p>У Memo уберем весь текст, и установим вертикальную прокрутку.</p>
+	<p>Не забудем добавить к этой форме модуль DM с помощью команды Uses Unit, а в главной форме той же командой добавим новое окно Otchet.</p>
+	<p>По нажатию кнопки напишем такой код:</p>
+
+	<pre class="brush: csharp;">
+	if SaveDialog1.Execute then
+	Memo1.Lines.SaveToFile(SaveDialog1.FileName);
+	</pre>
+
+	<p>Теперь нам необходимо написать код, по которому Memo будет заполняться данными.</p>
+	<p>Это лучше всего сделать по событию главной формы onShow:</p>
+
+	<pre class="brush: csharp;">
+var
+  s : String;
+begin
+  //очищаем Memo:
+  Memo1.Lines.Clear;
+  //устанавливаем закладку:
+  bm := fDM.TBooks.Bookmark;
+  //готовим таблицу:
+  fDM.TBooks.First;
+  fDM.TBooks.Filtered := False;
+  //делаем отпервой до последней записи:
+  while not fDM.TBooks.Eof do begin
+    //собираем данные в переменную s:
+    s := 'Автор: '+ GetFIO(fDM.TBooks['Avtor'])+#13+#10;
+    s := s + 'Название: '+ fDM.TBooks['Nazvanie']+#13+#10;
+    s := s + 'Экземпляров: '+ IntToStr(fDM.TBooks['Exemp'])+#13+#10;
+    s := s + 'Стоимость: '+ FloatToStr(fDM.TBooks['Cena'])+#13+#10;
+    s := s + 'Дата поставки: '+DateToStr(fDM.TBooks['Date'])+#13+#10;
+    s := s + '--------------------------------------------' +#13+#10;
+    fDM.TBooks.Next;
+    Memo1.Lines.Add(s);
+  end; //while
+  //переходим на закладку:
+  fDM.TBooks.Bookmark := bm;
+  bm := '';
+	</pre>
+
+	<p>Мы указали функцию GetFIO(), которой пока нет.</p>
+	<p>Эта функция будет принимать номер автора, и возвращать его фамилию, имя и отчество.</p>
+	<p>Создайте эту функцию выше процедуры onShow:</p>
+
+	<pre class="brush: csharp;">
+function GetFIO(i : Integer):String;
+begin
+  Result := '';
+  fDM.TAvtors.First;
+
+  while not fDM.TAvtors.Eof do begin
+    if fDM.TAvtors['Key2'] = i then begin
+      Result := fDM.TAvtors['FIO'];
+      Break;
+    end; //if
+    fDM.TAvtors.Next;
+  end; //while
+  if Length(Result)= 0 then
+    Result := 'Автор не найден';
+end;
+	</pre>
+
+	<p>Вот теперь все!</p>
+	<p>Сохраните проект, скомпилируйте его и посмотрите, как он работает.</p>
+	<p>Мы в этом проекте использовали почти все приемы работы с таблицами, хотя приложение, конечно, получилось не совсем профессиональным.</p>
+	<p>Например, если удалить автора из таблицы авторов, то разрушится целостность таблиц – книга будет указывать автора, которого нет.</p>
+	<p>В профессиональных проектах все это учитывается, однако на это уходит гораздо больше времени, и пишется гораздо больше кода.</p>
+	<p>Когда вы освоите работу с таблицами самостоятельно, для вас все это не будет представлять никаких проблем.</p>
+	<p>Подытоживая сказанное о базах данных, заметим еще раз, что приложения бывают локальными – когда приложение и сама база данных располагаются на машине клиента.</p>
+	<p>Такой подход следует использовать в приложениях, в которых сотрудники предприятия не должны обращаться к одним и тем же данным, например, в собственном телефонном справочнике, в приложении с кулинарными рецептами, в каталоге домашней библиотеки и тому подобными программами.</p>
+	<p>Сетевая база данных работает примерно так же, как локальная, только сама база данных находится на сетевом ресурсе, и с ее данными работают несколько клиентских приложений.</p>
+	<p>Такой подход следует использовать для небольших сетевых приложений, когда сотрудников, работающих с данными тоже немного.</p>
+	<p>Если записей в таблице перевалит за десяток тысяч, то обработка такой базы данных очень сильно загрузит сеть.</p>
+	<p>Клиент – серверная база данных работает иначе. Данные хранятся на сервере.</p>
+	<p>Там же хранится СУБД (Система Управления Базами Данных).</p>
+	<p>Пользователь работает не напрямую с данными, а получает к ним доступ из СУБД с помощью SQL – запросов.</p>
+	<p>Сервер эти данные обрабатывает, и пользователю возвращается результат – только те данные, которые необходимы.</p>
+	<p>А в предыдущем случае каждый клиент получал свою копию полной БД.</p>
+	<p>Нетрудно сообразить, что клиент – серверный подход значительно ускоряет работу с БД и снижает нагрузку на сеть.</p>
+	<p>Однако начинать программирование БД следует все же с локальных приложений.</p>
+	<p>По мере накопления опыта вы будете двигаться дальше, к сетевым и клиент – серверным БД.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="85.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="87.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/86.html", "Отчетность", "bm472"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm472", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm472") == 1) { document.getElementById("bma472").style.display = "block"; document.getElementById("bm472").style.display = "none"; } else { document.getElementById("bma472").style.display = "none"; document.getElementById("bm472").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Отчетность") == 1) { arrs.splice(i, 1); localStorage.setItem("bm472", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

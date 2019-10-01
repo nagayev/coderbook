@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1317" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1317" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Основы Ruby
+    </h1>
+    
+    <p>Сперва нам необходимо где-то создать новую статью. Наиболее подходящим местом будет <b>/articles/new</b>.</p>
+    <p>С уже определенным маршрутом уже можно осуществлять запросы к <b>/articles/new</b> приложения.</p>
+    <p>Перейдите на <b>http://localhost:3000/articles/new</b> и вы увидите ошибку маршрутизации:</p>
+
+    <img src="r3.png" id="image" />
+
+    <p>Эта ошибка произошла, поскольку маршрут нуждается в определенном контроллере, чтобы обслужить запрос.</p>
+    <p>Решение этой проблемы простое: нужно создать контроллер с именем ArticlesController.</p>
+    <p>Это будет сделано запуском команды:</p>
+
+    <pre class="brush: csharp;">
+    $ bin/rails generate controller Articles
+    </pre>
+
+    <p>Если открыть только что сгенерированный app/controllers/articles_controller.rb, можно увидеть абсолютно пустой контроллер:</p>
+
+    <pre class="brush: csharp;">
+    class ArticlesController < ApplicationController
+    end
+    </pre>
+
+    <p>Контроллер - это просто класс, унаследованный от ApplicationController.</p>
+    <p>В этом классе вы должны определить методы, которые станут экшнами для этого контроллера.</p>
+    <p>Эти экшны будут выполнять операции CRUD со статьями в вашей системе.</p>
+    <p>В Ruby методы бывают public, private и protected, но экшнами контроллеров могут быть только public методы.</p>
+    <p>Подробнее смотрите в Programming Ruby.</p>
+    <p>Если теперь обновить <b>http://localhost:3000/articles/new</b>, вы увидите новую ошибку:</p>
+
+    <img src="r4.png" id="image" />
+
+    <p>Эта ошибка показывает, что Rails не может найти экшн new внутри ArticlesController, который был только что создан.</p>
+    <p>Это так, поскольку контроллеры в Rails при создании пустые по умолчанию, если вы не указали желаемые экшны при процессе генерации.</p>
+    <p>Чтобы вручную определить экшн в контроллере, все что нужно - это определить в нем новый метод.</p>
+    <p>Откройте <b>app/controllers/articles_controller.rb</b> и в классе ArticlesController определите метод new, чтобы контроллер стал выглядеть так:</p>
+
+    <pre class="brush: csharp;">
+    class ArticlesController < ApplicationController
+      def new
+      end
+    end
+    </pre>
+
+    <p>С методом new, определенным в ArticlesController, если обновите <b>http://localhost:3000/articles/new</b>, увидите другую ошибку:</p>
+
+    <img src="r5.png" id="image" />
+
+    <p>Вы получили эту ошибку, поскольку Rails ожидает, что обычные экшны, такие как этот, имеют связанные с ними вьюхи для отображения их информации.</p>
+    <p>Когда нет доступных вьюх, Rails вызовет исключение.</p>
+    <p>В вышеприведенном изображении конец строки был обрезан.</p>
+    <p>Давайте посмотрим на полное сообщение об ошибке:</p>
+
+    <pre class="brush: csharp;">
+    ArticlesController#new is missing a template for this request format and variant. request.formats: ["text/html"] request.variant: [] NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not… nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
+    </pre>
+
+    <p>Как много букв!</p>
+    <p>Давайте быстро пробежимся и поймем, что означает каждая часть.</p>
+    <p>Первая часть указывает, какой шаблон отсутствует.</p>
+    <p>В нашем случае, шаблон <b>articles/new</b>.</p>
+    <p>Rails сперва ищет этот шаблон.</p>
+    <p>Если не находит, он пытается загрузить шаблон с именем <b>application/new</b>.</p>
+    <p>Он так ищет, поскольку <b>ArticlesController</b> унаследован от ApplicationController.</p>
+    <p>Следующая часть сообщения содержит request.formats, указывающий формат шаблона, обслуживающего отклик.</p>
+    <p>Он установлен в text/html, так как мы запросили эту страницу с помощью браузера, поэтому Rails ищет шаблон HTML.</p>
+    <p><b>request.variant</b> определяет, на какой тип физических устройств будет передан отклик, и помогает Rails определить, какой шаблон использовать для отклика.</p>
+    <p>Он пустой, так как не было предоставлено никакой информации.</p>
+    <p>Простейшим шаблоном, работающим в данном случае, будет расположенный в <b>app/views/articles/new.html.erb</b>.</p>
+    <p>Расширение этого файла важно: первое расширение это формат шаблона, а второе расширение это обработчик, который будет использован для рендеринга шаблона.</p>
+    <p>Rails пытается найти шаблон с именем articles/new в app/views приложения.</p>
+    <p>Форматом для этого шаблона может быть только html, и обработчик по умолчанию это erb.</p>
+    <p>Rails использует другие обработчики для других форматов.</p>
+    <p>Обработчик builder используется для создания шаблонов XML, а обработчик coffee использует CoffeeScript для создания шаблонов JavaScript.</p>
+    <p>Поскольку мы хотим создать новую форму HTML, будем использовать язык ERB, разработанный, чтобы внедрять Ruby в HTML.</p>
+    <p>Следовательно, файл должен называться <b>articles/new.html.erb</b> и должен быть расположен в директории app/views приложения.</p>
+    <p>Создайте новый файл <b>app/views/articles/new.html.erb</b> и поместите в него:</p>
+
+    <pre class="brush: csharp;">
+    &lt;h1&gt;New Article&lt;/h1&gt;
+    </pre>
+
+    <p>Теперь при обновлении <b>http://localhost:3000/articles/new</b> вы увидите, что у страницы появился заголовок.</p>
+    <p>Теперь маршрут, контроллер, экшн и вьюха гармонично работают.</p>
+    <p>Время создать форму для новой статьи.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="7.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="9.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/8.html", "Основы Ruby", "bm1317"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1317", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1317") == 1) { document.getElementById("bma1317").style.display = "block"; document.getElementById("bm1317").style.display = "none"; } else { document.getElementById("bma1317").style.display = "none"; document.getElementById("bm1317").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Основы Ruby") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1317", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma419" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm419" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Модальные окна
+	</h1>
+
+	<p>Модальным называется дочернее окно, которое не дает главной форме работать, пока не закончена работа этого модального окна.</p>
+	<p>До сих пор мы делали проекты только с одной формой.</p>
+	<p>Настало время изучить многооконные проекты.</p>
+	<p>Воспользуемся предыдущим примером – редактором текстов.</p>
+	<p>Откройте этот проект, если он закрыт.</p>
+	<p>Чтобы создать новое окно, выберите команду "File – New – Form".</p>
+	<p>В свойстве Caption новой формы напишите "О программе", форму назовите fAbout и сохраните проект.</p>
+	<p>Модуль новой формы, соответственно, назовите About.</p>
+	<p>На форму установите компонент Label, напишите в его свойстве Caption "Программа: MyNotebook v 1.0".</p>
+	<p>Ниже установите еще один Label.</p>
+	<p>Свойство AutoSize (автоматическое изменение размера) поставьте в False, а свойство WordWrap (перенос слов на другую строку) – в True.</p>
+	<p>Здесь напишите такой текст:</p>
+	<p>Программа предназначена для простого редактирования текстов.</p>
+	<p>Программа позволяет сохранять текст в файл, и считывать его из файла.</p>
+	<p>Файл создается там же, откуда запущена программа, и имеет имя MyFile.txt.</p>
+	<p>Ниже установим еще один Label.</p>
+	<p>Пишем в нем: "Автор: такой-то", можете указать свои собственные фамилию, имя и отчество.</p>
+	<p>Будет красиво, если текст этого компонента выйдет посередине.</p>
+	<p>Чтобы добиться этого, свойство AutoSize (автоматическое изменение размера) установите в False, свойство Alignment (выравнивание текста) в taCenter.</p>
+	<p>Ниже устанавливаем кнопку.</p>
+	<p>Пишем на ней "ОК" и создаем обработчик кнопки для выхода из формы.</p>
+	<p>Инструкция Close главной формы закрывает всю программу, а инструкция Close модального окна закрывает только это окно.</p>
+
+	<img src="delphi10.png" id="image" />
+
+	<p>Можете "поиграть" со свойствами Font и Color компонентов, чтобы форма выглядела красивее.</p>
+	<p>Подобные окна не имеют кнопок "Свернуть" и "Развернуть", поэтому в свойстве BorderStyle формы fAbout выберите значение bsDialog.</p>
+	<p>А в свойстве Position (Позиция формы при ее открытии) выберите poMainFormCenter, чтобы форма появлялась по центру главного окна.</p>
+	<p>Обратите внимание на последнее свойство.</p>
+	<p>Обычно для главных окон программы это свойство устанавливают в poDesktopCenter, чтобы форма появлялась по центру рабочего стола, запомните это на будущее.</p>
+	<p>Теперь, чтобы можно было вызывать это окно модально, нужно "привязать" его к главной форме.</p>
+	<p>Сейчас в редакторе кодов имеется две вкладки – Main и About, это модули главной формы и формы "О программе".</p>
+	<p>Перейдите на вкладку главного окна и нажмите &lt;F12&gt;, чтобы вызвать это окно.</p>
+	<p>Выберите команду "File – Use Unit".</p>
+	<p>Откроется окно, где мы увидим нашу модальную форму.</p>
+	<p>Выделите ее и нажмите OK.</p>
+	<p>Теперь, если Вы посмотрите код главной формы, под разделом implementation Вы увидите такую картину:</p>
+
+
+	<pre class="brush: csharp;">
+	implementation
+	uses About;
+	</pre>
+
+	<p>Delphi вставила инструкцию, при которой главная форма использует все, что описано в коде модального окна.</p>
+	<p>Можно было набрать все это вручную, однако во избежание ошибок рекомендуется пользоваться командой "File – Use Unit".</p>
+	<p>Тогда код точно будет введен без ошибок, и именно в то место, которое нужно.</p>
+
+	<pre class="brush: csharp;">
+	uses About;
+	</pre>
+
+	<p>Теперь в главной форме снова откройте редактор главного меню, дважды щелкнув по компоненту MainMenu.</p>
+	<p>Выделите пункт справа от "Файл", и в свойстве Caption напишите "Справка".</p>
+	<p>А в пункте ниже напишите "О программе":</p>
+
+	<img src="delphi11.png" id="image" />
+
+	<p>При разработке меню не забывайте о стандартах, принятых в Windows.</p>
+	<p>Никто не запрещает Вам засунуть подраздел "О программе" в Пункт "Файл" или какой-нибудь другой.</p>
+	<p>Однако пользователь будет искать его именно в разделе "Справка".</p>
+	<p>Не заставляйте пользователя привыкать к другим стандартам, если хотите, чтобы ваши программы пользовались спросом!</p>
+	<p>Теперь нужно написать код вызова модального окна.</p>
+	<p>Дважды щелкните по подразделу меню "О программе", чтобы создать процедуру обработки этого подраздела.</p>
+	<p>Там введите инструкцию:</p>
+
+	<pre class="brush: csharp;">
+	fAbout.ShowModal;
+	</pre>
+
+	<p>Помните, что мы вызываем форму модального окна ( fAbout ), поэтому нужно обращаться именно к ней.</p>
+	<p>Сохраните проект, скомпилируйте программу и посмотрите результат.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="32.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="34.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/33.html", "Модальные окна", "bm419"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm419", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm419") == 1) { document.getElementById("bma419").style.display = "block"; document.getElementById("bm419").style.display = "none"; } else { document.getElementById("bma419").style.display = "none"; document.getElementById("bm419").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модальные окна") == 1) { arrs.splice(i, 1); localStorage.setItem("bm419", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

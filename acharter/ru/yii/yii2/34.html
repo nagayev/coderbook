@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1240" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1240" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Конфигурации
+	</h1>
+
+    <p>Конфигурации широко используются в Yii при создании новых объектов или при инициализации уже существующих объектов.</p>
+    <p>Обычно конфигурации включают в себя названия классов создаваемых объектов и список первоначальных значений, которые должны быть присвоены свойствам объекта.</p>
+    <p>Также в конфигурациях можно указать список обработчиков событий объекта, и/или список поведений объекта.</p>
+    <p>Пример конфигурации подключения к базе данных и дальнейшей инициализации подключения:</p>
+
+    <pre class="brush: csharp;">
+    $config = [
+        'class' =&gt; 'yii\db\Connection',
+        'dsn' =&gt; 'mysql:host=127.0.0.1;dbname=demo',
+        'username' =&gt; 'root',
+        'password' =&gt; '',
+        'charset' =&gt; 'utf8',
+    ];
+    
+    $db = Yii::createObject($config);
+    </pre>
+
+    <p>Метод [[Yii::createObject()]] принимает в качестве аргумента массив с конфигурацией и создаёт объект указанного в них класса.</p>
+    <p>При этом оставшаяся часть конфигурации используется для инициализации свойств, обработчиков событий и поведений объекта.</p>
+    <p>Если объект уже создан, вы можете использовать [[Yii::configure()]] для того, чтобы инициализировать свойства объекта массивом с конфигурацией:</p>
+
+    <pre class="brush: csharp;">
+    Yii::configure($object, $config);
+    </pre>
+
+    <p>Обратите внимание, что в этом случае массив с конфигурацией не должен содержать ключ class.</p>
+
+    <h2 id="title">
+        Формат конфигурации
+    </h2>
+
+    <p>Формат конфигурации выглядит следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'ClassName',
+        'propertyName' =&gt; 'propertyValue',
+        'on eventName' =&gt; $eventHandler,
+        'as behaviorName' =&gt; $behaviorConfig,
+    ]
+    </pre>
+
+    <p>где</p>
+
+    <ul>
+        <li>Элемент class указывает абсолютное имя класса создаваемого объекта.</li>
+        <li>Элементы propertyName указывают первоначальные значения свойств создаваемого объекта. Ключи являются именами свойств создаваемого объекта, а значения — начальными значениями свойств создаваемого объекта. Таким способом могут быть установлены только публичные переменные объекта и его свойства, созданные через геттеры и сеттеры.</li>
+        <li>Элементы on eventName указывают на то, какие обработчики должны быть прикреплены к событиям объекта. Обратите внимание, что ключи массива начинаются с on. Чтобы узнать весь список поддерживаемых видов обработчиков событий обратитесь в раздел события</li>
+        <li>Элементы as behaviorName указывают на то, какие поведения должны быть внедрены в объект. Обратите внимание, что ключи массива начинаются с as; а $behaviorConfig представляет собой конфигурацию для создания поведения, похожую на все остальные конфигурации.</li>
+    </ul>
+
+    <p>Пример конфигурации с установкой первоначальных значений свойств объекта, обработчика событий и поведения:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'app\components\SearchEngine',
+        'apiKey' =&gt; 'xxxxxxxx',
+        'on search' =&gt; function ($event) {
+            Yii::info("Keyword searched: " . $event->keyword);
+        },
+        'as indexer' =&gt; [
+            'class' =&gt; 'app\components\IndexerBehavior',
+            // ... начальные значения свойств ...
+        ],
+    ]
+    </pre>
+
+    <h2 id="title">
+        Использование конфигурации
+    </h2>
+
+    <p>Конфигурации повсеместно используются в Yii.</p>
+    <p>В самом начале данной главы мы узнали как создать объект с необходимыми параметрами используя метод [[Yii::createObject()]].</p>
+    <p>В данном разделе речь пойдет о конфигурации приложения и конфигурациях виджетов — двух основных способов использования конфигурации.</p>
+
+    <h3 id="title">
+        Конфигурация приложения
+    </h3>
+
+    <p>Конфигурация приложения, пожалуй, самая сложная из используемых в фреймворке.</p>
+    <p>Причина в том, что класс [[yii\web\Application|application]] содержит большое количество конфигурируемых свойств и событий.</p>
+    <p>Более того, свойство приложения [[yii\web\Application::components|components]] может принимать массив с конфигурацией для создания компонентов, регистрируемых на уровне приложения.</p>
+    <p>Пример конфигурации приложения для шаблона приложения basic.</p>
+
+    <pre class="brush: csharp;">
+    $config = [
+        'id' =&gt; 'basic',
+        'basePath' =&gt; dirname(__DIR__),
+        'extensions' =&gt; require __DIR__ . '/../vendor/yiisoft/extensions.php',
+        'components' =&gt; [
+            'cache' =&gt; [
+                'class' =&gt; 'yii\caching\FileCache',
+            ],
+            'mailer' =&gt; [
+                'class' =&gt; 'yii\swiftmailer\Mailer',
+            ],
+            'log' =&gt; [
+                'class' =&gt; 'yii\log\Dispatcher',
+                'traceLevel' =&gt; YII_DEBUG ? 3 : 0,
+                'targets' =&gt; [
+                    [
+                        'class' =&gt; 'yii\log\FileTarget',
+                    ],
+                ],
+            ],
+            'db' =&gt; [
+                'class' =&gt; 'yii\db\Connection',
+                'dsn' =&gt; 'mysql:host=localhost;dbname=stay2',
+                'username' =&gt; 'root',
+                'password' =&gt; '',
+                'charset' =&gt; 'utf8',
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Ключ class в данной конфигурации не указывается.</p>
+    <p>Причина в том, что класс вызывается по полному имени во входном скрипте:</p>
+
+    <pre class="brush: csharp;">
+    (new yii\web\Application($config))->run();
+    </pre>
+
+    <p>За более подробной документацией о настройках свойства components в конфигурации приложения обратитесь к главам приложения и Service Locator.</p>
+    <p>Начиная с версии 2.0.11, можно настраивать контейнер зависимостей через конфигурацию приложения.</p>
+    <p>Для этого используется свойство container:</p>
+
+    <pre class="brush: csharp;">
+    $config = [
+        'id' =&gt; 'basic',
+        'basePath' =&gt; dirname(__DIR__),
+        'extensions' =&gt; require __DIR__ . '/../vendor/yiisoft/extensions.php',
+        'container' =&gt; [
+            'definitions' =&gt; [
+                'yii\widgets\LinkPager' =&gt; ['maxButtonCount' =&gt; 5]
+            ],
+            'singletons' =&gt; [
+                // Конфигурация для единожды создающихся объектов
+            ]
+        ]
+    ];
+    </pre>
+
+    <p>Чтобы узнать о возможных значениях definitions и singletons, а также о реальных примерах использования, прочитайте подраздел более сложное практическое применение раздела Dependency Injection Container.</p>
+
+    <h3 id="title">
+        Конфигурации виджетов
+    </h3>
+
+    <p>При использовании виджетов часто возникает необходимость изменить параметры виджета с помощью конфигурации.</p>
+    <p>Для создания виджета можно использовать два метода: [[yii\base\Widget::widget()]] и [[yii\base\Widget::begin()]].</p>
+    <p>Оба метода принимают конфигурацию в виде PHP массива:</p>
+
+    <pre class="brush: csharp;">
+    use yii\widgets\Menu;
+    
+    echo Menu::widget([
+        'activateItems' =&gt; false,
+        'items' =&gt; [
+            ['label' =&gt; 'Home', 'url' =&gt; ['site/index']],
+            ['label' =&gt; 'Products', 'url' =&gt; ['product/index']],
+            ['label' =&gt; 'Login', 'url' =&gt; ['site/login'], 'visible' =&gt; Yii::$app->user->isGuest],
+        ],
+    ]);
+    </pre>
+
+    <p>Данный код создает виджет Menu и устанавливает параметр виджета activeItems в значение false.</p>
+    <p>Также устанавливается параметр items, состоящий из элементов меню.</p>
+    <p>Обратите внимание что параметр class НЕ передается, так как полное имя уже указано.</p>
+
+    <h2 id="title">
+        Конфигурационные файлы
+    </h2>
+
+    <p>Если конфигурация очень сложная, то её, как правило, разделяют по нескольким PHP файлам.</p>
+    <p>Такие файлы называют Конфигурационными файлами.</p>
+    <p>Конфигурационный файл возвращает массив PHP являющийся конфигурацией.</p>
+    <p>Например, конфигурацию приложения можно хранить в отдельном файле web.php, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'id' =&gt; 'basic',
+        'basePath' =&gt; dirname(__DIR__),
+        'extensions' =&gt; require __DIR__ . '/../vendor/yiisoft/extensions.php',
+        'components' =&gt; require __DIR__ . '/components.php',
+    ];
+    </pre>
+
+    <p>Параметр components также имеет сложную конфигурацию, поэтому можно его хранить в файле components.php и подключать в файл web.php используя require как и показано выше.</p>
+    <p>Содержимое файла components.php:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'cache' =&gt; [
+            'class' =&gt; 'yii\caching\FileCache',
+        ],
+        'mailer' =&gt; [
+            'class' =&gt; 'yii\swiftmailer\Mailer',
+        ],
+        'log' =&gt; [
+            'class' =&gt; 'yii\log\Dispatcher',
+            'traceLevel' =&gt; YII_DEBUG ? 3 : 0,
+            'targets' =&gt; [
+                [
+                    'class' =&gt; 'yii\log\FileTarget',
+                ],
+            ],
+        ],
+        'db' =&gt; [
+            'class' =&gt; 'yii\db\Connection',
+            'dsn' =&gt; 'mysql:host=localhost;dbname=stay2',
+            'username' =&gt; 'root',
+            'password' =&gt; '',
+            'charset' =&gt; 'utf8',
+        ],
+    ];
+    </pre>
+
+    <p>Чтобы получить конфигурацию, хранящуюся в файле, достаточно подключить файл с помощью require:</p>
+
+    <pre class="brush: csharp;">
+    $config = require 'path/to/web.php';
+    (new yii\web\Application($config))->run();
+    </pre>
+
+    <h2 id="title">
+        Значения конфигурации по умолчанию
+    </h2>
+
+    <p>Метод [[Yii::createObject()]] реализован с использованием dependency injection container.</p>
+    <p>Это позволяет задавать так называемые значения конфигурации по умолчанию, которые будут применены ко ВСЕМ экземплярам классов во время их инициализации методом [[Yii::createObject()]]. </p>
+    <p>начения конфигурации по умолчанию указываются с помощью метода Yii::$container->set() на этапе предварительной загрузки.</p>
+    <p>Например, если мы хотим изменить виджет [[yii\widgets\LinkPager]] так, чтобы все виджеты данного вида показывали максимум 5 кнопок на странице вместо 10 (как это установлено изначально), можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$container->set('yii\widgets\LinkPager', [
+        'maxButtonCount' =&gt; 5,
+    ]);
+    </pre>
+
+    <p>Без использования значений конфигурации по умолчанию, при использовании LinkPager, вам пришлось бы каждый раз задавать значение maxButtonCount.</p>
+
+    <h2 id="title">
+        Константы окружения
+    </h2>
+
+    <p>Конфигурации могут различаться в зависимости от режима, в котором происходит запуск приложения.</p>
+    <p>Например, в окружении разработчика (development) вы используете базу данных mydb_dev, а в эксплуатационном (production) окружении базу данных mydb_prod.</p>
+    <p>Для упрощения смены окружений в Yii существует константа YII_ENV.</p>
+    <p>Вы можете указать её во входном скрипте своего приложения:</p>
+
+    <pre class="brush: csharp;">
+    defined('YII_ENV') or define('YII_ENV', 'dev');
+    </pre>
+
+    <p>YII_ENV может принимать следующие значения:</p>
+
+    <ul>
+        <li>prod: окружение production, т.е. эксплуатационный режим сервера. Константа YII_ENV_PROD установлена в true. Значение по умолчанию.</li>
+        <li>dev: окружение development, т.е. режим для разработки. Константа YII_ENV_DEV установлена в true.</li>
+        <li>test: окружение testing, т.е. режим для тестирования. Константа YII_ENV_TEST установлена в true.</li>
+    </ul>
+
+    <p>Используя эти константы, вы можете задать в конфигурации значения параметров зависящие от текущего окружения.</p>
+    <p>Например, чтобы включить отладочную панель и отладчик в режиме разработки, вы можете использовать следующий код в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    $config = [...];
+    
+    if (YII_ENV_DEV) {
+        // значения параметров конфигурации для окружения разработки 'dev'
+        $config['bootstrap'][] = 'debug';
+        $config['modules']['debug'] = 'yii\debug\Module';
+    }
+    
+    return $config;
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="33.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="35.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/34.html", "Yii2: Конфигурации", "bm1240"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1240", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1240") == 1) { document.getElementById("bma1240").style.display = "block"; document.getElementById("bm1240").style.display = "none"; } else { document.getElementById("bma1240").style.display = "none"; document.getElementById("bm1240").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Конфигурации") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1240", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

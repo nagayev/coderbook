@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma194" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm194" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Обобщённые методы
+	</h1>
+
+	<p>Обобщенными могут быть объявлены не только типы (класс, структура, интерфейс, делегат), но и методы, то есть один из видов членов типов.</p>
+	<p>Сразу же отметим, что среди всех членов типов обобщения возможны только для методов.</p>
+	<p>Недопустимы обобщения свойств, индексаторов, перегруженных операций, деструкторов.</p>
+	<p>Среди типов недопустимы обобщения перечислений и событий.</p>
+	<p>Итак, в отличие от других обобщений методы являются не типами, а членами типов.</p>
+	<p>Обобщенными могут быть объявлены методы: классов, структур и интерфейсов.</p>
+	<p>Можно создавать обобщенные методы экземпляров и статические методы, виртуальные методы и абстрактные методы.</p>
+	<p>Объявлять обобщенными можно методы регулярных типов и методы обобщенных типов.</p>
+	<p>Декларация обобщенного метода обязательно включает список типизирующих параметров.</p>
+	<p>Как обычно это заключенный в угловые скобки список идентификаторов, разделенных запятыми.</p>
+	<p>Размещается этот список непосредственно после имени метода перед открывающейся скобкой со спецификацией параметров метода.</p>
+	<p>Таким образом, объявление обобщенного метода имеет два списка параметров – типизирующих параметров и параметров метода.</p>
+	<p>Если для типизирующих параметров необходимо ввести ограничения (where), то они помещаются перед телом метода после закрывающейся скобки спецификации параметров.</p>
+	<p>Или перед точкой с запятой, если это обобщенный метод интерфейса.</p>
+	<p>Пример заголовка обобщенного метода, формирующего одномерный массив со случайными значениями элементов из интервала [mi,ma):</p>
+
+	<pre class="brush: csharp;">
+	public static T[ ] randArray&lt;T&gt;(int n, T mi, T ma)
+	where T : struct, IComparable&lt;T&gt;
+	</pre>
+
+	<p>Метод открытый, статический, возвращающий ссылку на массив с элементами, тип которых определяет типизирующий параметр Т.</p>
+	<p>Первый параметр метода int n определяет размер массива – количество его элементов.</p>
+	<p>Второй и третий параметры задают диапазон случайных значений элементов создаваемого массива.</p>
+	<p>На типизирующий параметр наложено ограничение – аргумент должен быть типом значений (ограничение struct), и этот тип должен реализовать стандартный обобщенный интерфейс IComparable&lt;T&gt;.</p>
+	<p>В качестве второго примера обобщенного метода приведем код метода для вывода в консольное окно значений элементов одномерного массива.</p>
+
+	<pre class="brush: csharp;">
+	public static void printArray&lt;T&gt;(T[] a, string format = "{0} ")
+	{
+		for (int i = 0; i < a.Length; i++)
+		Console.Write(format, a[i]);
+		Console.WriteLine();
+	}
+	// printArray&lt;T&gt;()
+	</pre>
+
+	<p>В обобщенном методе printArray&lt;T&gt;() один типизирующий параметр Т, специфицирующий тип первого параметра метода, то есть тип элементов выводимого массива.</p>
+	<p>Второй параметр метода определяет форматную строку, которую при обращении к методу можно выбирать в некоторой степени независимо от типа первого аргумента.</p>
+	<p>Формат можно выбирать и соответствующий типу первого параметра, но соответствие выбирается программистом при обращении к методу.</p>
+	<p>Второй параметр имеет умалчиваемое значение "{0}".</p>
+	<p>Таким образом, при отсутствии в обращении к методу второго аргумента значения элементов массива выводятся преобразованными к типу string и разделяются пробелами.</p>
+	<p>Для обращения к обобщенному методу необходимо в общем случае после его имени поместить список типизирующих аргументов и заменить аргументами параметры метода.</p>
+	<p>При обработке такого обращения, которое происходит во время выполнения программы, создается конкретная версия обобщенного метода, в которой учтены реальные типизирующие аргументы, и именно эта версия метода выполняется.</p>
+	<p>Как и в случае обобщенных типов, создание конкретной (сконструированной) версии обобщенного метода называют инстанцированием.</p>
+	<p>В качестве примера использования обобщённого метода рассмотрим следующий код:</p>
+
+	<pre class="brush: csharp;">
+	static void Main( )
+	{
+		double[ ] dArray = new double[ ] { 0, 1, 2, 3, 4 };
+		printArray&lt;double&gt;(dArray, "{0:E1} ");
+		int[ ] testArray = new int[ ] { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+		printArray(testArray);
+	}
+	</pre>
+
+	<p>В программе определены и инициализированы вещественный и целочисленный массивы, ассоциированные со ссылками double[] dArray и int[] testArray.</p>
+	<p>Обращение printArray&lt;double&gt;(dArray, "{0:E1}"); обеспечивает создание варианта метода, настроенного на вывод вещественных элементов массива с использованием для каждого значения поля подстановки {0:E1}.</p>
+	<p>При втором обращении к обобщенному методу вместо полной формы вида printArray&lt;int&gt;(testArray, "{0} ") использована сокращенная форма его вызова printArray(testArray).</p>
+	<p>В ней отсутствует второй аргумент метода, и нет списка типизирующих аргументов.</p>
+	<p>Второй аргумент метода в этом случае получает умалчиваемое значение параметра "{0}".</p>
+	<p>А типизирующий аргумент компилятор автоматически "выводит", анализируя тип первого аргумента метода.</p>
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	0,0E-001 1,0E+000 2,0E+000 3,0E+000 4,0E+000
+	0 10 20 30 40 50 60 70 80 90
+	</pre>
+
+	<p>Поясним правила определения выводимых типов, которыми пользуется компилятор.</p>
+	<p>Типизирующий параметр не всегда может быть использован для задания типов параметров метода.</p>
+	<p>Он может определять тип возвращаемого методом значения или специфицировать локальные переменные в теле метода.</p>
+	<p>В этом случае, анализируя обращение к обобщенному методу, невозможно узнать, каков тип соответствующего аргумента.</p>
+	<p>Если, как в нашем примере, типизирующий параметр специфицирует один или более параметров метода, то сделать вывод о реальном типе типизирующего параметра можно по типам аргументов, заменивших параметры в обращении к методу.</p>
+	<p>В качестве примера обобщенного метода с параметрами, передаваемыми по ссылкам, рассмотрим метод обмена значений аргументов:</p>
+
+	<pre class="brush: csharp;">
+	public static void change &lt;U&gt; (ref U g, ref U s)
+	{
+		U temp = g;
+		g = s;
+		s = temp;
+	}
+	</pre>
+
+	<p>Типизирующий параметр U специфицирует параметры метода, передаваемые по ссылкам.</p>
+	<p>В теле обобщенного метода тот же типизирующий параметр определяет тип вспомогательной локальной переменной temp.</p>
+	<p>В следующем фрагменте кода показано обращение к методу, не содержащее типизирующего аргумента.</p>
+
+	<pre class="brush: csharp;">
+	float d = 24F, r = 52F;
+	change(ref d, ref r);
+	Console.WriteLine("d = {0}, r = {1}", d, r);
+	</pre>
+
+	<p>Результат выполнения:</p>
+
+	<pre class="brush: csharp;">
+	d = 52, r = 24
+	</pre>
+
+	<p>Полное обращение (с указанием типизирующего аргумента) к обобщенному методу нашего примера может быть таким:</p>
+
+	<pre class="brush: csharp;">
+	change&lt;float&gt;(ref d, ref r);
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="106.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="108.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/107.html", "Обобщённые методы", "bm194"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm194", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm194") == 1) { document.getElementById("bma194").style.display = "block"; document.getElementById("bm194").style.display = "none"; } else { document.getElementById("bma194").style.display = "none"; document.getElementById("bm194").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обобщённые методы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm194", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

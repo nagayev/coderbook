@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma23" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm23" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Введение в язык C++
+	</h1>
+	
+	<p>Язык C++ представляет собой набор команд, которые говорят компьютеру, что необходимо сделать.</p>
+	<p>Этот набор команд, обычно называется исходный код или просто код.</p>
+	<p>Командами являются или «функции» или «ключевые слова».</p>
+	<p>Ключевые слова(зарезервированные слова С/С++) являются основными строительными блоками языка.</p>
+	<p>Функции являются сложными строительными блоками, так как записаны они в терминах более простых функций — вы это увидите в нашей самой первой программе, которая показана ниже.</p>
+	<p>Такая структура функций напоминает содержание книги.</p>
+	<p>Содержание может показывать главы книги, каждая глава в книге может иметь своё собственное содержание, состоящее из пунктов, каждый пункт может иметь свои подпункты.</p>
+	<p>Хотя C++ предоставляет много общих функций и зарезервированных слов, которые вы можете использовать, все-таки возникает потребность в написании своих собственных функций.</p>
+	<p>В какой же части программы начало?</p>
+	<p>Каждая программа в C++ имеет одну функцию, её называют главная или main-функция, выполнение программы начинается именно с этой функции.</p>
+	<p>Из главной функции, вы также можете вызывать любые другие функции, неважно, являются ли они написанными нами, или, как упоминалось ранее, предоставляются компилятором.</p>
+	<p>Так как же получить доступ к этим Стандартным функциям?</p>
+	<p>Чтобы получить доступ к стандартным функциям, которые поставляются с компилятором, необходимо подключить заголовочный файл используя препроцессорную директиву — <b>#include</b>.</p>
+	<p>Почему это эффективно?</p>
+	<p>Давайте посмотрим на примере рабочей программы:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main()
+	{
+		cout &lt;&lt; "Моя первая программа на С++\n";
+		cin.get();
+	}
+	</pre>
+
+	<p>Рассмотрим подробно элементы программы.</p>
+	<p><b>#include</b> это директива «препроцессору», которая сообщает компилятору поместить код из заголовочного файла <b>iostream</b> в нашу программу перед тем как создать исполняемый файл.</p>
+	<p>Подключив к программе заголовочный файл вы получаете доступ к множеству различных функций, которые можете использовать в своей программе.</p>
+	<p>Например, оператору сout требуется iostream.</p>
+	<p>Строка <b>using namespace std;</b> сообщает компилятору, что нужно использовать группу функций, которые являются частью стандартной библиотеки std.</p>
+	<p>В том числе эта строка позволяет программе использовать операторы, такие как <b>cout</b>.</p>
+	<p>Точка с запятой является частью синтаксиса C++.</p>
+	<p>Она сообщает компилятору, что это конец команды.</p>
+	<p>Чуть позже вы увидите, что точка с запятой используется для завершения большинства команд в C++.</p>
+
+	<p>Следующая важная строка программы <b>int main()</b>.</p>
+	<p>Эта строка сообщает компилятору, что есть функция с именем main, и что функция возвращает целое число типа int.</p>
+	<p>Фигурные скобки { и } сигнализируют о начале { и конце } функции.</p>
+	<p>Фигурные скобки используются и в других блоках кода, но обозначают всегда одно — начало и конец блока, соответственно.</p>
+	<p>В C++ объект cout используется для отображения текста (произносится как «Cи аут»).</p>
+	<p>Он использует символы &lt;&lt;&lt;, известные как «оператор сдвига», чтобы указать, что отправляется к выводу на экран.</p>
+	<p>Результатом вызова функции cout &lt;&lt;&lt; является отображение текста на экране.</p>
+	<p>Последовательность <b>\n</b> фактически рассматривается как единый символ, который обозначает новую строку (мы поговорим об этом позже более подробно).</p>
+	<p>Символ \n перемещает курсор на экране на следующую строку.</p>
+	<p>Опять же, обратите внимание на точку с запятой, её добавляют в конец, после каждого оператора С++.</p>
+	<p>Следующая команда <b>cin.get()</b>.</p>
+	<p>Это еще один вызов функции, которая считывает данные из входного потока данных и ожидает нажатия клавиши ENTER.</p>
+	<p>Эта команда сохраняет консольное окно от закрытия, до тех пор пока не будет нажата клавиша ENTER.</p>
+	<p>Это даёт вам время для того, чтобы посмотреть результат выполнения программы.</p>
+	<p>По достижении конца главной функции (закрывающая фигурная скобка), наша программа вернёт значение 0 для операционной системы.</p>
+	<p>Это возвращаемое значение является важным, поскольку, проанализировав его, ОС может судить о том, успешно завершилась наша программа или нет.</p>
+	<p>Возвращаемое значение 0 означает успех и возвращается автоматически (но только для типа данных int, другие функции, требуют вручную возвращать значение), но если бы мы хотели вернуть что-то другое, например 1, мы должны были бы сделать это вручную.</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main()
+	{
+		cout&lt;&lt;"Моя первая программа на С++\n";
+		cin.get();
+		return 1;
+	}
+	</pre>
+
+	<p>Для закрепления материала, наберите код программы в своей IDE и запустите его.</p>
+	<p>После того, как программа запустилась, и вы увидели результат работы, поэкспериментируйте немного с оператором <b>cout</b>.</p>
+	<p>Это поможет вам привыкнуть к языку.</p>
+
+	<h1 id="title">
+		Обязательно комментируйте свои программы!
+	</h1>
+	
+	<p>Добавляйте комментарии к коду, чтобы сделать его понятнее не только для себя но и для других.</p>
+	<p>Компилятор игнорирует комментарии при выполнении кода, что позволяет использовать любое количество комментариев, чтобы описать реальный код.</p>
+	<p>Чтобы создать комментарий используйте или <b>//</b>, который сообщает компилятору, что остальная часть строки является комментарием или <b>/*</b> и затем <b>*/</b>.</p>
+	<p>Когда вы учитесь программировать, полезно иметь возможность комментировать некоторые участки кода, для того, чтобы увидеть, как изменяется результат работы программы.</p>
+
+	<h1 id="title">
+		Что делать со всеми этими типами переменных?
+	</h1>
+	
+	<p>Иногда это может сбить с толку — иметь несколько типов переменных, когда кажется, что некоторые типы переменных являются избыточными.</p>
+	<p>Очень важно использовать правильный тип переменной, так как некоторым переменным, требуется больше памяти, чем другим.</p>
+	<p>Кроме того, из-за способа хранения в памяти, числа с плавающей точкой, типы данных float и double являются «неточным», и не должны использоваться, когда необходимо сохранить точное целое значение.</p>
+
+	<h1 id="title">
+		Объявление переменных в C++
+	</h1>
+
+	<p>Чтобы объявить переменную используется синтаксис тип &lt;имя>;.</p>
+	<p>Вот некоторые примеры объявления переменных:</p>
+	
+	<pre class="brush: csharp;">
+	int num;
+	char character;
+	float num_float;
+	</pre>
+
+	<p>Допустимо объявление нескольких переменных одного и того же типа в одной строке, для этого каждая из них должна быть отделена запятой.</p>
+
+	<pre class="brush: csharp;">
+	int x, y, z, d;
+	</pre>
+
+	<p>Если вы смотрели внимательно, вы, возможно, видели, что объявление переменной всегда сопровождается точкой с запятой.</p>
+
+	<h1 id="title">
+		Распространенные ошибки при объявлении переменных в C++
+	</h1>
+	
+	<p>Если вы попытаетесь использовать переменную, которую не объявили, ваша программа не будет скомпилирована, и вы получите сообщение об ошибке.</p>
+	<p>В C++, все ключевые слова языка, все функции и все переменные чувствительны к регистру.</p>
+
+	<h1 id="title">
+		Использование переменных
+	</h1>
+
+	<p>Итак, теперь вы знаете, как объявить переменную.</p>
+	<p>Вот пример программы, демонстрирующий использование переменной:</p>
+	
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	int main()
+	{
+		int number;
+		cout &lt;&lt; "Введите число: ";
+		cin &gt;&gt; number;
+		cin.ignore();
+		cout &lt;&lt; "Вы ввели: "&lt;&lt; number &lt;&lt;"\n";
+		cin.get();
+	}
+	</pre>
+
+	<p>Давайте рассмотрим эту программу и изучим её код, строку за строкой.</p>
+	<p>Ключевое слово int говорит о том, что number — целое число.</p>
+	<p>Функция cin &gt;&gt; считывает значение в number, пользователь должен нажать ввод после введенного числа.</p>
+	<p><b>cin.ignore ()</b> — функция, которая считывает символ и игнорирует его.</p>
+	<p>Мы организовали свой ввод в программу, после ввода числа, мы нажимаем клавишу ENTER, символ который также передаётся в поток ввода.</p>
+	<p>Нам это не нужно, поэтому мы его отбрасываем.</p>
+	<p>Имейте в виду, что переменная была объявлена целого типа, если пользователь попытается ввести десятичное число, то оно будет обрезано (то есть десятичная часть числа будет игнорироваться).</p>
+	<p>Попробуйте ввести десятичное число или последовательность символов, когда вы запустите пример программы, ответ будет зависеть от входного значения.</p>
+	<p>Обратите внимание, что при печати из переменной кавычки не используются.</p>
+	<p>Отсутствие кавычек сообщает компилятору, что есть переменная, и, следовательно, о том, что программа должна проверять значение переменной для того, чтобы заменить имя переменной на её значение при выполнении.</p>
+	<p>Несколько операторов сдвига в одной строке вполне приемлемо и вывод будет выполняться в том же порядке.</p>
+	<p>Вы должны разделять строковые литералы (строки, заключенные в кавычки) и переменные, давая каждому свой оператор сдвига &lt;&lt;&lt;.</p>
+	<p>Попытка поставить две переменные вместе с одним оператором сдвига &lt;&lt;&lt; выдаст сообщение об ошибке. Не забудьте поставить точку с запятой.</p>
+	<p>Если вы забыли про точку с запятой, компилятор выдаст вам сообщение об ошибке при попытке скомпилировать программу.</p>
+
+	<h1 id="title">
+		Изменение и сравнение величин
+	</h1>
+
+	<p>Конечно, независимо от того, какой тип данных вы используете, переменные не представляют особого интереса без возможности изменения их значения.</p>
+	<p>Далее показаны некоторые операторы, используемые совместно с переменными:</p>
+	<p><b>*</b> умножение,</p>
+	<p><b>-</b> вычитание,</p>
+	<p><b>+</b> сложение,</p>
+	<p><b>/</b> деление,</p>
+	<p><b>=</b> присвоение,</p>
+	<p><b>==</b> равенство,</p>
+	<p><b>&gt;</b> больше,</p>
+	<p><b>&lt;</b> меньше.</p>
+	<p><b>!=</b> неравно</p>
+	<p><b>&gt;=</b> больше или равно</p>
+	<p><b>&lt;=</b> меньше или равно</p>
+	<p>Операторы, которые выполняют математические функции, должны быть использованы справа от знака присвоения, для того, чтобы присвоить результат переменной слева.</p>
+	<p>Вот несколько примеров:</p>
+	
+	<pre class="brush: csharp;">
+	// использование строчного комментария и точки с запятой, a равно 24
+	a = 4 * 6;
+
+	// равно сумме исходного значения и пяти
+	a = a + 5;
+
+	// не присваивается пять, выполняется проверка, а равно 5 или нет
+	a == 5
+	</pre>
+
+	<p>Вы часто будете использовать == в таких конструкциях, как условные операторы и циклы.</p>
+
+	<pre class="brush: csharp;">
+	// Проверка, a менее пяти?
+	a &lt; 5  
+
+	// Проверка, a больше пяти?
+	a &gt; 5  
+
+	// Проверка, a равно пяти?
+	a == 5 
+
+	// Проверка, а неравно пяти?
+	a != 5 
+
+	// Проверка, a больше или равно пяти?
+	a &gt;= 5 
+
+	// Проверка, a меньше или равно пяти?
+	a &lt;= 5 
+	</pre>
+
+	<p>Данные примеры не очень наглядно показывают использование знаков сравнения, но когда мы начнём изучать операторы выбора, вы поймете, зачем это надо.</p>
+	<p>Идем дальше!</p>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="1.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="3.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/2.html", "Введение в C++", "bm23"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm23", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm23") == 1) { document.getElementById("bma23").style.display = "block"; document.getElementById("bm23").style.display = "none"; } else { document.getElementById("bma23").style.display = "none"; document.getElementById("bm23").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Введение в C++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm23", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

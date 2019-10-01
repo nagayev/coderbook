@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma59" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm59" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Структуры в С++
+	</h1>
+
+	<p>Если вы читаете эту статью, то конечно достаточно много  уже  знаете о типах данных языка С++.</p>
+	<p>А теперь только представьте — вы сами можете создавать, своего рода, типы данных, которые вам необходимы и с которыми вам будет удобно работать!</p>
+	<p>И это несложно!</p>
+	<p>Структура — это, некое объединение различных переменных (даже с разными типами данных), которому можно присвоить имя.</p>
+	<p>Например можно объединить данные об  объекте Дом: город (в котором дом находится), улица, количество квартир, интернет(проведен или нет) и т.д. в одной структуре.</p>
+	<p>В общем, можно собрать в одну совокупность данные обо  всем, что угодно, точнее обо  всем, что необходимо конкретному программисту.</p>
+	<p>Всем сразу стало понятно :)</p>
+	<p>Если вы только приступаете к знакомству со структурами в С++, сначала, вам необходимо ознакомиться с синтаксисом структур в языке С++.</p>
+	<p>Рассмотрим простой пример, который поможет познакомиться со структурами и покажет, как с ними работать.</p>
+	<p>В этой программе мы создадим структуру, создадим объект структуры, заполним значениями элементы структуры (данные об объекте) и выведем эти значения на экран.</p>
+	<p>Ну что же, приступим!</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	
+	//Создаем структуру!
+	struct building
+	{
+		//здесь будет храниться имя владельца      
+		char *owner;
+		//название города
+		char *city;
+		//количество комнат
+		int amountRooms;
+		//цена
+		float price;
+	};                 
+	 
+	int main()
+	{
+		setlocale (LC_ALL, "rus");
+		//это объект структуры с типом данных, именем структуры, building	
+		building apartment1;
+		//заполняем данные о владельце и т.д.
+		apartment1.owner = "Денис";
+		apartment1.city = "Симферополь";      
+		apartment1.amountRooms = 5;
+		apartment1.price = 150000;
+		cout << "Владелец квартиры: " << apartment1.owner << endl;
+		cout << "Квартира находится в городе: " << apartment1.city << endl;
+		cout << "Количество комнат: " << apartment1.amountRooms << endl;
+		cout << "Стоимость: " << apartment1.price << " $" << endl;
+		return 0;
+	}
+	</pre>	
+
+	<h1 id="title">
+		Коментарии по коду программы: 
+	</h1>
+
+	<p>В строках 4 — 10 мы создаем структуру.</p>
+	<p>Чтобы ее объявить используем зарезервированное слово struct и даем ей любое, желательно логичное, имя.</p>
+	<p>В нашем случае — building.</p>
+	<p>С правилами именования переменных, вы можете ознакомиться в этой статье.</p>
+	<p>Далее открываем фигурную скобку { , перечисляем 4 элемента структуры через точку с запятой ; , закрываем фигурную скобку } и в завершении ставим точку с запятой ;.</p>
+	<p>Это будет нашим  шаблоном (формой) структуры.</p>
+	<p>В строке 16 объявляем объект структуры.</p>
+	<p>Как и для обычных переменных, необходимо объявить тип данных.</p>
+	<p>В этом качестве выступит имя нашей созданной структуры — building.</p>
+	<p>Как же заполнить данными (инициализировать) элементы структуры?</p>
+	<p>Синтаксис таков: Имя объекта далее оператор точка . и имя элемента структуры.</p>
+	<p>Например: apartment1.owner.</p>
+	<p>Таким образом, в строках 18-21 присваиваем данные элементам структуры.</p>
+
+	<p>И так, данные мы внесли.</p>
+	<p>Следующий вопрос: "Как к ним обратиться, как работать и использовать их в программе?"</p>
+	<p>Ответ — "Очень просто — так же, как и при инициализации, используя точку . и имя элемента структуры".</p>
+	<p>В строках 23 — 26  выводим заполненные элементы структуры на экран.</p>
+	<p>И вот что мы увидим в результате, когда скомпилируем нашу программу:</p>
+
+	<pre class="brush: csharp;">
+	Владелец квартиры: Денис
+	Квартира находится в городе: Симферополь
+	Количество комнат: 5
+	Стоимость: 150000 $
+	</pre>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="37.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="39.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/38.html", "Структуры в С++", "bm59"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm59", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm59") == 1) { document.getElementById("bma59").style.display = "block"; document.getElementById("bm59").style.display = "none"; } else { document.getElementById("bma59").style.display = "none"; document.getElementById("bm59").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Структуры в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm59", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

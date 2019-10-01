@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma716" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm716" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Плагины jQuery
+	</h1>
+
+	<p>Реализация одних и тех же функций в различных приложениях побуждает разработчиков заново писать один и тот же код несколько раз лишь незначительно изменяя его под конкретное приложение.</p>
+	<p>Плагины jQuery позволяют забыть разработчикам о данной проблеме.</p>
+	<p>Разработчик может один раз написать плагин, который позволяет реализовать определенную функцию и затем использовать его в необходимых приложениях написав только одну строчку кода.</p>
+	<p>В интернете можно найти огромное количество бесплатных jQuery плагинов написанных другими разработчиками и использовать их для создания своих приложений.</p>
+	<p>Можете начать поиски интересных jQuery плагинов на сайте PluginDetector.com.</p>
+
+	<h1 id="title">
+		Создание плагина
+	</h1>
+
+	<p>Для того, чтобы создать плагин необходимо добавить к объекту jQuery.fn свойство, имя которого будет является именем плагина:</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	//Определяем код плагина
+	(function($)
+	{
+		$.fn.имяПлагина = function()
+		{
+			// Код плагина
+		};
+	})(jQuery);
+
+	//Вызываем плагин
+	$(селектор).имяПлагина();
+	</pre>
+
+	<p><b>Обратите внимание:</b> обертка (function($){ }) (jQuery) используется здесь для того, чтобы внутри кода плагина можно было использовать знак $ не боясь при этом, что он будет конфликтовать с другими библиотеками JavaScript.</p>
+
+	<h1 id="title">
+		Ключевое слово this в плагинах
+	</h1>
+
+	<p>При написании плагинов следует обратить внимание на то, что в коде плагина ключевое слово this будет относиться к jQuery объекту, который вызвал этот плагин, а не к DOM объекту как в функциях обратного вызова.</p>
+	<p>Это значит, что в коде плагина для того, чтобы обратится к jQuery объекту необходимо использовать this, а в коде функций обратного вызова использовать $(this).</p>
+
+	<pre class="brush: csharp;">
+	(function($)
+	{
+		/* Создаем плагин с именем plugin, который будет находить сумму содержимого всех выбранных абзацев на странице */
+		$.fn.plugin=function()
+		{
+			var sum=0;
+			
+			/* Для того, чтобы сослаться на выбранный элемент в коде плагина мы	используем this, но в функции обратного вызова мы уже должны использовать $(this) для этих же целей */
+			
+			this.each(function()
+			{
+				sum=sum+Number($(this).html());
+			});
+			
+			// Возвращаем полученную сумму
+			return sum;
+		}
+	})(jQuery)
+	</pre>
+
+	<h1 id="title">
+		Поддержка цепочки методов
+	</h1>
+
+	<p>Плагин в предыдущем примере возвращал целое значение, но часто плагины используются для модификации группы элементов и передачи их следующему методу в цепочке.</p>
+	<p>Пример цепочки методов:</p>
+
+	<pre class="brush: csharp;">
+	//Пример цепочки из двух методов css и html
+	$("p").css("color","red").html("Новое содержимое");
+	</pre>
+
+	<p>Для того, чтобы Ваш плагин не "разрывал" цепочку методов необходимо, чтобы он возвращал ключевое слово this.</p>
+
+	<pre class="brush: csharp;">
+	(function($)
+	{
+		/* Создаем плагин с именем adjust, который будет устанавливать размер текста выбранных элементов равным 1.4em и передавать их дальше по цепочки методов. */
+		$.fn.adjust=function()
+		{
+			/* Для того, чтобы поддержать цепочку методов нужно вернуть из плагина преобразованную группу выбранных элементов */
+			return this.each(function()
+			{
+				$(this).css("fontSize","1.4em");
+			});
+		}
+	})(jQuery)
+	</pre>
+
+	<h1 id="title">
+		Опции плагинов
+	</h1>
+
+	<p>Многие плагины позволяют пользователям настраивать их поведение с помощью передаваемых им опций.</p>
+
+	<pre class="brush: csharp;">
+	(function($)
+	{
+		/* Создаем плагин с именем adjust, который будет устанавливать указанный размер и цвет выбранным элементам. */
+		$.fn.adjust=function(option)
+		{
+			/* Установим значения опций по умолчанию. Они будут использованы если пользователь при вызове плагина не передаст значений. */
+			var setting={size:'1.4em',color:'red'};
+			
+			return this.each(function()
+			{
+				// Если пользователь передал опции соединить их с опциями по умолчанию
+				if (option){$.extend(setting,option);}
+				$(this).css("fontSize",setting.size);
+				$(this).css("color",setting.color);
+			});
+		}
+	})(jQuery)
+	</pre>
+
+	<h1 id="title">
+		Вынесение кода плагина во внешний файл
+	</h1>
+
+	<p>Заключительным шагом в создании плагинов должно стать вынесение кода плагина в отдельный файл.</p>
+	<p>И написания инструкций, которые должны разъяснить потенциальным пользователям как и зачем можно использовать Ваш плагин.</p>
+
+	<pre class="brush: csharp;">
+		&lt;script src=&quot;http://www.wisdomweb.ru/editor/plugin1.js&quot;&gt;&lt;/script&gt;
+		
+		$(document).ready(function()
+		{
+			$("#but1").click(function()
+			{
+				$("#demo p").adjust();
+			});
+
+			$("#but2").click(function()
+			{
+				$("#demo p").adjust({size:"2em"});
+			});
+
+			$("#but3").click(function()
+			{
+				$("#demo p").adjust({size:"1.7em",color:"green"});
+			});
+		});
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="7.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="9.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/jquery/8.html", "jQuery Плагины", "bm716"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm716", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm716") == 1) { document.getElementById("bma716").style.display = "block"; document.getElementById("bm716").style.display = "none"; } else { document.getElementById("bma716").style.display = "none"; document.getElementById("bm716").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("jQuery Плагины") == 1) { arrs.splice(i, 1); localStorage.setItem("bm716", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

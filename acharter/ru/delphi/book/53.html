@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma439" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm439" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Тип Variant
+	</h1>
+
+	<p>Бывают случаи, когда на этапе программирования мы еще не можем четко определить тип данных определенной переменной.</p>
+	<p>В таком случае можно воспользоваться очень мощным типом Variant.</p>
+	<p>Этот тип вводился в Delphi для поддержки технологии OLE (Object Link and Embedding – внедрение и связь объектов).</p>
+	<p>Такая технология широко используется в Windows для обмена данными между приложениями различного типа.</p>
+	<p>С помощью OLE происходит вставка таблицы MS Excel в редактор текстов MS Word, или картинка из Paint легко вставляется в тот же редактор.</p>
+	<p>В этой технологии Variant используется на каждом шагу, однако ему можно найти применение и в других случаях.</p>
+	<p>Переменные типа Variant могут принимать значения любого типа!</p>
+	<p>Вы присваиваете такой переменной что угодно, а программа сама определяет ее тип на этапе выполнения.</p>
+	<p>Давайте рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+var
+   V : Variant;
+begin
+   V := 5; //присвоили целое число
+   V := 'Это текст'; //присвоили строку
+   V := True; //логический тип
+   V := 3.14; //вещественный тип
+end;
+	</pre>
+
+	<p>В этом примере во время выполнения программы тип переменной изменится 4 раза, и код выполнится корректно.</p>
+	<p>Когда программа встречает тип Variant, она автоматически выделяет под нее память.</p>
+	<p>Если значение не задано, переменной присваивается ноль.</p>
+	<p>Совет: старайтесь использовать тип Variant только там, где это действительно необходимо!</p>
+	<p>За удобство использования такой переменной тоже приходится платить.</p>
+	<p>Переменная такого типа занимает значительно больше памяти, чем переменная любого другого типа.</p>
+	<p>Процессору мы тоже задаем лишнюю работу, ведь сначала нужно определить тип данных в переменной, затем присвоить этот тип самой переменной, и т.п.</p>
+	<p>Кроме того, переменные типа Variant очень сложно отлаживать в больших программах.</p>
+	<p>Складывая, к примеру, строку и целое число, вы можете получить совсем не тот результат, который ожидали!</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+var
+   v1, v2, v3 : Variant;
+begin
+   v1 := '1';
+   v2 := '5';
+   v3 := 10;
+   v1 := v1 + v2 + v3;
+end;
+	</pre>
+
+	<p>Как вы считаете, какой результат окажется в конце концов в переменной v1?</p>
+	<p>На первый взгляд, результат очевиден: число 16.</p>
+	<p>Однако не спешите с выводами.</p>
+	<p>Когда операторы вычисления имеют равный приоритет, они выполняются слева – направо.</p>
+	<p>В данном примере вначале объединятся строки, в результате чего получится строка "15".</p>
+	<p>Затем эта строка преобразуется в целое число, и к нему будет прибавлено число 10.</p>
+	<p>Поэтому результат сложения – число 25.</p>
+
+	<h1 id="title">
+		Функции для работы с именем файла
+	</h1>
+
+	<p>Любая серьезная программа обязательно работает с каким-либо файлом, или даже с множеством файлов.</p>
+	<p>Программы для работы с базами данных напрямую связаны с таблицами и индексами, которые представляют собой файлы различных форматов, редакторы текста работают с текстовыми файлами, а графические редакторы – с графическими.</p>
+	<p>Все эти программы могут работать с настроечными файлами – файлами, в которых программа сохраняет пользовательские настройки, а при загрузке считывает их.</p>
+	<p>Там, где приходится работать с файлами, требуется уметь обрабатывать и имя файла: вычленять только имя или только адрес файла, диск, на котором файл находится, или расширение имени файла.</p>
+	<p>Ниже представлен список функций, которые позволяют решить все эти задачи.</p>
+
+	<h1 id="title">
+		Функция ExtractFileName()
+	</h1>
+
+	<p>Функция возвращает имя файла без имени диска и каталогов, извлекая его из полного имени файла FileName.</p>
+	<p>В качестве параметра указывается полный путь и имя файла.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+var
+   S: string;
+begin
+...
+   S := ExtractFileName( 'C:\DIR1\myfile.txt');   // S = 'myfile.txt'
+...
+end;
+	</pre>
+
+	<h1 id="title">
+		Функция ExtractFilePath()
+	</h1>
+
+	<p>Функция возвращает путь к файлу, извлекая его из полного имени файла.</p>
+	<p>Если имя файла не содержит ни имя каталогов, ни имя диска, то функция возвращает пустую строку.</p>
+	<p>Подобное же действие выполняет функция ExtractFileDir().</p>
+	<p>Отличие этих функций в том, что в конце возвращаемого адреса функции ExtractFilePath() есть знак "\", а функция ExtractFileDir() этот знак не устанавливает:</p>
+
+	<pre class="brush: csharp;">
+var
+   S: string;
+begin
+...
+   S:= ExtractFilePath( 'C:\DIR1\DIR2\myfile.zzz');  //S ='C:\DIR1\DIR2\'
+   S:= ExtractFileDir( 'C:\DIR1\DIR2\myfile.zzz');  //S ='C:\DIR1\DIR2'
+   S:= ExtractFilePath( 'myfile.zzz');  //S =''
+...
+end;
+	</pre>
+
+	<h1 id="title">
+		Функция ExtractShortPathName()s
+	</h1>
+
+	<p>Функция конвертирует длинное имя файла в DOS-формат, так называемый, 8.3.</p>
+	<p>Этот формат подразумевает, что имя файла или папки может быть длиной максимум 8 символов, а затем, после точки, может присутствовать расширение имени файла из 3-х символов.</p>
+	<p>Если имя папки (файла) имеет больше символов, оно будет обрезано до 8 символов.</p>
+	<p>Если указанный файл или каталог не существует, то функция возвращает пустую строку.</p>
+	<p>Параметр может представлять собой полное имя файла.</p>
+	<p>Если указанный файл не существует, то функция возвращает пустую строку.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+var
+   S: string;
+begin
+...
+   S:= ExtractShortPathName( 'C:\Program Files\Accessories\wordpad.exe'); 
+   //Результат:   S= C:\PROGRA~1\ACCESS~1\WORDPAD.EXE
+...
+end;
+	</pre>
+
+	<h1 id="title">
+		Процедура ProcessPath()
+	</h1>
+
+	<p>Процедура анализирует полное имя файла и возвращает отдельно имя диска, каталог и имя файла.</p>
+	<p>Если файл не существует, то возникает ошибка.</p>
+	<p>Когда полное имя файла содержит больше одного каталога, также возникает ошибка.</p>
+
+	<pre class="brush: csharp;">
+var
+   Dir, S: string; //для имени папки и имени файла
+   Drive: Char; //для имени диска (буквы A-Z)
+begin
+...
+   ProcessPath('C:\DIR1\work.txt', Drive, Dir, S); // Drive= 'C';   Dir= '\DIR1';   S= 'work.txt'
+...
+end;
+	</pre>
+
+	<h1 id="title">
+		Функция ExtractFileDrive()
+	</h1>
+
+	<p>Функция возвращает имя диска, извлеченное из полного имени файла.</p>
+	<p>Если указанное имя файла не содержит имя диска, то функция возвращает пустую строку.</p>
+	<p>Для имени в UNC формате (сетевое имя) возвращается строка в формате &apos;\\&lt;&icy;&mcy;&yacy; &scy;&iecy;&rcy;&vcy;&iecy;&rcy;&acy;&gt;\&lt;&icy;&mcy;&yacy; &rcy;&iecy;&scy;&ucy;&rcy;&scy;&acy;&gt;&apos;.</p>
+
+	<pre class="brush: csharp;">
+var
+   S: string;
+begin
+...
+   S:= ExtractFileDrive( 'C:\DIR1\myfile.zzz');   //S= 'C:'
+...
+end;
+	</pre>
+
+	<h1 id="title">
+		Функция ExtractFileExt()
+	</h1>
+
+	<p>Функция возвращает расширение файла, имя которого указано в параметре.</p>
+	<p>Результирующая строка включает в себя символ точки и символы расширения файла.</p>
+	<p>Если указанное имя файла не имеет расширения, то функция возвращает пустую строку.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+var
+   S1, S2 : string;
+begin
+...
+   S1:= ExtractFileExt( 'www.atrussk.ru/delphi/index.htm');    //S1='.htm'
+   S2:= ExtractFileExt( 'c:\dir1\myfile.txt');     //S2 ='.txt' 
+...
+end;
+	</pre>
+
+	<h1 id="title">
+		Пишем программу
+	</h1>
+
+	<p>Чтобы усвоить, как работают эти функции, создадим новое приложение.</p>
+	<p>Форму сразу переименуйте в fMain, а проект сохраните под названием fname в отдельной папке.</p>
+	<p>На форму установите Edit, здесь будет отображаться полное имя файла.</p>
+	<p>Сразу под ней установите Label, тут будет отображаться результат работы функций.</p>
+	<p>Очистите текст и у Edit и у Label.</p>
+	<p>Ниже бросьте на форму кнопку, и напишите на ней "Открыть файл".</p>
+	<p>Рядом с ней бросьте OpenDialog, он нам понадобится для открытия нужного файла.</p>
+	<p>Еще ниже сгруппируйте 6 кнопок, на которых напишите:</p>
+
+	<pre class="brush: csharp;">
+	ExtractFileName
+	ExtractFilePath
+	ExtractShortPathName
+	ExtractFileDir
+	ExtractFileDrive
+	ExtractFileExt
+	</pre>
+
+	<img src="delphi22.png" id="image" />
+
+	<p>Создайте обработчик для кнопки "Открыть файл".</p>
+	<p>Здесь мы напишем такой текст:</p>
+
+	<pre class="brush: csharp;">
+if OpenDialog1.Execute then begin
+    Edit1.Text := OpenDialog1.FileName;  //записываем адрес и имя открытого файла
+    Label1.Caption := Edit1.Text; //копируем тоже самое в Label
+  end; //if
+	</pre>
+
+	<p>Далее поочередно пишем обработчики для оставшихся кнопок.</p>
+	<p>Нажмите первую, и напишите:</p>
+
+	<pre class="brush: csharp;">
+	Label1.Caption := ExtractFileName(Edit1.Text);	//извлекаем имя файла
+	</pre>
+
+	<p>Для второй кнопки:</p>
+
+	<pre class="brush: csharp;">
+	Label1.Caption := ExtractFilePath (Edit1.Text);
+	</pre>
+
+	<p>Остальные кнопки обрабатываются также – просто подставьте указанную на кнопке функцию, остальной код остается без изменений.</p>
+	<p>Сохраните и скомпилируйте пример, посмотрите как он работает.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="52.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="54.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/53.html", "Адрес и имя файла", "bm439"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm439", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm439") == 1) { document.getElementById("bma439").style.display = "block"; document.getElementById("bm439").style.display = "none"; } else { document.getElementById("bma439").style.display = "none"; document.getElementById("bm439").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Адрес и имя файла") == 1) { arrs.splice(i, 1); localStorage.setItem("bm439", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

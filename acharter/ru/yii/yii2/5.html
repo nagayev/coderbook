@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1211" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1211" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Говорим «привет»
+	</h1>
+
+    <p>В этом разделе рассмотрим как создать новую страницу с надписью «Привет».</p>
+    <p>В процессе решения задачи вы создадите действие контроллера и представление:</p>
+
+    <ul>
+        <li>Приложение обработает запрос и передаст управление соответствующему действию;</li>
+        <li>Действие, в свою очередь, отобразит представление с надписью "Привет" конечному пользователю.</li>
+    </ul>
+
+    <p>С помощью данного руководства вы изучите</p>
+
+    <ul>
+        <li>Как создавать действие, чтобы отвечать на запросы;</li>
+        <li>Как создавать представление, чтобы формировать содержимое ответа;</li>
+        <li>Как приложение отсылает запросы к действию.</li>
+    </ul>
+
+    <h2 id="title">
+        Создание Действия
+    </h2>
+
+    <p>Для нашей задачи потребуется действие say, которое читает параметр message из запроса и отображает его значение пользователю.</p>
+    <p>Если в запросе не содержится параметра message, то действие будет выводить «Привет».</p>
+    <p><b>Информация:</b> Действия могут быть запущены непосредственно пользователем и сгруппированы в контроллеры. Результатом выполнения действия является ответ, который получает пользователь.</p>
+    <p>Действия объявляются в контроллерах.</p>
+    <p>Для простоты, вы можете объявить действие say в уже существующем контроллере SiteController, который определен в файле класса controllers/SiteController.php:</p>
+
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class SiteController extends Controller
+    {
+        // ...существующий код...
+    
+        public function actionSay($message = 'Привет')
+        {
+            return $this->render('say', ['message' =&gt; $message]);
+        }
+    }
+    </pre>
+
+    <p>В приведенном коде действие say объявлено как метод actionSay в классе SiteController.</p>
+    <p>Yii использует префикс action чтобы различать методы-действия и обычные методы.</p>
+    <p>Название после префикса action считается идентификатором соответствующего действия.</p>
+    <p><b>Информация:</b> Идентификаторы действий задаются в нижнем регистре. Если идентификатор состоит из нескольких слов, они соединяются дефисами, то есть create-comment. Имена методов действий получаются путём удаления дефисов из идентификатора, преобразования первой буквы каждого слова в верхний регистр и добавления префикса action. Например, идентификатор действия create-comment соответствует методу actionCreateComment.</p>
+    <p>Метод действия принимает параметр $message, который по умолчанию равен "Привет".</p>
+    <p>Когда приложение получает запрос и определяет, что действие say ответственно за его обработку, параметр заполняется одноимённым значением из запроса.</p>
+    <p>Внутри метода действия, для вывода отображения представления с именем say, используется метод [[yii\web\Controller::render()|render()]].</p>
+    <p>Для того, чтобы вывести сообщение, в отображение передаётся параметр message.</p>
+    <p>Результат отображения при помощи return передаётся приложению, которое отдаёт его пользователю.</p>
+
+    <h2 id="title">
+        Создание представления
+    </h2>
+
+    <p>Представления являются скриптами, которые используются для формирования тела ответа.</p>
+    <p>Для нашего приложения вы создадите представление say, которое будет выводить параметр message, полученный из метода действия:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    ?&gt;
+    &lt;?= Html::encode($message) ?&gt;
+    </pre>
+
+    <p>Представление say должно быть сохранено в файле views/site/say.php.</p>
+    <p>Когда метод [[yii\web\Controller::render()|render()]] вызывается в действии, он будет искать PHP файл с именем вида views/ControllerID/ViewName.php.</p>
+    <p>Стоит отметить, что в коде выше параметр message [[yii\helpers\Html::encode()|экранируется для HTML]] перед выводом.</p>
+    <p>Это обязательно так как параметр приходит от пользователя, который может попытаться провести XSS атаку путём вставки зловредного JavaScript кода.</p>
+    <p>Вы можете дополнить представление say HTML тегами, текстом или кодом PHP.</p>
+    <p>Фактически, представление say является простым PHP скриптом, который выполняется методом [[yii\web\Controller::render()|render()]].</p>
+    <p>Содержимое, выводимое скриптом представления, будет передано пользователю приложением.</p>
+
+    <h2 id="title">
+        Попробуем
+    </h2>
+
+    <p>После создания действия и представления вы можете перейти на новую страницу по следующему URL:</p>
+
+    <pre class="brush: csharp;">
+    http://hostname/index.php?r=site%2Fsay&message=Привет+мир
+    </pre>
+
+    <img src="y4.png" id="image" />
+
+    <p>Будет отображена страница с надписью «Привет мир».</p>
+    <p>Она использует ту же шапку и футер, что и остальные страницы приложения.</p>
+    <p>Если вы не укажете параметр message, то увидите на странице «Привет».</p>
+    <p>Это происходит потому, как message передаётся в метод actionSay() и значение по умолчанию — «Привет».</p>
+    <p><b>Информация:</b> Новая страница использует ту же шапку и футер, что и другие страницы, потому что метод [[yii\web\Controller::render()|render()]] автоматически вставляет результат представления say в, так называемый, макет views/layouts/main.php.</p>
+    <p>Параметр r требует дополнительных пояснений. Он связан с маршрутом (route), который представляет собой уникальный идентификатор, указывающий на действие.</p>
+    <p>Его формат ControllerID/ActionID. Когда приложение получает запрос, оно проверяет параметр r и, используя ControllerID, определяет какой контроллер следует использовать для обработки запроса.</p>
+    <p>Затем, контроллер использует часть ActionID, чтобы определить какое действие выполняет реальную работу.</p>
+    <p>В нашем случае маршрут site/say будет соответствовать контроллеру SiteController и его действию say.</p>
+    <p>В результате, для обработки запроса будет вызван метод SiteController::actionSay().</p>
+    <p><b>Информация:</b> Как и действия, контроллеры также имеют идентификаторы, которые однозначно определяют их в приложении. Идентификаторы контроллеров используют те же правила именования, что и идентификаторы действий. Имена классов контроллеров получаются путём удаления дефисов из идентификатора, преобразования первой буквы каждого слова в верхний регистр и добавления в конец Controller. Например, идентификатор контроллера post-comment соответствует имени класса контроллера PostCommentController.</p>
+
+    <h2 id="title">
+        Заключение
+    </h2>
+
+    <p>В этом разделе вы затронули тему контроллеров и представлений в паттерне MVC.</p>
+    <p>Вы создали действие как часть контроллера, обрабатывающего запросы, и представление, участвующее в формировании ответа.</p>
+    <p>В этом процессе никак не была задействована модель, так как в качестве данных выступает лишь простой параметр message.</p>
+    <p>Также вы познакомились с концепцией маршрутизации, которая является связующим звеном между запросом пользователя и действием контроллера.</p>
+    <p>В следующем разделе вы узнаете как создавать модели и добавлять новые страницы с HTML формами.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="4.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="6.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/5.html", "Yii2: Говорим «привет»", "bm1211"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1211", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1211") == 1) { document.getElementById("bma1211").style.display = "block"; document.getElementById("bm1211").style.display = "none"; } else { document.getElementById("bma1211").style.display = "none"; document.getElementById("bm1211").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Говорим «привет»") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1211", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

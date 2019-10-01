@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1298" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1298" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Интернационализация
+	</h1>
+
+    <p>Интернационализация (I18N) является частью процесса разработки приложения, которое может быть адаптировано для нескольких языков без изменения программной логики.</p>
+    <p>Это особенно важно для веб-приложений, так как потенциальные пользователи могут приходить из разных стран.</p>
+    <p>Yii располагает несколькими средствами, призванными помочь с интернационализацией веб-приложения: [переводом сообщений][], [форматированием чисел и дат][].</p>
+
+    <h2 id="title">
+        Локализация и языки
+    </h2>
+
+    <p>В Yii приложении определены два языка: [[yii\base\Application::$sourceLanguage|исходный язык]] и [[yii\base</p>
+    <p>Application::$language|язык перевода]].</p>
+    <p>На "исходном языке" написаны сообщения в коде приложения.</p>
+    <p>Если мы определяем исходным языком английский, то в коде можно использовать конструкцию:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'I am a message!');
+    </pre>
+
+    <p>Язык перевода определяет, в каком виде будет отображаться текущая страница, т.е. на какой язык будут переведены оригинальные сообщения.</p>
+    <p>Этот параметр определяется в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'id' =&gt; 'applicationID',
+        'basePath' =&gt; dirname(__DIR__),
+        // ...
+        'language' =&gt; 'ru-RU', // <- здесь!
+        // ...
+    ]
+    </pre>
+
+    <p><b>Подсказка:</b> значение по умолчанию для [[yii\base\Application::$sourceLanguage|исходного языка]] - английский.</p>
+    <p>Вы можете установить значение текущего языка в самом приложении в соответствии с языком, который выбрал пользователь.</p>
+    <p>Это необходимо сделать до того, как будет сгенерирован какой-либо вывод, чтобы не возникло проблем с его корректностью. Используйте простое переопределение свойства на нужное значение:</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$app->language = 'ru-RU';
+    </pre>
+
+    <p>Формат для установки языка/локали: ll-CC, где ll - это двух или трёхбуквенный код языка в нижнем регистре в соответствии со стандартом ISO-639, а CC - это код страны в соответствии со стандартом ISO-3166.</p>
+    <p><b>Примечание:</b> больше информации о синтаксисе и концепции локалей можно получить в документации проекта ICU.</p>
+
+    <h2 id="title">
+        Перевод сообщений
+    </h2>
+
+    <p>Перевод используется для локализации сообщений, которые будут выведены в приложении в соответствии с языком, который выбрал пользователь.</p>
+    <p>По сути, Yii просто находит в файле с сообщениями на выбранном языке строку, соответствующую сообщению на исходном языке приложения.</p>
+    <p>Для перевода сообщений, необходимо в самом приложении заключать их в метод [[Yii::t()]].</p>
+    <p>Первый аргумент метода - это категория, которая позволяет группировать сообщения по определённому признаку, а второй - само сообщение.</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'This is a string to translate!');
+    </pre>
+
+    <p>Yii попытается загрузить файл перевода сообщений, соответствующий текущему [[yii\base\Application::$language|языку приложения]] из одного из источников, определённых в i18n компонентах приложения.</p>
+    <p>Сообщения - это набор файлов или база данных, которая содержит переведённые строки.</p>
+    <p>Следующая конфигурация определяет, что сообщения должны браться из PHP-файлов:</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        // ...
+        'i18n' =&gt; [
+            'translations' =&gt; [
+                'app*' =&gt; [
+                    'class' =&gt; 'yii\i18n\PhpMessageSource',
+                    //'basePath' =&gt; '@app/messages',
+                    //'sourceLanguage' =&gt; 'en-US',
+                    'fileMap' =&gt; [
+                        'app'       =&gt; 'app.php',
+                        'app/error' =&gt; 'error.php',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    </pre>
+
+    <p>В приведённой конфигурации, app* - это шаблон, который определяет, какие категории обрабатываются источником.</p>
+    <p>В нашем случае, мы обрабатываем все, что начинается с app.</p>
+    <p>Файлы с сообщениями находятся в @app/messages (папке messages в вашем приложении).</p>
+    <p>Массив [[yii\i18n\PhpMessageSource::fileMap|fileMap]] определяет, какой файл будет подключаться для определённой категории.</p>
+    <p>Если вы не хотите конфигурировать fileMap, можно положиться на соглашение, что название категории является именем файла.</p>
+    <p>Например, категория app/error относится к файлу app/error.php в рамках [[yii\i18n\PhpMessageSource::basePath|basePath]].</p>
+    <p>Переводя сообщение \Yii::t('app', 'This is a string to translate!') при установленном языке приложения ru-RU, Yii сначала будет искать файл @app/messages/ru-RU/app.php, чтобы получить список доступных переводов.</p>
+    <p>Если есть файл ru-RU, Yii также попробует поискать ru перед тем, как примет решение, что попытка перевода не удалась.</p>
+    <p>Кроме хранения в PHP-файлах (используя [[yii\i18n\PhpMessageSource|PhpMessageSource]]), Yii предоставляет ещё два класса:</p>
+
+    <ul>
+        <li>[[yii\i18n\GettextMessageSource]], использующий GNU Gettext для MO или PO файлов.</li>
+        <li>[[yii\i18n\DbMessageSource]], использующий базу данных.</li>
+    </ul>
+
+    <h3 id="title">
+        Именованные указатели
+    </h3>
+
+    <p>Вы можете добавлять параметры в строку для перевода, которые в выводе будут заменены соответствующими значениями, заключая параметр в фигурные скобки:</p>
+
+    <pre class="brush: csharp;">
+    $username = 'Alexander';
+    echo \Yii::t('app', 'Hello, {username}!', [
+        'username' =&gt; $username,
+    ]);
+    </pre>
+
+    <p>Обратите внимание, что в операции присваивания фигурные скобки не используются.</p>
+
+    <h3 id="title">
+        Позиционные указатели
+    </h3>
+
+    <pre class="brush: csharp;">
+    $sum = 42;
+    echo \Yii::t('app', 'Balance: {0}', $sum);
+    </pre>
+
+    <p><b>Подсказка:</b> старайтесь сохранять читаемость сообщений и избегать избыточного использования позиционных параметров.</p>
+    <p>Помните, что переводчик, скорее всего, будет располагать только файлом со строками и для него должно быть очевидно, на что будет заменён тот или иной указатель.</p>
+
+    <h3 id="title">
+        Указатели с расширенным форматированием
+    </h3>
+
+    <p>Чтобы использовать расширенные возможности, вам необходимо установить и включить PHP-расширение intl.</p>
+    <p>После этого вам станет доступен расширенный синтаксис указателей, а также сокращённая запись {placeholderName, argumentType}, эквивалентная форме {placeholderName, argumentType, argumentStyle}, позволяющая определять стиль форматирования.</p>
+    <p>Полная документация доступна на сайте ICU, но далее в документации будут приведены примеры использования расширенных возможностей интернационализации.</p>
+
+    <h4 id="title">
+        Числа
+    </h4>
+
+    <pre class="brush: csharp;">
+    $sum = 42;
+    echo \Yii::t('app', 'Balance: {0, number}', $sum);
+    </pre>
+
+    <p>Вы можете использовать один из встроенных форматов (integer, currency, percent):</p>
+
+    <pre class="brush: csharp;">
+    $sum = 42;
+    echo \Yii::t('app', 'Balance: {0, number, currency}', $sum);
+    </pre>
+
+    <p>Или определить свой формат:</p>
+
+    <pre class="brush: csharp;">
+    $sum = 42;
+    echo \Yii::t('app', 'Balance: {0, number, ,000,000000}', $sum);
+    </pre>
+
+    <h4 id="title">
+        Даты
+    </h4>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'Today is {0, date}', time());
+    </pre>
+
+    <p>Встроенные форматы - это short, medium, long, and full:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'Today is {0, date, short}', time());
+    </pre>
+
+    <p>Используя свой формат:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'Today is {0, date,yyyy-MM-dd}', time());
+    </pre>
+
+    <h4 id="title">
+        Время
+    </h4>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'It is {0, time}', time());
+    </pre>
+
+    <p>Встроенные форматы - это short, medium, long, and full:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'It is {0, time, short}', time());
+    </pre>
+
+    <p>Используя свой формат:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'It is {0, date,HH:mm}', time());
+    </pre>
+
+    <h4 id="title">
+        Числа прописью
+    </h4>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'Число {n,number} прописью: {n, spellout}', ['n' =&gt; 42]);
+    </pre>
+
+    <h4 id="title">
+        Порядковые числительные
+    </h4>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'Вы - {n, ordinal} посетитель!', ['n' =&gt; 42]);
+    </pre>
+
+    <p>Выведет сообщение "Вы - 42-й посетитель!".</p>
+
+    <h4 id="title">
+        Продолжительность
+    </h4>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'Вы находитесь здесь уже {n, duration}', ['n' =&gt; 47]);
+    </pre>
+
+    <p>Выведет сообщение "Вы находитесь здесь уже 47 сек.".</p>
+
+    <h4 id="title">
+        Множественное число
+    </h4>
+
+    <p>В каждом языке используется свой способ склонения порядковых числительных.</p>
+    <p>Некоторые правила весьма сложны, так что очень удобно, что использование функционала i18n не требует определения правил склонения.</p>
+    <p>Требуется только указать формы склоняемого слова в различных ситуациях:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t(
+        'app',
+        'На диване {n, plural, =0{нет кошек} =1{лежит одна кошка} one{лежит # кошка} few{лежит # кошки} many{лежит # кошек} other{лежит # кошки}}!', 
+        ['n' =&gt; 0]
+    );
+    </pre>
+
+    <p>Выведет сообщение "На диване нет кошек!".</p>
+    <p>В данном правиле</p>
+
+    <ul>
+        <li&gt;=0 означает ноль;</li>
+        <li&gt;=1 соответствует ровно 1;</li>
+        <li>one - 21, 31, 41 и так далее;</li>
+        <li>few - от 2 до 4, от 22 до 24 и так далее;</li>
+        <li>many - 0, от 5 до 20, от 25 до 30 и так далее;</li>
+        <li>other - для всех прочих чисел (например, дробных).</li>
+        <li>Решётка # заменяется на значение аргумента n.</li>
+    </ul>
+
+    <p>Для некоторых языков правила могут быть более простыми.</p>
+    <p>Например, для английского будет достаточно указать:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', 'There {n, plural, =0{are no cats} =1{is one cat} other{are # cats}}!', ['n' =&gt; 0]);
+    </pre>
+
+    <p>Следует помнить, что если вы используете указатель дважды и в первый раз он используется, как plural, второй раз он должен быть использован, как number, иначе вы получите ошибку "Inconsistent types declared for an argument: U_ARGUMENT_TYPE_MISMATCH":</p>
+
+    <pre class="brush: csharp;">
+    В корзине: {count, number} {count, plural, one{товар} few{товара} other{товаров}}.
+    </pre>
+
+    <p>Подробная документация о формах склонений для различных языков доступна на сайте unicode.org.</p>
+
+    <h4 id="title">
+        Вариации
+    </h4>
+
+    <p>Вы можете указывать критерии форматирования сообщений в зависимости от ключевых слов.</p>
+    <p>Приведённый пример демонстрирует возможность подстановки корректного рода в зависимости от параметра:</p>
+
+    <pre class="brush: csharp;">
+    echo \Yii::t('app', '{name} - {gender} и {gender, select, женщина{ей} мужчина{ему} other{ему}} нравится Yii!', [
+        'name'   =&gt; 'Василий',
+        'gender' =&gt; 'мужчина',
+    ]);
+    </pre>
+
+    <p>Выведет сообщение "Василий - мужчина и ему нравится Yii!".</p>
+    <p>Вы приведённом выражении, мужчина и женщина - это возможные варианты пола.</p>
+    <p>На всякий случай, other обработает случай, если значение не совпадает с первыми двумя вариантами.</p>
+    <p>Строки в скобках являются вторичными выражениями и могут быть просто строкой или строкой, содержащей дополнительные указатели.</p>
+
+    <h3 id="title">
+        Определение перевода по умолчанию
+    </h3>
+
+    <p>Вы можете определить переводы, которые будут использованы, как переводы по умолчанию для категорий, которые не попадают в другие переводы.</p>
+    <p>Этот перевод должен быть помечен звёздочкой * и указан в конфигурации приложения, как:</p>
+
+    <pre class="brush: csharp;">
+    // конфигурация i18n компонента
+    
+    'i18n' =&gt; [
+        'translations' =&gt; [
+            '*' =&gt; [
+                'class' =&gt; 'yii\i18n\PhpMessageSource'
+            ],
+        ],
+    ],
+    </pre>
+
+    <p>Теперь можно использовать категории без необходимости конфигурировать каждую из них, что похоже на способ, которым была реализована поддержка интернационализации в Yii 1.1.</p>
+    <p>Сообщения для категории будут загружаться из файла с переводом по умолчанию из basePath, т.е. @app/messages:</p>
+
+    <pre class="brush: csharp;">
+    echo Yii::t('not_specified_category', 'message from unspecified category');
+    </pre>
+
+    <p>Сообщение будет загружено из файла @app/messages/&lt;LanguageCode&gt;/not_specified_category.php</p>
+
+    <h3 id="title">
+        Перевод сообщений модулей
+    </h3>
+
+    <p>Если вы хотите перевести сообщения в модуле и при этом не сгружать их все в один файл, можете прибегнуть к следующему приёму:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\modules\users;
+    
+    use Yii;
+    
+    class Module extends \yii\base\Module
+    {
+        public $controllerNamespace = 'app\modules\users\controllers';
+    
+        public function init()
+        {
+            parent::init();
+            $this->registerTranslations();
+        }
+    
+        public function registerTranslations()
+        {
+            Yii::$app->i18n->translations['modules/users/*'] = [
+                'class'          =&gt; 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' =&gt; 'en-US',
+                'basePath'       =&gt; '@app/modules/users/messages',
+                'fileMap'        =&gt; [
+                    'modules/users/validation' =&gt; 'validation.php',
+                    'modules/users/form'       =&gt; 'form.php',
+                    ...
+                ],
+            ];
+        }
+    
+        public static function t($category, $message, $params = [], $language = null)
+        {
+            return Yii::t('modules/users/' . $category, $message, $params, $language);
+        }
+    
+    }
+    </pre>
+
+    <p>В приведённом примере мы использовали маску для поиска совпадений, и последующую фильтрацию по категориям для искомого файла.</p>
+    <p>Вместо использования fileMap, вы можете прибегнуть к соглашению, что имя категории совпадает с именем файла и писать Module::t('validation', 'your custom validation message') или Module::t('form', 'some form label') напрямую.</p>
+
+    <h3 id="title">
+        Перевод сообщений виджетов
+    </h3>
+
+    <p>Для виджетов применимо такое же правило, как и для модулей:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\widgets\menu;
+    
+    use yii\base\Widget;
+    use Yii;
+    
+    class Menu extends Widget
+    {
+    
+        public function init()
+        {
+            parent::init();
+            $this->registerTranslations();
+        }
+    
+        public function registerTranslations()
+        {
+            $i18n = Yii::$app->i18n;
+            $i18n->translations['widgets/menu/*'] = [
+                'class'          =&gt; 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' =&gt; 'en-US',
+                'basePath'       =&gt; '@app/widgets/menu/messages',
+                'fileMap'        =&gt; [
+                    'widgets/menu/messages' =&gt; 'messages.php',
+                ],
+            ];
+        }
+    
+        public function run()
+        {
+            echo $this->render('index');
+        }
+    
+        public static function t($category, $message, $params = [], $language = null)
+        {
+            return Yii::t('widgets/menu/' . $category, $message, $params, $language);
+        }
+    
+    }
+    </pre>
+
+    <p>Вместо использования fileMap, вы можете прибегнуть к соглашению, что имя категории совпадает с именем файла и писать Menu::t('messages', 'new messages {messages}', ['{messages}' =&gt; 10]) напрямую.</p>
+    <p><b>Примечание:</b> для виджетов вы можете использовать i18n представления. На них распространяются те же правила, что и на контроллеры.</p>
+
+    <h3 id="title">
+        Перевод сообщений фреймворка
+    </h3>
+
+    <p>Yii поставляется с набором сообщений по умолчанию для ошибок валидации и некоторых других строк.</p>
+    <p>Эти сообщения принадлежат категории yii. Если возникает необходимость изменить сообщения по умолчанию, переопределите i18n компонент приложения:</p>
+
+    <pre class="brush: csharp;">
+    'i18n' =&gt; [
+        'translations' =&gt; [
+            'yii' =&gt; [
+                'class' =&gt; 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' =&gt; 'en-US',
+                'basePath' =&gt; '@app/messages'
+            ],
+        ],
+    ],
+    </pre>
+
+    <p>После этого разместите изменённые строки в файле @app/messages/&lt;language&gt;/yii.php.</p>
+
+    <h3 id="title">
+        Обработка недостающих переводов
+    </h3>
+
+    <p>Если в источнике перевода отсутствует необходимое сообщение, Yii отобразит исходное содержимое сообщения.</p>
+    <p>Данное поведение тем оправданнее, чем вы более стремитесь писать в исходном коде понятный текст сообщений.</p>
+    <p>Тем не менее, иногда этого недостаточно, и может потребоваться произвольная обработка возникшей ситуации, когда источник не содержит искомой строки.</p>
+    <p>Для этого следует использовать обработку события [[yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION|missingTranslation]] компонента [[yii\i18n\MessageSource]].</p>
+    <p>Например, чтобы отметить все не переведённые строки, чтобы их было легче находить на странице, необходимо создать обработчик события.</p>
+    <p>Изменим конфигурацию приложения:</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        // ...
+        'i18n' =&gt; [
+            'translations' =&gt; [
+                'app*' =&gt; [
+                    'class' =&gt; 'yii\i18n\PhpMessageSource',
+                    'fileMap' =&gt; [
+                        'app' =&gt; 'app.php',
+                        'app/error' =&gt; 'error.php',
+                    ],
+                    'on missingTranslation' =&gt; ['app\components\TranslationEventHandler', 'handleMissingTranslation']
+                ],
+            ],
+        ],
+    ],
+    </pre>
+
+    <p>Создадим обработчик события:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\components;
+    
+    use yii\i18n\MissingTranslationEvent;
+    
+    class TranslationEventHandler
+    {
+        public static function handleMissingTranslation(MissingTranslationEvent $event) {
+            $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+        }
+    }
+    </pre>
+
+    <p>Если [[yii\i18n\MissingTranslationEvent::translatedMessage]] установлен, как обработчик события, на странице будет выведен соответствующий результат перевода.</p>
+    <p><b>Предупреждение:</b> каждый источник обрабатывает недостающие переводы самостоятельно. Если вы используете несколько разных источников сообщений и хотите обрабатывать недостающие переводы одинаково для всех, назначьте соответствующий обработчик события для каждого источника.</p>
+
+    <h2 id="title">
+        Представления
+    </h2>
+
+    <p>Вместо того, чтобы переводить сообщения так, как указано в предыдущем разделе, вы можете использовать i18n в ваших представлениях, чтобы обеспечить поддержку нескольких языков.</p>
+    <p>Например, если существует представление views/site/index.php и для перевода его на русский язык необходимо отдельное представление, создайте папку ru-RU в папке с представлением текущего контроллера или виджета и создайте файл для русского языка: views/site/ru-RU/index.php.</p>
+    <p>Yii загрузит файл для текущего языка, если он существует, или использует исходный views/site/index.php, если не сможет найти локализацию.</p>
+    <p><b>Примечание:</b> если язык был определён, как en-US и соответствующих представлений не было найдено, Yii попробует найти представления в папке en перед тем, как использовать исходные.</p>
+
+    <h2 id="title">
+        Настройка PHP-окружения
+    </h2>
+
+    <p>Для работы с большей частью функций интернационализации, Yii использует PHP-расширение intl.</p>
+    <p>Например, это расширение используют классы, отвечающие за форматирование чисел и дат [[yii\i18n\Formatter]] и за форматирование строк [[yii\i18n\MessageFormatter]]. Оба класса поддерживают базовый функционал даже в том случае, если расширение intl не установлено.</p>
+    <p>Однако, этот запасной вариант более-менее будет работать только для сайтов на английском языке, хотя, даже для них, большая часть широких возможностей расширения intl не будет доступна, поэтому его установка настоятельно рекомендуется.</p>
+    <p>PHP-расширение intl основано на библиотеке ICU, которая описывает правила форматирования для различных локалей.</p>
+    <p>Поэтому следует помнить, что форматирование чисел и дат вместе с синтаксисом форматирования может отличаться в зависимости от версии библиотеки ICU, которая была скомпилирована в вашем дистрибутиве PHP.</p>
+    <p>Чтобы сайт работал одинаково во всех окружениях, рекомендуется устанавливать одинаковую версию расширения intl, при этом удостоверяясь, что везде используется одинаковая версия библиотеки ICU.</p>
+    <p>Чтобы узнать, какая версия ICU используется текущим PHP интерпретатором, используйте следующий скрипт:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    echo "PHP: " . PHP_VERSION . "\n";
+    echo "ICU: " . INTL_ICU_VERSION . "\n";
+    </pre>
+
+    <p>Чтобы иметь доступ ко всем возможностям, описанным в документации, мы рекомендуем использовать ICU версии 49 или новее.</p>
+    <p>В более ранних версиях отсутствует указатель # в правилах склонений.</p>
+    <p>На сайте http://site.icu-project.org/download вы можете ознакомиться со списком доступных версий ICU.</p>
+    <p>Обратите внимание, что схема нумерации версий изменилась после версии 4.8 и последовательность версий выглядит так: ICU 4.8, ICU 49, ICU 50, ICU 51 и так далее.</p>
+
+    <h2 id="title">
+        Известные проблемы
+    </h2>
+
+    <p>В ICU версии 52.1 было испорчено форматирование множественных чисел (plural) в русском языке.</p>
+    <p>Проблема решается обновлением ICU до версии 53.1 или старше.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="91.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="93.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/92.html", "Yii2: Интернационализация", "bm1298"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1298", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1298") == 1) { document.getElementById("bma1298").style.display = "block"; document.getElementById("bm1298").style.display = "none"; } else { document.getElementById("bma1298").style.display = "none"; document.getElementById("bm1298").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Интернационализация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1298", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

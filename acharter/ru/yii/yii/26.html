@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1177" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1177" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Active Record
+	</h1>
+
+    <p>Хотя DAO Yii справляется практически с любыми задачами, касающимися работы с БД, почти наверняка 90% времени уйдёт на написание SQL-запросов, реализующих общие операции CRUD (создание, чтение, обновление и удаление).</p>
+    <p>Кроме того, код, перемешанный с SQL-выражениями, поддерживать проблематично.</p>
+    <p>Для решения этих проблем мы можем воспользоваться Active Record.</p>
+
+    <p>Active Record реализует популярный подход объектно-реляционного проецирования (ORM).</p>
+    <p>Каждый класс AR отражает таблицу (или представление) базы данных, экземпляр AR — строку в этой таблице, а общие операции CRUD реализованы как методы AR.</p>
+    <p>В результате мы можем использовать более объектно-ориентированный подход доступа к данным. Например, используя следующий код, можно вставить новую строку в таблицу tbl_post:</p>
+
+    <pre class="brush: csharp;">
+    $post=new Post;
+    $post->title='тестовая запись';
+    $post->content='содержимое записи';
+    $post->save();
+    </pre>
+
+    <p>Ниже мы покажем, как настроить и использовать AR для реализации CRUD-операций, а в следующем разделе — как использовать AR для работы со связанными таблицами.</p>
+    <p>Для примеров в этом разделе мы будем использовать следующую таблицу.</p>
+    <p>Обратите внимание, что при использовании БД MySQL в SQL-выражении ниже AUTOINCREMENT следует заменить на AUTO_INCREMENT.</p>
+
+    <pre class="brush: csharp;">
+    CREATE TABLE tbl_post (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        title VARCHAR(128) NOT NULL,
+        content TEXT NOT NULL,
+        create_time INTEGER NOT NULL
+    );
+    </pre>
+
+    <p><b>Примечание:</b> AR не предоставляет решения всех задач, касающихся работы с базами данных. Лучше всего использовать AR для моделирования таблиц в конструкциях PHP и для несложных SQL-запросов. В сложных случаях следует использовать Yii DAO.</p>
+
+    <h2 id="title">
+        Соединение с базой данных
+    </h2>
+
+    <p>Для работы AR требуется подключение к базе данных.</p>
+    <p>По умолчанию предполагается, что компонент приложения db предоставляет необходимый экземпляр класса CDbConnection, который отвечает за подключение к базе.</p>
+    <p>Ниже приведён пример конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'components'=>array(
+            'db'=>array(
+                'class'=>'system.db.CDbConnection',
+                'connectionString'=>'sqlite:path/to/dbfile',
+                // включить кэширование схем для улучшения производительности
+                // 'schemaCachingDuration'=>3600,
+            ),
+        ),
+    );
+    </pre>
+
+    <p><b>Подсказка:</b> Поскольку для получения информации о полях таблицы AR использует метаданные, требуется некоторое время для их чтения и анализа. Если не предполагается, что схема базы данных будет меняться, то следует включить кэширование схемы, установив для атрибута CDbConnection::schemaCachingDuration любое значение больше нуля.</p>
+    <p>В настоящий момент AR поддерживает следующие СУБД:</p>
+
+    <ul>
+        <li>MySQL 4.1 и выше</li>
+        <li>MariaDB</li>
+        <li>PostgreSQL 7.3 и выше</li>
+        <li>SQLite 2 и 3</li>
+        <li>Microsoft SQL Server 2000 и выше</li>
+        <li>Oracle</li>
+    </ul>
+
+    <p>Если вы хотите использовать другой компонент вместо db или предполагаете, используя AR, работать с несколькими БД, то следует переопределить метод CActiveRecord::getDbConnection().</p>
+    <p>Класс CActiveRecord является базовым классом для всех классов AR.</p>
+    <p><b>Подсказка:</b> Есть несколько способов для работы AR с несколькими БД. Если схемы используемых баз различаются, то можно создать разные базовые классы AR с различной реализацией метода getDbConnection(). В противном случае проще будет динамически менять статическую переменную CActiveRecord::db.</p>
+
+    <h2 id="title">
+        Определение AR-класса
+    </h2>
+
+    <p>Для доступа к таблице БД, прежде всего, требуется определить класс AR путём наследования класса CActiveRecord.</p>
+    <p>Каждый класс AR представляет одну таблицу базы данных, а экземпляр класса — строку в этой таблице.</p>
+    <p>Ниже приведён минимальный код, требуемый для определения класса AR, представляющего таблицу tbl_post.</p>
+
+    <pre class="brush: csharp;">
+    class Post extends CActiveRecord
+    {
+        public static function model($className=__CLASS__)
+        {
+            return parent::model($className);
+        }
+     
+        public function tableName()
+        {
+            return 'tbl_post';
+        }
+    }
+    </pre>
+
+    <p><b>Подсказка:</b> Поскольку классы AR часто появляются во многих местах кода, мы можем вместо включения классов по одному, подключить всю директорию с AR-классами. Например, если AR-классы находятся в директории protected/models, мы можем сконфигурировать приложение следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+      'import'=>array(
+          'application.models.*',
+      ),
+    );
+    </pre>
+
+    <p>По умолчанию имя AR-класса совпадает с названием таблицы в базе данных.</p>
+    <p>Если они различаются, потребуется переопределить метод tableName(). Метод model() объявляется для каждого AR-класса.</p>
+    <p><b>Информация:</b> В случае использования префиксов таблиц метод tableName() AR-класса может быть переопределён следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    public function tableName()
+    {
+        return '{{post}}';
+    }
+    </pre>
+
+    <p>Вместо того чтобы возвращать полное имя таблицы, мы возвращаем имя таблицы без префикса и заключаем его в двойные фигурные скобки.</p>
+    <p>Значения полей в строке таблицы доступны как атрибуты соответствующего экземпляра AR-класса.</p>
+    <p>Например, код ниже устанавливает значение для атрибута title:</p>
+
+    <pre class="brush: csharp;">
+    $post=new Post;
+    $post->title='тестовая запись';
+    </pre>
+
+    <p>Хотя мы никогда не объявляем заранее свойство title класса Post, мы, тем не менее, можем обратиться к нему как в коде выше.</p>
+    <p>Это возможно потому, что title является полем таблицы tbl_post, и CActiveRecord делает его доступным в качестве свойства благодаря магическому методу PHP __get().</p>
+    <p>Если аналогичным образом обратиться к несуществующему полю, будет выброшено исключение.</p>
+    <p><b>Информация:</b> В данном руководстве мы именуем столбцы и таблицы в нижнем регистре, так как различные СУБД работают с регистрозависимыми именами по-разному.</p>
+    <p>Например, PostgreSQL считает имена столбцов регистронезависимыми по умолчанию, и мы должны заключать их в кавычки в условиях запроса, если имена содержат заглавные буквы.</p>
+    <p>Использование нижнего регистра помогает избежать подобных проблем.</p>
+    <p>AR опирается на правильно определённые первичные ключи таблиц БД.</p>
+    <p>Если в таблице нет первичного ключа, то требуется указать в соответствующем классе AR столбцы, которые будут использоваться как первичный ключ. Сделать это можно путём перекрытия метода primaryKey():</p>
+
+    <pre class="brush: csharp;">
+    public function primaryKey()
+    {
+        return 'id';
+        // Для составного первичного ключа следует использовать массив:
+        // return array('pk1', 'pk2');
+    }
+    </pre>
+
+    <h2 id="title">
+        Создание записи
+    </h2>
+
+    <p>Для добавления новой строки в таблицу БД нам необходимо создать новый экземпляр соответствующего класса, присвоить значения атрибутам, ассоциированным с полями таблицы, и вызвать метод save() для завершения добавления.</p>
+
+    <pre class="brush: csharp;">
+    $post=new Post;
+    $post->title='тестовая запись';
+    $post->content='содержимое тестовой записи';
+    $post->create_time=time();
+    $post->save();
+    </pre>
+
+    <p>Если первичный ключ таблицы автоинкрементный, то после добавления экземпляр AR будет содержать обновленное значение первичного ключа.</p>
+    <p>В примере выше свойство id всегда будет содержать значение первичного ключа новой записи.</p>
+    <p>Если поле задано в схеме таблицы с некоторым статическим значением по умолчанию (например, строка или число), то после создания экземпляра соответствующее свойство экземпляра AR будет автоматически содержать это значение.</p>
+    <p>Один из способов поменять это значение — прописать его в AR-классе.</p>
+
+    <pre class="brush: csharp;">
+    class Post extends CActiveRecord
+    {
+        public $title='пожалуйста, введите заголовок';
+        …
+    }
+     
+    $post=new Post;
+    echo $post->title;  // отобразится: пожалуйста, введите заголовок
+    </pre>
+
+    <p>До сохранения записи (добавления или обновления) атрибуту может быть присвоено значение типа CDbExpression.</p>
+    <p>Например, для сохранения текущей даты, возвращаемой функцией MySQL NOW(), можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $post=new Post;
+    $post->create_time=new CDbExpression('NOW()');
+    // $post->create_time='NOW()'; этот вариант работать не будет
+    // т.к. значение 'NOW()' будет воспринято как строка
+    $post->save();
+    </pre>
+
+    <p><b>Подсказка:</b> Несмотря на то что AR позволяет производить различные операции без написания громоздкого SQL, часто необходимо знать, какой SQL выполняется на самом деле. Для этого необходимо включить журналирование. Например, чтобы выводить выполненные SQL-запросы в конце каждой страницы, мы можем включить CWebLogRoute в настройках приложения. Можно установить значение параметра CDbConnection::enableParamLogging в true для отображения значений параметров запросов.</p>
+
+    <h2 id="title">
+        Чтение записи
+    </h2>
+
+    <p>Для чтения данных из таблицы базы данных можно использовать методы find:</p>
+
+    <pre class="brush: csharp;">
+    // найти первую строку, удовлетворяющую условию
+    $post=Post::model()->find($condition,$params);
+    
+    // найти строку с указанным значением первичного ключа
+    $post=Post::model()->findByPk($postID,$condition,$params);
+    
+    // найти строку с указанными значениями атрибутов
+    $post=Post::model()->findByAttributes($attributes,$condition,$params);
+    
+    // найти первую строку, используя некоторое выражение SQL
+    $post=Post::model()->findBySql($sql,$params);
+    </pre>
+
+    <p>Выше мы вызываем метод find через Post::model().</p>
+    <p>Запомните, что статический метод model() обязателен для каждого AR-класса.</p>
+    <p>Этот метод возвращает экземпляр AR, используемый для доступа к методам уровня класса (что-то схожее со статическими методами класса) в контексте объекта.</p>
+    <p>Если метод find находит строку, соответствующую условиям запроса, он возвращает экземпляр класса Post, свойства которого содержат значения соответствующих полей строки таблицы.</p>
+    <p>Далее мы можем использовать загруженные значения аналогично обычным свойствам объектов, например, echo $post->title;.</p>
+    <p>В случае если в базе нет данных, соответствующих условиям запроса, метод find вернет значение null.</p>
+    <p>Параметры $condition и $params используются для уточнения запроса.</p>
+    <p>В данном случае $condition может быть строкой, соответствующей оператору WHERE в SQL-выражении, а $params — массивом параметров, значения которых должны быть привязаны к маркерам, указанным в $condition.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // найдём строку, для которой postID равен 10
+    $post=Post::model()->find('postID=:postID', array(':postID'=>10));
+    </pre>
+
+    <p><b>Примечание:</b> В примере выше нам может понадобиться заключить в кавычки обращение к столбцу postID для некоторых СУБД. Например, если мы используем СУБД PostgreSQL, нам следует писать условие как "postID"=:postID, потому что PostgreSQL по умолчанию считает имя столбца регистронезависимым.</p>
+    <p>Кроме того, можно использовать $condition для указания более сложных условий запроса.</p>
+    <p>Вместо строки параметр $condition может быть экземпляром класса CDbCriteria, который позволяет указать иные условия помимо выражения WHERE.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $criteria=new CDbCriteria;
+    $criteria->select='title';  // выбираем только поле 'title'
+    $criteria->condition='postID=:postID';
+    $criteria->params=array(':postID'=>10);
+    $post=Post::model()->find($criteria); // $params не требуется
+    </pre>
+
+    <p>Обратите внимание, если в качестве условия запроса используется CDbCriteria, то параметр $params уже не нужен, поскольку его можно указать непосредственно в CDbCriteria, как показано выше.</p>
+    <p>Помимо использования CDbCriteria, есть другой способ указать условие — передать методу массив ключей и значений, соответствующих именам и значениям свойств критерия.</p>
+    <p>Пример выше можно переписать следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $post=Post::model()->find(array(
+        'select'=>'title',
+        'condition'=>'postID=:postID',
+        'params'=>array(':postID'=>10),
+    ));
+    </pre>
+
+    <p><b>Информация:</b> В случае когда условие заключается в соответствии значениям некоторых полей, можно воспользоваться методом findByAttributes(), где параметр $attributes представляет собой массив значений, проиндексированных по имени поля. В некоторых фреймворках эта задача решается путём использования методов типа findByNameAndTitle. Хотя такой способ и выглядит привлекательно, часто он вызывает путаницу и проблемы, связанные с чувствительностью имён полей к регистру.</p>
+    <p>В случае если условию запроса отвечает множество строк, мы можем получить их все, используя методы findAll, приведённые ниже.</p>
+    <p>Как мы отметили ранее, каждый из этих методов имеет find аналог.</p>
+
+    <pre class="brush: csharp;">
+    // найдём все строки, удовлетворяющие условию
+    $posts=Post::model()->findAll($condition,$params);
+    
+    // найдём все строки с указанными значениями первичного ключа
+    $posts=Post::model()->findAllByPk($postIDs,$condition,$params);
+    
+    // найдём все строки с указанными значениями атрибутов
+    $posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
+    
+    // найдём все строки, используя SQL-выражение
+    $posts=Post::model()->findAllBySql($sql,$params);
+    </pre>
+
+    <p>В отличие от find, методы findAll, в случае если нет ни одной строки, удовлетворяющей запросу, возвращают не null, а пустой массив.</p>
+    <p>Помимо методов find и findAll, описанных выше, для удобства также доступны следующие методы:</p>
+
+    <pre class="brush: csharp;">
+    // определим количество строк, удовлетворяющих условию
+    $n=Post::model()->count($condition,$params);
+    
+    // определим количество строк, используя указанное SQL-выражение
+    $n=Post::model()->countBySql($sql,$params);
+    
+    // определим, есть ли хотя бы одна строка, удовлетворяющая условию
+    $exists=Post::model()->exists($condition,$params);
+    </pre>
+
+    <h2 id="title">
+        Обновление записи
+    </h2>
+
+    <p>Заполнив экземпляр AR значениями полей, мы можем изменить их и сохранить обратно в БД.</p>
+
+    <pre class="brush: csharp;">
+    $post=Post::model()->findByPk(10);
+    $post->title='new post title';
+    $post->save(); // сохраняем изменения
+    </pre>
+
+    <p>Как можно было заметить, мы используем метод save() как для добавления, так и для обновления записей.</p>
+    <p>Если экземпляр AR создан с использованием оператора new, то вызов метода save() приведёт к добавлению новой строки в базу данных.</p>
+    <p>Если же экземпляр AR создан как результат вызова методов find и findAll, вызов метода save() обновит данные существующей строки в таблице.</p>
+    <p>На самом деле, можно использовать свойство CActiveRecord::isNewRecord для указания, является экземпляр AR новым или нет.</p>
+    <p>Кроме того, можно обновить одну или несколько строк в таблице без их предварительной загрузки.</p>
+    <p>Для этого в AR существуют следующие методы уровня класса:</p>
+
+    <pre class="brush: csharp;">
+    // обновим строки, отвечающие заданному условию
+    Post::model()->updateAll($attributes,$condition,$params);
+    
+    // обновим строки, удовлетворяющие заданному условию и значению первичного ключа (или нескольким значениям ключей)
+    Post::model()->updateByPk($pk,$attributes,$condition,$params);
+    
+    // обновим поля-счётчики в строках, удовлетворяющих заданным условиям
+    Post::model()->updateCounters($counters,$condition,$params);
+    </pre>
+
+    <p>Здесь $attributes — это массив значений полей, проиндексированных по имени поля, $counters — массив инкрементных значений, проиндексированных по имени поля, $condition и $params аналогичны описанным выше.</p>
+
+    <h2 id="title">
+        Удаление записи
+    </h2>
+
+    <p>Мы можем удалить строку, если экземпляр AR был заполнен значениями этой строки.</p>
+
+    <pre class="brush: csharp;">
+    $post=Post::model()->findByPk(10); // предполагаем, что запись с ID=10 существует
+    $post->delete(); // удаляем строку из таблицы
+    </pre>
+
+    <p>Обратите внимание, что после удаления экземпляр AR не меняется, но соответствующей записи в таблице уже нет.</p>
+    <p>Следующие методы используются для удаления строк без их предварительной загрузки:</p>
+
+    <pre class="brush: csharp;">
+    // удалим строки, соответствующие указанному условию
+    Post::model()->deleteAll($condition,$params);
+    
+    // удалим строки, соответствующие указанному условию и первичному ключу (или нескольким ключам)
+    Post::model()->deleteByPk($pk,$condition,$params);
+    </pre>
+
+    <h2 id="title">
+        Проверка данных
+    </h2>
+
+    <p>Часто во время добавления или обновления строки нам требуется проверить, соответствуют ли значения полей некоторым правилам. Особенно это важно в случае, если данные поступают со стороны клиента.</p>
+    <p>В подавляющем большинстве случаев таким данным доверять нельзя.</p>
+    <p>AR осуществляет проверку данных автоматически в момент вызова метода save().</p>
+    <p>Проверка основана на правилах, заданных в методе AR-класса rules().</p>
+    <p>Детально ознакомиться с тем, как задаются правила проверки, можно в разделе Определение правил проверки (<a href="18.html">перейти</a>).</p>
+    <p>Ниже приведён типичный порядок обработки в момент сохранения записи:</p>
+
+    <pre class="brush: csharp;">
+    if($post->save())
+    {
+        // данные корректны и успешно добавлены/обновлены
+    }
+    else
+    {
+        // данные некорректны, сообщения об ошибках могут быть получены путём вызова метода getErrors()
+    }
+    </pre>
+
+    <p>В момент, когда данные для добавления или обновления отправляются пользователем через форму ввода, нам требуется присвоить их соответствующим свойствам AR.</p>
+    <p>Это можно проделать следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $post->title=$_POST['title'];
+    $post->content=$_POST['content'];
+    $post->save();
+    </pre>
+
+    <p>Если полей будет много, мы получим простыню из подобных присваиваний.</p>
+    <p>Этого можно избежать, если использовать свойство attributes, как показано ниже.</p>
+    <p>Подробности можно найти в разделах Безопасное присваивание значений атрибутам (<a href="18.html">перейти</a>) и Создание действия (<a href="19.html">перейти</a>).</p>
+
+    <pre class="brush: csharp;">
+    // предполагаем, что $_POST['Post'] является массивом значений полей, проиндексированных по имени поля
+    $post->attributes=$_POST['Post'];
+    $post->save();
+    </pre>
+
+    <h2 id="title">
+        Сравнение записей
+    </h2>
+
+    <p>Экземпляры AR идентифицируются уникальным образом по значениям первичного ключа, аналогично строкам таблицы, поэтому для сравнения двух экземпляров нам нужно просто сравнить значения их первичных ключей, предполагая, что оба экземпляра одного AR-класса.</p>
+    <p>Однако можно проделать это ещё проще, вызвав метод CActiveRecord::equals().</p>
+    <p><b>Информация:</b> В отличие от реализации AR в других фреймворках, Yii поддерживает в AR составные первичные ключи. Составной первичный ключ состоит из двух и более полей таблицы. Соответственно, первичный ключ в Yii представлен как массив, а свойство primaryKey содержит значение первичного ключа для экземпляра AR.</p>
+
+    <h2 id="title">
+        Тонкая настройка
+    </h2>
+
+    <p>Класс CActiveRecord предоставляет несколько методов, которые могут быть переопределены в дочерних классах для тонкой настройки работы AR.</p>
+
+    <ul>
+        <li>beforeValidate и afterValidate: методы вызываются до и после осуществления проверки;</li>
+        <li>beforeSave и afterSave: методы вызываются до и после сохранения экземпляра AR;</li>
+        <li>beforeDelete и afterDelete: методы вызываются до и после удаления экземпляра AR;</li>
+        <li>afterConstruct: метод вызывается для каждого экземпляра AR, созданного с использованием оператора new;</li>
+        <li>beforeFind: метод вызывается перед тем, как будет выполнен поисковый запрос (например, find(), findAll()).</li>
+        <li>afterFind: метод вызывается для каждого экземпляра AR, созданного в результате выполнения запроса.</li>
+    </ul>
+
+    <h2 id="title">
+        Использование транзакций с AR
+    </h2>
+
+    <p>Каждый экземпляр AR содержит свойство dbConnection, которое является экземпляром класса CDbConnection.</p>
+    <p>Поэтому при необходимости можно использовать транзакции, предоставляемые Yii DAO:</p>
+
+    <pre class="brush: csharp;">
+    $model=Post::model();
+    $transaction=$model->dbConnection->beginTransaction();
+    try
+    {
+        // поиск и сохранение — шаги, между которыми могут быть выполнены другие запросы,
+        // поэтому мы используем транзакцию, чтобы удостовериться в целостности данных
+        $post=$model->findByPk(10);
+        $post->title='new post title';
+        if($post->save())
+            $transaction->commit();
+        else
+            $transaction->rollback();
+    }
+    catch(Exception $e)
+    {
+        $transaction->rollback();
+        throw $e;
+    }
+    </pre>
+
+    <h2 id="title">
+        Именованные группы условий
+    </h2>
+
+    <p><b>Информация:</b> Идея групп условий позаимствована у Ruby on Rails.</p>
+    <p>Именованная группа условий представляет собой именованный критерий запроса, который можно использовать с другими группами и применять к запросам AR.</p>
+    <p>Именованные группы чаще всего описываются в методе CActiveRecord::scopes() в виде пар имя-условие.</p>
+    <p>Приведённый ниже код описывает две именованные группы условий для модели Post: published и recently:</p>
+
+    <pre class="brush: csharp;">
+    class Post extends CActiveRecord
+    {
+        …
+        public function scopes()
+        {
+            return array(
+                'published'=>array(
+                    'condition'=>'status=1',
+                ),
+                'recently'=>array(
+                    'order'=>'create_time DESC',
+                    'limit'=>5,
+                ),
+            );
+        }
+    }
+    </pre>
+
+    <p>Каждая группа описывается массивом, который используется для инициализации экземпляра CDbCriteria.</p>
+    <p>К примеру, recently устанавливает значение order равным create_time DESC, а limit равным 5.</p>
+    <p>Вместе эти условия означают, что будут выбраны пять последних публикаций.</p>
+    <p>Именованные группы условий обычно используются в качестве модификаторов для метода find.</p>
+    <p>Можно использовать несколько групп одновременно для получения более точного результата.</p>
+    <p>Например, чтобы найти последние опубликованные записи, можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $posts=Post::model()->published()->recently()->findAll();
+    </pre>
+
+    <p>Именованные группы условий следует располагать в цепочке левее метода find.</p>
+    <p>Каждая группа определяет критерий запроса, который объединяется с остальными критериями, включая переданные непосредственно методу find.</p>
+    <p>Конечный результат можно рассматривать как применение к запросу нескольких фильтров.</p>
+    <p><b>Примечание:</b> Именованные группы могут быть использованы только совместно с методами уровня класса. Таким образом, метод должен вызываться при помощи ClassName::model().</p>
+
+    <h3 id="title">
+        Именованные группы условий с параметрами
+    </h3>
+
+    <p>Именованные группы условий могут быть параметризованы.</p>
+    <p>Например, если нам необходимо изменять число выбираемых публикаций для группы recently, то вместо описания группы в методе CActiveRecord::scopes, мы должны создать новый метод с именем, совпадающим с названием группы условий:</p>
+
+    <pre class="brush: csharp;">
+    public function recently($limit=5)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order'=>'create_time DESC',
+            'limit'=>$limit,
+        ));
+        return $this;
+    }
+    </pre>
+
+    <p>Теперь, чтобы получить 3 последних опубликованных записи, можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $posts=Post::model()->published()->recently(3)->findAll();
+    </pre>
+
+    <p>Если явно не указать значение аргумента, то по умолчанию будут выбраны 5 последних опубликованных записей.</p>
+
+    <h3 id="title">
+        Группа условий по умолчанию
+    </h3>
+
+    <p>Класс модели может содержать группу условий по умолчанию, которая будет применяться ко всем запросам (включая реляционные).</p>
+    <p>К примеру, на сайте реализована поддержка нескольких языков, и содержимое отображается на языке, выбранном пользователем.</p>
+    <p>Так как запросов, связанных с получением данных, скорее всего, будет достаточно много, для решения этой задачи мы можем определить группу условий по умолчанию.</p>
+    <p>Для этого необходимо переопределить метод CActiveRecord::defaultScope следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    class Content extends CActiveRecord
+    {
+        public function defaultScope()
+        {
+            return array(
+                'condition'=>"language='".Yii::app()->language."'",
+            );
+        }
+    }
+    </pre>
+
+    <p>Теперь к приведённому ниже вызову метода findAll будут автоматически применены наши условия:</p>
+
+    <pre class="brush: csharp;">
+    $contents=Content::model()->findAll();
+    </pre>
+
+    <p><b>Примечание:</b> Как группа условий по умолчанию, так и именованная группа условий применяются только к запросам типа SELECT и игнорируются при запросах вида INSERT, UPDATE или DELETE. Кроме того, нельзя использовать AR-модель для выполнения запросов внутри методов, объявляющих группы условий (как именованные, так и группы условий по умолчанию).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="25.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="27.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/26.html", "Active Record", "bm1177"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1177", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1177") == 1) { document.getElementById("bma1177").style.display = "block"; document.getElementById("bm1177").style.display = "none"; } else { document.getElementById("bma1177").style.display = "none"; document.getElementById("bm1177").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Active Record") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1177", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

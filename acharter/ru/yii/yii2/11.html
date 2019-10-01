@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1217" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1217" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Входные скрипты
+	</h1>
+
+    <p>Входные скрипты это первое звено в процессе начальной загрузки приложения.</p>
+    <p>Приложение (веб приложение или консольное приложение) включает единый входной скрипт.</p>
+    <p>Конечные пользователи делают запросы к входному скрипту, который создает объекты приложения и перенаправляет запрос к ним.</p>
+    <p>Входные скрипты для веб приложений должны быть сохранены в папках, доступных из веб, таким образом они могут быть доступны конечным пользователям.</p>
+    <p>Такие скрипты обычно именуются index.php, но так же могут использовать другие имена, которые могут быть распознаны используемыми веб-серверами.</p>
+    <p>Входные скрипты для консольных приложений обычно расположены в базовой папке приложений и имеют название yii (с суффиксом .php).</p>
+    <p>Они должны иметь права на выполнение, таким образом пользователи смогут запускать консольные приложения через команду ./yii <маршрут> [аргументы] [опции].</p>
+    <p>Входные скрипты в основном делают следующую работу:</p>
+
+    <ul>
+        <li>Объявляют глобальные константы;</li>
+        <li>Регистрируют загрузчик классов Composer;</li>
+        <li>Подключают файл класса [[Yii]];</li>
+        <li>Загружают конфигурацию приложения;</li>
+        <li>Создают и конфигурируют объект приложения;</li>
+        <li>Вызывают метод [[yii\base\Application::run()]] приложения для обработки входящего запроса.</li>
+    </ul>
+
+    <h2 id="title">
+        Веб приложения
+    </h2>
+
+    <p>Ниже представлен код входного скрипта для базового шаблона приложения.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    defined('YII_DEBUG') or define('YII_DEBUG', true);
+    defined('YII_ENV') or define('YII_ENV', 'dev');
+    
+    // регистрация загрузчика классов Composer
+    require __DIR__ . '/../vendor/autoload.php';
+    
+    // подключение файла класса Yii
+    require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
+    
+    // загрузка конфигурации приложения
+    $config = require __DIR__ . '/../config/web.php';
+    
+    // создание и конфигурация приложения, а также вызов метода для обработки входящего запроса
+    (new yii\web\Application($config))->run();
+    </pre>
+
+
+    <h2 id="title">
+        Консольные приложения
+    </h2>
+
+    <p>Ниже представлен аналогичный код входного скрипта консольного приложения:</p>
+
+    <pre class="brush: csharp;">
+    #!/usr/bin/env php
+    &lt;?php
+    /**
+     * Yii console bootstrap file.
+     *
+     * @link http://www.yiiframework.com/
+     * @copyright Copyright (c) 2008 Yii Software LLC
+     * @license http://www.yiiframework.com/license/
+     */
+    
+    defined('YII_DEBUG') or define('YII_DEBUG', true);
+    
+    // регистрация загрузчика классов Composer
+    require __DIR__ . '/vendor/autoload.php';
+    
+    // подключение файла класса Yii
+    require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
+    
+    // загрузка конфигурации приложения
+    $config = require __DIR__ . '/config/console.php';
+    
+    $application = new yii\console\Application($config);
+    $exitCode = $application->run();
+    exit($exitCode);
+    </pre>
+
+    <h2 id="title">
+        Объявление констант
+    </h2>
+
+    <p>Входные скрипты являются наилучшим местом для объявления глобальных констант.</p>
+    <p>Yii поддерживают следующие три константы:</p>
+
+    <ul>
+        <li><b>YII_DEBUG:</b> указывает работает ли приложение в отладочном режиме. Находясь в отладочном режиме, приложение будет собирать больше информации в логи и покажет детальный стек вызовов если возникнет исключение. По этой причине, отладочный режим должен быть использован только в процессе разработки. По-умолчанию значение YII_DEBUG равно false;</li>
+        <li><b>YII_ENV:</b> указывает в каком окружении запущено приложение. Данная тема подробно описана в разделе Конфигурации. По-умолчанию значение YII_ENV равно 'prod', означающие, что приложение запущено в производственном режиме;</li>
+        <li><b>YII_ENABLE_ERROR_HANDLER:</b> указывает нужно ли включать имеющийся в Yii обработчик ошибок. По-умолчанию значение данной константы равно true.</li>
+    </ul>
+
+    <p>При определении константы, мы обычно используем следующий код:</p>
+
+    <pre class="brush: csharp;">
+    defined('YII_DEBUG') or define('YII_DEBUG', true);
+    </pre>
+
+    <p>который равнозначен коду, приведенному ниже:</p>
+
+    <pre class="brush: csharp;">
+    if (!defined('YII_DEBUG')) {
+        define('YII_DEBUG', true);
+    }
+    </pre>
+
+    <p>Первый способ является более кратким и понятным.</p>
+    <p>Константы должны быть определены как можно раньше, в самом начале входного скрипта, таким образом они могут оказать влияние, когда остальные PHP файлы будут подключены.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="12.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/11.html", "Yii2: Входные скрипты", "bm1217"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1217", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1217") == 1) { document.getElementById("bma1217").style.display = "block"; document.getElementById("bm1217").style.display = "none"; } else { document.getElementById("bma1217").style.display = "none"; document.getElementById("bm1217").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Входные скрипты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1217", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

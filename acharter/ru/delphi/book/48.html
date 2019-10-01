@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma434" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm434" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		ListBox – список выбора
+	</h1>
+
+	<p>Списки выбора хранят в себе какие-то списки, и дают пользователю возможность выбирать одну из указанных строк.</p>
+	<p>Часто их применяют в окнах с заданными параметрами, чтобы пользователь мог выбрать один из параметров.</p>
+	<p>Чтобы получить доступ к строкам списка, нужно воспользоваться свойством Items компонента ListBox.</p>
+	<p>Это свойство имеет тип TStrings (строки), с таким типом мы сталкивались, когда обрабатывали компонент Memo.</p>
+	<p>Посмотрим на практике, как работать с данным компонентом.</p>
+	<p>Создайте новое приложение, установите на него один компонент ListBox, и под ним – один Edit для вывода той строки, которую выбрал пользователь:</p>
+
+	<img src="delphi16.png" id="image" />
+
+	<p>Затем дважды щелкните по свойству Items компонента ListBox.</p>
+	<p>Перед вами откроется уже знакомый редактор строк.</p>
+	<p>Наберите названия операционных систем:</p>
+
+	<pre class="brush: csharp;">
+	MS-DOS
+	Windows 3.10
+	Windows 95
+	Windows 98
+	Windows ME
+	Windows 2000
+	Windows XP
+	Windows Vista
+	Unix
+	Linux
+	OS/2
+	</pre>
+
+	<p>Каждое название операционной системы должно быть на отдельной строке.</p>
+	<p>Нажмите "ОК", чтобы сохранить результат.</p>
+	<p>Теперь создайте для компонента ListBox обработчик события onClick.</p>
+	<p>Мы уже знаем, что это событие срабатывает всякий раз, когда пользователь выберет одну из строк в указанном списке.</p>
+	<p>В обработчике событий напишите только одну строку:</p>
+
+	<pre class="brush: csharp;">
+	Edit1.Text := ListBox1.Items.Strings[ListBox1.ItemIndex];
+	</pre>
+
+	<p>Эта строка присваивает свойству Text компонента Edit тот текст, который хранится в выбранной строке списка ListBox.</p>
+	<p>Свойство Items имеет свое свойство Strings, которое представляет собой массив из строк списка.</p>
+	<p>Указав индекс массива, мы можем получить доступ к нужной строке.</p>
+	<p>В примере в качестве индекса указано свойство ListBox1.ItemIndex, которое имеет тип Integer и возвращает индекс выбранной строки в массиве строк.</p>
+	<p>Кстати, когда вы поставите точку и откроется список, там вы этого свойства не обнаружите, так что придется писать его вручную.</p>
+
+	<p>Сохраните пример в новую папку, откомпилируйте и посмотрите, как он работает.</p>
+	<p>Кроме того, мы имеем возможность программно добавлять в ListBox новую строку или удалять выбранную.</p>
+	<p>Киньте на форму еще две кнопки и напишите на них – "Добавить строку", "Удалить строку".</p>
+	<p>Добавлять будем строку, написанную в компоненте Edit, а удалять – выделенную.</p>
+	<p>Для кнопки "Добавить" впишите:</p>
+
+	<pre class="brush: csharp;">
+	ListBox1.Items.Add(Edit1.Text);
+	</pre>
+
+	<p>а для кнопки "Удалить":</p>
+
+	<pre class="brush: csharp;">
+	ListBox1.Items.Delete(ListBox1.ItemIndex);
+	</pre>
+
+	<p>Сохраните проект, откомпилируйте и посмотрите, как он работает.</p>
+	<p>Часто бывает необходимым предоставить пользователю возможность множественного выбора.</p>
+	<p>Пользователь, удерживая клавишу &lt;Ctrl&gt;, щелкает по строкам и выбирает нужные.</p>
+	<p>Для этого у ListBox имеется свойство MultiSelect (множественный выбор).</p>
+	<p>По умолчанию оно равно False, то есть запрещает пользователю выбрать несколько строк.</p>
+	<p>Создадим еще одно приложение, в котором продемонстрируем возможность множественного выбора.</p>
+	<p>Установите на форму один ListBox и один Memo, ниже – кнопку с надписью "Копировать".</p>
+	<p>При нажатии на кнопку будем искать у ListBox выделенные строки и копировать их в Memo.</p>
+	<p>На рисунке в левой части установлен компонент ListBox, а в правой – Memo.</p>
+
+	<img src="delphi17.png" id="image" />
+
+	<p>Войдите в редактор строк ListBox и напишите там</p>
+
+	<pre class="brush: csharp;">
+	Строка № 1
+	Строка № 2
+	</pre>
+
+	<p>и так далее, пока не заполните ListBox так, чтобы его не нужно было прокручивать.</p>
+	<p>Установите свойство MultiSelect у ListBox в True.</p>
+	<p>Не забудьте очистить Memo.</p>
+	<p>Теперь для кнопки напишем следующий код:</p>
+
+	<pre class="brush: csharp;">
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  i : Integer;
+begin
+  Memo1.Clear;
+  for i := 0 to ListBox1.Items.Count - 1 do
+     if ListBox1.Selected[i] then
+        Memo1.Lines.Add(ListBox1.Items.Strings[i]);
+end;
+	</pre>
+
+	<p>Вначале мы очистили Memo, чтобы пользователь мог несколько раз опробовать выбор и копирование строк, и строки в Memo не скапливались.</p>
+	<p>Затем мы создаем цикл, чтобы обрабатывать ListBox построчно.</p>
+	<p>Первая строка всегда имеет нулевой индекс, а свойство Count во всех объектах TStrings возвращает количество строк в объекте.</p>
+	<p>Нам приходится вычесть единицу, так как индексы начинаются не с 1, а с 0.</p>
+	<p>Далее в цикл мы поместили условный оператор if – если условие верно (то есть строка выделена), то производим добавление строки в Memo.</p>
+	<p>За это отвечает свойство Selected (Выделено) с указанием индекса строки.</p>
+	<p>Если оно равно True, то строка выделена.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="47.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="49.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/48.html", "ListBox", "bm434"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm434", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm434") == 1) { document.getElementById("bma434").style.display = "block"; document.getElementById("bm434").style.display = "none"; } else { document.getElementById("bma434").style.display = "none"; document.getElementById("bm434").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("ListBox") == 1) { arrs.splice(i, 1); localStorage.setItem("bm434", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma189" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm189" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Обобщения как средство абстракции
+	</h1>
+
+	<p>Код, записанный на каком-либо языке программирования, представляет собой наиболее детализированное и поэтому в общем случае сложное представление алгоритма, выбранного для решения конкретной задачи.</p>
+	<p>Сложность кода объясняется тем обстоятельством, что в нём должны быть учтены все детали реализации алгоритма с помощью применяемого языка и ограничения той операционной среды, в которой должна выполняться программа.</p>
+	<p>Сложность кода и трудоёмкость его разработки делают задачи его повторного использования и автоматизации его генерации весьма важными и актуальными.</p>
+	<p>В предыдущих главах рассмотрены средства, позволяющие программировать на основе объектно- ориентированного подхода.</p>
+	<p>Этот подход позволяет создавать отдельные классы и библиотеки классов, пригодные для повторных использований.</p>
+	<p>Применяя библиотеку классов, можно существенно снизить трудоёмкость разработки программ, абстрагируясь от деталей кода, скрытых (инкапсулируемых) в используемых объектах библиотечных классов.</p>
+	<p>Следующий уровень абстракции – параметризация объявлений типов (например, классов) и методов.</p>
+	<p>Прежде чем переходить к описанию этого механизма (реализованного в языке C# с помощью обобщений) поясним на примере его основные принципы.</p>
+	<p>Предположим, что для дальнейшего применения необходимо иметь класс, объект которого представляет собой отдельный элемент связного списка, каждый из которых хранит значения типа int.</p>
+
+	<pre class="brush: csharp;">
+	class ListInt
+	{
+    	public int data;
+    	public ListInt (int d)
+    	{
+    	   data = d;
+    	}
+    	...
+	}
+	</pre>
+
+	<p>Если в дальнейшем потребуется класс элементов связного списка, объекты которого хранят значения типа char, то придётся объявлять его, например, так:</p>
+
+	<pre class="brush: csharp;">
+	class ListChar
+	{
+	   public char data;
+	   public ListInt (char d)
+	   {
+	       data = d;
+	   }
+	   ...
+	}
+	</pre>
+
+	<p>По структуре класс ListInt и ListChar подобны, единственное отличие – типы полей data и типы параметров конструкторов в одном случае int, а во втором char.</p>
+	<p>Этот факт, а именно различие классов только в обозначениях типов, делает возможным создание обобщённого (параметризованного) класса, который будет служить шаблоном для автоматической генерации его частных случаев – классов с полями типов int, char, а при необходимости long, double и т.д.</p>
+	<p>В языке C# такой механизм автоматизированной генерации кодов конкретных объявлений существует.</p>
+	<p>Определения (объявления) классов , структур , интерфейсов, делегатов и методов могут быть параметризованы типами тех данных, которые представлены этими конструкциями или обрабатываются с их помощью.</p>
+	<p>О такой возможности параметризации объявлений говорят, используя термин "обобщения".</p>
+	<p>Механизм обобщений языка C# схож с механизмом шаблонов (templates) классов и функций языка С++.</p>
+	<p>Кроме того, как указывает стандарт C#, обобщения хорошо знакомы программистам, владеющим языками Эффель или Ада.</p>
+	<p>Отметим, что в русскоязычной литературе, посвящённой языкам Эффель и Ада обобщённые (generic) методы называют родовыми подпрограммами, а об обобщённом программировании говорят как о родовом программировании.</p>
+	<p>Параметризованные объявления классов и структур называют , соответственно, объявлениями обобщённых классов (generic class declaration) и объявлениями обобщённых структур (generic struct declaration).</p>
+	<p>И классы и структуры в этих случаях параметризованы типами своих данных и типами тех данных, которые должны обрабатываться методами этих классов и структур.</p>
+	<p>Интерфейсы могут быть параметризованы типами тех данных, которые обрабатываются методами интерфейсов после их реализации.</p>
+	<p>Объявления таких параметризованных интерфейсов называют объявлениями обобщённых интерфейсов (generic interface declaration).</p>
+	<p>Для того, чтобы создавать "обобщённые алгоритмы" выполняют параметризацию методов типами применяемых в них данных.</p>
+	<p>Такие параметризованные методы называют обобщёнными методами (genericmethods).</p>
+	<p>В объявлении обобщённого делегата типизирующие параметры определяют типы параметров и тип возвращаемого значения тех методов, которые должны представлять экземпляры делегата.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="101.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="103.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/102.html", "Обобщения и абстракции", "bm189"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm189", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm189") == 1) { document.getElementById("bma189").style.display = "block"; document.getElementById("bm189").style.display = "none"; } else { document.getElementById("bma189").style.display = "none"; document.getElementById("bm189").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обобщения и абстракции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm189", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

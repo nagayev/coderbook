@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1114" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1114" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		XML и XPath
+	</h1>
+
+	<p>XPath – это язык для поиска информации внутри XML документа.</p>
+	
+	<h1 id="title">
+		Что такое XPath?
+	</h1>
+	
+	<p>- <b>XPath</b> - специальный язык для определения частей XML документа</p>
+	<p>- <b>XPath</b> использует маршрутные выражения для навигации по XML документам</p>
+	<p>- <b>XPath</b> содержит библиотеку стандартных функций</p>
+	<p>- <b>XPath</b> - главный элемент в XSLT</p>
+	<p>- <b>XPath</b> также используется в XQuery, XPointer и XLink</p>
+
+	<h1 id="title">
+		Маршрутные выражения XPath
+	</h1>
+	
+	<p>XPath использует маршрутные выражения для выбора узлов или узловых наборов в XML документе.</p>
+	<p>Эти маршрутные выражения похожи на те выражения, которые можно увидеть при работе с традиционными файловыми системами.</p>
+	<p>В настоящее время выражения XPath можно использовать в JavaScript, Java, XML схемах, PHP, Python, C и C++, а также во множестве других языках программирования.</p>
+
+	<h1 id="title">
+		XPath используется в XSLT
+	</h1>
+
+	<p>XPath является главным составляющим элементом стандарта XSLT.</p>
+	<p>Без знания XPath невозможно создавать документы XSLT.</p>
+	
+	<h1 id="title">
+		Пример XPath
+	</h1>
+	
+	<p>Для демонстрации XPath будем использовать следующий XML документ:</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+		&lt;bookstore&gt;
+		&#x9;&lt;book category=&quot;COOKING&quot;&gt;
+		&#x9;&#x9;&lt;title lang=&quot;en&quot;&gt;Everyday Italian&lt;/title&gt;
+		&#x9;&#x9;&lt;author&gt;Giada De Laurentiis&lt;/author&gt;
+		&#x9;&#x9;&lt;year&gt;2005&lt;/year&gt;
+		&#x9;&#x9;&lt;price&gt;30.00&lt;/price&gt;
+		&#x9;&lt;/book&gt;
+
+		&#x9;&lt;book category=&quot;CHILDREN&quot;&gt;
+		&#x9;&#x9;&lt;title lang=&quot;en&quot;&gt;Harry Potter&lt;/title&gt;
+		&#x9;&#x9;&lt;author&gt;J K. Rowling&lt;/author&gt;
+		&#x9;&#x9;&lt;year&gt;2005&lt;/year&gt;
+		&#x9;&#x9;&lt;price&gt;29.99&lt;/price&gt;
+		&#x9;&lt;/book&gt;
+
+		&#x9;&lt;book category=&quot;WEB&quot;&gt;
+		&#x9;&#x9;&lt;title lang=&quot;en&quot;&gt;XQuery Kick Start&lt;/title&gt;
+		&#x9;&#x9;&lt;author&gt;James McGovern&lt;/author&gt;
+		&#x9;&#x9;&lt;author&gt;Per Bothner&lt;/author&gt;
+		&#x9;&#x9;&lt;author&gt;Kurt Cagle&lt;/author&gt;
+		&#x9;&#x9;&lt;author&gt;James Linn&lt;/author&gt;
+		&#x9;&#x9;&lt;author&gt;Vaidyanathan Nagarajan&lt;/author&gt;
+		&#x9;&#x9;&lt;year&gt;2003&lt;/year&gt;
+		&#x9;&#x9;&lt;price&gt;49.99&lt;/price&gt;
+		&#x9;&lt;/book&gt;
+
+		&#x9;&lt;book category=&quot;WEB&quot;&gt;
+		&#x9;&#x9;&lt;title lang=&quot;en&quot;&gt;Learning XML&lt;/title&gt;
+		&#x9;&#x9;&lt;author&gt;Erik T. Ray&lt;/author&gt;
+		&#x9;&#x9;&lt;year&gt;2003&lt;/year&gt;
+		&#x9;&#x9;&lt;price&gt;39.95&lt;/price&gt;
+		&#x9;&lt;/book&gt;
+		&lt;/bookstore&gt;
+	</pre>
+
+	<p>В приведенной ниже таблице представлены некоторые выражения XPath и результат их работы:</p>
+
+	<table>
+		<tr>
+			<th>XPath</th>
+			<th>Результат</th>
+		</tr>
+		<tr>
+			<td>/bookstore/book[1]</td>
+			<td>Выбирает первый элемент book, который является потомком элемента bookstore</td>
+		</tr>
+		<tr>
+			<td>/bookstore/book[last()]</td>
+			<td>Выбирает последний элемент book, который является потомком элемента bookstore</td>
+		</tr>
+		<tr>
+			<td>/bookstore/book[last()-1]</td>
+			<td>Выбирает предпоследний элемент book, который является потомком элемента bookstore</td>
+		</tr>
+		<tr>
+			<td>/bookstore/book[position()&lt;3]</td>
+			<td>Выбирает первые два элемента book, которые являются потомками элемента bookstore</td>
+		</tr>
+		<tr>
+			<td>//title[@lang]</td>
+			<td>Выбирает все элементы title с атрибутом lang</td>
+		</tr>
+		<tr>
+			<td>//title[@lang=&apos;eng&apos;]</td>
+			<td>Выбирает все элементы title с атрибутом lang, который имеет значение 'eng'</td>
+		</tr>
+		<tr>
+			<td>/bookstore/book[price&gt;35.00]</td>
+			<td>Выбирает все элементы book, которые являются потомками элемента bookstore и которые содержать элемент price со значением больше 35.00</td>
+		</tr>
+		<tr>
+			<td>/bookstore/book[price&gt;35.00]/title</td>
+			<td>Выбирает все элементы title элементов book элементов bookstore, которые содержать элемент price со значением больше 35.00</td>
+		</tr>
+	</table>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/book/17.html", "XML и XPath", "bm1114"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1114", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1114") == 1) { document.getElementById("bma1114").style.display = "block"; document.getElementById("bm1114").style.display = "none"; } else { document.getElementById("bma1114").style.display = "none"; document.getElementById("bm1114").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("XML и XPath") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1114", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

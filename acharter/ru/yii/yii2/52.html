@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1258" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1258" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Форматирование данных
+	</h1>
+
+    <p>Для форматирования вывода Yii предоставляет класс, преобразующий данные в человеко понятный формат.</p>
+    <p>[[yii\i18n\Formatter]] это класс-помощник, который зарегистрирован как компонент приложения, по умолчанию под именем formatter.</p>
+    <p>Он предоставляет набор методов для форматирования таких данных как дата/время, числа и другие часто используемые в целях локализации форматы.</p>
+    <p>Formatter может быть использован двумя различными способами.</p>
+    <p>Напрямую используя методы форматирования (все методы форматирования имеют префикс as):</p>
+
+    <pre class="brush: csharp;">
+    echo Yii::$app->formatter->asDate('2014-01-01', 'long'); // выведет: January 1, 2014
+    echo Yii::$app->formatter->asPercent(0.125, 2); // выведет: 12.50%
+    echo Yii::$app->formatter->asEmail('cebe@example.com'); // выведет: &lt;a href=&quot;mailto:cebe@example.com&quot;&gt;cebe@example.com&lt;/a&gt;
+    echo Yii::$app->formatter->asBoolean(true); // выведет: Yes
+    // он также умеет отображать null значения:
+    echo Yii::$app->formatter->asDate(null); // выведет: (not set)
+    </pre>
+
+    <p>Используя метод [[yii\i18n\Formatter::format()|format()]] и имя формата.</p>
+    <p>Этот метод также используется в виджетах на подобии [[yii\grid\GridView]] и [[yii\widgets\DetailView]], в которых вы можете задать формат отображения данных в колонке через конфигурацию виджета.</p>
+
+    <pre class="brush: csharp;">
+    echo Yii::$app->formatter->format('2014-01-01', 'date'); // выведет: January 1, 2014
+    // вы также можете использовать массивы для настроек метода форматирования:
+    // `2` это значение для $decimals параметра метода asPercent().
+    echo Yii::$app->formatter->format(0.125, ['percent', 2]); // выведет: 12.50%
+    </pre>
+
+    <p>Все данные, отображаемые через компонент formatter, будут локализованы, если расширение PHP intl было установлено.</p>
+    <p>Для этого вы можете настроить свойство [[yii\i18n\Formatter::locale|locale]].</p>
+    <p>Если оно не было настроено, то в качестве локали будет использован [[yii\base\Application::language|язык приложения]].</p>
+    <p>Подробнее смотрите в разделе «интернационализация». Компонент форматирования будет выбирать корректный формат для даты и чисел в соответствии с локалью, включая имена месяцев и дней недели, переведённые на текущий язык.</p>
+    <p>Форматирование дат также зависит от [[yii\i18n\Formatter::timeZone|часового пояса]], которая также будет из свойства [[yii\base\Application::timeZone|timeZone]] приложения, если она не была задана явно.</p>
+    <p>Например, форматирование даты, вызванное с разной локалью, отобразит разные результаты::</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->formatter->locale = 'en-US';
+    echo Yii::$app->formatter->asDate('2014-01-01'); // выведет: January 1, 2014
+    Yii::$app->formatter->locale = 'de-DE';
+    echo Yii::$app->formatter->asDate('2014-01-01'); // выведет: 1. January 2014
+    Yii::$app->formatter->locale = 'ru-RU';
+    echo Yii::$app->formatter->asDate('2014-01-01'); // выведет: 1 января 2014 г.
+    </pre>
+
+    <p>Обратите внимание, что форматирование может различаться между различными версиями библиотеки ICU, собранных с PHP, а также на основе того установлено ли [расширение PHP intl] (http://php.net/manual/ru/book.intl.php) или нет.</p>
+    <p>Таким образом, чтобы гарантировать, что ваш сайт будет одинаково отображать данные во всех окружениях рекомендуется установить расширение PHP intl во всех окружениях и проверить, что версия библиотеки ICU совпадает.</p>
+    <p>См. также: Настройка PHP окружения для интернационализации.</p>
+    <p>Отметим также, что даже если установлено расширение PHP intl, форматирование даты и времени для значений года &gt;=2038 или &lt;=1901 на 32-ух разрядных системах будет обращаться к реализации PHP, которая не обеспечивает локализованные имена месяца и дня, потому что в этом случае intl будет использовать 32-ух битный UNIX timestamp.</p>
+    <p>На 64-битной системе intl formatter будет работать во всех случаях, если, конечно, intl был установлен.</p>
+
+    <h2 id="title">
+        Настройка форматирования
+    </h2>
+
+    <p>Форматы по умолчанию, используемые в методах форматирования, можно настраивать через свойства [[yii\i18n\Formatter|класса форматирования]].</p>
+    <p>Вы можете задать форматирование по умолчанию для всего приложения, настроив компонент formatter в вашей конфигурации приложения.</p>
+    <p>Ниже приведён пример конфигурации.</p>
+    <p>Чтобы узнать больше о доступных свойствах см. [[yii\i18n\Formatter|API документацию к классу Formatter]] и следующие подсекции.</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        'formatter' =&gt; [
+            'dateFormat' =&gt; 'dd.MM.yyyy',
+            'decimalSeparator' =&gt; ',',
+            'thousandSeparator' =&gt; ' ',
+            'currencyCode' =&gt; 'EUR',
+       ],
+    ],
+    </pre>
+
+    <h2 id="title">
+        Форматирование значений даты и времени
+    </h2>
+
+    <p>Класс форматирования предоставляет различные методы для форматирования значений даты и времени. Например:</p>
+
+    <ul>
+        <li>[[yii\i18n\Formatter::asDate()|date]] - значение будет отформатировано как дата, например January 01, 2014.</li>
+        <li>[[yii\i18n\Formatter::asTime()|time]] - значение будет отформатировано как время, например 14:23.</li>
+        <li>[[yii\i18n\Formatter::asDatetime()|datetime]] - значение будет отформатировано как дата и время, например January 01, 2014 14:23.</li>
+        <li>[[yii\i18n\Formatter::asTimestamp()|timestamp]] - значение будет отформатировано как unix timestamp, например, 1412609982.</li>
+        <li>[[yii\i18n\Formatter::asRelativeTime()|relativeTime]] - значение будет отформатировано как временной промежуток между заданной датой и текущим временем в человеко понятном формате, например: 1 час назад.</li>
+        <li>[[yii\i18n\Formatter::asDuration()|duration]]: значение будет отформатировано как продолжительность в человеко понятном формате, например 1 день, 2 минуты.</li>
+    </ul>
+
+    <p>Форматирование даты и времени для методов [[yii\i18n\Formatter::asDate()|date]], [[yii\i18n\Formatter::asTime()|time]] и [[yii\i18n\Formatter::asDatetime()|datetime]] может быть задано глобально через конфигурацию свойств форматирования [[yii\i18n\Formatter::$dateFormat|$dateFormat]], [[yii\i18n\Formatter::$timeFormat|$timeFormat]] и [[yii\i18n\Formatter::$datetimeFormat|$datetimeFormat]].</p>
+    <p>По умолчанию, форматирование использует сокращенный формат, который интерпретируется по-разному в зависимости от активной в данный момент локали. Поэтому дата и время будут отформатированы наиболее часто используемым способом в стране и языке пользователя.</p>
+    <p>Доступны 4 разных сокращенных формата:</p>
+
+    <ul>
+        <li>short в локале en_GB отобразит, например, 06/10/2014 для даты и 15:58 для времени, в то время как</li>
+        <li>medium будет отображать 6 Oct 2014 и 15:58:42 соответственно,</li>
+        <li>long будет отображать 6 October 2014 и 15:58:42 GMT соответственно и</li>
+        <li>full будет отображать Monday, 6 October 2014 и 15:58:42 GMT соответственно.</li>
+    </ul>
+
+    <p>Дополнительно вы можете задать специальный формат, используя синтаксис, заданный ICU Project, который описан в руководстве ICU по следующему адресу: http://userguide.icu-project.org/formatparse/datetime.</p>
+    <p>Также вы можете использовать синтаксис, который распознаётся PHP-функцией date(), используя строку с префиксом php:.</p>
+
+    <pre class="brush: csharp;">
+    // ICU форматирование
+    echo Yii::$app->formatter->asDate('now', 'yyyy-MM-dd'); // 2014-10-06
+    // PHP date() форматирование
+    echo Yii::$app->formatter->asDate('now', 'php:Y-m-d'); // 2014-10-06
+    </pre>
+
+    <h3 id="title">
+        Часовые пояса
+    </h3>
+
+    <p>Для форматирования значений даты и времени Yii будет преобразовывать их в соответствии с [[yii\i18n\Formatter::timeZone|настроенным часовым поясом]].</p>
+    <p>Поэтому предполагается, что входные значения будут в UTC, если часовой пояс не был указан явно. По этой причине рекомендуется хранить все значения даты и времени в формате UTC, предпочтительно в виде UNIX timestamp, которая всегда в часовом поясе UTC по определению.</p>
+    <p>Если входное значение находится в часовом поясе, отличном от UTC, часовой пояс должен быть указан явно, как в следующем примере:</p>
+
+    <pre class="brush: csharp;">
+    // при условии Yii::$app->timeZone = 'Europe/Berlin';
+    echo Yii::$app->formatter->asTime(1412599260); // 14:41:00
+    echo Yii::$app->formatter->asTime('2014-10-06 12:41:00'); // 14:41:00
+    echo Yii::$app->formatter->asTime('2014-10-06 14:41:00 CEST'); // 14:41:00
+    </pre>
+
+    <p>Начиная с версии 2.0.1 стало возможно настраивать часовой пояс для предполагаемых timestamp, которые не включают в себя часовой пояс, как во втором примере в коде выше.</p>
+    <p>Вы можете задать [[yii\i18n\Formatter::defaultTimeZone]] часовым поясом, который вы используете для хранения данных.</p>
+    <p><b>Примечание:</b> Поскольку часовые пояса являются субъектом ответственности правительств по всему миру и могут часто меняться, это значит, что вы, вероятно, не имеете самую свежую информацию в базе данных часовых поясов, установленной на вашем сервере. Вы можете обратиться к ICU руководству для получения подробностей об обновлении базы данных часовых поясов. См. также: Настройка вашего PHP окружения для интернационализации.</p>
+
+    <h2 id="title">
+        Форматирование чисел
+    </h2>
+
+    <p>Для форматирования числовых значений класс форматирования предоставляет следующие методы:</p>
+
+    <ul>
+        <li>[[yii\i18n\Formatter::asInteger()|integer]] - значение будет отформатировано как целое число, например 42.</li>
+        <li>[[yii\i18n\Formatter::asDecimal()|decimal]] - значение будет отформатировано как дробное число, состоящее из целого и дробной части, например: 2,542.123 или 2.542,123.</li>
+        <li>[[yii\i18n\Formatter::asPercent()|percent]] - значение будет отформатировано как процентное значение, например 42%.</li>
+        <li>[[yii\i18n\Formatter::asScientific()|scientific]] - значение будет отформатировано в научном формате, например: 4.2E4.</li>
+        <li>[[yii\i18n\Formatter::asCurrency()|currency]] - значение будет отформатировано в денежном формате, например: £420.00. Обратите внимание, чтобы эта функция работала правильно, локаль должна включать в себя часть со страной, например: en_GB илиen_US потому что только язык будет неоднозначным в этом случае.</li>
+        <li>[[yii\i18n\Formatter::asSize()|size]] - значение будет отформатировано как количество байт в человеко понятном формате, например: 410 kibibytes.</li>
+        <li>[[yii\i18n\Formatter::asShortSize()|shortSize]] - сокращённая версия [[yii\i18n\Formatter::asSize()|size]], например: 410 KiB.</li>
+    </ul>
+
+    <p>Форматирование чисел может быть скорректирована с помощью [[yii\i18n\Formatter::decimalSeparator|дробного разделителя]] и [[yii\i18n\Formatter::thousandSeparator|тысячного разделителя]], которые были заданы в соответствии с локалью.</p>
+    <p>Для более сложной конфигурации, [[yii\i18n\Formatter::numberFormatterOptions]] и [[yii\i18n\Formatter::numberFormatterTextOptions]] могут быть использованы для настройки внутренне используемого класса NumberFormatter</p>
+    <p>Например, чтобы настроить максимальное и минимальное количество знаков после запятой, вы можете настроить свойство [[yii\i18n\Formatter::numberFormatterOptions]] как в примере ниже:</p>
+
+    <pre class="brush: csharp;">
+    'numberFormatterOptions' =&gt; [
+        NumberFormatter::MIN_FRACTION_DIGITS =&gt; 0,
+        NumberFormatter::MAX_FRACTION_DIGITS =&gt; 2,
+    ]
+    </pre>
+
+    <h2 id="title">
+        Остальное форматирование
+    </h2>
+
+    <p>Кроме форматирование даты, времени и чисел, Yii предоставляет набор других полезных средств форматирования для различных ситуаций:</p>
+
+    <ul>
+        <li>[[yii\i18n\Formatter::asRaw()|raw]] - значением будет отображено как есть, это псевдо-форматирование, которое не даёт никакого эффекта, кроме значений null, которые будет отформатированы в соответствии с [[nullDisplay]].</li>
+        <li>[[yii\i18n\Formatter::asText()|text]] - значением будет экранированный от HTML текст. Это формат по умолчанию, используемый в GridView DataColumn.</li>
+        <li>[[yii\i18n\Formatter::asNtext()|ntext]] - значением будет экранированный от HTML текст с новыми строками, сконвертированными в разрывы строк.</li>
+        <li>[[yii\i18n\Formatter::asParagraphs()|paragraphs]] - значением будет экранированный от HTML текст с параграфами, обрамлёнными в &lt;p&gt; теги.</li>
+        <li>[[yii\i18n\Formatter::asHtml()|html]] - значение будет очищено, используя [[HtmlPurifier]] с целью предотвратить XSS атаки. Вы можете задать дополнительные параметры, такие как ['html', ['Attr.AllowedFrameTargets' =&gt; ['_blank']]].</li>
+        <li>[[yii\i18n\Formatter::asEmail()|email]] - значение будет отформатировано как ссылка mailto.</li>
+        <li>[[yii\i18n\Formatter::asImage()|image]] - значение будет отформатировано как тег картинки.</li>
+        <li>[[yii\i18n\Formatter::asUrl()|url]] - значение будет отформатировано как ссылка.</li>
+        <li>[[yii\i18n\Formatter::asBoolean()|boolean]] - значение форматируется как логическое. По умолчанию true будет отображено как Yes и false как No, переведенное на язык приложения. Вы можете настроить это через свойство [[yii\i18n\Formatter::booleanFormat]].</li>
+    </ul>
+
+    <h2 id="title">
+        null значения
+    </h2>
+
+    <p>Для значений null в PHP, класс форматирования будет отображать вместо пустой строки маркер, по умолчанию это (not set), переведенный на язык приложения.</p>
+    <p>Вы можете настроить свойство [[yii\i18n\Formatter::nullDisplay|nullDisplay]] для установки собственного маркера.</p>
+    <p>Если вы не хотите обрабатывать null значения, то установите свойство [[yii\i18n\Formatter::nullDisplay|nullDisplay]] в null.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="51.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="53.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/52.html", "Yii2: Форматирование данных", "bm1258"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1258", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1258") == 1) { document.getElementById("bma1258").style.display = "block"; document.getElementById("bm1258").style.display = "none"; } else { document.getElementById("bma1258").style.display = "none"; document.getElementById("bm1258").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Форматирование данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1258", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

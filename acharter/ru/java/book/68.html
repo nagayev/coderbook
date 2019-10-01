@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma669" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm669" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Data layer (layer 2)
+	</h1>
+
+	<p>Физический уровень пересылает просто набор сигналов – битов.</p>
+	<p>При этом не учитывается, что несколько компьютеров, подключенных к одной среде передачи данных (например, к одному кабелю), могут начать одновременно передавать информацию в виде электрических импульсов, что, очевидно, приведет к смешению сигналов.</p>
+	<p>Поэтому одной из задач Data layer (канальный уровень) является проверка доступности среды передачи.</p>
+	<p>Также этот уровень отвечает за доставку фреймов между источником и адресатом в пределах сети с одной топологией.</p>
+	<p>Для обеспечения такой функциональности Data layer разделяют на два подуровня:</p>
+	<p>- <b>логическая передача данных</b> ( Logical Link Control, LLC );</p>
+	<p>- <b>управление доступом к среде</b> ( Media Access Control, MAC ).</p>
+	<p>LLC отвечает за переход со второго уровня на более высокий – третий сетевой уровень.</p>
+	<p>MAC отвечает за передачу данных на более низкий уровень – Physical layer.</p>
+	<p>Рассмотрим эти подуровни более подробно.</p>
+
+	<h1 id="title">
+		LLC sublayer
+	</h1>
+
+	<p>Этот подуровень был создан для обеспечения независимости от существующих технологий.</p>
+	<p>Он обеспечивает обмен данными с сетевым (третьим) уровнем вне зависимости от физической среды передачи данных.</p>
+	<p>LLC получает данные с сетевого уровня, добавляет в них служебную информацию и передает пакет для последующей инкапсуляции и обработки протоколом уровня MAC.</p>
+	<p>Например, это может быть Ethernet, Token Ring, Frame Relay.</p>
+
+	<h1 id="title">
+		MAC sublayer
+	</h1>
+
+	<p>Этот подуровень обеспечивает доступ к физическому уровню.</p>
+	<p>Для передачи пакетов по сети необходимо организовать идентификацию компьютеров в сети.</p>
+	<p>Для этого у каждого компьютера на канальном уровне определен уникальный адрес, который еще иногда называют физическим адресом, или MAC-адресом.</p>
+	<p>Он записан в энергонезависимой памяти сетевой карты и задается производителем.</p>
+	<p>Длина MAC-адреса 48 бит, или 6 байт (каждый байт состоит из 8 бит), которые записываются в шестнадцатеричном формате.</p>
+	<p>Первые 3 байта называются OUI (Organizational Unique Identifier), организационный уникальный идентификатор.</p>
+	<p>Этот номер выдается каждому производителю сетевого оборудования международной организацией IEEE (Institute of Electrical and Electronic Engineers, Институт инженеров по электротехнике и радиоэлектронике, источник многих стандартов и спецификаций).</p>
+	<p>Последние 3 байта являются идентификационным номером самой сетевой карты.</p>
+	<p>Производитель гарантирует, что все его адаптеры имеют различные номера.</p>
+	<p>Такая система адресов гарантирует, что в сети не будет двух компьютеров с одинаковыми физическими адресами.</p>
+	<p>Записываться физический адрес может в разных форматах, например: <b>00:00:B4:90:4C:8C, 00-00-B4-90-4C-8C, 0000.B490.4C8C</b> – разные производители используют разные стандарты.</p>
+	<p>Рассмотрим, например, адрес 0000.1c12.3456.</p>
+	<p>Здесь 0000.1с – идентификатор производителя, а 12.3456 – идентификатор сетевой карты.</p>
+	<p>Один из самых распространенных протоколов MAC-уровня – протокол Ethernet.</p>
+	<p>В сетях, построенных на его основе, применяется специальный метод для организации доступа к среде передачи данных – CSMA/CD (carrier sense multiple access/collision detect, коллективный доступ с опознаванием несущей и обнаружением коллизий ).</p>
+	<p>Предполагается, что основой сети является общая шина (например, коаксиальный кабель), к которой подключены все компьютеры.</p>
+	<p>В результате сообщение, отправленное одной машиной, доставляется всем подключенным сетевым устройствам.</p>
+	<p>CSMA/CD описывает целый комплекс мер, необходимых для предотвращения и корректной обработки коллизий (collision), то есть ситуаций, когда несколько компьютеров одновременно начали передачу данных.</p>
+	<p>Очевидно, что в таком случае никто не сможет получить корректную информацию из сети.</p>
+	<p>Рассмотрим более подробно процесс передачи данных на Data layer.</p>
+	<p>Пусть один компьютер собирается послать данные другому.</p>
+	<p>Во время процесса инкапсуляции MAC-адрес этой машины и MAC-адрес получателя будут записаны в служебные поля.</p>
+	<p>Сгенерированное сообщение по правилам протокола Ethernet отсылается через общую шину всем машинам, подключенным к этому участку сети.</p>
+	<p>Каждый компьютер, получивший сообщение, проверяет, кому оно было адресовано.</p>
+	<p>Если MAC-адрес, указанный во фрейме, и MAC-адрес, записанный в сетевом адаптере получателя, совпадают, то пакет принимается и передается на вышестоящий уровень для дальнейшей обработки.</p>
+	<p>Если же адрес в пакете не совпадает с адресом сетевой карты, то такой пакет отбрасывается.</p>
+	<p>Иногда бывает необходимо послать сообщение, которое должно быть получено всеми узлами локальной сети.</p>
+	<p>В этом случае в пакете указывается MAC-адрес получателя в виде FF-FF-FF-FF-FF-FF.</p>
+	<p>Этот адрес используется для широковещания ( broadcast ), которое примут все сетевые устройства и передадут на вышестоящий уровень.</p>
+	<p>Рассмотрим устройства, применяемые для построения сетей в разных топологиях.</p>
+	<p>Топология шина ("bus") описывает общую среду передачи данных, которая уже рассматривалась для иллюстрации протокола Ethernet.</p>
+	<p>Специальных устройств для построения такой сети не используется (впрочем, конкретные технологии могут предъявлять специфические требования; например, концы коаксиального кабеля должны подключаться к особому устройству – терминатору, но это не влияет на структуру сети).</p>
+	<p>На топологии кольцо ("ring") основывается протокол Token Ring.</p>
+	<p>Физически сеть представляет собой замкнутое кольцо, в котором каждый компьютер двумя отрезками кабеля соединяется со своими соседями.</p>
+	<p>В отличие от сети, работающей на основе Ethernet, здесь используется более сложная схема. Передача ведется последовательно по кольцу в одном направлении.</p>
+	<p>В сети циркулирует кадр специального формата – маркер (token).</p>
+	<p>Если машина не имеет данных для передачи, она при получении маркера передает его дальше по кольцу.</p>
+	<p>В противном случае она изымает его из обращения, что дает ей доступ к сети, и затем отправляет пакет с адресом получателя, который начинает передаваться по кольцу.</p>
+	<p>Когда он доходит до адресата, тот делает пометку, что пакет получен.</p>
+	<p>Машина-отправитель, получив подтверждение, отправляет соседу новый маркер для обеспечения возможности другим станциям сети передавать данные.</p>
+	<p>Хотя этот алгоритм более сложен, он обеспечивает свойства отказоустойчивости.</p>
+	<p>При построении сети на основе топологии "звезда" нужно использовать, кроме сетевых карт в компьютере, дополнительное сетевое оборудование в центре, куда подключаются все "лучи звезды".</p>
+	<p>Например, в качестве такого устройства может применяться концентратор (hub).</p>
+	<p>В этом случае каждый компьютер подключается к нему с помощью кабеля " витая пара ".</p>
+	<p>Алгоритм работы концентратора очень прост – получив пакет на один из своих портов, он пересылает его на все остальные.</p>
+	<p>В результате снова получается общая шина, точнее, – логическая общая шина, поскольку физическая структура сети звездно-образная.</p>
+	<p>Технология Ethernet позволяет снизить количество коллизий с помощью CSMA/CD.</p>
+	<p>Недостатком концентратора является то, что пользователи сети могут "прослушивать" чужой трафик (в том числе перехватить пароль, если он передается в открытом виде).</p>
+	<p>Общая максимальная скорость делится между всеми подключенными пользователями.</p>
+	<p>То есть, если скорость передачи данных составляет 10 Мбит/с, то в среднем на каждого пользователя может приходиться всего 2 Мбит/с.</p>
+	<p>Более дорогим, но и более производительным решением является использование коммутатора (switch).</p>
+	<p>Коммутатор, в отличие от концентратора, имеет в памяти таблицу, сопоставляющую номера его портов и MAC-адреса подключенных к нему компьютеров.</p>
+	<p>Он анализирует у каждого пересылаемого фрейма адрес отправителя, пытаясь определить, какие машины подключены к каждому из его портов.</p>
+	<p>Таким образом коммутатор заполняет свою таблицу.</p>
+	<p>Далее при прохождении очередного фрейма он проверяет адрес получателя, и если он знает, к какому порту подключена эта машина, он посылает фрейм только на один этот порт.</p>
+	<p>Если адрес получателя коммутатору неизвестен, то он отправляет фрейм на все порты, кроме того, с которого этот пакет пришел.</p>
+	<p>Таким образом, получается, что если два компьютера обмениваются данными между собой, то они не перегружают своими пакетами другие порты и, соответственно, их пакеты практически невозможно перехватить.</p>
+	<p>Построенные таким образом сети могут охватывать несколько сотен машин и иметь протяженность в несколько километров.</p>
+	<p>Как правило, такая сеть охватывает одно или несколько зданий одного предприятия, а потому называется локальной сетью (Local area network, LAN).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="67.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="69.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/68.html", "Data layer (layer 2)", "bm669"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm669", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm669") == 1) { document.getElementById("bma669").style.display = "block"; document.getElementById("bm669").style.display = "none"; } else { document.getElementById("bma669").style.display = "none"; document.getElementById("bm669").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Data layer (layer 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm669", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma440" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm440" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Преобразования типов
+	</h1>
+
+	<p>В любом языке программирования то и дело приходится преобразовывать один тип данных в другой.</p>
+	<p>К примеру, нам требуется, чтобы пользователь ввел денежную сумму.</p>
+	<p>Для этого нужно использовать вещественное число с учетом того, что могут быть копейки.</p>
+	<p>Однако нет компонентов, которые позволят сразу ввести вещественное число, приходится пользоваться теми компонентами, которые позволяют ввести вещественное число в виде строки:</p>
+
+	<pre class="brush: csharp;">
+	'123456,78'
+	</pre>
+
+	<p>Пользователь воспринимает это так, будто вводит сразу цифры, однако мы то знаем, что это строка только символов, изображающая число.</p>
+	<p>И чтобы действительно превратить ее в число, приходится использовать преобразования типов.</p>
+	<p>Некоторыми функциями, которые служат этим целям, мы уже пользовались, давайте упорядочим эти знания и изучим новые функции.</p>
+
+	<h1 id="title">
+		IntToStr()
+	</h1>
+
+	<p>Наиболее часто используемая функция.</p>
+	<p>Как вы уже знаете, она принимает в качестве параметра целое число, и возвращает его в виде строки.</p>
+	<p>Хотелось бы отметить еще одну особенность: эта функция предназначена для любого целого числа, не обязательно Integer.</p>
+	<p>Если у вас есть переменная Byte, Word, Cardinal или Int64, все это переменные целого типа, и для любой из них годится функция IntToStr().</p>
+	<p>Примеры использования:</p>
+
+	<pre class="brush: csharp;">
+var
+   b : Byte;
+   w : Word;
+   i : Integer;
+begin
+   b := 5;
+   w := 10;
+   i := 20;
+   Edit1.Text := IntToStr(b);
+   Edit2.Text := IntToStr(w);
+   ShowMessage(IntToStr(i));
+end;
+	</pre>
+
+	<h1 id="title">
+		StrToInt()
+	</h1>
+
+	<p>Эта функция напротив, принимает в качестве параметра строку, изображающую целое число, и возвращает его в виде целого числа.</p>
+	<p>Все, что было сказано о типах данных в функции IntToStr(), справедливо и для этой функции.</p>
+	<p>Примеры использования:</p>
+
+	<pre class="brush: csharp;">
+var
+   b : Byte;
+   w : Word;
+   i : Integer;
+begin
+  b := StrToInt(Edit1.Text); //внимание! Если пользователь введет число 
+                             //больше 255, произойдет ошибка!
+  w := StrToInt('50000');
+  i := StrToInt(Edit2.Text);
+end;
+	</pre>
+
+	<p>Как видите, действия этих функций очень похожи, только в последнем случае приходится применять осторожность, чтобы не превысить диапазон возможных значений.</p>
+	<p>Если вы заранее не знаете, какое число введет пользователь, лучше использовать Integer или Cardinal, если число без знака.</p>
+	<p>Экономия памяти иной раз может вызвать серьезные ошибки в программе.</p>
+
+	<h1 id="title">
+		FloatToStr()
+	</h1>
+
+	<p>Эта функция принимает в качестве параметра вещественное число (то есть, число с запятой), и возвращает его в виде строки.</p>
+	<p>Примеры применения почти аналогичны функции IntToStr(), однако есть одна особенность – если после запятой у Вас есть только нули, то функция вернет строку в виде целого числа:</p>
+
+	<pre class="brush: csharp;">
+	s := FloatToStr(125,00);
+	// результат: '125'
+	</pre>
+
+	<p>Эта функция также предназначена для всех типов вещественных чисел.</p>
+
+	<h1 id="title">
+		StrToFloat()
+	</h1>
+
+	<p>Эта функция принимает в качестве параметра строку в виде вещественного или целого числа, и возвращает это вещественное число.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	f := StrToFloat('125');
+	//результат: 125,0
+	</pre>
+
+	<h1 id="title">
+		FormatFloat()
+	</h1>
+
+	<p>Эта функция по своему предназначению похожа на функцию FloatToStr(), однако она является гораздо более мощным инструментом.</p>
+	<p>Эта функция не только возвращает вещественное число в качестве строки, но еще и позволяет задать желаемый формат этой строки.</p>
+	<p>В прошлых примерах мы говорили, что функция FloatToStr() вместо строки '125,00' выведет '125'.</p>
+	<p>А если нужно все-таки '125,00'?</p>
+	<p>Такое сплошь и рядом встречается, особенно в финансовой документации.</p>
+	<p>Для этих целей и создана функция FormatFloat.</p>
+	<p>Она имеет два параметра – строку формата и само число.</p>
+	<p>Строка может содержать следующие форматы:</p>
+
+	<table>
+		<tr>
+			<th>Строка</th>
+			<th>Примеры</th>
+		</tr>
+		<tr>
+			<td> </td>
+			<td>1234<br />-1234<br />0,5<br />0</td>
+		</tr>
+		<tr>
+			<td>0</td>
+			<td>1234<br />-1234<br />1<br />0</td>
+		</tr>
+		<tr>
+			<td>0.00</td>
+			<td>1234,00<br />-1234,00<br />0,50<br />0,00</td>
+		</tr>
+		<tr>
+			<td>#.##</td>
+			<td>1234<br />-1234<br />0,5<br />0</td>
+		</tr>
+		<tr>
+			<td>#,0.00</td>
+			<td>1 234,00<br />-1 234,00<br />0,50<br />0,00</td>
+		</tr>
+	</table>
+
+	<p>Есть и другие варианты форматов, например, для представления числа в экспонентной форме, но они, как правило, не используются.</p>
+	<p>Поясним строку форматов подробней.</p>
+	<p>В первом случае показаны варианты возвращаемых строк, если строка форматов вообще не указана.</p>
+	<p>"Решетка" (#) работает также, как "ноль", с той разницей, что если на этом месте не окажется цифры, то "решетка" ничего не выведет, а "ноль" подставит в это место ноль.</p>
+	<p>Знак запятая здесь указывают для удобного отображения разрядности числа.</p>
+	<p>Например, миллион будет выглядеть как строка '1 000 000'.</p>
+	<p>Заметим, что на само число этот формат не оказывает никакого влияния, он нужен только для того, чтобы выводить число в удобочитаемой форме в виде строки.</p>
+	<p>Примеры использования:</p>
+
+	<pre class="brush: csharp;">
+var
+   f : Real;
+begin
+   f := 1234567,00;
+   ShowMessage(FormatFloat('0,000.00' ,f)); //результат: "1 234 567,00"
+   ShowMessage(FormatFloat(f)); //результат: "1234567"
+end;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="53.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="55.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/54.html", "Преобразования (ч. 1)", "bm440"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm440", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm440") == 1) { document.getElementById("bma440").style.display = "block"; document.getElementById("bm440").style.display = "none"; } else { document.getElementById("bma440").style.display = "none"; document.getElementById("bm440").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Преобразования (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm440", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

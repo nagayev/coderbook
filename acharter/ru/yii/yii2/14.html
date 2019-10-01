@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1220" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1220" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Контроллеры
+	</h1>
+
+    <p>Контроллеры являются частью MVC архитектуры. Это объекты классов, унаследованных от [[yii\base\Controller]], отвечающие за обработку запроса и генерирование ответа.</p>
+    <p>В сущности, после обработки запроса приложениями, контроллеры проанализируют входные данные, передадут их в модели, вставят результаты модели в представления, и в конечном итоге сгенерируют исходящие ответы.</p>
+
+    <h2 id="title">
+        Действия
+    </h2>
+
+    <p>Контроллеры состоят из действий, которые являются основными блоками, к которым может обращаться конечный пользователь и запрашивать исполнение того или иного функционала.</p>
+    <p>В контроллере может быть одно или несколько действий.</p>
+    <p>Следующий пример показывает post контроллер с двумя действиями: view и create:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use Yii;
+    use app\models\Post;
+    use yii\web\Controller;
+    use yii\web\NotFoundHttpException;
+    
+    class PostController extends Controller
+    {
+        public function actionView($id)
+        {
+            $model = Post::findOne($id);
+            if ($model === null) {
+                throw new NotFoundHttpException;
+            }
+    
+            return $this->render('view', [
+                'model' =&gt; $model,
+            ]);
+        }
+    
+        public function actionCreate()
+        {
+            $model = new Post;
+    
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' =&gt; $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' =&gt; $model,
+                ]);
+            }
+        }
+    }
+    </pre>
+
+    <p>В действии view (определенном методом actionView()), код сначала загружает модель согласно запрошенному ID модели; Если модель успешно загружена, то код отобразит ее с помощью представления под названием view.</p>
+    <p>В противном случае будет брошено исключение.</p>
+    <p>В действии create (определенном методом actionCreate()), код аналогичен.</p>
+    <p>Он сначала пытается загрузить модель с помощью данных из запроса и сохранить модель.</p>
+    <p>Если все прошло успешно, то код перенаправляет браузер на действие view с ID только что созданной модели.</p>
+    <p>В противном случае он отобразит представление create, через которое пользователь может заполнить нужные данные.</p>
+
+    <h2 id="title">
+        Маршруты
+    </h2>
+
+    <p>Конечные пользователи обращаются к действиям через так называемые маршруты.</p>
+    <p>Маршрут это строка, состоящая из следующих частей:</p>
+
+    <ul>
+        <li>ID модуля: он существует, только если контроллер принадлежит не приложению, а модулю;</li>
+        <li>ID контроллера: строка, которая уникально идентифицирует контроллер среди всех других контроллеров одного и того же приложения (или одного и того же модуля, если контроллер принадлежит модулю);</li>
+        <li>ID действия: строка, которая уникально идентифицирует действие среди всех других действия одного и того же контроллера.</li>
+    </ul>
+
+    <p>Маршруты могут иметь следующий формат:</p>
+
+    <pre class="brush: csharp;">
+    ControllerID/ActionID
+    </pre>
+
+    <p>или следующий формат, если контроллер принадлежит модулю:</p>
+
+    <pre class="brush: csharp;">
+    ModuleID/ControllerID/ActionID
+    </pre>
+
+    <p>Таким образом, если пользователь запрашивает URL http://hostname/index.php?r=site/index, то index действие в site контроллере будет вызвано.</p>
+    <p>Секция Маршрутизация содержит более подробную информацию о том как маршруты сопоставляются с действиями.</p>
+
+    <h2 id="title">
+        Создание контроллеров
+    </h2>
+
+    <p>В [[yii\web\Application|Веб приложениях]], контроллеры должны быть унаследованы от [[yii\web\Controller]] или его потомков.</p>
+    <p>Аналогично для</p>
+
+    <pre class="brush: csharp;">
+    [[yii\console\Application|консольных приложений]]
+    </pre>
+
+    <p>контроллеры должны быть унаследованы от [[yii\console\Controller]] или его потомков.</p>
+    <p>Следующий код определяет site контроллер:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class SiteController extends Controller
+    {
+    }
+    </pre>
+
+    <h3 id="title">
+        ID контроллеров
+    </h3>
+
+    <p>Обычно контроллер сделан таким образом, что он должен обрабатывать запросы, связанные с определенным ресурсом.</p>
+    <p>Именно по этим причинам, ID контроллеров обычно являются существительные, ссылающиеся на ресурс, который они обрабатывают.</p>
+    <p>Например, вы можете использовать article в качестве ID контроллера, которые отвечает за обработку данных статей.</p>
+    <p>По-умолчанию, ID контроллеров должны содержать только следующие символы: Английские буквы в нижнем регистре, цифры, подчеркивания, тире и слэш.</p>
+    <p>Например, оба article и post-comment являются допустимыми ID контроллеров, в то время как article?, PostComment, admin\post не являются таковыми.</p>
+    <p>ID контроллеров также могут содержать префикс подпапки.</p>
+    <p>Например, в admin/article часть article является контроллером в подпапке admin в</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Application::controllerNamespace|пространстве имен контроллеров]]
+    </pre>
+
+    <p>Допустимыми символами для префиксов подпапок являются: Английские буквы в нижнем и верхнем регистре, символы подчеркивания и слэш, где слэш используется в качестве разграничителя для многовложенных подпапок (например panels/admin).</p>
+
+    <h3 id="title">
+        Правила наименования классов контроллеров
+    </h3>
+
+    <p>Названия классов контроллеров могут быть получены из ID контроллеров следующими способами:</p>
+
+    <ul>
+        <li>Привести в верхний регистр первый символ в каждом слове, разделенном дефисами. Обратите внимание что, если ID контроллера содержит слэш, то данное правило распространяется только на часть после последнего слэша в ID контроллера;</li>
+        <li>Убрать дефисы и заменить любой прямой слэш на обратный;</li>
+        <li>Добавить суффикс Controller;</li>
+        <li>Добавить в начало [[yii\base\Application::controllerNamespace|пространство имен контроллеров]].</li>
+    </ul>
+
+    <p>Ниже приведены несколько примеров, с учетом того, что</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Application::controllerNamespace|пространство имен контроллеров]]
+    </pre>
+
+    <p>имеет значение по умолчанию равное app\controllers:</p>
+
+    <ul>
+        <li>article соответствует app\controllers\ArticleController;</li>
+        <li>post-comment соответствует app\controllers\PostCommentController;</li>
+        <li>admin/post-comment соответствует app\controllers\admin\PostCommentController;</li>
+        <li>adminPanels/post-comment соответствует app\controllers\adminPanels\PostCommentController.</li>
+    </ul>
+
+    <p>Классы контроллеров должны быть автозагружаемыми.</p>
+    <p>Именно по этой причине, в вышеприведенном примере, контроллер article должен быть сохранен в файл, псевдоним которого</p>
+
+    <pre class="brush: csharp;">
+        @app/controllers/ArticleController.php;
+    </pre>
+
+    <p>в то время как контроллер admin/post-comment должен находиться в файле</p>
+
+    <pre class="brush: csharp;">
+        @app/controllers/admin/PostCommentController.php
+    </pre>
+
+    <p><b>Информация:</b> Последний пример admin/post-comment показывает каким образом вы можете расположить контроллер в подпапке</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Application::controllerNamespace|пространства имен контроллеров]]
+    </pre>
+
+    <p>Это очень удобно, когда вы хотите организовать свои контроллеры в несколько категорий и не хотите использовать модули.</p>
+
+    <h3 id="title">
+        Карта контроллеров
+    </h3>
+
+    <p>Вы можете сконфигурировать</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Application::controllerMap|карту контроллеров]]
+    </pre>
+
+    <p>для того, чтобы преодолеть описанные выше ограничения именования ID контроллеров и названий классов.</p>
+    <p>В основном это очень удобно, когда вы используете сторонние контроллеры, именование которых вы не можете контролировать.</p>
+
+    <p>Вы можете сконфигурировать</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Application::controllerMap|карту контроллеров]]
+    </pre>
+
+    <p>в настройках приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'controllerMap' =&gt; [
+            // объявляет "account" контроллер, используя название класса
+            'account' =&gt; 'app\controllers\UserController',
+    
+            // объявляет "article" контроллер, используя массив конфигурации
+            'article' =&gt; [
+                'class' =&gt; 'app\controllers\PostController',
+                'enableCsrfValidation' =&gt; false,
+            ],
+        ],
+    ]
+    </pre>
+
+    <h3 id="title">
+        Контроллер по умолчанию
+    </h3>
+
+    <p>Каждое приложение имеет контроллер по умолчанию, указанный через свойство</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Application::defaultRoute]]
+    </pre>
+
+    <p>Когда в запросе не указан маршрут, тогда будет использован маршрут указанный в данном свойстве.</p>
+    <p>Для [[yii\web\Application|Веб приложений]], это значение 'site', в то время как для</p>
+
+    <pre class="brush: csharp;">
+        [[yii\console\Application|консольных приложений]]
+    </pre>
+
+    <p>это 'help'. Таким образом, если задан URL http://hostname/index.php, это означает, что контроллер site выполнит обработку запроса.</p>
+    <p>Вы можете изменить контроллер по умолчанию следующим образом в настройках приложения:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'defaultRoute' =&gt; 'main',
+    ]
+    </pre>
+
+    <h2 id="title">
+        Создание действий
+    </h2>
+
+    <p>Создание действий не представляет сложностей также как и объявление так называемых методов действий в классе контроллера.</p>
+    <p>Метод действия это public метод, имя которого начинается со слова action.</p>
+    <p>Возвращаемое значение метода действия представляет собой ответные данные, которые будут высланы конечному пользователю.</p>
+    <p>Приведенный ниже код определяет два действия index и hello-world:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class SiteController extends Controller
+    {
+        public function actionIndex()
+        {
+            return $this->render('index');
+        }
+    
+        public function actionHelloWorld()
+        {
+            return 'Hello World';
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        ID действий
+    </h3>
+
+    <p>В основном действие разрабатывается для какой-либо конкретной обработки ресурса.</p>
+    <p>По этой причине, ID действий в основном являются глаголами, такими как view, update, и т. д.</p>
+    <p>По-умолчанию, ID действия должен содержать только следующие символы: Английские буквы в нижнем регистре, цифры, подчеркивания и дефисы.</p>
+    <p>Дефисы в ID действий используются для разделения слов.</p>
+    <p>Например, view, update2, comment-post являются допустимыми ID действий, в то время как view?, Update не являются таковыми.</p>
+    <p>Вы можете создавать действия двумя способами: встроенные действия и отдельные действия.</p>
+    <p>Встроенное действие является методом, определенным в классе контроллера, в то время как отдельное действие является экземпляром класса, унаследованного от [[yii\base\Action]] или его потомков.</p>
+    <p>Встроенные действия требуют меньше усилий для создания и в основном используются если у вас нет надобности в повторном использовании действий.</p>
+    <p>Отдельные действия, с другой стороны, в основном создаются для использования в различных контроллерах или при использовании в расширениях.</p>
+
+    <h3 id="title">
+        Встроенные действия
+    </h3>
+
+    <p>Встроенные действия это те действия, которые определены в рамках методов контроллера, как мы это уже обсудили.</p>
+    <p>Названия методов действий могут быть получены из ID действий следующим образом:</p>
+
+    <ul>
+        <li>Привести первый символ каждого слова в ID действия в верхний регистр;</li>
+        <li>Убрать дефисы;</li>
+        <li>Добавить префикс action.</li>
+    </ul>
+
+    <p>Например, index соответствует actionIndex, а hello-world соответствует actionHelloWorld.</p>
+    <p><b>Примечание:</b> Названия имен действий являются регистрозависимыми. Если у вас есть метод ActionIndex, он не будет учтен как метод действия, таким образом, запрос к действию index приведет к выбросу исключению.</p>
+    <p>Также следует учесть, что методы действий должны иметь область видимости public.</p>
+    <p>Методы имеющие область видимости private или protected НЕ определяют методы встроенных действий.</p>
+    <p>Встроенные действия в основном используются, потому что для их создания не нужного много усилий.</p>
+    <p>Тем не менее, если вы планируете повторно использовать некоторые действия в различных местах, или если вы хотите перераспределить действия, вы должны определить его как отдельное действие.</p>
+
+    <h3 id="title">
+        Отдельные действия
+    </h3>
+
+    <p>Отдельные действия определяются в качестве классов, унаследованных от [[yii\base\Action]] или его потомков.</p>
+    <p>Например, в Yii релизах, присутствуют [[yii\web\ViewAction]] и [[yii\web\ErrorAction]], оба из которых являются отдельными действиями.</p>
+    <p>Для использования отдельного действия, вы должны указать его в карте действий, с помощью переопределения метода [[yii\base\Controller::actions()]] в вашем классе контроллера, следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    public function actions()
+    {
+        return [
+            // объявляет "error" действие с помощью названия класса
+            'error' =&gt; 'yii\web\ErrorAction',
+    
+            // объявляет "view" действие с помощью конфигурационного массива
+            'view' =&gt; [
+                'class' =&gt; 'yii\web\ViewAction',
+                'viewPrefix' =&gt; '',
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Как вы можете видеть, метод actions() должен вернуть массив, ключами которого являются ID действий, а значениями - соответствующие названия класса действия или конфигурация.</p>
+    <p>В отличие от встроенных действий, ID отдельных действий могут содержать произвольные символы, до тех пор пока они определены в методе actions().</p>
+    <p>Для создания отдельного действия, вы должны наследоваться от класса [[yii\base\Action]] или его потомков, и реализовать метод run() с областью видимости public.</p>
+    <p>Роль метода run() аналогична другим методам действий.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    namespace app\components;
+    
+    use yii\base\Action;
+    
+    class HelloWorldAction extends Action
+    {
+        public function run()
+        {
+            return "Hello World";
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Результаты действий
+    </h3>
+
+    <p>Возвращаемое значение методов действий или метода run() отдельного действия очень важно.</p>
+    <p>Оно является результатом выполнения соответствующего действия.</p>
+    <p>Возвращаемое значение может быть объектом response, который будет отослан конечному пользователю в качестве ответа.</p>
+
+    <ul>
+        <li>Для [[yii\web\Application|Веб приложений]], возвращаемое значение также может быть произвольными данными, которые будут присвоены [[yii\web\Response::data]], а затем сконвертированы в строку, представляющую тело ответа.</li>
+        <li>Для [[yii\console\Application|Консольных приложений]], возвращаемое значение также может быть числом, представляющим [[yii\console\Response::exitStatus|статус выхода]] исполнения команды.</li>
+    </ul>
+
+    <p>В вышеприведенных примерах, все результаты действий являются строками, которые будут использованы в качестве тела ответа, высланного пользователю.</p>
+    <p>Следующий пример, показывает действие может перенаправить браузер пользователя на новый URL, с помощью возврата response объекта (т. к. redirect() метод возвращает response объект):</p>
+
+    <pre class="brush: csharp;">
+    public function actionForward()
+    {
+        // перенаправляем браузер пользователя на http://example.com
+        return $this->redirect('http://example.com');
+    }
+    </pre>
+
+    <h3 id="title">
+        Параметры действий
+    </h3>
+
+    <p>Методы действий для встроенных действий и методы run() для отдельных действий могут принимать параметры, называемые параметры действий.</p>
+    <p>Их значения берутся из запросов.</p>
+    <p>Для [[yii\web\Application|Веб приложений]], значение каждого из параметров действия берется из $_GET, используя название параметра в качестве ключа; для</p>
+
+    <pre class="brush: csharp;">
+    [[yii\console\Application|консольных приложений]]
+    </pre>
+
+    <p>они соответствуют аргументам командной строки.</p>
+    <p>В приведенном ниже примере, действие view (встроенное действие) определяет два параметра: $id и $version.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class PostController extends Controller
+    {
+        public function actionView($id, $version = null)
+        {
+            // ...
+        }
+    }
+    </pre>
+
+    <p>Для разных запросов параметры действий будут определены следующим образом:</p>
+
+    <ul>
+        <li>index.php?r=post/view&id=123: параметр $id будет присвоено значение '123', в то время как $version будет иметь значение null, т. к. строка запроса не содержит параметра version;</li>
+        <li>index.php?r=post/view&id=123&version=2: параметрам $id и $version будут присвоены значения '123' и '2' соответственно;</li>
+        <li>index.php?r=post/view: будет брошено исключение [[yii\web\BadRequestHttpException]], т. к. обязательный параметр $id не был указан в запросе;</li>
+        <li>index.php?r=post/view&id[]=123: будет брошено исключение [[yii\web\BadRequestHttpException]], т. к. параметр $id получил неверное значение ['123'].</li>
+    </ul>
+
+    <p>Если вы хотите, чтобы параметр действия принимал массив значений, вы должны использовать type-hint значение array, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    public function actionView(array $id, $version = null)
+    {
+        // ...
+    }
+    </pre>
+
+    <p>Теперь, если запрос будет содержать URL</p>
+
+    <pre class="brush: csharp;">
+        http://hostname/index.php?r=post/view&id[]=123
+    </pre>
+
+    <p>то параметр $id примет значение ['123'].</p>
+    <p>Если запрос будет содержать URL</p>
+
+    <pre class="brush: csharp;">
+        http://hostname/index.php?r=post/view&id=123
+    </pre>
+
+    <p>то параметр $id все равно будет содержать массив, т. к. скалярное значение '123' будет автоматически сконвертировано в массив.</p>
+    <p>Вышеприведенные примеры в основном показывают как параметры действий работают для Веб приложений.</p>
+    <p>Больше информации о параметрах консольных приложений представлено в секции Консольные команды.</p>
+
+    <h3 id="title">
+        Действие по умолчанию
+    </h3>
+
+    <p>Каждый контроллер имеет действие, указанное через свойство [[yii\base\Controller::defaultAction]].</p>
+    <p>Когда маршрут содержит только ID контроллера, то подразумевается, что действие контроллера по умолчанию было запрошено.</p>
+    <p>По-умолчанию, это действие имеет значение index. Если вы хотите изменить это значение, просто переопределите данное свойство в классе контроллера следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class SiteController extends Controller
+    {
+        public $defaultAction = 'home';
+    
+        public function actionHome()
+        {
+            return $this->render('home');
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Жизненный цикл контроллера
+    </h2>
+
+    <p>При обработке запроса, приложение создаст контроллер, основываясь на запрошенном маршруте.</p>
+    <p>Для выполнения запроса, контроллер пройдет через следующие этапы жизненного цикла:</p>
+
+    <ol>
+        <li>Метод [[yii\base\Controller::init()]] будет вызван после того как контроллер будет создан и сконфигурирован;</li>
+        <li>
+            Контроллер создает объект действия, основываясь на запрошенном ID действия:
+            <ul>
+                <li>Если ID действия не указан, то будет использовано [[yii\base\Controller::defaultAction|ID действия по умолчанию]];</li>
+                <li>Если ID действия найдено в [[yii\base\Controller::actions()|карте действий]], то отдельное действие будет создано;</li>
+                <li>Если ID действия соответствует методу действия, то встроенное действие будет создано;</li>
+                <li>В противном случае, будет выброшено исключение [[yii\base\InvalidRouteException]].</li>
+            </ul>
+        </li>
+        <li>
+            Контроллер последовательно вызывает метод beforeAction() приложения, модуля (если контроллер принадлежит модулю) и самого контроллера.
+            <ul>
+                <li>Если один из методов вернул false, то остальные, не вызванные методы beforeAction будут пропущены, а выполнение действия будет отменено;</li>
+                <li>По-умолчанию, каждый вызов метода beforeAction() вызовет событие beforeAction, на которое вы можете назначить обработчики.</li>
+            </ul>
+        </li>
+        <li>
+            Контроллер запускает действие:
+            <ul>
+                <li>Параметры действия будут проанализированы и заполнены из данных запроса.</li>
+            </ul>
+        </li>
+        <li>
+            Контроллер последовательно вызывает методы afterAction контроллера, модуля (если контроллер принадлежит модулю) и приложения.
+            <ul>
+                <li>По-умолчанию, каждый вызов метода afterAction() вызовет событие afterAction, на которое вы можете назначить обработчики.</li>
+            </ul>
+        </li>
+        <li>Приложение, получив результат выполнения действия, присвоит его объекту response.</li>
+    </ol>
+
+    <h2 id="title">
+        Лучшие практики
+    </h2>
+
+    <p>В хорошо организованных приложениях контроллеры обычно очень тонкие и содержат лишь несколько строк кода.</li>
+    <p>Если ваш контроллер слишком сложный, то обычно это означает, что вам надо провести его рефакторинг и перенести часть кода в другие места.</li>
+    <p>В целом, контроллеры</li>
+
+    <ul>
+        <li>могут иметь доступ к данным запроса;</li>
+        <li>могут вызывать методы моделей и других компонентов системы с данными запроса;</li>
+        <li>могут использовать представления для формирования ответа;</li>
+        <li>не должны заниматься обработкой данных, это должно происходить в слое моделей;</li>
+        <li>должны избегать использования HTML или другой разметки, лучше это делать в представлениях.</li>
+    </ul>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/14.html", "Yii2: Контроллеры", "bm1220"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1220", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1220") == 1) { document.getElementById("bma1220").style.display = "block"; document.getElementById("bm1220").style.display = "none"; } else { document.getElementById("bma1220").style.display = "none"; document.getElementById("bm1220").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Контроллеры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1220", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

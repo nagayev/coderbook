@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma146" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm146" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Объявление класса
+	</h1>
+
+	<p>Уже говорилось, что класс в языке C# играет две роли: это совокупность или "контейнер" статических методов и статических полей, и это "трафарет", позволяющий порождать конкретные объекты.</p>
+	<p>Класс как контейнер нами уже подробно изучен.</p>
+	<p>Класс как трафарет – это библиотечный или определяемый программистом- пользователем тип данных.</p>
+	<p>В английском языке для определённого программистом класса, играющего эту роль, используется краткое обозначение UDT – user-defined type.</p>
+	<p>Сейчас будем рассматривать именно такие классы.</p>
+	<p>Класс, как определяемый пользователем тип, позволяет создавать конкретные объекты, состав и состояние каждого из которых задают нестатические поля класса, а поведение – его нестатические методы.</p>
+	<p>Достаточно общее определение (декларация, иначе объявление) класса имеет следующий формат:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_класса opt
+
+	class имя_класса спецификация_базы_класса opt
+
+	тело_класса; opt
+	</pre>
+
+	<p>Как мы уже говорили, индекс opt (от английского option – альтернатива, выбор ) после элемента декларации указывает на необязательность предшествующего ему элемента.</p>
+	<p>Даже точка с запятой после тела класса не является обязательной.</p>
+	<p>Начнем изучение особенностей построения тех пользовательских классов, в определения которых входят только обязательные элементы и, возможно, модификаторы класса.</p>
+	<p>С учетом названных ограничений минимальный состав объявления класса таков:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_классаopt class имя_класса тело_класса
+	</pre>
+
+	<p>В декларации класса class – служебное слово, называемое ключом класса.</p>
+	<p>Имя_класса – идентификатор, выбранный автором класса в качестве его имени.</p>
+	<p>Модификаторы_класса это:</p>
+	<p>- один из пяти уже неоднократно названных модификаторов доступа (public, protected, internal, private, protected internal);</p>
+	<p>- модификаторы, применяемые при вложении и наследовании классов (new, abstract, sealed – одновременное применение модификаторов sealed и abstract недопустимо);</p>
+	<p>- static – модификатор статического класса.</p>
+	<p>При использовании нескольких модификаторов они отделяются друг от другапробелами.</p>
+	<p>Тело_класса – заключенная в фигурные скобки последовательность объявлений (деклараций) членов класса.</p>
+	<p>Объявление члена класса:</p>
+	<p>- объявление константы;</p>
+	<p>- объявление поля;</p>
+	<p>- объявление метода;</p>
+	<p>- объявление свойства;</p>
+	<p>- объявление события;</p>
+	<p>- объявление индексатора;</p>
+	<p>- объявление операции;</p>
+	<p>- объявление конструктора;</p>
+	<p>- объявление финализатора (деструктора);</p>
+	<p>- объявление статического конструктора;</p>
+	<p>- объявление типа.</p>
+	<p>Перечислив разновидности членов класса, будем вводить их в употребление по мере необходимости, и тогда же объяснять назначение и возможности каждого из них.</p>
+	<p>Применяя в рассмотренных ранее программах библиотечные классы, мы использовали их методы, конструкторы, поля, константы и свойства.</p>
+	<p>На первом этапе знакомства с особенностями определения пользовательских классов ограничимся именно такими членами.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="58.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="60.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/59.html", "Объявление класса", "bm146"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm146", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm146") == 1) { document.getElementById("bma146").style.display = "block"; document.getElementById("bm146").style.display = "none"; } else { document.getElementById("bma146").style.display = "none"; document.getElementById("bm146").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объявление класса") == 1) { arrs.splice(i, 1); localStorage.setItem("bm146", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

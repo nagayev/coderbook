@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma103" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm103" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Особые ситуации в арифметических выражениях
+	</h1>
+
+	<p>Однако, и при допустимых преобразованиях существуют особые ситуации, которые необходимо предусматривать.</p>
+	<p>Например, если присваивать переменной вещественного типа целое значение с очень большим количеством значащих цифр, то младшие разряды числа могут быть потеряны.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	float x=12345678987654321L;
+	// справа long
+	</pre>
+
+	<p>Переменная x получает значение 1.234568Е+16, - потеряны младшие разряды.</p>
+	<p>При делении вещественных чисел существует опасность переполнения, если порядок делимого отличается от порядка делителя на слишком большую величину.</p>
+	<p>В этом случае результат, независимо от конкретных величин делимого и делителя, воспринимается исполняющей системой как бесконечность (Infinity).</p>
+	<p>Такое же значение получается при делении на нулевое значение.</p>
+	<p>Переполнение возможно и при других арифметических операциях.</p>
+	<p>Например, в результате выполнения следующего фрагмента программы:</p>
+
+	<pre class="brush: csharp;">
+	float x=1E+24F;
+	Сonsole.Write("x="+(x*=x));
+	</pre>
+
+	<p>На консольный экран будет выведена строка:</p>
+
+	<pre class="brush: csharp;">
+		х=бесконечность
+	</pre>
+
+	<p>Обратная переполнению ситуация – потеря значимости возникает, когда получаемое значение слишком мало, и не может быть представлено с помощью того количества разрядов (битов), которые выделяются для значения соответствующего типа.</p>
+	<p>В качестве примера рассмотрим следующий фрагмент программы:</p>
+
+	<pre class="brush: csharp;">
+	float x=1E-24F;
+	Сonsole.Write("x="+(x*=x));
+	</pre>
+
+	<p>Результат в этом случае нулевой: <b>х=0</b>.</p>
+	<p>В случае, когда и делитель, и делимое равны нулю, результат неопределённый, и это фиксируется с помощью специального обозначения NaN (Not a Number - не число).</p>
+	<p>При выполнении следующих операторов:</p>
+
+	<pre class="brush: csharp;">
+	float x=0.0f;
+	Сonsole.Write("0/0"+x/0);
+	</pre>
+
+	<p>Результат в консольном экране будет таким: <b>0/0 = NaN</b>.</p>
+	<p>При решении вычислительных задач с помощью итерационных алгоритмов, возникает задача оценки необходимого количества итераций.</p>
+	<p>Например, если алгоритм приведён к виду <b>f i+1=fi +∆i ; i=1,2,… и ∆i</b> по какому-либо закону убывает с ростом i, то предельная точность достигается в том случае, когда ∆i становится пренебрежительно малой величиной по сравнению с fi.</p>
+	<p>В этом случае говорят, что достигнут машинный нуль относительно величины fi.</p>
+	<p>Рассмотрим такую последовательность операторов:</p>
+
+	<pre class="brush: csharp;">
+	double x=1000, y=1E-08;
+	Сonsole.Write("x+y="+(x+(y*=y)));
+	Сonsole.Write(" y="+y);
+	</pre>
+
+	<p>Результат выполнения: <b>x+y=1000 y=1E-16</b>.</p>
+	<p>В данном примере прибавление значения 1Е-16 к 1000 не изменило результата, и 1Е-16 является машинным нулём относительно величины 1000.</p>
+	<p>При необходимости можно ставить и решать задачу оценки максимального по абсолютной величине значения машинного нуля относительно заданной величины...</p>
+	<p>Если переменной типа decimal необходимо присвоить значение отличное от целого, то его нужно представить в виде константы типа decimal.</p>
+	<p>Целое значение можно присваивать десятичной переменной непосредственно.</p>
+	<p>Следующий фрагмент программы (04_01.cs) иллюстрирует некоторые особенности выражений с операндом типа decimal.</p>
+	<p>(Напомним, что десятичный литерал имеет суффикс m или M.)</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		decimal p = 193, d = 0.15431m, e = 1.231E-10M;
+		Console.WriteLine("p*d*e= " + (p * d * e));
+		float bp = 193F, bd = 0.15431F, be = 1.231E-10F;
+		Console.WriteLine("bp*bd*be= " + (bp * bd * be));
+		Console.WriteLine("1.0/3.0= " + (1.0/3.0));
+		Console.WriteLine("1.0m/3.0m= " + (1.0m / 3.0m));
+	}
+	</pre>
+
+	<p>Переменным p, d, e типа decimal и переменным bp, bd, bc типа float присвоены одинаковые значения.</p>
+	<p>Результаты одинаковых выражений с операндами разных типов существенно различны по точности:</p>
+
+	<pre class="brush: csharp;">
+	p*d*e= 0,000000003666143273
+	bp*bd*be= 3,666143E-09
+	1.0/3.0= 0,333333333333333
+	1.0m/3.0m= 0,3333333333333333333333333333
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="15.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="17.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/16.html", "Особые ситуации", "bm103"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm103", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm103") == 1) { document.getElementById("bma103").style.display = "block"; document.getElementById("bm103").style.display = "none"; } else { document.getElementById("bma103").style.display = "none"; document.getElementById("bm103").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Особые ситуации") == 1) { arrs.splice(i, 1); localStorage.setItem("bm103", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

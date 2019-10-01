@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma385" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm385" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Условные выражения
+	</h1>
+
+	<p>Практически ни один язык программирования не обходится без команды if, которая позволяет выполнять код если некоторое заданное условие истинно.</p>
+	<p>Хотя Sass к языкам программирования и не относится, в нём также имеется команда @if, а также @else.</p>
+	<p>Синтаксис следующий.</p>
+
+	<pre class="brush: csharp;">
+	@if (<условие 1>)
+	{
+    	// команды выполняются, если <условие 1> истинно
+	}
+
+	@else if (<условие 2>)
+	{
+    	// команды выполняются, если <условие 1> ложно, а <условие 2> истинно
+	}
+
+	@else
+	{
+    	// команды выполняются, если все условия выше ложные
+	}
+	</pre>
+
+	<p>@else if, а также @else не являются обязательными и если в них нет нужды, просто их не пишем.</p>
+	<p>Условия допустимо писать как в круглых скобках, так и без них.</p>
+	<p>В условиях используются следующие операторы:</p>
+	<p><b>==</b> равно;</p>
+	<p><b>!=</b> не равно;</p>
+	<p><b>&gt;</b> больше;</p>
+	<p><b>&lt;</b> меньше;</p>
+	<p><b>&gt;=</b> больше или равно;</p>
+	<p><b>&lt;=</b> меньше или равно.</p>
+	<p>Для примера, условие 10 &gt; 5 — истинно, а red == blue — нет.</p>
+	<p>Условные выражения удобны для задания триггеров — так называется проверка на соответствие некоторым заданным условиям.</p>
+	<p>Например, мы можем ввести переменную $prefix, которая будет сообщать, выводить свойства с браузерными префиксами или нет.</p>
+	<p>Для этого создадим примесь с именем linear-gradient, одним из параметров которой будет значение префикса, и по умолчанию установим значение как true.</p>
+	<p>Теперь при вызове примеси будет идти проверка, выводить вендорные свойства или нет.</p>
+
+	<pre class="brush: csharp;">
+    	@mixin linear-gradient($color1, $color2, $prefix:true)
+    	{
+    	   @if $prefix
+    	   {
+    	       background-image: -webkit-linear-gradient($color1, $color2);
+    	       background-image: -moz-linear-gradient($color1, $color2);
+    	       background-image: -o-linear-gradient($color1, $color2);
+    	   }
+    	   background-image: linear-gradient($color1, $color2);
+    	}
+
+	   $prefix: false;
+
+    	body
+    	{
+        	@include linear-gradient(#1e5799, #2989d8, $prefix);
+    	}
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="sass16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="sass18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/sass/sass17.html", "Условные выражения", "bm385"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm385", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm385") == 1) { document.getElementById("bma385").style.display = "block"; document.getElementById("bm385").style.display = "none"; } else { document.getElementById("bma385").style.display = "none"; document.getElementById("bm385").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Условные выражения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm385", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

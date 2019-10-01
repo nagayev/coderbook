@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma648" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm648" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Клонирование
+	</h1>
+
+	<p>Механизм клонирования, как следует из названия, позволяет порождать новые объекты на основе существующего, которые обладали бы точно таким же состоянием, что и исходный.</p>
+	<p>То есть ожидается, что для исходного объекта, представленного ссылкой x, и результата клонирования, возвращаемого методом x.clone(), выражение</p>
+
+	<pre class="brush: csharp;">
+	x != x.clone()
+	</pre>
+
+	<p>должно быть истинным, как и выражение</p>
+
+	<pre class="brush: csharp;">
+	x.clone().getClass() == x.getClass()
+	</pre>
+
+	<p>Наконец, выражение</p>
+
+	<pre class="brush: csharp;">
+	x.equals(x.clone())
+	</pre>
+
+	<p>также верно.</p>
+	<p>Реализация такого метода clone() осложняется целым рядом потенциальных проблем, например:</p>
+	<p><b>*</b> класс, от которого порожден объект, может иметь разнообразные конструкторы, которые к тому же могут быть недоступны (например, модификатор доступа private );</p>
+	<p><b>*</b> цепочка наследования, которой принадлежит исходный класс, может быть довольно длинной, и каждый родительский класс может иметь свои поля – недоступные, но важные для воссоздания состояния исходного объекта;</p>
+	<p><b>*</b> в зависимости от логики реализации возможна ситуация, когда не все поля должны копироваться для корректного клонирования; одни могут оказаться лишними, другие потребуют дополнительных вычислений или преобразований;</p>
+	<p><b>*</b> возможна ситуация, когда объект нельзя клонировать, дабы не нарушить целостность системы.</p>
+	<p>Поэтому было реализовано следующее решение.</p>
+	<p>Класс Object содержит метод clone(). Рассмотрим его объявление:</p>
+
+	<pre class="brush: csharp;">
+	protected native Object clone()
+	throws CloneNotSupportedException;
+	</pre>
+
+	<p>Именно он используется для клонирования.</p>
+	<p>Далее возможны два варианта.</p>
+	<p>Первый вариант: разработчик может в своем классе переопределить этот метод и реализовать его по своему усмотрению, решая перечисленные проблемы так, как того требует логика разрабатываемой системы.</p>
+	<p>Упомянутые условия, которые должны быть истинными для клонированного объекта, не являются обязательными и программист может им не следовать, если это требуется для его класса.</p>
+	<p>Второй вариант предполагает использование реализации метода clone() в самом классе Object.</p>
+	<p>То, что он объявлен как native, говорит о том, что его реализация предоставляется виртуальной машиной.</p>
+	<p>Естественно, перечисленные трудности легко могут быть преодолены самой JVM, ведь она хранит в памяти все свойства объектов.</p>
+	<p>При выполнении метода clone() сначала проверяется, можно ли клонировать исходный объект.</p>
+	<p>Если разработчик хочет сделать объекты своего класса доступными для клонирования через Object.clone(), то он должен реализовать в своем классе интерфейс Cloneable.</p>
+	<p>В этом интерфейсе нет ни одного элемента, он служит лишь признаком для виртуальной машины, что объекты могут быть клонированы.</p>
+	<p>Если проверка не выполняется успешно, метод порождает ошибку CloneNotSupportedException.</p>
+	<p>Если интерфейс Cloneable реализован, то порождается новый объект от того же класса, от которого был создан исходный объект.</p>
+	<p>При этом копирование выполняется на уровне виртуальной машины, никакие конструкторы не вызываются. Затем значения всех полей, объявленных, унаследованных либо объявленных в родительских классах, копируются.</p>
+	<p>Полученный объект возвращается в качестве клона.</p>
+	<p>Обратите внимание, что сам класс Object не реализует интерфейс Cloneable, а потому попытка вызова new Object().clone() будет приводить к ошибке.</p>
+	<p>Метод clone() предназначен скорее для использования в наследниках, которые могут обращаться к нему с помощью выражения super.clone().</p>
+	<p>При этом могут быть сделаны следующие изменения:</p>
+	<p><b>*</b> модификатор доступа расширен до public ;</p>
+	<p><b>*</b> удалено предупреждение об ошибке CloneNotSupportedException ;</p>
+	<p><b>*</b> результирующий объект может быть модифицирован любым способом, на усмотрение разработчика.</p>
+	<p>Напомним, что все массивы реализуют интерфейс Cloneable и, таким образом, доступны для клонирования.</p>
+	<p>Важно помнить, что все поля клонированного объекта приравниваются, их значения никогда не клонируются.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	public class Test implements Cloneable
+	{
+		Point p;
+		int height;
+		
+		public Test(int x, int y, int z)
+		{
+			p=new Point(x, y);
+			height=z;
+		}
+		
+		public static void main(String s[])
+		{
+			Test t1=new Test(1, 2, 3), t2=null;
+			try
+			{
+				t2=(Test) t1.clone();
+			} catch (CloneNotSupportedException e) {}
+			
+			t1.p.x=-1;
+			t1.height=-1;
+			
+			System.out.println("t2.p.x=" + t2.p.x + ", t2.height=" + t2.height);
+		}
+	}
+	</pre>
+
+	<p>Результатом работы программы будет:</p>
+
+	<pre class="brush: csharp;">
+	t2.p.x=-1, t2.height=3
+	</pre>
+
+	<p>Из примера видно, что примитивное поле было скопировано и далее существует независимо в исходном и клонированном объектах.</p>
+	<p>Изменение одного не сказывается на другом.</p>
+	<p>А вот ссылочное поле было скопировано по ссылке, оба объекта ссылаются на один и тот же экземпляр класса Point.</p>
+	<p>Поэтому изменения, происходящие с исходным объектом, сказываются на клонированном.</p>
+	<p>Этого можно избежать, если переопределить метод clone() в классе Test.</p>
+
+	<pre class="brush: csharp;">
+	public Object clone()
+	{
+		Test clone=null;
+		
+		try
+		{
+			clone=(Test) super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new InternalError(e.getMessage());
+		}
+
+		clone.p=(Point)this.p.clone();
+		return clone;
+	}
+	</pre>
+
+	<p>Обратите внимание, что результат метода Object.clone() приходится явно приводить к типу Test, хотя его реализация гарантирует, что клонированный объект будет порожден именно от этого класса.</p>
+	<p>Однако тип возвращаемого значения в данном методе для универсальности объявлен как Object, поэтому явное сужение необходимо.</p>
+	<p>Теперь метод main можно упростить:</p>
+
+	<pre class="brush: csharp;">
+	public static void main(String s[])
+	{
+		Test t1=new Test(1, 2, 3);
+		Test t2=(Test) t1.clone();
+		t1.p.x=-1;
+		t1.height=-1;
+		System.out.println("t2.p.x=" + t2.p.x + ", t2.height=" + t2.height);
+	}
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	t2.p.x=1, t2.height=3
+	</pre>
+
+	<p>То есть теперь все поля исходного и клонированного объектов стали независимыми.</p>
+	<p>Реализация такого "неглубокого" клонирования в методе Object.clone() необходима, так как в противном случае клонирование второстепенного объекта могло бы привести к огромным затратам ресурсов, ведь этот объект может содержать ссылки на более значимые объекты, а те при клонировании также начали бы копировать свои поля, и так далее.</p>
+	<p>Кроме того, типом поля клонируемого объекта может быть класс, не реализующий Cloneable, что приводило бы к дополнительным проблемам.</p>
+	<p>Как показано в примере, при необходимости дополнительное копирование можно добавить самостоятельно.</p>
+
+	<h1 id="title">
+		Клонирование массивов
+	</h1>
+
+	<p>Итак, любой массив может быть клонирован.</p>
+	<p>В этом разделе хотелось бы рассмотреть особенности, возникающие из-за того, что Object.clone() копирует только один объект.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	int a[]={1, 2, 3};
+	int b[]=(int[])a.clone();
+	a[0]=0;
+	System.out.println(b[0]);
+	</pre>
+
+	<p>Результатом будет единица, что вполне очевидно, так как весь массив представлен одним объектом, который не будет зависеть от своей копии.</p>
+	<p>Усложняем пример:</p>
+
+	<pre class="brush: csharp;">
+	int a[][]={{1, 2}, {3}};
+	int b[][]=(int[][]) a.clone();
+	
+	if (...)
+	{
+		// первый вариант:
+		a[0]=new int[]{0};
+		System.out.println(b[0][0]);
+	} else {
+		// второй вариант:
+		a[0][0]=0;
+		System.out.println(b[0][0]);
+	}
+	</pre>
+
+	<p>Разберем, что будет происходить в этих двух случаях.</p>
+	<p>Начнем с того, что в первой строке создается двумерный массив, состоящий из двух одномерных.</p>
+	<p>Итого три объекта.</p>
+	<p>Затем, на следующей строке при клонировании будет создан новый двумерный массив, содержащий ссылки на те же самые одномерные массивы.</p>
+	<p>Теперь несложно предсказать результат обоих вариантов.</p>
+	<p>В первом случае в исходном массиве меняется ссылка, хранящаяся в первом элементе, что не принесет никаких изменений для клонированного объекта.</p>
+	<p>На консоли появится 1.</p>
+	<p>Во втором случае модифицируется существующий массив, что скажется на обоих двухмерных массивах.</p>
+	<p>На консоли появится 0.</p>
+	<p>Обратите внимание, что если из примера убрать условие if-else, так, чтобы отрабатывал первый вариант, а затем второй, то результатом будет опять 1, поскольку в части второго варианта модифицироваться будет уже новый массив, порожденный в части первого варианта.</p>
+	<p>Таким образом, в Java предоставляется мощный, эффективный и гибкий механизм клонирования, который легко применять и модифицировать под конкретные нужды.</p>
+	<p>Особенное внимание должно уделяться копированию объектных полей, которые по умолчанию копируются только по ссылке.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой лекции было рассмотрено устройство массивов в Java.</p>
+	<p>Подобно массивам в других языках, они представляют собой набор значений одного типа.</p>
+	<p>Основным свойством массива является длина, которая в Java может равняться нулю.</p>
+	<p>В противном случае, массив обладает элементами в количестве, равном длине, к которым можно обратиться, используя индекс, изменяющийся от 0 до величины длины без единицы.</p>
+	<p>Длина задается при создании массива и у созданного массива не может быть изменена.</p>
+	<p>Однако она не входит в определение типа, а потому одна переменная может ссылаться на массивы одного типа с различной длиной.</p>
+	<p>Создать массив можно с помощью ключевого слова new, поскольку все массивы, включая определенные на основе примитивных значений, имеют объектный тип.</p>
+	<p>Другой способ – воспользоваться инициализатором и перечислить значения всех элементов.</p>
+	<p>В первом случае элементы принимают значения по умолчанию (0, false, null).</p>
+	<p>Особым образом в Java устроены многомерные массивы. Они, по сути, являются одномерными, основанными на массивах меньшей размерности.</p>
+	<p>Такой подход позволяет единообразно работать с многомерными массивами.</p>
+	<p>Также он дает возможность создавать не только "прямоугольные" массивы, но и массивы любой конфигурации.</p>
+	<p>Хотя массив и является ссылочным типом, работа с ним зачастую имеет некоторые особенности.</p>
+	<p>Рассматриваются правила приведения типа массива.</p>
+	<p>Как для любого объектного типа, приведение к Object является расширяющим.</p>
+	<p>Приведение массивов, основанных на ссылочных типах, во многом подчиняется обычным правилам.</p>
+	<p>А вот примитивные массивы преобразовывать нельзя.</p>
+	<p>С преобразованиями связано и возникновение ошибки ArrayStoreException, причина которой – невозможность точного отслеживания типов в преобразованном массиве для компилятора.</p>
+	<p>В заключение рассматриваются последние случаи взаимосвязи типа переменной и ее значения.</p>
+	<p>Наконец, изучается механизм клонирования, существующий с самых первых версий Java и позволяющий создавать точные копии объектов, если их классы позволяют это делать, реализуя интерфейс Cloneable.</p>
+	<p>Поскольку стандартное клонирование порождает только один новый объект, это приводит к особым эффектам при работе с объектными полями классов и массивами.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="46.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="48.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/47.html", "Клонирование", "bm648"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm648", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm648") == 1) { document.getElementById("bma648").style.display = "block"; document.getElementById("bm648").style.display = "none"; } else { document.getElementById("bma648").style.display = "none"; document.getElementById("bm648").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Клонирование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm648", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

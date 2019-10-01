@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1197" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1197" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Журналирование Yii
+	</h1>
+
+    <p>Yii предоставляет гибкий и расширяемый функционал протоколирования.</p>
+    <p>Сообщения можно классифицировать в соответствии с уровнем протоколирования и типом сообщений.</p>
+    <p>Используя фильтры по уровню и категории, можно направить поток сообщений в файлы, электронную почту, окно браузера и т.д.</p>
+
+    <h2 id="title">
+        Протоколирование сообщений
+    </h2>
+
+    <p>Сообщение может быть запротоколировано путем вызова Yii::log или Yii::trace.</p>
+    <p>Разница между ними заключается в том, что последний пишет в лог только тогда, когда приложение работает в режиме отладки.</p>
+
+    <pre class="brush: csharp;">
+    Yii::log($message, $level, $category);
+    Yii::trace($message, $category);
+    </pre>
+
+    <p>Для внесения сообщения в лог, необходимо указать категорию и уровень сообщения.</p>
+    <p>Категория представляет собой строку формата xxx.yyy.zzz, что очень схоже с форматом представления псевдонима пути.</p>
+    <p>Например, если сообщение добавляется в лог в CController, мы можем использовать категорию system.web.CController.</p>
+    <p>Уровень сообщения может иметь одно из следующих значений:</p>
+
+    <ul>
+        <li><b>trace:</b> этот уровень используется методом Yii::trace. Он предназначен для отслеживания процесса выполнения приложения в ходе разработки;</li>
+        <li><b>info:</b> этот уровень предназначен для протоколирования информации общего характера;</li>
+        <li><b>profile:</b> данный уровень используется для профилирования (измерения) производительности;</li>
+        <li><b>warning:</b> этот уровень предназначен для сообщений-предупреждений;</li>
+        <li><b>error:</b> этот уровень используется для сообщений о критических ошибках.</li>
+    </ul>
+
+    <h2 id="title">
+        Маршрутизация сообщений
+    </h2>
+
+    <p>Сообщения, протоколируемые с использованием Yii::log или Yii::trace, хранятся в памяти.</p>
+    <p>Как правило, нам требуется либо отобразить их в окне браузера, либо сохранить в файле, отправить электронным письмом и пр.</p>
+    <p>Направление сообщений в различные места назначения называется маршрутизацией сообщений.</p>
+    <p>В Yii за маршрутизацию сообщений отвечает компонент приложения CLogRouter.</p>
+    <p>Этот компонент управляет множеством так называемых маршрутов сообщений.</p>
+    <p>Каждый маршрут представляет одно место назначения потока сообщений.</p>
+    <p>Сообщения, направляемые по тому или иному маршруту, можно отфильтровать в зависимости от их уровня и типа.</p>
+    <p>Для того, чтобы воспользоваться маршрутизацией сообщений, нам необходимо установить и подгрузить заранее компонент приложения CLogRouter.</p>
+    <p>Кроме того, необходимо настроить свойство routes этого компонента, указав маршруты сообщений, которые предполагается использовать.</p>
+    <p>Ниже приведен пример необходимой конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        …
+        'preload'=>array('log'),
+        'components'=>array(
+            …
+            'log'=>array(
+                'class'=>'CLogRouter',
+                'routes'=>array(
+                    array(
+                        'class'=>'CFileLogRoute',
+                        'levels'=>'trace, info',
+                        'categories'=>'system.*',
+                    ),
+                    array(
+                        'class'=>'CEmailLogRoute',
+                        'levels'=>'error, warning',
+                        'emails'=>'admin@example.com',
+                    ),
+                ),
+            ),
+        ),
+    )
+    </pre>
+
+    <p>В примере выше, у нас есть два маршрута сообщений.</p>
+    <p>Первый - CFileLogRoute - сохраняет сообщения в папке приложения для временных файлов runtime.</p>
+    <p>Сохраняются только сообщения с уровнем trace или info и чья категория начинается с system.</p>
+    <p>Второй маршрут - CEmailLogRoute - отправляет сообщения на указанный электронный адрес.</p>
+    <p>Отправляются только сообщения уровня error или warning.</p>
+    <p>Начиная с Yii версии 1.1.13 можно исключать определённые категории:</p>
+
+    <pre class="brush: csharp;">
+    'routes'=>array(
+            array(
+                'class'=>'CEmailLogRoute',
+                'levels'=>'error, warning',
+                'except'=>'system.CModule.*' // отсылаем почтой всё кроме сообщений от CModule
+                'emails'=>'admin@example.com',
+            ),
+            array(
+                'class'=>'CWebLogRoute',
+                'categories'=>'system.db.*',
+                'except'=>'system.db.ar.*', // показываем всё, что касается базы данных, но не касается AR
+            ),
+    </pre>
+
+    <p>В Yii доступны для использования следующие маршруты сообщений:</p>
+
+    <ul>
+        <li>CDbLogRoute: сохраняет сообщения в таблицу базы данных;</li>
+        <li>CEmailLogRoute: отправляет сообщения на указанный адрес электронной почты;</li>
+        <li>CFileLogRoute: сохраняет сообщения во временной папке приложения;</li>
+        <li>CWebLogRoute: отображает сообщения в конце текущей страницы;</li>
+        <li>CProfileLogRoute: отображает сообщения о производительности в конце текущей страницы.</li>
+    </ul>
+    
+    <pre class="brush: csharp;">
+    array(
+        ......
+        'preload'=>array('log'),
+        'components'=>array(
+            ......
+            'log'=>array(
+                'class'=>'CLogRouter',
+                'routes'=>array(
+                    array(
+                        'class'=>'CProfileLogRoute',
+                        'report'=>'summary',
+                        // Показывает время выполнения каждого отмеченного блока кода.
+                        // Значение "report" также можно указать как "callstack".
+                    ),
+                    ...остальные маршруты...
+                ),
+            ),
+        ),
+    )
+    </pre>
+
+    <p><b>Информация:</b> Маршрутизация сообщения происходит в конце каждого текущего цикла обработки запроса, в момент, когда вызывается событие onEndRequest. Для прерывания процесса обработки текущего запроса, используйте метод CApplication::end() вместо die() или exit(). CApplication::end() вызывает событие onEndRequest, что позволяет корректно запротоколировать сообщения.</p>
+
+    <h2 id="title">
+        Фильтрация сообщений
+    </h2>
+
+    <p>Как уже упоминалось выше, сообщения можно отфильтровать по их уровню и типу до того, как они будут направлены тем или иным маршрутом.</p>
+    <p>Это осуществляется путем настройки свойств levels и categories соответствующего маршрута.</p>
+    <p>Если необходимо указать несколько уровней или типов, значения должны быть разделены запятыми.</p>
+    <p>Поскольку типы сообщений указываются в формате xxx.yyy.zzz, мы можем воспринимать их как иерархию типов.</p>
+    <p>В частности, мы говорим, что xxx является родителем xxx.yyy, а последний в свою очередь является родителем для xxx.yyy.zzz.</p>
+    <p>Поэтому для указания типа xxx, а также всех его типов-потомков можно использовать выражение xxx.*.</p>
+
+    <h2 id="title">
+        Сохранение контекста сообщений
+    </h2>
+
+    <p>Мы можем сохранять дополнительную информацию, такую как предопределённые переменные PHP ($_GET, $_SERVER), ID сессии, имя пользователя и т.д.</p>
+    <p>Для этого необходимо задать необходимый фильтр в свойстве CLogRoute::filter.</p>
+    <p>В состав фреймворка входит удобный класс CLogFilter, который может быть использован в качестве фильтра в большинстве случаев.</p>
+    <p>По умолчанию, CLogFilter будет записывать сообщение вместе с такими переменными, как $_GET и $_SERVER, которые обычно содержат ценную системную информацию.</p>
+    <p>Можно настроить CLogFilter таким образом, чтобы перед каждым сообщением записывать ID сессии, имя пользователя и другие данные, которые могут облегчить поиск по большому количеству сообщений.</p>
+    <p>Следующие настройки включают запись контекста сообщений.</p>
+    <p>У каждого журнального маршрута может быть задан свой фильтр.</p>
+    <p>По умолчанию никакого фильтра не задано.</p>
+
+    <pre class="brush: csharp;">
+    array(
+        …
+        'preload'=>array('log'),
+        'components'=>array(
+            …
+            'log'=>array(
+                'class'=>'CLogRouter',
+                'routes'=>array(
+                    array(
+                        'class'=>'CFileLogRoute',
+                        'levels'=>'error',
+                        'filter'=>'CLogFilter',
+                    ),
+                    …other log routes…
+                ),
+            ),
+        ),
+    )
+    </pre>
+
+    <p>Yii поддерживает журналирование информации стека вызова в сообщениях, протоколируемых путем вызова Yii::trace.</p>
+    <p>По умолчанию, данная особенность отключена, т.к. снижает производительность.</p>
+    <p>Для ее использования, необходимо просто определить константу YII_TRACE_LEVEL в начале входного скрипта (до включения файла yii.php) целым числом большим нуля.</p>
+    <p>Тогда Yii будет добавлять в каждое трассирующее сообщение имя файла и номер строки стека вызова, в которых был сделан вызов кода.</p>
+    <p>Число YII_TRACE_LEVEL определяет количество слоев каждого стека вызова, которое должно быть записано.</p>
+    <p>Эта информация особенно полезна на стадии разработки, так как может помочь нам определить места, в которых вызываются трассирующие сообщения.</p>
+
+    <h2 id="title">
+        Профилирование производительности
+    </h2>
+
+    <p>Для целей измерения производительности используется специальный тип сообщений.</p>
+    <p>Его можно использовать для измерения времени исполнения некоторого блока кода и определения узких мест в производительности.</p>
+    <p>Для того, чтобы измерить производительность, необходимо указать ту часть кода, выполнение которой будет отслеживаться.</p>
+    <p>Используя следующие методы, мы отмечаем начало и конец каждого измеряемого блока кода:</p>
+
+    <pre class="brush: csharp;">
+    Yii::beginProfile('blockID');
+    …блок профилируемого кода…
+    Yii::endProfile('blockID');
+    </pre>
+
+    <p>где blockID — это уникальный идентификатор блока кода.</p>
+    <p>Обратите внимание, что блоки кода должны иметь корректную вложенность, т.е. они не могут пересекаться друг с другом.</p>
+    <p>Они либо идут параллельно, либо один блок полностью включает другой.</p>
+    <p>Для того, чтобы увидеть результат профилирования, нам потребуется установить компонент приложения CProfileLogRoute, отвечающий за соответствующий маршрут протоколирования.</p>
+    <p>Здесь все аналогично работе с простыми маршрутами сообщений.</p>
+    <p>Маршрут CProfileLogRoute отобразит результаты измерения производительности внизу текущей страницы.</p>
+
+    <h2 id="title">
+        Профилирование SQL-запросов
+    </h2>
+
+    <p>Профилирование особенно полезно при работе с базой данных, так как SQL-запросы часто являются самым узким местом производительности приложения.</p>
+    <p>Несмотря на то, что мы можем вставить в нужные места beginProfile и endProfile для того, чтобы замерить время, затраченное на каждый SQL-запрос, Yii предоставляет более удобное решение данной проблемы.</p>
+    <p>Выставив в настройках приложения CDbConnection::enableProfiling в true, мы получим профилирование всех выполняемых SQL-запросов.</p>
+    <p>Полученные результаты можно вывести при помощи вышеупомянутого CProfileLogRoute, показывающего, какой SQL-запрос сколько времени занял.</p>
+    <p>Для вывода общего количества запросов и общего времени выполнения можно использовать CDbConnection::getStats().</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="45.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="47.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/46.html", "Журналирование Yii", "bm1197"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1197", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1197") == 1) { document.getElementById("bma1197").style.display = "block"; document.getElementById("bm1197").style.display = "none"; } else { document.getElementById("bma1197").style.display = "none"; document.getElementById("bm1197").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Журналирование Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1197", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma72" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm72" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Классы в С++ (ч. 1)
+	</h1>
+
+	<p>Классы и объекты в С++ являются основными концепциями объектно-ориентированного программирования - ООП.</p>
+	<p>Объектно-ориентированное программирование - расширение структурного программирования, в котором основными концепциями являются понятия классов и объектов.</p>
+	<p>Основное отличие языка программирования С++ от С состоит в том, что в С нет классов, а следовательно язык С не поддерживает ООП, в отличие от С++.</p>
+	<p>Чтобы понять, для чего же в действительности нужны классы, проведём аналогию с каким-нибудь объектом из повседневной жизни, например,  с велосипедом.</p>
+	<p>Велосипед - это объект, который был построен согласно чертежам.</p>
+	<p>Так вот, эти самые чертежи играют роль классов в ООП.</p>
+	<p>Таким образом классы - это некоторые описания, схемы, чертежи по которым создаются объекты.</p>
+	<p>Теперь ясно, что для создания объекта в ООП необходимо сначала составить чертежи, то есть классы.</p>
+	<p>Классы имеют свои функции, которые называются методами класса.</p>
+	<p>Передвижение велосипеда осуществляется за счёт вращения педалей, если рассматривать велосипед с точки зрения ООП, то механизм вращения педалей - это метод класса.</p>
+	<p>Каждый велосипед имеет свой цвет, вес, различные составляющие - всё это свойства.</p>
+	<p>Причём у каждого созданного объекта свойства могут различаться.</p>
+	<p>Имея один класс, можно создать  неограниченно количество объектов (велосипедов), каждый из которых будет обладать одинаковым набором методов, при этом можно не задумываться о внутренней реализации механизма вращения педалей, колёс, срабатывания системы торможения, так как всё это уже будет определено в классе.</p>
+	<p>Разобравшись с назначением класса, дадим ему грамотное определение.</p>
+	<p>Классы в С++ - это абстракция описывающая методы, свойства, ещё не существующих объектов.</p>
+	<p>Объекты - конкретное представление абстракции, имеющее свои свойства и методы.</p>
+	<p>Созданные объекты на основе одного класса называются экземплярами этого класса.</p>
+	<p>Эти объекты могут иметь различное поведение, свойства, но все равно будут являться объектами одного класса.</p>
+	<p>В ООП существует три основных принципа построения классов:</p>
+	<p>1. <b>Инкапсуляция</b> - это свойство, позволяющее объединить в классе и данные, и методы, работающие с ними и скрыть детали реализации от пользователя.</p>
+	<p>2. <b>Наследование</b> - это свойство, позволяющее создать новый класс-потомок на основе уже существующего, при этом все характеристики класса родителя присваиваются классу-потомку.</p>
+	<p>3. <b>Полиморфизм</b> - свойство классов, позволяющее использовать объекты классов с одинаковым интерфейсом без информации о типе и внутренней структуре объекта.</p>
+	<p>Каждое свойство построения классов мы рассмотрим подробно по мере необходимости, а пока просто запомните эти три.</p>
+	<p>А теперь вернёмся к классам, для начала рассмотрим структуру объявления классов.</p>
+
+	<pre class="brush: csharp;">
+	// объявление классов в С++
+	class /*имя класса*/
+	{
+		private:
+		/* список свойств и методов для использования внутри класса */
+		
+		public:
+		/* список методов доступных другим функциям и объектам программы */
+		
+		protected:
+		/* список средств, доступных при наследовании */
+	};
+	</pre>
+
+	<p>Объявление класса начинается с зарезервированного ключевого слова class, после  которого пишется имя класса.</p>
+	<p>В фигурных скобочках, строки 3 - 10 объявляется тело класса, причем после закрывающейся скобочки обязательно нужно ставить точку с запятой, строка 10.</p>
+	<p>В теле класса объявляются три метки спецификации доступа, строки 4, 6, 8, после каждой метки нужно обязательно ставить двоеточие.</p>
+	<p>В строке 4 объявлена метка спецификатора доступа private.</p>
+	<p>Все методы и свойства класса, объявленные после спецификатор доступа private будут доступны только внутри класса.</p>
+	<p>В строке 6 объявлен спецификатор доступа public, все методы и свойства класса, объявленные после спецификатора доступа public будут доступны другим функциям и объектам в программе.</p>
+	<p>Пока на этом остановимся, спецификатор доступа protected разбирать сейчас не будем, просто запомните, что он есть.</p>
+	<p>При объявлении класса, не обязательно объявлять три спецификатора доступа, и не обязательно их объявлять в таком порядке.</p>
+	<p>Но лучше сразу определиться с порядком объявления спецификаторов доступа, и стараться его придерживаться.</p>
+	<p>Разработаем программу, в которой объявим простейший класс, в котором будет объявлена одна функция, печатающая сообщение.</p>
+
+	<pre class="brush: csharp;">
+	// classes.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	
+	// начало объявления класса
+	// имя класса
+	class CppStudio
+	{
+		// спецификатор доступа
+		public:
+		// функция (метод класса) выводящая сообщение на экран
+		void message()
+		{
+			cout << "website: cppstudio.com\ntheme: Classes and Objects in C + +\n";
+		}
+		// конец объявления класса CppStudio
+	};
+	 
+	int main(int argc, char* argv[])
+	{
+		// объявление объекта
+		CppStudio objMessage;
+		
+		// вызов функции класса message
+		objMessage.message();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строках 7 - 14 мы определили класс с именем CppStudio.</p>
+	<p>Имя класса принято начинать с большой буквы, последующие слова в имени также должны начинаться с большой буквы.</p>
+	<p>Такое сочетание букв называют верблюжьим регистром, так как чередование больших и маленьких букв напоминает силуэт верблюда.</p>
+	<p>В теле класса объявлен спецификатор доступа public, который позволяет вызывать другим функциям методы класса, объявленные после public.</p>
+	<p>Вот именно поэтому в главной функции, в строке 19 мы смогли вызвать функцию message().</p>
+	<p>В классе CppStudio объявлена всего одна функция, которая не имеет параметров и выводит сообщение на экран, строка 12.</p>
+	<p>Методы класса - это те же функции, только объявлены они внутри класса, поэтому всё что относится к функциям актуально и для методов классов.</p>
+	<p>Объявление классов выполняется аналогично объявлению функций, то есть класс можно объявлять в отдельном файле или в главном файле, позже посмотрим как это делается.</p>
+	<p>В строке 18 объявлена переменная objMessage типа CppStudio, так вот, переменная objMessage - это объект класса CppStudio.</p>
+	<p>Таким образом, класс является сложным типом данных.</p>
+	<p>После того как объект класса объявлен, можно воспользоваться его методами.</p>
+	<p>Метод всего один - функция message().</p>
+	<p>Для этого обращаемся к методу объекта objMessage через точку, как показано в строке 19, в результате программа выдаст текстовое сообщение.</p>
+
+	<pre class="brush: csharp;">
+	website: cppstudio.com
+	theme: Classes and Objects in C + +
+	</pre>
+
+	<h1 id="title">
+		set - функции и get - функции классов
+	</h1>
+
+	<p>Каждый объект имеет какие-то свои свойства или атрибуты, которые характеризуют его на протяжении всей жизни.</p>
+	<p>Атрибуты объекта хранятся в переменных, объявленных внутри класса, которому принадлежит данный объект.</p>
+	<p>Причём, объявление переменных должно выполняться со спецификатором доступа private.</p>
+	<p>Такие переменные называются элементами данных.</p>
+	<p>Так как элементы данных объявлены в private, то и доступ к ним могут получить только методы класса, внешний доступ к элементам данных запрещён.</p>
+	<p>Поэтому принято объявлять в классах специальные методы - так называемые set и get функции, с помощью которых можно манипулировать элементами данных.</p>
+	<p>set-функции инициализируют элементы данных, get-функции позволяют просмотреть значения элементов данных.</p>
+	<p>Доработаем класс CppStudio так, чтобы в нём можно было хранить дату в формате дд.мм.гг.</p>
+	<p>Для изменения и просмотра даты реализуем соответственно set и get функции.</p>
+
+	<pre class="brush: csharp;">
+	// classes.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	
+	// имя класса 
+	class CppStudio
+	{
+		// спецификатор доступа private
+		private:
+		// день
+		int day,
+		// месяц
+		month,
+		// год
+		year;
+		// спецификатор доступа public
+		public:
+		// функция (метод класса) выводящая сообщение на экран
+		void message()
+		{
+			cout << "\nwebsite: cppstudio.comntheme: Classes and Objects in C + +\n";
+		}
+		// установка даты в формате дд.мм.гг
+		void setDate(int date_day, int date_month, int date_year)
+		{
+			// инициализация день
+			day   = date_day;
+			// инициализация месяц
+			month = date_month;
+			// инициализация год
+			year  = date_year;
+		}
+		// отобразить текущую дату
+		void getDate()
+		{
+			cout << "Date: " << day << "." << month << "." << year << endl;
+		}
+		// конец объявления класса CppStudio
+	};
+	 
+	int main(int argc, char* argv[])
+	{
+		// установка локали
+		setlocale(LC_ALL, "rus");
+		int day, month, year;
+		cout << "Введите текущий день месяц и год!\n";
+		cout << "день: ";  cin >> day;
+		cout << "месяц: ";  cin >> month;
+		cout << "год: "; cin >> year;
+		// объявление объекта
+		CppStudio objCppstudio;
+		// вызов функции класса message
+		objCppstudio.message();
+		// инициализация даты
+		objCppstudio.setDate(day, month, year);
+		// отобразить дату
+		objCppstudio.getDate();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В определении класса появился новый спецификатор доступа private, строка 9.</p>
+	<p>Данный спецификатор доступа ограничивает доступ к переменным, которые объявлены после него и до начала спецификатора доступа public, строки 9 - 12.</p>
+	<p>Таким образом к переменным day, month, year, могут получить доступ только методы класса.</p>
+	<p>Функции не принадлежащие классу, не могут обращаться к этим переменным.</p>
+	<p>Элементы данных или методы класса, объявленные после спецификатора доступа private, но до начала следующего спецификатора доступа называются закрытыми элементами данных и закрытыми методами класса.</p>
+	<p>Следуя принципу наименьших привилегий и принципу хорошего программирования, целесообразно объявлять элементы данных после спецификатора доступа private, а методы класса - после спецификатора доступа public.</p>
+	<p>Тогда, для манипулирования элементами данных, объявляются специальные функции - get и set.</p>
+	<p>В класс CppStudio мы добавили два метода setDate() и getDate(), подробно рассмотрим каждый метод.</p>
+	<p>Метод setDate() определён с 18 по 23 строки.</p>
+	<p>Как уже ранее упоминалось, set - функции инициализируют элементы данных, поэтому метод setDate() выполняет именно такую функцию.</p>
+	<p>То есть метод setDate() инициализирует переменные day, month, year.</p>
+	<p>Чтобы просмотреть,  значения в закрытых элементах данных объявлена функция getDate(), которая возвращает значения из переменных day, month, year в виде даты.</p>
+	<p>На этом определение класса закончено, в main(), как и всегда, создаем объект класса, и через объект вызываем его методы,строки 39 - 41.</p>
+	<p>Если бы элементы данных были объявлены после спецификатора public мы бы смогли к ним обратиться точно также, как и к методам класса.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Введите текущий день месяц и год!
+	день: 29
+	месяц: 11
+	год: 2016
+	website: cppstudio.comntheme: Classes and Objects in C++
+	Date: 10.11.2016
+	</pre>
+
+	<p>Продолжение в следующей части...</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="50.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="52.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/51.html", "Классы в С++ (ч. 1)", "bm72"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm72", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm72") == 1) { document.getElementById("bma72").style.display = "block"; document.getElementById("bm72").style.display = "none"; } else { document.getElementById("bma72").style.display = "none"; document.getElementById("bm72").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Классы в С++ (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm72", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

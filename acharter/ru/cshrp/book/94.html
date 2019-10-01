@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma181" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm181" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Генерация исключений
+	</h1>
+
+	<p>Об обработке исключений, посылаемых методами библиотечных классов, мы уже говорили и неоднократно пользовались.</p>
+	<p>Чтобы глубже разобраться в механизме генерации исключений и научиться создавать и посылать исключения в любой заранее предусмотренной ситуации, возникшей при выполнении программы, нужно ясно понять и усвоить, что исключения – это объекты некоторых специальных классов.</p>
+	<p>Все системные классы исключений являются производными от класса System.Exception.</p>
+	<p>Этот класс имеет несколько замечательных свойств, два из которых (Message и Source) мы уже применяли.</p>
+	<p>При создании объектов классов исключений наиболее важными являются Message и InnerException.</p>
+	<p>Оба эти свойства в обязательном порядке используются всеми исключениями.</p>
+	<p>Оба свойства предназначены только для чтения.</p>
+	<p>Message – это свойство типа String, значение которого представляет собой текст сообщения о причине возникновения исключения.</p>
+	<p>InnerException – имеет тип Exception и представляет собой ненулевую ссылку на то исключение, которое является причиной возникновения данного исключения.</p>
+	<p>Значения этих свойств можно задать с помощью параметров конструктора при создании объекта класса System.Exception.</p>
+	<p>Нам могут быть полезны следующие конструкторы:</p>
+	<p>Exception() – инициализирует умалчиваемыми значениями данных новый экземпляр класса Exception.</p>
+	<p>Exception(String) – инициализирует новое исключение (новый объект).</p>
+	<p>Параметр задаёт значение свойства Message.</p>
+	<p>Exception(String, Exception) – параметр типа String определяет значение свойства Message, а второй параметр представляет собой ссылку на внутреннее исключение, которое явилось причиной данного исключения.</p>
+	<p>Зная конструкторы, создать объект-исключение, применяя операцию new мы уже сможем.</p>
+	<p>Осталось выяснить каким образом послать исключение и как определить условие, при выполнении которого это нужно делать.</p>
+	<p>Определение условия не относится к механизму обработки исключений, а зависит от той конкретной задачи, для решения которой создаётся программа.</p>
+	<p>Для генерации (для посылки) исключения из выбранной точки кода программы используется оператор, имеющий одну из следующих двух форм:</p>
+	<p>throw выражение;</p>
+	<p>throw;</p>
+	<p>Оператор throw без выражения;</p>
+	<p>можно использовать только в catch-блоке для ретрансляции исключения в catch-блок следующего уровня.</p>
+	<p>Значением выражения, использованного в операторе throw, должна быть ссылка на объект класса исключений.</p>
+	<p>Именно этот объект посылается в качестве исключения.</p>
+	<p>Если значение выражения равно null, то вместо него посылается исключение System.NullReferenceException.</p>
+	<p>Одной из наиболее важных задач, решаемых с применением исключений, является проверка корректности данных, получаемых программой или отдельным методом.</p>
+	<p>Мы уже показали на нескольких примерах как использовать исключения автоматически формируемые при чтении данных от клавиатуры.</p>
+	<p>В следующей программе продемонстрируем как программировать генерацию исключений.</p>
+	<p>Пусть требуется вычислить значение электрической мощности, рассеиваемой на сопротивлении в 100 Ом при включении его в сеть с напряжением 110 или 127 или 220 вольт.</p>
+	<p>Пользователь может ввести только одно из указанных значений напряжения.</p>
+	<p>Ошибаться при вводе можно только два раза.</p>
+	<p>При третьей ошибке программа должна завершить работу без вычисления мощности.</p>
+	<p>Ошибки ввода в данном случае могут быть двух видов – лексические и семантические.</p>
+	<p>Лексическая ошибка – это неверная запись вещественного числа при его наборе на клавиатуре.</p>
+	<p>Семантическая ошибка – отличие введённого числа от трёх допустимых условием задачи значений (110, 127, 220).</p>
+	<p>Для преобразования введённой с клавиатуры последовательности символов в числовое значение применим метод TryParse().</p>
+	<p>Тогда послать исключение при лексической ошибке можно с помощью следующих операторов:</p>
+
+	<pre class="brush: csharp;">
+	string input = Console.ReadLine();
+	if (!double.TryParse(input, out U))
+	throw new Exception("Ошибка в формате данных!");
+	</pre>
+
+	<p>В данном фрагменте U – имя переменной типа double, которая будет представлять в программе введённое пользователем значение напряжения.</p>
+	<p>Для генерации исключения при семантической ошибки используем такой код:</p>
+
+	<pre class="brush: csharp;">
+	if (U != 110 & U != 127 & U != 220)
+	throw new Exception(input+" - недопустимое значение!");
+	</pre>
+
+	<p>Все приведённые операторы разместим в try-блоке, вслед за которым поместим обработчик исключений (catch-блок), где будем подсчитывать их количество.</p>
+	<p>Всю конструкцию try/catch поместим в цикл.</p>
+	<p>Тем, кто забыл раздел физики, посвящённый электричеству, напомним , что мощность, потребляемая сопротивлением R при его включении в сеть с напряжением U, вычисляется по формуле U2/R.</p>
+	<p>Программа в целом может быть такой:</p>
+
+	<pre class="brush: csharp;">
+	// 16_05.cs - исключения для проверки вводимых данных
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			double U, R=100;
+			// Счетчик исключений
+			int counter = 0;
+			while (true)
+			{
+				Console.Write("Введите напряжение (110, 127, 220): ");
+				try
+				{
+					string input = Console.ReadLine();
+					if (!double.TryParse(input, out U))
+					throw new Exception("Ошибка в формате данных!");
+					if (U != 110 & U != 127 & U != 220)
+					throw new Exception(input+" - недопустимое значение!");
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+					if (counter++ >= 2)
+					{
+						Console.WriteLine("Трижды ошиблись!"); return;
+					}
+					continue;
+				}
+				break;
+				// end of while
+			}
+			Console.WriteLine("Потребляемая мощность: {0,5:f}", U*U/R);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	* Первый сеанс:
+	Введите напряжение (110, 127, 220): 120&lt;ENTER&gt;
+	120 - недопустимое значение!
+	Введите напряжение (110, 127, 220): 110f&lt;ENTER&gt;
+	Ошибка в формате данных!
+	Введите напряжение (110, 127, 220): asd&lt;ENTER&gt;
+	Ошибка в формате данных!
+	Трижды ошиблись!
+	* Второй сеанс:
+	Введите напряжение (110, 127, 220): 127&lt;ENTER&gt;
+	Потребляемая мощность: 161,29
+	</pre>
+
+	<p>Как реагировать на особые ситуации в теле метода, рассмотрим на примере функции, вычисляющей скалярное произведение двух векторов многомерного пространства.</p>
+	<p>Векторы будем передавать методу с помощью двух параметров- ссылок на массивы.</p>
+	<p>При обращении к методу могут быть по ошибке использованы аргументы, представляющие массивы с разным количеством элементов.</p>
+	<p>Предусмотрим защиту от такой ошибки, посылая исключение в случае неравенства размеров массивов- аргументов.</p>
+	<p>Тогда первые строки кода метода могут быть такими:</p>
+
+	<pre class="brush: csharp;">
+	static double scalar(double[ ]x, double[ ]y)
+	{
+		if(x.Length!=y.Length)
+		throw new Exception(“Неверные размеры векторов!”);
+	}
+	</pre>
+
+	<p>Обработку исключений, формируемых методом при ошибке в его аргументах, обычно выполняют в коде, из которого выполнено обращение к методу.</p>
+	<p>Там, где заданы конкретные аргументы.</p>
+	<p>В следующей программе обращения к методу scalar() размещены в try-блоке.</p>
+	<p>Первое обращение корректно, во втором допущена ошибка – размеры массивов-аргументов не совпадают.</p>
+	<p>Текст программы:</p>
+
+	<pre class="brush: csharp;">
+	// 16_06.cs - исключения в теле метода
+	using System;
+	class Program
+	{
+		static double scalar(double[ ] x, double[ ] y)
+		{
+			if (x.Length != y.Length)
+			throw new Exception("Неверные размеры векторов!");
+			double result = 0;
+			for (int i = 0; i < x.Length; i++)
+			result += x[i] * y[i];
+			return Math.Sqrt(result);
+		}
+		static void Main( )
+		{
+			try
+			{
+				Console.WriteLine("scalar1="+
+				scalar(new double[ ] {1,2,3,4}, new double[ ] {1,2,3,4}));
+				Console.WriteLine("scalar2="+
+				scalar(new double[ ] {1,2,3,4}, new double[ ] {1,2,3}));
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	scalar1=5,47722557505166
+	Неверные размеры векторов!
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="93.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="95.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/94.html", "Генерация исключений", "bm181"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm181", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm181") == 1) { document.getElementById("bma181").style.display = "block"; document.getElementById("bm181").style.display = "none"; } else { document.getElementById("bma181").style.display = "none"; document.getElementById("bm181").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Генерация исключений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm181", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

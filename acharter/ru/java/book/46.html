@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma647" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm647" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Преобразование типов для массивов
+	</h1>
+
+	<p>Теперь, когда массив введен как полноценный тип данных в Java, рассмотрим, какое влияние он окажет на преобразование типов.</p>
+	<p>Ранее подробно рассматривались переходы между примитивными и обычными (не являющимися массивами) ссылочными типами.</p>
+	<p>Хотя массивы являются объектными типами, их также будет полезно разделить по базовому типу на две группы – основанные на примитивном или ссылочном типе.</p>
+	<p>Имейте в виду, что переходы между массивами и примитивными типами являются запрещенными.</p>
+	<p>Преобразования между массивами и другими объектными типами возможны только для класса Object и интерфейсов Cloneable и Serializable.</p>
+	<p>Массив всегда можно привести к этим трем типам, обратный же переход является сужением и должен производиться явным образом по усмотрению разработчика.</p>
+	<p>Таким образом, интерес представляют только переходы между разными типами массивов.</p>
+	<p>Очевидно, что массив, основанный на примитивном типе, принципиально нельзя преобразовать к типу массива, основанному на ссылочном типе, и наоборот.</p>
+	<p>Пока не будем останавливаться на этом подробно, однако заметим, что преобразования между типами массивов, основанных на различных примитивных типах, невозможны ни при каких условиях.</p>
+	<p>Для ссылочных же типов такого строгого правила нет.</p>
+	<p>Например, если создать экземпляр массива, основанного на типе Child, то ссылку на него можно привести к типу массива, основанного на типе Parent.</p>
+
+	<pre class="brush: csharp;">
+	Child c[] = new Child[3];
+	Parent p[] = c;
+	</pre>
+
+	<p>Вообще, существует универсальное правило: массив, основанный на типе A, можно привести к массиву, основанному на типе B, если сам тип A приводится к типу B.</p>
+
+	<pre class="brush: csharp;">
+	// если допустимо такое приведение:
+	B b = (B) new A();
+
+	// то допустимо и приведение массивов:
+	B b[]=(B[]) new A[3];
+	</pre>
+
+	<p>Применяя это правило рекурсивно, можно преобразовывать многомерные массивы.</p>
+	<p>Например, массив Child[][] можно привести к Parent[][], так как их базовые типы приводимы ( Child[] к Parent[] ) также на основе этого правила (поскольку базовые типы Child и Parent приводимы в силу правил наследования).</p>
+	<p>Как обычно, расширения можно проводить неявно (как в предыдущем примере), а сужения – только явным приведением.</p>
+	<p>Вернемся к массивам, основанным на примитивном типе.</p>
+	<p>Невозможность их участия в преобразованиях типов связана, конечно, с различиями между простыми и ссылочными типами данных.</p>
+	<p>Поскольку элементами объектных массивов являются ссылки, они легко могут участвовать в приведении.</p>
+	<p>Напротив, элементы простых типов действительно хранят числовые или булевские значения.</p>
+	<p>Предположим, такое преобразование осуществимо:</p>
+
+	<pre class="brush: csharp;">
+	// пример вызовет ошибку компиляции
+	byte b[]={1, 2, 3};
+	int i[]=b;
+	</pre>
+
+	<p>В таком случае, элементы b[0] и i[0] хранили бы значения разных типов.</p>
+	<p>Стало быть, преобразование потребовало бы копирования с одновременным преобразованием типа всех элементов исходного массива.</p>
+	<p>В результате был бы создан новый массив, элементы которого равнялись бы по значению элементам исходного массива.</p>
+	<p>Но преобразование типа не может порождать новые объекты.</p>
+	<p>Такие операции должны выполняться только явным образом с применением ключевого слова new.</p>
+	<p>По этой причине преобразования типов массивов, основанных на примитивных типах, запрещены.</p>
+	<p>Если же копирование элементов действительно требуется, то нужно сначала создать новый массив, а затем воспользоваться стандартной функцией System.arraycopy(), которая эффективно выполняет копирование элементов одного массива в другой.</p>
+
+	<h1 id="title">
+		Ошибка ArrayStoreException
+	</h1>
+
+	<p>Преобразование между типами массивов, основанных на ссылочных типах, может стать причиной одной довольно неочевидной ошибки.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	Child c[] = new Child[5];
+	Parent p[]=c;
+	p[0]=new Parent();
+	</pre>
+
+	<p>С точки зрения компилятора код совершенно корректен.</p>
+	<p>Преобразование во второй строке допустимо.</p>
+	<p>В третьей строке элементу массива типа Parent присваивается значение того же типа.</p>
+	<p>Однако при выполнении такой программы возникнет ошибка.</p>
+	<p>Нельзя забывать, что преобразование не меняет объект, изменяется лишь способ доступа к нему.</p>
+	<p>В свою очередь, объект всегда "помнит", от какого типа он был порожден.</p>
+	<p>С учетом этих замечаний становится ясно, что в третьей строке делается попытка добавить в массив Child значение типа Parent, что некорректно.</p>
+	<p>Действительно, ведь переменная с продолжает ссылаться на этот массив, а значит, следующей строкой может быть такое обращение:</p>
+
+	<pre class="brush: csharp;">
+	c[0].onlyChildMethod();
+	</pre>
+
+	<p>где метод onlyChildMethod() определен только в классе Child.</p>
+	<p>Данное обращение совершенно корректно, а значит, недопустима ситуация, когда элемент c[0] ссылается на объект, несовместимый с Child.</p>
+	<p>Таким образом, несмотря на отсутствие ошибок компиляции, виртуальная машина при выполнении программы всегда осуществляет дополнительную проверку перед присвоением значения элементу массива.</p>
+	<p>Необходимо удостовериться, что реальный массив, существующий на момент исполнения, действительно может хранить присваиваемое значение.</p>
+	<p>Если это условие нарушается, то возникает ошибка, которая называется ArrayStoreException.</p>
+	<p>Может сложиться впечатление, что разобранная ситуация является надуманной,– зачем преобразовывать массив и тут же задавать для него неверное значение?</p>
+	<p>Однако преобразование при присвоении значений является лишь примером.</p>
+	<p>Рассмотрим объявление метода:</p>
+
+	<pre class="brush: csharp;">
+	public void process(Parent[] p)
+	{
+		if (p!=null && p.length>0)
+		{
+			p[0]=new Parent();
+		}
+	}
+	</pre>
+
+	<p>Метод выглядит абсолютно корректным, все потенциально ошибочные ситуации проверяются if -выражением.</p>
+	<p>Однако следующий вызов этого метода все равно приводит к ошибке:</p>
+
+	<pre class="brush: csharp;">
+	process(new Child[3]);
+	</pre>
+
+	<p>И это будет как раз ошибка ArrayStoreException.</p>
+
+	<h1 id="title">
+		Переменные типа массив и их значения
+	</h1>
+
+	<p>Завершим описание взаимосвязи типа переменной и типа значений, которые она может хранить.</p>
+	<p>Как обычно, массивы, основанные на простых и ссылочных типах, мы описываем раздельно.</p>
+	<p>Переменная типа массив примитивных величин может хранить значения только точно такого же типа, либо null.</p>
+	<p>Переменная типа "массив ссылочных величин" может хранить следующие значения:</p>
+
+	<p>1. null;</p>
+	<p>2. значения точно такого же типа, что и тип переменной;</p>
+	<p>3. все значения типа массив, основанный на типе, приводимом к базовому типу исходного массива.</p>
+	<p>Все эти утверждения непосредственно следуют из рассмотренных выше особенностей приведения типов массивов.</p>
+	<p>Еще раз напомним про исключительный класс Object.</p>
+	<p>Переменные такого типа могут ссылаться на любые объекты, порожденные как от классов, так и от массивов.</p>
+	<p>Сведем все эти утверждения в таблицу.</p>
+
+	<table>
+		<tr>
+			<th>Тип переменной</th>
+			<th>Допустимые типы ее значения</th>
+		</tr>
+		<tr>
+			<td>Массив простых чисел</td>
+			<td><p>null</p><p>в точности совпадающий с типом переменной</p></td>
+		</tr>
+		<tr>
+			<td>Массив ссылочных значений</td>
+			<td><p>null</p><p>совпадающий с типом переменной</p><p>массивы ссылочных значений, удовлетворяющих следующему условию: если тип переменной – массив на основе типа A, то значение типа массив на основе типа B допустимо тогда и только тогда, когда B приводимо к A</p></td>
+		</tr>
+		<tr>
+			<td>Object</td>
+			<td><p>null</p><p>любой ссылочный, включая массивы</p></td>
+		</tr>
+	</table>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="45.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="47.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/46.html", "Преобразование типов", "bm647"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm647", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm647") == 1) { document.getElementById("bma647").style.display = "block"; document.getElementById("bm647").style.display = "none"; } else { document.getElementById("bma647").style.display = "none"; document.getElementById("bm647").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Преобразование типов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm647", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

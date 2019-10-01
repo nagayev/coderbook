@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma633" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm633" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Область видимости имен
+	</h1>
+
+	<p>Областью видимости объявления некоторого элемента языка называется часть программы, откуда допускается обращение к этому элементу по простому имени.</p>
+	<p>При рассмотрении каждого элемента языка будет указываться его область видимости, однако имеет смысл собрать эту информацию в одном месте.</p>
+	<p>Область видимости доступного пакета – вся программа, то есть любой класс может использовать доступный пакет.</p>
+	<p>Однако необходимо помнить, что обращаться к пакету можно только по его полному составному имени.</p>
+	<p>К пакету java.lang ни из какого места нельзя обратиться как к просто lang.</p>
+	<p>Областью видимости импортированного типа являются все объявления верхнего уровня в этом модуле компиляции.</p>
+	<p>Областью видимости типа (класса или интерфейса) верхнего уровня является пакет, в котором он объявлен.</p>
+	<p>Из других пакетов доступ возможен либо по составному имени, либо с помощью импортирующего выражения, которое помогает компилятору воссоздать составное имя.</p>
+	<p>Область видимости элементов классов или интерфейсов – это все тело типа, в котором они объявлены.</p>
+	<p>Если обращение к этим элементам происходит из другого типа, необходимо воспользоваться составным именем.</p>
+	<p>Имя может быть составлено из простого или составного имени типа, имени объектной переменной или ключевых слов super или this, после чего через точку указывается простое имя элемента.</p>
+	<p>Аргументы метода, конструктора или обработчика ошибок видны только внутри этих конструкций и не могут быть доступны извне.</p>
+	<p>Область видимости локальных переменных начинается с момента их инициализации и до конца блока, в котором они объявлены.</p>
+	<p>В отличие от полей типов, локальные переменные не имеют значений по умолчанию и должны инициализироваться явно.</p>
+
+	<pre class="brush: csharp;">
+	int x;
+	
+	for (int i=0; i<10; i++)
+	{
+		int t=5+i;
+	}
+
+	// здесь переменная t уже недоступна, так как блок, в котором она была объявлена, уже завершен, а переменная x еще недоступна, так как пока не была инициализирована
+	</pre>
+
+	<p>Определенные проблемы возникают, когда происходит перекрытие областей видимости и возникает конфликт имен различных конструкций языка.</p>
+
+	<h1 id="title">
+		"Затеняющее" объявление (Shadowing)
+	</h1>
+
+	<p>Самыми распространенными случаями возникновения конфликта имен является выражение, импортирующее пакет, и объявление локальных переменных, или параметров методов, конструкторов, обработчиков ошибок.</p>
+	<p>Импорт пакета подробно рассматривался в этой главе.</p>
+	<p>Если импортированный и текущий пакеты содержат одноименные типы, то их области пересекаются.</p>
+	<p>Как уже говорилось, предпочтение отдается типу из текущего пакета.</p>
+	<p>Также рассказывалось о том, как эту проблему решать.</p>
+	<p>Перейдем к проблеме перекрытия имен полей класса и локальных переменных.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	class Human
+	{
+		int age;
+		// возраст
+
+		int getAge()
+		{
+			return age;
+		}
+		
+		void setAge(int age)
+		{
+			age=age;
+		}
+	}
+	</pre>
+
+	<p>В классе Human (человек) объявлено поле age (возраст).</p>
+	<p>Удобно определить также метод setAge(), который должен устанавливать новое значение возраста для человека.</p>
+	<p>Вполне логично сделать у метода setAge() один входной аргумент, который также будет называться age (ведь в качестве этого аргумента будет передаваться новое значение возраста).</p>
+	<p>Получается, что в реализации метода setAge() нужно написать age=age, в первом случае подразумевая поле класса, во втором - параметр метода.</p>
+	<p>Понятно, что хотя с точки зрения компилятора это корректная конструкция, попытка сослаться на две разные переменные через одно имя успехом не увенчается.</p>
+	<p>Надо заметить, что такие ошибки случаются порой даже у опытных разработчиков.</p>
+	<p>Во-первых, рассмотрим, из-за чего возникла конфликтная ситуация.</p>
+	<p>Есть два элемента языка – аргумент метода и поле класса, области видимости которых пересеклись.</p>
+	<p>Область видимости поля класса больше, она охватывает все тело класса, в то время как область видимости аргумента метода включает только сам метод.</p>
+	<p>В таком случае внутри области пересечения по простому имени доступен именно аргумент метода, а поле класса "затеняется" (shadowing) объявлением параметра метода.</p>
+	<p>Остается вопрос, как в такой ситуации все же обратиться к полю класса.</p>
+	<p>Если доступ по простому имени невозможен, надо воспользоваться составным.</p>
+	<p>Здесь удобнее всего применить специальное ключевое слово this (оно будет подробно рассматриваться в следующих главах).</p>
+	<p>Слово this имеет значение ссылки на объект, внутри которого оно применяется.</p>
+	<p>Если вызвать метод setAge() у объекта класса Human и использовать в этом методе слово this, то его значение будет ссылкой на данный объект.</p>
+	<p>Исправленный вариант примера:</p>
+
+	<pre class="brush: csharp;">
+	class Human
+	{
+		// возраст
+		int age;
+
+		void setAge(int age)
+		{
+			// верное присвоение!
+			this.age=age;
+		}
+	}
+	</pre>
+
+	<p>Конфликт имен, возникающий из-за затеняющего объявления, довольно легко исправить с помощью ключевого слова this или других конструкций языка, в зависимости от обстоятельств.</p>
+	<p>Наибольшей проблемой является то, что компилятор никак не сообщает о таких ситуациях, и самое сложное – выявить ее с помощью тестирования или контрольного просмотра кода.</p>
+
+	<h1 id="title">
+		"Заслоняющее" объявление (Obscuring)
+	</h1>
+
+	<p>Может возникнуть ситуация, когда простое имя может быть одновременно рассмотрено как имя переменной, типа или пакета.</p>
+	<p>Приведем пример, который частично иллюстрирует такой случай:</p>
+
+	<pre class="brush: csharp;">
+	import java.awt.*;
+
+	public class Obscuring
+	{
+		static Point Test = new Point(3,2);
+		
+		public static void main (String s[])
+		{
+			print(Test.x);
+		}
+	}
+
+	class Test
+	{
+		static int x = -5;
+	}
+	</pre>
+
+	<p>В методе main() простое имя Test одновременно обозначает имя поля класса Obscuring и имя другого типа, находящегося в том же пакете,– Test.</p>
+	<p>С помощью этого имени происходит обращение к полю x, которое определено и в классе java.awt.Point и Test.</p>
+	<p>Результатом этого примера станет 3, то есть переменная имеет более высокий приоритет.</p>
+	<p>В свою очередь, тип имеет более высокий приоритет, чем пакет.</p>
+	<p>Таким образом, обращение к доступному в обычных условиях типу или пакету может оказаться невозможным, если есть объявление одноименной переменной или типа, имеющее более высокий приоритет.</p>
+	<p>Такое объявление называется "заслоняющим" (obscuring).</p>
+	<p>Эта проблема скорее всего не возникнет, если следовать соглашениям по именованию элементов языка Java.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="31.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="33.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/32.html", "Область видимости имен", "bm633"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm633", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm633") == 1) { document.getElementById("bma633").style.display = "block"; document.getElementById("bm633").style.display = "none"; } else { document.getElementById("bma633").style.display = "none"; document.getElementById("bm633").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Область видимости имен") == 1) { arrs.splice(i, 1); localStorage.setItem("bm633", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

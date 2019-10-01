@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1116" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1116" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		XLink - ссылки в XML
+	</h1>
+
+	<p>XLink определяет методы создания ссылок внутри XML документов.</p>
+	
+	<h1 id="title">
+		Как используется XLink
+	</h1>
+
+	<p>XLink используется для создания гиперссылок внутри XML документов.</p>
+	<p>Любой элемент XML документа может вести себя как ссылка.</p>
+	<p>XLink поддерживает простые ссылки (как HTML) и расширенные ссылки (для связывания нескольких ресурсов).</p>
+	<p>При помощи XLink ссылки могут определяться за пределами связанных файлов.</p>
+	<p>XLink является стандартом W3C.</p>
+	
+	<h1 id="title">
+		Синтаксис XLink
+	</h1>
+	
+	<p>В HTML гиперссылки определяются элементом &lt;a&gt;.</p>
+	<p>В XML же это работать не будет.</p>
+	<p>В XML документах разрешено использовать элементы с любыми именами, таким образом браузеры не могут знать заранее, какие элементы в XML документах используются в качестве ссылок.</p>
+	<p>Ниже приводится простой пример использования XLink для создания ссылок в XML документе:</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+		&lt;homepages xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;
+			&lt;homepage xlink:type=&quot;simple&quot; xlink:href=&quot;http://msiter.ru&quot;&gt;Наш учебный сайт&lt;/homepage&gt;
+			&lt;homepage xlink:type=&quot;simple&quot; xlink:href=&quot;http://www.w3.org&quot;&gt;Консорциум W3C&lt;/homepage&gt;
+		&lt;/homepages&gt;
+	</pre>
+
+	<p>Чтобы иметь возможность использовать XLink, мы должны декларировать пространство имен XLink.</p>
+	<p>Пространством имен XLink является: "http://www.w3.org/1999/xlink".</p>
+	<p>Атрибуты xlink:type и xlink:href в элементе &lt;homepage&gt; берутся из пространства имен XLink.</p>
+	<p>Атрибут xlink:type="simple" создает простую "HTML-подобную" ссылку (означает "нажмите сюда, чтобы перейти туда").</p>
+	<p>Атрибут xlink:href определяет URL ссылки.</p>
+
+	<h1 id="title">
+		Поддержка XLink браузерами
+	</h1>
+	
+	<p>Браузеры не имеют поддержки XLink в XML документах.</p>
+	<p>Тем не менее, все основные браузеры поддерживают простые XLink в SVG.</p>
+
+	<h1 id="title">
+		Пример XLink
+	</h1>
+
+	<p>Следующий XML документ содержит функционал XLink:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+		&lt;bookstore xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;&gt;
+			&lt;book title=&quot;Harry Potter&quot;&gt;
+				&lt;description xlink:type=&quot;simple&quot; xlink:href=&quot;/images/HPotter.gif&quot; xlink:show=&quot;new&quot;&gt;
+					As his fifth year at Hogwarts School of Witchcraft and Wizardry approaches, 15-year-old Harry Potter is...
+				&lt;/description&gt;
+			&lt;/book&gt;
+			
+			&lt;book title=&quot;XQuery Kick Start&quot;&gt;
+				&lt;description xlink:type=&quot;simple&quot; xlink:href=&quot;/images/XQuery.gif&quot; xlink:show=&quot;new&quot;&gt;
+					XQuery Kick Start delivers a concise introduction to the XQuery standard...
+				&lt;/description&gt;
+			&lt;/book&gt;
+		&lt;/bookstore&gt;
+	</pre>
+
+	<p>Написано же здесь следующее:</p>
+	<p>В начале документа декларируется пространство имен XLink (xmlns:xlink="http://www.w3.org/1999/xlink").</p>
+	<p>Атрибут xlink:type="simple" создает простую "HTML-подобную" ссылку.</p>
+	<p>Атрибут xlink:href определяет URL ссылки (в данном случае - изображение).</p>
+	<p>Атрибут xlink:show="new" определяет, что ссылка должна открываться в новом окне.</p>
+
+	<h1 id="title">
+		XLink – Идем дальше
+	</h1>
+
+	<p>В примере выше были продемонстрированы простые ссылки XLink.</p>
+	<p>Однако XLink становится интереснее, когда необходимо создать доступ к удаленный ресурсам, а не к отдельным страницам.</p>
+	<p>Если установить атрибуту xlink:show значение "embed", то ресурс, на который создается ссылка, будет встроен в код страницы.</p>
+	<p>Если создается такая ссылка на другой XML документ, то появляется возможность создавать иерархию XML документов.</p>
+	<p>Также, вы можете определять то, когда ресурс должен отображаться. За это отвечает атрибут xlink:actuate.</p>
+	
+	<table>
+		<tr>
+			<th>Атрибут</th>
+			<th>Значение</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>xlink:actuate</td>
+			<td>onLoad<br />onRequest<br />other<br />none</td>
+			<td>Определяет, когда подключенный ресурс должен быть прочитан и показан:<br /><br />onLoad – ресурс должен быть загружен и показан сразу после загрузки документа<br /><br />onRequest – ресурс загружается и показывается только при нажатии на ссылку</td>
+		</tr>
+		<tr>
+			<td>xlink:href</td>
+			<td>URL</td>
+			<td>Определяет URL ссылки</td>
+		</tr>
+		<tr>
+			<td>xlink:show</td>
+			<td>embed<br />new<br />replace<br />other<br />none</td>
+			<td>Определяет, где открывать ссылку. По молчанию действует "replace"</td>
+		</tr>
+		<tr>
+			<td>xlink:type</td>
+			<td>simple<br />extended<br />locator<br />arc<br />resource<br />title<br />none</td>
+			<td>Определяет тип ссылки</td>
+		</tr>
+	</table>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="18.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="20.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/book/19.html", "XLink - ссылки в XML", "bm1116"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1116", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1116") == 1) { document.getElementById("bma1116").style.display = "block"; document.getElementById("bm1116").style.display = "none"; } else { document.getElementById("bma1116").style.display = "none"; document.getElementById("bm1116").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("XLink - ссылки в XML") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1116", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

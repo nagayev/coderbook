@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1162" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1162" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Компонент Yii
+	</h1>
+
+    <p>Yii-приложения состоят из компонентов–объектов, созданных согласно спецификациям.</p>
+    <p>Компонент (component) — это экземпляр класса CComponent или производного от него.</p>
+    <p>Использование компонента, как правило, включает доступ к его свойствам, а также вызов и обработку его событий.</p>
+    <p>Базовый класс CComponent устанавливает правила, согласно которым определяются свойства и события.</p>
+
+    <h2 id="title">
+        Объявление и использование свойства компонента
+    </h2>
+
+    <p>Свойство компонента схоже с открытой переменной-членом класса (public member variable).</p>
+    <p>Мы можем читать или устанавливать его значение. Например:</p>
+
+    <pre class="brush: csharp;">
+    $width=$component->textWidth; // получаем значение свойства textWidth
+    $component->enableCaching=true; // устанавливаем значение свойства enableCaching
+    </pre>
+
+    <p>Существует два разных способа определения свойства компонента.</p>
+    <p>Первым способом является обычное объявление открытой переменной-члена класса компонента так, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    class Document extends CComponent
+    {
+        public $textWidth;
+    }
+    </pre>
+
+    <p>Другим способом является использование геттеров и сеттеров.</p>
+    <p>Это более гибкий подход потому как помимо обычных свойств вы можете объявлять и свойства, доступные только для чтения или только для записи.</p>
+
+    <pre class="brush: csharp;">
+    class Document extends CComponent
+    {
+        private $_textWidth;
+        protected $_completed=false;
+     
+        public function getTextWidth()
+        {
+            return $this->_textWidth;
+        }
+     
+        public function setTextWidth($value)
+        {
+            $this->_textWidth=$value;
+        }
+     
+        public function getTextHeight()
+        {
+            // вычисляет и возвращает высоту текста
+        }
+     
+        public function setCompleted($value)
+        {
+            $this->_completed=$value;
+        }
+    }
+    </pre>
+
+    <p>Компонент выше может быть использован следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $document=new Document();
+     
+    // мы можем как писать в, так и читать из textWidth
+    $document->textWidth=100;
+    echo $document->textWidth;
+     
+    // значение textHeight мы можем только получать
+    echo $document->textHeight;
+     
+    // значение completed мы можем только изменять
+    $document->completed=true;
+    </pre>
+
+    <p>При чтении свойства, которое не было объявлено публичным членом класса, Yii пытается использовать методы-геттеры, т.е. для textWidth методом-геттером будет getTextWidth.</p>
+    <p>Тоже самое происходит и при изменении свойства, которое не было объявлено публичным членом класса.</p>
+    <p>Если существует метод-геттер, но метода-сеттера при этом объявлено не было, то свойство компонента можно использовать только для чтения, в противном случае будет вызвано исключение.</p>
+    <p>Обратное верно и для свойств, доступных только для изменения.</p>
+    <p>Использование методов чтения и записи имеет дополнительное преимущество: при чтении или записи значения свойства могут быть выполнены дополнительные действия (такие как проверка на корректность, вызов события и др.).</p>
+    <p><b>Примечание:</b> Есть небольшая разница в определении свойства через методы и через простое объявление переменной. В первом случае имя свойства не чувствительно к регистру, во втором — чувствительно.</p>
+
+    <h2 id="title">
+        События компонента
+    </h2>
+
+    <p>События компонента — это специальные свойства, в качестве значений которых выступают методы (называемые обработчиками событий).</p>
+    <p>Назначение метода событию приведет к тому, что метод будет вызван автоматически при возникновении этого события.</p>
+    <p>Поэтому поведение компонента может быть изменено совершенно отлично от закладываемого при разработке.</p>
+    <p>Событие компонента объявляется путём создания метода с именем, начинающимся на on.</p>
+    <p>Так же как и имена свойств, заданных через методы чтения и записи, имена событий не чувствительны к регистру. Следующий код объявляет событие onClicked:</p>
+
+    <pre class="brush: csharp;">
+    public function onClicked($event)
+    {
+        $this->raiseEvent('onClicked', $event);
+    }
+    </pre>
+
+    <p>где $event — это экземпляр класса CEvent или производного от него, представляющего параметр события.</p>
+    <p>К событию можно подключить обработчик как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    $component->onClicked=$callback;
+    </pre>
+
+    <p>где $callback — это корректный callback-вызов PHP (см. PHP-функцию call_user_func).</p>
+    <p>Это может быть либо глобальная функция, либо метод класса.</p>
+    <p>В последнем случае вызову должен передаваться массив: array($object,'methodName').</p>
+    <p>Обработчик события должен быть определён следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    function methodName($event)
+    {
+        ...
+    }
+    </pre>
+
+    <p>где $event — это параметр, описывающий событие (передаётся методом raiseEvent()).</p>
+    <p>Параметр $event — это экземпляр класса CEvent или его производного.</p>
+    <p>Как минимум, он содержит информацию о том, кто вызвал событие.</p>
+    <p>Обработчик события может быть анонимной функцией, требующей наличия версии PHP 5.3+.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $component->onClicked=function($event) {
+        ...
+    }
+    </pre>
+
+    <p>Если теперь использовать метод onClicked(), то в нём будет вызвано событие onClicked.</p>
+    <p>Назначенный ему обработчик будет запущен автоматически.</p>
+    <p>Событию могут быть назначены несколько обработчиков.</p>
+    <p>При возникновении события обработчики будут вызваны в порядке их назначения.</p>
+    <p>Если в обработчике необходимо предотвратить вызов последующих обработчиков, необходимо установить $event->handled в true.</p>
+
+    <h2 id="title">
+        Поведения компонента
+    </h2>
+
+    <p>Для компонентов реализован шаблон проектирования mixin, что позволяет присоединить к ним одно или несколько поведений.</p>
+    <p>Поведение — объект, чьи методы «наследуются» компонентом, к которому он присоединён.</p>
+    <p>Под «наследованием» здесь понимается наращивание функционала, а не наследование в классическом смысле.</p>
+    <p>К компоненту можно прикрепить несколько поведений и, таким образом, получить аналог множественного наследования.</p>
+    <p>Поведения классов должны реализовывать интерфейс IBehavior.</p>
+    <p>Большинство поведений могут быть созданы путём расширения базового класса CBehavior.</p>
+    <p>В случае если поведение необходимо прикрепить к модели, его можно создать на основе класса CModelBehavior или класса CActiveRecordBehavior, которые реализуют дополнительные, специфические для моделей, возможности.</p>
+    <p>Чтобы использовать поведение, его необходимо прикрепить к компоненту путём вызова метода поведения attach().</p>
+    <p>После этого мы можем вызывать методы поведения через компонент:</p>
+
+    <pre class="brush: csharp;">
+    // $name уникально идентифицирует поведения в компоненте
+    $component->attachBehavior($name,$behavior);
+    // test() является методом $behavior
+    $component->test();
+    </pre>
+
+    <p>К прикреплённому поведению можно обращаться как к обычному свойству компонента.</p>
+    <p>Например, если поведение с именем tree прикреплено к компоненту, мы можем получить ссылку на объект поведения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $behavior=$component->tree;
+    // эквивалентно выражению:
+    // $behavior=$component->asa('tree');
+    </pre>
+
+    <p>Поведение можно временно деактивировать, чтобы его методы и свойства были недоступны через компонент.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $component->disableBehavior($name);
+    // выражение ниже приведет к вызову исключения
+    $component->test();
+    $component->enableBehavior($name);
+    // здесь все будет работать нормально
+    $component->test();
+    </pre>
+
+    <p>В случае когда два поведения, прикреплённые к одному компоненту, имеют методы с одинаковыми именами, преимущество будет иметь метод поведения, прикреплённого раньше.</p>
+    <p>Использование поведений совместно с событиями даёт дополнительные возможности.</p>
+    <p>Поведение, прикреплённое к компоненту, может назначать некоторые свои методы в качестве обработчиков событий компонента.</p>
+    <p>В этом случае поведение получает возможность следить за ходом работы компонента и даже изменять его.</p>
+    <p>Свойства поведения также доступны из компонента, к которому оно присоединено.</p>
+    <p>Свойства включают в себя как открытые поля класса поведения, так и его методы чтения/записи (getters/setters).</p>
+    <p>Например, если поведение имеет свойство с именем xyz и привязано к компоненту $a, то мы можем использовать выражение $a->xyz для доступа к этому свойству.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="12.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/11.html", "Компонент Yii", "bm1162"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1162", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1162") == 1) { document.getElementById("bma1162").style.display = "block"; document.getElementById("bm1162").style.display = "none"; } else { document.getElementById("bma1162").style.display = "none"; document.getElementById("bm1162").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Компонент Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1162", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

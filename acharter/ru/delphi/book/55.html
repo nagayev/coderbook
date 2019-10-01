@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma441" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm441" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Другие преобразования
+	</h1>
+
+	<p>Иногда, чтобы преобразовать один тип данных в другой, достаточно указать этот тип:</p>
+
+	<pre class="brush: csharp;">
+var
+   p : PChar;
+   s : String;
+begin
+   p := 'Строка';
+   s := String(p);
+   p := PChar(s);
+	</pre>
+
+	<p>В других случаях, схожие типы данных можно просто присваивать друг другу.</p>
+	<p>Компилятор в этом случае сам произведет нужное преобразование.</p>
+	<p>Например, целый тип данных можно присвоить вещественному числу, компилятор сам подставит ноль.</p>
+	<p>А вот наоборот не получится, ведь вещественное число рассматривается, как два целых числа:</p>
+
+	<pre class="brush: csharp;">
+var
+   f : Real;
+   i : Integer;
+begin
+   i := 12;
+   f := i; //Результат: 12,0
+   i := f; //Ошибка! Так нельзя
+	</pre>
+
+	<h1 id="title">
+		Подстановка значений
+	</h1>
+
+	<p>Очень часто в языках программирования для элегантности кода подставляют одно значение вместо другого.</p>
+	<p>Сравните два примера:</p>
+
+	<pre class="brush: csharp;">
+var
+   s : String;
+   i : Integer;
+begin
+   s := Edit1.Text;
+   i := StrToInt(s);
+end;
+	</pre>
+
+	<p>Все, что мы сделали в данном примере, так это присвоили переменной i число из Edit1, которое хранилось там в виде строки.</p>
+	<p>Но для этого нам пришлось вначале занести эту строку в строковую переменную s, и уже ее обрабатывать функцией StrToInt().</p>
+	<p>Такой пример вполне будет работать, однако он слишком громоздок.</p>
+	<p>Гораздо элегантнее выглядит следующий код:</p>
+
+	<pre class="brush: csharp;">
+var
+   i : Integer;
+begin
+   i := StrToInt(Edit1.Text);
+end;
+	</pre>
+
+	<p>В результате получилось меньше переменных, меньше работы для процессора, меньше занимаемой памяти и короче код!</p>
+	<p>А нередко употребляют гораздо более сложные выражения, например:</p>
+
+	<pre class="brush: csharp;">
+	i := StrToInt(Memo1.Lines[5]) + StrToInt(Edit1.Text);
+	s := IntToStr(StrToInt(Memo1.Lines[5]) + StrToInt(Edit1.Text));
+	</pre>
+
+	<p>В первой строке в целую переменную i мы вывели сумму целых чисел, которые хранились в виде строки в Edit1 и в пятой строке Memo1.</p>
+	<p>Вторая строка сложнее.</p>
+	<p>Здесь мы вначале перевели эти же числа в целые числа и суммировали их, затем вновь преобразовали в строку, чтобы записать сумму этих двух чисел в строковую переменную s.</p>
+	<p>Поначалу вам такой код может показаться очень сложным, но попробуйте применять такой подход в своих программах, и вы быстро к нему привыкнете, и сами заметите, что такой код более компактен и элегантен.</p>
+	<p>Возьмите вторую строку.</p>
+	<p>Такой же результат можно было бы добиться упрощенными выражениями:</p>
+
+	<pre class="brush: csharp;">
+	i := StrToInt(Memo1.Lines[5]);
+	k := StrToInt(Edit1.Text);
+	m := i + k;
+	s := IntToStr(m);
+	</pre>
+
+	<p>Все это будет работать, и на первый взгляд, кажется проще.</p>
+	<p>Однако, четыре строки вместо одной!</p>
+	<p>И четыре переменных вместо одной!</p>
+	<p>Любой программист назовет такой код безобразным и дилетантским.</p>
+	<p>Так что привыкайте к хорошему и компактному коду!</p>
+
+	<h1 id="title">
+		Глобальная переменная DecimalSeparator
+	</h1>
+
+	<p>Это неявная глобальная переменная.</p>
+	<p>Неявная, потому что вы ее нигде не описывали, и в коде модуля ее нет.</p>
+	<p>Однако Delphi самостоятельно создает эту и некоторые другие глобальные переменные для каждого нового проекта, так что вы спокойно можете ей пользоваться.</p>
+	<p>Что это за переменная?</p>
+	<p>Она хранит один символ – разделитель между целой и десятичной частью вещественного числа.</p>
+	<p>И разделителем может быть либо точка, либо запятая.</p>
+	<p>В русских версиях Windows чаще всего используется запятая, хотя можно перенастроить операционную систему так, что будет точка.</p>
+	<p>А вот в английских ОС – точка.</p>
+	<p>Если вы делаете программу только для личного использования, то смело можете устраивать проверку на ввод вещественных чисел, и в качестве разделителя указывать запятую.</p>
+	<p>Но если вы делаете программу для клиента, то не можете быть уверены, какой разделитель там стоит.</p>
+	<p>Ведь он может использовать вашу программу и на английской версии Windows!</p>
+	<p>Тогда программа будет выдавать ошибку сразу, как дело дойдет до ввода вещественного числа.</p>
+	<p>Выход: во время проверки использовать не запятую или точку, а глобальную переменную DecimalSeparator, которая хранит нужный разделитель.</p>
+	<p>Создайте новый проект, и установите на него компонент Edit для ввода вещественного числа.</p>
+	<p>Ниже поместите Memo, сюда мы будем выводить это число, отформатированное разными способами с помощью FormatFloat().</p>
+	<p>Еще ниже – кнопку для того, чтобы начать заполнять Memo.</p>
+	<p>Первым делом мы с вами установим "защиту от дураков" - проверку компонента Edit, чтобы пользователь не смог ввести туда ничего, кроме целого или вещественного числа.</p>
+	<p>При этом мы будем в качестве разделителя использовать переменную DecimalSeparator, и кроме того, проверим, чтобы она не встречалась более одного раза.</p>
+	<p>Затем эту же проверку без изменений вы сможете применять в любых последующих ваших проектах, где потребуется необходимая проверка.</p>
+	<p>Для Edit1 создаем обработчик события OnKeyPress, которое вызывается всякий раз, когда пользователь нажимает любую клавишу при вводе текста в компонент Edit.</p>
+	<p>Впишем следующий код:</p>
+
+	<pre class="brush: csharp;">
+case Key of
+    '0'..'9': ; //числа разрешаем
+    //если разделителя еще нет - выводим правильный разделитель,
+    //иначе ничего не выводим
+    ',' , '.' :  if Pos(DecimalSeparator, Edit1.Text)= 0 then
+                    Key := DecimalSeparator
+               else Key := Chr(0);
+    #8 : ; //backspace
+    //разрешаем отрицательное число, если минус идет первым символом
+    '-': if (Pos('-', Edit1.Text) = 1) or
+            (Length(Edit1.Text) >0) then Key := Chr(0);
+    #13 : Button1.SetFocus;
+  else Key := Chr(0);
+  end; //case
+	</pre>
+
+	<p>Этот код требует некоторых пояснений.</p>
+	<p>Событие OnKeyPress компонента Edit самостоятельно создает параметр Key, это переменная типа Char, то есть, символ.</p>
+	<p>В этой переменной содержится символ, введенный пользователем.</p>
+	<p>Поскольку символ – перечисляемое значение (то есть, он может быть от 0 до 255), можно использовать конструкцию case.</p>
+	<p>В качестве селектора указываем переменную Key, а в качестве значения указываем то значение, которое там может находиться.</p>
+	<p>Строка</p>
+
+	<pre class="brush: csharp;">
+	'0'..'9': ;
+	//числа разрешаем
+	</pre>
+
+	<p>показывает, что если были введены символы от 0 до 9, то ничего не происходит (после знака ":" нет действующих операторов).</p>
+	<p>Здесь мы можем извлечь новое правило: можно показывать диапазон числовых или символьных значений через знак "..", например, 'a'..'z'; 1..9.</p>
+	<p>Далее идут строки:</p>
+
+	<pre class="brush: csharp;">
+',' , '.' :  if Pos(DecimalSeparator, Edit1.Text)= 0 then
+                    Key := DecimalSeparator
+               else Key := Chr(0);
+	</pre>
+
+	<p>Этот код дает нам новое правило: через запятую можно указать возможные значения.</p>
+	<p>То есть, блок кода будет выполняться, если пользователь ввел либо запятую, либо точку.</p>
+	<p>В самом блоке кода мы проверяем: нет ли уже в строке нужного разделителя?</p>
+	<p>Если нет ( Pos() вернула ноль), то мы записываем в переменную Key нужный разделитель, иначе присваиваем ей нулевой символ (то есть пользователь ничего не ввел).</p>
+	<p>При этом неважно, точку или запятую ввел пользователь – разделитель все равно будет правильным.</p>
+	<p>Далее, если пользователь ввел символ #8 (нажал &lt;BackSpace&gt;), то ничего не делаем – то есть, разрешаем этот символ.</p>
+	<p>Надо же оставить ему возможность редактировать свой текст, исправлять ошибки.</p>
+	<p>И снова правило: можно указать номер символа, используя функцию Chr(), либо просто после символа "#":</p>
+
+	<pre class="brush: csharp;">
+	Key := Chr(8);
+	Key := #8;
+	</pre>
+
+	<p>В обоих случаях, в переменную Key попадет символ, который в таблице символов идет под номером 8.</p>
+	<p>Далее мы смотрим, не минус ли ввел пользователь?</p>
+	<p>Если да, то смотрим, какова длина строки.</p>
+	<p>Ведь если длина строки больше нуля, значит, в ней уже есть символы, и минус разрешать нельзя.</p>
+	<p>В случае же, если строка еще не содержит ничего, то минус допустим, и блок кода if не выполнится.</p>
+	<p>Если пользователь нажал &lt;Enter&gt;, Key будет содержать символ #13.</p>
+	<p>Обычно пользователь нажимает &lt;Enter&gt;, когда он закончил ввод текста.</p>
+	<p>Строка</p>
+
+	<pre class="brush: csharp;">
+	#13 : Button1.SetFocus;
+	</pre>
+
+	<p>передает фокус (то есть, выделение компонента) на кнопку, если нажата клавиша &lt;Enter&gt;.</p>
+	<p>Ну и в конце мы указываем, что в любом другом случае (пользователь набрал букву или какой либо другой недопустимый знак) переменной Key присваивается нулевой символ.</p>
+	<p>Компьютер отреагирует так, будто пользователь ничего и не вводил.</p>
+	<p>В процедуре нажатия кнопки пишем такой код:</p>
+
+	<pre class="brush: csharp;">
+var
+  f : Real;
+begin
+   f := StrToFloat(Edit1.Text);
+  Memo1.Lines.Add(FormatFloat('', f));
+  Memo1.Lines.Add(FormatFloat('0,000.00', f));
+  Memo1.Lines.Add(FormatFloat('#,###.##', f));
+  Memo1.Lines.Add(FormatFloat('#.##', f));
+  Memo1.Lines.Add(FormatFloat('0.00', f));
+  Memo1.Lines.Add('---------------'); //разделитель
+end;
+	</pre>
+
+	<p>Тут все понятно – сначала преобразуем полученное число в виде строки, в вещественное число.</p>
+	<p>Затем это число выведем в Memo, придав ему различные форматы.</p>
+	<p>Сохраните пример, скомпилируйте его и посмотрите, как работает программа.</p>
+	<p>В дальнейшей практике вам не раз придется ставить подобную "защиту от дураков", данный пример события OnKeyPress можно будет просто копировать в любую программу.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="54.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="56.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/55.html", "Преобразования (ч. 2)", "bm441"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm441", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm441") == 1) { document.getElementById("bma441").style.display = "block"; document.getElementById("bm441").style.display = "none"; } else { document.getElementById("bma441").style.display = "none"; document.getElementById("bm441").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Преобразования (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm441", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

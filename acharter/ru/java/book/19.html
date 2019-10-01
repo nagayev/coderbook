@@ -1,0 +1,210 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma620" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm620" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Недостатки ООП
+	</h1>
+
+	<p>Документирование классов - задача более трудная, чем это было в случае процедур и модулей.</p>
+	<p>Поскольку любой метод может быть переопределен, в документации должно говориться не только о том, что делает данный метод, но и о том, в каком контексте он вызывается.</p>
+	<p>Ведь переопределенные методы обычно вызываются не клиентом, а самим каркасом.</p>
+	<p>Таким образом, программист должен знать, какие условия выполняются, когда вызывается данный метод.</p>
+	<p>Для абстрактных методов, которые пусты, в документации должно говориться о том, для каких целей предполагается использовать переопределяемый метод.</p>
+	<p>В сложных иерархиях классов поля и методы обычно наследуются с разных уровней.</p>
+	<p>И не всегда легко определить, какие поля и методы фактически относятся к данному классу.</p>
+	<p>Для получения такой информации нужны специальные инструменты, вроде навигаторов классов.</p>
+	<p>Если конкретный класс расширяется, то каждый метод обычно сокращают перед передачей сообщения базовому классу.</p>
+	<p>Реализация операции, таким образом, рассредотачивается по нескольким классам, и чтобы понять, как она работает, нам приходится внимательно просматривать весь код.</p>
+	<p>Методы, как правило, короче процедур, поскольку они осуществляют только одну операцию над данными, зато их намного больше.</p>
+	<p>В коротких методах легче разобраться, но они неудобны тем, что код для обработки сообщения иногда "размазан" по многим маленьким методам.</p>
+	<p>Инкапсуляцией данных не следует злоупотреблять.</p>
+	<p>Чем больше логики и данных скрыто в недрах класса, тем сложнее его расширять.</p>
+	<p>Отправной точкой здесь должно быть не то, что клиентам не разрешается знать о тех или иных данных, а то, что клиентам для работы с классом этих данных знать не требуется.</p>
+	<p>Многие считают, что ООП является неэффективным.</p>
+	<p>Как же обстоит дело в действительности?</p>
+	<p>Мы должны проводить четкую грань между неэффективностью на этапе выполнения, неэффективностью в смысле распределения памяти и неэффективностью, связанной с излишней универсализацией.</p>
+	<p><b>1. Неэффективность на этапе выполнения.</b></p>
+	<p>В языках типа Smalltalk сообщения интерпретируются во время выполнения программы путем осуществления их поиска в одной или нескольких таблицах и за счет выбора подходящего метода.</p>
+	<p>Конечно, это медленный процесс. И даже при использовании наилучших методов оптимизации Smalltalk-программы в десять раз медленнее оптимизированных C-программ.</p>
+	<p>В гибридных языках типа Oberon-2, Object Pascal и C++ отправка сообщения приводит лишь к вызову через указатель процедурной переменной.</p>
+	<p>На некоторых машинах сообщения выполняются лишь на 10% медленнее, чем обычные процедурные вызовы.</p>
+	<p>И поскольку сообщения встречаются в программе гораздо реже других операций, их воздействие на время выполнения влияния практически не оказывает.</p>
+	<p>Однако существует другой фактор, который влияет на время выполнения: это инкапсуляция данных.</p>
+	<p>Рекомендуется не предоставлять прямой доступ к полям класса, а выполнять каждую операцию над данными через методы.</p>
+	<p>Такая схема приводит к необходимости выполнения процедурного вызова каждый раз при доступе к данным.</p>
+	<p>Однако если инкапсуляция используется только там, где она необходима (т.е. в тех случаях, когда это становится преимуществом), то замедление вполне приемлемое.</p>
+	<p><b>2. Неэффективность в смысле распределения памяти.</b></p>
+	<p>Динамическое связывание и проверка типа на этапе выполнения требуют по ходу работы информацию о типе объекта.</p>
+	<p>Такая информация хранится в дескрипторе типа и он выделяется один на класс.</p>
+	<p>Каждый объект имеет невидимый указатель на дескриптор типа для своего класса.</p>
+	<p>Таким образом, в объектно-ориентированных программах необходимая дополнительная память выражается в одном указателе для объекта и в одном дескрипторе типа для класса.</p>
+	<p><b>3. Излишняя универсальность.</b></p>
+	<p>Неэффективность также может означать, что в программе реализованы избыточные возможности.</p>
+	<p>В библиотечном классе часто содержится больше методов, чем это реально необходимо.</p>
+	<p>А поскольку лишние методы не могут быть удалены, они становятся мертвым грузом.</p>
+	<p>Это не влияет на время выполнения, но сказывается на размере кода.</p>
+	<p>Одно из возможных решений - строить базовый класс с минимальным числом методов, а затем уже реализовывать различные расширения этого класса, которые позволят нарастить функциональность.</p>
+	<p>Другой подход - дать компоновщику возможность удалять лишние методы.</p>
+	<p>Такие интеллектуальные компоновщики уже существуют для различных языков и операционных систем.</p>
+	<p>Но нельзя утверждать, что ООП неэффективно.</p>
+	<p>Если классы используются лишь там, где это действительно необходимо, то потеря эффективности из-за повышенного расхода памяти и меньшей производительности незначительна.</p>
+	<p>Кроме того, надежность программного обеспечения и быстрота его написания часто бывает важнее, чем производительность.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой лекции мы рассказали об объектно-ориентированном подходе к разработке ПО, а также о том, что послужило предпосылками к его появлению и сделало его популярным.</p>
+	<p>Были рассмотрены ключевые понятия ООП - объект и класс.</p>
+	<p>Далее были описаны основные свойства объектной модели - инкапсуляция, наследование, полиморфизм.</p>
+	<p>Основными видами отношений между классами являются наследование, ассоциация, агрегация, метакласс.</p>
+	<p>Также были описаны правила изображения классов и связей между ними на языке UML.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="18.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="20.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/19.html", "Недостатки ООП", "bm620"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm620", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm620") == 1) { document.getElementById("bma620").style.display = "block"; document.getElementById("bm620").style.display = "none"; } else { document.getElementById("bma620").style.display = "none"; document.getElementById("bm620").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Недостатки ООП") == 1) { arrs.splice(i, 1); localStorage.setItem("bm620", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

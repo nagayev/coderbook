@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1225" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1225" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Виджеты
+	</h1>
+
+    <p>Виджеты представляют собой многоразовые строительные блоки, используемые в представлениях для создания сложных и настраиваемых элементов пользовательского интерфейса в рамках объектно-ориентированного подхода.</p>
+    <p>Например, виджет выбора даты (date picker) позволяет генерировать интерактивный интерфейс для выбора дат, предоставляя пользователям приложения удобный способ для ввода данных такого типа.</p>
+    <p>Все, что нужно для подключения виджета - это добавить следующий код в представление:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\bootstrap\DatePicker;
+    ?&gt;
+    &lt;?= DatePicker::widget(['name' =&gt; 'date']) ?&gt;
+    </pre>
+
+    <p>В комплект Yii входит большое количество виджетов, например:</p>
+
+    <pre class="brush: csharp;">
+        [[yii\widgets\ActiveForm|active form]]
+        [[yii\widgets\Menu|menu]]
+    </pre>
+
+    <p>виджеты jQuery UI, виджеты Twitter Bootstrap.</p>
+    <p>Далее будут представлены базовые сведения о виджетах.</p>
+    <p>Для получения сведений относительно использования конкретного виджета, следует обратиться к документации соответствующего класса.</p>
+
+    <h2 id="title">
+        Использование Виджетов
+    </h2>
+
+    <p>Главным образом, виджеты применяют в представлениях.</p>
+    <p>Для того, чтобы использовать виджет в представлении, достаточно вызвать метод [[yii\base\Widget::widget()]].</p>
+    <p>Метод принимает массив настроек для инициализации виджета и возвращает результат его рендеринга.</p>
+    <p>Например, следующий код добавляет виджет для выбора даты, сконфигурированный для использования русского в качестве языка интерфейса виджета и хранения вводимых данных в атрибуте from_date модели $model.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\bootstrap\DatePicker;
+    ?&gt;
+    &lt;?= DatePicker::widget([
+        'model' =&gt; $model,
+        'attribute' =&gt; 'from_date',
+        'language' =&gt; 'ru',
+        'clientOptions' =&gt; [
+            'dateFormat' =&gt; 'yy-mm-dd',
+        ],
+    ]) ?&gt;
+    </pre>
+
+    <p>Некоторые виджеты могут иметь внутреннее содержимое, которое следует располагать между вызовами методов [[yii\base\Widget::begin()]] и [[yii\base\Widget::end()]].</p>
+    <p>Например, для генерации формы входа, в следующем фрагменте кода используется виджет [[yii\widgets\ActiveForm]].</p>
+    <p>Этот виджет сгенерирует открывающий и закрывающий тэги &lt;form&gt; в местах вызова методов begin() и end() соответственно.</p>
+    <p>При этом, содержимое, расположенное между вызовами указанных методов будет выведено без каких-либо изменений.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\widgets\ActiveForm;
+    use yii\helpers\Html;
+    ?&gt;
+    
+    &lt;?php $form = ActiveForm::begin(['id' =&gt; 'login-form']); ?&gt;
+    
+        &lt;?= $form->field($model, 'username') ?&gt;
+    
+        &lt;?= $form->field($model, 'password')->passwordInput() ?&gt;
+    
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;?= Html::submitButton(&apos;Login&apos;) ?&gt;
+        &lt;/div&gt;
+    
+    &lt;?php ActiveForm::end(); ?&gt;
+    </pre>
+
+    <p>Обратите внимание на то, что в отличие от метода [[yii\base\Widget::widget()]], который возвращает результат рендеринга, метод [[yii\base\Widget::begin()]] возвращает экземпляр виджета, который может быть использован в дальнейшем для формирования его внутреннего содержимого.</p>
+
+    <h3 id="title">
+        Задание глобальных умолчаний
+    </h3>
+
+    <p>Глобальные умолчания для определённого типа виджета могут быть заданы через DI контейнер:</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$container->set('yii\widgets\LinkPager', ['maxButtonCount' =&gt; 5]);
+    </pre>
+
+    <p>Подробнее это описано в подразделе «Практическое использование» раздела «Контейнер внедрения зависимостей».</p>
+
+    <h2 id="title">
+        Создание Виджетов
+    </h2>
+
+    <p>Для того, чтобы создать виджет, следует унаследовать класс [[yii\base\Widget]] и переопределить методы [[yii\base\Widget::init()]] и/или [[yii\base\Widget::run()]].</p>
+    <p>Как правило, метод init() должен содержать код, выполняющий нормализацию свойств виджета, а метод run() - код, возвращающий результат рендеринга виджета.</p>
+    <p>Результат рендеринга может быть выведен непосредственно с помощью конструкции "echo" или же возвращен в строке методом run().</p>
+    <p>В следующем примере, виджет HelloWidget HTML-кодирует и отображает содержимое, присвоенное свойству message.</p>
+    <p>В случае, если указанное свойство не установлено, виджет, в качестве значения по умолчанию отобразит строку "Hello World".</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\Widget;
+    use yii\helpers\Html;
+    
+    class HelloWidget extends Widget
+    {
+        public $message;
+    
+        public function init()
+        {
+            parent::init();
+            if ($this->message === null) {
+                $this->message = 'Hello World';
+            }
+        }
+    
+        public function run()
+        {
+            return Html::encode($this->message);
+        }
+    }
+    </pre>
+
+    <p>Для того, чтобы использовать этот виджет, достаточно добавить в представление следующий код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use app\components\HelloWidget;
+    ?&gt;
+    &lt;?= HelloWidget::widget(['message' =&gt; 'Good morning']) ?&gt;
+    </pre>
+
+    <p>Ниже представлен вариант виджета HelloWidget, который принимает содержимое, обрамленное вызовами методов begin() и end(), HTML-кодирует его и выводит.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\Widget;
+    use yii\helpers\Html;
+    
+    class HelloWidget extends Widget
+    {
+        public function init()
+        {
+            parent::init();
+            ob_start();
+        }
+    
+        public function run()
+        {
+            $content = ob_get_clean();
+            return Html::encode($content);
+        }
+    }
+    </pre>
+
+    <p>Как Вы можете видеть, в методе init() происходит включение буферизации вывода PHP таким образом, что весь вывод между вызовами init() и run() может быть перехвачен, обработан и возвращен в run().</p>
+    <p><b>Информация:</b> При вызове метода [[yii\base\Widget::begin()]] будет создан новый экземпляр виджета, при этом вызов метода init() произойдет сразу после выполнения остального кода в конструкторе виджета.</p>
+    <p>При вызове метода [[yii\base\Widget::end()]], будет вызван метод run(), а возвращенное им значение будет выведено методом end().</p>
+    <p>Следующий фрагмент кода содержит пример использования модифицированного варианта HelloWidget:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use app\components\HelloWidget;
+    ?&gt;
+    &lt;?php HelloWidget::begin(); ?&gt;
+    
+        content that may contain &lt;tag&gt;'s
+    
+    &lt;?php HelloWidget::end(); ?&gt;
+    </pre>
+
+    <p>В некоторых случаях, виджету может потребоваться вывести крупный блок содержимого.</p>
+    <p>И хотя это содержимое может быть встроено непосредственно в метод run(), целесообразней поместить его в представление и вызвать метод [[yii\base\Widget::render()]] для его рендеринга.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    public function run()
+    {
+        return $this->render('hello');
+    }
+    </pre>
+
+    <p>По умолчанию, файлы представлений виджетов должны находиться в директории WidgetPath/views, где WidgetPath - директория, содержащая файл класса виджета.</p>
+    <p>Таким образом, в приведенном выше примере, для виджета будет использован файл представления @app/components/views/hello.php, при этом файл с классом виджета расположен в @app/components.</p>
+    <p>Для того, чтобы изменить директорию, в которой содержатся файлы-представления для виджета, следует переопределить метод [[yii\base\Widget::getViewPath()]].</p>
+
+    <h2 id="title">
+        Лучшие Практики
+    </h2>
+
+    <p>Виджеты представляют собой объектно-ориентированный подход к повторному использованию кода пользовательского интерфейса.</p>
+    <p>При создании виджетов, следует придерживаться основных принципов концепции MVC.</p>
+    <p>В общем случае, основную логику следует располагать в классе виджета, разделяя при этом код, отвечающий за разметку в представления.</p>
+    <p>Разрабатываемые виджеты должны быть самодостаточными.</p>
+    <p>Это означает, что для их использования должно быть достаточно всего лишь добавить виджет в представление.</p>
+    <p>Добиться этого бывает затруднительно в том случае, когда для его функционирования требуются внешние ресурсы, такие как CSS, JavaScript, изображения и т.д.</p>
+    <p>К счастью, Yii предоставляет поддержку механизма для работы с ресурсами asset bundles, который может быть успешно использован для решения данной проблемы.</p>
+    <p>В случае, когда виджет не содержит логики, а содержит только код, отвечающий за вывод разметки, он мало отличается от представления.</p>
+    <p>В действительности, единственное его отличие состоит в том, что виджет представляет собой отдельный и удобный для распространения класс, в то время как представление - это обычный PHP скрипт, подходящий для использования только лишь в конкретном приложении.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="18.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="20.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/19.html", "Yii2: Виджеты", "bm1225"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1225", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1225") == 1) { document.getElementById("bma1225").style.display = "block"; document.getElementById("bm1225").style.display = "none"; } else { document.getElementById("bma1225").style.display = "none"; document.getElementById("bm1225").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Виджеты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1225", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

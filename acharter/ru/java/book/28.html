@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma629" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm629" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Класс Object
+	</h1>
+
+	<p>В Java множественное наследование отсутствует.</p>
+	<p>Каждый класс может иметь только одного родителя.</p>
+	<p>Таким образом, мы можем проследить цепочку наследования от любого класса, поднимаясь все выше.</p>
+	<p>Существует класс, на котором такая цепочка всегда заканчивается, это класс Object.</p>
+	<p>Именно от него наследуются все классы, в объявлении которых явно не указан другой родительский класс.</p>
+	<p>А значит, любой класс напрямую, или через своих родителей, является наследником Object.</p>
+	<p>Отсюда следует, что методы этого класса есть у любого объекта (поля в Object отсутствуют), а потому они представляют особенный интерес.</p>
+	<p>Рассмотрим основные из них.</p>
+
+	<h1 id="title">
+		getClass()
+	</h1>
+
+	<p>Этот метод возвращает объект класса Class, который описывает класс, от которого был порожден этот объект.</p>
+	<p>Класс Class будет рассмотрен ниже.</p>
+	<p>У него есть метод getName(), возвращающий имя класса:</p>
+
+	<pre class="brush: csharp;">
+	String s = "abc";
+	Class cl=s.getClass();
+	System.out.println(cl.getName());
+	</pre>
+
+	<p>Результатом будет строка:</p>
+
+	<pre class="brush: csharp;">
+	java.lang.String
+	</pre>
+
+	<p>В отличие от оператора instanceof, метод getClass() всегда возвращает точно тот класс, от которого был порожден объект.</p>
+
+	<h1 id="title">
+		equals()
+	</h1>
+
+	<p>Этот метод имеет один аргумент типа Object и возвращает boolean.</p>
+	<p>Как уже говорилось, equals() служит для сравнения объектов по значению, а не по ссылке.</p>
+	<p>Сравнивается состояние объекта, у которого вызывается этот метод, с передаваемым аргументом.</p>
+
+	<pre class="brush: csharp;">
+	Point p1=new Point(2,3);
+	Point p2=new Point(2,3);
+	print(p1.equals(p2));
+	</pre>
+
+	<p>Результатом будет false.</p>
+
+	<p>Поскольку сам Object не имеет полей, а значит, и состояния, в этом классе метод equals возвращает результат сравнения по ссылке.</p>
+	<p>Однако при написании нового класса можно переопределить этот метод и описать правильный алгоритм сравнения по значению (что и сделано в большинстве стандартных классов).</p>
+	<p>Соответственно, в класс Point также необходимо добавить переопределенный метод сравнения:</p>
+
+	<pre class="brush: csharp;">
+	public boolean equals(Object o)
+	{
+		// Сначала необходимо убедиться, что переданный объект совместим с типом Point
+		if (o instanceof Point)
+		{
+			// Типы совместимы, можно провести преобразование
+			Point p = (Point)o;
+		
+			// Возвращаем результат сравнения координат
+			return p.x==x && p.y==y;
+		}
+
+		// Если объект не совместим с Point, возвращаем false
+		return false;
+	}
+	</pre>
+
+	<h1 id="title">
+		hashCode()
+	</h1>
+
+	<p>Данный метод возвращает значение int.</p>
+	<p>Цель hashCode() – представить любой объект целым числом.</p>
+	<p>Особенно эффективно это используется в хэш-таблицах (в Java есть стандартная реализация такого хранения данных, она будет рассмотрена позже).</p>
+	<p>Конечно, нельзя потребовать, чтобы различные объекты возвращали различные хэш-коды, но, по крайней мере, необходимо, чтобы объекты, равные по значению (метод equals() возвращает true ), возвращали одинаковые хэш-коды.</p>
+	<p>В классе Object этот метод реализован на уровне JVM.</p>
+	<p>Сама виртуальная машина генерирует число хеш-кодов, основываясь на расположении объекта в памяти.</p>
+
+	<h1 id="title">
+		toString()
+	</h1>
+
+	<p>Этот метод позволяет получить текстовое описание любого объекта.</p>
+	<p>Создавая новый класс, данный метод можно переопределить и возвращать более подробное описание.</p>
+	<p>Для класса Object и его наследников, не переопределивших toString(), метод возвращает следующее выражение:</p>
+
+	<pre class="brush: csharp;">
+	getClass().getName()+"@"+hashCode()
+	</pre>
+
+	<p>Метод getName() класса Class уже приводился в пример, а хэш-код еще дополнительно обрабатывается специальной функцией для представления в шестнадцатеричном формате.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	print(new Object());
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	java.lang.Object@92d342
+	</pre>
+
+	<p>В результате этот метод позволяет по текстовому описанию понять, от какого класса был порожден объект и, благодаря хеш-коду, различать разные объекты, созданные от одного класса.</p>
+	<p>Именно этот метод вызывается при конвертации объекта в текст, когда он передается в качестве аргумента оператору конкатенации строк.</p>
+
+	<h1 id="title">
+		finalize()
+	</h1>
+
+	<p>Данный метод вызывается при уничтожении объекта автоматическим сборщиком мусора (garbage collector).</p>
+	<p>В классе Object он ничего не делает, однако в классе-наследнике позволяет описать все действия, необходимые для корректного удаления объекта, такие как закрытие соединений с БД, сетевых соединений, снятие блокировок на файлы и т.д.</p>
+	<p>В обычном режиме напрямую этот метод вызывать не нужно, он отработает автоматически.</p>
+	<p>Если необходимо, можно обратиться к нему явным образом.</p>
+	<p>В методе finalize() нужно описывать только дополнительные действия, связанные с логикой работы программы.</p>
+	<p>Все необходимое для удаления объекта JVM сделает сама.</p>
+
+	<h1 id="title">
+		Класс String
+	</h1>
+
+	<p>Как уже указывалось, класс String занимает в Java особое положение.</p>
+	<p>Экземпляры только этого класса можно создавать без использования ключевого слова new.</p>
+	<p>Каждый строковый литерал порождает экземпляр String, и это единственный литерал (кроме null), имеющий объектный тип.</p>
+	<p>Затем значение любого типа может быть приведено к строке с помощью оператора конкатенации строк, который был рассмотрен для каждого типа, как примитивного, так и объектного.</p>
+	<p>Еще одним важным свойством данного класса является неизменяемость.</p>
+	<p>Это означает, что, породив объект, содержащий некое значение-строку, мы уже не можем изменить данное значение – необходимо создать новый объект.</p>
+
+	<pre class="brush: csharp;">
+	String s="a";
+	s="b";
+	</pre>
+
+	<p>Во второй строке переменная сменила свое значение, но только создав новый объект класса String.</p>
+	<p>Поскольку каждый строковый литерал порождает новый объект, что есть очень ресурсоемкая операция в Java, зачастую компилятор стремится оптимизировать эту работу.</p>
+	<p>Во-первых, если используется несколько литералов с одинаковым значением, для них будет создан один и тот же объект.</p>
+
+	<pre class="brush: csharp;">
+	String s1 = "abc";
+	String s2 = "abc";
+	String s3 = "a"+"bc";
+	print(s1==s2);
+	print(s1==s3);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	true
+	true
+	</pre>
+
+	<p>То есть в случае, когда строка конструируется из констант, известных уже на момент компиляции, оптимизатор также подставляет один и тот же объект.</p>
+	<p>Если же строка создается выражением, которое может быть вычислено только во время исполнения программы, то оно будет порождать новый объект:</p>
+
+	<pre class="brush: csharp;">
+	String s1="abc";
+	String s2="ab";
+	print(s1==(s2+"c"));
+	</pre>
+
+	<p>Результатом будет false, так как компилятор не может предсказать результат сложения значения переменной с константой.</p>
+	<p>В классе String определен метод intern(), который возвращает один и тот же объект-строку для всех экземпляров, равных по значению.</p>
+	<p>То есть, если для ссылок s1 и s2 верно выражение s1.equals(s2), то верно и s1.intern()==s2.intern().</p>
+	<p>Разумеется, в классе переопределены методы equals() и hashCode().</p>
+	<p>Метод toString() также переопределен и возвращает он сам объект-строку, то есть для любой ссылки s типа String, не равной null, верно выражение s==s.toString().</p>
+
+	<h1 id="title">
+		Класс Class
+	</h1>
+
+	<p>Наконец, последний класс, который будет рассмотрен в этой лекции.</p>
+	<p>Класс Class является метаклассом для всех классов Java.</p>
+	<p>Когда JVM загружает файл .class, который описывает некоторый тип, в памяти создается объект класса Class, который будет хранить это описание.</p>
+	<p>Например, если в программе есть строка</p>
+
+	<pre class="brush: csharp;">
+	Point p=new Point(1,2);
+	</pre>
+
+	<p>то это означает, что в системе созданы следующие объекты:</p>
+
+	<p>1. объект типа Point, описывающий точку (1,2) ;</p>
+	<p>2. объект класса Class, описывающий класс Point ;</p>
+	<p>3. объект класса Class, описывающий класс Object. Поскольку класс Point наследуется от Object, его описание также необходимо;</p>
+	<p>4. объект класса Class, описывающий класс Class. Это обычный Java-класс, который должен быть загружен по общим правилам.</p>
+	<p>Одно из применений класса Class уже было рассмотрено – использование метода getClass() класса Object.</p>
+	<p>Если продолжить последний пример с точкой:</p>
+
+	<pre class="brush: csharp;">
+	Class cl=p.getClass();
+	// это объект №2 из списка
+
+	Class cl2=cl.getClass();
+	// это объект №4 из списка
+
+	Class cl3=cl2.getClass();
+	// опять объект №4
+	</pre>
+
+	<p>Выражение cl2==cl3 верно.</p>
+	<p>Другое применение класса Class также приводилось в примере применения технологии reflection.</p>
+	<p>Кроме прямого использования метакласса для хранения в памяти описания классов, Java использует эти объекты и для других целей, которые будут рассмотрены ниже (статические переменные, синхронизация статических методов и т.д.).</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>Типы данных – одна из ключевых тем курса.</p>
+	<p>Невозможно написать ни одной программы, не используя их.</p>
+	<p>Вот список некоторых операций, где применяются типы:</p>
+	<p>- объявление типов;</p>
+	<p>- создание объектов;</p>
+	<p>- при объявлении полей – тип поля;</p>
+	<p>- при объявлении методов – входные параметры, возвращаемое значение;</p>
+	<p>- при объявлении конструкторов – входные параметры;</p>
+	<p>- оператор приведения типов;</p>
+	<p>- оператор instanceof ;</p>
+	<p>- объявление локальных переменных;</p>
+	<p>- многие другие – обработка ошибок, import -выражения и т.д.</p>
+	<p>Принципиальные различия между примитивными и ссылочными типами данных будут рассматриваться и дальше по ходу курса.</p>
+	<p>Изучение объектной модели Java даст основу для более подробного изложения объектных типов – обычных и абстрактных классов, интерфейсов и массивов.</p>
+	<p>После приведения типов будут описаны связи между типом переменной и типом ее значения.</p>
+	<p>В обсуждении будущей версии Java 1.5 упоминаются темплейты (templates), которые существенно расширят понятия типа данных, если действительно войдут в стандарт языка.</p>
+	<p>В лекции было рассказано о том, что Java является строго типизированным языком, то есть тип всех переменных и выражений определяется уже компилятором.</p>
+	<p>Это позволяет существенно повысить надежность и качество кода, а также делает необходимым понимание программистами объектной модели.</p>
+	<p>Все типы в Java делятся на две группы – фиксированные простые, или примитивные типы (8 типов) и многочисленная группа объектных типов (классов).</p>
+	<p>Примитивные типы действительно являются хранилищами данных своего типа.</p>
+	<p>Ссылочные переменные хранят ссылку на некоторый объект совместимого типа.</p>
+	<p>Они также могут принимать значение null, не указывая ни на какой объект.</p>
+	<p>JVM подсчитывает количество ссылок на каждый объект и активизирует механизм автоматической сборки мусора для удаления неиспользуемых объектов.</p>
+	<p>Были рассмотрены переменные.</p>
+	<p>Они характеризуются тремя основными параметрами – имя, тип и значение.</p>
+	<p>Любая переменная должна быть объявлена и при этом может быть инициализирована.</p>
+	<p>Возможно использование модификатора final.</p>
+	<p>Примитивные типы состоят из пяти целочисленных, включая символьный тип, двух дробных и одного булевого.</p>
+	<p>Целочисленные литералы имеют ограничения, связанные с типами данных.</p>
+	<p>Были рассмотрены все операторы над примитивными типами, тип возвращаемого значения и тонкости их использования.</p>
+	<p>Затем изучались объекты, способы их создания и операторы, выполняющие над ними различные действия, в частности принцип работы оператора instanceof.</p>
+	<p>Далее были рассмотрены самые главные классы в Java – Object, Class, String.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="27.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="29.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/28.html", "Ссылочные типы (ч. 2)", "bm629"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm629", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm629") == 1) { document.getElementById("bma629").style.display = "block"; document.getElementById("bm629").style.display = "none"; } else { document.getElementById("bma629").style.display = "none"; document.getElementById("bm629").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ссылочные типы (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm629", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

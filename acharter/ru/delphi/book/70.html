@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma456" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm456" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Перенос файлов (ч. 1)
+	</h1>
+
+	<p>В жизни каждого программиста не раз встречается необходимость написать приложение, которое могло бы обеспечить стандартные функции работы с файлами – копирование, перенос, удаление, и прочее.</p>
+	<p>Сегодня мы будем создавать программу, которая не только все это делает, но еще и выводит сообщение о размере файла, и показывает индикатор копирования.</p>
+	<p>Файл будем копировать побайтово, точнее, использовать буфер копирования, в который будем считывать символы.</p>
+	<p>Создайте новый проект.</p>
+	<p>Форму сразу же переименуйте в fMain, в свойстве Caption напишите "Работа с файлами" а проект сохраните в новую папку под именем "FileManager".</p>
+	<p>Стиль формы сделайте bsDialog, а положение формы – poDesktopCenter.</p>
+	<p>Далее, установите на форму компонент Label, в свойстве Caption которого напишите "Что:".</p>
+	<p>Рядом установите Edit, и удалите из него текст.</p>
+	<p>В этот Edit мы будем заносить исходный файл, или что мы собираемся копировать или переносить.</p>
+	<p>Ниже установите еще по одному Label и Edit.</p>
+	<p>У Label напишите "Куда:", а у Edit удалите текст.</p>
+	<p>Оба Edit немного расширьте, чтобы могли уместиться имена файлов с длинными адресами.</p>
+	<p>Ниже установите еще один Label, и в нем напишите: "Размер файла:".</p>
+	<p>Ниже будут две кнопки – "Копировать" и "Перенести".</p>
+	<p>Еще ниже установим индикатор копирования.</p>
+	<p>Обычно для таких целей устанавливают индикатор ProgressBar с вкладки Win32.</p>
+	<p>У него за показ процентного отношения отвечает свойство Position.</p>
+	<p>Установите этот компонент и попробуйте этому свойству присваивать разные значения от 0 до 100, чтобы посмотреть, как изменяется внешний вид компонента.</p>
+	<p>Однако мы для этих целей воспользуемся другим компонентом, поэтому удалите ProgressBar и перейдите на вкладку Samples.</p>
+	<p>Там выберите компонент Gauge, и установите его на форму.</p>
+	<p>Как видите, по умолчанию Gauge имеет квадратную форму.</p>
+	<p>Свойству Height присвойте значение 30, а свойству Width – 270.</p>
+	<p>Таким образом, мы придали Gauge горизонтальную направленность.</p>
+	<p>Этот компонент не только выглядит привлекательней предыдущего, но также показывает процент выполненного действия!</p>
+	<p>За этот процент отвечает свойство Progress, попробуйте присвоить ему разные значения от 0 до 100.</p>
+	<p>Каким именно компонентом пользоваться в таких случаях – дело вкуса каждого программиста.</p>
+	<p>Но вы должны знать, что в стандартной поставке Delphi есть два компонента, которые выполняют это действие.</p>
+	<p>Верните Progress в ноль.</p>
+	<p>Вы, наверное, уже успели заметить, что компонент по умолчанию окрашивается в черный цвет.</p>
+	<p>Это немного мрачно, поэтому в свойстве ForeColor выберите темно-синий цвет.</p>
+	<p>Для того, чтобы пользователь не вводил много лишнего текста, облегчим ему работу и установим два диалога – OpenDialog и SaveDialog.</p>
+	<p>А для их вызова справа от компонентов Edit установите по одной кнопочке, ширину и высоту которых сделайте такой же, как высота Edit, то есть, 21, чтобы кнопочки получились квадратными.</p>
+	<p>В результате, компонент Edit и стоящая справа от него квадратная кнопочка кажутся одним элементом интерфейса.</p>
+	<p>У вас должна получиться форма примерно с таким интерфейсом:</p>
+
+	<img src="delphi31.png" id="image" />
+
+	<p>Впрочем, вы самостоятельно можете разработать дизайн программы, главное, чтобы интерфейс был понятным пользователю, и компоненты на форме располагались красиво.</p>
+	<p>Функция переноса файла отличается от функции копирования только тем, что в конце работы мы удалим исходный файл, следовательно, для переноса будем вызывать процедуру копирования, чтобы не писать дважды один и тот же код.</p>
+	<p>Для того, чтобы не путаться при написании кода, переименуйте верхний Edit в Otkuda, а нижний – в Kuda (свойство Name).</p>
+	<p>Так мы точно будем знать, где и что у нас находится.</p>
+	<p>Теперь займемся написанием кода программы.</p>
+	<p>Для начала объявим процедуру, которая будет побайтово копировать файл.</p>
+	<p>Ранее мы уже вводили в программы собственные функции и процедуры.</p>
+	<p>Мы их нигде не объявляли, а просто описывали выше того места, откуда в дальнейшем вызывали.</p>
+	<p>Этот способ имел один минус – такая процедура не являлась частью объекта Форма, и для того, чтобы обратиться к какому-нибудь компоненту, нам приходилось вначале обращаться к форме, например:</p>
+
+	<pre class="brush: csharp;">
+	Form1.Edit1.Text
+	</pre>
+
+	<p>Однако собственную процедуру или функцию можно сделать частью формы, если вначале ее объявить.</p>
+	<p>Делается это в разделе private, сразу под комментарием:</p>
+
+	<pre class="brush: csharp;">
+private
+    { Private declarations }
+    procedure myCopy;
+	</pre>
+
+	<p>Теперь нашу процедуру можно вызывать из любой части формы.</p>
+	<p>Если бы мы описали ее в разделе public, то ее можно было бы вызывать и из других модулей.</p>
+	<p>Мы объявили эту процедуру в объекте TfMain, чтобы можно было обращаться к ней из любого места программы и напрямую использовать компоненты формы.</p>
+	<p>Саму процедуру напишем в разделе implementation, после директивы компилятору {$R *.dfm}.</p>
+	<p>Обратите внимание, что имя процедуры должно начинаться с обращения к имени формы:</p>
+
+	<pre class="brush: csharp;">
+procedure TfMain.myCopy();
+var
+  f1, f2: File; // первый и второй файл
+  cop: array [1..2048] of Char; //буфер копирования
+  sizefile, sizeread: Int64; //размер файла и размер прочитанного
+  colRead, colWrite : Integer; //прочитано и записано
+  fOtkuda, fKuda : String; //адреса и имена файлов
+begin
+  //даем компилятору директиву, чтобы не отслеживал ошибки ввода-вывода:
+  {$I-}
+  //проверяем, указаны ли файлы. если нет - выходим
+  if (Otkuda.Text='') or (Kuda.Text='') then begin
+    ShowMessage('Укажите какой файл копировать/переносить, и куда');
+    Exit;
+  end; //if
+try
+  //связываем файловые переменные:
+  AssignFile(f1, Otkuda.Text);
+  AssignFile(f2, Kuda.Text);
+  //открываем первый файл для чтения:
+  Reset(f1, 1);
+  //определяем его размер в переменную:
+  sizefile := FileSize(f1);
+  //отображаем размер файла в килобайтах:
+  Label3.Caption := 'Размер файла: '+IntToStr(Round(sizefile / 1024)) + ' Кб.';
+  //создаем или перезаписываем второй файл:
+  Rewrite(f2, 1);
+  //делаем, пока не достигнут конец исходного файла
+  colRead := 0;
+  colWrite := 0;
+  sizeread := 0;
+  Screen.Cursor := crHourGlass; //песочные часы
+  while colRead = colWrite do begin
+    BlockRead(f1, cop, SizeOf(cop), colRead);
+    if colRead = 0 then break;
+    //двигаем индикатор копирования
+    BlockWrite(f2, cop, colRead, colWrite);
+    sizeread := sizeread + colRead;
+    Gauge1.Progress := Round(100*sizeread/sizefile);
+  end; //while
+  Screen.Cursor := crDefault; //обычный вид курсора
+finally
+  CloseFile(f1);
+  CloseFile(f2);
+end; //try
+  //исправляем дату
+  fOtkuda := Otkuda.Text;
+  fKuda := Kuda.Text;
+  PravkaDate(fOtkuda, fKuda);
+
+  if IOResult <> 0 then
+    Application.MessageBox('Ошибка при копировании файла!', 'Внимание!!!',
+      MB_OK+MB_ICONERROR)
+  else ShowMessage('Копирование успешно завершено!');
+  //включаем обработчик компилятором ошибок
+  {$I+}
+end;
+	</pre>
+
+	<p>Итак, что нового для нас в этом коде?</p>
+	<p>Во-первых, директивы компилятору.</p>
+	<p>Директива {$I-} отключает обработку компилятором ошибок ввода-вывода (Input-Output), нам это необходимо, чтобы получить результат – была ошибка или нет.</p>
+	<p>Ниже мы вновь включаем эту обработку: {$I+}.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="69.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="71.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/70.html", "Перенос файлов (ч. 1)", "bm456"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm456", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm456") == 1) { document.getElementById("bma456").style.display = "block"; document.getElementById("bm456").style.display = "none"; } else { document.getElementById("bma456").style.display = "none"; document.getElementById("bm456").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перенос файлов (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm456", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

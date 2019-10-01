@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma676" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm676" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Пакет java.net
+	</h1>
+
+	<p>Перейдем к рассмотрению средств Java для работы с сетью.</p>
+	<p>Классы, работающие с сетевыми протоколами, располагаются в пакете java.net, и простейшим из них является класс URL.</p>
+	<p>С его помощью можно сконструировать uniform resource locator (URL), который имеет следующий формат:</p>
+
+	<pre class="brush: csharp;">
+	protocol://host:port/resource
+	</pre>
+
+	<p>Здесь protocol – название протокола, используемого для связи; host – IP-адрес, или DNS-имя сервера, к которому производится обращение; port – номер порта сервера (если порт не указан, то используется значение по умолчанию для указанного протокола); resource – имя запрашиваемого ресурса, причем, оно может быть составным, например:</p>
+
+	<pre class="brush: csharp;">
+	ftp://myserver.ru/pub/docs/Java/JavaCourse.txt
+	</pre>
+
+	<p>Затем можно воспользоваться методом openStream(), который возвращает InputStream, что позволяет считать содержимое ресурса.</p>
+	<p>Например, следующая программа при помощи LineNumberReader считывает первую страницу сайта http://www.ru и выводит ее на консоль.</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	import java.net.*;
+	
+	public class Net
+	{
+		public static void main(String args[])
+		{
+			try
+			{
+				URL url = new URL("http://www.ru");
+				LineNumberReader r = new LineNumberReader(new InputStreamReader(url.openStream()));
+				String s = r.readLine();
+				
+				while (s!=null)
+				{
+					System.out.println(s);
+					s = r.readLine();
+				}
+				
+				System.out.println(r.getLineNumber());
+				r.close();
+			}
+			catch (MalformedURLException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	</pre>
+
+	<p>Из примера мы видим, что работа с сетью, как и работа с потоками, требует дополнительной работы с исключительными ситуациями.</p>
+	<p>Ошибка MalformedURLException появляется в случае, если строка c URL содержит ошибки.</p>
+	<p>Более функциональным классом является URLConnection, который можно получить с помощью метода класса URL.openConnection().</p>
+	<p>У этого класса есть два метода – getInputStream() (именно с его помощью работает URL.openStream() ) и getOutputStream(), который можно использовать для передачи данных на сервер, если он поддерживает такую операцию (многие публичные web-серверы закрыты для таких действий).</p>
+	<p>Класс URLConnection является абстрактным.</p>
+	<p>Виртуальная машина предоставляет реализации этого класса для каждого протокола, например, в том же пакете java.net определен класс HttpURLConnection.</p>
+	<p>Понятно, что классы URL и URLConnection предоставляют возможность работы через сеть на прикладном уровне с помощью высокоуровневых протоколов.</p>
+	<p>Пакет java.net также предоставляет доступ к протоколам более низкого уровня – TCP и UDP.</p>
+	<p>Для этого сначала надо ознакомиться с классом InetAddress, который является Internet-адресом, или IP.</p>
+	<p>Экземпляры этого класса создаются не с помощью конструкторов, а с помощью статических методов:</p>
+
+	<pre class="brush: csharp;">
+	InetAddress getLocalHost()
+	InetAddress getByName(String name)
+	InetAddress[] getAllByName(String name)
+	</pre>
+
+	<p>Первый метод возвращает IP-адрес машины, на которой исполняется Java- программа.</p>
+	<p>Второй метод возвращает адрес сервера, чье имя передается в качестве параметра.</p>
+	<p>Это может быть как DNS-имя, так и числовой IP, записанный в виде текста, например, "67.11.12.101".</p>
+	<p>Наконец, третий метод определяет все IP-адреса указанного сервера.</p>
+	<p>Для работы с TCP-протоколом используются классы Socket и ServerSocket.</p>
+	<p>Первым создается ServerSocket – сокет на стороне сервера.</p>
+	<p>Его простейший конструктор имеет только один параметр – номер порта, на котором будут приниматься входящие запросы.</p>
+	<p>После создания вызывается метод accept(), который приостанавливает выполнение программы и ожидает, пока какой-нибудь клиент не инициирует соединение.</p>
+	<p>В этом случае работа сервера возобновляется, а метод возвращает экземпляр класса Socket для взаимодействия с клиентом:</p>
+
+	<pre class="brush: csharp;">
+	try
+	{
+		ServerSocket ss = new ServerSocket(3456);
+		Socket client=ss.accept();
+		// Метод не возвращает управление, пока не подключится клиент
+	}
+	catch (IOException e)
+	{
+		e.printStackTrace();
+	}
+	</pre>
+
+	<p>Клиент для подключения к серверу также использует класс Socket.</p>
+	<p>Его простейший конструктор принимает два параметра - адрес сервера (в виде строки, или экземпляра InetAddress) и номер порта.</p>
+	<p>Если сервер принял запрос, то сокет конструируется успешно и далее можно воспользоваться методами getInputStream() или getOutputStream().</p>
+
+	<pre class="brush: csharp;">
+	try
+	{
+		Socket s = new Socket("localhost", 3456);
+		InputStream is = s.getInputStream();
+		is.read();
+	}
+	catch (UnknownHostException e)
+	{
+		e.printStackTrace();
+	}
+	catch (IOException e)
+	{
+		e.printStackTrace();
+	}
+	</pre>
+
+	<p>Обратите внимание на обработку исключительной ситуации UnknownHostException, которая будет генерироваться, если виртуальная машина с помощью операционной системы не сможет распознать указанный адрес сервера в случае, если он задан строкой.</p>
+	<p>Если же он задан экземпляром InetAddress, то эту ошибку надо обрабатывать при вызове статических методов данного класса.</p>
+	<p>На стороне сервера класс Socket используется точно таким же образом – через методы getInputStream() и getOutputStream().</p>
+	<p>Приведем более полный пример:</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	import java.net.*;
+	
+	public class Server
+	{
+		public static void main(String args[])
+		{
+			try
+			{
+				ServerSocket ss = new ServerSocket(3456);
+				System.out.println("Waiting...");
+				Socket client=ss.accept();
+				System.out.println("Connected");
+				client.getOutputStream().write(10);
+				client.close();
+				ss.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	</pre>
+
+	<p>Сервер по запросу клиента отправляет число 10 и завершает работу.</p>
+	<p>Обратите внимание, что при завершении вызываются методы close() для открытых сокетов.</p>
+	<p>Класс клиента:</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	import java.net.*;
+	
+	public class Client
+	{
+		public static void main(String args[])
+		{
+			try
+			{
+				Socket s = new Socket("localhost", 3456);
+				InputStream is = s.getInputStream();
+				System.out.println("Read: "+is.read());
+				s.close();
+			}
+			catch (UnknownHostException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	</pre>
+
+	<p>После запуска сервера, а затем клиента, можно увидеть результат – полученное число, 10, после чего обе программы закроются.</p>
+	<p>Рассмотрим эти классы более подробно.</p>
+	<p>Во-первых, класс ServerSocket имеет конструктор, в который передается, кроме номера порта, еще и адрес машины.</p>
+	<p>Это может показаться странным, ведь сервер открывается на той же машине, где работает программа, зачем специально указывать ее адрес?</p>
+	<p>Однако, если компьютер имеет несколько сетевых интерфейсов ( сетевых карточек ), то он имеет и несколько сетевых адресов.</p>
+	<p>С помощью такого детализированного конструктора можно указать, по какому именно адресу ожидать подключения.</p>
+	<p>Это должен быть именно локальный адрес машины, иначе возникнет ошибка.</p>
+	<p>Аналогично, класс Socket имеет расширенный конструктор для указания как локального адреса, с которого будет устанавливаться соединение, так и локального порта (иначе операционная система выделяет произвольный свободный порт).</p>
+	<p>Во-вторых, можно воспользоваться методом setSoTimeout(int timeout) класса ServerSocket, чтобы указать время в миллисекундах, на протяжении которого нужно ожидать подключение клиента.</p>
+	<p>Это позволяет серверу не "зависать", если никто не пытается начать с ним работать.</p>
+	<p>Тайм-аут задается в миллисекундах, нулевое значение означает бесконечное время ожидания.</p>
+	<p>Важно подчеркнуть, что после установления соединения с клиентом сервер выходит из метода accept(), то есть перестает быть готовым принимать новые запросы.</p>
+	<p>Однако, как правило, желательно, чтобы сервер мог работать с несколькими клиентами одновременно.</p>
+	<p>Для этого необходимо при подключении очередного пользователя создавать новый поток исполнения, который будет обслуживать его, а основной поток снова войдет в метод accept().</p>
+	<p>Приведем пример такого решения:</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	import java.net.*;
+	
+	public class NetServer
+	{
+		public static final int PORT = 2500;
+		private static final int TIME_SEND_SLEEP = 100;
+		private static final int COUNT_TO_SEND = 10;
+		private ServerSocket servSocket;
+		
+		public static void main(String[] args)
+		{
+			NetServer server = new NetServer();
+			server.go();
+		}
+
+		public NetServer()
+		{
+			try
+			{
+				servSocket = new ServerSocket(PORT);
+			}
+			catch(IOException e)
+			{
+				System.err.println("Unable to open Server Socket : " + e.toString());
+			}
+		}
+
+		public void go()
+		{
+			// Класс-поток для работы с подключившимся клиентом
+			class Listener implements Runnable
+			{
+				Socket socket;
+				public Listener(Socket aSocket)
+				{
+					socket = aSocket;
+				}
+				
+				public void run()
+				{
+					try
+					{
+						System.out.println("Listener started");
+						int count = 0;
+						OutputStream out = socket.getOutputStream();
+						OutputStreamWriter writer = new
+						OutputStreamWriter(out);
+						PrintWriter pWriter = new PrintWriter(writer);
+						
+						while (count < COUNT_TO_SEND)
+						{
+							count++;
+							pWriter.print(((count>1)?",":"")+ "Say" + count);
+							sleeps(TIME_SEND_SLEEP);
+						}
+						
+						pWriter.close();
+					}
+					catch(IOException e)
+					{
+						System.err.println("Exception : " + e.toString());
+					}
+				}
+			}
+			
+			// Основной поток, циклически выполняющий метод accept()
+			System.out.println("Server started");
+			
+			while (true)
+			{
+				try
+				{
+					Socket socket = servSocket.accept();
+					Listener listener = new Listener(socket);
+					Thread thread = new Thread(listener);
+					thread.start();
+				}
+				catch(IOException e)
+				{
+					System.err.println("IOException : " + e.toString());
+				}
+			}
+		}
+		
+		public void sleeps(long time)
+		{
+			try
+			{
+				Thread.sleep(time);
+			} catch(InterruptedException e) { }
+		}
+	}
+	</pre>
+
+	<p>Теперь объявим клиента.</p>
+	<p>Эта программа будет запускать несколько потоков, каждый из которых независимо подключается к серверу, считывает его ответ и выводит на консоль.</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	import java.net.*;
+	
+	public class NetClient implements Runnable
+	{
+		public static final int PORT = 2500;
+		public static final String HOST = "localhost";
+		public static final int CLIENTS_COUNT = 5;
+		public static final int READ_BUFFER_SIZE = 10;
+		private String name = null;
+		
+		public static void main(String[] args)
+		{
+			String name = "name";
+			
+			for (int i=1; i<=CLIENTS_COUNT; i++)
+			{
+				NetClient client = new NetClient(name+i);
+				Thread thread = new Thread(client);
+				thread.start();
+			}
+		}
+
+		public NetClient(String name)
+		{
+			this.name = name;
+		}
+		
+		public void run()
+		{
+			char[] readed = new char[READ_BUFFER_SIZE];
+			StringBuffer strBuff = new StringBuffer();
+			
+			try
+			{
+				Socket socket = new Socket(HOST, PORT);
+				InputStream in = socket.getInputStream();
+				InputStreamReader reader = new InputStreamReader(in);
+				
+				while (true)
+				{
+					int count = reader.read(readed, 0,
+					READ_BUFFER_SIZE);
+					if (count==-1) break;
+					strBuff.append(readed, 0, count);
+					Thread.yield();
+				}
+			}
+			catch (UnknownHostException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			System.out.println("client " + name + " read : " + strBuff.toString());
+		}
+	}
+	</pre>
+
+	<p>Теперь рассмотрим UDP.</p>
+	<p>Для работы с этим протоколом и на стороне клиента, и на стороне сервера используется класс DatagramSocket.</p>
+	<p>У него есть следующие конструкторы:</p>
+
+	<pre class="brush: csharp;">
+	DatagramSocket()
+	DatagramSocket(int port)
+	DatagramSocket(int port, InetAddress laddr)
+	</pre>
+
+	<p>При вызове первого конструктора сокет открывается на произвольном доступном порту, что уместно для клиента.</p>
+	<p>Конструктор с одним параметром, задающим порт, как правило, применяется на серверах, чтобы клиенты знали, на каком порту им нужно пытаться устанавливать соединение.</p>
+	<p>Наконец, последний конструктор необходим для машин, у которых присутствует несколько сетевых интерфейсов.</p>
+	<p>После открытия сокетов начинается обмен датаграммами.</p>
+	<p>Они представляются экземплярами класса DatagramPacket.</p>
+	<p>При отсылке сообщения применяется следующий конструктор:</p>
+
+	<pre class="brush: csharp;">
+	DatagramPacket(byte[] buf, int length, InetAddress address, int port)
+	</pre>
+
+	<p>Массив содержит данные для отправки (созданный пакет будет иметь длину, равную length ), а адрес и порт указывают получателя пакета.</p>
+	<p>После этого вызывается метод send() класса DatagramSocket.</p>
+
+	<pre class="brush: csharp;">
+	try
+	{
+		DatagramSocket s = new DatagramSocket();
+		byte data[]={1, 2, 3};
+		InetAddress addr = InetAddress.getByName("localhost");
+		DatagramPacket p = new DatagramPacket(data, 3, addr, 3456);
+		s.send(p);
+		System.out.println("Datagram sent");
+		s.close();
+	}
+	catch (SocketException e)
+	{
+		e.printStackTrace();
+	}
+	catch (UnknownHostException e)
+	{
+		e.printStackTrace();
+	}
+	catch (IOException e)
+	{
+		e.printStackTrace();
+	}
+	</pre>
+
+	<p>Для получения датаграммы также создается экземпляр класса DatagramPacket, но в конструктор передается лишь массив, в который будут записаны полученные данные (также указывается ожидаемая длина пакета).</p>
+	<p>Сокет необходимо создать с указанием порта, иначе, скорее всего, сообщение просто не дойдет до адресата.</p>
+	<p>Используется метод receive() класса DatagramSocket (аналогично методу ServerSocket.accept(), этот метод также прерывает выполнение потока, пока не придет запрос от клиента).</p>
+	<p>Пример реализации получателя:</p>
+
+	<pre class="brush: csharp;">
+	try
+	{
+		DatagramSocket s = new DatagramSocket(3456);
+		byte data[]=new byte[3];
+		DatagramPacket p = new DatagramPacket(data, 3);
+		System.out.println("Waiting...");
+		s.receive(p);
+		System.out.println("Datagram received: "+
+		data[0]+", "+data[1]+", "+data[2]);
+		s.close();
+	}
+	catch (SocketException e)
+	{
+		e.printStackTrace();
+	}
+	catch (IOException e)
+	{
+		e.printStackTrace();
+	}
+	</pre>
+
+	<p>Если запустить сначала получателя, а затем отправителя, то можно увидеть, что первый напечатает содержимое полученной датаграммы, а потом программы завершат свою работу.</p>
+	<p>В заключение приведем пример сервера, который получает датаграммы и отправляет их обратно, дописав к ним слово received.</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	import java.net.*;
+	
+	public class DatagramDemoServer
+	{
+		public static final int PORT = 2000;
+		private static final int LENGTH_RECEIVE = 1;
+		private static final byte[] answer = ("received").getBytes();
+		private DatagramSocket servSocket = null;
+		private boolean keepRunning = true;
+		
+		public static void main(String[] args)
+		{
+			DatagramDemoServer server = new DatagramDemoServer();
+			server.service();
+		}
+		
+		public DatagramDemoServer()
+		{
+			try
+			{
+				servSocket = new DatagramSocket(PORT);
+			}
+			catch(SocketException e)
+			{
+				System.err.println("Unable to open socket : " + e.toString());
+			}
+		}
+		
+		protected void service()
+		{
+			DatagramPacket datagram;
+			InetAddress clientAddr;
+			int clientPort;
+			byte[] data;
+			
+			while (keepRunning)
+			{
+				try
+				{
+					data = new byte[LENGTH_RECEIVE];
+					datagram = new DatagramPacket(data, data.length);
+					servSocket.receive(datagram);
+					clientAddr = datagram.getAddress();
+					clientPort = datagram.getPort();
+					data = getSendData(datagram.getData());
+					datagram = new DatagramPacket(data, data.length,
+					clientAddr, clientPort);
+					servSocket.send(datagram);
+				}
+				catch(IOException e)
+				{
+					System.err.println("I/O Exception : " + e.toString());
+				}
+			}
+		}
+
+		protected byte[] getSendData(byte b[])
+		{
+			byte[] result = new byte[b.length+answer.length];
+			System.arraycopy(b, 0, result, 0, b.length);
+			System.arraycopy(answer, 0, result, b.length, answer.length);
+			return result;
+		}
+	}
+	</pre>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В данном разделе были рассмотрены теоретические основы сети как одной большой взаимодействующей системы.</p>
+	<p>Были описаны все уровни модели OSI и их функциональные назначения.</p>
+	<p>Также были представлены основные утилиты, используемые для настройки и обнаружения неисправностей в сети.</p>
+	<p>Затем были рассмотрены средства Java для работы с наиболее распространенными сетевыми протоколами.</p>
+	<p>Приведен подробный пример и для более сложного случая – сервер, обслуживающий несколько клиентов одновременно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="74.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/75.html", "Пакет java.net", "bm676"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm676", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm676") == 1) { document.getElementById("bma676").style.display = "block"; document.getElementById("bm676").style.display = "none"; } else { document.getElementById("bma676").style.display = "none"; document.getElementById("bm676").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Пакет java.net") == 1) { arrs.splice(i, 1); localStorage.setItem("bm676", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

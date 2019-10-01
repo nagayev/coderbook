@@ -1,0 +1,949 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1230" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1230" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Разбор и генерация URL
+	</h1>
+
+    <p>При обработке запрошенного URL, Yii приложение первым делом разбирает URL в маршрут.</p>
+    <p>Полученный маршрут используется при создании соответствующего экземпляра действия контроллера для обработки запроса.</p>
+    <p>Этот процесс называется роутинг.</p>
+    <p>Обратный роутингу процесс называется Создание URL, он отвечает за создание URL из заданного маршрута и соответствующих параметров запроса.</p>
+    <p>При необходимости, созданный URL всегда может быть преобразован в первоначальные маршрут и параметры запроса.</p>
+
+    <p>В основе роутинга и создания URL лежит использование</p>
+
+    <pre class="brush: csharp;">[[yii\web\UrlManager|URL manager]]</pre>
+
+    <p>зарегистрированного в качестве компонента приложения urlManager.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager|URL manager]]
+    </pre>
+
+    <p>содержит метод </p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::parseRequest()|parseRequest()]]
+    </pre>
+
+    <p>для разбора входящего запроса на маршрут и параметры запроса, и метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::createUrl()|createUrl()]]
+    </pre>
+
+    <p>для создания URL из заданного маршрута и параметров запроса.</p>
+    <p>Настройка компонента urlManager в конфигурации приложения, позволяет приложению распознавать различные форматы URL без внесения изменений в существующий код приложения.</p>
+    <p>Например, для создания URL для действия post/view, можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    use yii\helpers\Url;
+    
+    // Url::to() вызывает UrlManager::createUrl() для создания URL
+    $url = Url::to(['post/view', 'id' =&gt; 100]);
+    </pre>
+
+    <p>В зависимости от настройки urlManager, URL может быть создан в одном из следующих форматов (или любом другом формате).</p>
+    <p>При последующем запросе URL в таком формате, он будет разобран на исходные маршрут и параметры запроса.</p>
+
+    <pre class="brush: csharp;">
+    /index.php?r=post/view&id=100
+    /index.php/post/100
+    /post/100
+    </pre>
+
+    <h2 id="title">
+        Форматы URL
+    </h2>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager|URL manager]]
+    </pre>
+
+    <p>поддерживает два формата URL:</p>
+
+    <ul>
+        <li>Обычный.</li>
+        <li>Человекопонятные URL.</li>
+    </ul>
+
+    <p>Обычный формат URL использует параметр r для передачи маршрута и любые другие параметры для передачи остальных параметров запроса.</p>
+    <p>Например, URL /index.php?r=post/view&id=100 задает маршрут post/view и параметр id, равный 100.</p>
+    <p>Данный формат не требует специальной конфигурации [[yii\web\UrlManager|URL manager]] и работает с любыми настройками Веб сервера.</p>
+    <p>Человекопонятный формат URL представляет собой дополнительный путь, следующий за именем входного скрипта, описывающий маршрут и остальные параметров запроса.</p>
+    <p>Например, дополнительный путь в URL /index.php/post/100 - это /post/100, который может представлять маршрут post/view и параметр id со значением равным 100, при наличии соответствующего</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::rules|правила]]
+    </pre>
+
+    <p>Для использования ЧПУ, необходимо создать набор правил, соответствующих требованиям к URL.</p>
+    <p>Переключение между двумя форматами URL осуществляется при помощи свойства</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\UrlManager::enablePrettyUrl|enablePrettyUrl]]
+    </pre>
+
+    <p>компонента</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\UrlManager|URL manager]]
+    </pre>
+
+    <p>без внесения изменений в код приложения.</p>
+
+    <h2 id="title">
+        Роутинг
+    </h2>
+
+    <p>Роутинг осуществляется в два этапа:</p>
+
+    <ul>
+        <li>Входящий запрос разбирается в маршрут и параметры запроса.</li>
+        <li>Для обработки запроса создается действие контроллера, соответствующее полученному маршруту.</li>
+    </ul>
+
+    <p>При использовании простого формата URL, получение маршрута из запроса заключается в получении параметра r из массива GET.</p>
+    <p>При использовании ЧПУ, компонент [[yii\web\UrlManager|URL manager]] ищет среди зарегистрированных [[yii\web\UrlManager::rules|правил]] подходящее для разрешения запроса в маршрут.</p>
+    <p>Если такое правило не найдено, вызывается исключение [[yii\web\NotFoundHttpException]].</p>
+    <p>После того, как из запроса получен маршрут, самое время создать действие контроллера, соответствующее этому маршруту.</p>
+    <p>Маршрут разделяется на несколько частей, метками деления служат прямые слеши.</p>
+    <p>Например, маршрут site/index будет разделен на site и index.</p>
+    <p>Каждая из частей представляет собой идентификатор, который может ссылаться на модуль, контроллер или действие.</p>
+    <p>Начиная с первой части маршрута, приложение следует следующему алгоритму для создания модуля (если есть), контроллера и действия:</p>
+
+    <ol>
+        <li>Текущим модулем считаем приложение.</li>
+        <li>Проверяем, содержит ли <pre class="brush: csharp;">[[yii\base\Module::controllerMap|карта контроллеров]]</pre> текущего модуля текущий идентификатор. Если содержит, в соответствии с конфигурацией контроллера, найденной в карте, создаем объект контроллера и переходим в п. 5 для обработки оставшейся части маршрута.</li>
+        <li>Проверяем, есть ли модуль, соответствующий идентификатору в списке модулей (свойство <pre class="brush: csharp;">[[yii\base\Module::modules|modules]]</pre>) текущего модуля. Если есть, в соответствии с конфигурацией модуля, найденной в списке модулей, создаем модуль и переходим в п. 2, считая только что созданный модуль текущим.</li>
+        <li>Рассматриваем идентификатор как идентификатор контроллера и создаем объект контроллера. Для оставшейся части маршрута выполняем п. 5.</li>
+        <li>Контроллер ищет текущий идентификатор в его <pre class="brush: csharp;">[[yii\base\Controller::actions()|карте действий]]</pre>. В случае нахождения, контроллер создает действие, в соответствии с конфигурацией, найденной в карте. Иначе, контроллер пытается создать встроенное действие, описанное методом, соответствующим текущему идентификатору действия.</li>
+    </ol>
+
+    <p>При возникновении ошибок на любом из описанных выше этапов, вызывается исключение [[yii\web\NotFoundHttpException]], указывающее на ошибку в процессе роутинга.</p>
+
+    <h3 id="title">
+        Маршрут по умолчанию
+    </h3>
+
+    <p>В случае, если в результате разбора запроса получен пустой маршрут, вместо него будет использован, так называемый, маршрут по умолчанию.</p>
+    <p>Изначально, маршрут по умолчанию имеет значение site/index, и указывает на действие index контроллера site.</p>
+    <p>Указать свое значение можно при помощи свойства приложения</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\Application::defaultRoute|defaultRoute]]
+    </pre>
+
+    <p>например так:</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...
+        'defaultRoute' =&gt; 'main/index',
+    ];
+    </pre>
+
+    <p>В добавок к маршруту по умолчанию приложения, существует маршрут по умолчанию модулей.</p>
+    <p>Например, если у нас есть модуль user и запрос разбирается в маршрут user,</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Module::defaultRoute|defaultRoute]]
+    </pre>
+
+    <p>модуля используется для определения контроллера.</p>
+    <p>По умолчанию имя контроллера —default.</p>
+    <p>Если действие не задано в</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Module::defaultRoute|defaultRoute]]
+    </pre>
+
+    <p>то для его определения используется свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Controller::defaultAction|defaultAction]]
+    </pre>
+
+    <p>контроллера.</p>
+    <p>В данном примере полный маршрут будет user/default/index.</p>
+
+    <h3 id="title">
+        Маршрут catchAll
+    </h3>
+
+    <p>Иногда возникает необходимость временно перевести приложение в режим обслуживания и отображать одно информационное сообщение для всех запросов.</p>
+    <p>Существует много вариантов реализации этой задачи.</p>
+    <p>Но одним из самых простых, является использование свойства [[yii\web\Application::catchAll]], например так:</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...
+        'catchAll' =&gt; ['site/offline'],
+    ];
+    </pre>
+
+    <p>В данном случае, действие site/offline будет обрабатывать все входящие запросы.</p>
+    <p>Свойство catchAll должно принимать массив, первый элемент которого определяет маршрут, а остальные элементы (пары ключ-значение) определяют параметры, передаваемые действию.</p>
+
+    <h3 id="title">
+        Создание URL
+    </h3>
+
+    <p>Для создания разных видов URL из заданных маршрутов и параметров, Yii предоставляет метод-помощник [[yii\helpers\Url::to()]].</p>
+    <p>Примеры:</p>
+
+    <pre class="brush: csharp;">
+    use yii\helpers\Url;
+    
+    // создает URL для маршрута: /index.php?r=post/index
+    echo Url::to(['post/index']);
+    
+    // создает URL для маршрута с параметрами: /index.php?r=post/view&id=100
+    echo Url::to(['post/view', 'id' =&gt; 100]);
+    
+    // создает якорный URL: /index.php?r=post/view&id=100#content
+    echo Url::to(['post/view', 'id' =&gt; 100, '#' =&gt; 'content']);
+    
+    // создает абсолютный URL: http://www.example.com/index.php?r=post/index
+    echo Url::to(['post/index'], true);
+    
+    // создает абсолютный URL с использованием схемы https: https://www.example.com/index.php?r=post/index
+    echo Url::to(['post/index'], 'https');
+    </pre>
+
+    <p>Обратите внимание, что в последнем примере подразумевается использование обычного формата URL.</p>
+    <p>При использовании ЧПУ, будут созданы другие URL, соответствующие</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::rules|правилам создания URL]]
+    </pre>
+
+    <p>Маршрут, переданный методу [[yii\helpers\Url::to()]], является контекстно зависимым.</p>
+    <p>Он может быть относительным или абсолютным, в зависимости от следующих правил:</p>
+
+    <ul>
+        <li>Если маршрут является пустой строкой, будет использован текущий <pre class="brush: csharp;">[[yii\web\Controller::route|маршрут]]</pre></li>
+        <li>Если маршрут не содержит слешей вообще, он рассматривается как идентификатор действия текущего контроллера и будет дополнен значением <pre class="brush: csharp;">[[\yii\web\Controller::uniqueId|uniqueId]]</pre> текущего контроллера в качестве префикса;</li>
+        <li>Если маршрут не содержит слеша в начале, он будет рассматриваться как маршрут относительно текущего модуля и будет дополнен значением <pre class="brush: csharp;">[[\yii\base\Module::uniqueId|uniqueId]]</pre> текущего модуля, в качестве префикса.</li>
+    </ul>
+
+    <p>Начиная с версии 2.0.2, при составлении маршрутов, стало возможным использовать псевдонимы.</p>
+    <p>В таком случае, псевдоним будет преобразован в маршрут, который будет использован для создания URL по правилам, указанным выше.</p>
+    <p>Для примера, будем считать, что текущим модулем является admin, а текущим контроллером - post,</p>
+
+    <pre class="brush: csharp;">
+    use yii\helpers\Url;
+    
+    // запрошенный маршрут: /index.php?r=admin/post/index
+    echo Url::to(['']);
+    
+    // относительный маршрут с указанием только идентификатора действия: /index.php?r=admin/post/index
+    echo Url::to(['index']);
+    
+    // относительный маршрут: /index.php?r=admin/post/index
+    echo Url::to(['post/index']);
+    
+    // абсолютный маршрут: /index.php?r=post/index
+    echo Url::to(['/post/index']);
+    
+    // /index.php?r=post/index     псевдоним "@posts" определен как "/post/index"
+    echo Url::to(['@posts']);
+    </pre>
+
+    <p>В основе реализации метода [[yii\helpers\Url::to()]] лежит использование двух методов компонента [[yii\web\UrlManager|URL manager]]:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::createUrl()|createUrl()]]
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::createAbsoluteUrl()|createAbsoluteUrl()]]
+    </pre>
+
+
+    <p>Ниже будут рассмотрены способы конфигурации [[yii\web\UrlManager|URL manager]] для создания URL в различных форматах.</p>
+    <p>Метод [[yii\helpers\Url::to()]], так же, поддерживает создание URL не связанных с маршрутами приложения.</p>
+    <p>В данном случае, нужно передать в качестве первого параметра строку, а не массив. Например,</p>
+
+    <pre class="brush: csharp;">
+    use yii\helpers\Url;
+    
+    // запрошенный URL: /index.php?r=admin/post/index
+    echo Url::to();
+    
+    // URL из псевдонима: http://example.com
+    Yii::setAlias('@example', 'http://example.com/');
+    echo Url::to('@example');
+    
+    // абсолютный URL: http://example.com/images/logo.gif
+    echo Url::to('/images/logo.gif', true);
+    </pre>
+
+    <p>Кроме метода to(), класс [[yii\helpers\Url]] предоставляет и другие удобные методы для создания URL.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    use yii\helpers\Url;
+    
+    // домашний URL: /index.php?r=site/index
+    echo Url::home();
+    
+    // базовый URL, удобно использовать в случае, когда приложение расположено в подкаталоге
+    // относительно корневого каталога Веб сервера
+    echo Url::base();
+    
+    // канонический URL запрошенного URL
+    // подробнее https://support.google.com/webmasters/answer/139066?hl=ru
+    echo Url::canonical();
+    
+    // запомнить запрошенный URL и восстановить его при следующих запросах
+    Url::remember();
+    echo Url::previous();
+    </pre>
+
+    <h2 id="title">
+        Использование человекопонятных URL
+    </h2>
+
+    <p>Для активации ЧПУ, необходимо настроить компонент urlManager в конфигурации приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'components' =&gt; [
+            'urlManager' =&gt; [
+                'enablePrettyUrl' =&gt; true,
+                'showScriptName' =&gt; false,
+                'enableStrictParsing' =&gt; false,
+                'rules' =&gt; [
+                    // ...
+                ],
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Свойство</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\UrlManager::enablePrettyUrl|enablePrettyUrl]]
+    </pre>
+
+    <p>является ключевым, активирует формат ЧПУ. Остальные свойства не обязательные.</p>
+    <p>Однако, в примере выше, показан самый популярный вариант конфигурации ЧПУ.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::showScriptName|showScriptName]]
+    </pre>
+
+    <p>это свойство определяет необходимость включения имени входного скрипта в создаваемый URL.</p>
+    <p>Например, при его значении false, вместо /index.php/post/100, будет сгенерирован URL /post/100.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::enableStrictParsing|enableStrictParsing]]
+    </pre>
+
+    <p>это свойство позволяет включить строгий разбор URL.</p>
+    <p>Если строгий разбор URL включен, запрошенный URL должен соответствовать хотя бы одному из</p>
+
+    <pre class="brush: csharp;">[[yii\web\UrlManager::rules|правил]]</pre>
+
+    <p>иначе будет вызвано исключение</p>
+
+    <pre class="brush: csharp;">[[yii\web\NotFoundHttpException]]</pre>
+
+    <p>Если строгий разбор URL отключен и ни одно из</p>
+
+    <pre class="brush: csharp;">[[yii\web\UrlManager::rules|правил]]</pre>
+
+    <p>не подходит для разбора запрошенного URL, часть этого URL, представляющая путь, будет использована как маршрут.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::rules|rules]]
+    </pre>
+
+    <p>это свойство содержит набор правил для разбора и создания URL.</p>
+    <p>Это основное свойство, с которым нужно работать, что бы URL создавались в формате, соответствующем требованиям приложения.</p>
+    <p><b>Примечание:</b> Для того, чтобы скрыть имя входного скрипта в создаваемых URL, кроме установки значения свойства</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\UrlManager::showScriptName|showScriptName]]
+    </pre>
+
+    <p>в false, необходимо настроить Веб сервер, чтобы он мог правильно определять PHP скрипт, который должен быть запущен, если в запрошенном URL он не указан явно.</p>
+    <p>Рекомендованные настройки для Apache и Nginx описаны в разделе Установка Yii.</p>
+
+    <h3 id="title">
+        Правила URL
+    </h3>
+
+    <p>Правила URL - это экземпляр класса [[yii\web\UrlRule]] или класса, унаследованного от него.</p>
+    <p>Каждое правило состоит из шаблона, используемого для поиска пути в запрошенном URL, маршрута и нескольких параметров запроса.</p>
+    <p>Правило может быть использовано для разбора запроса в том случае, если шаблон правила совпадает с запрошенным URL.</p>
+    <p>Правило может быть использовано для создания URL в том случае, если его маршрут и параметры запроса совпадают с заданными.</p>
+    <p>При включенном режиме ЧПУ, компонент [[yii\web\UrlManager|URL manager]] использует правила URL, содержащиеся в его свойстве [[yii\web\UrlManager::rules|rules]], для разбора входящих запросов и создания URL.</p>
+    <p>Обычно, при разборе входящего запроса, [[yii\web\UrlManager|URL manager]] проверяет все правила в порядке их следования, до первого правила, соответствующего запрошенному URL.</p>
+    <p>Найденное правило используется для разбора URL на маршрут и параметры запроса.</p>
+    <p>Аналогично для создания URL компонент [[yii\web\UrlManager|URL manager]] ищет первое правило, соответствующее заданному маршруту и параметрам и использует его для создания URL.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::rules|Правила]]
+    </pre>
+
+    <p>задаются ассоциативным массивом, где ключи определяют шаблоны, а значения соответствующие маршруты. Каждая пара шаблон-маршрут составляет правило разбора URL.</p>
+    <p>Например, следующие [[yii\web\UrlManager::rules|правила]] определяют два правила разбора URL.</p>
+    <p>Первое правило задает соответствие URL posts маршруту post/index.</p>
+    <p>Второе правило задает соответствие URL, соответствующего регулярному выражению post/(\d+) маршруту post/view и параметру id.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'posts' =&gt; 'post/index', 
+        'post/&lt;id:\d+&gt;' =&gt; 'post/view',
+    ]
+    </pre>
+
+    <p><b>Примечание:</b> Шаблон правила используется для поиска соответствия с частью URL, определяющей путь. Например, в URL /index.php/post/100?source=ad путь определяет часть post/100 (начальный и конечный слеши игнорируются), соответствующая регулярному выражению post/(\d+).</p>
+    <p>Правила URL можно определять не только в виде пар шаблон-маршрут, но и в виде массива.</p>
+    <p>Каждый массив используется для определения одного правила.</p>
+    <p>Такой вид определения правил используется в случаях, когда необходимо указать другие параметры правила URL.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...другие правила URL...
+        
+        [
+            'pattern' =&gt; 'posts',
+            'route' =&gt; 'post/index',
+            'suffix' =&gt; '.json',
+        ],
+    ]
+    </pre>
+
+    <p>По умолчанию, если в конфигурации правила URL не указан явно параметр class, будет создано правило класса [[yii\web\UrlRule]].</p>
+
+    <h3 id="title">
+        Именованные параметры
+    </h3>
+
+    <p>Правило URL может содержать несколько именованных параметров запроса, которые указываются в шаблоне в следующем формате: &lt;ParamName:RegExp&gt;, где ParamName определяет имя параметра, а RegExp - необязательное регулярное выражение, используемое для определения значения параметра.</p>
+    <p>В случае, если RegExp не указан, значением параметра будет любая последовательность символов кроме слешей.</p>
+    <p><b>Примечание:</b> Возможно указание только регулярного выражения для параметров. В таком случае, остальная часть шаблона будет считаться простым текстом.</p>
+    <p>После разбора URL, параметры запроса, соответствующие шаблону правила, будут доступны в массиве $_GET через компонент приложения request.</p>
+    <p>При создании URL, значения указанных параметров будут вставлены в URL в соответствии с шаблоном правила.</p>
+    <p>Рассмотрим несколько примеров работы с именованными параметрами. Допустим, мы определили следующие три правила URL:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'posts/&lt;year:\d{4}&gt;/&lt;category&gt;' =&gt; 'post/index',
+        'posts' =&gt; 'post/index',
+        'post/&lt;id:\d+&gt;' =&gt; 'post/view',
+    ]
+    </pre>
+
+    <p>При разборе следующих URL:</p>
+
+    <ul>
+        <li>/index.php/posts будет разобран в маршрут post/index при помощи второго правила;</li>
+        <li>/index.php/posts/2014/php будет разобран на маршрут post/index и параметры year со значением 2014, category со значением php при помощи первого правила;</li>
+        <li>/index.php/post/100 будет разобран на маршрут post/view и параметр id со значением 100 при помощи третьего правила;</li>
+        <li>/index.php/posts/php вызовет исключение [[yii\web\NotFoundHttpException]], если [[yii\web\UrlManager::enableStrictParsing]] имеет значение true, так как правило для разбора данного URL отсутствует. Если [[yii\web\UrlManager::enableStrictParsing]] имеет значение false (по умолчанию), значение posts/php будет возвращено в качестве маршрута.</li>
+    </ul>
+
+    <p>При создании URL:</p>
+
+    <ul>
+        <li>Url::to(['post/index']) создаст /index.php/posts при помощи второго правила;</li>
+        <li>Url::to(['post/index', 'year' =&gt; 2014, 'category' =&gt; 'php']) создаст /index.php/posts/2014/php при помощи первого правила;</li>
+        <li>Url::to(['post/view', 'id' =&gt; 100]) создаст /index.php/post/100 при помощи третьего правила;</li>
+        <li>Url::to(['post/view', 'id' =&gt; 100, 'source' =&gt; 'ad']) создаст /index.php/post/100?source=ad при помощи третьего правила. Параметр source не указан в правиле, поэтому он добавлен в созданный URL в качестве параметра запроса.</li>
+        <li>Url::to(['post/index', 'category' =&gt; 'php']) создаст /index.php/post/index?category=php без использования правил. При отсутствии подходящего правила, URL будет создан простым соединением маршрута, как части пути, и параметров, как части запроса.</li>
+    </ul>
+
+    <h3 id="title">
+        Параметры в маршрутах
+    </h3>
+
+    <p>В маршруте правила URL возможно указание имен параметров.</p>
+    <p>Это позволяет использовать правило URL для обработки нескольких маршрутов.</p>
+    <p>Например, следующие правила содержат параметры controller и action в маршрутах.</p>
+
+    <pre class="brush: csharp;">
+    [
+        &apos;&lt;controller:(post|comment)&gt;/&lt;id:\d+&gt;/&lt;action:(create|update|delete)&gt;&apos; =&gt; &apos;&lt;controller&gt;/&lt;action&gt;&apos;,
+        &apos;&lt;controller:(post|comment)&gt;/&lt;id:\d+&gt;&apos; =&gt; &apos;&lt;controller&gt;/view&apos;,
+        &apos;&lt;controller:(post|comment)&gt;s&apos; =&gt; &apos;&lt;controller&gt;/index&apos;,
+    ]
+    </pre>
+
+    <p>Для разбора URL /index.php/comment/100/create будет использовано первое правило, которое установит значения параметров controller равным comment и action равным create.</p>
+    <p>Таким образом, маршрут &lt;controller&gt;/&lt;action&gt; будет разрешен в comment/create.</p>
+    <p>Аналогично, для маршрута comment/index, при помощи третьего правила, будет создан URL comment/index.</p>
+    <p><b>Примечание:</b> Использование параметров в маршрутах позволяет значительно уменьшить количество правил URL и улучшить производительность компонента [[yii\web\UrlManager|URL manager]].</p>
+    <p>По умолчанию, все параметры, указанные в правиле, являются обязательными.</p>
+    <p>Если запрошенный URL не содержит обязательный параметр, или если URL создается без обязательного параметра, данное правило не будет применено.</p>
+    <p>Свойство [[yii\web\UrlRule::defaults]] позволяет сделать нужные параметры не обязательными.</p>
+    <p>Параметры, перечисленные в данном свойстве, будут иметь заданные значения, в случае если они пропущены.</p>
+    <p>В следующем правиле описаны необязательные параметры page и tag, которые примут значения 1 и пустая строка в случае, если они будут пропущены.</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...другие правила...
+        [
+            'pattern' =&gt; 'posts/&lt;page:\d+&gt;/&lt;tag&gt;',
+            'route' =&gt; 'post/index',
+            'defaults' =&gt; ['page' =&gt; 1, 'tag' =&gt; ''],
+        ],
+    ]
+    </pre>
+
+    <p>Выше приведенное правило может быть использовано для разбора или создания следующих URL:</p>
+
+    <ul>
+        <li>/index.php/posts: page равно 1, tag равно ''.</li>
+        <li>/index.php/posts/2: page равно 2, tag равно ''.</li>
+        <li>/index.php/posts/2/news: page равно 2, tag равно 'news'.</li>
+        <li>/index.php/posts/news: page равно 1, tag равно 'news'.</li>
+    </ul>
+
+    <p>Без использования необязательных параметров понадобилось бы создать 4 правила для достижения того же результата.</p>
+
+    <h3 id="title">
+        Правила с именами серверов
+    </h3>
+
+    <p>Существует возможность включать имена серверов в шаблон правил URL.</p>
+    <p>Главным образом, это удобно, когда требуется разное поведение приложения, в зависимости от разных имен Веб серверов.</p>
+    <p>Например, следующее правило позволит разобрать URL http://admin.example.com/login в маршрут admin/user/login и http://www.example.com/login в site/login.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'http://admin.example.com/login' =&gt; 'admin/user/login',
+        'http://www.example.com/login' =&gt; 'site/login',
+    ]
+    </pre>
+
+    <p>Также возможно комбинирование параметров и имени сервера для динамического извлечения данных из него.</p>
+    <p>Например, следующее правило позволит разобрать URL http://en.example.com/posts на маршрут и параметр language=en.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'http://&lt;language:\w+&gt;.example.com/posts' =&gt; 'post/index',
+    ]
+    </pre>
+
+    <p><b>Примечание:</b> Правила, содержащие имя сервера, НЕ должны содержать в шаблоне подкаталог пути ко входному скрипту. Например, если приложение расположено в http://www.example.com/sandbox/blog, шаблон должен быть http://www.example.com/posts, вместо http://www.example.com/sandbox/blog/posts. Это позволит изменять расположение приложения без необходимости внесения изменений в его код.</p>
+
+    <h3 id="title">
+        Суффиксы в URL
+    </h3>
+
+    <p>Компонент предоставляет возможность добавления к URL суффиксов.</p>
+    <p>Например, можно добавить к URL .html, что бы они выглядели как статические HTML страницы; можно добавить к URL суффикс .json, для указания на ожидаемый тип данных ответа.</p>
+    <p>Настроить суффиксы в URL можно при помощи соответствующего свойства [[yii\web\UrlManager::suffix]] в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'components' =&gt; [
+            'urlManager' =&gt; [
+                'enablePrettyUrl' =&gt; true,
+                'showScriptName' =&gt; false,
+                'enableStrictParsing' =&gt; true,
+                'suffix' =&gt; '.html',
+                'rules' =&gt; [
+                    // ...
+                ],
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Данная конфигурация позволяет компоненту [[yii\web\UrlManager|URL manager]] разбирать и создавать URL с суффиксом .html.</p>
+    <p><b>Подсказка:</b> При установке суффикса /, все URL будут заканчиваться слешем.</p>
+    <p><b>Примечание:</b> При настроенном суффиксе, все URL не содержащие этот суффикс будут расценены как неизвестные URL. Такое поведение рекомендовано для SEO (поисковая оптимизация).</p>
+    <p>Иногда возникает необходимость использовать разные суффиксы для разных URL.</p>
+    <p>Добиться этого можно настройкой свойства [[yii\web\UrlRule::suffix|suffix]] у каждого правила.</p>
+    <p>Когда это свойство установлено, оно имеет приоритет перед общей конфигурацией компонента [[yii\web\UrlManager|URL manager]].</p>
+    <p>Например, cледующая конфигурация содержит правило URL, которое использует .json в качестве суффикса вместо глобального .html.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'components' =&gt; [
+            'urlManager' =&gt; [
+                'enablePrettyUrl' =&gt; true,
+                'showScriptName' =&gt; false,
+                'enableStrictParsing' =&gt; true,
+                'suffix' =&gt; '.html',
+                'rules' =&gt; [
+                    // ...
+                    [
+                        'pattern' =&gt; 'posts',
+                        'route' =&gt; 'post/index',
+                        'suffix' =&gt; '.json',
+                    ],
+                ],
+            ],
+        ],
+    ]
+    </pre>
+
+    <h3 id="title">
+        Нормализация URL
+    </h3>
+
+    <p>Начиная с версии 2.0.10</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager|UrlManager]]
+    </pre>
+
+    <p>может быть настроен на использование</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlNormalizer|UrlNormalizer]]
+    </pre>
+
+    <p>что позволяет справиться с вариациями одного и того же URL с присутствующим или отсутствующим слешем в конце.</p>
+    <p>Технически http://example.com/path и http://example.com/path/ являются разными URL, отдача одинакового содержимого в обоих вариантах может негативно повлиять на SEO.</p>
+    <p>По умолчанию нормализатор заменяет повторяющиеся слеши на один и либо убирает, либо добавляет завершающие слеши в зависимости от суффикса и производит редирект 301 на нормализованный URL.</p>
+    <p>Нормализатор может быть настроен как глобально для менеджера URL, так и индивидуально для каждого правила.</p>
+    <p>По умолчанию все правила используют нормализатор, заданный в менеджере URL.</p>
+    <p>Вы можете выставить</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlRule::$normalizer|UrlRule::$normalizer]]
+    </pre>
+
+    <p>в false для отключения нормализации для конкретного правила.</p>
+    <p>Ниже преведён пример конфигурации UrlNormalizer:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'components' =&gt; [
+            'urlManager' =&gt; [
+                'enablePrettyUrl' =&gt; true,
+                'showScriptName' =&gt; false,
+                'enableStrictParsing' =&gt; true,
+                'suffix' =&gt; '.html',
+                'normalizer' =&gt; [
+                    'class' =&gt; 'yii\web\UrlNormalizer',
+                    'action' =&gt; UrlNormalizer::ACTION_REDIRECT_TEMPORARY, // используем временный редирект вместо постоянного
+                ],
+                'rules' =&gt; [
+                    // ...
+                    [
+                        'pattern' =&gt; 'posts',
+                        'route' =&gt; 'post/index',
+                        'suffix' =&gt; '/',
+                        'normalizer' =&gt; false, // отключаем нормализатор для этого правила
+                    ],
+                    [
+                        'pattern' =&gt; 'tags',
+                        'route' =&gt; 'tag/index',
+                        'normalizer' =&gt; [
+                            'collapseSlashes' =&gt; false, // не убираем дублирующиеся слеши для этого правила
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]
+    </pre>
+
+    <p>Примечание: по умолчанию</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\UrlManager::$normalizer|UrlManager::$normalizer]]
+    </pre>
+
+    <p>отключен.</p>
+    <p>Чтобы использовать нормализацию его необходимо сконфигурировать.</p>
+
+    <h3 id="title">
+        HTTP методы
+    </h3>
+
+    <p>При реализации RESTful API, зачастую бывает необходимость в том, чтобы один и тот же URL был разобран в разные маршруты, в зависимости от HTTP метода запроса.</p>
+    <p>Это легко достигается указанием HTTP методов, поддерживаемых правилом в начале шаблона.</p>
+    <p>Если правило поддерживает несколько HTTP методов, их имена разделяются запятыми.</p>
+    <p>Например, следующие правила имеют шаблон post/&lt;id:\d+&gt; с разными поддерживаемыми HTTP методами.</p>
+    <p>Запрос PUT post/100 будет разобран в маршрут post/create, в то время, как запрос GET post/100 будер разобран в post/view.</p>
+
+    <pre class="brush: csharp;">
+    [
+        'PUT,POST post/&lt;id:\d+&gt;' =&gt; 'post/create',
+        'DELETE post/&lt;id:\d+&gt;' =&gt; 'post/delete',
+        'post/&lt;id:\d+&gt;' =&gt; 'post/view',
+    ]
+    </pre>
+
+    <p><b>Примечание:</b> Если правило URL содержит HTTP метод в шаблоне, это правило будет использовано только при разборе URL. Такое правило не будет учитываться компонентом [[yii\web\UrlManager|URL manager]] при создании URL.</p>
+    <p><b>Подсказка:</b> Для упрощения маршрутизации RESTful API, Yii предоставляет специальный класс [[yii\rest\UrlRule]], который достаточно эффективен и предоставляет такие удобные возможности, как автоматическое приведение идентификаторов контроллеров к множественной форме.</p>
+    <p>Более подробную информацию можно найти в разделе Веб-сервисы REST Роутинг.</p>
+
+    <h3 id="title">
+        Гибкая настройка правил
+    </h3>
+
+    <p>В предыдущих примерах, преимущественно, приводились правила URL, заданные парами шаблон-маршрут.</p>
+    <p>Это самый распространенный, краткий формат.</p>
+    <p>В некоторых случаях возникает необходимость более гибкой настройки правил, например указание суффикса при помощи свойства [[yii\web\UrlRule::suffix]].</p>
+    <p>Пример конфигурации правила URL при помощи массива был рассмотрен в главе Суффиксы в URL:</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...другие правила URL...
+        
+        [
+            'pattern' =&gt; 'posts',
+            'route' =&gt; 'post/index',
+            'suffix' =&gt; '.json',
+        ],
+    ]
+    </pre>
+
+    <p><b>Информация:</b> По умолчанию, если в конфигурации правила явно незадан параметр class, будет создано правило класса [[yii\web\UrlRule]].</p>
+
+    <h3 id="title">
+        Добавление правил URL динамически
+    </h3>
+
+    <p>Правила URL могут быть динамически добавлены в компонент [[yii\web\UrlManager|URL manager]].</p>
+    <p>Часто это необходимо подключаемым модулям для настройки своих правил URL.</p>
+    <p>Для того, что бы динамически добавленные правила могли влиять на процесс роутинга, они должны быть добавлены в процессе предзагрузки.</p>
+    <p>В частности, модули должны реализовываться интерфейс [[yii\base\BootstrapInterface]] и добавлять правила в методе</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\BootstrapInterface::bootstrap()|bootstrap()]]
+    </pre>
+
+    <p>например:</p>
+
+    <pre class="brush: csharp;">
+    public function bootstrap($app)
+    {
+        $app->getUrlManager()->addRules([
+            // правила URL описываются здесь
+        ], false);
+    }
+    </pre>
+
+    <p>Так же, необходимо включить данный модуль в [[yii\web\Application::bootstrap]], чтобы он смог участвовать в процессе предзагрузки.</p>
+
+    <h3 id="title">
+        Создание классов правил
+    </h3>
+
+    <p>Несмотря на то, что встроенный класс [[yii\web\UrlRule]] достаточно функционален для большинства проектов, иногда возникает необходимость в создании своего класса правил URL.</p>
+    <p>Например, на сайте продавца автомобилей существует необходимость поддержки URL в таком формате: /Manufacturer/Model, где и Manufacturer и Model должны соответствовать данным, хранящимся в базе данных.</p>
+    <p>Стандартный класс [[yii\web\UrlRule]] не подойдет, так как он рассчитан на работу со статичными шаблонами.</p>
+    <p>Для решения данной проблемы можно создать такой класс правила URL.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\web\UrlRuleInterface;
+    use yii\base\BaseObject;
+    
+    class CarUrlRule extends BaseObject implements UrlRuleInterface
+    {
+    
+        public function createUrl($manager, $route, $params)
+        {
+            if ($route === 'car/index') {
+                if (isset($params['manufacturer'], $params['model'])) {
+                    return $params['manufacturer'] . '/' . $params['model'];
+                } elseif (isset($params['manufacturer'])) {
+                    return $params['manufacturer'];
+                }
+            }
+            return false;  // данное правило не применимо
+        }
+    
+        public function parseRequest($manager, $request)
+        {
+            $pathInfo = $request->getPathInfo();
+            if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches)) {
+                // Ищем совпадения $matches[1] и $matches[3] 
+                // с данными manufacturer и model в базе данных
+                // Если нашли, устанавливаем $params['manufacturer'] и/или $params['model']
+                // и возвращаем ['car/index', $params]
+            }
+            return false;  // данное правило не применимо
+        }
+    }
+    </pre>
+
+    <p>И использовать новый класс [[yii\web\UrlManager::rules]] при определении правил URL:</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...другие правила...
+        
+        [
+            'class' =&gt; 'app\components\CarUrlRule', 
+            // ...настройка других параметров правила...
+        ],
+    ]
+    </pre>
+
+    <h2 id="title">
+        Производительность
+    </h2>
+
+    <p>При разработке сложных Веб приложений, важно оптимизировать правила URL так, чтобы разбор запросов и создание URL занимали минимальное время.</p>
+    <p>Использование параметров в маршрутах позволяет уменьшить количество правил, что значительно увеличивает производительность.</p>
+    <p>При разборе или создании URL, компонент [[yii\web\UrlManager|URL manager]] проверяет правила в порядке их определения.</p>
+    <p>Поэтому следует более узконаправленные и/или часто используемые правила размещать раньше прочих.</p>
+    <p>В случае, если несколько правил имеют один и тот же префикс в шаблоне или маршруте, можно рассмотреть использование [[yii\web\GroupUrlRule]], что позволит компоненту [[yii\web\UrlManager|URL manager]] более эффективно обрабатывать правила группами.</p>
+    <p>Часто это бывает полезно в случае, если приложение состоит из модулей, каждый из которых имеет свой набор правил с идентификатором модуля в качестве общего префикса.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="23.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="25.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/24.html", "Yii2: Разбор и генерация URL", "bm1230"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1230", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1230") == 1) { document.getElementById("bma1230").style.display = "block"; document.getElementById("bm1230").style.display = "none"; } else { document.getElementById("bma1230").style.display = "none"; document.getElementById("bm1230").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Разбор и генерация URL") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1230", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

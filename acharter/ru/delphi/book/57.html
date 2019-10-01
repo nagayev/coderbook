@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma443" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm443" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Логические операнды
+	</h1>
+
+	<p>В условных проверках, таких как if, while или repeat часто бывает недостаточным проверять только одно условие.</p>
+	<p>Можно воспользоваться вложением проверок, как в приведенной в примере конструкции:</p>
+
+	<pre class="brush: csharp;">
+if a > 0 then
+    if b &lt;&gt; a then begin
+         команда 1;
+         команда 2;
+    end; //if 2
+	</pre>
+
+	<p>В этом коде мы проверяем, правда ли a больше нуля.</p>
+	<p>Если да, то проверяем, не равно ли b и a.</p>
+	<p>И только в том случае, если второе условие также вернет Истину, выполнятся указанные команды.</p>
+	<p>Таких вложений может быть сколько угодно, и ими нередко пользуются.</p>
+	<p>Есть и другой способ множественных проверок.</p>
+	<p>Для того, чтобы можно было проверять более одного условия, существуют логические операторы AND, OR и NOT.</p>
+	<p>Поскольку эти операторы имеют наивысший приоритет в вычислениях, условия необходимо заключать в скобки.</p>
+	<p>Оператор AND (И) проверяет два условия, и возвращает истину только в том случае, если оба условия вернут истину.</p>
+	<p>Взгляните на предыдущий пример, и посмотрите, как его можно написать с оператором AND:</p>
+
+	<pre class="brush: csharp;">
+if (a > 0) and (b &lt;&gt; a) then begin
+    команда 1;
+    команда 2;
+end;  //if
+	</pre>
+
+	<p>Оператор OR (Или) возвращает истину в том случае, если хотя бы одно из условий вернет истину:</p>
+
+	<pre class="brush: csharp;">
+	if (3 > 5)  or (5 > 4) then...
+	//результат – истина, так как 5 больше 4
+	</pre>
+
+	<p>Оператор OR проверяет вначале левое значение.</p>
+	<p>Если оно истинно, то OR не будет делать дальнейших проверок, и сразу вернет истину.</p>
+	<p>Если левое значение ложное, то OR проверяет правое значение.</p>
+	<p>В данном случае, если правое значение вернет истину, то и OR вернет истину, в противном случае OR вернет ложь.</p>
+	<p>Оператор NOT (Не) вернет истину только в том случае, если значение есть ложь.</p>
+	<p>Фактически, это оператор – перевертыш.</p>
+	<p>Если общее значение будет истинно, он возвращает ложь, а если ложно – то истину.</p>
+	<p>Поэтому очень часто его используют в коде, чтобы поменять какое либо логическое свойство объектов на противоположное, например:</p>
+
+	<pre class="brush: csharp;">
+	Button1.Enabled := not Button1.Enabled;
+	Edit1.Visible := not Edit1.Visible;
+	</pre>
+
+	<p>В этих примерах берется значение свойств объектов.</p>
+	<p>Если это свойство истинно, то оператор not возвращает ложь, и этому свойству присваивается ложь.</p>
+	<p>И наоборот, если свойство ложно, not заставляет его принять истинное значение.</p>
+	<p>Очень удобно, когда вы не знаете заранее, что именно в свойстве хранится, истина или ложь, но при этом нужно присвоить свойству противоположное значение.</p>
+	<p>Кроме того, оператор NOT часто применяют в проверках, если нужно выполнить какой-то код в том случае, если условие ложно:</p>
+
+	<pre class="brush: csharp;">
+	if not Edit1.Text = Label1.Caption then...
+	</pre>
+
+	<p>То есть, условие выполнится лишь в том случае, если тексты в Edit1 и в Label1 разные.</p>
+	<p>Обратите внимание, в приведенном примере скобок нет.</p>
+	<p>Ведь условная проверка у нас одна, поэтому скобок не требуется, хотя если Вы их поставите, это тоже не будет ошибкой.</p>
+	<p>Оператор Not применяется очень часто, поэтому запомните его.</p>
+
+	<h1 id="title">
+		Преобразование даты
+	</h1>
+
+	<p>До сих пор мы еще не сталкивались с типом данных Дата.</p>
+	<p>Тем не менее, этот тип очень широко используется в программировании.</p>
+	<p>В Delphi он называется TDateTime, то есть, возвращает одновременно и дату, и время.</p>
+	<p>Из-за такой его универсальности часто приходится применять функции преобразования, чтобы вернуть только дату, или только время, причем в разных форматах.</p>
+
+	<h1 id="title">
+		Date()
+	</h1>
+
+	<p>Эта функция возвращает текущие дату и время в формате TDateTime.</p>
+	<p>Ее можно применять с другими функциями, задавая им в качестве параметра текущую дату.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	DateToStr(Date());
+	</pre>
+
+	<h1 id="title">
+		DateToStr()
+	</h1>
+
+	<p>Возвращает указанную в параметре дату в виде строки.</p>
+	<p>Например,</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage(DateToStr(Date()));
+	</pre>
+
+	<p>выведет сообщение с текущей датой в виде строки.</p>
+	<p>Создайте новое приложение, установите на форму кнопку и в обработчике нажатия укажите эту строку.</p>
+	<p>Скомпилируйте и посмотрите результат.</p>
+
+	<h1 id="title">
+		StrToDate()
+	</h1>
+
+	<p>Эта функция напротив, принимает в качестве параметра строку, в которой записали дату в правильном формате, и возвращает эту дату в виде TDateTime.</p>
+	<p>Сложность заключается в том, что форматов для предоставления даты может быть много.</p>
+	<p>У нас, например, принято вначале указывать день, потом месяц, и в конце год.</p>
+	<p>А американцы первым указывают месяц, затем число и год.</p>
+	<p>Причем год может быть как 4-х символьным (2007), так и 2-х символьным (07).</p>
+	<p>Еще проблема с разделителями. Разделителем может служить и точка (20.09.2007), и знак слэш (20/09/2007).</p>
+	<p>Правильную настройку можно увидеть в окне Панель управления – Язык и региональные стандарты.</p>
+	<p>Кроме того, пример</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage(DateToStr(Date()));
+	</pre>
+
+	<p>также вернет вам дату в виде строки в правильном формате.</p>
+	<p>Если же вы желаете использовать эти функции для программ на продажу, и не знаете, какие настройки на компьютере покупателя, то придется использовать неявные глобальные переменные.</p>
+	<p>Переменная DateSeparator содержит символ – разделитель дат.</p>
+	<p>Порядок следования дня, месяца и года определяется глобальной переменной ShortDateFormat.</p>
+	<p>Возможны следующие комбинации: месяц/день/год, день/месяц/год и год/месяц/день.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  DateSeparator := '-';
+  ShortDateFormat := 'm/d/yyyy';
+  Label1.Caption := DateToStr(Date);
+end;
+	</pre>
+
+	<p>Здесь мы не просто смотрим значение DateSeparator и ShortDateFormat, а присваиваем им новое значение.</p>
+	<p>В дальнейшем, вывод дат будет осуществляться уже по новым правилам.</p>
+	<p>Так, для даты 15.09.1994 в свойство Caption компонента Label1 будет записан текст "9-15-1994".</p>
+	<p>Если бы мы указали</p>
+
+	<pre class="brush: csharp;">
+	ShortDateFormat := 'mm/dd/yyyy';
+	</pre>
+
+	<p>То выводимые месяц и день были бы с нулями, если они меньше 10: "09-15-1994"</p>
+
+	<h1 id="title">
+		FormatDateTime()
+	</h1>
+
+	<p>Эта функция возвращает дату и время в виде строки в указанном формате.</p>
+	<p>Очень интересная функция, чаще всего используют именно ее, чтобы вывести строку нужного формата.</p>
+	<p>У функции есть два параметра, первым указывается формат строки, в котором нужно вернуть дату.</p>
+	<p>Второй параметр – переменная типа TDateTime, которую нужно преобразовать в строку.</p>
+	<p>В качестве второго параметра также можно использовать функцию Date(), если требуется преобразовать текущие дату и время.</p>
+	<p>Эту функцию можно сравнить с функцией FormatFloat(), которую мы изучали ранее.</p>
+	<p>Самое интересное в этой функции – формат строки, или маска.</p>
+	<p>Он может содержать следующие символы:</p>
+	<p><b>d</b> – показать день, не подставляя нули в начале: 1, 2, 12</p>
+	<p><b>dd</b> – показать день с подстановкой нулей в начале: 01, 02, 12</p>
+	<p><b>ddd</b> – показать день недели в коротком формате: Пн, Вт, Ср</p>
+	<p><b>dddd</b> – показать полный день недели: Понедельник, Вторник, Среда</p>
+	<p><b>m</b> – показать месяц без нулей: 1, 2, 10</p>
+	<p><b>mm</b> – показать месяц с нулями: 01, 02, 10</p>
+	<p><b>mmm</b> – показать короткое название месяца: Янв, Фев</p>
+	<p><b>mmmm</b> – показать полное название месяца: Январь, Февраль</p>
+	<p><b>yy</b> – показать короткий год: 07, 98, 00</p>
+	<p><b>yyyy</b> – показать полный год: 2007, 1998, 2000</p>
+	<p><b>h</b> – показать часы, не добавляя нулей: 3, 5, 12</p>
+	<p><b>hh</b> – показать часы с нулями: 03, 05, 12</p>
+	<p><b>n</b> – минуты без нулей: 3, 5, 12</p>
+	<p><b>nn</b> – минуты с нулями: 03, 05, 12</p>
+	<p><b>s</b> – секунды без нуля впереди: 3, 7, 30</p>
+	<p><b>ss</b> – секунды с нулями: 03, 07, 30</p>
+	<p>Это практически полный набор форматов, которые вам могут пригодиться.</p>
+	<p>Примеры использования:</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage (FormatDateTime('Сегодня dddd dd mmm yyyy г.', Date));
+	//Результат: Сегодня Среда 06 Фев 2008 г.
+	ShowMessage (FormatDateTime('Сегодня dd.mm.yyyy г.', Date));
+	//Результат: Сегодня 06.02.2008 г.
+	</pre>
+
+	<p>Обратите внимание, что после функции Date не указаны скобки.</p>
+	<p>Это не ошибка.</p>
+	<p>Если у функции нет параметров, ее можно указывать и без скобок.</p>
+	<p>Время можно указывать с разделителями:</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage(FormatDateTime('Текущее время: hh:nn:ss', Time));
+	//Результат: Текущее время: 05:28:15
+	</pre>
+
+	<h1 id="title">
+		Компоненты для ввода дат
+	</h1>
+
+	<p>В программах очень часто требуется предоставить пользователю возможность ввести дату.</p>
+	<p>Но мы знаем о проблемах, которые могут возникнуть, вдруг даты идут в формате mm/dd/yy, а пользователь наберет 15.08.2008?</p>
+	<p>Получится ошибка.</p>
+	<p>Чтобы облегчить пользователю ввод дат, существует несколько компонентов.</p>
+	<p>Создайте новый проект, установите на форму компоненты DateTimePicker и MonthCalendar с вкладки Win32 в Палитре компонентов.</p>
+	<p>Скомпилируйте проект и посмотрите, как он работает:</p>
+
+	<img src="delphi24.png" id="image" />
+
+	<p>Обратите внимание на то, как работают эти календари.</p>
+	<p>Если вы щелкните мышью по номеру года, то откроется окошко, в котором год можно прокрутить до нужного.</p>
+	<p>Если щелкните по месяцу, то откроется список месяцев, в котором пользователь может выбрать нужный.</p>
+	<p>А если он щелкнет по дню, то в свойстве Date обоих компонентов установится выбранная дата в формате TDateTime.</p>
+	<p>Эту дату затем можно преобразовывать в функциях преобразования дат в строку, подставляя это свойство в качестве значений.</p>
+	<p>Еще обратите внимание на нижнюю строку.</p>
+	<p>Там указана текущая дата, а слева от нее красный овал.</p>
+	<p>Если щелкнуть по нему, то выбранная дата перескочит с любой даты на текущую.</p>
+	<p>А у компонента DateTimePicker есть еще интересное свойство: DateFormat.</p>
+	<p>Оно может выводить дату в коротком или в длинном формате.</p>
+	<p>Свойство Time этого компонента показывает время в формате TDateTime.</p>
+	<p>Эти компоненты удобно устанавливать на форму, чтобы пользователь вместо ввода нужной даты просто выбрал ее на форме.</p>
+	<p>Кроме того, такой подход обеспечит вам гарантию того, что дата будет указана в нужном формате.</p>
+
+	<h1 id="title">
+		Самостоятельное задание
+	</h1>
+
+	<p>Создайте новое приложение.</p>
+	<p>Установите на форму компоненты DateTimePicker, Memo и кнопку, чтобы добавлять в Memo1 строки.</p>
+	<p>Вначале добавьте строку с текущей датой в формате, принятом в русских версиях Windows (функция DateToStr(Date)).</p>
+	<p>Затем добавьте пустую строку, чтобы отделить ее от выводимых далее форматов.</p>
+	<p>Затем придумайте 10 разных форматов для функции FormatDateTime(), и поочередно добавьте их в Memo1 с той датой, которая указана в DateTimePicker1.</p>
+	<p>Кстати, чтобы не писать длинные названия, вроде</p>
+
+	<pre class="brush: csharp;">
+	DateTimePicker1.Date
+	</pre>
+
+	<p>переименуйте компонент (свойство Name ) в более короткое имя, например, DTP1, тогда обращение получится короче:</p>
+
+	<pre class="brush: csharp;">
+	DTP1.Date
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="56.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="58.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/57.html", "Даты", "bm443"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm443", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm443") == 1) { document.getElementById("bma443").style.display = "block"; document.getElementById("bm443").style.display = "none"; } else { document.getElementById("bma443").style.display = "none"; document.getElementById("bm443").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Даты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm443", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1238" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1238" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		События
+	</h1>
+
+    <p>События - это механизм, внедряющий элементы собственного кода в существующий код в определенные моменты его исполнения.</p>
+    <p>К событию можно присоединить собственный код, который будет выполняться автоматически при срабатывании события.</p>
+    <p>Например, объект, отвечающий за почту, может инициировать событие messageSent при успешной отправке сообщения.</p>
+    <p>При этом если нужно отслеживать успешно отправленные сообщения, достаточно присоединить соответствующий код к событию messageSent.</p>
+    <p>Для работы с событиями Yii использует базовый класс [[yii\base\Component]].</p>
+    <p>Если класс должен инициировать события, его нужно унаследовать от [[yii\base\Component]] или потомка этого класса.</p>
+
+    <h2 id="title">
+        Обработчики событий
+    </h2>
+
+    <p>Обработчик события - это callback-функция PHP, которая выполняется при срабатывании события, к которому она присоединена.</p>
+    <p>Можно использовать следующие callback-функции:</p>
+
+    <ul>
+        <li>глобальную функцию PHP, указав строку с именем функции (без скобок), например, 'trim';</li>
+        <li>метод объекта, указав массив, содержащий строки с именами объекта и метода (без скобок), например, [$object, 'methodName'];</li>
+        <li>статический метод класса, указав массив, содержащий строки с именами класса и метода (без скобок), например, ['ClassName', 'methodName'];</li>
+        <li>анонимную функцию, например, function ($event) { ... }.</li>
+    </ul>
+
+    <p>Сигнатура обработчика события выглядит следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    function ($event) {
+        // $event - это объект класса yii\base\Event или его потомка
+    }
+    </pre>
+
+    <p>Через параметр $event обработчик события может получить следующую информацию о возникшем событии:</p>
+
+    <ul>
+        <li>[[yii\base\Event::name|event name]]</li>
+        <li>[[yii\base\Event::sender|event sender]]: объект, метод trigger() которого был вызван</li>
+        <li>[[yii\base\Event::data|custom data]]: данные, которые были предоставлены во время присоединения обработчика события (будет описано ниже)</li>
+    </ul>
+
+    <h2 id="title">
+        Присоединение обработчиков событий
+    </h2>
+
+    <p>Обработчики события присоединяются с помощью метода [[yii\base\Component::on()]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $foo = new Foo;
+    
+    // обработчик - глобальная функция
+    $foo->on(Foo::EVENT_HELLO, 'function_name');
+    
+    // обработчик - метод объекта
+    $foo->on(Foo::EVENT_HELLO, [$object, 'methodName']);
+    
+    // обработчик - статический метод класса
+    $foo->on(Foo::EVENT_HELLO, ['app\components\Bar', 'methodName']);
+    
+    // обработчик - анонимная функция
+    $foo->on(Foo::EVENT_HELLO, function ($event) {
+        // логика обработки события
+    });
+    </pre>
+
+    <p>Также обработчики событий можно присоединять с помощью конфигураций.</p>
+    <p>Дополнительную информацию см. в разделе Конфигурации.</p>
+    <p>Присоединяя обработчик события, можно передать дополнительные данные с помощью третьего параметра метода [[yii\base\Component::on()]].</p>
+    <p>Эти данные будут доступны в обработчике, когда сработает событие и он будет вызван.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // Следующий код выводит "abc" при срабатывании события
+    // так как в $event->data содержатся данные, которые переданы в качестве третьего аргумента метода "on"
+    $foo->on(Foo::EVENT_HELLO, 'function_name', 'abc');
+    
+    function function_name($event) {
+        echo $event->data;
+    }
+    </pre>
+
+    <h2 id="title">
+        Порядок обработки событий
+    </h2>
+
+    <p>К одному событию можно присоединить несколько обработчиков.</p>
+    <p>При срабатывании события обработчики будут вызываться в том порядке, к котором они присоединялись к событию.</p>
+    <p>Чтобы запретить в обработчике вызов всех следующих за ним обработчиков, необходимо установить свойство [[yii\base\Event::handled]] параметра $event в true:</p>
+
+    <pre class="brush: csharp;">
+    $foo->on(Foo::EVENT_HELLO, function ($event) {
+        $event->handled = true;
+    });
+    </pre>
+
+    <p>По умолчанию, новые обработчики присоединяются к концу очереди обработчиков, уже существующей у события.</p>
+    <p>В результате при срабатывании события обработчик выполнится последним.</p>
+    <p>Чтобы обработчик присоединился к началу очереди и запускался первым, при вызове [[yii\base\Component::on()]] в качестве четвертого параметра $append следует передать false:</p>
+
+    <pre class="brush: csharp;">
+    $foo->on(Foo::EVENT_HELLO, function ($event) {
+        // ...
+    }, $data, false);
+    </pre>
+
+    <h2 id="title">
+        Инициирование событий
+    </h2>
+
+    <p>События инициируются при вызове метода [[yii\base\Component::trigger()]].</p>
+    <p>Методу нужно передать имя события, а при необходимости - объект события, в котором описываются параметры, передаваемые обработчикам событий.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\Component;
+    use yii\base\Event;
+    
+    class Foo extends Component
+    {
+        const EVENT_HELLO = 'hello';
+    
+        public function bar()
+        {
+            $this->trigger(self::EVENT_HELLO);
+        }
+    }
+    </pre>
+
+    <p>Показанный выше код инициирует событие hello при каждом вызове метода bar().</p>
+    <p><b>Подсказка:</b> Желательно для обозначения имен событий использовать константы класса.</p>
+    <p>В предыдущем примере константа EVENT_HELLO обозначает событие hello.</p>
+    <p>У такого подхода три преимущества. Во-первых, исключаются опечатки.</p>
+    <p>Во-вторых, для событий работает автозавершение в различных средах разработки.</p>
+    <p>В-третьих, чтобы узнать, какие события поддерживаются классом, достаточно проверить константы, объявленные в нем.</p>
+    <p>Иногда при инициировании события может понадобиться передать его обработчику дополнительную информацию.</p>
+    <p>Например, объекту, отвечающему за почту, может понадобиться передать обработчику события messageSent определенные данные, раскрывающие смысл отправленных почтовых сообщений.</p>
+    <p>Для этого в качестве второго параметра методу [[yii\base\Component::trigger()]] передается объект события.</p>
+    <p>Объект события должен быть экземпляром класса [[yii\base\Event]] или его потомка.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\Component;
+    use yii\base\Event;
+    
+    class MessageEvent extends Event
+    {
+        public $message;
+    }
+    
+    class Mailer extends Component
+    {
+        const EVENT_MESSAGE_SENT = 'messageSent';
+    
+        public function send($message)
+        {
+            // ...отправка $message...
+    
+            $event = new MessageEvent;
+            $event->message = $message;
+            $this->trigger(self::EVENT_MESSAGE_SENT, $event);
+        }
+    }
+    </pre>
+
+    <p>При вызове метода [[yii\base\Component::trigger()]] будут вызваны все обработчики, присоединенные к указанному событию.</p>
+
+    <h2 id="title">
+        Отсоединение обработчиков событий
+    </h2>
+
+    <p>Для отсоединения обработчика от события используется метод [[yii\base\Component::off()]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // обработчик - глобальная функция
+    $foo->off(Foo::EVENT_HELLO, 'function_name');
+    
+    // обработчик - метод объекта
+    $foo->off(Foo::EVENT_HELLO, [$object, 'methodName']);
+    
+    // обработчик - статический метод класса
+    $foo->off(Foo::EVENT_HELLO, ['app\components\Bar', 'methodName']);
+    
+    // обработчик - анонимная функция
+    $foo->off(Foo::EVENT_HELLO, $anonymousFunction);
+    </pre>
+
+    <p>Учтите, что в общем случае отсоединять обработчики - анонимные функции можно только если они где-то сохраняются в момент присоединения к событию.</p>
+    <p>В предыдущем примере предполагается, что анонимная функция сохранена в переменной $anonymousFunction.</p>
+    <p>Чтобы отсоединить ВСЕ обработчики от события, достаточно вызвать [[yii\base\Component::off()]] без второго параметра:</p>
+
+    <pre class="brush: csharp;">
+    $foo->off(Foo::EVENT_HELLO);
+    </pre>
+
+    <h2 id="title">
+        Обработчики событий на уровне класса
+    </h2>
+
+    <p>Во всех предыдущих примерах мы рассматривали присоединение событий на уровне экземпляров.</p>
+    <p>Есть случаи, когда необходимо обрабатывать события, которые инициируются любым экземпляром класса, а не только конкретным экземпляром.</p>
+    <p>В таком случае присоединять обработчик события к каждому экземпляру класса не нужно.</p>
+    <p>Достаточно присоединить обработчик на уровне класса, вызвав статический метод [[yii\base\Event::on()]].</p>
+    <p>Например, объект Active Record инициирует событие</p>
+
+    <pre class="brush: csharp;">
+        [[yii\db\BaseActiveRecord::EVENT_AFTER_INSERT|EVENT_AFTER_INSERT]]
+    </pre>
+
+    <p>после добавления в базу данных новой записи.</p>
+    <p>Чтобы отслеживать записи, добавленные в базу данных каждым объектом Active Record, можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    use Yii;
+    use yii\base\Event;
+    use yii\db\ActiveRecord;
+    
+    Event::on(ActiveRecord::className(), ActiveRecord::EVENT_AFTER_INSERT, function ($event) {
+        Yii::trace(get_class($event->sender) . ' добавлен');
+    });
+    </pre>
+
+    <p>Обработчик будет вызван при срабатывании события</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\BaseActiveRecord::EVENT_AFTER_INSERT|EVENT_AFTER_INSERT]]
+    </pre>
+
+    <p>в экземплярах класса</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\ActiveRecord|ActiveRecord]]
+    </pre>
+
+    <p>или его потомков.</p>
+    <p>В обработчике можно получить доступ к объекту, который инициировал событие, с помощью свойства $event->sender.</p>
+    <p>При срабатывании события будут в первую очередь вызваны обработчики на уровне экземпляра, а затем - обработчики на уровне класса.</p>
+    <p>Инициировать событие на уровне класса можно с помощью статического метода [[yii\base\Event::trigger()]].</p>
+    <p>Событие на уровне класса не связано ни с одним конкретным объектом.</p>
+    <p>В таком случае будут вызваны только обработчики события на уровне класса.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\base\Event;
+    
+    Event::on(Foo::className(), Foo::EVENT_HELLO, function ($event) {
+        var_dump($event->sender);  // выводит "null"
+    });
+    
+    Event::trigger(Foo::className(), Foo::EVENT_HELLO);
+    </pre>
+
+    <p>Обратите внимание, что в данном случае $event->sender имеет значение null вместо экзепляра класса, который инициировал событие.</p>
+    <p><b>Примечание:</b> Поскольку обработчики на уровне класса отвечают на события, инициируемые всеми экземплярами этого класса и всех его потомков, их следует использовать с осторожностью, особенно в случае базовых классов низкого уровня, таких как [[yii\base\BaseObject]].</p>
+    <p>Отсоединить обработчик события на уровне класса можно с помощью метода [[yii\base\Event::off()]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // отсоединение $handler
+    Event::off(Foo::className(), Foo::EVENT_HELLO, $handler);
+    
+    // отсоединяются все обработчики Foo::EVENT_HELLO
+    Event::off(Foo::className(), Foo::EVENT_HELLO);
+    </pre>
+
+    <h2 id="title">
+        Обработчики событий на уровне интерфейсов
+    </h2>
+
+    <p>Существует еще более абстрактный способ обработки событий.</p>
+    <p>Вы можете создать отдельный интерфейс для общего события и реализовать его в классах, где это необходимо.</p>
+    <p>Например, создадим следующий интерфейс:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\interfaces;
+    
+    interface DanceEventInterface
+    {
+        const EVENT_DANCE = 'dance';
+    }
+    </pre>
+
+    <p>И два класса, которые его реализовывают:</p>
+
+    <pre class="brush: csharp;">
+    class Dog extends Component implements DanceEventInterface
+    {
+        public function meetBuddy()
+        {
+            echo "Woof!";
+            $this->trigger(DanceEventInterface::EVENT_DANCE);
+        }
+    }
+    
+    class Developer extends Component implements DanceEventInterface
+    {
+        public function testsPassed()
+        {
+            echo "Yay!";
+            $this->trigger(DanceEventInterface::EVENT_DANCE);
+        }
+    }
+    </pre>
+
+    <p>Для обработки события EVENT_DANCE, инициализированного любым из этих классов, вызовите [[yii\base\Event::on()|Event:on()]], передав ему в качестве первого параметра имя интерфейса.</p>
+
+    <pre class="brush: csharp;">
+    Event::on('app\interfaces\DanceEventInterface', DanceEventInterface::EVENT_DANCE, function ($event) {
+        Yii::trace(get_class($event->sender) . ' just danced'); // Оставит запись в журнале о том, что кто-то танцевал
+    });
+    </pre>
+
+    <p>Вы можете также инициализировать эти события:</p>
+
+    <pre class="brush: csharp;">
+    // trigger event for Dog class
+    Event::trigger(Dog::className(), DanceEventInterface::EVENT_DANCE);
+    
+    // trigger event for Developer class
+    Event::trigger(Developer::className(), DanceEventInterface::EVENT_DANCE);
+    </pre>
+
+    <p>Однако, невозможно инициализировать событие во всех классах, которые реализуют интерфейс:</p>
+
+    <pre class="brush: csharp;">
+    // НЕ БУДЕТ РАБОТАТЬ
+    Event::trigger('app\interfaces\DanceEventInterface', DanceEventInterface::EVENT_DANCE);
+    </pre>
+
+    <p>Отсоединить обработчик события можно с помощью метода [[yii\base\Event::off()|Event::off()]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // отсоединяет $handler
+    Event::off('app\interfaces\DanceEventInterface', DanceEventInterface::EVENT_DANCE, $handler);
+    
+    // отсоединяются все обработчики DanceEventInterface::EVENT_DANCE
+    Event::off('app\interfaces\DanceEventInterface', DanceEventInterface::EVENT_DANCE);
+    </pre>
+
+    <h2 id="title">
+        Глобальные события
+    </h2>
+
+    <p>Yii поддерживает так называемые глобальные события, которые на самом деле основаны на нестандартном использовании описанного выше механизма событий.</p>
+    <p>Для глобальных событий нужен глобально доступный объект-синглтон, например, экземпляр приложения - application.</p>
+    <p>Чтобы создать глобальное событие, отправитель сообщения вызывает метод trigger() синглтона, а не свой собственный метод trigger().</p>
+    <p>Аналогичным образом обработчики события также присоединяются к событиям синглтона.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use Yii;
+    use yii\base\Event;
+    use app\components\Foo;
+    
+    Yii::$app->on('bar', function ($event) {
+        echo get_class($event->sender);  // выводит "app\components\Foo"
+    });
+    
+    Yii::$app->trigger('bar', new Event(['sender' =&gt; new Foo]));
+    </pre>
+
+    <p>Преимущество глобальных событий в том, что им не нужен объект, к событию которого бы присоединялся обработчик и объект, с помощью которого бы это событие инициировалось.</p>
+    <p>Вместо этого и для присоединения обработчика, и для инициирования события используется синглтон (например, экземпляр приложения).</p>
+    <p>Тем не менее, так как пространство имен глобальных событий едино для всего приложения, их имена нельзя назначать бездумно. Например, полезными могут быть искусственные пространства имен ("frontend.mail.sent", "backend.mail.sent").</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="31.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="33.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/32.html", "Yii2: События", "bm1238"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1238", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1238") == 1) { document.getElementById("bma1238").style.display = "block"; document.getElementById("bm1238").style.display = "none"; } else { document.getElementById("bma1238").style.display = "none"; document.getElementById("bm1238").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: События") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1238", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

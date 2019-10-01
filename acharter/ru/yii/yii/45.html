@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1196" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1196" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Темы оформления Yii
+	</h1>
+
+    <p>Темы оформления являются традиционным способом настроить внешний вид страниц веб-приложения.</p>
+    <p>Применив новую тему, мы можем изменить внешний вид всего приложения за считанные секунды.</p>
+    <p>В Yii каждая тема представлена как папка, содержащая файлы представлений, макетов и прочих необходимых файлов, таких, как CSS, JavaScript и пр.</p>
+    <p>Название папки соответственно определяет название темы.</p>
+    <p>Все темы хранятся в папке WebRoot/themes, при этом быть активной, т.е. использоваться в текущий момент, может только одна из тем.</p>
+    <p><b>Подсказка:</b> Папку, где по умолчанию хранятся темы — WebRoot/themes — можно легко изменить путем установки свойств basePath и baseUrl компонента themeManager на желаемые.</p>
+
+    <h2 id="title">
+        Использование темы
+    </h2>
+
+    <p>Для активации темы нужно установить значение theme равным имени соответствующей темы.</p>
+    <p>Это можно проделать путем конфигурации приложения или прямо в ходе выполнения в действиях контроллера.</p>
+    <p><b>Примечание:</b> Имя темы чувствительно к регистру, и, если попытаться активировать несуществующую тему, свойство Yii::app()->theme вернет null.</p>
+
+    <h2 id="title">
+        Создание темы
+    </h2>
+
+    <p>Содержимое папки с темами должно быть организовано точно так же, как и содержимое базовой директории приложения, то есть, все файлы представлений должны находиться в папке views, макеты представлений в папке views/layouts, а файлы системных представлений в папке views/system.</p>
+    <p>Например, если необходимо заменить представление create контроллера PostController на представление темы classic, нужно сохранить новый файл представления как WebRoot/themes/classic/views/post/create.php.</p>
+    <p>Для представлений контроллеров в модулях, соответствующие файлы оформленных представлений нужно также поместить в папку views.</p>
+    <p>Например, если упомянутый выше контроллер PostController входит в модуль forum, необходимо сохранить файл представления create как:</p>
+
+    <pre class="brush: csharp;">
+    WebRoot/themes/classic/views/forum/post/create.php
+    </pre>
+
+    <p>Если модуль forum является составной частью другого модуля support, то файл представления должен быть сохранен как:</p>
+
+    <pre class="brush: csharp;">
+    WebRoot/themes/classic/views/support/forum/post/create.php
+    </pre>
+
+    <p>Примечание: Папка views может содержать данные чувствительные с точки зрения безопасности, поэтому необходимо ограничить доступ к папке извне сервера.</p>
+    <p>В момент вызова метода render или renderPartial для отображения представления происходит обращение к соответствующим файлам представлений и макетов активной темы.</p>
+    <p>Если файлы найдены, начнется формирование странички, в противном случае, будут использоваться файлы оформления по умолчанию, месторасположение которых устанавливается свойствами viewPath и layoutPath.</p>
+    <p><b>Подсказка:</b> Часто в представлениях темы приходится ссылаться на прочие файлы темы, например, для отображения картинки, находящейся в подпапке темы images. Используя свойство baseUrl активной темы, можно сформировать корректную ссылку на картинку следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    Yii::app()->theme->baseUrl . '/images/FileName.gif'
+    </pre>
+
+    <p>Ниже приведён пример организации директорий приложения с двумя темами basic и fancy:</p>
+
+    <pre class="brush: csharp;">
+    WebRoot/
+        assets
+        protected/
+            .htaccess
+            components/
+            controllers/
+            models/
+            views/
+                layouts/
+                    main.php
+                site/
+                    index.php
+        themes/
+            basic/
+                views/
+                    .htaccess
+                    layouts/
+                        main.php
+                    site/
+                        index.php
+            fancy/
+                views/
+                    .htaccess
+                    layouts/
+                        main.php
+                    site/
+                        index.php
+    </pre>
+
+    <p>В настройках приложения, если мы будем использовать:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'theme'=>'basic',
+        …
+    );
+    </pre>
+
+    <p>то будет применяться тема basic.</p>
+    <p>То есть главный макет (layout) будет браться из themes/basic/views/layouts, а представление index — из themes/basic/views/site.</p>
+    <p>Если файл представления не найден в теме, будет использован файл из protected/views.</p>
+
+    <h2 id="title">
+        Темизация виджетов
+    </h2>
+
+    <p>Начиная с версии 1.1.5, отображения, используемые в виджетах, можно темизировать.</p>
+    <p>При вызове CWidget::render() для вывода отображения, Yii сделает попытку найти его в темах перед тем, как загрузить из директории виджета.</p>
+    <p>Для темизации отображения xyz виджета с именем класса Foo, необходимо создать директорию Foo (с тем же именем, что и у класса) внутри директории с отображениями активной темы.</p>
+    <p>Если класс виджета находится в пространстве имён (начиная с PHP 5.3.0), таком как \app\widgets\Foo, то необходимо создать директорию app_widgets_Foo.</p>
+    <p>В имени мы заменяем разделители пространства имён на подчёркивание.</p>
+    <p>После этого создаём файл отображения xyz.php в только что добавленной директории.</p>
+    <p>К этому моменту мы имеем файл themes/basic/views/Foo/xyz.php, который и будет использоваться виджетом вместо его собственного отображения, если активная тема — basic.</p>
+
+    <h2 id="title">
+        Глобальная настройка виджетов
+    </h2>
+
+    <p><b>Примечание:</b> данная возможность доступна с версии 1.1.3.</p>
+    <p>При использовании виджета, как стандартного, так и стороннего, часто требуется его настройка.</p>
+    <p>К примеру, может понадобиться изменить значение CLinkPager::maxButtonCount с 10 (по умолчанию) на 5.</p>
+    <p>Мы можем сделать это, передав начальные значения при вызове CBaseController::widget для создания виджета.</p>
+    <p>Тем не менее, делать это везде, где мы используем CLinkPager довольно неудобно.</p>
+
+    <pre class="brush: csharp;">
+    $this->widget('CLinkPager', array(
+        'pages'=>$pagination,
+        'maxButtonCount'=>5,
+        'cssFile'=>false,
+    ));
+    </pre>
+
+    <p>При использовании глобальной настройки, необходимо указать начальные значения лишь в одном месте — в файле конфигурации приложения.</p>
+    <p>Для этого настраиваем widgetFactory следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'components'=>array(
+            'widgetFactory'=>array(
+                'widgets'=>array(
+                    'CLinkPager'=>array(
+                        'maxButtonCount'=>5,
+                        'cssFile'=>false,
+                    ),
+                    'CJuiDatePicker'=>array(
+                        'language'=>'ru',
+                    ),
+                ),
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Выше мы указали глобальные настройки виджетов CLinkPager и CJuiDatePicker при помощи соответствующих свойств CWidgetFactory::widgets.</p>
+    <p>Стоит отметить, что глобальные настройки указываются в виде пар ключ-массив значений, где ключ соответствует классу виджета, а массив значений задаёт начальные значения свойств этого класса.</p>
+    <p>Теперь всякий раз, когда мы используем виджет CLinkPager в отображении, его свойствам будут присвоены указанные выше начальные значения.</p>
+    <p>Таким образом, чтобы использовать виджет будет достаточно следующего кода:</p>
+
+    <pre class="brush: csharp;">
+    $this->widget('CLinkPager', array(
+        'pages'=>$pagination,
+    ));
+    </pre>
+
+    <p>Мы можем переопределить начальные значения, если в этом есть необходимость.</p>
+    <p>К примеру, если в каком-нибудь отображении мы хотим задать maxButtonCount равным 2, можно сделать следующее:</p>
+
+    <pre class="brush: csharp;">
+    $this->widget('CLinkPager', array(
+        'pages'=>$pagination,
+        'maxButtonCount'=>2,
+    ));
+    </pre>
+
+    <h2 id="title">
+        Скины
+    </h2>
+
+    <p>В то время, как при использовании темы мы можем быстро менять вид представлений, мы также можем использовать скины для настройки вида виджетов, используемых в представлениях.</p>
+    <p>Скин — это массив пар имя-значение, который может использоваться для инициализации свойств виджета.</p>
+    <p>Скин принадлежит классу виджета, а класс виджета может иметь несколько скинов, идентифицируемых по имени.</p>
+    <p>Например, у нас может быть скин classic для виджета CLinkPager.</p>
+    <p>Для использования данной возможности нам, в первую очередь, необходимо изменить файл конфигурации приложения, выставив свойство CWidgetFactory::enableSkin компонента widgetFactory в true:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'components'=>array(
+            'widgetFactory'=>array(
+                'enableSkin'=>true,
+            ),
+        ),
+    );
+    </pre>
+
+    <p>В версиях Yii до 1.1.3 необходимо использовать следующую конфигурацию:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'components'=>array(
+            'widgetFactory'=>array(
+                'class'=>'CWidgetFactory',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Затем мы создаём необходимые скины.</p>
+    <p>Скины, принадлежащие одному классу виджета, хранятся в одном файле PHP, имя которого совпадает с названием класса виджета.</p>
+    <p>Все файлы скинов по умолчанию хранятся в директории protected/views/skins.</p>
+    <p>Для изменения директории надо настроить свойство skinPath компонента widgetFactory.</p>
+    <p>Например, мы можем создать в директории protected/views/skins файл CLinkPager.php, код которого представлен ниже:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    return array(
+        'default'=>array(
+            'nextPageLabel'=>'next',
+            'prevPageLabel'=>'prev',
+        ),
+        'classic'=>array(
+            'header'=>'',
+            'maxButtonCount'=>5,
+        ),
+    );
+    </pre>
+
+    <p>В коде выше мы создаём для виджета CLinkPager два скина: default и classic.</p>
+    <p>Первый скин будет применяться к любому виджету CLinkPager, в котором явно не указано свойство skin, а второй — к виджету, свойство skin которого имеет значение classic.</p>
+    <p>Например, в следующем коде представления первым виджет будет использовать скин default, а второй — скин classic:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php $this->widget('CLinkPager'); ?&gt;
+     
+    &lt;?php $this->widget('CLinkPager', array('skin'=>'classic')); ?&gt;
+    </pre>
+
+    <p>Если мы создаём виджет с набором первоначальных значений, они будут иметь приоритет и будут объединены с любыми применяемыми скинами.</p>
+    <p>Например, следующий код представления создаст постраничную разбивку, чьи первоначальные значения — это массив array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false), который является результатом слияния первоначальных значений, указанных в представлении, и скина classic.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php $this->widget('CLinkPager', array(
+        'skin'=>'classic',
+        'maxButtonCount'=>6,
+        'cssFile'=>false,
+    )); ?&gt;
+    </pre>
+
+    <p>Заметим, что скинизация НЕ требует использования темы.</p>
+    <p>Однако, если тема активна, Yii также будет искать скины в директории skins представлений темы (например, WebRoot/themes/classic/views/skins).</p>
+    <p>В случае, если скин с таким же именем существует и в директории представления темы и в основной директории представления приложения, скин темы будет иметь приоритет.</p>
+    <p>Если виджет использует несуществующий скин, Yii по-прежнему будет создавать виджет как обычно, без каких-либо ошибок.</p>
+    <p><b>Информация:</b> Использование скина может привести к снижению производительности, поскольку Yii должен найти файл скина, когда виджет создается впервые.</p>
+    <p>Использование скинов очень похоже на глобальную конфигурацию виджетов.</p>
+    <p>Главные отличия следующие:</p>
+
+    <ul>
+        <li>Скины в большей степени относятся к изменению свойств, отвечающих за внешний вид виджета;</li>
+        <li>У виджета может быть несколько скинов;</li>
+        <li>Скин можно темизировать;</li>
+        <li>Использование скинов более затратно, чем использование глобальной конфигурации.</li>
+    </ul>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="44.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="46.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/45.html", "Темы оформления Yii", "bm1196"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1196", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1196") == 1) { document.getElementById("bma1196").style.display = "block"; document.getElementById("bm1196").style.display = "none"; } else { document.getElementById("bma1196").style.display = "none"; document.getElementById("bm1196").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Темы оформления Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1196", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

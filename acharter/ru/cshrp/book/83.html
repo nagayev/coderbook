@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma170" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm170" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Интерфейсы и наследование
+	</h1>
+
+	<p>До сих пор мы рассматривали отдельные интерфейсы и их реализацию с помощью классов.</p>
+	<p>Отмечали (но не иллюстрировали) возможность реализации одним классом нескольких интерфейсов.</p>
+	<p>Интерфейсы C# могут наследоваться независимо от классов.</p>
+	<p>Однако , наследование интерфейсов отличается от наследования классов.</p>
+	<p>Рассмотрим, что такое наследование интерфейсов и в чем его отличия от наследования классов.</p>
+	<p>Напомним, что в объявление интерфейса может входить спецификация базы интерфейса, формат которой можно представить так:</p>
+	<p><b>: список_базовых_интерфейсов opt</b></p>
+	<p>В свою очередь интерфейс, входящий в список базовых, может быть наследником других интерфейсов.</p>
+	<p>Тем самым формируются цепочки или иерархии наследования интерфейсов.</p>
+	<p>Естественное ограничение – среди базовых интерфейсов не может присутствовать определяемый интерфейс.</p>
+	<p>При реализации интерфейса, который является наследником других интерфейсов, класс должен реализовать все члены всех интерфейсов, входящих в иерархию.</p>
+	<p>Другими словами, все члены иерархии интерфейсов объединяются в единый набор членов, каждый из которых должен быть реализован конкретным классом (или конкретной структурой).</p>
+	<p>Для иллюстрации приведём следующую программу:</p>
+
+	<pre class="brush: csharp;">
+	// 14_06.cs - наследование интерфейсов
+	using System;
+	// интерфейс публикаций
+	interface IPublication
+	{
+		// готовить публикацию
+		void write();
+		// читать публикацию
+		void read();
+		// название публикации
+		string Title { set; get; }
+	}
+
+	// интерфейс книг
+	interface IBook : IPublication
+	{
+		// автор
+		string Author { set; get; }
+		// количество страниц
+		int Pages { set; get; }
+		// издательство
+		string Publisher { get; }
+		// год опубликования
+		int Year { get; set; }
+	}
+
+	class Book : IBook
+	{
+		// название книги
+		string title;
+		// автор
+		string author;
+		// количество страниц
+		int pages;
+		// издательство
+		string publisher;
+		// год опубликования
+		int year;
+		public string Title { set { title = value; }
+		get { return title; } }
+		public string Author { set { author = value; }
+		get { return author; } }
+		public int Pages { set { pages = value; }
+		get { return pages; } }
+		public string Publisher { set { publisher = value; }
+		get { return publisher; } }
+		public int Year { set { year = value; }
+		get { return year; } }
+		public void write() { /* операторы метода */ }
+		public void read() { /* операторы метода */}
+	}
+
+	class Program
+	{
+		public static void Main()
+		{
+			Book booklet = new Book();
+			booklet.Author = "Л.Н. Волгин";
+			booklet.Title = @"""Принцип согласованного оптимума""";
+			Console.WriteLine("Автор: {0}, Название: {1}.", booklet.Author, booklet.Title);
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Автор: Л.Н. Волгин, Название: "Принцип согласованного оптимума".
+	</pre>
+
+	<p>Здесь интерфейс IBook построен на основе интерфейса IPublication.</p>
+	<p>Класс Book реализует интерфейс IBook и в нём реализованы члены обоих интерфейсов.</p>
+	<p>Чтобы не усложнять пример реализации методов IPublication.write() и IPublication.read() приведены не полностью.</p>
+	<p>Но удалить эти методы из класса Book нельзя – класс должен реализовывать все члены всех интерфейсов, но основе которых он построен.</p>
+	<p>В методе Main() выполняются простейшие действия с объектом класса Book.</p>
+	<p>Для изображения наследования интерфейсов интерфейсов UML использует та же нотация, что и для наследования классов.</p>
+	<p>Производный интерфейс соединяется с базовым стрелкой, острие которой направлено на изображение базового интерфейса.</p>
+	<p>При наследовании интерфейсов разрешено множественное наследование множественное, причём при этом возможно и построение ромбовидных решётчатых иерархий.</p>
+	<p>Так как в интерфейсах любой член представляет только спецификацию ещё не существующего метода, свойства, индексатора или события, то никаких коллизий не возникает.</p>
+	<p>Покажем и поясним это на условном примере.</p>
+	<p>В следующей программе построена ромбовидная иерархия интерфейсов:</p>
+
+	<pre class="brush: csharp;">
+	// 14_07.cs – множественное наследование интерфейсов
+	using System;
+	interface IBase
+	{
+		void write();
+	}
+	interface IN1 : IBase { }
+	interface IN2 : IBase { }
+	interface INt : IN1, IN2 {}
+	class Class : INt
+	{
+		public void write() { /* операторы метода */ }
+	}
+	class Program
+	{
+		public static void Main() { }
+	}
+	</pre>
+
+	<p>Два интерфейса IN1 и IN2 построены на базе интерфейса IBase.</p>
+	<p>У интерфейса INt базовыми являются IN1 и IN2.</p>
+	<p>Класс с именем Class реализует интерфейс INt и тем самым должен реализовать и все остальные интерфейсы.</p>
+	<p>Самое важное – тот факт, что класс получает для реализации только один экземпляр члена write().</p>
+	<p>Несмотря на то, что write() как член базового класса наследуется двумя интерфейсами IN1 и IN2, но в интерфейс INt он входит только один раз и только один раз должен быть реализован в классе Class.</p>
+	<p>При построении иерархии интерфейсов возможно совпадение имён и сигнатур членов разных интерфейсов.</p>
+	<p>Если сигнатуры методов не совпадают, то есть прототипы методов интерфейсов заведомо разные, то ничего предпринимать не нужно – класс должен реализовать все одноимённые члены, имеющие разные сигнатуры.</p>
+	<p>В случае совпадения сигнатур член производного интерфейса экранирует(скрывает) одноимённый член базового интерфейса.</p>
+	<p>В этом случае компилятор потребует подтверждения правильности экранирования.</p>
+	<p>Для этого член производного интерфейса нужно снабдить модификатором new.</p>
+	<p>При экранировании класс не должен реализовать член базового интерфейса (достаточно реализации экранирующего члена производного интерфейса).</p>
+	<p>Следующая программа иллюстрирует приведённые правила:</p>
+
+	<pre class="brush: csharp;">
+	// 14_08.cs - множественное наследование интерфейсов
+	using System;
+	interface IBase
+	{
+		void write();
+	}
+
+	interface IN1 : IBase
+	{
+		new void write();
+	}
+
+	interface IN2 : IBase
+	{
+		int write(int r);
+	}
+
+	interface INt : IN1, IN2 {}
+	class Class : INt
+	{
+		public void write()
+		{ Console.WriteLine("IN1"); }
+		public int write(int r)
+		{ Console.WriteLine("IN2 "+r); return 1; }
+	}
+	
+	class Program
+	{
+		public static void Main()
+		{
+			Class dot = new Class();
+			dot.write();
+			dot.write(23);
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	IN1
+	IN2 23
+	</pre>
+
+	<p>В базовом интерфейсе IBase есть прототип метода write().</p>
+	<p>В производных интерфейсах IN1, IN2 декларированы одноимённые методы с разной сигнатурой.</p>
+	<p>Прототип метода из IN1 экранирует прототип метода базового интерфейса.</p>
+	<p>Прототип метода из IN2 существует независимо от других одноимённых прототипов.</p>
+	<p>Класс Class, реазующий всю иерархию интерфейсов, реализует как перегруженные (overloaded) два метода, декларированные в интерфейсах IN1, IN2.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="82.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="84.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/83.html", "Наследование", "bm170"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm170", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm170") == 1) { document.getElementById("bma170").style.display = "block"; document.getElementById("bm170").style.display = "none"; } else { document.getElementById("bma170").style.display = "none"; document.getElementById("bm170").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Наследование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm170", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

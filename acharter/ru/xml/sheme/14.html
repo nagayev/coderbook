@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1143" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1143" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Индикаторы
+	</h1>
+	
+	<p>Мы можем контролировать, каким образом элементы должны использоваться в XML документах.</p>
+	<p>Это позволяют сделать индикаторы.</p>
+	<p>Всего существует семь индикаторов:</p>
+	<p>Индикаторы очередности:</p>
+	<p>- all</p>
+	<p>- choice</p>
+	<p>- sequence</p>
+	<p>Индикаторы частотности:</p>
+	<p>- maxOccurs</p>
+	<p>- minOccurs</p>
+	<p>Индикаторы группирования:</p>
+	<p>- group name</p>
+	<p>- attributeGroup name</p>
+
+	<h1 id="title">
+		Индикаторы очередности
+	</h1>
+	
+	<p>Индикаторы очередности, как ясно из названия, используются для определения очередности появления элементов в XML документе.</p>
+	<p><b>Индикатор all</b></p>
+	<p>Индикатор &lt;all&gt; устанавливает, что дочерние элементы могут появляться в документах в любом порядке, и что каждый из этих дочерних элементов должен появляться всего один раз:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="person"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:all&gt;
+					&lt;xs:element name="firstname" type="xs:string"/&gt;
+					&lt;xs:element name="lastname" type="xs:string"/&gt;
+				&lt;/xs:all&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p><b>Примечание:</b> При использовании индикатора &lt;all&gt; вы можете установить индикатор &lt;minOccurs&gt; в значение 0 или 1, а индикатор &lt;maxOccurs&gt; только в значение 1 (индикаторы &lt;minOccurs&gt; и &lt;maxOccurs&gt; описываются ниже).</p>
+	<p><b>Индикатор choice</b></p>
+	<p>Индикатор &lt;choice&gt; устанавливает, что появляться в документах может либо один дочерний элемент, либо другой:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="person"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:choice&gt;
+					&lt;xs:element name="employee" type="employee"/&gt;
+					&lt;xs:element name="member" type="member"/&gt;
+				&lt;/xs:choice&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p><b>Индикатор sequence</b></p>
+	<p>Индикатор &lt;sequence&gt; устанавливает, что дочерние элементы должны появляться в документах в заданном порядке:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="person"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="firstname" type="xs:string"/&gt;
+					&lt;xs:element name="lastname" type="xs:string"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<h1 id="title">
+		Индикаторы частотности
+	</h1>
+
+	<p>Индикаторы частотности используются для того, чтобы определить то, как часто элементы могут появляться в XML документах.</p>
+	<p><b>Примечание:</b> Для всех "порядковых" и "групповых" индикаторов (any, all, choice, sequence, group name и group reference) значением по умолчанию для maxOccurs и minOccurs является 1.</p>
+	<p><b>Индикатор maxOccurs</b></p>
+	<p>Индикатор &lt;maxOccurs&gt; устанавливает максимальное количество появлений элемента:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;xs:element name="person"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="full_name" type="xs:string"/&gt;
+					&lt;xs:element name="child_name" type="xs:string" maxOccurs="10"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>В приведенном выше примере указывается, что элемент "child_name" в элементе "person" может использоваться минимум один раз (значение по умолчанию для индикатора minOccurs - 1) и максимум 10 раз.</p>
+	<p><b>Индикатор minOccurs</b></p>
+	<p>Индикатор &lt;minOccurs&gt; устанавливает минимальное количество появлений элемента:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="person"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="full_name" type="xs:string"/&gt;
+					&lt;xs:element name="child_name" type="xs:string" maxOccurs="10" minOccurs="0"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>В приведенном выше примере указывается, что элемент "child_name" в элементе "person" может использоваться минимум 0 раз и максимум 10 раз.</p>
+	<p>Совет: Чтобы разрешить использовать какой-то элемент неограниченное число раз, используется выражение <b>maxOccurs="unbounded"</b>.</p>
+	<p>Рабочий пример:</p>
+	<p>XML файл "Myfamily.xml":</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+		&lt;persons xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="family.xsd"&gt;
+			&lt;person&gt;
+				&lt;full_name&gt;Hege Refsnes&lt;/full_name&gt;
+				&lt;child_name&gt;Cecilie&lt;/child_name&gt;
+			&lt;/person&gt;
+
+			&lt;person&gt;
+				&lt;full_name&gt;Tove Refsnes&lt;/full_name&gt;
+				&lt;child_name&gt;Hege&lt;/child_name&gt;
+				&lt;child_name&gt;Stale&lt;/child_name&gt;
+				&lt;child_name&gt;Jim&lt;/child_name&gt;
+				&lt;child_name&gt;Borge&lt;/child_name&gt;
+			&lt;/person&gt;
+
+			&lt;person&gt;
+				&lt;full_name&gt;Stale Refsnes&lt;/full_name&gt;
+			&lt;/person&gt;
+		&lt;/persons&gt;
+	</pre>
+
+	<p>Приведенный XML файл содержит корневой элемент "persons".</p>
+	<p>Внутри этого корневого элемента у нас есть три элемента "person".</p>
+	<p>Каждый элемент "person" должен содержать элемент "full_name" и может содержать до 5 элементов "child_name".</p>
+	<p>А вот его файл схемы "family.xsd":</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+		
+		&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"&gt;
+			&lt;xs:element name="persons"&gt;
+				&lt;xs:complexType&gt;
+					&lt;xs:sequence&gt;
+						&lt;xs:element name="person" maxOccurs="unbounded"&gt;
+							&lt;xs:complexType&gt;
+								&lt;xs:sequence&gt;
+									&lt;xs:element name="full_name" type="xs:string"/&gt;
+									&lt;xs:element name="child_name" type="xs:string" minOccurs="0" maxOccurs="5"/&gt;
+								&lt;/xs:sequence&gt;
+							&lt;/xs:complexType&gt;
+						&lt;/xs:element&gt;
+					&lt;/xs:sequence&gt;
+				&lt;/xs:complexType&gt;
+			&lt;/xs:element&gt;
+		&lt;/xs:schema&gt;
+	</pre>
+
+	<h1 id="title">
+		Индикаторы группирования
+	</h1>
+	
+	<p>Индикаторы группирования используются для определения связанных наборов элементов.</p>
+	<p><b>Группирование элементов</b></p>
+	<p>Группы элементов определяются при помощи декларации group следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:group name="имя_группы"&gt;
+			...
+		&lt;/xs:group&gt;
+	</pre>
+
+	<p>Внутри такой декларации необходимо определять элемент all, choice или sequence.</p>
+	<p>В следующем примере определяется группа с именем "persongroup", которая определяет группу элементов, которые должны появляться точно в указанном порядке:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:group name="persongroup"&gt;
+			&lt;xs:sequence&gt;
+				&lt;xs:element name="firstname" type="xs:string"/&gt;
+				&lt;xs:element name="lastname" type="xs:string"/&gt;
+				&lt;xs:element name="birthday" type="xs:date"/&gt;
+			&lt;/xs:sequence&gt;
+		&lt;/xs:group&gt;
+	</pre>
+
+	<p>После того как группа элементов была определена, вы можете использовать ее в других определениях:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:group name="persongroup"&gt;
+			&lt;xs:sequence&gt;
+				&lt;xs:element name="firstname" type="xs:string"/&gt;
+				&lt;xs:element name="lastname" type="xs:string"/&gt;
+				&lt;xs:element name="birthday" type="xs:date"/&gt;
+			&lt;/xs:sequence&gt;
+		&lt;/xs:group&gt;
+
+		&lt;xs:element name="person" type="personinfo"/&gt;
+
+		&lt;xs:complexType name="personinfo"&gt;
+			&lt;xs:sequence&gt;
+				&lt;xs:group ref="persongroup"/&gt;
+				&lt;xs:element name="country" type="xs:string"/&gt;
+			&lt;/xs:sequence&gt;
+		&lt;/xs:complexType&gt;
+	</pre>
+
+	<p><b>Группирование атрибутов</b></p>
+	<p>Группы атрибутов определяются при помощи декларации attributeGroup:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:attributeGroup name="имя_группы"&gt;
+		...
+		&lt;/xs:attributeGroup&gt;
+	</pre>
+
+	<p>В следующем примере определяется группа атрибутов с именем "personattrgroup":</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:attributeGroup name="personattrgroup"&gt;
+			&lt;xs:attribute name="firstname" type="xs:string"/&gt;
+			&lt;xs:attribute name="lastname" type="xs:string"/&gt;
+			&lt;xs:attribute name="birthday" type="xs:date"/&gt;
+		&lt;/xs:attributeGroup&gt;
+	</pre>
+
+	<p>После того как группа атрибутов была определена, вы можете использовать ее в других определениях:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:attributeGroup name="personattrgroup"&gt;
+			&lt;xs:attribute name="firstname" type="xs:string"/&gt;
+			&lt;xs:attribute name="lastname" type="xs:string"/&gt;
+			&lt;xs:attribute name="birthday" type="xs:date"/&gt;
+		&lt;/xs:attributeGroup&gt;
+		
+		&lt;xs:element name="person"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:attributeGroup ref="personattrgroup"/&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/sheme/14.html", "Индикаторы", "bm1143"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1143", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1143") == 1) { document.getElementById("bma1143").style.display = "block"; document.getElementById("bm1143").style.display = "none"; } else { document.getElementById("bma1143").style.display = "none"; document.getElementById("bm1143").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Индикаторы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1143", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

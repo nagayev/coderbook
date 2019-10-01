@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1326" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1326" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Добавим немного валидаций
+    </h1>
+    
+    <p>Файл модели <b>app/models/article.rb</b> выглядит проще простого:</p>
+
+    <pre class="brush: csharp;">
+    class Article < ApplicationRecord
+    end
+    </pre>
+
+    <p>Не так уж много написано в этом файле, но заметьте, что класс Article наследован от ApplicationRecord.</p>
+    <p>ApplicationRecord наследуется от ActiveRecord::Base, который обеспечивает огромную функциональность для ваших моделей Rails, включая основные операции для базы данных CRUD (Create, Read, Update, Destroy - создать, читать, обновить, уничтожить), валидации данных, сложную поддержку поиска и возможность устанавливать отношения между разными моделями.</p>
+    <p>Rails включает методы, помогающие проверить данные, которые вы передаете в модель.</p>
+    <p>Откройте файл <b>app/models/article.rb</b> и отредактируйте:</p>
+
+    <pre class="brush: csharp;">
+    class Article < ApplicationRecord
+      validates :title, presence: true,
+                        length: { minimum: 5 }
+    end
+    </pre>
+
+    <p>Эти изменения позволят быть уверенным, что все статьи имеют заголовок длиной как минимум пять символов.</p>
+    <p>Rails может проверять разные условия в модели, включая существование или уникальность полей, их формат и существование связанных объектов.</p>
+    <p>Подробнее валидации раскрыты в Валидации Active Record.</p>
+    <p>Теперь, когда есть валидации, при вызове <b>@article.save</b> на невалидной статье, будет возвращен false.</p>
+    <p>Если снова открыть <b>app/controllers/articles_controller.rb</b>, вы увидите, что мы не проверяем результат вызова @article.save в экшне create.</p>
+    <p>Если в этой ситуации @article.save не удастся, нам нужно снова показать форму пользователю.</p>
+    <p>Для этого замените экшны new и create в <b>app/controllers/articles_controller.rb</b> на эти:</p>
+
+    <pre class="brush: csharp;">
+    def new
+      @article = Article.new
+    end
+     
+    def create
+      @article = Article.new(article_params)
+     
+      if @article.save
+        redirect_to @article
+      else
+        render 'new'
+      end
+    end
+     
+    private
+      def article_params
+        params.require(:article).permit(:title, :text)
+      end
+    </pre>
+
+    <p>Теперь экшн new создает новую переменную экземпляра по имени @article, и вы увидите, зачем это, через пару абзацев.</p>
+    <p>Отметьте, что в экшне create мы использовали render вместо redirect_to, когда save возвращает false.</p>
+    <p>Метод render использован, чтобы объект @article был передан назад в шаблон new, когда он будет отрендерен.</p>
+    <p>Этот рендеринг выполняется в рамках того же запроса, что и отправка формы, в то время как redirect_to сообщает браузеру выполнить другой запрос.</p>
+    <p>Если перезагрузите <b>http://localhost:3000/articles/new</b> и попытаетесь сохранить статью без заголовка, Rails вернет вас обратно на форму, но это не очень полезно.</p>
+    <p>Вам нужно сказать пользователю, что что-то пошло не так.</p>
+    <p>Для этого нужно модифицировать <b>app/views/articles/new.html.erb</b> для проверки на сообщения об ошибке:</p>
+
+    <pre class="brush: csharp;">
+    &lt;%= form_with scope: :article, url: articles_path, local: true do |form| %&gt;
+     
+      &lt;% if @article.errors.any? %&gt;
+        &lt;div id=&quot;error_explanation&quot;&gt;
+          &lt;h2&gt;
+            &lt;%= pluralize(@article.errors.count, &quot;error&quot;) %&gt; prohibited
+            this article from being saved:
+          &lt;/h2&gt;
+          &lt;ul&gt;
+            &lt;% @article.errors.full_messages.each do |msg| %&gt;
+              &lt;li&gt;&lt;%= msg %&gt;&lt;/li&gt;
+            &lt;% end %&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;% end %&gt;
+     
+      &lt;p&gt;
+        &lt;%= form.label :title %&gt;&lt;br&gt;
+        &lt;%= form.text_field :title %&gt;
+      &lt;/p&gt;
+     
+      &lt;p&gt;
+        &lt;%= form.label :text %&gt;&lt;br&gt;
+        &lt;%= form.text_area :text %&gt;
+      &lt;/p&gt;
+     
+      &lt;p&gt;
+        &lt;%= form.submit %&gt;
+      &lt;/p&gt;
+    &lt;% end %&gt;
+     
+    &lt;%= link_to &apos;Back&apos;, articles_path %&gt;
+    </pre>
+
+    <p>Несколько вещей о том, что происходит.</p>
+    <p>Мы проверяем, имеются ли какие-либо ошибки с помощью <b>@article.errors.any?</b>, и в этом случае показываем список всех ошибок с помощью <b>@article.errors.full_messages</b>.</p>
+    <p>pluralize это хелпер rails, принимающий число и строку как аргументы.</p>
+    <p>Если число больше одного, строка будет автоматически склонено во множественном числе.</p>
+    <p>Причина, по которой мы добавили @article = Article.new в ArticlesController, в том, что в противном случае @article будет nil во вьюхе, и вызов @article.errors.any? вызовет ошибку.</p>
+    <p>Rails автоматически оборачивает поля, содержащие ошибку, в div с классом field_with_errors. Можно определить правило css, чтобы сделать их выделяющимися.</p>
+    <p>Теперь у нас будет прекрасное сообщение об ошибке при сохранении статьи без заголовка, если попробуете так сделать в форме новой статьи <b>http://localhost:3000/articles/new</b>.</p>
+
+    <img src="r9.png" id="image" />
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/17.html", "Добавим немного валидаций", "bm1326"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1326", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1326") == 1) { document.getElementById("bma1326").style.display = "block"; document.getElementById("bm1326").style.display = "none"; } else { document.getElementById("bma1326").style.display = "none"; document.getElementById("bm1326").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Добавим немного валидаций") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1326", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

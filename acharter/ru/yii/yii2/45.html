@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1251" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1251" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		MongoDB
+	</h1>
+
+    <p>Это расширение обеспечивает интеграцию MongoDB в фреймворк Yii2.</p>
+
+    <h2 id="title">
+        Установка
+    </h2>
+
+    <p>Это расширение требует MongoDB PHP Extension версии 1.0.0 или выше.</p>
+
+    <h3 id="title">
+        Требования
+    </h3>
+
+    <h3 id="title">
+        Получение с помощью Composer
+    </h3>
+
+    <p>Предпочтительный способ установки расширения через composer.</p>
+    <p>Для этого запустите</p>
+
+    <pre class="brush: csharp;">
+    php composer.phar require --prefer-dist yiisoft/yii2-mongodb
+    </pre>
+
+    <p>или добавьте</p>
+
+    <pre class="brush: csharp;">
+    "yiisoft/yii2-mongodb": "~2.1.0"
+    </pre>
+
+    <p>в секцию require вашего composer.json.</p>
+
+    <h3 id="title">
+        Настройка приложения
+    </h3>
+
+    <p>Для использования расширения, просто добавьте этот код в конфигурацию вашего приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            'mongodb' =&gt; [
+                'class' =&gt; '\yii\mongodb\Connection',
+                'dsn' =&gt; 'mongodb://developer:password@localhost:27017/mydatabase',
+            ],
+        ],
+    ];
+    </pre>
+
+    <h2 id="title">
+        Основы использования
+    </h2>
+
+    <p>После установки экземпляра соединения с MongoDB, вы можете выполнять MongoDB команды и запросы используя [[yii\mongodb\Command]]:</p>
+
+    <pre class="brush: csharp;">
+    // выполнить команду:
+    $result = Yii::$app->mongodb->createCommand(['listIndexes' =&gt; 'some_collection'])->execute();
+    
+    // выполнить запрос (find):
+    $cursor = Yii::$app->mongodb->createCommand(['projection' =&gt; ['name' =&gt; true]])->query('some_collection');
+    
+    // выполнить пакетную операцию:
+    Yii::$app->mongodb->createCommand()
+        ->addInsert(['name' =&gt; 'new'])
+        ->addUpdate(['name' =&gt; 'existing'], ['name' =&gt; 'updated'])
+        ->addDelete(['name' =&gt; 'old'])
+        ->executeBatch('customer');
+    </pre>
+
+    <p>Используя экземпляр соединения, вы можете получить доступ к базам данным и коллекциям.</p>
+    <p>Большинство MongoDB команд доступны через [[\yii\mongodb\Collection]] например:</p>
+
+    <pre class="brush: csharp;">
+    $collection = Yii::$app->mongodb->getCollection('customer');
+    $collection->insert(['name' =&gt; 'John Smith', 'status' =&gt; 1]);
+    </pre>
+
+    <p>Для выполнения find запросов, вы должны использовать [[\yii\mongodb\Query]]:</p>
+
+    <pre class="brush: csharp;">
+    use yii\mongodb\Query;
+    
+    $query = new Query();
+    // составление запроса
+    $query->select(['name', 'status'])
+        ->from('customer')
+        ->limit(10);
+    // выполнение запроса
+    $rows = $query->all();
+    </pre>
+
+    <h2 id="title">
+        Особенности MongoId
+    </h2>
+
+    <h3 id="title">
+        Получение скаляра из ID документа
+    </h3>
+
+    <p><b>Помните:</b> идентификатор документа MongoDB (поле _id) не является скаляром, но представляет собой экземпляр класса [[\MongoDB\BSON\ObjectID]].</p>
+    <p>Чтобы получить фактическую строку Mongo ID, вы должны привести тип экземпляра [[\MongoDB\BSON\ObjectID]] к строке:</p>
+
+    <pre class="brush: csharp;">
+    $query = new Query();
+    $row = $query->from('customer')->one();
+    var_dump($row['_id']); // вывод: "object(\MongoDB\BSON\ObjectID)"
+    var_dump((string) $row['_id']); // вывод: "string 'acdfgdacdhcbdafa'"
+    </pre>
+
+    <p>Хотя это обстоятельство, иногда, весьма полезно, но часто приводит к некоторым проблемам.</p>
+    <p>Вы можете столкнуться с ними составляя URL или при попытке сохранения _id в другое хранилище.</p>
+    <p>В этих случаях убедитесь, что вы конвертировали [[\MongoDB\BSON\ObjectID]] в строку:</p>
+
+    <pre class="brush: csharp;">
+    /* @var $this yii\web\View */
+    echo $this->createUrl(['item/update', 'id' =&gt; (string) $row['_id']]);
+    </pre>
+
+    <p>То же самое относится и к реализации идентификационных данных пользователя, которые хранятся в MongoDB.</p>
+    <p>При реализации [[\yii\web\IdentityInterface::getId()]] вы должны привести [[\MongoDB\BSON\ObjectID]] класс к скаляру чтобы аутентификация начала работать.</p>
+
+    <h3 id="title">
+        Получение ID документа из скаляра
+    </h3>
+
+    <p>При создании условии, значения для ключа _id будет автоматически приведено к [[\MongoDB\BSON\ObjectID]] например, даже если они простые строки.</p>
+    <p>Так что нет необходимости выполнять обратное приведение _id к строке:</p>
+
+    <pre class="brush: csharp;">
+    use yii\web\Controller;
+    use yii\mongodb\Query;
+    
+    class ItemController extends Controller
+    {
+        /**
+         * @param string $id MongoId строка (не является объектом)
+         */
+        public function actionUpdate($id)
+        {
+            $query = new Query;
+            $row = $query->from('item')
+                where(['_id' =&gt; $id]) // неявное приведение типа [[\MongoDB\BSON\ObjectID]]
+                ->one();
+            ...
+        }
+    }
+    </pre>
+
+    <p>Тем не менее, если у вас есть другие столбцы, содержащие [[\MongoDB\BSON\ObjectID]], вы должны позаботиться о возможном приведении типов на свое усмотрение.</p>
+
+    <h2 id="title">
+        Использование MongoDB ActiveRecord
+    </h2>
+
+    <p>Расширение предоставляет паттерн ActiveRecord аналогично [[\yii\db\ActiveRecord]].</p>
+    <p>Чтобы объявить класс ActiveRecord вам необходимо расширить [[\yii\mongodb\ActiveRecord]] и реализовать методы collectionName и attributes:</p>
+
+    <pre class="brush: csharp;">
+    use yii\mongodb\ActiveRecord;
+    
+    class Customer extends ActiveRecord
+    {
+        /**
+         * @return string the name of the index associated with this ActiveRecord class.
+         */
+        public static function collectionName()
+        {
+            return 'customer';
+        }
+    
+        /**
+         * @return array list of attribute names.
+         */
+        public function attributes()
+        {
+            return ['_id', 'name', 'email', 'address', 'status'];
+        }
+    }
+    </pre>
+
+    <p><b>Примечание:</b> первичный ключ названия коллекции (_id) должен быть всегда установлен в явном виде в качестве атрибута.</p>
+    <p>Вы можете использовать [[\yii\data\ActiveDataProvider]] с [[\yii\mongodb\Query]] и [[\yii\mongodb\ActiveQuery]]:</p>
+
+    <pre class="brush: csharp;">
+    use yii\data\ActiveDataProvider;
+    use yii\mongodb\Query;
+    
+    $query = new Query();
+    $query->from('customer')->where(['status' =&gt; 2]);
+    $provider = new ActiveDataProvider([
+        'query' =&gt; $query,
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ]
+    ]);
+    $models = $provider->getModels();
+    use yii\data\ActiveDataProvider;
+    use app\models\Customer;
+    
+    $provider = new ActiveDataProvider([
+        'query' =&gt; Customer::find(),
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ]
+    ]);
+    $models = $provider->getModels();
+    </pre>
+
+    <h2 id="title">
+        Работа с вложенными документами
+    </h2>
+
+    <p>Расширение не предусматривает каких-либо специальных способов работы с вложенными документами (суб-документы) на данный момент.</p>
+    <p>Общая рекомендация избегать их, если это возможно.</p>
+    <p>В качестве примера:</p>
+    <p>Вместо:</p>
+
+    <pre class="brush: csharp;">
+    {
+        content: "some content",
+        author: {
+            name: author1,
+            email: author1@domain.com
+        }
+    }
+    </pre>
+
+    <p>используйте следующее:</p>
+
+    <pre class="brush: csharp;">
+    {
+        content: "some content",
+        author_name: author1,
+        author_email: author1@domain.com
+    }
+    </pre>
+
+    <p>При разработке Yii Model предполагалось, что каждый отдельный атрибут модели является скаляром.</p>
+    <p>Валидация и обработка атрибутов происходит на основе этого предположения.</p>
+    <p>Тем не менее, любой атрибут может быть массивом любой глубины и сложности, однако вы должны обрабатывать его валидацию по своему усмотрению.</p>
+    <p>Пока не существует явной поддержки вложенных документов, но также никакого явного ограничения на него нет.</p>
+    <p>Вы можете создать собственное решение или использовать расширение сторонних разработчиков, как yii2tech/embedded для использования этой функции.</p>
+
+    <h2 id="title">
+        Использование GridFS
+    </h2>
+
+    <p>Расширение поддерживает MongoGridFS с помощью классов из пространства имен "\yii\mongodb\file".</p>
+    <p>Там вы найдете классы Collection, Query и ActiveRecord.</p>
+    <p>Вы можете загрузить файл с помощью [[\yii\mongodb\file\Upload]]:</p>
+
+    <pre class="brush: csharp;">
+    $document = Yii::$app->mongodb->getFileCollection()->createUpload()
+        ->addContent('Part 1')
+        ->addContent('Part 2')
+        // ...
+        ->complete();
+    </pre>
+
+    <p>Вы можете скачать файл с помощью [[\yii\mongodb\file\Download]]:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mongodb->getFileCollection()->createDownload($document['_id'])->toFile('/path/to/file.dat');
+    </pre>
+
+    <p>Каждая строка, файла результата запроса, содержит ключ 'file' экземпляра [[\yii\mongodb\file\Download]]:</p>
+
+    <pre class="brush: csharp;">
+    use yii\mongodb\file\Query;
+    
+    $query = new Query();
+    $rows = $query->from('fs')
+        ->limit(10)
+        ->all();
+    
+    foreach ($rows as $row) {
+        var_dump($row['file']); // вывод: "object(\yii\mongodb\file\Download)"
+        echo $row['file']->toString(); // содержание файла вывода
+    }
+    </pre>
+
+    <p>С помощью [\yii\mongodb\file\ActiveRecord]] вы можете манипулировать файлами используя свойство 'file':</p>
+
+    <pre class="brush: csharp;">
+    use yii\mongodb\file\ActiveRecord;
+    
+    class ImageFile extends ActiveRecord
+    {
+        //...
+    }
+    
+    $record = new ImageFile();
+    $record->number = 15;
+    $record->file = '/path/to/some/file.jpg'; // локальная загрузка файла GridFS
+    $record->save();
+    
+    $record = ImageFile::find()->where(['number' =&gt; 15])->one();
+    var_dump($record->file); // вывод: "object(\yii\mongodb\file\Download)"
+    echo $row['file']->toString(); // содержание файла вывода
+    </pre>
+
+    <p>Вы также можете управлять файлами GridFS через регулярные потоки ресурсов PHP.</p>
+    <p>Вам нужно будет зарегистрировать обертку потока предоставленную этим расширением - [[\yii\mongodb\file\StreamWrapper]].</p>
+    <p>Это может быть сделано с помощью [[\yii\mongodb\file\Connection::registerFileStreamWrapper()]].</p>
+    <p>После того как обертка потока зарегистрирована, вы можете открыть поток используя следующий формат:</p>
+
+    <pre class="brush: csharp;">
+    'protocol://databaseName.fileCollectionPrefix?file_attribute=value'
+    </pre>
+
+    <p>Для примера:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mongodb->registerFileStreamWrapper(); // register stream wrapper
+    
+    // запись файла:
+    $resource = fopen('gridfs://mydatabase.fs?filename=new_file.txt', 'w');
+    fwrite($resource, 'some content');
+    // ...
+    fclose($resource);
+    
+    // запись файла с несколькими полями:
+    $resource = fopen('gridfs://mydatabase.fs?filename=new_file.txt&number=17&status=active', 'w');
+    fwrite($resource, 'file number 17 with status "active"');
+    fclose($resource);
+    
+    // чтение файла:
+    $resource = fopen('gridfs://mydatabase.fs?filename=my_file.txt', 'r');
+    $fileContent = stream_get_contents($resource);
+    </pre>
+
+    <h2 id="title">
+        Логирование и профилирование
+    </h2>
+
+    <p>Расширение обеспечивает ведение журнала для выполненных команд и запросов.</p>
+    <p>Ведение журнала необязательно и может быть включено или отключено в [[\yii\mongodb\Connection]]:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            'mongodb' =&gt; [
+                'class' =&gt; '\yii\mongodb\Connection',
+                'dsn' =&gt; 'mongodb://developer:password@localhost:27017/mydatabase',
+                'enableLogging' =&gt; true, // включить логирование
+                'enableProfiling' =&gt; true, // включить профилирование
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Примечание:</b> регистрация сообщений, сгенерированных для команд и запросов, не содержит фактических текстов выполняемых запросов, содержит только близкое приближение составленное из значений, которые могут быть получены из классов расширения PHP MongoDB. Если вам нужно увидеть текст фактических запросов, вы должны использовать для этого специальные инструменты.</p>
+    <p><b>Подсказка:</b> Имейте в виду, что ведение журнала сообщений занимает какое-то время и программные ресурсы. Таким образом, имеет смысл отключить ведение журнала в продакшене.</p>
+
+    <h2 id="title">
+        Использование компонентов кеширования
+    </h2>
+
+    <p>Для того чтобы использованить компонент Cache, в дополнительных настройках соединения, как описано в разделе Установка, вы должны настроить компонент cache как yii\mongodb\Cache:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            // ...
+            'cache' =&gt; [
+                'class' =&gt; 'yii\mongodb\Cache',
+            ],
+        ]
+    ];
+    </pre>
+
+    <h2 id="title">
+        Использование компонентов сессии
+    </h2>
+
+    <p>Для использования компонента Session, в дополнительных настройках соединения, как описано в разделе Установка, вы должны настроить компонент session как yii\mongodb\Session:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            // ...
+            'session' =&gt; [
+                'class' =&gt; 'yii\mongodb\Session',
+            ],
+        ]
+    ];
+    </pre>
+
+    <h2 id="title">
+        Использование интернационализации I18N
+    </h2>
+
+    <p>Вы можете использовать [[\yii\mongodb\i18n\MongoDbMessageSource]] для хранения переводов i18n сообщений.</p>
+    <p>Пример конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            // ...
+            'i18n' =&gt; [
+                'translations' =&gt; [
+                    '*' =&gt; [
+                        'class' =&gt; 'yii\mongodb\i18n\MongoDbMessageSource'
+                    ]
+                ]
+            ],
+        ]
+    ];
+    </pre>
+
+    <p>Пожалуйста, обратитесь к [[\yii\mongodb\i18n\MongoDbMessageSource]] для получения более подробной информации о конфигурации и перевода структуры коллекции данных.</p>
+
+    <h2 id="title">
+        Использование Gii генератора
+    </h2>
+
+    <p>Это расширение предоставляет генератор кода, который может быть интегрирован с Yii модулем 'gii'.</p>
+    <p>Он обеспечивает генерацию Active Record кода. Для того, чтобы включить его, вы должны настроить конфигурацию приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'modules' =&gt; [
+            // ...
+            'gii' =&gt; [
+                'class' =&gt; 'yii\gii\Module',
+                'generators' =&gt; [
+                    'mongoDbModel' =&gt; [
+                        'class' =&gt; 'yii\mongodb\gii\model\Generator'
+                    ]
+                ],
+            ],
+        ]
+    ];
+    </pre>
+
+    <p><b>Примечание:</b> поскольку MongoDB это schemaless - БД, существует не так много информации, которая может основываться на генерируеом коде. Таким образом, сгенерированный код очень простой и, безусловно, требует корректировки.</p>
+
+    <h2 id="title">
+        Использование MongoDB DebugPanel
+    </h2>
+
+    <p>Расширение Yii2 MongoDB предоставляет панель отладки, которая может быть интегрирована с модулем отладки yii и отображать выполняемые запросы MongoDB.</p>
+    <p>Добавьте следующий код в конфигурацию вашего приложения, чтобы включить его (если у вас уже есть включенный модуль отладки, то достаточно просто добавить конфигурацию панели):</p>
+
+    <pre class="brush: csharp;">
+        // ...
+        'bootstrap' =&gt; ['debug'],
+        'modules' =&gt; [
+            'debug' =&gt; [
+                'class' =&gt; 'yii\\debug\\Module',
+                'panels' =&gt; [
+                    'mongodb' =&gt; [
+                        'class' =&gt; 'yii\\mongodb\\debug\\MongoDbPanel',
+                        // 'db' =&gt; 'mongodb', // ID MongoDB компонента, по умолчанию `db`. Раскоментируйте и измените эту строку, если вы регистрируете компонент MongoDB с другим ID.
+                    ],
+                ],
+            ],
+        ],
+        // ...
+    </pre>
+
+    <h2 id="title">
+        Использование миграции
+    </h2>
+
+    <p>MongoDB это - schemaless-бд и может создать необходимые коллекции по первому требованию.</p>
+    <p>Однако, есть много случаев когда вам может понадобиться применение постоянных изменений в базу данных MongoDB.</p>
+    <p>Для примера: вам может понадобится создать коллекцию с некоторыми конкретными вариантами или индексы.</p>
+    <p>MongoDB миграции управляются с помощью [[yii\mongodb\console\controllers\MigrateController]], который являетя аналогом регулярного [[\yii\console\controllers\MigrateController]].</p>
+    <p>Для того, чтобы включить эту команду, вы должны настроить конфигурацию консольного приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'controllerMap' =&gt; [
+            'mongodb-migrate' =&gt; 'yii\mongodb\console\controllers\MigrateController'
+        ],
+    ];
+    </pre>
+
+    <p>Ниже приведены примеры использования этой команды:</p>
+
+    <pre class="brush: csharp;">
+    # создать миграцию с именем 'create_user_collection'
+    yii mongodb-migrate/create create_user_collection
+    
+    # применить ВСЕ новые миграции
+    yii mongodb-migrate
+    
+    # отменить последние примененные миграции
+    yii mongodb-migrate/down
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="44.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="46.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/45.html", "Yii2: MongoDB", "bm1251"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1251", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1251") == 1) { document.getElementById("bma1251").style.display = "block"; document.getElementById("bm1251").style.display = "none"; } else { document.getElementById("bma1251").style.display = "none"; document.getElementById("bm1251").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: MongoDB") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1251", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma104" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm104" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Логический тип и логические выражения
+	</h1>
+
+	<p>К предопределённым (ещё точнее – к базовым или простым) типам значений относится тип bool, используемый для представления логических (булевых) значений.</p>
+	<p>Константами-литералами булева типа являются true (истина) и false (ложь).</p>
+	<p>Переменные типа bool не могут принимать значений, отличных от логических литералов.</p>
+	<p>Им нельзя присваивать значений других типов, например, целочисленных.</p>
+	<p>Логическое значение "логический тип" (типа bool) нельзя преобразовать ни в какое значение другого типа.</p>
+	<p>Объявление с инициализацией логической переменной:</p>
+
+	<pre class="brush: csharp;">
+	bool realy=true;
+	</pre>
+
+	<p>Из логических переменных и констант формируются логические (булевы) выражения.</p>
+	<p>Для этого в языке С# имеются логические операции:</p>
+	<p><b>&</b> – конъюнкция (логическое И);</p>
+	<p><b>|</b> – дизъюнкция (логическое ИЛИ);</p>
+	<p><b>!</b> – логическое отрицание;</p>
+	<p><b>^</b> – исключающее ИЛИ.</p>
+	<p>Семантика этих операций известна из курса математической логики.</p>
+	<p>Кроме того в C# определены две условные (conditional) логические бинарные операции:</p>
+	<p><b>&&</b> – условная конъюнкция (условное И);</p>
+	<p><b>||</b> – условная дизъюнкция (условное ИЛИ).</p>
+	<p>В выражении x&&y значение y не вычисляется, если х имеет значение false.</p>
+	<p>Выражении х||y значение у не вычисляется, если х равно true.</p>
+	<p>Кроме данных типа bool в логических выражениях часто используются отношения.</p>
+	<p>Отношение – это два операнда, соединённые (или разделённые) знаком операции отношений:</p>
+	<p><b>&gt;</b> больше;</p>
+	<p><b>&gt;=</b> больше или равно;</p>
+	<p><b>&lt;</b> меньше;</p>
+	<p><b>&lt;=</b> меньше или равно;</p>
+	<p><b>==</b> сравнение на равенство (равно);</p>
+	<p><b>!=</b> сравнение на неравенство (не равно);</p>
+	<p>Отметим, что операции сравнения на равенство (== и !=) имеют более низкий приоритет, нежели все остальные операции отношений.</p>
+	<p>Проверку принадлежности числового значения x интервалу (a, b), где a&lt;=b, можно выполнить с помощью такого логического выражения: <b>x &lt; b &amp; a &lt; x</b>.</p>
+	<p>Последовательность вычислений можно показать с помощью скобок:</p>
+
+	<pre class="brush: csharp;">
+	(x < b)&(a < x)
+	</pre>
+
+	<p>Значением выражения будет true, если x принадлежит интервалу (а, b).</p>
+	<p>Проверку истинности высказывания "значение х находится вне интервала (a,b)" позволяют выполнить логические выражения:</p>
+
+	<pre class="brush: csharp;">
+	x > b ^ x < a;
+	x > b | x < a;
+	x > b || x < a;
+	</pre>
+
+	<p>В третьем выражении использована условная дизъюнкция.</p>
+	<p>Остановимся подробнее на её особенностях.</p>
+	<p>Условные версии (|| и &&) бинарных логических операций (& и |) позволяют избежать вычисления значения второго (правого) операнда логического выражения, если значение левого операнда однозначно определяет значение всего выражения.</p>
+	<p>Проверку принадлежности х числовому интервалу (a,b) можно записать так:</p>
+
+	<pre class="brush: csharp;">
+	х < b && a < x
+	</pre>
+
+	<p>Если x &lt; b равно false, то нет необходимости вычислять значение отношения a &lt; x.</p>
+	<p>Обратите внимание, что знаки бинарных логических операций те же, что и знаки поразрядных операций конъюнкции (&) и дизъюнкции (|).</p>
+	<p>То же самое относится и к знаку ^, который для целочисленных операндов обозначает операцию поразрядного исключающего ИЛИ.</p>
+	<p>Как и в (уже упомянутом) случае применения знака + для обозначения операции конкатенации строк, здесь имеет место перегрузка операций.</p>
+	<p>Это ещё один пример полиморфизма.</p>
+	<p>Не лишним будет, в связи с перегрузкой операций, вспомнить, что символом в информатике называют знак с его смыслом.</p>
+	<p>Встретив в выражениях знак &, компилятор анализирует контекст и, если обнаруживается, что справа и слева операнды типа bool, то знак & воспринимается как символ логической операции конъюнкции.</p>
+	<p>Следующая программа "проверяет" три вещественных переменных x, y, z – могут ли быть их значения длинами сторон треугольника.</p>
+
+	<pre class="brush: csharp;">
+	// 04_02.cs - отношения и логические выражения
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			double x = 19, y = 31, z = 23.8;
+			bool res;
+			res = x < y + z & y < x + z & z < x + y;
+			Console.WriteLine("res = " + res);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+		res = True
+	</pre>
+
+	<p>В программе логической переменной res присваивается значение логического выражения в виде конъюнкции трёх отношений.</p>
+	<p>Для заданных значений переменных x, y, z результат true с помощью метода <b>Console.WriteLine()</b> выводится как True…</p>
+	<p>Обратите внимание на порядок вычисления использованного в программе логического выражения.</p>
+	<p>С помощью круглых скобок последовательность выполнения операций можно указать явно таким образом:</p>
+
+	<pre class="brush: csharp;">
+	((x<=(y+z))&(y<=(x+z)))&(z<=(x+y))
+	</pre>
+
+	<p>Необходимости в таком применении скобок нет – в языке С# определены приоритеты (ранги) всех операций.</p>
+	<p>В соответствии с этими приоритетами, первыми в нашем логическом выражении вычисляются значения (типа double) операндов отношений (т.е. выполняется операция сложения +).</p>
+	<p>Затем последовательно слева-направо вычисляются значения (типа bool) отношений, и к этим логическим значениям применяется слева-направо операция & (конъюнкция).</p>
+	<p>Результат выполнения программы не изменится, если при вычислении логического выражения использовать условную конъюнкцию:</p>
+
+	<pre class="brush: csharp;">
+	res=x < y + z && y < x + z && z < x + y;
+	</pre>
+
+	<p>Однако, при получении значения false в любом из отношений, отношения, размещенные правее него, не вычисляются.</p>
+	<p>Применение условных логических операций удобно в тех случаях, когда истинности одного условия позволяет избежать аварийных ситуаций при вычислении второго условия.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/17.html", "Логические выражения", "bm104"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm104", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm104") == 1) { document.getElementById("bma104").style.display = "block"; document.getElementById("bm104").style.display = "none"; } else { document.getElementById("bma104").style.display = "none"; document.getElementById("bm104").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Логические выражения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm104", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

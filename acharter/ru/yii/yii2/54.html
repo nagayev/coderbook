@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1260" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1260" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Сортировка
+	</h1>
+
+    <p>Иногда выводимые данные требуется отсортировать в соответствии с одним или несколькими атрибутами.</p>
+    <p>Если вы используете провайдер данных с одним из виджетов данных, сортировка будет применена автоматически.</p>
+    <p>В противном случае вы должны создать экземпляр [[yii\data\Sort]], настроить его и применить к запросу.</p>
+    <p>Он также может быть передан в представление, где будет использован для создания ссылок на сортировку по определенным атрибутам.</p>
+    <p>Ниже приведен типичный пример использование сортировки,</p>
+
+    <pre class="brush: csharp;">
+    function actionIndex()
+    {
+        $sort = new Sort([
+            'attributes' =&gt; [
+                'age',
+                'name' =&gt; [
+                    'asc' =&gt; ['first_name' =&gt; SORT_ASC, 'last_name' =&gt; SORT_ASC],
+                    'desc' =&gt; ['first_name' =&gt; SORT_DESC, 'last_name' =&gt; SORT_DESC],
+                    'default' =&gt; SORT_DESC,
+                    'label' =&gt; 'Name',
+                ],
+            ],
+        ]);
+    
+        $models = Article::find()
+            ->where(['status' =&gt; 1])
+            ->orderBy($sort->orders)
+            ->all();
+    
+        return $this->render('index', [
+             'models' =&gt; $models,
+             'sort' =&gt; $sort,
+        ]);
+    }
+    </pre>
+
+    <p>В представлении:</p>
+
+    <pre class="brush: csharp;">
+    // Отображение ссылок на различные действия сортировок
+    echo $sort->link('name') . ' | ' . $sort->link('age');
+    
+    foreach ($models as $model) {
+        // здесь отображаем модель $model
+    }
+    </pre>
+
+    <p>В примере выше, мы объявляем два атрибута, которые поддерживают сортировку: name и age.</p>
+    <p>Мы передаем информацию о сортировке в запрос статьи, поэтому результаты запроса будут отсортированы согласно сортировке, установленной в объекте Sort.</p>
+    <p>В представлении, мы отображаем две ссылки, которые ведут на страницы с данными, отсортированными по соответствующим атрибутам.</p>
+    <p>Класс [[yii\data\Sort|Sort]] будет автоматически принимать параметры, переданные с запросом и в соответствии с ними настраивать параметры сортировки.</p>
+    <p>Вы можете регулировать список принимаемых параметров через настройку свойства [[yii\data\Sort::$params|$params]].</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="53.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="55.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/54.html", "Yii2: Сортировка", "bm1260"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1260", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1260") == 1) { document.getElementById("bma1260").style.display = "block"; document.getElementById("bm1260").style.display = "none"; } else { document.getElementById("bma1260").style.display = "none"; document.getElementById("bm1260").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Сортировка") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1260", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

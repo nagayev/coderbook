@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1151" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1151" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Пример XML схемы
+	</h1>
+	
+	<p>В этой главе будет показано, как писать XML схемы.</p>
+	<p>Также вы узнаете, что схемы можно писать разными способами.</p>
+
+	<h1 id="title">
+		XML документ
+	</h1>
+	
+	<p>Давайте посмотрим на следующий XML документ под названием "shiporder.xml":</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+		
+		&lt;shiporder orderid=&quot;889923&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;shiporder.xsd&quot;&gt;
+			&lt;orderperson&gt;John Smith&lt;/orderperson&gt;
+			
+			&lt;shipto&gt;
+				&lt;name&gt;Ola Nordmann&lt;/name&gt;
+				&lt;address&gt;Langgt 23&lt;/address&gt;
+				&lt;city&gt;4000 Stavanger&lt;/city&gt;
+				&lt;country&gt;Norway&lt;/country&gt;
+			&lt;/shipto&gt;
+
+			&lt;item&gt;
+				&lt;title&gt;Empire Burlesque&lt;/title&gt;
+				&lt;note&gt;Special Edition&lt;/note&gt;
+				&lt;quantity&gt;1&lt;/quantity&gt;
+				&lt;price&gt;10.90&lt;/price&gt;
+			&lt;/item&gt;
+
+			&lt;item&gt;
+				&lt;title&gt;Hide your heart&lt;/title&gt;
+				&lt;quantity&gt;1&lt;/quantity&gt;
+				&lt;price&gt;9.90&lt;/price&gt;
+			&lt;/item&gt;
+		&lt;/shiporder&gt;
+	</pre>
+
+	<p>Приведенный выше XML документ состоит из корневого элемента shiporder с обязательным атрибутом orderid.</p>
+	<p>Элемент shiporder содержит три дочерних элемента: orderperson, shipto и item.</p>
+	<p>Элемент item используется дважды и содержит элемент title, необязательный элемент note, а также элементы quantity и price.</p>
+	<p>Строка</p>
+
+	<pre class="brush: csharp;">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	</pre>
+
+	<p>говорит XML парсеру, что этот документ должен быть проверен на соответствие схеме.</p>
+	<p>Строка</p>
+
+	<pre class="brush: csharp;">
+	xsi:noNamespaceSchemaLocation="shiporder.xsd"
+	</pre>
+
+	<p>указывает, где именно находится схема (в данном случае она находится в той же папке, что и файл "shiporder.xml").</p>
+
+	<h1 id="title">
+		Создание XML схемы
+	</h1>
+
+	<p>Теперь для приведенного выше XML документа создадим XML схему.</p>
+	<p>Создадим новый файл, который назовем "shiporder.xsd".</p>
+	<p>Для создания XML схемы будем просто следовать за структурой XML документа и определять каждый встреченный элемент.</p>
+	<p>Начнем со стандартной XML декларации, за которой опишем элемент xs:schema, который и определяет саму схему:</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+
+		&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+		...
+		&lt;/xs:schema&gt;
+	</pre>
+
+	<p>Здесь мы используем стандартное пространство имен (xs) и URI, ассоциированный с этим пространством имен, который имеет стандартное значение</p>
+
+	<pre class="brush: csharp;">
+	http://www.w3.org/2001/XMLSchema
+	</pre>
+	
+	<p>Теперь мы должны определить элемент shiporder. У этого элемента есть атрибут, и он содержит другие элементы, поэтому мы рассматриваем его как элемент составного типа.</p>
+	<p>Определения дочерних элементов элемента shiporder поместим в декларацию xs:sequence, что задает жесткую последовательность подэлементов:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="shiporder"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:sequence&gt;
+				...
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>Теперь определим элемент orderperson, который будет простого типа (так как он не содержит ни атрибуты, ни другие элементы).</p>
+	<p>Его тип (xs:string) имеет префикс пространства имен, ассоциированного с XML схемой, что указывает на использование предопределенного типа данных:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="orderperson" type="xs:string"/&gt;
+	</pre>
+
+	<p>Теперь нам нужно определить два элемента составного типа: shipto и item. Начнем с определения элемента shipto:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="shipto"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="name" type="xs:string"/&gt;
+					&lt;xs:element name="address" type="xs:string"/&gt;
+					&lt;xs:element name="city" type="xs:string"/&gt;
+					&lt;xs:element name="country" type="xs:string"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>При помощи схем мы можем определить число возможных вхождений любого элемента.</p>
+	<p>В этом нам помогут атрибуты maxOccurs и minOccurs.</p>
+	<p>Атрибут maxOccurs задает максимальное число вхождений элемента, а атрибут minOccurs задает минимальное число вхождений.</p>
+	<p>По умолчанию значение обоих атрибутов равно 1.</p>
+	<p>Теперь определим элемент item.</p>
+	<p>Этот элемент может использоваться неограниченное число раз внутри элемента shiporder.</p>
+	<p>Определить такую особенность элемента item позволяет присваивание атрибуту maxOccurs значения "unbounded".</p>
+	<p>Это означает, что элемент item может использоваться столько раз, сколько нужно автору документа.</p>
+	<p>Обратите внимание, что элемент note опционален.</p>
+	<p>Определим это установив атрибут minOccurs в нулевое значение:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="item" maxOccurs="unbounded"&gt;
+			&lt;xs:complexType&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="title" type="xs:string"/&gt;
+					&lt;xs:element name="note" type="xs:string" minOccurs="0"/&gt;
+					&lt;xs:element name="quantity" type="xs:positiveInteger"/&gt;
+					&lt;xs:element name="price" type="xs:decimal"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>Теперь мы можем декларировать атрибут элемента shiporder.</p>
+	<p>Поскольку это обязательный атрибут, используем определение use="required".</p>
+	<p>Примечание: Атрибуты должны всегда декларироваться последними:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:attribute name="orderid" type="xs:string" use="required"/&gt;
+	</pre>
+
+	<p>Вот полный код файла схемы "shiporder.xsd":</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+		
+		&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+			&lt;xs:element name="shiporder"&gt;
+				&lt;xs:complexType&gt;
+					&lt;xs:sequence&gt;
+						&lt;xs:element name="orderperson" type="xs:string"/&gt;
+						
+						&lt;xs:element name="shipto"&gt;
+							&lt;xs:complexType&gt;
+								&lt;xs:sequence&gt;
+									&lt;xs:element name="name" type="xs:string"/&gt;
+									&lt;xs:element name="address" type="xs:string"/&gt;
+									&lt;xs:element name="city" type="xs:string"/&gt;
+									&lt;xs:element name="country" type="xs:string"/&gt;
+								&lt;/xs:sequence&gt;
+							&lt;/xs:complexType&gt;
+						&lt;/xs:element&gt;
+
+						&lt;xs:element name="item" maxOccurs="unbounded"&gt;
+							&lt;xs:complexType&gt;
+								&lt;xs:sequence&gt;
+									&lt;xs:element name="title" type="xs:string"/&gt;
+									&lt;xs:element name="note" type="xs:string" minOccurs="0"/&gt;
+									&lt;xs:element name="quantity" type="xs:positiveInteger"/&gt;
+									&lt;xs:element name="price" type="xs:decimal"/&gt;
+								&lt;/xs:sequence&gt;
+							&lt;/xs:complexType&gt;
+						&lt;/xs:element&gt;
+					&lt;/xs:sequence&gt;
+					
+					&lt;xs:attribute name="orderid" type="xs:string" use="required"/&gt;
+				&lt;/xs:complexType&gt;
+			&lt;/xs:element&gt;
+		&lt;/xs:schema&gt;
+	</pre>
+	
+	<h1 id="title">
+		Разделение схемы
+	</h1>
+
+	<p>Предыдущий способ компоновки схемы весьма прост, однако, когда документ достаточно сложен, при подобном способе соответствующая схем может оказаться довольно громоздкой, что сильно скажется на удобстве ее чтения и обслуживания.</p>
+	<p>Следующий способ компоновки схемы заключается в том, что сначала определяются все элементы и атрибуты, а затем на эти определения создаются ссылки при помощи атрибута ref.</p>
+	<p>Ниже приводится новая компоновка файла схемы ("shiporder.xsd"):</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+	
+		&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+			&lt;!-- определение простых элементов --&gt;
+			&lt;xs:element name="orderperson" type="xs:string"/&gt;
+			&lt;xs:element name="name" type="xs:string"/&gt;
+			&lt;xs:element name="address" type="xs:string"/&gt;
+			&lt;xs:element name="city" type="xs:string"/&gt;
+			&lt;xs:element name="country" type="xs:string"/&gt;
+			&lt;xs:element name="title" type="xs:string"/&gt;
+			&lt;xs:element name="note" type="xs:string"/&gt;
+			&lt;xs:element name="quantity" type="xs:positiveInteger"/&gt;
+			&lt;xs:element name="price" type="xs:decimal"/&gt;
+			
+			&lt;!-- определение атрибутов --&gt;
+			&lt;xs:attribute name="orderid" type="xs:string"/&gt;
+			
+			&lt;!-- определение составных элементов --&gt;
+			&lt;xs:element name="shipto"&gt;
+				&lt;xs:complexType&gt;
+					&lt;xs:sequence&gt;
+						&lt;xs:element ref="name"/&gt;
+						&lt;xs:element ref="address"/&gt;
+						&lt;xs:element ref="city"/&gt;
+						&lt;xs:element ref="country"/&gt;
+					&lt;/xs:sequence&gt;
+				&lt;/xs:complexType&gt;
+			&lt;/xs:element&gt;
+
+			&lt;xs:element name="item"&gt;
+				&lt;xs:complexType&gt;
+					&lt;xs:sequence&gt;
+						&lt;xs:element ref="title"/&gt;
+						&lt;xs:element ref="note" minOccurs="0"/&gt;
+						&lt;xs:element ref="quantity"/&gt;
+						&lt;xs:element ref="price"/&gt;
+					&lt;/xs:sequence&gt;
+				&lt;/xs:complexType&gt;
+			&lt;/xs:element&gt;
+
+			&lt;xs:element name="shiporder"&gt;
+				&lt;xs:complexType&gt;
+					&lt;xs:sequence&gt;
+						&lt;xs:element ref="orderperson"/&gt;
+						&lt;xs:element ref="shipto"/&gt;
+						&lt;xs:element ref="item" maxOccurs="unbounded"/&gt;
+					&lt;/xs:sequence&gt;
+					&lt;xs:attribute ref="orderid" use="required"/&gt;
+				&lt;/xs:complexType&gt;
+			&lt;/xs:element&gt;
+		&lt;/xs:schema&gt;
+	</pre>
+
+	<h1 id="title">
+		Использование поименованых типов
+	</h1>
+	
+	<p>Третий способ компоновки схемы предполагает определение классов или типов, которые позволяют повторное использование определений элементов.</p>
+	<p>Это становится возможным, если дать имена элементам simpleTypes и complexTypes, а затем указать на них при помощи атрибута type.</p>
+	<p>Третий способ компоновки файла схемы ("shiporder.xsd"):</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+	
+		&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+			&lt;xs:simpleType name="stringtype"&gt;
+				&lt;xs:restriction base="xs:string"/&gt;
+			&lt;/xs:simpleType&gt;
+	
+			&lt;xs:simpleType name="inttype"&gt;
+				&lt;xs:restriction base="xs:positiveInteger"/&gt;
+			&lt;/xs:simpleType&gt;
+	
+			&lt;xs:simpleType name="dectype"&gt;
+				&lt;xs:restriction base="xs:decimal"/&gt;
+			&lt;/xs:simpleType&gt;
+	
+			&lt;xs:simpleType name="orderidtype"&gt;
+				&lt;xs:restriction base="xs:string"&gt;
+					&lt;xs:pattern value="[0-9]{6}"/&gt;
+				&lt;/xs:restriction&gt;
+			&lt;/xs:simpleType&gt;
+	
+			&lt;xs:complexType name="shiptotype"&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="name" type="stringtype"/&gt;
+					&lt;xs:element name="address" type="stringtype"/&gt;
+					&lt;xs:element name="city" type="stringtype"/&gt;
+					&lt;xs:element name="country" type="stringtype"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+	
+			&lt;xs:complexType name="itemtype"&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="title" type="stringtype"/&gt;
+					&lt;xs:element name="note" type="stringtype" minOccurs="0"/&gt;
+					&lt;xs:element name="quantity" type="inttype"/&gt;
+					&lt;xs:element name="price" type="dectype"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+	
+			&lt;xs:complexType name="shipordertype"&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="orderperson" type="stringtype"/&gt;
+					&lt;xs:element name="shipto" type="shiptotype"/&gt;
+					&lt;xs:element name="item" maxOccurs="unbounded" type="itemtype"/&gt;
+				&lt;/xs:sequence&gt;
+	
+				&lt;xs:attribute name="orderid" type="orderidtype" use="required"/&gt;
+			&lt;/xs:complexType&gt;
+	
+			&lt;xs:element name="shiporder" type="shipordertype"/&gt;
+		&lt;/xs:schema&gt;
+	</pre>
+
+	<p>Элемент restriction указывает на то, что тип данных является производным от типов данных из пространства имен W3C XML Schema.</p>
+	<p>Таким образом, следующий фрагмент кода означает, что значение элемента или атрибута должно быть строковым:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:restriction base=&quot;xs:string&quot;&gt;
+	</pre>
+
+	<p>Однако гораздо чаще элемент restriction используется для накладывания ограничений на элементы.</p>
+	<p>Посмотрите на следующие строки из приведенной выше схемы:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:simpleType name="orderidtype"&gt;
+			&lt;xs:restriction base="xs:string"&gt;
+				&lt;xs:pattern value="[0-9]{6}"/&gt;
+			&lt;/xs:restriction&gt;
+		&lt;/xs:simpleType&gt;
+	</pre>
+
+	<p>Этот фрагмент кода указывает, что значение элемента или атрибута должно быть строковым, ровно шесть символов в длину, и этими символами должны быть цифры от 0 до 9.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/sheme/22.html", "Пример XML схемы", "bm1151"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1151", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1151") == 1) { document.getElementById("bma1151").style.display = "block"; document.getElementById("bm1151").style.display = "none"; } else { document.getElementById("bma1151").style.display = "none"; document.getElementById("bm1151").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Пример XML схемы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1151", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

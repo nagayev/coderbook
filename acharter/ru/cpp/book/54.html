@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma75" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm75" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Директивы #ifndef и #endif
+	</h1>
+
+	<p>Рассмотрим пример программы из раздела Классы в С++.</p>
+	<p>Программа использует простейший класс, объект которого печатает сообщение.</p>
+	<p>Заметьте, что раньше класс был объявлен в одном файле с главной функцией, но такой способ утилизации классов не эффективен, почему, было рассмотрено в разделе Классы в С++.</p>
+	<p>Так вот, теперь объявление класса находится в файле message.h, а реализация методов класса определена в  файле message.cpp, а classes.cpp — файл с main() функцией.</p>
+
+	<pre class="brush: csharp;">
+	// интерфейс класса, файл: message.h
+	// имя класса
+	class CppStudio
+	{
+		// спецификатор доступа
+		public:
+		// функция (метод класса) выводящая сообщение на экран
+		void message();
+		// конец объявления класса CppStudio
+	};
+	</pre>
+
+	<p>В h-файл помещен только лишь интерфейс класса, далее h-файл будет модифицирован с целью предотвращения ошибки многократного включения заголовочных файлов.</p>
+
+	<pre class="brush: csharp;">
+	// реализация класса CppStudio, файл: message.cpp
+	#include "stdafx.h"
+	// связываем интерфейс класса с его реализацией
+	#include "message.h"
+	// подключаем прототип оператора cout
+	#include &lt;iostream&gt;
+
+	// функция (метод класса) выводящая сообщение на экран
+	void CppStudio::message()
+	{
+		std::cout << "website: cppstudio.com\ntheme: Classes and Objects in C + +\n";
+	}
+	</pre>
+
+	<p>Реализация данного класса включает в себя всего один метод, который печатает сообщение.</p>
+
+	<pre class="brush: csharp;">
+	// classes.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	#include "message.h"
+
+	int main(int argc, char* argv[])
+	{
+		// объявление объекта
+		CppStudio objMessage;
+		// вызов функции класса message
+		objMessage.message();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Структура данной программы совсем простая, чего не скажешь о программах с большим объёмом кода.</p>
+	<p>В таких программах, как правило, код расположен не в одном файле.</p>
+	<p>И подключение заголовочных файлов выполняется не обязательно в главном файле.</p>
+	<p>Поэтому существует вероятность многократного включения в программу заголовочного файла, что в свою очередь приводит к ошибке компиляции.</p>
+	<p>В случае с нашей программой, заголовочный файл подключен в главном файле в строке 7 и программа нормально работает без всяких ошибок.</p>
+	<p>А если же заголовочный файл message.h, по ошибке,  был подключён  не только в главном файле программы, но, и ,например, в файле stdafx.h.</p>
+	<p>В таком случае при компиляции программы появится следующая ошибка:</p>
+
+	<pre class="brush: csharp;">
+	//Ошибка  1  error C2011: CppStudio: переопределение типа "class"
+	</pre>
+
+	<p>То есть, компилятор сообщает о многократном включении заголовочного файла с классом CppStudio.</p>
+	<p>В таком случае придется потратить своё время и убрать лишнее включение в программу заголовочного файла.</p>
+	<p>Чтобы не возникало такого рода ошибок, в С++ существует специальная структура кода, которую ещё называют препроцессорная обёртка.</p>
+
+	<pre class="brush: csharp;">
+	// препроцессорная обёртка, файл: message.h с интерфейсом класса
+	// если имя CPPSTUDIO_H ещё не определено
+	#ifndef CPPSTUDIO_H
+	// определить имя CPPSTUDIO_H
+	#define CPPSTUDIO_H
+	
+	// определить класс CPPSTUDIO_H
+	// имя класса
+	class CppStudio
+	{
+		// спецификатор доступа
+		public:
+		// функция (метод класса) выводящая сообщение на экран
+		void message();
+		// конец объявления класса CppStudio
+	};
+	// если  имя CPPSTUDIO_H уже определено, повторно не определять
+	// #endif CPPSTUDIO_H
+	</pre>
+
+	<p>Данная препроцессорная обёртка предотвращает попытку многократного включения заголовочных файлов.</p>
+	<p>Препроцессорные директивы обрабатываются до этапа компиляции, программой-препроцессором.</p>
+	<p>Который, в свою очередь не допускает многократного определения одного и того же класса.</p>
+	<p>Препроцессорная обёртка похожа на оператор условного выбора if.</p>
+	<p>Директива #ifndef проверяет, определено ли имя CPPSTUDIO_H, если нет, то управление передаётся директиве #define и определяется интерфейс класса.</p>
+	<p>Если же имя CPPSTUDIO_H уже определено, управление передаётся директиве #endif.</p>
+	<p>Таким образом, исключается возможность многократного определения класса CPPSTUDIO_H.</p>
+	<p>Обратите внимание на то, как написано имя класса, используемое в сочетании с директивами препроцессорной обёртки — CPPSTUDIO_H.</p>
+	<p>Берётся имя заголовочного файла, в котором объявлен класс, причём имя принято записывать буквами верхнего регистра, а вместо точки ставить символ нижнего подчёркивания.</p>
+	<p>Конечно же, имя может быть любым другим, но оно должно быть одинаковым во всех трёх директивах.</p>
+	<p>Итак, структура препроцессорной обёртки такова:</p>
+
+	<pre class="brush: csharp;">
+	// структура препроцессорной обёртки
+	#ifndef /*ИМЯ ЗАГОЛОВОЧНОГО ФАЙЛА_H*/
+	#define /*ИМЯ ЗАГОЛОВОЧНОГО ФАЙЛА_H*/
+	// определение класса
+	#endif /*ИМЯ ЗАГОЛОВОЧНОГО ФАЙЛА_H*/
+	</pre>
+
+	<p>С использованием препроцессорной обёртки, попытки подключения одного и того же файла, ошибки переопределения не вызовут.</p>
+	<p>Этот же приём применяется и для предотвращения многократного определения функций, только если функции вынесены в отдельный файл.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="53.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="55.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/54.html", "Директивы #ifndef и #endif", "bm75"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm75", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm75") == 1) { document.getElementById("bma75").style.display = "block"; document.getElementById("bm75").style.display = "none"; } else { document.getElementById("bma75").style.display = "none"; document.getElementById("bm75").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Директивы #ifndef и #endif") == 1) { arrs.splice(i, 1); localStorage.setItem("bm75", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

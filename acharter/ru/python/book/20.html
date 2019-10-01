@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma945" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm945" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Исключения в python. Конструкция try - except для обработки исключений
+	</h1>
+	
+	<p>Исключения (exceptions) - ещё один тип данных в python.</p>
+	<p>Исключения необходимы для того, чтобы сообщать программисту об ошибках.</p>
+	<p>Самый простейший пример исключения - деление на ноль:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; 100 / 0
+Traceback (most recent call last):
+  File "", line 1, in
+    100 / 0
+ZeroDivisionError: division by zero
+	</pre>
+
+	<p>В данном случае интерпретатор сообщил нам об исключении ZeroDivisionError, то есть делении на ноль. Также возможны и другие исключения:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; 2 + '1'
+Traceback (most recent call last):
+  File "", line 1, in
+    2 + '1'
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+
+&gt;&gt;&gt; int('qwerty')
+Traceback (most recent call last):
+  File "", line 1, in
+    int('qwerty')
+ValueError: invalid literal for int() with base 10: 'qwerty'
+	</pre>
+
+	<p>В этих двух примерах генерируются исключения TypeError и ValueError соответственно.</p>
+	<p>Подсказки дают нам полную информацию о том, где порождено исключение, и с чем оно связано.</p>
+	<p>Рассмотрим иерархию встроенных в python исключений, хотя иногда вам могут встретиться и другие, так как программисты могут создавать собственные исключения.</p>
+	<p>Данный список актуален для python 3.3, в более ранних версиях есть незначительные изменения.</p>
+	<p>- <b>BaseException</b> - базовое исключение, от которого берут начало все остальные.</p>
+	<p>- <b>SystemExit</b> - исключение, порождаемое функцией sys.exit при выходе из программы.</p>
+	<p>- <b>KeyboardInterrupt</b> - порождается при прерывании программы пользователем (обычно сочетанием клавиш Ctrl+C).</p>
+	<p>- <b>GeneratorExit</b> - порождается при вызове метода close объекта generator.</p>
+	<p>- <b>Exception</b> - а вот тут уже заканчиваются полностью системные исключения (которые лучше не трогать) и начинаются обыкновенные, с которыми можно работать.</p>
+	<p>- <b>StopIteration</b> - порождается встроенной функцией next, если в итераторе больше нет элементов.</p>
+	<p>- <b>ArithmeticError</b> - арифметическая ошибка.</p>
+	<p>- <b>FloatingPointError</b> - порождается при неудачном выполнении операции с плавающей запятой. На практике встречается нечасто.</p>
+	<p>- <b>OverflowError</b> - возникает, когда результат арифметической операции слишком велик для представления. Не появляется при обычной работе с целыми числами (так как python поддерживает длинные числа), но может возникать в некоторых других случаях.</p>
+	<p>- <b>ZeroDivisionError</b> - деление на ноль.</p>
+	<p>- <b>AssertionError</b> - выражение в функции assert ложно.</p>
+	<p>- <b>AttributeError</b> - объект не имеет данного атрибута (значения или метода).</p>
+	<p>- <b>BufferError</b> - операция, связанная с буфером, не может быть выполнена.</p>
+	<p>- <b>EOFError</b> - функция наткнулась на конец файла и не смогла прочитать то, что хотела.</p>
+	<p>- <b>ImportError</b> - не удалось импортирование модуля или его атрибута.</p>
+	<p>- <b>LookupError</b> - некорректный индекс или ключ.</p>
+	<p>- <b>IndexError</b> - индекс не входит в диапазон элементов.</p>
+	<p>- <b>KeyError</b> - несуществующий ключ (в</p>
+	<p>- <b>словаре</b>, множестве или другом объекте).</p>
+	<p>- <b>MemoryError</b> - недостаточно памяти.</p>
+	<p>- <b>NameError</b> - не найдено переменной с таким именем.</p>
+	<p>- <b>UnboundLocalError</b> - сделана ссылка на локальную переменную в</p>
+	<p>- <b>функции</b>, но переменная не определена ранее.</p>
+	<p>- <b>OSError</b> - ошибка, связанная с системой.</p>
+	<p>- <b>BlockingIOError</b></p>
+	<p>- <b>ChildProcessError</b> - неудача при операции с дочерним процессом.</p>
+	<p>- <b>ConnectionError</b> - базовый класс для исключений, связанных с подключениями.</p>
+	<p>- <b>BrokenPipeError</b></p>
+	<p>- <b>ConnectionAbortedError</b></p>
+	<p>- <b>ConnectionRefusedError</b></p>
+	<p>- <b>ConnectionResetError</b></p>
+	<p>- <b>FileExistsError</b> - попытка создания файла или директории, которая уже существует.</p>
+	<p>- <b>FileNotFoundError</b> - файл или директория не существует.</p>
+	<p>- <b>InterruptedError</b> - системный вызов прерван входящим сигналом.</p>
+	<p>- <b>IsADirectoryError</b> - ожидался файл, но это директория.</p>
+	<p>- <b>NotADirectoryError</b> - ожидалась директория, но это файл.</p>
+	<p>- <b>PermissionError</b> - не хватает прав доступа.</p>
+	<p>- <b>ProcessLookupError</b> - указанного процесса не существует.</p>
+	<p>- <b>TimeoutError</b> - закончилось время ожидания.</p>
+	<p>- <b>ReferenceError</b> - попытка доступа к атрибуту со слабой ссылкой.</p>
+	<p>- <b>RuntimeError</b> - возникает, когда исключение не попадает ни под одну из других категорий.</p>
+	<p>- <b>NotImplementedError</b> - возникает, когда абстрактные методы класса требуют переопределения в дочерних классах.</p>
+	<p>- <b>SyntaxError</b> - синтаксическая ошибка.</p>
+	<p>- <b>IndentationError</b> - неправильные отступы.</p>
+	<p>- <b>TabError</b> - смешивание в отступах табуляции и пробелов.</p>
+	<p>- <b>SystemError</b> - внутренняя ошибка.</p>
+	<p>- <b>TypeError</b> - операция применена к объекту несоответствующего типа.</p>
+	<p>- <b>ValueError</b> - функция получает аргумент правильного типа, но некорректного значения.</p>
+	<p>- <b>UnicodeError</b> - ошибка, связанная с кодированием / раскодированием unicode в строках.</p>
+	<p>- <b>UnicodeEncodeError</b> - исключение, связанное с кодированием unicode.</p>
+	<p>- <b>UnicodeDecodeError</b> - исключение, связанное с декодированием unicode.</p>
+	<p>- <b>UnicodeTranslateError</b> - исключение, связанное с переводом unicode.</p>
+	<p>- <b>Warning</b> - предупреждение.</p>
+	<p>Теперь, зная, когда и при каких обстоятельствах могут возникнуть исключения, мы можем их обрабатывать.</p>
+	<p>Для обработки исключений используется конструкция try - except.</p>
+	<p>Первый пример применения этой конструкции:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; try:
+...     k = 1 / 0
+... except ZeroDivisionError:
+...     k = 0
+...
+&gt;&gt;&gt; print(k)
+0
+	</pre>
+
+	<p>В блоке try мы выполняем инструкцию, которая может породить исключение, а в блоке except мы перехватываем их.</p>
+	<p>При этом перехватываются как само исключение, так и его потомки.</p>
+	<p>Например, перехватывая ArithmeticError, мы также перехватываем FloatingPointError, OverflowError и ZeroDivisionError.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; try:
+...     k = 1 / 0
+... except ArithmeticError:
+...     k = 0
+...
+&gt;&gt;&gt; print(k)
+0
+	</pre>
+
+	<p>Также возможна инструкция except без аргументов, которая перехватывает вообще всё (и прерывание с клавиатуры, и системный выход и т. д.).</p>
+	<p>Поэтому в такой форме инструкция except практически не используется, а используется except Exception.</p>
+	<p>Однако чаще всего перехватывают исключения по одному, для упрощения отладки (вдруг вы ещё другую ошибку сделаете, а except её перехватит).</p>
+	<p>Ещё две инструкции, относящиеся к нашей проблеме, это finally и else.</p>
+	<p>Finally выполняет блок инструкций в любом случае, было ли исключение, или нет (применима, когда нужно непременно что-то сделать, к примеру, закрыть файл).</p>
+	<p>Инструкция else выполняется в том случае, если исключения не было.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; f = open('1.txt')
+&gt;&gt;&gt; ints = []
+&gt;&gt;&gt; try:
+...     for line in f:
+...         ints.append(int(line))
+... except ValueError:
+...     print('Это не число. Выходим.')
+... except Exception:
+...     print('Это что ещё такое?')
+... else:
+...     print('Всё хорошо.')
+... finally:
+...     f.close()
+...     print('Я закрыл файл.')
+...     # Именно в таком порядке: try, группа except, затем else, и только потом finally.
+...
+Это не число. Выходим.
+Я закрыл файл.
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="19.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="21.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/20.html", "Исключения и их обработка", "bm945"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm945", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm945") == 1) { document.getElementById("bma945").style.display = "block"; document.getElementById("bm945").style.display = "none"; } else { document.getElementById("bma945").style.display = "none"; document.getElementById("bm945").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Исключения и их обработка") == 1) { arrs.splice(i, 1); localStorage.setItem("bm945", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

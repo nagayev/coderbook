@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma792" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm792" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Метатаблицы
+	</h1>
+	
+	<p>Любое значение в Lua может иметь метатаблицу.</p>
+	<p><b>Метатаблица – это обычная таблица Lua</b>, в которой определены допустимые операции над значением.</p>
+	<p>Вы можете изменить действие некоторых операции над значением путем задания соответствующих полей в его метатаблице.</p>
+	<p>Для экземпляров классов, например когда к нечисловым значениям применяется операция сложения, Lua ищет реализацию этой операции в поле "__add" его метатаблицы.</p>
+	<p>Если реализация найдена, Lua запускает эту операцию для выполнения сложения.</p>
+	<p>Ключевые поля в метатаблице мы называем событиями, а значения - метаметодами.</p>
+	<p>В рассмотреном примере событием является "add", а метаметодом является функция сложения.</p>
+	<p>Получить метатаблицу любого значения можно с помощью функции <b>getmetatable</b>.</p>
+	<p>Вы можете заменить метатаблицу с помощью функции <b>setmetatable</b>.</p>
+	<p>Вы не можете изменить метатаблицу другим способом (of other types) (за исключением случаев использования отладочной библиотеки), для этого требуется воспользоваться C API.</p>
+	<p>Таблицы и пользовательские данные имеют индивидуальные метатаблицы (в то же время множества таблиц и пользовательских данных может совместно использовать соответствующие метатаблицы).</p>
+	<p>Переменные всех других типов совместно используют одну метатаблицу на тип.</p>
+	<p>То есть есть одна метатаблица на все числовые значения, одна на все строки и т.д.</p>
+	<p>В метатаблице могут быть заданы правила выполнения арифметических операций над объектом, порядок сравнения, конкатенации, способ вычисления длины и индексирования.</p>
+	<p>Также в метатаблице может быть определена функция «сборки мусора».</p>
+	<p>Для каждой из этих операций в Lua определен специальный ключ, называемый событие.</p>
+	<p>В момент, когда Lua выполняет одну из этих операций над значением, проверяется, есть ли в метатаблице значение с соответствующим событием.</p>
+	<p>Если оно найдено, значение по этому ключу (метаметод) и определяет способ выполнения операции.</p>
+	<p>Далее рассмотрим управление операциями с помощью метатаблиц.</p>
+	<p>Каждая операция идентифицируется по своему имени.</p>
+	<p>Ключ каждой операции представляет из себя строку из имени и двух нижних подчеркиваний перед ним.</p>
+	<p>Для экземпляра – ключом операции <b>“add”</b> будет строка <b>"__add"</b>.</p>
+	<p>Для лучшего понимания мы в терминах Lua покажем запуск операции интерпретатором.</p>
+	<p>Представленный здесь код на Lua приведен в качестве иллюстрации, реальный код интерпретатора гораздо сложнее и эффективнее этого схематичного примера.</p>
+	<p>Вообще говоря, для получения метаметода объекта мы используем конструкцию</p>
+
+	<pre class="brush: csharp;">
+	metatable(obj)[event]
+	</pre>
+
+	<p>Это следует читать как</p>
+
+	<pre class="brush: csharp;">
+	rawget(getmetatable(obj) or {}, event)
+	</pre>
+
+	<p>Таким образом, при получении доступа к метаметоду другие метаметоды не используются, поэтому доступ к объекту без метатаблицы не приводит к ошибке (мы просто получим <b>nil</b>).</p>
+	<p>- <b>"add":</b> операция сложения.</p>
+	<p>Функция getbinhandler ниже показывает, каким образом Lua получает указатель на операцию.</p>
+	<p>Во-первых, Lua пытается получить первый операнд.</p>
+	<p>Если его тип не является типом указателя на операцию, Lua пытается получить второй операнд.</p>
+
+	<pre class="brush: csharp;">
+	function getbinhandler (op1, op2, event)
+	return metatable(op1)[event] or metatable(op2)[event]
+	end
+	</pre>
+
+	<p>С помощью этой функции поведение конструкции op1 + op2 выглядит как</p>
+
+	<pre class="brush: csharp;">
+	function add_event (op1, op2)
+	local o1, o2 = tonumber(op1), tonumber(op2)
+	if o1 and o2 then  -- операнды являются числами?
+	return o1 + o2   -- '+' здесь – стандартная операция сложения
+	else  -- когда хотя бы один из операндов нечисловой
+	local h = getbinhandler(op1, op2, "__add")
+	if h then -- вызов функции с операндами по указателю
+	return h(op1, op2)
+	else  -- указатель не найден: обработка ошибки
+	error(···)
+	end
+	end
+	end
+	</pre>
+
+	<p><b>"sub":</b> - операция ‘ - ‘. Обработка аналогична "add".</p>
+	<p><b>"mul":</b> - операция ‘ * ’. Обработка аналогична "add".</p>
+	<p><b>"div":</b> - операция ‘ / ’ . Обработка аналогична “add”.</p>
+	<p><b>"mod":</b> - операция ‘ % ’. Обработка похожа на "add", только o1 - floor(o1/o2)*o2 подставляется вместо стандартной операции.</p>
+	<p><b>"pow":</b> - операция ‘ ^ ’. Обработка похожа на "add", вместо стандартной операции подставляется функция pow (из математической библиотеки C).</p>
+	<p><b>"unm":</b> - операция «унарный минус».</p>
+
+	<pre class="brush: csharp;">
+	function unm_event (op)
+	local o = tonumber(op)
+	if o then -- операнд является числом?
+	return -o  -- '-' здесь – стандартый оператор
+	else  -- операнд нечисловой.
+	-- Попытка получить указатель на функцию по операнду
+	local h = metatable(op).__unm
+	if h then -- вызов функции с операндом на входе
+	return h(op)
+	else  -- указатель не найден: обработка ошибки
+	error(···)
+	end
+	end
+	end
+	</pre>
+	
+	<p><b>"concat":</b> - Операция конкатенации ‘..’</p>
+
+	<pre class="brush: csharp;">
+	function concat_event (op1, op2)
+	if (type(op1) == "string" or type(op1) == "number") and
+	(type(op2) == "string" or type(op2) == "number") then
+	return op1 .. op2 -- стандартная конкатенация строк
+	else
+	local h = getbinhandler(op1, op2, "__concat")
+	if h then
+	return h(op1, op2)
+	else
+	error(···)
+	end
+	end
+	end
+	</pre>
+	
+	<p><b>"len":</b> - Операция ‘#’</p>
+
+	<pre class="brush: csharp;">
+	function len_event (op)
+	if type(op) == "string" then
+	return strlen(op) -- стандартная функция
+	elseif type(op) == "table" then
+	return #op -- стандартная функция для таблиц
+	else
+	local h = metatable(op).__len
+	if h then -- вызов функции по указателю
+	return h(op)
+	else -- указатель не найден: обработка ошибки
+	error(···)
+	end
+	end
+	end
+	</pre>
+
+	<p><b>"eq ":</b> - операция ‘= =’.</p>
+	<p>Функция getcomphandler определяет, как выбирает метаметод для сравнения операторов.</p>
+	<p>Метаметод вызывается, только если сравниваются объекты одного типа, и метаметоды объектов для этой операции равны.</p>
+
+	<pre class="brush: csharp;">
+	function getcomphandler (op1, op2, event)
+	if type(op1) ~= type(op2) then return nil end
+	local mm1 = metatable(op1)[event]
+	local mm2 = metatable(op2)[event]
+	if mm1 == mm2 then return mm1 else return nil end
+	end
+	</pre>
+
+	<p>Событие "eq" определяется следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	function eq_event (op1, op2)
+	if type(op1) ~= type(op2) then -- типы различны?
+	return false   -- объекты не равны
+	end
+	if op1 == op2 then -- стандартное сравнение истинно?
+	return true -- объекты равны
+	end -- попытка получения метаметода
+	local h = getcomphandler(op1, op2, "__eq")
+	if h then
+	return h(op1, op2)
+	else
+	return false
+	end
+	end
+	</pre>
+
+	<p>a ~= b означает отрицание (a == b).</p>
+
+	<p><b>"lt":</b> - операция ‘&lt;’.</p>
+
+	<pre class="brush: csharp;">
+	function lt_event (op1, op2)
+	if type(op1) == "number" and type(op2) == "number" then
+	return op1 < op2   -- числовое сравнение
+	elseif type(op1) == "string" and type(op2) == "string" then
+	return op1 < op2   -- лексическое сравнение
+	else
+	local h = getcomphandler(op1, op2, "__lt")
+	if h then
+	return h(op1, op2)
+	else
+	error(···);
+	end
+	end
+	end
+	</pre>
+
+	<p>a &gt; b эквивалентно b < a.</p>
+	<p><b>"le":</b> - операция ‘ &lt;= ’.</p>
+
+	<pre class="brush: csharp;">
+	function le_event (op1, op2)
+	if type(op1) == "number" and type(op2) == "number" then
+	return op1 <= op2   -- числовое сравнение
+	elseif type(op1) == "string" and type(op2) == "string" then
+	return op1 <= op2   -- лексическое сравнение
+	else
+	local h = getcomphandler(op1, op2, "__le")
+	if h then
+	return h(op1, op2)
+	else
+	h = getcomphandler(op1, op2, "__lt")
+	if h then
+	return not h(op2, op1)
+	else
+	error(···);
+	end
+	end
+	end
+	end
+	</pre>
+
+	<p>a &gt;= b эквивалентно b &lt;= a.</p>
+	<p>Заметим, что при отсутствии метаметода "le", Lua пытается применить метаметод "lt", полагая, что a &lt;= b эквиваленто отрицанию (b &lt; a).</p>
+	<p><b>"index":</b> - Доступ по индексу table[key].</p>
+
+	<pre class="brush: csharp;">
+	function gettable_event (table, key)
+	local h
+	if type(table) == "table" then
+	local v = rawget(table, key)
+	if v ~= nil then return v end
+	h = metatable(table).__index
+	if h == nil then return nil end
+	else
+	h = metatable(table).__index
+	if h == nil then
+	error(···);
+	end
+	end
+	if type(h) == "function" then
+	return h(table, key) -- вызов по указателю
+	else return h[key] -- или рекурсивный вызов операции
+	end
+	end
+	</pre>
+
+	<p><b>"newindex":</b> Индексированное присваивание table[key] = value.</p>
+
+	<pre class="brush: csharp;">
+	function settable_event (table, key, value)
+	local h
+	if type(table) == "table" then
+	local v = rawget(table, key)
+	if v ~= nil then rawset(table, key, value); return end
+	h = metatable(table).__newindex
+	if h == nil then rawset(table, key, value); return end
+	else
+	h = metatable(table).__newindex
+	if h == nil then
+	error(···);
+	end
+	end
+	if type(h) == "function" then
+	return h(table, key,value) -- вызов по указателю
+	else h[key] = value -- или рекурсивный вызов
+	end
+	end
+	</pre>
+
+	<p><b>"call":</b> - вызывается, когда Lua запускает функцию.</p>
+
+	<pre class="brush: csharp;">
+	function function_event (func, ...)
+	if type(func) == "function" then
+	return func(...) -- стандартный вызов
+	else
+	local h = metatable(func).__call
+	if h then
+	return h(func, ...)
+	else
+	error(···)
+	end
+	end
+	end
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="25.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="27.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/26.html", "Метатаблицы", "bm792"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm792", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm792") == 1) { document.getElementById("bma792").style.display = "block"; document.getElementById("bm792").style.display = "none"; } else { document.getElementById("bma792").style.display = "none"; document.getElementById("bm792").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Метатаблицы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm792", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma141" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm141" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Поля классов (статические поля)
+	</h1>
+
+	<p>Как формулирует стандарт языка C#, поле "поле" — это член класса, который представляет переменную, ассоциированную с объектом или классом.</p>
+	<p>Поле – это объявление данных (константы, переменной, объекта), принадлежащих либо классу в целом, либо каждому из его объектов.</p>
+	<p>Чтобы поле принадлежало не объекту, а классу и могло использоваться до определения объектов этого класса, его объявляют статическим, используя модификатор static.</p>
+	<p>Если в объявлении поля этот модификатор отсутствует, то поле является полем объектов.</p>
+	<p>В этом случае полю выделяется память и оно становится доступным для использования только при и после создания объекта.</p>
+	<p>Статическое поле размещается в памяти в момент загрузки кода класса.</p>
+	<p>Статическое поле (поле класса) доступно для использования и до и после создания объектов класса.</p>
+	<p>Объявление статистического поля имеет вид:</p>
+
+	<pre class="brush: csharp;">
+	модификаторыopt static
+	тип_поля список_объявлений;
+	</pre>
+
+	<p>Индекс opt указывает на необязательность модификаторов отличных от static.</p>
+	<p>В качестве этих необязательных модификаторов поля могут использоваться уже перечисленные модификаторы доступа public, private, protected, internal.</p>
+	<p>Кроме них в объявление поля могут входить модификаторы:</p>
+	<p><b>new</b> – применяется при наследовании;</p>
+	<p><b>readonly</b> - запрещает изменять значение поля. Поле получает значение при его инициализации или за счет действий конструктора, и это значение сохраняется постоянно;</p>
+	<p><b>volatile</b> – модификатор поля, указывающий, что его значение может измениться независимо от операторов программы.</p>
+	<p>Примером может быть переменная, значение которой сохраняет момент начала выполнения программы.</p>
+	<p>Два последовательных запуска программы приведут к разным значениям этого поля.</p>
+	<p>Второй пример – поле, значение которого в процессе выполнения программы может изменить операционная система или параллельно выполняемый процесс.</p>
+	<p>Зачастую список объявлений поля содержит только одно объявление.</p>
+	<p>Каждое объявление в списке имеет следующий вид:</p>
+	<p><b>идентификатор инициализатор_поля opt</b></p>
+	<p>Индекс opt указывает на необязательность инициализатора поля.</p>
+	<p>Если в объявлении поля отсутствует инициализатор, то инициализация выполняется по умолчанию значением соответствующего типа.</p>
+	<p>В соответствии с общей концепцией типов языка C# поля могут иметь типы ссылок и типы значений.</p>
+	<p>Возможны следующие формы инициализаторов полей:</p>
+	<p>- выражение;</p>
+	<p>- инициализатор_массива;</p>
+	<p>- new тип (аргументы_конструктора).</p>
+	<p>В выражение инициализатора, в инициализатор массива и в выражения, используемые в качестве аргументов конструктора, могут входить константы– литералы, а также другие статические члены этого класса.</p>
+	<p>Нестатические члены невозможно использовать в инициализирующем выражении статического поля.</p>
+	<p>Пример инициализации и использования статических полей:</p>
+
+	<pre class="brush: csharp;">
+	// 10_01.cs - статические поля класса
+	using System;
+	class T
+	{
+		// поле объектов класса
+		int x;
+		// y = x + 5; - ошибка: х – поле объекта
+		static int y = 3;
+		// эквивалент: z = 5 - T.y;
+		public static int z = 5 - y;
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			// Error! T.y is private!
+			// Console.WriteLine("T.y = " + T.y);
+			int z = T.z; // z и T.z - разные переменные!
+			// изменяется T.z
+			Console.WriteLine("T.z = " + ++T.z);
+			Console.WriteLine("z = {0}", z);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	T.z = 3
+
+	z = 2
+	</pre>
+
+	<p>Следует отметить одну особенность инициализации статических полей.</p>
+	<p>Вначе они все получают умалчиваемые значения (для арифметических типов – нулевые).</p>
+	<p>Затем последовательно (сверху вниз) выполняются инициализаторы.</p>
+	<p>Тем самым, если в инициализирующее выражение входит в качестве операнда статическое поле, которое ещё не инициализировано явно, то для него берётся умалчиваемое (например, нулевое) значение.</p>
+	<p>В качестве примера рассмотрим программу:</p>
+
+	<pre class="brush: csharp;">
+	// 10_02.cs - статические поля - порядок инициализации
+	using System;
+	class T
+	{
+		public static int x = y;
+		static int y = 3;
+		public static int z = y;
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			Console.WriteLine("T.x = " + T.x);
+			Console.WriteLine("T.z = " + T.z);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	T.x = 0
+
+	T.z = 3
+	</pre>
+
+	<p>Обратите внимание, что поле y по умолчанию закрытое (имеет статус доступа private) и обращение к нему невозможно вне класса T.</p>
+	<p>Открытые статические члены разных классов одной программы могут использоваться в одном выражении.</p>
+	<p>В следующей программе объявлены три класса со статическими полями, обращения к которым используются в инициализирующих выражениях разных классов.</p>
+
+	<pre class="brush: csharp;">
+	// 10_03.cs - статические поля разных классов
+	using System;
+	class c1
+	{
+		public static double orbit = 2 * c2.pi * c3.radius;
+	}
+
+	class c2
+	{
+		public static double pi = double.Parse(c3.str);
+	}
+
+	class c3
+	{
+		public static string str = "3,14159";
+		public static double radius = 10;
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			Console.WriteLine("c1.orbit = {0}", c1.orbit);
+			c3.radius = 20;
+			Console.WriteLine("c3.radius = {0}", c3.radius);
+			Console.WriteLine("c1.orbit = {0}", c1.orbit);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	c1.orbit = 62,8318
+	c3.radius = 20
+	c1.orbit = 62,8318
+	</pre>
+
+	<p>Инициализация статических полей выполняется только однажды.</p>
+	<p>Поэтому значение поля c1.orbit не изменилось после изменения c3.radius в методе Main( ).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="53.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="55.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/54.html", "Поля классов", "bm141"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm141", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm141") == 1) { document.getElementById("bma141").style.display = "block"; document.getElementById("bm141").style.display = "none"; } else { document.getElementById("bma141").style.display = "none"; document.getElementById("bm141").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Поля классов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm141", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

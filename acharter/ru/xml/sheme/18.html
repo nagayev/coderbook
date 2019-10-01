@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1147" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1147" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Строковые типы данных
+	</h1>
+	
+	<p>Строковые типы данных используются для значений, которые содержат символьные строки.</p>
+
+	<h1 id="title">
+		Строковый тип (string)
+	</h1>
+	
+	<p>Строковый тип данных может содержать символы окончания строки, перевода каретки, табуляции и другие символы.</p>
+	<p>Декларация строковых данных в схеме выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;customer&quot; type=&quot;xs:string&quot;/&gt;
+	</pre>
+
+	<p>Соответствующий элемент в XML документе может выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;customer&gt;John Smith&lt;/customer&gt;
+	</pre>
+
+	<p>Или так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;customer&gt; John Smith &lt;/customer&gt;
+	</pre>
+
+	<p><b>Примечание:</b> XML процессор не будет модифицировать значение элемента, если используется тип данных string.</p>
+
+	<h1 id="title">
+		Нормализованная строка (normalizedString)
+	</h1>
+
+	<p>Нормализованная строка normalizedString является производным от строкового типа данных.</p>
+	<p>Тип normalizedString также содержит символьные данные, однако XML процессор удалит символы переноса стоки, перевода каретки и символы табуляции.</p>
+	<p>В схеме элемент с таким типом данных декларируется следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;customer&quot; type=&quot;xs:normalizedString&quot;/&gt;
+	</pre>
+
+	<p>В XML документе такой элемент будет выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;customer&gt;John Smith&lt;/customer&gt;
+	</pre>
+
+	<p>Или так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;customer&gt;John Smith&lt;/customer&gt;
+	</pre>
+
+	<p>При этом в данном примере XML процессор заменит все символы табуляции пробелами.	</p>
+
+	<h1 id="title">
+		Символьный тип данных (token)
+	</h1>
+	
+	<p>Символьный тип token также является производным от строкового типа данных.</p>
+	<p>Значения символьного типа также содержат символьные данные, однако XML процессор удалит символы переноса стоки, перевода каретки, табуляции, начальные и конечные пробелы, а также множественные пробелы.</p>
+	<p>В схеме элемент с таким типом данных декларируется следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;customer&quot; type=&quot;xs:token&quot;/&gt;
+	</pre>
+
+	<p>В XML документе такой элемент будет выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;customer&gt;John Smith&lt;/customer&gt;
+	</pre>
+
+	<p>Или так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;customer&gt;John Smith&lt;/customer&gt;
+	</pre>
+
+	<p>При этом в данном примере XML процессор удалит все символы табуляции.</p>
+
+	<h1 id="title">
+		Строковые типы данных
+	</h1>
+
+	<p>Все приведенные в следующей таблице типы являются производными от строкового типа данных (за исключением самого строкового типа string).</p>
+	
+	<table>
+		<tr>
+			<th>Название</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>ENTITIES</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ENTITY</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ID</td>
+			<td>Строка, представляющая идентификационный атрибут (используется только с атрибутами схемы)</td>
+		</tr>
+		<tr>
+			<td>IDREF</td>
+			<td>Строка, представляющая IDREF атрибут (используется только с атрибутами схемы)</td>
+		</tr>
+		<tr>
+			<td>IDREFS</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>language</td>
+			<td>Строка, содержащая корректный идентификатор языка</td>
+		</tr>
+		<tr>
+			<td>Name</td>
+			<td>Строка, содержащая корректное XML имя</td>
+		</tr>
+		<tr>
+			<td>NCName</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>NMTOKEN</td>
+			<td>Строка, представляющая NMTOKEN атрибут (используется только с атрибутами схемы)</td>
+		</tr>
+		<tr>
+			<td>NMTOKENS</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>normalizedString</td>
+			<td>Строка, которая не содержит символы перевода строки, переноса каретки или табуляции</td>
+		</tr>
+		<tr>
+			<td>QName</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>string</td>
+			<td>Любая строка</td>
+		</tr>
+		<tr>
+			<td>token</td>
+			<td>Строка, которая не содержит символы перевода строки, переноса каретки, табуляции, начального и конечного пробелов или множественные пробелы</td>
+		</tr>
+	</table>
+
+	<h1 id="title">
+		Ограничения по строковым типам данных
+	</h1>
+	
+	<p>Со строковыми типами данных можно использовать следующие ограничения:</p>
+	<p>- enumeration</p>
+	<p>- length</p>
+	<p>- maxLength</p>
+	<p>- minLength</p>
+	<p>- pattern (NMTOKENS, IDREFS и ENTITIES не могут использовать это ограничение)</p>
+	<p>- whiteSpace</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/sheme/18.html", "Строковые типы данных", "bm1147"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1147", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1147") == 1) { document.getElementById("bma1147").style.display = "block"; document.getElementById("bm1147").style.display = "none"; } else { document.getElementById("bma1147").style.display = "none"; document.getElementById("bm1147").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Строковые типы данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1147", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

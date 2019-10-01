@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma463" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm463" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		BDE
+	</h1>
+
+	<p>BDE (Borland Database Engine) – механизм доступа к базам данных, разработанный самой корпорацией Borland.</p>
+	<p>Сейчас этот механизм считается устаревшим, однако он обеспечивает наиболее простой доступ к базам данных различных форматов, и начинать знакомство с БД удобней именно с него.</p>
+	<p>Создайте новое приложение.</p>
+	<p>Мы продемонстрируем работу с БД и использование навигационных методов на демонстрационной таблице, поставляемой вместе с Delphi.</p>
+	<p>Назовите форму fMain, присвойте ей стиль bsDialog, и позицию по центру рабочего стола.</p>
+	<p>В свойстве Caption напишите "БД Навигатор".</p>
+	<p>Далее, установите на форму панель GroupBox, в свойстве Caption которого укажите "Навигация".</p>
+	<p>На эту панель установите 4 кнопки, на которых укажите "|&lt; Начало", "&lt;&lt; Назад", "Вперед &gt;&gt;" и "Конец &gt;|".</p>
+	<p>Это будут кнопки навигации – перемещения по таблице.</p>
+	<p>Ниже установите еще один GroupBox, в свойстве Caption которого напишите "Закладка".</p>
+	<p>В таблице можно установить закладку на любой записи, а потом перескочить на нее из любого места.</p>
+	<p>В этой панели мы будем добавлять закладку, удалять ее и перескакивать на нее.</p>
+	<p>Еще ниже поместите обычную панель, и удалите из нее текст.</p>
+	<p>Установите на нее компонент Label, в свойстве Caption которого укажите "Позиция:".</p>
+	<p>Теперь нужно, чтобы эта надпись всегда была посередине.</p>
+	<p>Поэтому свойство AutoSize переведите в False, а свойство Alignment – в taCenter.</p>
+	<p>Растяните Label, чтобы она занимала почти всю ширину панели.</p>
+	<p>Здесь вместе с надписью "Позиция:" будет выходить номер записи в таблице.</p>
+	<p>Теперь перейдите на вкладку Data Controls.</p>
+	<p>Здесь содержатся компоненты отображения данных из БД.</p>
+	<p>Найдите DBGrid и поместите ее на форму ниже панели.</p>
+	<p>Сетка DBGrid очень похожа на сетку StringGrid, которую мы изучали, но предназначена для отображения и редактирования данных из таблицы БД.</p>
+	<p>Сразу свойству ReadOnly (только для чтения) присвойте True, чтобы пользователь не мог испортить демонстрационную таблицу своим редактированием данных.</p>
+	<p>Чтобы получить доступ к БД, нужно еще кое-что.</p>
+	<p>На вкладке BDE есть компонент Table, который обеспечивает доступ к таблице средствами механизма BDE.</p>
+	<p>Компонент не визуальный, поэтому можете бросить его на любое место, например, поверх сетки.</p>
+	<p>Теперь в свойстве DatabaseName выберите демонстрационную базу данных DBDEMOS, которая поставляется вместе с Delphi.</p>
+	<p>В свойстве TableName необходимо указать саму таблицу, к которой мы желаем получить доступ.</p>
+	<p>Выберите там biolife.db.</p>
+	<p>Мы уже выбрали базу данных, то есть набор таблиц, и выбрали таблицу.</p>
+	<p>Однако, чтобы вывести в сетку данные из таблицы, требуется компонент управления данными таблицы.</p>
+	<p>Найдите на вкладке Data Access компонент DataSource.</p>
+	<p>Этот компонент обеспечивает связь базы данных из таблицы Table с навигационными компонентами, такими, как DBGrid.</p>
+	<p>Бросьте его рядом с Table.</p>
+	<p>В свойстве DataSet компонента нужно указать, с какой же именно таблицей мы желаем работать.</p>
+	<p>В данном примере у нас одна таблица, но ведь может быть и десяток!</p>
+	<p>Выберите там Table1.</p>
+	<p>Теперь выделите сетку.</p>
+	<p>Ей нужно указать, какой компонент будет управлять этой сеткой.</p>
+	<p>В свойстве DataSource укажите наш DataSource1.</p>
+	<p>Все, теперь мы сделали все приготовления.</p>
+	<p>Единственное, что осталось сделать – открыть файл с таблицей.</p>
+	<p>Выделите компонент Table1, и в свойстве Active укажите True.</p>
+	<p>Этим самым мы заставим таблицу открыться.</p>
+	<p><b>Внимание!</b></p>
+	<p>Работа с базой данных отличается от работы с файлами другого типа.</p>
+	<p>Когда ваша программа работает, например, с текстовым файлом, она открывает этот файл, считывает его содержимое в оперативную память ПК и закрывает его.</p>
+	<p>Пользователь работает уже не с файлом, а с его содержимым в оперативной памяти.</p>
+	<p>Когда он дает команду сохранить результаты работы, программа вновь открывает файл и перезаписывает в него данные из оперативной памяти.</p>
+	<p>С базами данных все иначе.</p>
+	<p>Как только вы открыли таблицу – указали True у компонента Table1 в свойстве Active, или же программно дали команду:</p>
+
+	<pre class="brush: csharp;">
+	Table1.Active := True;
+	</pre>
+
+	<p>Или</p>
+
+	<pre class="brush: csharp;">
+	Table1.Open;
+	</pre>
+
+	<p>то тем самым вы открыли файл.</p>
+	<p>Файл будет открыт на протяжении всего сеанса, и все изменения данных будут немедленно сохраняться в нем!</p>
+	<p>На самом деле, конечно, всё немного сложнее.</p>
+	<p>Данные изменяются не в физической таблице на жестком диске, а в её копии – компоненте Table.</p>
+	<p>Механизм BDE сам отправляет изменённые данные в физическую таблицу, и делает это пакетами – транзакциями.</p>
+	<p>Впрочем, на начальном этапе, нам об этом заботиться не нужно, можно считать, что мы отправляем данные прямо в таблицу на диске.</p>
+	<p>Приведенные выше команды открытия таблицы идентичны, вы можете пользоваться любым из этих способов.</p>
+	<p>Если вы все сделали правильно, то должны получить что-то вроде этого:</p>
+
+	<img src="delphi39.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="76.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="78.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/77.html", "BDE", "bm463"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm463", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm463") == 1) { document.getElementById("bma463").style.display = "block"; document.getElementById("bm463").style.display = "none"; } else { document.getElementById("bma463").style.display = "none"; document.getElementById("bm463").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("BDE") == 1) { arrs.splice(i, 1); localStorage.setItem("bm463", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1027" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1027" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Операции в предложении WHERE
+	</h1>
+
+	<p>В первом предложении WHERE, которое мы рассмотрели, проводилась проверка на равенство, т.е. определялось, содержится ли в столбце указанное значение.</p>
+	<p>SQL поддерживает весь спектр условных (логических) операций, которые приведены в табл. ниже.</p>
+
+	<table>
+		<tr>
+			<th>Операция</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>=</td>
+			<td>Равенство</td>
+		</tr>
+		<tr>
+			<td>&lt; &gt;</td>
+			<td>Неравенство</td>
+		</tr>
+		<tr>
+			<td>! =</td>
+			<td>Неравенство</td>
+		</tr>
+		<tr>
+			<td>&lt;</td>
+			<td>Меньше</td>
+		</tr>
+		<tr>
+			<td>&lt; = </td>
+			<td>Меньше или равно</td>
+		</tr>
+		<tr>
+			<td>! &lt;</td>
+			<td>Не меньше</td>
+		</tr>
+		<tr>
+			<td>&gt;</td>
+			<td>Больше</td>
+		</tr>
+		<tr>
+			<td>&gt; = </td>
+			<td>Больше или равно</td>
+		</tr>
+		<tr>
+			<td>! &gt;</td>
+			<td>Не больше</td>
+		</tr>
+		<tr>
+			<td>BETWEEN</td>
+			<td>Между двумя указанными значениями</td>
+		</tr>
+		<tr>
+			<td>IS NULL</td>
+			<td>Значение NULL</td>
+		</tr>
+	</table>
+
+	<p><b>Совместимость операций</b></p>
+	<p>Некоторые из операций, приведенных в табл., повторяются (например, &lt; &gt; — это то жесамое, что и ! =).</p>
+	<p>Выполнение операции ! &lt; (не меньше чем) дает такой же результат, что и &gt; = (больше или равно).</p>
+	<p><b>Однако заметьте:</b> не все из этих операций поддерживаются всеми СУБД.</p>
+	<p>Обратитесь к документации вашей СУБД, чтобы точно знать, какие логические операции она поддерживает.</p>
+
+	<h1 id="title">
+		Проверка одного значения
+	</h1>
+
+	<p>Мы рассмотрели пример проверки на равенство.</p>
+	<p>Теперь рассмотрим примеры использования других операций.</p>
+	<p>В первом примере выводятся названия товаров, стоимость которых не превышает $10:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name, prod_price
+	FROM Products
+	WHERE prod_price < 10;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_name prod_price
+	Fish bean bag toy 3.4900
+	Bird bean bag toy 3.4900
+	Rabbit bean bag toy 3.4900
+	8 inch teddy bear 5.9900
+	12 inch teddy bear 8.9900
+	Raggedy Ann 4.9900
+	King doll 9.4900
+	Queen doll 9.4900
+	</pre>
+
+	<p>В следующем выражении выбираются все товары, которые стоят $10 и меньше (результат будет такой же, как и в первом примере, так как в базе данных нет товаров, которые бы стоили ровно $10):</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name, prod_price
+	FROM Products
+	WHERE prod_price < = 10;
+	</pre>
+
+	<h1 id="title">
+		Проверка на несовпадения
+	</h1>
+
+	<p>В этом примере выводятся товары, не изготовленные фирмой DLL01.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_id, prod_price
+	FROM Products
+	WHERE vend_id < > 'DLL01';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_id prod_name
+	BRS01 8 inch teddy bear
+	BRS01 12 inch teddy bear
+	BRS01 18 inch teddy bear
+	FNG01 King doll
+	FNG01 Queen doll
+	</pre>
+
+	<p><b>Когда использовать кавычки</b></p>
+	<p>Если вы внимательно рассмотрите выражения в предыдущих предложениях WHERE, то заметите, что некоторые значения заключены в одинарные кавычки, а некоторые — нет.</p>
+	<p>Одинарные кавычки используются для определения границ строки.</p>
+	<p>При сравнении значения со столбцом, содержащим строковые данные, необходимы отделяющие строку кавычки.</p>
+	<p>При использовании числовых столбцов кавычки не используются.</p>
+	<p>Ниже приведен тот же пример, только здесь уже используется операция ! =, вместо &lt; &gt;:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_id, prod_price
+	FROM Products
+	WHERE vend_id ! = 'DLL01';
+	Операция ! = или < >
+	</pre>
+
+	<p>Операции ! = и &lt; &gt; обычно взаимозаменяемы.</p>
+	<p>Однако не во всех СУБД поддерживаются обе формы операции неравенства.</p>
+	<p>Например, в Microsoft Access поддерживается операция &lt; &gt; и не поддерживается ! =.</p>
+	<p>Если у вас возникли сомнения по поводу своей СУБД, обратитесь к ее документации.</p>
+
+	<h1 id="title">
+		Проверка на диапазон значений
+	</h1>
+
+	<p>Для поиска диапазона значений можно использовать операцию BETWEEN.</p>
+	<p>Ее синтаксис немного отличается от других операций предложения WHERE, так как для нее требуются два значения: начальное и конечное.</p>
+	<p>Например, операцию BETWEEN можно использовать для поиска товаров, цена которых находится в промежутке между $5 и $10, или всех дней, которые попадают в диапазон между указанными начальным и конечным числами.</p>
+	<p>В следующем примере демонстрируется использование операции BETWEEN для выборки всех товаров, цена которых выше $5 и ниже $10:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name, prod_price
+	FROM Products
+	WHERE prod_price BETWEEN 5 AND 10;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_name prod_price
+	8 inch teddy bear 5.9900
+	12 inch teddy bear 8.9900
+	King doll 9.4900
+	Queen doll 9.4900
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Как видно из этого примера, при использовании операции BETWEEN нужно указывать два значения — меньшее и большее из выбранного диапазона.</p>
+	<p>Эти два значения должны быть разделены ключевым словом AND.</p>
+	<p>При этом выбираются все значения из диапазона, включая указанные начальное и конечное значения.</p>
+
+	<h1 id="title">
+		Проверка на отсутствие значения
+	</h1>
+
+	<p>После создания таблицы разработчик может указать, допустимо ли, чтобы в отдельных ее столбцах не содержались никакие значения.</p>
+	<p>Когда в столбце не содержится никакого значения, это значит, что в нем содержится значение NULL.</p>
+	<p><b>NULL</b></p>
+	<p>Отсутствие какого-либо значения, в отличие от поля, содержащего или 0, или пустую строку, или просто несколько пробелов.</p>
+	<p>Для оператора SELECT предусмотрена специальная форма предложения WHERE, которая используется для проверки значений NULL в столбцах и содержит проверку IS NULL.</p>
+	<p>Синтаксис выглядит следующим образом:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name
+	FROM Products
+	WHERE prod_price IS NULL;
+	</pre>
+
+	<p>Это выражение возвращает список товаров без цены (поле prod_price пустое, а не с ценой 0), а поскольку таковых нет, никаких данных мы не получим.</p>
+	<p>Однако в таблице Vendors есть столбцы со значениями NULL — в столбце vend_state будет содержаться NULL, если не указан никакой штат (в случае, когда адресат находится за пределами Соединенных Штатов):</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_id
+	FROM Vendors
+	WHERE vend_state IS NULL;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_id
+	FNG1
+	JTS01
+	</pre>
+
+	<p><b>Особые операции СУБД</b></p>
+	<p>Во многих СУБД набор операций расширен дополнительными фильтрами.</p>
+	<p>Обратитесь к документации вашей СУБД за дополнительной информацией.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/13.html", "Операции в WHERE", "bm1027"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1027", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1027") == 1) { document.getElementById("bma1027").style.display = "block"; document.getElementById("bm1027").style.display = "none"; } else { document.getElementById("bma1027").style.display = "none"; document.getElementById("bm1027").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Операции в WHERE") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1027", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

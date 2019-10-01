@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma638" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm638" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Введение
+	</h1>
+
+	<p>Как уже говорилось, Java является строго типизированным языком, а это означает, что каждое выражение и каждая переменная имеет строго определенный тип уже на момент компиляции.</p>
+	<p>Тип устанавливается на основе структуры применяемых выражений и типов литералов, переменных и методов, используемых в этих выражениях.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	long a=3;
+	a = 5+'A'+a;
+	print("a="+Math.round(a/2F));
+	</pre>
+
+	<p>Рассмотрим, как в этом примере компилятор устанавливает тип каждого выражения и какие преобразования (conversion) типов необходимо осуществить при каждом действии.</p>
+	<p>В первой строке литерал 3 имеет тип по умолчанию, то есть int.</p>
+	<p>При присвоении этого значения переменной типа long необходимо провести преобразование.</p>
+	<p>Во второй строке сначала производится сложение значений типа int и char.</p>
+	<p>Второй аргумент будет преобразован так, чтобы операция проводилась с точностью в 32 бита.</p>
+	<p>Второй оператор сложения опять потребует преобразования, так как наличие переменной a увеличивает точность до 64 бит.</p>
+	<p>В третьей строке сначала будет выполнена операция деления, для чего значение long надо будет привести к типу float, так как второй операнд - дробный литерал.</p>
+	<p>Результат будет передан в метод Math.round, который произведет математическое округление и вернет целочисленный результат типа int.</p>
+	<p>Это значение необходимо преобразовать в текст, чтобы осуществить дальнейшую конкатенацию строк.</p>
+	<p>Как будет показано ниже, эта операция проводится в два этапа - сначала простой тип приводится к объектному классу-"обертке" (в данном случае int к Integer ), а затем у полученного объекта вызывается метод toString(), что дает преобразование к строке.</p>
+	<p>Данный пример показывает, что даже простые строки могут содержать многочисленные преобразования, зачастую незаметные для разработчика.</p>
+	<p>Часто бывают и такие случаи, когда программисту необходимо явно изменить тип некоторого выражения или переменной, например, чтобы воспользоваться подходящим методом или конструктором.</p>
+	<p>Вспомним уже рассмотренный пример:</p>
+
+	<pre class="brush: csharp;">
+	int b=1;
+	byte c=(byte)-b;
+	int i=c;
+	</pre>
+
+	<p>Здесь во второй строке необходимо провести явное преобразование, чтобы присвоить значение типа int переменной типа byte.</p>
+	<p>В третьей же строке обратное приведение производится автоматически, неявным для разработчика образом.</p>
+	<p>Рассмотрим сначала, какие переходы между различными типами можно осуществить.</p>
+
+	<h1 id="title">
+		Виды приведений
+	</h1>
+
+	<p>В Java предусмотрено семь видов приведений:</p>
+	<p><b>*</b> тождественное (identity);</p>
+	<p><b>*</b> расширение примитивного типа (widening primitive);</p>
+	<p><b>*</b> сужение примитивного типа (narrowing primitive);</p>
+	<p><b>*</b> расширение объектного типа (widening reference);</p>
+	<p><b>*</b> сужение объектного типа (narrowing reference);</p>
+	<p><b>*</b> преобразование к строке (String);</p>
+	<p><b>*</b> запрещенные преобразования (forbidden).</p>
+	<p>Рассмотрим их по отдельности.</p>
+
+	<h1 id="title">
+		Тождественное преобразование
+	</h1>
+
+	<p>Самым простым является тождественное преобразование.</p>
+	<p>В Java преобразование выражения любого типа к точно такому же типу всегда допустимо и успешно выполняется.</p>
+	<p>Зачем нужно тождественное приведение?</p>
+	<p>Есть две причины для того, чтобы выделить такое преобразование в особый вид.</p>
+	<p>Во-первых, с теоретической точки зрения теперь можно утверждать, что любой тип в Java может участвовать в преобразовании, хотя бы в тождественном.</p>
+	<p>Например, примитивный тип boolean нельзя привести ни к какому другому типу, кроме него самого.</p>
+	<p>Во-вторых, иногда в Java могут встречаться такие выражения, как длинный последовательный вызов методов:</p>
+
+	<pre class="brush: csharp;">
+	print(getCity().getStreet().getHouse().getFlat().getRoom());
+	</pre>
+
+	<p>При исполнении такого выражения сначала вызывается первый метод getCity().</p>
+	<p>Можно предположить, что возвращаемым значением будет объект класса City.</p>
+	<p>У этого объекта далее будет вызван следующий метод getStreet().</p>
+	<p>Чтобы узнать, значение какого типа он вернет, необходимо посмотреть описание класса City.</p>
+	<p>У этого значения будет вызван следующий метод ( getHouse() ), и так далее.</p>
+	<p>Чтобы узнать результирующий тип всего выражения, необходимо просмотреть описание каждого метода и класса.</p>
+	<p>Компилятор без труда справится с такой задачей, однако разработчику будет нелегко проследить всю цепочку.</p>
+	<p>В этом случае можно воспользоваться тождественным преобразованием, выполнив приведение к точно такому же типу.</p>
+	<p>Это ничего не изменит в структуре программы, но значительно облегчит чтение кода:</p>
+
+	<pre class="brush: csharp;">
+	print((MyFlatImpl)(getCity().getStreet().getHouse().getFlat().getRoom()));
+	</pre>
+
+	<h1 id="title">
+		Преобразование примитивных типов (расширение и сужение)
+	</h1>
+
+	<p>Очевидно, что следующие четыре вида приведений легко представляются в виде таблицы:</p>
+
+	<table>
+		<tr>
+			<td>простой тип, расширение</td>
+			<td>ссылочный тип, расширение</td>
+		</tr>
+		<tr>
+			<td>простой тип, сужение</td>
+			<td>ссылочный тип, сужение</td>
+		</tr>
+	</table>
+
+	<p>Что все это означает?</p>
+	<p>Начнем по порядку.</p>
+	<p>Для простых типов расширение означает, что осуществляется переход от менее емкого типа к более емкому.</p>
+	<p>Например, от типа byte (длина 1 байт) к типу int (длина 4 байта).</p>
+	<p>Такие преобразования безопасны в том смысле, что новый тип всегда гарантированно вмещает в себя все данные, которые хранились в старом типе, и таким образом не происходит потери данных.</p>
+	<p>Именно поэтому компилятор осуществляет его сам, незаметно для разработчика:</p>
+
+	<pre class="brush: csharp;">
+	byte b=3;
+	int a=b;
+	</pre>
+
+	<p>В последней строке значение переменной b типа byte будет преобразовано к типу переменной a (то есть, int ) автоматически, никаких специальных действий для этого предпринимать не нужно.</p>
+	<p>Следующие 19 преобразований являются расширяющими:</p>
+	<p><b>*</b> от byte к short, int, long, float, double</p>
+	<p><b>*</b> от short к int, long, float, double</p>
+	<p><b>*</b> от char к int, long, float, double</p>
+	<p><b>*</b> от int к long, float, double</p>
+	<p><b>*</b> от long к float, double</p>
+	<p><b>*</b> от float к double</p>
+	<p>Обратите внимание, что нельзя провести преобразование к типу char от типов меньшей или равной длины ( byte, short ), или, наоборот, к short от char без потери данных.</p>
+	<p>Это связано с тем, что char, в отличие от остальных целочисленных типов, является беззнаковым.</p>
+	<p>Тем не менее, следует помнить, что даже при расширении данные все-таки могут быть в особых случаях искажены.</p>
+	<p>Они уже рассматривались в предыдущей лекции, это приведение значений int к типу float и приведение значений типа long к типу float или double.</p>
+	<p>Хотя эти дробные типы вмещают гораздо большие числа, чем соответствующие целые, но у них меньше значащих разрядов.</p>
+	<p>Повторим этот пример:</p>
+
+	<pre class="brush: csharp;">
+	long a=111111111111L;
+	float f = a;
+	a = (long) f;
+	print(a);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	111111110656
+	</pre>
+
+	<p>Обратное преобразование - сужение - означает, что переход осуществляется от более емкого типа к менее емкому.</p>
+	<p>При таком преобразовании есть риск потерять данные. Например, если число типа int было больше 127, то при приведении его к byte значения битов старше восьмого будут потеряны.</p>
+	<p>В Java такое преобразование должно совершаться явным образом, т.е. программист в коде должен явно указать, что он намеревается осуществить такое преобразование и готов потерять данные.</p>
+	<p>Следующие преобразования являются сужающими:</p>
+	<p><b>*</b> от byte к char</p>
+	<p><b>*</b> от short к byte, char</p>
+	<p><b>*</b> от char к byte, short</p>
+	<p><b>*</b> от int к byte, short, char</p>
+	<p><b>*</b> от long к byte, short, char, int</p>
+	<p><b>*</b> от float к byte, short, char, int, long</p>
+	<p><b>*</b> от double к byte, short, char, int, long, float</p>
+	<p>При сужении целочисленного типа к более узкому целочисленному все старшие биты, не попадающие в новый тип, просто отбрасываются.</p>
+	<p>Не производится никакого округления или других действий для получения более корректного результата:</p>
+
+	<pre class="brush: csharp;">
+	print((byte)383);
+	print((byte)384);
+	print((byte)-384);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	127
+	-128
+	-128
+	</pre>
+
+	<p>Видно, что знаковый бит при сужении не оказал никакого влияния, так как был просто отброшен - результат приведения противоположных чисел (384 и -384) оказался одинаковым.</p>
+	<p>Следовательно, может быть потеряно не только точное абсолютное значение, но и знак величины.</p>
+	<p>Это верно и для типа char:</p>
+
+	<pre class="brush: csharp;">
+	char c=40000;
+	print((short)c);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	-25536
+	</pre>
+
+	<p>Сужение дробного типа до целочисленного является более сложной процедурой.</p>
+	<p>Она проводится в два этапа.</p>
+	<p>На первом шаге дробное значение преобразуется в long, если целевым типом является long, или в int - в противном случае (целевой тип byte, short, char или int ).</p>
+	<p>Для этого исходное дробное число сначала математически округляется в сторону нуля, то есть дробная часть просто отбрасывается.</p>
+	<p>Например, число 3,84 будет округлено до 3, а -3,84 превратится в -3. При этом могут возникнуть особые случаи:</p>
+	<p><b>*</b> если исходное дробное значение является NaN, то результатом первого шага будет 0 выбранного типа (т.е. int или long );</p>
+	<p><b>*</b> если исходное дробное значение является положительной или отрицательной бесконечностью, то результатом первого шага будет, соответственно, максимально или минимально возможное значение для выбранного типа (т.е. для int или long );</p>
+	<p><b>*</b> наконец, если дробное значение было конечной величиной, но в результате округления получилось слишком большое по модулю число для выбранного типа (т.е. для int или long ), то, как и в предыдущем пункте, результатом первого шага будет, соответственно, максимально или минимально возможное значение этого типа. Если же результат округления укладывается в диапазон значений выбранного типа, то он и будет результатом первого шага.</p>
+	<p>На втором шаге производится дальнейшее сужение от выбранного целочисленного типа к целевому, если таковое требуется, то есть может иметь место дополнительное преобразование от int к byte, short или char.</p>
+	<p>Проиллюстрируем описанный алгоритм преобразованием от бесконечности ко всем целочисленным типам:</p>
+
+	<pre class="brush: csharp;">
+	float fmin = Float.NEGATIVE_INFINITY;
+	float fmax = Float.POSITIVE_INFINITY;
+	print("long: " + (long)fmin + ".." + (long)fmax);
+	print("int: " + (int)fmin + ".." + (int)fmax);
+	print("short: " + (short)fmin + ".." + (short)fmax);
+	print("char: " + (int)(char)fmin + ".." + (int)(char)fmax);
+	print("byte: " + (byte)fmin + ".." + (byte)fmax);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	long: -9223372036854775808..9223372036854775807
+	int: -2147483648..2147483647
+	short: 0..-1
+	char: 0..65535
+	byte: 0..-1
+	</pre>
+
+	<p>Значения long и int вполне очевидны - дробные бесконечности преобразовались в, соответственно, минимально и максимально возможные значения этих типов.</p>
+	<p>Результат для следующих трех типов ( short, char, byte ) есть, по сути, дальнейшее сужение значений, полученных для int, согласно второму шагу процедуры преобразования.</p>
+	<p>А делается это, как было описано, просто за счет отбрасывания старших битов.</p>
+	<p>Вспомним, что минимально возможное значение в битовом виде представляется как 1000..000 (всего 32 бита для int, то есть единица и 31 ноль).</p>
+	<p>Максимально возможное - 1111..111 (31 единица).</p>
+	<p>Отбрасывая старшие биты, получаем для отрицательной бесконечности результат 0, одинаковый для всех трех типов.</p>
+	<p>Для положительной же бесконечности получаем результат, все биты которого равняются 1.</p>
+	<p>Для знаковых типов byte и short такая комбинация рассматривается как -1, а для беззнакового char - как максимально возможное значение, то есть 65535.</p>
+	<p>Может сложиться впечатление, что для char приведение дает точное значение.</p>
+	<p>Однако это был частный случай - отбрасывание битов в большинстве случаев все же дает искажение.</p>
+	<p>Например, сужение дробного значения 2 миллиарда:</p>
+
+	<pre class="brush: csharp;">
+	float f=2e9f;
+	print((int)(char)f);
+	print((int)(char)-f);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	37888
+	27648
+	</pre>
+
+	<p>Обратите внимание на двойное приведение для значений типа char в двух последних примерах.</p>
+	<p>Понятно, что преобразование от char к int не приводит к потере точности, но позволяет распечатывать не символ, а его числовой код, что более удобно для анализа.</p>
+	<p>В заключение еще раз обратим внимание на то, что примитивные значения типа boolean могут участвовать только в тождественных преобразованиях.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="36.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="38.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/37.html", "Виды приведений", "bm638"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm638", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm638") == 1) { document.getElementById("bma638").style.display = "block"; document.getElementById("bm638").style.display = "none"; } else { document.getElementById("bma638").style.display = "none"; document.getElementById("bm638").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Виды приведений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm638", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

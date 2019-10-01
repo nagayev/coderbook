@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1272" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1272" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Кэширование данных
+	</h1>
+
+    <p>Кэширование данных заключается в сохранении некоторой переменной PHP в кэше и её последующем извлечении.</p>
+    <p>Оно является основой для расширенных возможностей, таких как кэширование запросов и кэширование страниц.</p>
+    <p>Приведённый ниже код является типичным случаем кэширования данных, где $cache указывает на компонент кэширования:</p>
+
+    <pre class="brush: csharp;">
+    // Пробуем извлечь $data из кэша.
+    $data = $cache->get($key);
+    
+    if ($data === false) {
+        // $data нет в кэше, вычисляем заново
+        $data = $this->calculateSomething();
+    
+        // Сохраняем значение $data в кэше. Данные можно получить в следующий раз.
+        $cache->set($key, $data);
+    }
+    
+    // Значение $data доступно здесь.
+    </pre>
+
+    <p>Начиная с версии 2.0.11, компонент кэширования предоставляет метод [[yii\caching\Cache::getOrSet()|getOrSet()]], который упрощает код при получении, вычислении и сохранении данных.</p>
+    <p>Приведённый ниже код делает в точности то же самое, что и код в предыдущем примере:</p>
+
+    <pre class="brush: csharp;">
+    $data = $cache->getOrSet($key, function () {
+        return $this->calculateSomething();
+    });
+    </pre>
+
+    <p>Если в кэше есть данные по ключу $key, они будут сразу возвращены.</p>
+    <p>Иначе, будет вызвана переданная анонимная функция, вычисляющаяя значение, которое будет сохранено в кэш и возвращено из метода.</p>
+    <p>В случае, когда анонимной функции требуются данные из внешней области видимости, можно передать их с помощью оператора use.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $user_id = 42;
+    $data = $cache->getOrSet($key, function () use ($user_id) {
+        return $this->calculateSomething($user_id);
+    });
+    </pre>
+
+    <p><b>Примечание:</b> В [[yii\caching\Cache::getOrSet()|getOrSet()]] можно передать срока действия и зависимости кэша. Прочтите Срок действия кэша и Зависимости кеша чтобы узнать больше.</p>
+
+    <h2 id="title">
+        Компоненты кэширования
+    </h2>
+
+    <p>Кэширование данных опирается на компоненты кэширования, которые представляют различные хранилища, такие как память, файлы и базы данных.</p>
+    <p>Кэш-компоненты, как правило, зарегистрированы в качестве компонентов приложения, так что их можно настраивать и обращаться к ним глобально.</p>
+    <p>Следующий код показывает, как настроить компонент приложения cache для использования Memcached с двумя серверами:</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        'cache' =&gt; [
+            'class' =&gt; 'yii\caching\MemCache',
+            'servers' =&gt; [
+                [
+                    'host' =&gt; 'server1',
+                    'port' =&gt; 11211,
+                    'weight' =&gt; 100,
+                ],
+                [
+                    'host' =&gt; 'server2',
+                    'port' =&gt; 11211,
+                    'weight' =&gt; 50,
+                ],
+            ],
+        ],
+    ],
+    </pre>
+
+    <p>Вы можете получить доступ к компоненту кэша, используя выражение Yii::$app->cache.</p>
+    <p>Поскольку все компоненты кэша поддерживают единый API-интерфейс - вы можете менять основной компонент кэша на другой через конфигурацию приложения.</p>
+    <p>Код, использующий кэш, при этом не меняется.</p>
+    <p>Например, можно изменить конфигурацию выше для использования [[yii\caching\ApcCache|APC cache]] следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        'cache' =&gt; [
+            'class' =&gt; 'yii\caching\ApcCache',
+        ],
+    ],
+    </pre>
+
+    <p><b>Подсказка:</b> Вы можете зарегистрировать несколько кэш-компонентов приложения. Компонент с именем cache используется по умолчанию многими классами (например, [[yii\web\UrlManager]]).</p>
+
+    <h3 id="title">
+        Поддерживаемые хранилища
+    </h3>
+
+    <p>Yii поддерживает множество хранилищ кэша:</p>
+
+    <ul>
+        <li>[[yii\caching\ApcCache]]: использует расширение PHP APC. Эта опция считается самой быстрой при работе с кэшем в «толстом» централизованном приложении (т.е. один сервер, без выделенного балансировщика нагрузки и т.д.);</li>
+        <li>[[yii\caching\DbCache]]: использует таблицу базы данных для хранения кэшированных данных. Чтобы использовать этот кэш, вы должны создать таблицу так, как это описано в [[yii\caching\DbCache::cacheTable]];</li>
+        <li>[[yii\caching\DummyCache]]: является кэшем-пустышкой, не реализующим реального кэширования. Смысл этого компонента в упрощении кода, проверяющего наличие кэша. Вы можете использовать данный тип кэша и переключиться на реальное кэширование позже. Примеры: использование при разработке; если сервер не поддерживает кэш. Для извлечения данных в этом случае используется один и тот же код Yii::$app->cache->get($key). При этом можно не беспокоиться, что Yii::$app->cache может быть null;</li>
+        <li>[[yii\caching\FileCache]]: использует обычные файлы для хранения кэшированных данных. Замечательно подходит для кэширования больших кусков данных, таких как содержимое страницы;</li>
+        <li>[[yii\caching\MemCache]]: использует расширения PHP memcache и memcached. Этот вариант может рассматриваться как самый быстрый при работе в распределенных приложениях (например, с несколькими серверами, балансировкой нагрузки и так далее);</li>
+        <li>[[yii\redis\Cache]]: реализует компонент кэша на основе Redis, хранилища ключ-значение (требуется Redis версии 2.6.12 или выше);</li>
+        <li>[[yii\caching\WinCache]]: использует расширение PHP WinCache (смотрите также);</li>
+        <li>[[yii\caching\XCache]]: использует расширение PHP XCache;</li>
+        <li>[[yii\caching\ZendDataCache]]: использует Zend Data Cache.</li>
+    </ul>
+
+    <p><b>Подсказка:</b> Вы можете использовать разные способы хранения кэша в одном приложении. Общая стратегия заключается в использовании памяти под хранение небольших часто используемых данных (например, статистические данные). Для больших и реже используемых данных (например, содержимое страницы) лучше использовать файлы или базу данных.</p>
+
+    <h2 id="title">
+        Кэш API
+    </h2>
+
+    <p>У всех компонентов кэша один базовый класс [[yii\caching\Cache]] со следующими методами:</p>
+
+    <ul>
+        <li>[[yii\caching\Cache::get()|get()]]: возвращает данные по указанному ключу. Если данные не найдены или устарели, то значение false будет возвращено;</li>
+        <li>[[yii\caching\Cache::set()|set()]]: сохраняет данные по ключу;</li>
+        <li>[[yii\caching\Cache::add()|add()]]: сохраняет данные по ключу если такого ключа ещё нет;</li>
+        <li>[[yii\caching\Cache::getOrSet()|getOrSet()]]: возвращает данные по указанному ключу или выполняет переданную анонимную функцию для вычисления значения, а полученные данные сохраняет в кэш и возвращает;</li>
+        <li>[[yii\caching\Cache::multiGet()|multiGet()]]: извлекает сразу несколько элементов данных из кэша по заданным ключам;</li>
+        <li>[[yii\caching\Cache::multiSet()|multiSet()]]: сохраняет несколько элементов данных. Каждый элемент идентифицируется ключом;</li>
+        <li>[[yii\caching\Cache::multiAdd()|multiAdd()]]: сохраняет несколько элементов данных. Каждый элемент идентифицируется ключом. Если ключ уже существует, то сохранения не происходит;</li>
+        <li>[[yii\caching\Cache::exists()|exists()]]: есть ли указанный ключ в кэше;</li>
+        <li>[[yii\caching\Cache::delete()|delete()]]: удаляет указанный ключ;</li>
+        <li>[[yii\caching\Cache::flush()|flush()]]: удаляет все данные.</li>
+    </ul>
+
+    <p><b>Примечание:</b> Не кэшируйте непосредственно значение false, потому что [[yii\caching\Cache::get()|get()]] использует false для случая, когда данные не найдены в кэше. Вы можете обернуть false в массив и закэшировать его, чтобы избежать данной проблемы.</p>
+    <p>Некоторые кэш-хранилища, например, MemCache или APC, поддерживают получение нескольких значений в пакетном режиме, что может сократить накладные расходы на получение данных.</p>
+    <p>Данную возможность возможно использовать при помощи [[yii\caching\Cache::multiGet()|multiGet()]] и [[yii\caching\Cache::multiAdd()|multiAdd()]].</p>
+    <p>В случае, если хранилище не поддерживает эту функцию, она будет имитироваться.</p>
+    <p>Так как [[yii\caching\Cache]] реализует ArrayAccess - следовательно компонент кэша можно использовать как массив:</p>
+
+    <pre class="brush: csharp;">
+    $cache['var1'] = $value1;  // эквивалентно: $cache->set('var1', $value1);
+    $value2 = $cache['var2'];  // эквивалентно: $value2 = $cache->get('var2');
+    </pre>
+
+    <h3 id="title">
+        Ключи кэша
+    </h3>
+
+    <p>Каждый элемент данных, хранящийся в кэше, идентифицируется ключом.</p>
+    <p>Когда вы сохраняете элемент данных в кэше, необходимо указать для него ключ.</p>
+    <p>Позже, когда вы извлекаете элемент данных из кэша, вы также должны предоставить соответствующий ключ.</p>
+    <p>Вы можете использовать строку или произвольное значение в качестве ключа кэша.</p>
+    <p>Если ключ не строка, то он будет автоматически сериализован в строку.</p>
+    <p>Обычно ключ задаётся массивом всех значимых частей. Например, для хранения информации о таблице в [[yii\db\Schema]] используются следующие части для ключа:</p>
+
+    <pre class="brush: csharp;">
+    [
+        __CLASS__,              // Название класса схемы.
+        $this->db->dsn,         // Данные для соединения с базой.
+        $this->db->username,    // Логин для соединения с базой.
+        $name,                  // Название таблицы.
+    ];
+    </pre>
+
+    <p>Как вы можете видеть, ключ строится так, чтобы однозначно идентифицировать данные таблицы.</p>
+    <p>Если одно хранилище кэша используется несколькими приложениями, стоит указать префикс ключа во избежание конфликтов.</p>
+    <p>Сделать это можно путём настройки [[yii\caching\Cache::keyPrefix]]:</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        'cache' =&gt; [
+            'class' =&gt; 'yii\caching\ApcCache',
+            'keyPrefix' =&gt; 'myapp', // уникальный префикс ключей кэша
+        ],
+    ],
+    </pre>
+
+    <p>Для обеспечения совместимости должны быть использованы только алфавитно-цифровые символы.</p>
+
+    <h3 id="title">
+        Срок действия кэша
+    </h3>
+
+    <p>Элементы данных, хранимые в кэше, остаются там навсегда и могут быть удалены только из-за особенностей функционирования хранилища (например, место для кэширования заполнено и старые данные удаляются).</p>
+    <p>Чтобы изменить этот режим, вы можете передать истечение срока действия ключа при вызове метода [[yii\caching\Cache::set()|set()]].</p>
+    <p>Параметр указывает на то, сколько секунд элемент кэша может считаться актуальным.</p>
+    <p>Если срок годности ключа истёк, [[yii\caching\Cache::get()|get()]] вернёт false:</p>
+
+    <pre class="brush: csharp;">
+    // Хранить данные в кэше не более 45 секунд
+    $cache->set($key, $data, 45);
+    
+    sleep(50);
+    
+    $data = $cache->get($key);
+    if ($data === false) {
+        // срок действия истек или ключ не найден в кэше
+    }
+    </pre>
+
+    <p>Начиная с версии 2.0.11 вы можете изменить значение по умолчанию (бесконечность) для длительности кэширования задав [[yii\caching\Cache::$defaultDuration|defaultDuration]] в конфигурации компонента кэша.</p>
+    <p>Таким образом, можно будет не передавать значение duration в [[yii\caching\Cache::set()|set()]] каждый раз.</p>
+
+    <h3 id="title">
+        Зависимости кэша
+    </h3>
+
+    <p>В добавок к изменению срока действия ключа элемент может быть признан недействительным из-за изменения зависимостей.</p>
+    <p>К примеру, [[yii\caching\FileDependency]] представляет собой зависимость от времени изменения файла.</p>
+    <p>Когда это время изменяется, любые устаревшие данные, найденные в кэше, должны быть признаны недействительным, а [[yii\caching\Cache::get()|get()]] в этом случае должен вернуть false.</p>
+    <p>Зависимости кэша представлены в виде объектов потомков класса [[yii\caching\Dependency]].</p>
+    <p>Когда вы вызываете [[yii\caching\Cache::set()|set()]] метод, чтобы сохранить элемент данных в кэше, вы можете передать туда зависимость.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // Создать зависимость от времени модификации файла example.txt.
+    $dependency = new \yii\caching\FileDependency(['fileName' =&gt; 'example.txt']);
+    
+    // Данные устаревают через 30 секунд.
+    // Данные могут устареть и раньше, если example.txt будет изменён.
+    $cache->set($key, $data, 30, $dependency);
+    
+    // Кэш будет проверен, если данные устарели.
+    // Он также будет проверен, если указанная зависимость была изменена.
+    // Вернется `false`, если какое-либо из этих условий выполнено.
+    $data = $cache->get($key);
+    </pre>
+
+    <p>Ниже приведен список доступных зависимостей кэша:</p>
+
+    <ul>
+        <li>[[yii\caching\ChainedDependency]]: зависимость меняется, если любая зависимость в цепочке изменяется;</li>
+        <li>[[yii\caching\DbDependency]]: зависимость меняется, если результат некоторого определенного SQL запроса изменён;</li>
+        <li>[[yii\caching\ExpressionDependency]]: зависимость меняется, если результат определенного PHP выражения изменён;</li>
+        <li>[[yii\caching\FileDependency]]: зависимость меняется, если изменилось время последней модификации файла;</li>
+        <li>[[yii\caching\TagDependency]]: Связывает кэшированные данные элемента с одним или несколькими тегами. Вы можете аннулировать кэширование данных элементов с заданным тегом(тегами) по вызову. [[yii\caching\TagDependency::invalidate()]];</li>
+    </ul>
+
+    <h2 id="title">
+        Кэширование запросов
+    </h2>
+
+    <p>Кэширование запросов - это специальная функция, построенная на основе кэширования данных.</p>
+    <p>Она предназначена для кэширования результатов запросов к базе данных.</p>
+    <p>Кэширование запросов требует [[yii\db\Connection|DB connection]] действительный cache компонента приложения.</p>
+    <p>Предпологая, что $db это [[yii\db\Connection]] экземпляр, простое использование запросов кэширования происходит следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $result = $db->cache(function ($db) {
+    
+        // Результат SQL запроса будет возвращен из кэша если
+        // кэширование запросов включено и результат запроса присутствует в кэше
+        return $db->createCommand('SELECT * FROM customer WHERE id=1')->queryOne();
+    
+    });
+    </pre>
+
+    <p>Кэширование запросов может быть использовано как для DAO, так и для ActiveRecord:</p>
+
+    <pre class="brush: csharp;">
+    $result = Customer::getDb()->cache(function ($db) {
+        return Customer::find()->where(['id' =&gt; 1])->one();
+    });
+    </pre>
+
+    <p><b>Информация:</b> Некоторые СУБД (например, MySQL) поддерживают кэширование запросов любого механизма на стороне сервера БД. КЗ описано разделом выше. Оно имеет безусловное преимущество, поскольку, благодаря ему, можно указать гибкие зависимости кэша и это более эффективно.</p>
+
+    <h3 id="title">
+        Очистка кэша
+    </h3>
+
+    <p>Для очистки всего кэша, вы можете вызвать [[yii\caching\Cache::flush()]].</p>
+    <p>Также вы можете очистить кэш из консоли, вызвав yii cache/flush.</p>
+
+    <ul>
+        <li>yii cache: отображает список доступных кэширующих компонентов приложения</li>
+        <li>yii cache/flush cache1 cache2: очищает кэш в компонентах cache1, cache2 (можно передать несколько названий компонентов кэширования, разделяя их пробелом)</li>
+        <li>yii cache/flush-all: очищает кэш во всех кэширующих компонентах приложения</li>
+    </ul>
+
+    <p><b>Информация:</b> Консольное приложение использует отдельный конфигурационный файл по умолчанию. Для получения должного результата, убедитесь, что в конфигурациях консольного и веб-приложения у вас одинаковые компоненты кэширования.</p>
+
+    <h3 id="title">
+        Конфигурации
+    </h3>
+
+    <p>Кэширование запросов имеет три глобальных конфигурационных параметра через [[yii\db\Connection]]:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\Connection::enableQueryCache|enableQueryCache]]
+    </pre>
+
+    <p>включить или выключить кэширование запросов;</p>
+    <p>По умолчанию true.</p>
+    <p>Стоит отметить, что для использования кэширования вам может понадобиться компонент cache, как показано в [[yii\db\Connection::queryCache|queryCache]];</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\Connection::queryCacheDuration|queryCacheDuration]]
+    </pre>
+
+    <p>количество секунд кэширования результата.</p>
+    <p>Для бесконечного кэша используйте 0.</p>
+    <p>Именно это значение выставляется [[yii\db\Connection::cache()]], если не указать время явно;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\db\Connection::queryCache|queryCache]]
+    </pre>
+
+    <p>ID компонента кэширования.</p>
+    <p>По умолчанию 'cache'.</p>
+    <p>Кэширования запросов работает только в том случае, если используется компонент приложения кэш.</p>
+
+    <h3 id="title">
+        Использование
+    </h3>
+
+    <p>Вы можете использовать [[yii\db\Connection::cache()]], если у вас есть несколько SQL запросов, которые необходимо закэшировать:</p>
+
+    <pre class="brush: csharp;">
+    $duration = 60;     // кэширование результата на 60 секунд
+    $dependency = ...;  // параметры зависимости
+    
+    $result = $db->cache(function ($db) {
+    
+        // ... выполнять SQL запросы здесь ...
+    
+        return $result;
+    
+    }, $duration, $dependency);
+    </pre>
+
+    <p>Любые SQL запросы в анонимной функции будут кэшироваться в течении указанного промежутка времени с заданной зависимостью.</p>
+    <p>Если результат в кэше актуален - запрос будет пропущен и, вместо этого, из кэша будет возвращен результат.</p>
+    <p>Если вы не укажете '$duration', то значение [[yii\db\Connection::queryCacheDuration|queryCacheDuration]] будет использоваться вместо него.</p>
+    <p>Иногда в пределах "cache()" вы можете отключить кэширование запроса. В этом случае вы можете использовать [[yii\db\Connection::noCache()]].</p>
+
+    <pre class="brush: csharp;">
+    $result = $db->cache(function ($db) {
+    
+        // SQL запросы, которые используют кэширование
+    
+        $db->noCache(function ($db) {
+    
+            // SQL запросы, которые не используют кэширование
+    
+        });
+    
+        // ...
+    
+        return $result;
+    });
+    </pre>
+
+    <p>Если вы просто хотите использовать кэширование для одного запроса, вы можете вызвать [[yii\db\Command::cache()]] при построении команды.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // использовать кэширование запросов и установить срок действия кэша на 60 секунд
+    $customer = $db->createCommand('SELECT * FROM customer WHERE id=1')->cache(60)->queryOne();
+    </pre>
+
+    <p>Вы также можете использовать [[yii\db\Command::noCache()]] для отключения кэширования запросов для одной команды. Например:</p>
+
+    <pre class="brush: csharp;">
+    $result = $db->cache(function ($db) {
+    
+        // Используется кэширование SQL запросов
+    
+        // не использовать кэширование запросов для этой команды
+        $customer = $db->createCommand('SELECT * FROM customer WHERE id=1')->noCache()->queryOne();
+    
+        // ...
+    
+        return $result;
+    });
+    </pre>
+
+    <h3 id="title">
+        Ограничения
+    </h3>
+    
+    <p>Кэширование запросов не работает с результатами запросов, которые содержат обработчики ресурсов.</p>
+    <p>Например, при использовании типа столбца BLOB в некоторых СУБД, в качестве результата запроса будет выведен ресурс обработчик данных столбца.</p>
+    <p>Некоторые кэш хранилища имеют ограничение в размере данных.</p>
+    <p>Например, Memcache ограничивает максимальный размер каждой записи до 1 Мб.</p>
+    <p>Таким образом, если результат запроса превышает этот предел, данные не будут закэшированы.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="65.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="67.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/66.html", "Yii2: Кэширование данных", "bm1272"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1272", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1272") == 1) { document.getElementById("bma1272").style.display = "block"; document.getElementById("bm1272").style.display = "none"; } else { document.getElementById("bma1272").style.display = "none"; document.getElementById("bm1272").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Кэширование данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1272", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

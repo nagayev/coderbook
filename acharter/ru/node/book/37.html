@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1346" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1346" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Express и MongoDB
+	</h1>
+    
+    <p>Теперь объединим в одном приложении обработку запросов с помощью Express и работу с данными в MongoDB.</p>
+    <p>Для этого определим следующий файл приложения app.js:</p>
+
+    <pre class="brush: csharp;">
+    var express = require("express");
+    var bodyParser = require("body-parser");
+    var mongoClient = require("mongodb").MongoClient;
+    var objectId = require("mongodb").ObjectID;
+    
+    var app = express();
+    var jsonParser = bodyParser.json();
+    var url = "mongodb://localhost:27017/usersdb";
+    
+    app.use(express.static(__dirname + "/public"));
+    app.get("/api/users", function(req, res){
+         
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").find({}).toArray(function(err, users){
+                res.send(users)
+                db.close();
+            });
+        });
+    });
+    app.get("/api/users/:id", function(req, res){
+         
+        var id = new objectId(req.params.id);
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").findOne({_id: id}, function(err, user){
+                
+                if(err) return res.status(400).send();
+                
+                res.send(user);
+                db.close();
+            });
+        });
+    });
+    
+    app.post("/api/users", jsonParser, function (req, res) {
+        
+        if(!req.body) return res.sendStatus(400);
+        
+        var userName = req.body.name;
+        var userAge = req.body.age;
+        var user = {name: userName, age: userAge};
+        
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").insertOne(user, function(err, result){
+                
+                if(err) return res.status(400).send();
+                
+                res.send(user);
+                db.close();
+            });
+        });
+    });
+     
+    app.delete("/api/users/:id", function(req, res){
+         
+        var id = new objectId(req.params.id);
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").findOneAndDelete({_id: id}, function(err, result){
+                
+                if(err) return res.status(400).send();
+                
+                var user = result.value;
+                res.send(user);
+                db.close();
+            });
+        });
+    });
+    
+    app.put("/api/users", jsonParser, function(req, res){
+         
+        if(!req.body) return res.sendStatus(400);
+        var id = new objectId(req.body.id);
+        var userName = req.body.name;
+        var userAge = req.body.age;
+        
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").findOneAndUpdate({_id: id}, { $set: {age: userAge, name: userName}},
+                 {returnOriginal: false },function(err, result){
+                
+                if(err) return res.status(400).send();
+                
+                var user = result.value;
+                res.send(user);
+                db.close();
+            });
+        });
+    });
+     
+    app.listen(3000, function(){
+        console.log("Сервер ожидает подключения...");
+    });
+    </pre>
+
+    <p>Для каждого типа запросов здесь определен свой обработчик Express.</p>
+    <p>Когда приходит GET-запрос к приложению, то возвращаем в ответ клиенту все документы из базы данных:</p>
+
+    <pre class="brush: csharp;">
+    app.get("/api/users", function(req, res){
+         
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").find({}).toArray(function(err, users){
+                res.send(users)
+                db.close();
+            });
+        });
+    });
+    </pre>
+
+    <p>Если в GET-запросе передается параметр id, то возвращаем только одного пользователя из базы данных по этому id:</p>
+
+    <pre class="brush: csharp;">
+    app.get("/api/users/:id", function(req, res){
+         
+        var id = new objectId(req.params.id);
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").findOne({_id: id}, function(err, user){
+                
+                if(err) return res.status(400).send();
+                
+                res.send(user);
+                db.close();
+            });
+        });
+    });
+    </pre>
+
+    <p>Когда приходит POST-запрос, с помощью парсера jsonParser получаем отправленные данные и по ним создаем объект, который добавляем в базу данных посредством метода <b>db.insertOne()</b>:</p>
+
+    <pre class="brush: csharp;">
+    app.post("/api/users", jsonParser, function (req, res) {
+        
+        if(!req.body) return res.sendStatus(400);
+        
+        var userName = req.body.name;
+        var userAge = req.body.age;
+        var user = {name: userName, age: userAge};
+        
+        mongoClient.connect(url, function(err, db){
+            db.collection("users").insertOne(user, function(err, result){
+                
+                if(err) return res.status(400).send();
+                
+                res.send(user);
+                db.close();
+            });
+        });
+    });
+    </pre>
+
+    <p>При получении PUT-запроса также получаем отправленные данные и с помощью метода <b>db.findOneAndUpdate()</b> обновляем данные в БД.</p>
+    <p>И в методе <b>app.delete()</b>, который срабатывает при получении запроса DELETE, вызываем метод <b>db.findOneAndDelete()</b> для удаления данных.</p>
+    <p>Таким образом, в каждом обработчике Express задействуем определенный метод по работе с MongoDB.</p>
+    <p>Теперь создадим в папке проекта новый каталог "public" и определим в этом каталоге файл index.html:</p>
+
+    <pre class="brush: csharp;">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot; /&gt;
+        &lt;title&gt;Список пользователей&lt;/title&gt;
+        &lt;link href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot; /&gt;
+        &lt;script src=&quot;https://code.jquery.com/jquery-2.2.4.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h2&gt;Список пользователей&lt;/h2&gt;
+        &lt;form name=&quot;userForm&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;0&quot; /&gt;
+            &lt;div class=&quot;form-group&quot;&gt;
+                &lt;label for=&quot;name&quot;&gt;Имя:&lt;/label&gt;
+                &lt;input class=&quot;form-control&quot; name=&quot;name&quot; /&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;form-group&quot;&gt;
+                &lt;label for=&quot;age&quot;&gt;Возраст:&lt;/label&gt;
+                &lt;input class=&quot;form-control&quot; name=&quot;age&quot; /&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;panel-body&quot;&gt;
+                &lt;button type=&quot;submit&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;Сохранить&lt;/button&gt;
+                &lt;a id=&quot;reset&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;Сбросить&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+        &lt;table class=&quot;table table-condensed table-striped table-bordered&quot;&gt;
+            &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Id&lt;/th&gt;&lt;th&gt;Имя&lt;/th&gt;&lt;th&gt;возраст&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+            &lt;tbody&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+     
+        &lt;script&gt;
+            // Получение всех пользователей
+            function GetUsers() {
+                $.ajax({
+                    url: "/api/users",
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function (users) {
+                        var rows = "";
+                        $.each(users, function (index, user) {
+                            // добавляем полученные элементы в таблицу
+                            rows += row(user);
+                        })
+                        $("table tbody").append(rows);
+                     }
+                });
+            }
+            // Получение одного пользователя
+            function GetUser(id) {
+                $.ajax({
+                    url: "/api/users/"+id,
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function (user) {
+                        var form = document.forms["userForm"];
+                        form.elements["id"].value = user._id;
+                        form.elements["name"].value = user.name;
+                        form.elements["age"].value = user.age;
+                    }
+                });
+            }
+            // Добавление пользователя
+            function CreateUser(userName, userAge) {
+                $.ajax({
+                    url: "api/users",
+                    contentType: "application/json",
+                    method: "POST",
+                    data: JSON.stringify({
+                        name: userName,
+                        age: userAge
+                    }),
+                    success: function (user) {
+                        reset();
+                        $("table tbody").append(row(user));
+                    }
+                })
+            }
+            // Изменение пользователя
+            function EditUser(userId, userName, userAge) {
+                $.ajax({
+                    url: "api/users",
+                    contentType: "application/json",
+                    method: "PUT",
+                    data: JSON.stringify({
+                        id: userId,
+                        name: userName,
+                        age: userAge
+                    }),
+                    success: function (user) {
+                        reset();
+                        console.log(user);
+                        $("tr[data-rowid='" + user._id + "']").replaceWith(row(user));
+                    }
+                })
+            }
+     
+            // сброс формы
+            function reset() {
+                var form = document.forms["userForm"];
+                form.reset();
+                form.elements["id"].value = 0;
+            }
+     
+            // Удаление пользователя
+            function DeleteUser(id) {
+                $.ajax({
+                    url: "api/users/"+id,
+                    contentType: "application/json",
+                    method: "DELETE",
+                    success: function (user) {
+                        console.log(user);
+                        $("tr[data-rowid='" + user._id + "']").remove();
+                    }
+                })
+            }
+            // создание строки для таблицы
+            var row = function (user) {
+                return "&lt;tr data-rowid=&apos;&quot; + user._id + &quot;&apos;&gt;&lt;td&gt;&quot; + user._id + &quot;&lt;/td&gt;" +
+                       "&lt;td&gt;&quot; + user.name + &quot;&lt;/td&gt; &lt;td&gt;&quot; + user.age + &quot;&lt;/td&gt;" +
+                       &quot;&lt;td&gt;&lt;a class=&apos;editLink&apos; data-id=&apos;&quot; + user._id + "&apos;&gt;Изменить&lt;/a&gt; | " +
+                        &quot;&lt;a class=&apos;removeLink&apos; data-id=&apos;&quot; + user._id + "&apos;&gt;Удалить&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;";
+            }
+            // сброс значений формы
+            $("#reset").click(function (e) {
+     
+                e.preventDefault();
+                reset();
+            })
+     
+            // отправка формы
+            $("form").submit(function (e) {
+                e.preventDefault();
+                var id = this.elements["id"].value;
+                var name = this.elements["name"].value;
+                var age = this.elements["age"].value;
+                if (id == 0)
+                    CreateUser(name, age);
+                else
+                    EditUser(id, name, age);
+            });
+     
+            // нажимаем на ссылку Изменить
+            $("body").on("click", ".editLink", function () {
+                var id = $(this).data("id");
+                GetUser(id);
+            })
+            // нажимаем на ссылку Удалить
+            $("body").on("click", ".removeLink", function () {
+                var id = $(this).data("id");
+                DeleteUser(id);
+            })
+     
+            // загрузка пользователей
+            GetUsers();
+        &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    </pre>
+
+    <p>Для упрощения отправки запросов в данном случае применяется библиотека jquery.</p>
+    <p>В принципе код <b>index.html</b> вкратце обсуждался в статье про создание API в Node.js, здесь же весь код практически повторяется.</p>
+    <p>И поскольку Express в качестве хранилища статических файлов использует папку public, то при обращении к приложению по корневому маршруту <b>http://localhost:3000</b> клиент получит данный файл.</p>
+    <p>Запустим приложение, обратимся к приложению по адресу <b>http://localhost:3000</b> и мы сможем управлять пользователями, которые хранятся в базе данных MongoDB:</p>
+
+    <img src="n79.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="36.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="38.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/37.html", "Express и MongoDB", "bm1346"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1346", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1346") == 1) { document.getElementById("bma1346").style.display = "block"; document.getElementById("bm1346").style.display = "none"; } else { document.getElementById("bma1346").style.display = "none"; document.getElementById("bm1346").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Express и MongoDB") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1346", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

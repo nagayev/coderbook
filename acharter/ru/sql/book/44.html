@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1058" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1058" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Фильтрация посредством подзапросов
+	</h1>
+
+	<p>Таблицы баз данных, используемые во всех уроках этой книги, являются реляционными таблицами.</p>
+	<p>Заказы хранятся в двух таблицах.</p>
+	<p>Таблица Orders (заказы) содержит по одной строке для каждого заказа; в ней указываются номер заказа, идентификатор клиента и дата заказа.</p>
+	<p>Предметы отдельного заказа хранятся в соответствующей таблице OrderItems.</p>
+	<p>Таблица Orders не содержит информацию о клиентах.</p>
+	<p>Она хранит только идентификатор клиента.</p>
+	<p>Информация о клиентах хранится в таблице Customers (клиенты).</p>
+	<p>Теперь предположим, что вы хотите получить перечень всех клиентов, которые заказали продукт RGAN01.</p>
+	<p>Что нужно сделать, чтобы получить эту информацию?</p>
+	<p>Для этого нужно сделать следующее.</p>
+	<p>1. Выбрать номера всех заказов, в которых содержится продукт RGAN01.</p>
+	<p>2. Выбрать идентификатор клиента для всех клиентов, которые имеют заказы, перечисленные среди номеров заказов, возвращенных на предыдущем шаге.</p>
+	<p>3. Выбрать информацию о клиенте для всех клиентов, идентификаторы которых были возвращены на предыдущем шаге.</p>
+	<p>Каждый из этих шагов можно выполнить в виде отдельного запроса.</p>
+	<p>Делая это, вы используете результаты, возвращенные одним оператором SELECT, чтобы заполнить предложение WHERE для следующего оператора SELECT.</p>
+	<p>Вы можете также использовать подзапросы для того, чтобы объединить все три запроса в один-единственный оператор.</p>
+	<p>Первый оператор SELECT выбирает столбец order_num для всех продуктов заказа, у которых в столбце prod_id значится RGAN01.</p>
+	<p>Результат представляет собой номера двух заказов, содержащих этот предмет:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT order_num
+	FROM OrderIterns
+	WHERE prod_id = 'RGAN01';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	order_num
+	20007
+	20008
+	</pre>
+
+	<p>Следующий шаг состоит в выборке идентификаторов клиентов, связанных с заказами 20007 и 20008.</p>
+	<p>Используя предложение IN, о котором говорилось в уроке 5, "Расширенная фильтрация данных", вы можете создать такой оператор SELECT:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_id
+	FROM Orders
+	WHERE order_num IN (20007,20008);
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id
+	1000000004
+	1000000005
+	</pre>
+
+	<p>Теперь объединим эти два запроса путем превращения первого из них (того, который возвращает номера заказов) в подзапрос.</p>
+	<p>Посмотрите на следующий оператор SELECT:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT CUSt_id
+	FROM Orders
+	WHERE order_num IN (SELECT order_num FROM OrderIterns WHERE prod_id = 'RGAN01');
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_id
+	1000000004
+	1000000005
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>Подзапросы всегда обрабатываются, начиная с самого внутреннего оператора SELECT в направлении "изнутри наружу".</p>
+	<p>При обработке предыдущего оператора СУБД в действительности выполняет две операции.</p>
+	<p>Вначале она выполняет подзапрос:</p>
+
+	<pre class="brush: csharp;">
+	SELECT order_num FROM orderitems WHERE prod_id='RGAN01'
+	</pre>
+
+	<p>В результате выполнения этого запроса возвращается два номера заказа, 20007 и 20008.</p>
+	<p>Эти два значения затем передаются в предложение WHERE внешнего запроса в формате с разделителем в виде запятой, необходимом для оператора IN.</p>
+	<p>Теперь внешний запрос становится таким:</p>
+
+	<pre class="brush: csharp;">
+	SELECT CUSt_id FROM orders WHERE order_num IN (20007,20008)
+	</pre>
+
+	<p>Как видите, результат корректен и точно такой же, как полученный путем жесткого кодирования предложения WHERE в предыдущем примере.</p>
+	<p><b>Форматируйте ваши SQL-запросы</b></p>
+	<p>Операторы SELECT, содержащие подзапросы, могут оказаться трудными для чтения и устранения ошибок, особенно если их сложность возрастает.</p>
+	<p>Разбиение запросов на многие строки и соответствующее обозначение строк, как показано ниже, значительно об- легчит вашу работу с подзапросами.</p>
+	<p>Теперь у нас есть идентификаторы всех клиентов, заказавших продукт RGAN01.</p>
+	<p>Следующий шаг состоит в получении клиентской информации для каждого из этих идентификаторов клиентов.</p>
+	<p>Оператор SQL, осуществляющий выборку двух столбцов, таков:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name, cust_contact
+	FROM Customers
+	WHERE cust_id IN ('1000000004','1000000005');
+	</pre>
+
+	<p>Вместо жесткого указания идентификаторов клиентов вы можете превратить данное предложение WHERE в подзапрос:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name, cust_contact
+	FROM Customers
+	WHERE cust_id IN (SELECT cust_id
+	FROM Orders
+	WHERE order_num IN (SELECT order_num
+	FROM OrderIterns
+	WHERE prod_id = 'RGAN01'));
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_name cust_contact
+	Fun4All Denise L. Stephens
+	The Toy Store Kim Howard
+	</pre>
+
+	<p>Чтобы выполнить вышеприведенное выражение SELECT, СУБД должна в действительности выполнить три оператора SELECT.</p>
+	<p>Самый внутренний подзапрос возвращает перечень номеров заказов, который затем используется как предложение WHERE для подзапроса, внешнего по отношению к данному.</p>
+	<p>Этот подзапрос возвращает перечень идентификаторов клиентов, которые используются в предложении WHERE запроса более высокого уровня.</p>
+	<p>Запрос верхнего уровня возвращает искомые данные.</p>
+	<p>Как видите, за счет использования подзапросов можно создавать очень мощные и гибкие SQL-операторы.</p>
+	<p>Не существует ограничений на число подчиненных запросов, хотя на практике вы можете столкнуться с тем, что снижение производительности подскажет вам, что было использовано слишком много уровней подзапросов.</p>
+	<p><b>Только один столбец</b></p>
+	<p>Операторы select подзапроса могут выбирать только один столбец.</p>
+	<p>Попытка произвести выборку нескольких столбцов приведет к появлению сообщения об ошибке.</p>
+	<p><b>Подзапросы и производительность</b></p>
+	<p>Представленные нами коды работают и приводят к получению необходимых результатов.</p>
+	<p>Однако подзапросы — не всегда наиболее эффективный способ выборки данных такого типа.</p>
+	<p>Более подробно об этом рассказано в уроке 12, "Объединение таблиц", в котором повторно будет рассмотрен этот же самый пример.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="43.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="45.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/44.html", "Фильтрация", "bm1058"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1058", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1058") == 1) { document.getElementById("bma1058").style.display = "block"; document.getElementById("bm1058").style.display = "none"; } else { document.getElementById("bma1058").style.display = "none"; document.getElementById("bm1058").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Фильтрация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1058", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

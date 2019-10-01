@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma483" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm483" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Добавление изображений в HTML документы
+	</h1>
+
+	<p>Комбинируя изображения и обычный текст Вы можете представлять информацию пользователям максимально эффективно.</p>
+	<p>Для добавления в HTML документ изображений используется тег <b>&lt;img&gt;</b>.</p>
+	<p>Атрибут <b>src</b> тега <b>&lt;img&gt;</b> должен содержать адрес по которому находится картинка, которая должна быть отображена.</p>
+	<p><b>Обратите внимание:</b> загрузка картинок занимает время, так что прежде чем размещать на одной странице большое количество картинок подумайте несколько раз.</p>
+
+	<pre class="brush: csharp;">
+		<img src="mountimg3.jpg" />
+		
+		<p><b>Ергаки</b> — горный узел, хребет в Западном Саяне. Представляет собой массив разнонаправленных грив, отрогов в значительной степени обработанных ледником.</p>
+	</pre>
+	
+	<div class="button">Результат работы кода:</div>
+	
+	<div class="codeResult">
+		<img src="mountimg3.jpg" id="image" />
+		<p><b>Ергаки</b> — горный узел, хребет в Западном Саяне. Представляет собой массив разнонаправленных грив, отрогов в значительной степени обработанных ледником.</p>
+	</div>
+	
+	<h1 id="title">
+		Атрибут alt
+	</h1>
+	
+	<p>В атрибуте alt задается альтернативный текст, который будет отображен если браузер пользователя не сможет по каким-либо причинам отобразить картинку.</p>
+	<p>Роботы поисковых систем, которые анализируют страницы не могут просматривать картинки, поэтому единственный способ "рассказать" им о их содержимом - написать об этом в атрибуте alt.</p>
+	
+	<pre class="brush: csharp;">
+		<img src="boat.gif" alt="На картинке изображена плывущая лодка" />
+	</pre>
+	
+	<h1 id="title">
+		Создание карт-изображений
+	</h1>
+	
+	<p>В HTML можно создавать специальные карты-изображений, которые содержат список областей-ссылок и привязываются к изображениям.</p>
+	<p>Карты в HTML создаются с помощью тега <b>&lt;map&gt;</b>, а области-ссылки в них с помощью тега <b>&lt;area&gt;</b>.</p>
+	
+	<p>Форма и координаты областей-ссылок задаются с помощью атрибутов <b>shape</b> и <b>coords</b> тега <b>&lt;area&gt;</b>, а место на которое они ссылаются с помощью атрибута <b>href</b>.</p>
+	
+	<p>Возможные формы областей ссылок:</p>
+	
+	<table>
+		<tr>
+			<th>Форма</th>
+			<th>Атрибуты</th>
+		</tr>
+		<tr>
+			<td><b>Прямоугольная область-ссылка</b></td>
+			<td>shape="rect", coords="x1,y1,x2,y2", где x1,y1 координаты верхнего левого угла прямоугольной области, а x2,y2 координаты нижнего правого угла области.</td>
+		</tr>
+		<tr>
+			<td><b>Круглая область-ссылка</b></td>
+			<td>shape="circle", coords="x,y,радиус", где x,y координаты центра области.</td>
+		</tr>
+		<tr>
+			<td><b>Область-ссылка многоугольник</b></td>
+			<td>shape="poly", coords="x1,y1,x2,y2..xz,yz", где x1,y2 координаты первого угла многоугольника, x2,y2 второго и т.д. Если координаты первого и последнего угла не совпадают, браузер автоматически добавит координату последнего угла, чтобы завершить многоугольник.</td>
+		</tr>
+	</table>
+	
+	<p>После того, как карта создана необходимо привязать ее к какому-нибудь изображению. Для этого необходимо добавить к изображению атрибут <b>usemap="#имя_карты"</b>, а к карте добавить атрибут <b>name="имя_карты"</b>.</p>
+	
+	<pre class="brush: csharp;">
+		<img src="figures.gif" usemap="#figuremap" />
+		
+		<map name="figuremap">
+			<area shape="rect" coords="3,8,72,75" href="bluesquare.html" target="_blank" />
+			<area shape="circle" coords="125,50,38" href="greencircle.html" target="_blank" />
+			<area shape='poly' coords='180,27,210,6,248,30,233,74,190,72' href="redpolygon.html" target="_blank" />
+		</map>
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial9.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial11.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/html/book/tutorial10.html", "HTML картинки", "bm483"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm483", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm483") == 1) { document.getElementById("bma483").style.display = "block"; document.getElementById("bm483").style.display = "none"; } else { document.getElementById("bma483").style.display = "none"; document.getElementById("bm483").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("HTML картинки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm483", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

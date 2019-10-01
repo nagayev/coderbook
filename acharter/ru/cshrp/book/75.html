@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma162" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm162" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Методы при наследовании
+	</h1>
+
+	<p>О конструкторах.</p>
+	<p>В приведенном примере наследования с классами "круг" и "кольцо" конструктор производного класса Ring явным образом обращается к конструктору базового класса Disk с помощью выражения base(Ri).</p>
+	<p>Обращение происходит до выполнения операторов тела конструктора – в инициализаторе конструктора:</p>
+
+	<pre class="brush: csharp;">
+	public Ring(double Ri, double ri) : base(Ri) { rad = ri; }
+	</pre>
+
+	<p>Так как в нашем примере поле rad базового класса Disk доступно для методов производного класса, то программист может попытаться так записать определение конструктора:</p>
+
+	<pre class="brush: csharp;">
+	public Ring(double Ri, double ri) { base.rad = Ri; rad = ri; }
+	</pre>
+
+	<p>Внешне все выглядит правильно, но если не менять определения базового класса Disk, то компилятор выдаст следующее сообщение об ошибке:</p>
+
+	<pre class="brush: csharp;">
+	'Disk' does not contain a constructor that takes '0' arguments
+	</pre>
+
+	<p>Disk не содержит конструктора, который имеет '0' аргументов.</p>
+	<p>Чтобы принять такое решение, компилятор использовал два правила.</p>
+	<p>Первое из них мы уже приводили – если в определении класса присутствует объявление хотя бы одного конструктора, то конструктор без параметров автоматически в класс не добавляется.</p>
+	<p>Правило второе относится к наследованию.</p>
+	<p>Уже говорилось, что в отличие от других членов базового класса, конструкторы не наследуются.</p>
+	<p>Конструктор базового класса необходимо явно вызвать из инициализатора конструктора производного класса.</p>
+	<p>Если этого не сделано, то компилятор по умолчанию самостоятельно дополнит объявление конструктора (точнее его инициализатор) обращением к конструктору базового класса без параметров.</p>
+	<p>Так как в классе Disk конструктор без параметров отсутствует, то компиляция завершается приведенным сообщением об ошибке.</p>
+	<p>Экранирование методов базового класса.</p>
+	<p>Тот факт, что в производном классе могут быть определены новые методы, имена которых отличны от имен методов базового класса, наверное, нет необходимости пояснять.</p>
+	<p>А вот на одноименных методах базового и производного классов остановимся подробно.</p>
+	<p>Во-первых, для методов возможна перегрузка (overload).</p>
+	<p>В этом случае одноименные методы базового и производного классов должны иметь разные спецификации параметров.</p>
+	<p>Во-вторых, разрешено переопределение иначе экранирование или сокрытие (hiding) методом производного класса одноименного метода базового класса (спецификации параметров совпадают).</p>
+	<p>В третьих, метод базового класса может быть объявлен как виртуальный (virtual), и тогда при его переопределении (overriding) в производных классах обеспечивается полиморфизм.</p>
+	<p>В случае перегрузки методов при наследовании никаких нововведений нет.</p>
+	<p>При экранировании метода стандарт рекомендует снабжать метод производного класса модификатором new.</p>
+	<p>При его отсутствии компиляция проходит успешно, но выдается предупреждение (Warning).</p>
+	<p>В нем программисту указывают, что он выполнил переопределение метода базового класса, возможно, по оплошности.</p>
+	<p>Если при переопределении методов необходимо из методов производного класса обращаться к методу базового класса, то используется уточнённое имя <b>base.имя_метода_базового_класса</b>.</p>
+	<p>Покажем на примере переопределение (экранирование) методов.</p>
+	<p>Определим класс "фигура на плоскости с заданными размерами вдоль координатных осей".</p>
+	<p>Такой класс будет служить базовым для классов "прямоугольник", "эллипс", "треугольник" и т.д.</p>
+	<p>Для простоты будем считать, что у прямоугольника стороны параллельны координатным осям, у эллипса оси параллельны координатным осям, у треугольника сторона и перпендикулярная ей высота параллельны координатным осям.</p>
+	<p>При таком соглашении "габариты" базовой фигуры однозначно позволят вычислить площадь производной фигуры.</p>
+
+	<pre class="brush: csharp;">
+	// 13_06.cs - экранирование методов при наследовании
+	// базовый класс
+	class Figure
+	{
+		// размеры вдоль осей
+		protected double dx, dy;
+		public void print()
+		{
+			Console.WriteLine("Габариты: dx={0:f2}, dy={1:f2}", dx, dy);
+		}
+	}
+	// Производный класс – прямоугольник:
+	class Rectangle : Figure
+	{
+		public Rectangle(double xi, double yi)
+		{
+			dx = xi;
+			dy = yi;
+		}
+		public new void print()
+		{
+			Console.Write("Прямоугольник! \t");
+			base.print();
+		}
+	}
+	// Производный класс – треугольник:
+	class Triangle : Figure
+	{
+		public Triangle(double xi, double yi)
+		{
+			dx = xi;
+			dy = yi;
+		}
+		public new void print()
+		{
+			Console.Write("Треугольник! \t");
+			base.print();
+		}
+	}
+	</pre>
+
+	<p>В каждом из производных классов есть свой метод print(), который экранирует одноимённый метод базового класса.</p>
+	<p>В методе print() производного класса выполнено обращение к методу print() базового класса.</p>
+	<p>Применение классов иллюстрирует следующий код:</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static void Main()
+		{
+			Rectangle rec = new Rectangle(3.0, 4.0);
+			rec.print();
+			Triangle tre = new Triangle(5.0, 4.0);
+			tre.print();
+			Figure fig = new Figure();
+			fig.print();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Прямоугольник! Габариты: dx=3,00, dy=4,00
+	Треугольник! Габариты: dx=5,00, dy=4,00
+	Габариты: dx=0,0, dy=0,0
+	</pre>
+
+	<p>Отметим, что при экранировании метод может иметь другой тип возвращаемого значения.</p>
+	<p>Для тех, кто помнит, что в сигнатуру метода тип возвращаемого значения не входит, этот факт не окажется неожиданностью.</p>
+	<p>Виртуальные методы и полиморфизм.</p>
+	<p>Ссылке с типом базового класса можно присвоить значение ссылки на объект производного класса.</p>
+	<p>После такого присваивания ссылка не обеспечивает доступа к обычным (не виртуальным) методам производного класса.</p>
+	<p>Рассмотрим следующий фрагмент программы с несколькими ссылками базового класса Figure, адресующими объекты и базового, и производных классов Triangle, и Rectangle (программа 13_07.cs).</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		Figure fig1 = new Rectangle(3.0, 4.0);
+		Figure fig2 = new Triangle(5.0, 4.0);
+		Figure fig3 = new Figure();
+		fig1.print();
+		fig2.print();
+		fig3.print();
+	}
+	</pre>
+
+	<p>Три ссылки, имеющие тип Figure, ассоциированы с объектами разных классов.</p>
+	<p>Затем с помощью этих ссылок выполнены обращения к методу print().</p>
+	<p>Во всех случаях вызывается метод базового класса.</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Габариты: dx=3,00, dy=4,00
+	Габариты: dx=5,00, dy=4,00
+	Габариты: dx=0,00, dy=0,00
+	</pre>
+
+	<p>Адресаты обращений в выражениях fig1.print(), fig2.print(), fig3.print() определяются объявленным типом ссылок, а не типом значения, которое ассоциировано со ссылкой присвоено.</p>
+	<p>Связано это с невиртуальностью методов print().</p>
+	<p>Ссылка с типом базового класса может обеспечить доступ к виртуальному методу того производного класса, объект которого в этот момент адресован этой ссылкой.</p>
+	<p>Для определения в базовом классе виртуального метода в его заголовок нужно добавить модификатор virtual.</p>
+	<p>В производном классе для переопределения виртуального метода используется модификатор override.</p>
+	<p>Заметим, что виртуальный метод не может быть закрытым (private).</p>
+	<p>В нашем примере изменения будут минимальными.</p>
+	<p>Заголовок метода в базовом классе примет вид (программа 13_08.cs):</p>
+
+	<pre class="brush: csharp;">
+	public virtual void print()
+	</pre>
+
+	<p>В каждом из производных классов заголовок переопределяющего метода примет вид:</p>
+
+	<pre class="brush: csharp;">
+	public override void print()
+	</pre>
+
+	<p>Обратите внимание, что модификатор new заменён для виртуального метода модификатором override.</p>
+	<p>Результат выполнения того же фрагмента кода с определением и использованием ссылок fig1, fig2, fig3 будет таким:</p>
+
+	<pre class="brush: csharp;">
+	Прямоугольник! Габариты: dx=3,00, dy=4,00
+	Треугольник! Габариты: dx=5,00, dy=4,00
+	Габариты: dx=0,00, dy=0,00
+	</pre>
+
+	<p>Здесь дважды выполнено обращение к методам print() производных классов, и последним выполнен вызов виртуального метода print() базового класса.</p>
+	<p>Обратим внимание, что спецификации параметров и, конечно, имена виртуального метода и переопределяющего метода производного класса должны совпадать.</p>
+	<p>Виртуальным может быть не только метод, но и и индикатор, событие и свойство, в объявление которого входит модификатор virtual.</p>
+	<p>Все описанные возможности виртуальных методов распространяются также и на эти члены.</p>
+	<p>Массивы ссылок с типом базового класса позволяют продемонстрировать возможности виртуальных методов и свойств.</p>
+	<p>Как уже показано, ссылке с типом базового класса можно присвоить значение ссылки на объект любого производного класса.</p>
+	<p>Если в производных классах переопределены виртуальные методы базового класса, то с помощью одной ссылки с типом базового класса можно обращаться к методам объектов разных производных классов.</p>
+	<p>В качестве примера рассмотрим следующую программу:</p>
+
+	<pre class="brush: csharp;">
+	// 13_09.cs - массив ссылок с типом базового класса
+	using System;
+	class A
+	{
+		public virtual string record( ) { return "Базовый класс!"; }
+	}
+
+	class B : A
+	{
+		public override string record( ) { return "Производный В!"; }
+	}
+
+	class C : A
+	{
+		public override string record( ) { return "Производный C!"; }
+	}
+	
+	class Program
+	{
+		static void Main()
+		{
+			A[ ] arrA = new A[] {new A( ), new B( ), new C( ), new B( )};
+			foreach (A rec in arrA)
+			Console.WriteLine(rec.record());
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Базовый класс!
+	Производный В!
+	Производный C!
+	Производный В!
+	</pre>
+
+	<p>Если параметром метода служит ссылка с типом базового класса, то вместо неё в качестве аргумента можно использовать ссылку на объект производного класса.</p>
+	<p>Эту возможность демонстрирует следующая программа:</p>
+
+	<pre class="brush: csharp;">
+	// 13_10.cs - ссылка с типом базового класса как параметр
+	using System;
+	class Aclass { }
+	class Bclass : Aclass { }
+	class Cclass : Aclass { }
+	class Program
+	{
+		static void type(Aclass par)
+		{
+			Console.WriteLine(par.ToString());
+		}
+		static void Main()
+		{
+			type(new Aclass());
+			type(new Bclass());
+			type(new Cclass());
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Aclass
+	Bclass
+	Cclass
+	</pre>
+
+	<p>Если тип возвращаемого значения метода есть тип базового класса, то метод может вернуть значение ссылки на объект производного класса.</p>
+	<p>Пример (программа 13_11.cs):</p>
+
+	<pre class="brush: csharp;">
+	static Aclass type(int m)
+	{
+		if (m == 0) return new Bclass();
+		if (m == 1) return new Cclass();
+		return new Aclass();
+	}
+	static void Main()
+	{
+		for (int i = 0; i < 3; i++)
+		Console.WriteLine(type(i).GetType());
+	}
+	</pre>
+
+	<p>Результат:</p>
+
+	<pre class="brush: csharp;">
+	Bclass
+	Cclass
+	Aclass
+	</pre>
+
+	<p>О возможности ссылки с типом базового класса представлять виртуальные члены производных классов говорят, используя термин "динамическое связывание".</p>
+	<p>Эта возможность основана на наличии у ссылки двух типов.</p>
+	<p>Тип, получаемый в декларации ссылкой на объекты базового класса, является ее объявленным (статическим) типом.</p>
+	<p>Если этой ссылке присваивается значение ссылки на объект производного класса, то ссылка дополнительно получает тип времени исполнения (динамический тип).</p>
+	<p>При обращении к невиртуальным членам учитывается статический тип ссылки, что обеспечивает доступ к членам базового класса.</p>
+	<p>При обращении к виртуальным членам используется динамический тип ссылки и вызываются члены объекта производного класса.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="74.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="76.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/75.html", "Методы при наследовании", "bm162"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm162", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm162") == 1) { document.getElementById("bma162").style.display = "block"; document.getElementById("bm162").style.display = "none"; } else { document.getElementById("bma162").style.display = "none"; document.getElementById("bm162").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Методы при наследовании") == 1) { arrs.splice(i, 1); localStorage.setItem("bm162", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

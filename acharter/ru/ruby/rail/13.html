@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1322" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1322" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Сохранение данных в контроллере
+    </h1>
+
+    <p>Возвратимся к <b>ArticlesController</b>, нам нужно изменить экшн create, чтобы использовать новую модель Article для сохранения данных в базе данных.</p>
+    <p>Откройте <b>app/controllers/articles_controller.rb</b> и измените экшн create следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    def create
+      @article = Article.new(params[:article])
+     
+      @article.save
+      redirect_to @article
+    end
+    </pre>
+
+    <p>Вот что тут происходит: каждая модель Rails может быть инициализирована с помощью соответствующих атрибутов, которые будут автоматически привязаны к соответствующим столбцам базы данных.</p>
+    <p>В первой строчке мы как раз это и делаем (помните, что <b>params[:article]</b> содержит интересующие нас атрибуты).</p>
+    <p>Затем <b>@article.save</b> ответственен за сохранение модели в базу данных.</p>
+    <p>Наконец, мы перенаправляем пользователя на экшн show, который мы определим позже.</p>
+    <p>Вы, возможно, задаетесь вопросом, почему A в <b>Article.new</b> заглавная, хотя все остальные ссылки на статьи в этом руководстве используют строчное написание.</p>
+    <p>В этом контексте мы ссылаемся на класс по имени Article, который определен в app/models/article.rb. Имена классов в Ruby должны начинаться с заглавной буквы.</p>
+    <p>Как мы увидим далее, <b>@article.save</b> возвращает булево значение, показывающее, была ли сохранена модель, или нет.</p>
+    <p>Если теперь перейти на <b>http://localhost:3000/articles/new</b>, вы почти сможете создать новую статью.</p>
+    <p>Попробуйте!</p>
+    <p>Вы должны получить ошибку, которая выглядит так:</p>
+
+    <img src="r7.png" id="image" />
+
+    <p>Rails имеет ряд защитных мер, помогающих писать безопасные приложения, и вы только что столкнулись с одной из них.</p>
+    <p>Она называется strong parameters и требует, чтобы мы указали Rails, какие именно параметры разрешено передавать в экшны нашего контроллера.</p>
+    <p>Почему об этом нужно беспокоиться?</p>
+    <p>Возможность взять и автоматически назначить все параметры контроллера в вашу модель облегчит работу программиста, но это удобство также позволяет использование в злонамеренных целях.</p>
+    <p>Что, если запрос к серверу был специально создан как отправка формы новой статьи, но также включает дополнительные поля, которые нарушают целостность вашего приложения?</p>
+    <p>Они будут 'массово назначены' в вашу модель и затем в базу данных среди нормальных данных — потенциально ломая ваше приложение, или еще хуже.</p>
+    <p>Нам нужно составить белый список параметров нашего контроллера, чтобы предотвратить ошибочное массовое назначение.</p>
+    <p>В этом случае, мы хотим и разрешить, и затребовать параметры title и text для корректного использования в create.</p>
+    <p>Синтаксис для этого представлен методами require и permit.</p>
+    <p>Изменение затрагивает одну строчку в экшне create:</p>
+
+    <pre class="brush: csharp;">
+    @article = Article.new(params.require(:article).permit(:title, :text))
+    </pre>
+
+    <p>Это часто выносится в отдельный метод, чтобы его можно было повторно использовать в нескольких экшнах одного контроллера, например в create и update.</p>
+    <p>Метод часто делают private (это уже не связано с массовым назначением), чтобы убедиться, что он не может быть вызван вне предназначенного контекста.</p>
+    <p>Вот результат:</p>
+
+    <pre class="brush: csharp;">
+    def create
+      @article = Article.new(article_params)
+     
+      @article.save
+      redirect_to @article
+    end
+     
+    private
+      def article_params
+        params.require(:article).permit(:title, :text)
+      end
+    </pre>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/13.html", "Сохранение данных в контроллере", "bm1322"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1322", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1322") == 1) { document.getElementById("bma1322").style.display = "block"; document.getElementById("bm1322").style.display = "none"; } else { document.getElementById("bma1322").style.display = "none"; document.getElementById("bm1322").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Сохранение данных в контроллере") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1322", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

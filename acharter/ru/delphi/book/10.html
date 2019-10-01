@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma396" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm396" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Вещественные числа
+	</h1>
+
+	<p>Как мы уже говорили раньше, вещественные числа – это числа с запятой, после которой идут десятичные значения.</p>
+	<p>Еще говорят, что они имеют плавающую точку (запомните это определение, оно будет часто встречаться).</p>
+	<p>Некоторые начинающие программисты считают, что лучше такой тип переменных использовать всегда, даже при обработке целых чисел.</p>
+	<p>Это большое заблуждение!</p>
+	<p>Операции над числами с плавающей точкой отнимают у процессора гораздо больше времени, и требуют больше памяти.</p>
+	<p>Компьютер воспринимает вещественное число, как два целых, и делает двойную работу при обработке чисел до запятой, и после нее.</p>
+	<p>Однако иной раз бывает необходимо использовать именно такой тип данных.</p>
+	<p>К примеру, если нужно поделить одно целое на другое.</p>
+	<p>Хорошо, если это будет "4/2", результат тоже будет целым – 2.</p>
+	<p>А если "4/3"?</p>
+	<p>Тогда результатом будет 1,3333… и уж тут без вещественного числа не обойтись!</p>
+	<p>А ведь мы заранее не знаем, какие числа будет делить пользователь, поэтому лучше сразу иметь в виду, что результат может быть не целым числом.</p>
+	<p>Как и целые, вещественные числа имеют несколько типов.</p>
+
+	<p><b>Тип Real48</b></p>
+	<p>Диапазон возможных значений: 2.9 * 10^(-39) .. 1.7 * 10^(38)</p>
+	<p>Значащих цифр максимально: 11-12</p>
+	<p>Размер в байтах: 6</p>
+	<p><b>Тип Real</b></p>
+	<p>Диапазон возможных значений: 5.0 * 10^(-324) .. 1.7 * 10^(308)</p>
+	<p>Значащих цифр максимально: 15-16</p>
+	<p>Размер в байтах: 8</p>
+	<p><b>Тип Single</b></p>
+	<p>Диапазон возможных значений: 1.5 * 10^(-45) .. 3.4 * 10^(38)</p>
+	<p>Значащих цифр максимально: 7-8	4</p>
+	<p><b>Тип Double</b></p>
+	<p>Диапазон возможных значений: 5.0 * 10^(-324) .. 1.7 * 10^(308)</p>
+	<p>Значащих цифр максимально: 15-16</p>
+	<p>Размер в байтах: 8</p>
+	<p><b>Тип Extended</b></p>
+	<p>Диапазон возможных значений: 3.6 * 10^(-4951) .. 1.1 * 10(4932)</p>
+	<p>Значащих цифр максимально: 19-20</p>
+	<p>Размер в байтах: 10</p>
+	<p><b>Тип Comp</b></p>
+	<p>Диапазон возможных значений: -2^(63)+1 .. 2^(63)-1</p>
+	<p>Значащих цифр максимально: 19-20</p>
+	<p>Размер в байтах: 8</p>
+	<p><b>Тип Currency</b></p>
+	<p>Диапазон возможных значений: -922337203685477.5808 .. 922337203685477.5807</p>
+	<p>Значащих цифр максимально: 19-20</p>
+	<p>Размер в байтах: 8</p>
+
+	<p>Третий столбец таблицы указывает количество максимально значащих цифр.</p>
+	<p>Цифры, которые выходят за этот предел, будут игнорироваться.</p>
+	<p>Тут важно помнить, что вещественные числа не равны целым.</p>
+	<p>То есть, число 3,0 не будет равно 3!</p>
+	<p>Чтобы сравнить оба эти числа, придется округлить вещественное число.</p>
+	<p>Изучим целые и вещественные типы на практике.</p>
+	<p>Для этого создадим простую программу, которая делит одно целое число на другое.</p>
+	<p>Результат будет выводиться, как вещественное число.</p>
+	<p>Откройте Delphi, создайте новый проект.</p>
+	<p>На форму нужно поместить три компонента Label, три компонента Edit и одну кнопку, чтобы получилась такая картина:</p>
+
+	<img src="delphi5.png" id="image" />
+
+	<p>Совет: чтобы выполнить одинаковую операцию над несколькими компонентами сразу, их можно выделить один за другим, удерживая клавишу &lt;Shift&gt;.</p>
+	<p>Например, если таким образом выделить все три компонента Edit, то затем можно разом очистить их свойство Text.</p>
+	<p>Сохраните проект под именем MyCalc.</p>
+	<p>Затем дважды щелкните по кнопке, чтобы создать обработчик нажатия на кнопку.</p>
+	<p>Перед begin процедуры следует создать раздел var, и объявить там три переменных:</p>
+
+	<pre class="brush: csharp;">
+var
+  Perem1, Perem2 : Integer;
+  Perem3 : Double;
+	</pre>
+
+	<p>Затем вернемся в тело процедуры (между командами begin и end ), и присвоим целым переменным введенные пользователем значения.</p>
+	<p>Здесь нужно понять одну важную вещь.</p>
+	<p>Пользователь будет вводить значения в компоненты Edit, и там они будут храниться в свойстве Text в виде строкового типа данных.</p>
+	<p>Строку нельзя будет присвоить переменной какого-либо другого типа данных, присвоение</p>
+
+	<pre class="brush: csharp;">
+Perem1 := Edit1.Text; //ошибочное присвоение 
+                      //– несовместимость типов данных
+	</pre>
+
+	<p>будет ошибочным.</p>
+	<p>Разница довольно существенная: даже если пользователь вводит, казалось бы, целое число, например,</p>
+
+	<pre class="brush: csharp;">
+	123
+	</pre>
+
+	<p>то компьютер видит строку символов, а вовсе не число:</p>
+
+	<pre class="brush: csharp;">
+	'123'
+	</pre>
+
+	<p>Решение – преобразовать один тип данных в другой, в нашем случае, строку в целый тип.</p>
+	<p>Преобразованием типов приходится заниматься сплошь и рядом, по мере изучения материала мы будем знакомиться с различными способами преобразования.</p>
+	<p>Преобразовать строку в целый тип можно с помощью функции</p>
+
+	<pre class="brush: csharp;">
+	StrToInt(String);
+	</pre>
+
+	<p>В качестве параметра (в скобках) указывается строка.</p>
+	<p>Функция преобразует ее в целое число и вернет его как результат.</p>
+	<p>Примеры использования функции (эти примеры не нужно вводить в редактор кода):</p>
+
+	<pre class="brush: csharp;">
+var
+   s: String;
+   i: Integer;
+begin
+   s := '1234';
+   i := StrToInt(s); //параметр – строковая переменная
+   i := StrToInt('123456'); //параметр – строка
+   i := StrToInt(Edit1.Text); //параметр – свойство Text 
+                              //компонента Edit, имеющее строковый тип
+end;
+	</pre>
+
+	<p>Как видно из примера, имеется масса возможностей передать в функцию строку.</p>
+	<p>В первом случае преобразования мы передаем строковую переменную s, в которой хранится строка '1234'.</p>
+	<p>Функция преобразует эту строку в целое число, и в результате в переменную i попадет уже число 1234.</p>
+	<p>Во втором случае мы передаем непосредственно строку '123456', а в переменную i попадает преобразованное из этой строки число.</p>
+	<p>В третьем случае мы в качестве параметра передаем тот текст, который пользователь ввел в поле ввода Edit1.</p>
+	<p>Здесь следует сделать оговорку.</p>
+	<p>Функция сработает правильно, если пользователь ввел туда действительно целое число.</p>
+	<p>В противном случае возникнет ошибка.</p>
+	<p>Пользователь – личность непредсказуемая, поэтому программист в таких случаях перед преобразованием типов всегда делает проверку – а действительно ли в поле ввода имеются только цифры от 0 до 9?</p>
+	<p>Нет ли там случайно буквы или запятой?</p>
+	<p>Такую проверку мы научимся делать позднее.</p>
+	<p>Пока что придется самим следить, чтобы в этих полях ввода были только целые числа.</p>
+	<p>Вернемся к программе.</p>
+	<p>Сразу после begin присваиваем целым переменным значения, которые ввел пользователь:</p>
+
+	<pre class="brush: csharp;">
+Perem1 := StrToInt(Edit1.Text);
+  Perem2 := StrToInt(Edit2.Text);
+	</pre>
+
+	<p>В третью, вещественную переменную, мы должны записать результат деления первого числа на второе.</p>
+	<p>Тут может крыться еще один "подводный камень" - что, если во второе поле пользователь ввел число 0?</p>
+	<p>Еще со школы все мы знаем, что на ноль делить нельзя.</p>
+	<p>Если же мы попробуем это сделать, то компьютер, в лучшем случае, зависнет.</p>
+	<p>Здесь опять придется делать проверку на правильность введенных данных, ставить, как говорят, "защиту от дураков".</p>
+	<p>Подробнее о таких проверках мы поговорим на следующих лекциях, когда изучим условные конструкции.</p>
+	<p>А пока просто наберите этот код:</p>
+
+	<pre class="brush: csharp;">
+{защита от дураков:}
+  If Perem2 = 0 then begin                   //если это ноль, то:
+    ShowMessage('На ноль делить нельзя!');   //выводит сообщение
+    Edit3.Text := '0';                 //как результат записываем ноль
+  end
+  else begin                            //иначе:
+    Perem3 := Perem1 / Perem2;         //делим
+    Edit3.Text := FloatToStr(Perem3);  //преобразуем вещественное в 
+                                       //строку и записываем результат
+  end;
+	</pre>
+
+	<p>Здесь следует обратить внимание на предпоследнюю строку.</p>
+	<p>Функция FloatToStr() в качестве параметра принимает вещественное число, и возвращает это же число в виде строки.</p>
+	<p>Например, в результате преобразования</p>
+
+	<pre class="brush: csharp;">
+	s := FloatToStr(123.45);
+	</pre>
+
+	<p>переменной s будет присвоена строка '123.45', которую затем уже можно будет вывести пользователю в качестве результата.</p>
+	<p>В нашем примере мы результат деления двух целых чисел преобразуем в строку и выводим его в поле Edit3.</p>
+	<p>Справедливости ради следует заметить, что в качестве параметра можно передавать не только значение, но и выражение.</p>
+	<p>Например, если указать</p>
+
+	<pre class="brush: csharp;">
+	Edit3.Text := FloatToStr(Perem1 / Perem2);
+	</pre>
+
+	<p>то надобность в использовании вещественной переменной Perem3 отпадает.</p>
+	<p>Попробуйте, как работают оба варианта.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="09.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="11.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/10.html", "Вещественные числа", "bm396"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm396", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm396") == 1) { document.getElementById("bma396").style.display = "block"; document.getElementById("bm396").style.display = "none"; } else { document.getElementById("bma396").style.display = "none"; document.getElementById("bm396").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Вещественные числа") == 1) { arrs.splice(i, 1); localStorage.setItem("bm396", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

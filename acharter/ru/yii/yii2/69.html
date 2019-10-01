@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1275" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1275" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		HTTP кэширование
+	</h1>
+
+    <p>Кроме серверного кэширования, которое мы описали в предыдущих разделах, веб-приложения также могут использовать кэширование на стороне клиента, чтобы сэкономить время для формирования и передачи одного и того же содержания страницы.</p>
+    <p>Чтобы использовать кэширование на стороне клиента, вы можете настроить [[yii\filters\HttpCache]] в качестве фильтра для действия контроллера, отображающего результат, который может быть закэширован на стороне клиента.</p>
+    <p>[[yii\filters\HttpCache|HttpCache]] работает только для GET и HEAD запросов. Для этих запросов он может обрабатывать три вида HTTP заголовков, относящихся к кэшированию:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\HttpCache::lastModified|Last-Modified]]
+    </pre>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\HttpCache::etagSeed|Etag]]
+    </pre>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\HttpCache::cacheControlHeader|Cache-Control]]
+    </pre>
+
+    <h2 id="title">
+        Заголовок Last-Modified
+    </h2>
+
+    <p>Заголовок Last-Modified использует временную метку timestamp, чтобы показать была ли страница изменена после того, как клиент закэшировал её.</p>
+
+    <p>Вы можете настроить свойство [[yii\filters\HttpCache::lastModified]], чтобы включить отправку заголовка Last-Modified.</p>
+    <p>Свойство должно содержать PHP-функцию, возвращающую временную метку UNIX timestamp времени последнего изменения страницы.</p>
+    <p>Сигнатура PHP-функции должна совпадать со следующей,</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * @param Action $action объект действия, которое в настоящее время обрабатывается
+     * @param array $params значение свойства "params"
+     * @return int временная метка UNIX timestamp, возвращающая время последнего изменения страницы
+     */
+    function ($action, $params)
+    </pre>
+
+    <p>Ниже приведён пример использования заголовка Last-Modified:</p>
+
+    <pre class="brush: csharp;">
+    public function behaviors()
+    {
+        return [
+            [
+                'class' =&gt; 'yii\filters\HttpCache',
+                'only' =&gt; ['index'],
+                'lastModified' =&gt; function ($action, $params) {
+                    $q = new \yii\db\Query();
+                    return $q->from('post')->max('updated_at');
+                },
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Приведенный выше код устанавливает, что HTTP кэширование должно быть включено только для действия index.</p>
+    <p>Он генерирует Last-Modified HTTP заголовок на основе времени последнего сообщения.</p>
+    <p>Когда браузер в первый раз посещает страницу index, то страница будет сгенерирована на сервере и отправлена в браузер; если браузер снова зайдёт на эту страницу и с тех пор ни один пост не обновится, то сервер не будет пересоздавать страницу и браузер будет использовать закэшированную на стороне клиента версию.</p>
+    <p>В результате, будет пропущено как создание страницы на стороне сервера, так и передача содержания страницы клиенту.</p>
+
+    <h2 id="title">
+        Заголовок ETag
+    </h2>
+
+    <p>Заголовок "Entity Tag" (или коротко ETag) используется для передачи хэша содержания страницы.</p>
+    <p>Если страница была изменена, то хэш страницы тоже изменится.</p>
+    <p>Сравнивая хэш на стороне клиента с хэшем, генерируемым на стороне сервера, кэш может определить, была ли станица изменена и требуется ли её передавать заново.</p>
+    <p>Вы можете настроить свойство [[yii\filters\HttpCache::etagSeed]], чтобы включить передачу заголовка ETag.</p>
+    <p>Свойство должно содержать PHP-функцию, возвращающий seed для генерации ETag хэша.</p>
+    <p>Сигнатура PHP-функции должна совпадать со следующей,</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * @param Action $action объект действия, которое в настоящее время обрабатывается
+     * @param array $params значение свойства "params"
+     * @return string строка используемая как seed для генерации ETag хэша
+     */
+    function ($action, $params)
+    </pre>
+
+    <p>Ниже приведён пример использования заголовка ETag:</p>
+
+    <pre class="brush: csharp;">
+    public function behaviors()
+    {
+        return [
+            [
+                'class' =&gt; 'yii\filters\HttpCache',
+                'only' =&gt; ['view'],
+                'etagSeed' =&gt; function ($action, $params) {
+                    $post = $this->findModel(\Yii::$app->request->get('id'));
+                    return serialize([$post->title, $post->content]);
+                },
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Приведенный выше код устанавливает, что HTTP кэширование должно быть включено только для действия view.</p>
+    <p>Он генерирует ETag HTTP заголовок на основе заголовка и содержания последнего сообщения.</p>
+    <p>Когда браузер в первый раз посещает страницу view, то страница будет сгенерирована на сервере и отправлена в браузер; если браузер снова зайдёт на эту страницу и с тех пор ни один пост не обновится, то сервер не будет пересоздавать страницу и браузер будет использовать закэшированную на стороне клиента версию.</p>
+    <p>В результате, будет пропущено как создание страницы на стороне сервера, так и передача содержание страницы клиенту.</p>
+    <p>ETags позволяет применять более сложные и/или более точные стратегии кэширования, чем заголовок Last-Modified.</p>
+    <p>Например, ETag станет невалидным (некорректным), если на сайте была включена другая тема</p>
+    <p>Ресурсоёмкая генерация ETag может противоречить цели использования HttpCache и внести излишнюю нагрузку, т.к. он должен пересоздаваться при каждом запросе.</p>
+    <p>Попробуйте найти простое выражение, которое инвалидирует кэш, если содержание страницы было изменено.</p>
+    <p><b>Примечание:</b> В соответствии с RFC 7232, HttpCache будет отправлять как ETag заголовок, так и Last-Modified заголовок, если они оба были настроены.</p>
+    <p>И если клиент отправляет как If-None-Match заголовок, так и If-Modified-Since заголовок, то только первый из них будет принят.</p>
+
+    <h2 id="title">
+        Заголовок Cache-Control
+    </h2>
+
+    <p>Заголовок Cache-Control определяет общую политику кэширования страниц.</p>
+    <p>Вы можете включить его отправку, настроив свойство [[yii\filters\HttpCache::cacheControlHeader]].</p>
+    <p>По-умолчанию будет отправлен следующий заголовок:</p>
+
+    <pre class="brush: csharp;">
+    Cache-Control: public, max-age=3600
+    </pre>
+
+    <h2 id="title">
+        Ограничитель кэша сессий
+    </h2>
+
+    <p>Когда на странице используются сессии, PHP автоматически отправляет некоторые связанные с кэшем HTTP заголовки, определённые в настройке session.cache_limiter в php.ini.</p>
+    <p>Эти заголовки могут вмешиваться или отключать кэширование, которое вы ожидаете от HttpCache.</p>
+    <p>Чтобы предотвратить эту проблему, по умолчанию HttpCache будет автоматически отключать отправку этих заголовков.</p>
+    <p>Если вы хотите изменить это поведение, вы должны настроить свойство [[yii\filters\HttpCache::sessionCacheLimiter]].</p>
+    <p>Это свойство может принимать строковое значение, включая public, private, private_no_expire и nocache.</p>
+    <p>Пожалуйста, обратитесь к руководству PHP о session_cache_limiter() для объяснения этих значений.</p>
+
+    <h2 id="title">
+        SEO подтекст
+    </h2>
+
+    <p>Поисковые боты, как правило, с уважением относятся к заголовкам кэширования.</p>
+    <p>Поскольку некоторые из поисковых систем имеют ограничение на количество страниц для одного домена, которые они обрабатывают в течение определенного промежутка времени, то предоставление заголовков кэширования может помочь индексации, поскольку будет уменьшено число обрабатываемых страниц.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="68.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="70.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/69.html", "Yii2: HTTP кэширование", "bm1275"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1275", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1275") == 1) { document.getElementById("bma1275").style.display = "block"; document.getElementById("bm1275").style.display = "none"; } else { document.getElementById("bma1275").style.display = "none"; document.getElementById("bm1275").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: HTTP кэширование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1275", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

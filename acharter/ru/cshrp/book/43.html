@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma130" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm130" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Преобразования с участием строкового типа
+	</h1>
+
+	<p>Рассматривая арифметические типы, мы привели правила неявных преобразований и операцию явного приведения типов:</p>
+	<p><b>(тип) первичное_выражение</b></p>
+	<p>К строковому типу неявные преобразования не применимы, и невозможно использование операции явного приведения типов.</p>
+	<p>Как уже отмечалось, для всех типов существует метод ToString(), унаследованный всеми классами от единого базового класса object.</p>
+	<p>Таким образом, значение любого типа можно представить в виде строки, например, так:</p>
+
+	<pre class="brush: csharp;">
+	int n = 8, m = 3;
+
+	Console.WriteLine(m.ToString()+n.ToString() + " попугаев");
+	</pre>
+
+	<p>Результат вывода на консоль:</p>
+
+	<pre class="brush: csharp;">
+	38 попугаев.
+	</pre>
+
+	<p>Для обратного преобразования из строки в значение другого типа можно воспользоваться статическими методами библиотечного класса Convert, принадлежащего пространству имён System.</p>
+	<p>Ещё один путь – применение статического метода Parse() или метода TryParse().</p>
+	<p>Указанные методы (их применение кратко рассмотрено в главе 5) определены в каждом классе предопределённого типа, за исключением класса object (в котором они не нужны).</p>
+	<p>Эти методы часто применяется при чтении данных из входного консольного потока.</p>
+	<p>Метод Console.ReadLine() возвращает в виде строки набранную на клавиатуре последовательность символов.</p>
+	<p>"Расшифровку" этой последовательности, то есть превращение символьного представления во внутреннее представление (в код) соответствующего значения, удобно выполнить с помощью метода Parse() или TryParse().</p>
+	<p>Наиболее просто, но совсем небезопасно, применить метод Parse(), например таким образом:</p>
+
+	<pre class="brush: csharp;">
+	int res = int.Parse(Console.ReadLine());
+	</pre>
+
+	<p>В данном случае изображение целого числа в виде набранной на клавиатуре последовательности цифр (возможно со знаком) передаётся в виде строки как аргумент методу Parse() класса int (иначе System.Int32).</p>
+	<p>Задача метода – сформировать код целого числа, которое станет значением переменной int res.</p>
+	<p>Особенность (и опасность) – в прочитанной строке не должно быть символов, отличных от десятичных цифр и знака числа (+ или -).</p>
+	<p>Перед изображением числа и после него могут находиться пробелы, которые будут отброшены (проигнорированы).</p>
+	<p>Например, строка может быть такой:</p>
+
+	<pre class="brush: csharp;">
+	" - 240 "
+	</pre>
+
+	<p>Значением переменной res будет -240.</p>
+	<p>Как уже говорилось, при неверной строковой записи значения анализируемого типа, метод Parse() генерирует исключение.</p>
+	<p>При отсутствии в программе операторов обработки этих исключений (а мы их ещё не рассматривали) программа завершается аварийно.</p>
+	<p>Для решения той же задачи чтения из входной строки целочисленного значения метод TryParse() можно применить так:</p>
+
+	<pre class="brush: csharp;">
+	int res;
+	do Console.Write("Введите целое число: ");
+	while(int.TryParse(Console.ReadLine(),out res)==false);
+	</pre>
+
+	<p>В цикле с постусловием пользователю выводится приглашение "Введите целое число: ".</p>
+	<p>Набранную на клавиатуре последовательность символов считывает метод Console.ReadLine().</p>
+	<p>Возвращаемая методом строка служит первым аргументом метода TryParse() из класса int.</p>
+	<p>Если строка является корректным изображением целого числа, то его код присваивается аргументу res, а метод TryParse() возвращает значение true.</p>
+	<p>Тем самым цикл завершается.</p>
+	<p>В противном случае параметр res остаётся без изменений, метод TryParse() возвращает значение false, что приводит к следующей итерации цикла.</p>
+	<p>Цикл будет повторяться, пока пользователь не введёт правильного изображения целого числа.</p>
+	<p>Методов преобразований для предопределённых типов в классе System.Convert много и у них разные имена.</p>
+	<p>Например, для преобразования строки в код целого числа типа int предназначен метод:</p>
+
+	<pre class="brush: csharp;">
+	Convert.ToInt32(строка);
+	</pre>
+
+	<p>При использовании преобразований в строке-аргументе должны быть только символы, допустимые для представления того значения, к типу которого выполняется преобразование.</p>
+	<p>В противном случае возникает ошибочная ситуация, генерируется исключение, и, если в программе не предусмотрена обработка этого исключения, программа завершается аварийно.</p>
+	<p>Приведём пример с одним из методов класса Convert:</p>
+
+	<pre class="brush: csharp;">
+	string sPi = "3,14159", radius = "10,0";
+	double circle = 2 * Convert.ToDouble(sPi) * Convert.ToDouble(radius);
+	Console.WriteLine("Длина окружности="+circle.ToString());
+	</pre>
+
+	<p>В примере определены две строки, содержащие изображения вещественных чисел (типа double).</p>
+	<p>Обратите внимание, что дробная часть строкового представления каждого числа отделена от целой части запятой, а не точкой.</p>
+	<p>Это связано (как мы уже упоминали) с правилами локализации системы, в которой исполняется программа.</p>
+	<p>В Европе и России целая и дробная части числа традиционно разделяются запятой.</p>
+	<p>В инициализаторе переменной double circle использованы два обращения к одному методу класса Convert.</p>
+	<p>Возвращаемые этими методами значения использованы для вычисления инициализирующего выражения.</p>
+	<p>Как догадался проницательный читатель, будет получено приближенное значение длины окружности с радиусом 10.</p>
+	<p>В аргументе метода Console.WriteLine( ) явно выполнено (хотя это и не обязательно) преобразование значения circle к значению типа string.</p>
+	<p>На консоль будет выведено:</p>
+
+	<pre class="brush: csharp;">
+	Длина окружности=62,8318
+	</pre>
+
+	<p>Опять запятая в изображении числа!</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="42.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="44.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/43.html", "Преобразования", "bm130"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm130", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm130") == 1) { document.getElementById("bma130").style.display = "block"; document.getElementById("bm130").style.display = "none"; } else { document.getElementById("bma130").style.display = "none"; document.getElementById("bm130").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Преобразования") == 1) { arrs.splice(i, 1); localStorage.setItem("bm130", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

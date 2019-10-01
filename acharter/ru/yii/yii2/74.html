@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1280" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1280" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Форматирование ответа
+	</h1>
+
+    <p>При обработке RESTful API запросов приложение обычно выполняет следующие шаги, связанные с форматированием ответа:</p>
+
+    <ol>
+        <li>Определяет различные факторы, которые могут повлиять на формат ответа, такие как media type, язык, версия и т.д. Этот процесс также известен как согласование содержимого.</li>
+        <li>Конвертирует объекты ресурсов в массивы, как описано в секции Ресурсы. Этим занимается [[yii\rest\Serializer]].</li>
+        <li>Конвертирует массивы в строки исходя из формата, определенного на этапе согласование содержимого. Это задача для [[yii\web\ResponseFormatterInterface|форматтера ответов]], регистрируемого с помощью компонента приложения [[yii\web\Response::formatters|response]].</li>
+    </ol>
+
+    <h2 id="title">
+        Согласование содержимого
+    </h2>
+
+    <p>Yii поддерживает согласование содержимого с помощью фильтра [[yii\filters\ContentNegotiator]].</p>
+    <p>Базовый класс контроллера RESTful API - [[yii\rest\Controller]] - использует этот фильтр под именем contentNegotiator.</p>
+    <p>Фильтр обеспечивает соответствие формата ответа и определяет используемый язык.</p>
+    <p>Например, если RESTful API запрос содержит следующий заголовок:</p>
+
+    <pre class="brush: csharp;">
+    Accept: application/json; q=1.0, */*; q=0.1
+    </pre>
+
+    <p>Он получит ответ в JSON-формате такого вида:</p>
+
+    <pre class="brush: csharp;">
+    $ curl -i -H "Accept: application/json; q=1.0, */*; q=0.1" "http://localhost/users"
+    
+    HTTP/1.1 200 OK
+    Date: Sun, 02 Mar 2014 05:31:43 GMT
+    Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.20 mod_ssl/2.2.26 OpenSSL/0.9.8y
+    X-Powered-By: PHP/5.4.20
+    X-Pagination-Total-Count: 1000
+    X-Pagination-Page-Count: 50
+    X-Pagination-Current-Page: 1
+    X-Pagination-Per-Page: 20
+    Link: &lt;http://localhost/users?page=1&gt;; rel=self,
+          &lt;http://localhost/users?page=2&gt;; rel=next,
+          &lt;http://localhost/users?page=50&gt;; rel=last
+    Transfer-Encoding: chunked
+    Content-Type: application/json; charset=UTF-8
+    
+    [
+        {
+            "id": 1,
+            ...
+        },
+        {
+            "id": 2,
+            ...
+        },
+        ...
+    ]
+    </pre>
+
+    <p>Под капотом происходит следующее: прежде, чем действие RESTful API контроллера будет выполнено, фильтр [[yii\filters\ContentNegotiator]] проверит HTTP-заголовок Accept в запросе и установит, что [[yii\web\Response::format|формат ответа]] должен быть в 'json'.</p>
+    <p>После того, как действие будет выполнено и вернет итоговый объект ресурса или коллекцию, [[yii\rest\Serializer]] конвертирует результат в массив.</p>
+    <p>И, наконец, [[yii\web\JsonResponseFormatter]] сериализует массив в строку в формате JSON и включит ее в тело ответа.</p>
+    <p>По умолчанию, RESTful API поддерживает и JSON, и XML форматы.</p>
+    <p>Для того, чтобы добавить поддержку нового формата, вы должны установить свою конфигурацию для свойства [[yii\filters\ContentNegotiator::formats|formats]] у фильтра contentNegotiator, например, с использованием поведения такого вида:</p>
+
+    <pre class="brush: csharp;">
+    use yii\web\Response;
+    
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_HTML;
+        return $behaviors;
+    }
+    </pre>
+
+    <p>Ключи свойства formats - это поддерживаемые MIME-типы, а их значения должны соответствовать именам форматов ответа, которые установлены в [[yii\web\Response::formatters]].</p>
+
+    <h2 id="title">
+        Сериализация данных
+    </h2>
+
+    <p>Как уже описывалось выше, [[yii\rest\Serializer]] - это центральное место, отвечающее за конвертацию объектов ресурсов или коллекций в массивы.</p>
+    <p>Он реализует интерфейсы [[yii\base\Arrayable]] и [[yii\data\DataProviderInterface]].</p>
+    <p>Для объектов ресурсов как правило реализуется интерфейс [[yii\base\Arrayable]], а для коллекций - [[yii\data\DataProviderInterface]].</p>
+    <p>Вы можете переконфигурировать сериализатор с помощью настройки свойства [[yii\rest\Controller::serializer]], используя конфигурационный массив.</p>
+    <p>Например, иногда вам может быть нужно помочь упростить разработку клиентской части приложения с помощью добавления информации о пагинации непосредственно в тело ответа.</p>
+    <p>Чтобы сделать это, переконфигурируйте свойство [[yii\rest\Serializer::collectionEnvelope]] следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    use yii\rest\ActiveController;
+    
+    class UserController extends ActiveController
+    {
+        public $modelClass = 'app\models\User';
+        public $serializer = [
+            'class' =&gt; 'yii\rest\Serializer',
+            'collectionEnvelope' =&gt; 'items',
+        ];
+    }
+    </pre>
+
+    <p>Тогда вы можете получить следующий ответ на запрос http://localhost/users:</p>
+
+    <pre class="brush: csharp;">
+    HTTP/1.1 200 OK
+    Date: Sun, 02 Mar 2014 05:31:43 GMT
+    Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.20 mod_ssl/2.2.26 OpenSSL/0.9.8y
+    X-Powered-By: PHP/5.4.20
+    X-Pagination-Total-Count: 1000
+    X-Pagination-Page-Count: 50
+    X-Pagination-Current-Page: 1
+    X-Pagination-Per-Page: 20
+    Link: &lt;http://localhost/users?page=1&gt;; rel=self,
+          &lt;http://localhost/users?page=2&gt;; rel=next,
+          &lt;http://localhost/users?page=50&gt;; rel=last
+    Transfer-Encoding: chunked
+    Content-Type: application/json; charset=UTF-8
+    
+    {
+        "items": [
+            {
+                "id": 1,
+                ...
+            },
+            {
+                "id": 2,
+                ...
+            },
+            ...
+        ],
+        "_links": {
+            "self": {
+                "href": "http://localhost/users?page=1"
+            },
+            "next": {
+                "href": "http://localhost/users?page=2"
+            },
+            "last": {
+                "href": "http://localhost/users?page=50"
+            }
+        },
+        "_meta": {
+            "totalCount": 1000,
+            "pageCount": 50,
+            "currentPage": 1,
+            "perPage": 20
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Настройка форматирования JSON
+    </h3>
+
+    <p>Ответ в формате JSON генерируется при помощи класса [[yii\web\JsonResponseFormatter|JsonResponseFormatter]], который использует внутри [[yii\helpers\Json|хелпер JSON]].</p>
+    <p>Данный форматтер гибко настраивается.</p>
+    <p>Например, опция [[yii\web\JsonResponseFormatter::$prettyPrint|$prettyPrint]] полезна на время разработки так как при её использовании ответы получаются более читаемыми.</p>
+    <p>[[yii\web\JsonResponseFormatter::$encodeOptions|$encodeOptions]] может пригодиться для более тонкой настройки кодирования.</p>
+    <p>Свойство [[yii\web\Response::formatters|formatters]] компонента приложения response может быть сконфигурировано следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    'response' =&gt; [
+        // ...
+        'formatters' =&gt; [
+            \yii\web\Response::FORMAT_JSON =&gt; [
+                'class' =&gt; 'yii\web\JsonResponseFormatter',
+                'prettyPrint' =&gt; YII_DEBUG, // используем "pretty" в режиме отладки
+                'encodeOptions' =&gt; JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+                // ...
+            ],
+        ],
+    ],
+    </pre>
+
+    <p>При работе с базой данных через DAO все данные представляются в виде строк, что не всегда корректно.</p>
+    <p>Особенно учитывая, что в JSON для чисел есть соответствующий тип.</p>
+    <p>При использовании ActiveRecord значения числовых столбцов приводятся к integer на этапе выборки из базы: [[yii\db\ActiveRecord::populateRecord()]].</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="73.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="75.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/74.html", "Yii2: Форматирование ответа", "bm1280"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1280", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1280") == 1) { document.getElementById("bma1280").style.display = "block"; document.getElementById("bm1280").style.display = "none"; } else { document.getElementById("bma1280").style.display = "none"; document.getElementById("bm1280").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Форматирование ответа") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1280", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma49" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm49" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Как найти время работы программы на С++
+	</h1>
+
+	<p>У многих начинающих программистов рано или поздно возникает вопрос: "Как найти время работы программы?".</p>
+	<p>В интернете много ответов на данный вопрос: написать свой мини-дебаггер, посчитать количество тактов и т. д.</p>
+	<p>Самый простой вариант — это посчитать разницу между начальным временем и конечным.</p>
+	<p>То есть, есть начальное значение времени, после которого объявлен фрагмент кода, время выполнения которого необходимо измерить.</p>
+	<p>После фрагмента кода фиксируется ещё одно, конечное, значение времени.</p>
+	<p>После чего, из конечного значения времени вычитаем начальное время и получим время, за которое выполнился измеряемый фрагмент кода или вся программа.</p>
+	<p>Время работы программы  необходимо найти для того, чтобы проверить, насколько эффективнее стал работать отдельный алгоритм или программа в целом!</p>
+	<p>Как это сделать,смотрите ниже.</p>
+
+	<pre class="brush: csharp;">
+	// Как найти время работы фрагмента кода?
+	// заголовочный файл с прототипом функции clock()
+	#include &lt;ctime&gt;
+	
+	// ...
+	unsigned int start_time =  clock(); // начальное время
+	
+	// здесь должен быть фрагмент кода, время выполнения которого нужно измерить
+	// конечное время
+	unsigned int end_time = clock();
+	
+	// искомое время
+	unsigned int search_time = end_time - start_time;
+	</pre>
+
+	<p>Для того, чтобы найти время работы программы, нужно воспользоваться функцией clock().</p>
+	<p>Прототип функции clock() находится в заголовочном файле &lt;ctime&gt;, который нужно подключить, строка 4.</p>
+	<p>Функция clock() возвращает значение времени в миллисекундах (1с = 1000млс).</p>
+	<p>Причём  отсчёт времени начинается с момента запуска программы.</p>
+	<p>Если надо измерить работу всей программы, то в конце программы, перед оператором return 0; нужно запустить функцию clock(), которая покажет рабочее время.</p>
+	<p>Для поиска времени работы фрагмента кода нужно найти разницу между конечным и начальным временем, как показано выше.</p>
+
+	<pre class="brush: csharp;">
+	// Как найти время работы программы?
+	// заголовочный файл с прототипом функции clock()
+	#include &lt;ctime&gt;
+	
+	// ...
+	
+	// здесь должен быть код программы, время выполнения которой нужно измерить
+	// время работы программы
+	unsigned int end_time = clock(); 
+	</pre>
+
+	<p>Разработаем программу, в которой с помощью функции clock() вычислим время работы программы.</p>
+	<p>Программа ищет минимальное значение в массиве размером в 200000 элементов.</p>
+	<p>Размер массива специально выбран большим, для того, чтобы было заметно, как работает программа.</p>
+	<p>Так как числа генерируются случайно, то при каждом запуске получается новый случай, и время может не совпадать.</p>
+	<p>К тому же, время выполнения программы зависит от того, насколько загружен компьютер и от того, какая у компьютера вычислительная мощность.</p>
+	<p>На разных машинах по-разному  будет затрачиваться время на выполнение программы, на более мощных компьютерах затрачиваемое время будет меньше и наоборот.</p>
+
+	<pre class="brush: csharp;">
+	// runtime.cpp: определяет точку входа для консольного приложения.
+	// Как найти время работы программы?
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	#include &lt;ctime&gt;                   
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		srand(time(0));
+		// размер одномерного массива
+		const int array_size = 200000;
+		// объявление одномерного массива
+		int array1[array_size];
+		for (int counter = 0; counter < array_size; counter++)
+		{
+			// заполняем массив случайными значениями в диапазоне от -49 до 49 включительно
+			array1[counter] = rand() % 50 - rand() % 50;
+			// печать элементов одномерного массива array1
+			cout << array1[counter] << " ";
+		}
+		// переменная для хранения минимального значения
+		int min = array1[0];
+		for (int counter = 1; counter < array_size; counter++)
+		{
+			// поиск минимального значения в одномерном массиве
+			if ( min > array1[counter] )
+			min = array1[counter];
+		}
+		cout << "\nmin = " << min << endl;
+		// время работы программы
+		cout << "runtime = " << clock()/1000.0 << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строке 32 запускается функция clock(), которая скажет сколько потребовалось время программе.</p>
+	<p>Разбирать алгоритм поиска не нужно, так как это совсем другая тема.</p>
+	<p>Главное, нужно понять, как использовать функцию clock(), для поиска времени работы программы или отдельного фрагмента кода.</p>
+	<p>А именно, в строке 32, после основного кода программы, но до оператора return 0; объявлена функция clock(), которая вернёт значение времени.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	-13 4 -2 30 8 9 27 10 11 -14 -31 1 6 -16 38 31 38 -26 22 21 13 16 42 11 2 11 25 12 0 3 -7 -38 -8 -4 0 42 29 -27 -8 6 -24 12 -12 -5 27 -21 11 5 -28 33 -6 -27 19 8 -24 -4 20 -33 16 13 30 38 -3 25 -8 30 13 -19 -7 -19 12 11 -11 -14 -33 12 -5 -2 7 10 16 -14 -23 10 -10 4 -19 15 27 20 23 -5 34 12 19 -19 -13 30 -11 6 -7 -16 27 -11 -19 -9 26 -3 0 -7 41 -3 -31 10 2 -4 5 15 -37 6 -10 -10 25 -28 7 17 19 -38 15  12 -27 -48 6 36 -35 18 -17 -20 28 -13 -32 -27 7 38 16 1 25 -16 -10 5 -26 31 -15  8 22 13 6 -5 11 -31 -3 -31 10 8 -3 19 -43 8 -29 -21 -8 3 44 32 -5 9 -23 19 -6 3 6 -7 -9 23 -31 2 -19 -2 -3 -5 -5 36 12 -14 21 5 9 10 13 21 -21 12 12 14 18 -27 - 26 -6 -6 -46 7 12 -16 -24 -26 18 -1 9 2 15 -12 17 20 19 -6 0 -1 -16 11 26 -12 0 -28 12 -26 -2 23 -1 0 11 -13 -34 6 22 4 -35 37 15 -15 -26 31 25 -4 2 19 0 7 -21 26 -1 -13 37 28 -13 4 22 22 5 34 2 8 6 -15 -1 25 25 0 22 -17 3 -27 1 43 8 41 -25  12 -15 32 -14 -6 -2 24 22 -33 0 -31 32 17 -32 -22 22 -32 0 3 -24 7 2 40 -28 -39  24 -5 12 -1 -1 27
+
+	min = -49
+	runtime = 59.449
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+	
+	<p>На рисунке 1 видно, что время выполнения программы приблизительно равно 59 секунд.</p>
+	<p>Даже если элементы массива неизменны, время всё равно будет немного отличаться при повторном запуске программы, так как некоторые ресурсы компьютера постоянно будут заняты, а значит, не доступны программе.</p>
+	<p>Если Вы запустите эту программу у себя на компьютере, то время выполнения программы может быть совсем другим, так как наши машины не идентичны.</p>
+	
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="27.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="29.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/28.html", "Время работы программы", "bm49"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm49", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm49") == 1) { document.getElementById("bma49").style.display = "block"; document.getElementById("bm49").style.display = "none"; } else { document.getElementById("bma49").style.display = "none"; document.getElementById("bm49").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Время работы программы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm49", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

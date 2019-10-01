@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma839" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm839" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Организция ветвлений в программе
+	</h1>
+
+	<p>В языке Паскаль используется два оператора для реализации условных переходов - IF и CASE, а также оператор безусловного перехода GOTO.</p>
+	<p>Они позволяют нарушить последовательный порядок выполнения инструкций программы.</p>
+
+	<h1 id="title">
+		Оператор условного перехода
+	</h1>
+
+	<p>Оператор условного перехода в Турбо Паскаль имеет вид:</p>
+
+	<pre class="brush: csharp;">
+	if условие then оператор 1 else оператор 2;
+	</pre>
+
+	<p>условие - это логическое выражение, в зависимости от которого выбирается одна из двух альтернативных ветвей алгоритма.</p>
+	<p>Если значение условия истинно (TRUE), то будет выполняться оператор 1, записанный после ключевого слова then.</p>
+	<p>В противном случае будет выполнен оператор 2, следующий за словом else, при этом оператор 1 пропускается.</p>
+	<p>После выполнения указанных операторов программа переходит к выполеннию команды, стоящей непосредственно после оператора if.</p>
+	<p>Необходимо помнить, что перед ключевым словом else точка с запятой никогда не ставится!</p>
+
+	<pre class="brush: csharp;">
+	else - часть в операторе if может отсутствовать:
+	if условие then оператор 1;
+	</pre>
+
+	<p>Тогда в случае невыполнения логического условия управление сразу передается оператору, стоящему в программе после конструкции if.</p>
+	<p>Следует помнить, что синтаксис языка допускает запись только одного оператора после ключевых слов then и else, поэтому группу инструкций обязательно надо объединять в составной оператор (окаймлять операторными скобками begin ... end).</p>
+	<p>В противном случае возникает чаще всего логическая ошибка программы, когда компилятор языка ошибок не выдает, но программа тем не менее работает неправильно.</p>
+	<p><b>Примеры.</b></p>
+
+	<pre class="brush: csharp;">
+	if x > 0 then modul := x else modul := -x;
+	if k > 0 then WriteLn('k - число положительное');
+	if min > max then begin
+	t := min;
+	min := max;
+	max := t;
+	end;
+	</pre>
+
+	<h1 id="title">
+		Оператор выбора
+	</h1>
+
+	<p>Часто возникают ситуации, когда приходится осуществлять выбор одного из нескольких альтернативных путей выполнения программы.</p>
+	<p>Несмотря на то, что такой выбор можно организовать с помощью оператора if .. then, удобнее воспользоваться специальным оператором выбора.</p>
+	<p>Его формат:</p>
+
+	<pre class="brush: csharp;">
+	case выражение of
+	вариант : оператор;
+	...
+	вариант : оператор;
+	end;
+	</pre>
+
+	<p><b>или</b></p>
+
+	<pre class="brush: csharp;">
+	case выражение of
+	вариант : оператор;
+	...
+	вариант : оператор;
+	else оператор
+	end;
+	</pre>
+
+	<p>выражение, которое записывается после ключевого слова case, называется селектором, оно может быть любого перечисляемого типа.</p>
+	<p>вариант состоит из одной или большего количества констант или диапазонов, разделенных запятыми.</p>
+	<p>Они должны принадлежать к тому же типу, что и селектор, причем недопустимо более одного упоминания вариантав записи инструкции case.</p>
+	<p>Из перечисленного множества операторов будет выбран только тот, перед которым записан вариант, совпадающий со значением селектора.</p>
+	<p>Если такого варианта нет, выполняется оператор, следующий за словом else (если он есть).</p>
+	<p><b>Пример</b></p>
+
+	<pre class="brush: csharp;">
+	case ch of
+	'A'..'Z', 'a'..'z' : WriteLn('Буква');
+	'0'..'9'           : WriteLn('Цифра');
+	'+', '-', '*', '/' : WriteLn('Оператор');
+	else WriteLn('Специальный символ')
+	end;
+	</pre>
+
+	<h1 id="title">
+		Оператор безусловного перехода
+	</h1>
+
+	<p>Помимо операторов условного перехода существует также оператор безусловного перехода goto.</p>
+	<p>Формат:</p>
+
+	<pre class="brush: csharp;">
+	goto метка
+	</pre>
+
+	<p>Оператор goto переходит при выполнении программы к определенному оператору программы, перед которым находится метка.</p>
+	<p>Метка должна быть описана в разделе описания меток той программы (процедуры или функции), в которой она используется.</p>
+	<p>Нельзя перейти из одной процедуры или функции в другую.</p>
+	<p>Необходимо, чтобы в программе существовал оператор, отмеченный указанной меткой.</p>
+	<p>Она записывается перед оператором и отделяется от него двоеточием.</p>
+	<p><b>Пример</b></p>
+
+	<pre class="brush: csharp;">
+	label 1;
+	begin
+	...
+	goto 1;
+	...
+	1: WriteLn('Переход к метке 1');
+	end.
+	</pre>
+
+	<p><b>Учтите!</b></p>
+	<p>Само понятие структурного программирования и общепринятый стиль программирования на структурных языках НЕ ПРИВЕТСТВУЕТ применение меток и операторов перехода в программах.</p>
+	<p>Это затрудняет понимание программы как автором, так и потребителями, кроме того, применение меток отрицательно сказывается на эффективности генерируемого кода.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/pascal/book/15.html", "Организация ветвлений", "bm839"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm839", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm839") == 1) { document.getElementById("bma839").style.display = "block"; document.getElementById("bm839").style.display = "none"; } else { document.getElementById("bma839").style.display = "none"; document.getElementById("bm839").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Организация ветвлений") == 1) { arrs.splice(i, 1); localStorage.setItem("bm839", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

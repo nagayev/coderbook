@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma980" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm980" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		ESlint
+	</h1>
+
+	<p>Если вы не знакомы с "линтерами", то вы, наверняка, знакомы с типичным поиском ошибки в стиле myVariable is undefined и подобными.</p>
+	<p>Настроив линтер, вы сможете видеть в консоли много полезной инфорамции: от забытой точки-с-запятой (кстати, не актуально для ES2015), до уведомлений о неиспользуемых переменных.</p>
+	<p>Очень удобно для рефакторинга кода.</p>
+	<p>Современный ESlint пошел еще дальше.</p>
+	<p>С добавленим собственных правил, вы можете поддерживать единый стиль программирования внутри компании!</p>
+	<p>Но, довольно теории.</p>
+	<p>Поставим нужные пакеты:</p>
+
+	<pre class="brush: csharp;">
+	npm i babel-eslint eslint eslint-plugin-react --save-dev
+	</pre>
+
+	<p>Теперь, хотя я и говорил, что файлы .xxxrc обычно не нужны, для ESlint все же нужно сделать такой.</p>
+	<p>В нем мы опишем правила для синтаксической проверки (lint) кода.</p>
+
+	<pre class="brush: csharp;">
+	.eslintrc
+	{
+		"extends": "eslint:recommended",
+		"parser": "babel-eslint",
+		"env": {
+			"browser": true,
+			"node": true
+		},
+		"plugins": [
+			"react"
+		],
+		"rules": {
+			"no-debugger": 0,
+			"no-console": 0,
+			"new-cap": 0,
+			"strict": 0,
+			"no-underscore-dangle": 0,
+			"no-use-before-define": 0,
+			"eol-last": 0,
+			"quotes": [2, "single"],
+			"jsx-quotes": [1, "prefer-single"],
+			"react/jsx-no-undef": 1,
+			"react/jsx-uses-react": 1,
+			"react/jsx-uses-vars": 1
+		}
+	}
+	</pre>
+
+	<p>Самое интересное, конечно же, секция rules, где:</p>
+	<p>0 - правило выключено</p>
+	<p>1 - правило выдаст предупреждение</p>
+	<p>2 - правило выдаст ошибку</p>
+	<p>Некоторые правила принимают массив аргументов, например quotes.</p>
+	<p>В нашем случае, именно это правило можно прочитать так: Показывай ошибку, если встретишь двойную кавычку.</p>
+	<p>Чтобы ESlint работал в автоматическом режиме, мы будем все так же использовать webpack.</p>
+	<p>Наряду с секцией loaders, в webpack есть секция... preloaders (да-да, postloaders тоже есть).</p>
+	<p>Я думаю из названия секций уже все понятно: код обрабатывается "до" и "после" loaders.</p>
+	<p>Для ESlint нам подходит preloaders.</p>
+	<p>Итак, поставим нужный лоадер:</p>
+
+	<pre class="brush: csharp;">
+	npm i eslint-loader --save-dev
+	</pre>
+
+	<p>Поправим конфиг:</p>
+	<p>webpack.config.js</p>
+
+	<pre class="brush: csharp;">
+	...
+	module: {
+		//добавили ESlint в preloaders
+		preLoaders: [
+		{
+			test: /\.js$/,
+			loaders: ['eslint'],
+			include: [
+				path.resolve(__dirname, "src"),
+			],
+		}
+		],
+		//все остальное осталось не тронутым
+		loaders: [
+		{
+			loaders: ['react-hot', 'babel-loader'],
+			include: [
+				path.resolve(__dirname, "src"),
+			],
+			test: /\.js$/,
+			plugins: ['transform-runtime'],
+		}
+		]
+	}
+	...
+	</pre>
+
+	<p>Здесь и в будущем, я буду использовать ... - если даю фрагмент(ы) файла, а не весь код целиком.</p>
+	<p>Теперь достаточно перезапустить сборку.</p>
+	<p>Должно получиться следующее:</p>
+
+	<img src="reactImg24.jpg" id="image" />
+
+	<p>Линтер показывате нам, что в файле src/containers/App.js есть неиспользуемая переменная PropTypes, хотя она определена.</p>
+	<p>Это действительно так, поэтому давайте поправим код:</p>
+	<p>src/Containers/App.js</p>
+
+	<pre class="brush: csharp;">
+	import React, { Component } from 'react'
+	export default class App extends Component
+	{
+		render()
+		{
+			return &lt;div&gt;Привет из App&lt;/div&gt;
+		}
+	}
+	</pre>
+
+	<p>Сохранив файл, мы увидим в консоли следующее: </p>
+
+	<img src="reactImg25.jpg" id="image" />
+
+	<p>Великолепно!</p>
+	<p>Ошибок нет.</p>
+	<p>На всякий случай добавлю: сборку webpack не нужно было перезапускать.</p>
+	<p>Обычно, сборку нужно перезапускать лишь после изменений в webpack.config.js</p>
+	<p>В остальных случаях, так как у нас настроен "режим наблюдения" - webpack сам перезапустится и сгенерирует новый файл сборки.</p>
+	<p>Итого: на данный момент мы можем писать ES2015/ES7 код, использовать JSX и не переживать за глупые ошибки, а своевременно править их, используя подсказки ESlint.</p>
+	<p>Webpack автоматически пересобирает наш файл сборки (/static/bundle.js), при этом мы используем всю мощь Hot Module Replacement, и если изменим что-либо в js коде react-компонентов - изменения прилетят сразу же в браузер без перезагрузки страницы.</p>
+	<p>Поздравляю, мы готовы с комфортом написать Redux приложение.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="05.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="07.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/06.html", "ESLint", "bm980"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm980", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm980") == 1) { document.getElementById("bma980").style.display = "block"; document.getElementById("bm980").style.display = "none"; } else { document.getElementById("bma980").style.display = "none"; document.getElementById("bm980").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("ESLint") == 1) { arrs.splice(i, 1); localStorage.setItem("bm980", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

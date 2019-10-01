@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma844" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm844" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Строковый тип данных
+	</h1>
+
+	<p>Для обработки строковой информации в Турбо Паскаль введен строковый тип данных.</p>
+	<p>Строкой в Паскале называется последовательность из определенного количества символов.</p>
+	<p>Количество символов последовательности называется длиной строки. Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	var s: string[n];
+	var s: string;
+	</pre>
+
+	<p>n - максимально возможная длина строки - целое число в диапазоне 1..255.</p>
+	<p>Если этот параметр опущен, то по умолчанию он принимается равным 255.</p>
+	<p>Строковые константы записываются как последовательности символов, ограниченные апострофами.</p>
+	<p>Допускается формирование строк с использованием записи символов по десятичному коду (в виде комбинации # и кода символа) и управляющих символов (комбинации ^ и некоторых заглавных латинских букв).</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	'Текстовая строка'
+	#54#32#61
+	'abcde'^A^M
+	</pre>
+
+	<p>Пустой символ обозначается двумя подряд стоящими апострофами.</p>
+	<p>Если апостроф входит в строку как литера, то при записи он удваивается.</p>
+	<p>Переменные, описанные как строковые с разными максимальными длинами, можно присваивать друг другу, хотя при попытке присвоить короткой переменной длинную лишние символы будут отброшены.</p>
+	<p>Выражения типа char можно присваивать любым строковым переменным.</p>
+	<p>В Турбо Паскаль имеется простой доступ к отдельным символам строковой переменной: i-й символ переменной st записывается как st[i].</p>
+	<p>Например, если st - это 'Строка', то st[1] - это 'С', st[2] - это 'т', st[3] - 'р' и так далее.</p>
+	<p>Над строковыми данными определена операция слияния (конкантенации), обозначаемая знаком +.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	a := 'Turbo';
+	b := 'Pascal';
+	c := a + b;
+	</pre>
+
+	<p>В этом примере переменная c приобретет значение 'TurboPascal'.</p>
+	<p>Кроме слияния над строками определены операции сравнения &lt;, &gt;, =, &lt;&gt;, &lt;=, &gt;=.</p>
+	<p>Две строки сравниваются посимвольно, слева направо, по кодам символов.</p>
+	<p>Если одна строка меньше другой по длине, недостающие символы короткой строки заменяются символом с кодом 0.</p>
+
+	<h1 id="title">
+		Процедуры и функции для работы со строками
+	</h1>
+
+	<p>В системе Turbo Pascal имеется несколько полезных стандартных процедур и функций, ориентированных на работу со строками.</p>
+	<p>Ниже приводится список этих процедур и функций с краткими пояснениями.</p>
+
+	<pre class="brush: csharp;">
+	Length(s:string):integer
+	</pre>
+
+	<p>Функция возвращает в качестве результата значение текущей длины строки-параметра</p>
+	<p>Пример.</p>
+
+	<pre class="brush: csharp;">
+	n := length('Pascal'); {n будет равно 6}
+	Concat(s1,[s2,...,sn]:string):string
+	</pre>
+
+	<p>Функция выполняет слияние строк-параметров, которых может быть произвольное количество.</p>
+	<p>Каждый параметр является выражением строкового типа.</p>
+	<p>Если длина строки-результата превышает 255 символов, то она усекается до 255 символов.</p>
+	<p>Данная функция эквивалентна операции конкатенации "+" и работает немного менее эффективно, чем эта операция. </p>
+
+	<pre class="brush: csharp;">
+	Copy(s:string; index:integer; count:integer):string
+	</pre>
+
+	<p>Функция возвращает подстроку, выделенную из исходной строки s, длиной count символов, начиная с символа под номером index.</p>
+	<p>Пример.</p>
+
+	<pre class="brush: csharp;">
+	s := 'Система Turbo Pascal';
+	s2 := copy(s, 1, 7); {s2 будет равно 'Система'}
+	s3 := copy(s, 9, 5); {s3 будет равно 'Turbo'}
+	s4 := copy(s, 15, 6); {s4 будет равно 'Pascal'}
+	Delete(var s:string; index,count:integer)
+	</pre>
+
+	<p>Процедура удаляет из строки-параметра s подстроку длиной count символов, начиная с символа под номером index.</p>
+	<p>Пример.</p>
+
+	<pre class="brush: csharp;">
+	s := 'Система Turbo Pascal';
+	delete(s,8,6); {s будет равно 'Система Pascal'}
+	Insert(source:string; var s:string;index:integer)
+	</pre>
+
+	<p>Процедура предназначена для вставки строки source в строку s, начиная с символа index этой строки.</p>
+	<p>Пример.</p>
+
+	<pre class="brush: csharp;">
+	s := 'Система Pascal';
+	insert('Turbo ',s,9); {s будет равно 'Система Turbo Pascal'}
+	Pos(substr,s:string):byte
+	</pre>
+
+	<p>Функция производит поиск в строке s подстроки substr.</p>
+	<p>Результатом функции является номер первой позиции подстроки в исходной строке.</p>
+	<p>Если подстрока не найдена, то функция возвращает 0.</p>
+	<p>Пример.</p>
+
+	<pre class="brush: csharp;">
+	s := 'Система Turbo Pascal';
+	x1 := pos('Pascal', s); {x1 будет равно 15}
+	x2 := pos('Basic', s); {x2 будет равно 0}
+	Str(X: арифметическое выражение; var st: string)
+	</pre>
+
+	<p>Процедура преобразует численное выражение X в его строковое представление и помещает результат в st. </p>
+
+	<pre class="brush: csharp;">
+	Val(st: string; x: числовая переменная; var code: integer)
+	</pre>
+
+	<p>Процедура преобразует строковую запись числа, содержащуюся в st, в числовое представление, помещая результат в x.</p>
+	<p>x - может быть как целой, так и действительной переменной.</p>
+	<p>Если в st встречается недопустимый (с точки зрения правил записи чисел) символ, то преобразование не происходит, а в code записывается позиция первого недопустимого символа.</p>
+	<p>Выполнение программы при этом не прерывается, диагностика не выдается.</p>
+	<p>Если после выполнения процедуры code равно 0, то это свидетельствует об успешно произошедшем преобразовании.</p>
+	<p>В дополнение приведем некоторые функции, связанные с типом char, но которые тем не менее часто используются при работе со строками. </p>
+
+	<pre class="brush: csharp;">
+	Chr(n: byte): char
+	</pre>
+
+	<p>Функция возвращает символ по коду, равному значению выражения n.</p>
+	<p>Если n можно представить как числовую константу, то можно также пользоваться записью #n. </p>
+
+	<pre class="brush: csharp;">
+	Ord(ch: char): byte;
+	</pre>
+
+	<p>В данном случае функция возвращает код символа ch. </p>
+
+	<pre class="brush: csharp;">
+	UpCase(c: char): char;
+	</pre>
+
+	<p>Если c - строчная латинская буква, то функция возвращает соответствующую прописную латинскую букву, в противном случае символ c возвращается без изменения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="19.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="21.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/pascal/book/20.html", "Строки", "bm844"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm844", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm844") == 1) { document.getElementById("bma844").style.display = "block"; document.getElementById("bm844").style.display = "none"; } else { document.getElementById("bma844").style.display = "none"; document.getElementById("bm844").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Строки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm844", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

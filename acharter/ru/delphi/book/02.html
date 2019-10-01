@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma388" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm388" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Первая программа
+	</h1>
+
+	<p>Традиционно при изучении программирования принято создавать первую программу, которая выводит текст "Hello, world!".</p>
+	<p>Не будем отступать от традиции и создадим программу, которая выводит этот текст тремя разными способами.</p>
+	<p>Но вначале познакомимся с самой средой программирования Delphi.</p>
+	<p>Предполагается, что на этот момент Delphi 7 уже установлена на вашем ПК.</p>
+	<p>Если это не так, то перед дальнейшим прочтением установите Delphi 7.</p>
+	<p>При загрузке Delphi 7 вы видите такую картину:</p>
+
+	<img src="delphi1.png" id="image" />
+
+	<p>Познакомьтесь – это Delphi.</p>
+	<p>У нее есть много окон, панелей, компонентов.</p>
+	<p>С большинством из них мы познакомимся со временем, а пока нам нужно обратить внимание на 5 окон:</p>
+	<p><b>Главное окно Delphi.</b></p>
+	<p>Здесь находится основное меню, различные панели инструментов и палитра компонентов, состоящая из множества вкладок.</p>
+	<p><b>Конструктор формы.</b></p>
+	<p>Здесь мы визуально видим, как будет выглядеть форма программы, здесь мы будем создавать интерфейс, перенося на форму различные компоненты, и расставляя их таким образом, чтобы интерфейс выглядел привлекательным.</p>
+	<p>Нам часто придется переключаться между конструктором форм и редактором кода, делается это клавишей F12.</p>
+	<p><b>Редактор кода.</b></p>
+	<p>Здесь мы видим исходный код программы, который создан самой Delphi.</p>
+	<p>Тут же мы будем вводить наш собственный код.</p>
+	<p><b>Объектный инспектор.</b></p>
+	<p>Он предназначен для управления объектами проекта и состоит из двух вкладок – Properties (Свойства) и Events (События).</p>
+	<p><b>Дерево объектов.</b></p>
+	<p>Здесь мы видим, какой именно объект в данный момент является текущим.</p>
+	<p>Это окно будет особенно полезно, когда на форме появится множество компонентов.</p>
+	<p>Когда открывается Delphi, она автоматически создает и отображает новый проект (программу).</p>
+	<p>На рисунке вы видите проект, который содержит только одну стандартную форму.</p>
+	<p>Форма – это тоже объект, который представляет собой окно программы.</p>
+	<p>Чтобы программа делала что-то полезное, нам придется вносить изменения в нее.</p>
+	<p>Выведем текст "Hello, world!" первым способом.</p>
+	<p>Для этого в инспекторе объектов найдите свойство Caption.</p>
+	<p>В данный момент текущим является объект – форма, и свойство Caption формы отвечает за надпись на системной строке программы (синяя полоса вверху любого программного окна).</p>
+	<p>По умолчанию, свойство Caption содержит надпись "Form1", также называется и сама форма.</p>
+	<p>Измените эту надпись на "Hello, world!" (конечно, без кавычек).</p>
+	<p>Уже в процессе ввода текста вы видите, что надпись в системной строке принимает новый вид.</p>
+	<p>Мы ввели этот текст одним способом.</p>
+	<p>Теперь нам нужно сохранить проект.</p>
+	<p>Проект – совокупность файлов разных форматов, из которых создается программа.</p>
+	<p>Об этом мы подробней поговорим в одной из следующих лекций, а пока запомните правило – каждую программу (проект), которую вы создаете, нужно сохранять в отдельной папке.</p>
+	<p>Если вы все проекты станете сохранять в одну папку, то очень скоро запутаетесь.</p>
+	<p>Чтобы сохранить проект, выполним следующие действия:</p>
+	<p>1) Выбираем команду меню <b>"File – Save All"</b> (сохранить все), либо нажимаем горячие клавиши &lt;Shift+Ctrl+S&gt;.</p>
+	<p>2) Затем выходит окно с предложением сохранить модуль – текстовый файл с исходным кодом, принадлежащий форме.</p>
+	<p>Файл имеет расширение *.pas.</p>
+	<p>Имеем в виду, что каждый проект сохраняется в отдельную папку, поэтому вначале щелкнем правой кнопкой мыши по свободному месту окна с папками, и выберем команду <b>"Создать - Папку"</b>.</p>
+	<p>Дадим папке какое-либо имя, например, "01".</p>
+	<p>После создания папки открываем ее.</p>
+	<p>3) Далее в поле "Имя файла" укажем имя сохраняемого модуля.</p>
+	<p>Имя может быть любым, но обязательно латинскими символами.</p>
+	<p>Еще имя модуля не должно совпадать с именем формы.</p>
+	<p>Обычно, имена формам и модулям стараются давать информативными, то есть, по имени можно будет догадаться, что это за файл.</p>
+	<p>Поскольку это главная форма проекта, дадим ей имя "Main", и нажмем кнопку "Сохранить".</p>
+	<p>4) Затем нам будет предложено дать имя проекту в целом.</p>
+	<p>Имя проекта будет совпадать с именем исполняемого программного файла.</p>
+	<p>Если мы хотим, к примеру, получить файл "hello.exe", то дадим проекту имя "hello". Нажмем кнопку "Сохранить".</p>
+	<p>Далее нам необходимо скомпилировать программу, то есть, перевести исходный код в выполняемый exe-файл.</p>
+	<p>Для этого мы можем выбрать команду меню "Run - Run", либо нажать горячую клавишу F9, либо нажать кнопку "Run" на панели инструментов (на кнопке изображение зеленой стрелки, указывающей вправо).</p>
+	<p>В результате, программа была не только скомпилирована, но и запущена.</p>
+	<p>Если вы посмотрите на системную строку Delphi, то увидите надпись "Delphi 7 – hello [Running]", а окна инспектора объектов и дерева объектов исчезли.</p>
+	<p>Это говорит о том, что программа находится в режиме выполнения.</p>
+	<p>Выполняемая программа имеет точно такой же вид, как наша главная форма, только на форме отсутствует точечная сетка, предназначенная для облегчения дизайна.</p>
+	<p>Окно полученной программы содержит все стандартные кнопки Windows – программы.</p>
+	<p>Щелкнув по красному крестику в правой верхней части окна, закройте программу (но не Delphi), и вы увидите прежнюю форму.</p>
+	<p>Обратите внимание, что свойства в Объектном Инспекторе принадлежат выделенному в данный момент компоненту.</p>
+	<p>Выделяются компоненты простым щелчком мыши.</p>
+	<p>Имейте в виду, что щелкать нужно один раз.</p>
+	<p>Двойной щелчок создаст обработчик события – процедуру.</p>
+	<p>Если вы ошибочно создадите таким образом процедуру, то просто сохраните проект, ничего в нее не вписывая – при сохранении последние пустые процедуры автоматически удаляются.</p>
+	<p>Удалять их вручную не рекомендуется.</p>
+	<p>Попробуем второй способ.</p>
+	<p>Обратите внимание на Палитру компонентов.</p>
+	<p>Текущей является вкладка Standard, и на ней находится множество значков – компонентов.</p>
+	<p>Когда вы подводите указатель мыши к какому-либо компоненту, через некоторое время выскакивает подсказка с именем компонента.</p>
+	<p>Нам нужен компонент Label, который представлен на вкладке в виде кнопки с изображением жирной буквы "А".</p>
+	<p>Щелкните по этой кнопке, затем щелкните по свободному месту на форме, чтобы вставить компонент.</p>
+	<p>Лучше, если вы расположите его ближе к левому верхнему краю формы.</p>
+	<p>Компонент Label появился на форме.</p>
+	<p>Этот компонент представляет собой обычную надпись.</p>
+	<p>Сейчас он выделен, и содержит надпись по умолчанию, - "Label1".</p>
+	<p>Теперь объектный инспектор показывает свойства этого компонента, а не формы.</p>
+	<p>Label также имеет свойство Caption, которое вы можете изменить в Инспекторе объектов.</p>
+	<p>Найдите это свойство, и вместо "Label1" впишите "Hello, world!".</p>
+	<p>Текст в компоненте Label изменился.</p>
+	<p>Если вам не нравится место, в котором оказался компонент, вы можете перетащить его мышью на другое место.</p>
+	<p>Кроме того, точное местоположение компонента вы можете задать, если выделите его, и будете нажимать клавиши перемещения курсора, удерживая при этом клавишу &lt;Ctrl&gt;.</p>
+	<p>Теперь попробуйте еще одно свойство компонента Label – свойство Font (шрифт).</p>
+	<p>Найдите это свойство в инспекторе объектов, и выделите его.</p>
+	<p>Справа появится кнопочка с тремя точками, нажмите ее.</p>
+	<p>Откроется стандартное окно выбора шрифта.</p>
+	<p>Здесь вы можете выбрать имя шрифта, его размеры, начертание (например, жирный курсив) и цвет текста.</p>
+	<p>Поэкспериментируйте с размером компонента, его положением и шрифтом.</p>
+	<p>Почти все компоненты, с которыми нам придется иметь дело, имеют эти свойства, так что в дальнейшем вам будет легче осваивать новый компонент.</p>
+	<p>Снова сохраните проект и нажмите кнопку Run (или &lt;F9&gt;).</p>
+	<p>Убедитесь, что надпись появилась на форме, после чего закройте программу (но не Delphi) и вернитесь к форме.</p>
+	<p>Попробуем третий, немного более сложный способ.</p>
+	<p>Пока что мы создавали программу, не написав ни единой строки кода.</p>
+	<p>Мы занимались только дизайном, все остальные трудности Delphi взяла на себя.</p>
+	<p>Теперь попробуем вывести это же сообщение, как только пользователь нажмет кнопку на форме.</p>
+	<p>Для начала нужно установить на форму кнопку.</p>
+	<p>Этот компонент также находится на вкладке Standard палитры компонентов, и выглядит как кнопочка с надписью "ОК".</p>
+	<p>При наведении на него указателя мыши выскакивает подсказка "Button".</p>
+	<p>Щелкнув по компоненту, щелкните затем по тому месту на форме, где вы хотели бы видеть эту кнопку.</p>
+	<p>Изменим надпись на кнопке.</p>
+	<p>Убедитесь, что кнопка выделена, и найдите в инспекторе объектов ее свойство Caption.</p>
+	<p>Замените надпись "Button1" на "Нажми меня!".</p>
+	<p>Если надпись не умещается на кнопке, вы можете растянуть кнопку мышью, или использовать для этого клавиши управления курсором с нажатой кнопкой &lt;Shift&gt;.</p>
+	<p>Далее нам нужно создать обработчик нажатия на кнопку.</p>
+	<p>Обработчик представляет собой процедуру, в которой мы будем писать наш код.</p>
+	<p>Этот код будет выполняться программой всякий раз, когда пользователь нажмет на эту кнопку.</p>
+	<p>Чтобы создать этот обработчик, следует дважды нажать на кнопку на форме.</p>
+	<p>Вы сразу попадаете в редактор кода и видите, что процедура уже создана, курсор мигает в том месте, где мы должны ввести свой код.</p>
+	<p>Пока что не будем разбираться, что тут к чему, а просто впишем строку:</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage('Hello, world!');
+	</pre>
+
+	<p>Полный текст процедуры получится такой:</p>
+
+	<pre class="brush: csharp;">
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  ShowMessage('Hello, world!');
+end;
+	</pre>
+
+	<p>Если у вас так и получилось, сохраните проект, откомпилируйте его и запустите на выполнение.</p>
+	<p>При нажатии на кнопку будет появляться указанная надпись.</p>
+	<p>Мы создали полноценную программу, выводящую надпись "Hello, world!" тремя различными способами, вписав при этом лишь одну строку исходного кода!</p>
+	<p>Полученный файл hello.exe находится в указанной вами папке</p>
+
+	<pre class="brush: csharp;">
+	C:\Program Files\Borland\Delphi7\Projects\01
+	</pre>
+
+	<p>При сохранении проекта вы можете указывать и другие папки, и проект будет сохранен по указанному адресу.</p>
+	<p>Полученный программный файл hello.exe вы можете теперь распространять, например, переслать другу, чтобы он полюбовался вашими достижениями.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="01.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="03.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/02.html", "Первая программа", "bm388"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm388", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm388") == 1) { document.getElementById("bma388").style.display = "block"; document.getElementById("bm388").style.display = "none"; } else { document.getElementById("bma388").style.display = "none"; document.getElementById("bm388").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Первая программа") == 1) { arrs.splice(i, 1); localStorage.setItem("bm388", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

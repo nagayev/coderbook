@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="../../../css/achart.css" />
+    <title>Coder Book menu</title>
+</head>
+
+<body id="pageBody">
+    <div id="menuHeadMin">
+        <div id="headLineMenu" style="background-color: #29432c;">
+            <a id="backButtonMenu" href="../../../menu/main-ru.html" ontouchstart="return true;">
+                <img src="../../../img/menu/backcopy.png" id="backButtonMenuImg" />
+            </a>
+            <div id="windowTitle">
+                NodeJS
+            </div>
+            <div id="winImg"><img src="../../../img/charters/op/node.png" id="winImgSrc" /></div>
+            <div id="windowDescr">был основан в 2009 году</div>
+        </div>
+    </div>
+
+    <div id="chartersMin">
+
+        <div id="getUsRate" style="display: none;">
+            <hr />
+            <br />
+            <span>Привет!<br />Мы стремимся повысить качество приложения и будем рады отзывам, советам и пожеланиям.</span>
+            <div id="chButtons" name="chButtons" ontouchstart="return true;" style="padding: 13px 30px;" onclick='OpenAppMarket(); localStorage.setItem("appOpenedNow", -80)'>Написать отзыв!</div>
+            <br />
+            <span id="notNow" onclick='localStorage.setItem("appOpenedNow", 15); document.getElementById("getUsRate").style.display = "none";' ontouchstart="return true;">Напомнить позже...</span>
+            <br />
+            <hr />
+        </div>
+
+        <a href="book/list.html"><div id="chButtons" name="chButtons" ontouchstart="return true;">Самоучитель NodeJS</div></a>
+
+        <div id="infoMenuVersion" style="display: none;">Раздел на стадии разработки...</div>
+
+    <!--    <div id="chButtons" name="chButtons" ontouchstart="return true;">Начать тестирование<br />(не активный раздел)</div> -->
+    <!--    <div id="chButtons" name="chButtons" ontouchstart="return true;">Открыть редактор<br />(не активный раздел)</div> -->
+
+    </div>
+
+    <script type="text/javascript" src="../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../js/global.js"></script>
+    <script type="text/javascript">
+       changeColor();
+       if (localStorage.getItem("fSize") < 1) { localStorage.setItem("fSize", 16); }
+       document.getElementById("windowTitle").style.fontSize = (localStorage.getItem("fSize") - (-8)) + "px";
+       var fsText = document.getElementsByName("chButtons");
+       for(var i=0;i<fsText.length;i++) { fsText[i].style.fontSize = localStorage.getItem("fSize") + "px"; }
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = '../../../menu/main-ru.html';
+        }
+
+        // color
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                //change colors
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+
+                var vrows = document.getElementsByName("chButtons");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#404040"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#223825');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                //change colors
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("headLineMenu").style.backgroundColor = localStorage.getItem("#212121");
+
+                var vrows = document.getElementsByName("chButtons");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#efefef"); vrows[i].style.backgroundColor = localStorage.getItem("#404040"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#212121');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                //change colors
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+
+                var vrows = document.getElementsByName("chButtons");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#404040"); vrows[i].style.backgroundColor = localStorage.getItem("#f0f0f0"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#223825');});
+            }
+        }
+
+        if (localStorage.getItem("appOpenedNow") >= 20)
+        {
+            document.getElementById("getUsRate").style.display = "block";
+        }
+
+    </script>
+
+</body>
+</html>

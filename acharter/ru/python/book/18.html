@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma943" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm943" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Множества (set и frozenset)
+	</h1>
+	
+	<p>В этом уроке я расскажу о работе с множествами в python, операциях над ними и покажу примеры их применения.</p>
+
+	<h1 id="title">
+		Что такое множество?
+	</h1>
+	
+	<p>Множество в python - "контейнер", содержащий не повторяющиеся элементы в случайном порядке.</p>
+	<p>Создаём множества:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; a = set()
+	&gt;&gt;&gt; a
+	set()
+	&gt;&gt;&gt; a = set('hello')
+	&gt;&gt;&gt; a
+	{'h', 'o', 'l', 'e'}
+	&gt;&gt;&gt; a = {'a', 'b', 'c', 'd'}
+	&gt;&gt;&gt; a
+	{'b', 'c', 'a', 'd'}
+	&gt;&gt;&gt; a = {i ** 2 for i in range(10)} # генератор множеств
+	&gt;&gt;&gt; a
+	{0, 1, 4, 81, 64, 9, 16, 49, 25, 36}
+	&gt;&gt;&gt; a = {}  # А так нельзя!
+	&gt;&gt;&gt; type(a)
+	&lt;class &apos;dict&apos;&gt;
+	</pre>
+
+	<p>Как видно из примера, множества имеет тот же литерал, что и словарь, но пустое множество с помощью литерала создать нельзя.</p>
+	<p>Множества удобно использовать для удаления повторяющихся элементов:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; words = ['hello', 'daddy', 'hello', 'mum']
+	&gt;&gt;&gt; set(words)
+	{'hello', 'daddy', 'mum'}
+	</pre>
+
+	<p>С множествами можно выполнять множество операций: находить объединение, пересечение...</p>
+	<p><b>len(s)</b> - число элементов в множестве (размер множества).</p>
+	<p><b>x in s</b> - принадлежит ли x множеству s.</p>
+	<p><b>set.isdisjoint(other)</b> - истина, если set и other не имеют общих элементов.</p>
+	<p><b>set == other</b> - все элементы set принадлежат other, все элементы other принадлежат set.</p>
+	<p><b>set.issubset(other)</b> или set &lt;= other - все элементы set принадлежат other.</p>
+	<p><b>set.issuperset(other)</b> или set &gt;= other - аналогично.</p>
+	<p><b>set.union(other, ...)</b> или set | other | ... - объединение нескольких множеств.</p>
+	<p><b>set.intersection(other, ...)</b> или set & other & ... - пересечение.</p>
+	<p><b>set.difference(other, ...)</b> или set - other - ... - множество из всех элементов set, не принадлежащие ни одному из other.</p>
+	<p><b>set.symmetric_difference(other); set ^ other</b> - множество из элементов, встречающихся в одном множестве, но не встречающиеся в обоих.</p>
+	<p><b>set.copy()</b> - копия множества.</p>
+	<p>И операции, непосредственно изменяющие множество:</p>
+	<p><b>set.update(other, ...); set |= other | ...</b> - объединение.</p>
+	<p><b>set.intersection_update(other, ...); set &= other & ...</b> - пересечение.</p>
+	<p><b>set.difference_update(other, ...); set -= other | ...</b> - вычитание.</p>
+	<p><b>set.symmetric_difference_update(other); set ^= other</b> - множество из элементов, встречающихся в одном множестве, но не встречающиеся в обоих.</p>
+	<p><b>set.add(elem)</b> - добавляет элемент в множество.</p>
+	<p><b>set.remove(elem)</b> - удаляет элемент из множества. KeyError, если такого элемента не существует.</p>
+	<p><b>set.discard(elem)</b> - удаляет элемент, если он находится в множестве.</p>
+	<p><b>set.pop()</b> - удаляет первый элемент из множества. Так как множества не упорядочены, нельзя точно сказать, какой элемент будет первым.</p>
+	<p><b>set.clear()</b> - очистка множества.</p>
+
+	<h1 id="title">
+		frozenset
+	</h1>
+	
+	<p>Единственное отличие set от frozenset заключается в том, что set - изменяемый тип данных, а frozenset - нет.</p>
+	<p>Примерно похожая ситуация с списками и кортежами.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; a = set('qwerty')
+	&gt;&gt;&gt; b = frozenset('qwerty')
+	&gt;&gt;&gt; a == b
+	True
+	&gt;&gt;&gt; True
+	True
+	&gt;&gt;&gt; type(a - b)
+	&lt;class &apos;set&apos;&gt;
+	&gt;&gt;&gt; type(a | b)
+	&lt;class &apos;set&apos;&gt;
+	&gt;&gt;&gt; a.add(1)
+	&gt;&gt;&gt; b.add(1)
+	Traceback (most recent call last):
+		File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+	AttributeError: 'frozenset' object has no attribute 'add'
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/18.html", "Множества", "bm943"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm943", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm943") == 1) { document.getElementById("bma943").style.display = "block"; document.getElementById("bm943").style.display = "none"; } else { document.getElementById("bma943").style.display = "none"; document.getElementById("bm943").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Множества") == 1) { arrs.splice(i, 1); localStorage.setItem("bm943", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

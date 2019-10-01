@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1339" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1339" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Безопастность в Rails
+    </h1>
+    
+    <p>Это руководство описывает общие проблемы безопасности в приложениях веб, и как избежать их с помощью Rails.</p>
+    <p>После прочтения этого руководства, вы узнаете:</p>
+
+    <ul>
+        <li>Обо всех контрмерах, которые выделены в тексте.</li>
+        <li>Концепцию сессий в Rails, что в них вкладывать, и популярные методы атак.</li>
+        <li>Как простое посещение сайта может быть проблемой безопасности (про подделку межсайтовых запросов, CSRF).</li>
+        <li>На что следует обратить внимание при работе с файлами или предоставлении административного интерфейса.</li>
+        <li>Как управлять пользователями: вход и выход, и методы атак на всех уровнях.</li>
+        <li>И наиболее популярные методы атаки инъекцией.</li>
+    </ul>
+
+    <h2 id="title">
+        Введение
+    </h2>
+
+    <p>Фреймворки веб-приложений сделаны для помощи разработчикам в создании веб-приложений.</p>
+    <p>Некоторые из них также помогают с безопасностью веб-приложения.</p>
+    <p>Фактически, один фреймворк не безопаснее другого: если использовать их правильно, возможно создавать безопасные приложения на разных фреймворках.</p>
+    <p>Ruby on Rails имеет некоторые умные методы хелпера, например против инъекций SQL, поэтому вряд ли это будет проблемой.</p>
+    <p>В основном здесь нет такого, как plug-n-play безопасность.</p>
+    <p>Безопасность зависит от людей, использующих фреймворк, и иногда от метода разработки.</p>
+    <p>И зависит от всех уровней среды веб-приложения: внутреннего хранения данных, веб-сервера и самого веб-приложения (и, возможно, других уровней приложений).</p>
+    <p>Однако, The Gartner Group оценила, что 75% атак происходят на уровне веб-приложения, и обнаружила, что из 300 проверенных сайтов, 97% уязвимы к атакам.</p>
+    <p>Это потому, что веб-приложения относительно просто атаковать, так как они просты для понимания и воздействия, даже простым человеком.</p>
+    <p>Угрозы против веб-приложений включают похищение пользовательской записи, обход контроля доступа, чтение или изменение конфиденциальных данных или представление мошеннического содержимого.</p>
+    <p>Или атакующий может получить возможность установки программы-трояна или программы отправки нежелательных e-mail с целью финансовой выгоды, или нанесения вреда брэнду, с помощью изменения ресурсов компании.</p>
+    <p>Для предотвращения атак, сведения к минимуму их последствий и удаления уязвимых мест прежде всего необходимо полное понимание методов атак, чтобы найти правильные контрмеры.</p>
+    <p>Это то, на что направлено это руководство.</p>
+    <p>Для разработки безопасных веб-приложений вы должны быть в курсе всех уровней безопасности и знать своих врагов.</p>
+    <p>Чтобы быть в курсе, подпишитесь на рассылку по безопасности, читайте блоги по безопасности, регулярно осуществляйте обновления и производите проверки безопасности (смотрите раздел Дополнительные источники).</p>
+    <p>Делайте это вручную, поскольку так вы можете найти неприятные проблемы безопасности на уровне логики.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/1.html", "Безопастность в Rails", "bm1339"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1339", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1339") == 1) { document.getElementById("bma1339").style.display = "block"; document.getElementById("bm1339").style.display = "none"; } else { document.getElementById("bma1339").style.display = "none"; document.getElementById("bm1339").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Безопастность в Rails") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1339", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

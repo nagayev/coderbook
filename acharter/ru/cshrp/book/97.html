@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma184" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm184" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Массивы делегатов
+	</h1>
+
+	<p>Делегаты, точнее ссылки на экземпляры делегатов, можно объединять в массивы.</p>
+	<p>Такая возможность позволяет программисту задавать наборы действий, которые затем будут автоматически выполнены в указанной последовательности.</p>
+	<p>В качестве примера рассмотрим модель перемещения робота по плоской поверхности.</p>
+	<p>Пусть робот умеет выполнять четыре команды (вперед, назад, направо, налево), каждая из которых изменяет его положение на один шаг.</p>
+	<p>Система управления роботом должна формировать последовательность команд, которые робот выполняет автоматически.</p>
+	<p>После выполнения полученной последовательности команд робот должен сообщить о достигнутом местоположении.</p>
+	<p>Конкретную последовательность можно формировать в виде массива ссылок на экземпляры делегата.</p>
+	<p>Перебор элементов массива позволит выполнить всю цепочку команд.</p>
+	<p>Так как нашей целью является только иллюстрация возможностей массивов делегатов, то максимально упростим задачу.</p>
+	<p>Определим класс роботов Robot с четырьмя уже названными методами (командами) управления и методом для выдачи информации о местоположении робота.</p>
+	<p>Вне класса роботов определим тип делегатов Steps, предназначенных для представления методов управления роботом.</p>
+	<p>В главной программе создадим объект класса роботов и именующую его ссылку rob.</p>
+	<p>Массив делегатов trace будем формировать, присваивая его элементам ссылки на безымянные экземпляры делегата, адресующие разные методы созданного объекта класса роботов.</p>
+	<p>Этот массив будет имитировать последовательность команд, управляющих перемещением конкретного объекта- робота.</p>
+	<p>После формирования массива переберем его элементы в цикле и с их помощью последовательно вызовем все запланированные методы, управляющие перемещением робота.</p>
+
+	<pre class="brush: csharp;">
+	// 17_02.cs - массив делегатов
+	using System;
+	// класс для представления робота
+	class Robot
+	{
+		// положение робота на плоскости
+		int x, y;
+		// направо
+		public void right() { x++; }
+		// налево
+		public void left() { x--; }
+		// вперед
+		public void forward() { y++; }
+		// назад
+		public void backward() { y--; }
+		// сообщить координаты
+		public void position( )
+		{
+			Console.WriteLine("The Robot position: x={0}, y={1}", x, y);
+		}
+	}
+	
+	// делегат-тип
+	delegate void Steps( );
+	class Program
+	{
+		static void Main( )
+		{
+			// конкретный робот
+			Robot rob = new Robot();
+			Steps[] trace = {
+			new Steps(rob.backward),
+			new Steps(rob.backward), new Steps(rob.left)};
+			for (int i = 0; i < trace.Length; i++)
+			{
+				Console.WriteLine("Method={0}, Target={1}",
+				trace[i].Method, trace[i].Target);
+				trace[i]();
+			}
+			// сообщить координаты
+			rob.position();
+		}
+	}
+	</pre>
+
+	<p>В цикле перебора элементов массива ссылок на экземпляры делегата (trace) помещен вывод на консоль заголовка метода, адресованного очередным элементом массива.</p>
+	<p>Тут же выводится имя того класса, которому принадлежит этот нестатический метод.</p>
+	<p>Для получения заголовка и имени класса используются уже упомянутые свойства класса делегатов (Method и Target).</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Method=Void backward(), Target=Robot
+	Method=Void backward(), Target=Robot
+	Method=Void left(), Target=Robot
+	The Robot position: x=-1, y=-2
+	</pre>
+
+	<p>При создании объекта класса Robot его координаты по умолчанию равны нулю (x=0, y=0).</p>
+	<p>Именно из этой точки начинается в нашем примере перемещение – два шага назад и один влево.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="96.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="98.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/97.html", "Массивы делегатов", "bm184"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm184", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm184") == 1) { document.getElementById("bma184").style.display = "block"; document.getElementById("bm184").style.display = "none"; } else { document.getElementById("bma184").style.display = "none"; document.getElementById("bm184").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Массивы делегатов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm184", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

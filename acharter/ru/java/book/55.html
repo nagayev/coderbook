@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma656" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm656" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Управление циклами
+	</h1>
+
+	<p>В языке Java имеется три основных конструкции управления циклами:</p>
+	<p>- цикл while;</p>
+	<p>- цикл do;</p>
+	<p>- цикл for.</p>
+
+	<h1 id="title">
+		Цикл while
+	</h1>
+
+	<p>Основная форма цикла while может быть представлена так:</p>
+
+	<pre class="brush: csharp;">
+	while(логическое выражение)
+	повторяющееся выражение, или блок;
+	</pre>
+
+	<p>В данной языковой конструкции повторяющееся выражение, или блок будет исполняться до тех пор, пока логическое выражение будет иметь истинное значение.</p>
+	<p>Этот многократно исполняемый блок называют телом цикла</p>
+	<p>Операторы continue и break могут изменять нормальное исполнение тела цикла.</p>
+	<p>Так, если в теле цикла встретился оператор continue, то операторы, следующие за ним, будут пропущены и выполнение цикла начнется сначала.</p>
+	<p>Если continue используется с меткой и метка принадлежит к данному while, то выполнение его будет аналогичным.</p>
+	<p>Если метка не относится к данному while, его выполнение будет прекращено и управление будет передано на оператор, или блок, к которому относится метка.</p>
+	<p>Если встретился оператор break, то выполнение цикла будет прекращено.</p>
+	<p>Если выполнение блока было прекращено по какой-то другой причине (возникла исключительная ситуация), то выполнение всего цикла будет прекращено по той же причине.</p>
+	<p>Рассмотрим несколько примеров:</p>
+
+	<pre class="brush: csharp;">
+	public class Test
+	{
+		static int x = 5;
+		public Test() { }
+
+		public static void main(String[] args)
+		{
+			Test t = new Test();
+			int x = 0;
+			
+			while(x < 5)
+			{
+				x++;
+				if(x % 2 == 0) continue;
+				System.out.print(" " + x);
+			}
+		}
+	}
+	</pre>
+
+	<p>На консоль будет выведено</p>
+
+	<pre class="brush: csharp;">
+	1   3   5
+	</pre>
+
+	<p>т.е. вывод на печать всех четных чисел будет пропущен.</p>
+
+	<pre class="brush: csharp;">
+	public class Test
+	{
+		static int x = 5;
+		public Test() { }
+		
+		public static void main(String[] args)
+		{
+			Test t = new Test();
+			int x = 0;
+			int y = 0;
+			
+			lbl: while(y  < 3)
+			{
+				y++;
+				
+				while(x < 5)
+				{
+					x++;
+					if(x % 2 == 0) continue lbl;
+					System.out.println("x=" + x + " y="+y);
+				}
+			}
+		}
+	}
+	</pre>
+
+	<p>На консоль будет выведено</p>
+
+	<pre class="brush: csharp;">
+	x=1 y=1
+	x=3 y=2
+	x=5 y=3
+	</pre>
+
+	<p>т.е. при выполнении условия if(x % 2 == 0) continue lbl; цикл по переменной x будет прерван, а цикл по переменной y начнет новую итерацию.</p>
+	<p>Типичный вариант использования выражения while():</p>
+
+	<pre class="brush: csharp;">
+	int i = 0;
+	while( i++ < 5)
+	{
+		System.out.println("Counter is " + i);
+	}
+	</pre>
+
+	<p>Следует помнить, что цикл while() будет выполнен только в том случае, если на момент начала его выполнения логическое выражение будет истинным.</p>
+	<p>Таким образом, при выполнении программы может иметь место ситуация, когда цикл while() не будет выполнен ни разу.</p>
+
+	<pre class="brush: csharp;">
+	boolean b = false;
+	
+	while(b)
+	{
+		System.out.println("Executed");
+	}
+	</pre>
+
+	<p>В данном случае строка System.out.println("Executed"); выполнена не будет.</p>
+
+	<h1 id="title">
+		Цикл do
+	</h1>
+
+	<p>Основная форма цикла do имеет следующий вид:</p>
+
+	<pre class="brush: csharp;">
+	do
+	повторяющееся выражение или блок;
+	while(логическое выражение)
+	</pre>
+
+	<p>Цикл do будет выполняться до тех пор, пока логическое выражение будет истинным.</p>
+	<p>В отличие от цикла while, этот цикл будет выполнен, как минимум, один раз.</p>
+	<p>Типичная конструкция цикла do:</p>
+
+	<pre class="brush: csharp;">
+	int counter = 0;
+
+	do
+	{
+		counter ++;
+		System.out.println("Counter is " + counter);
+	}
+
+	while(counter < 5);
+	</pre>
+
+	<p>В остальном выполнение цикла do аналогично выполнению цикла while, включая использование операторов break и continue.</p>
+
+	<h1 id="title">
+		Цикл for
+	</h1>
+
+	<p>Довольно часто бывает необходимо изменять значение какой-либо переменной в заданном диапазоне и выполнять повторяющуюся последовательность операторов с использованием этой переменной.</p>
+	<p>Для выполнения такой последовательности действий как нельзя лучше подходит конструкция цикла for.</p>
+	<p>Основная форма цикла for выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	for(выражение инициализации; условие;
+	выражение обновления)
+	повторяющееся выражение или блок;
+	</pre>
+
+	<p>Ключевыми элементами данной языковой конструкции являются предложения, заключенные в круглые скобки и разделенные точкой с запятой.</p>
+	<p>Выражение инициализации выполняется до начала выполнения тела цикла.</p>
+	<p>Чаще всего используется как некое стартовое условие (инициализация, или объявление переменной).</p>
+	<p>Условие должно быть логическим выражением и трактуется точно так же, как логическое выражение в цикле while().</p>
+	<p>Тело цикла выполняется до тех пор, пока логическое выражение истинно. Как и в случае с циклом while(), тело цикла может не исполниться ни разу.</p>
+	<p>Это происходит, если логическое выражение принимает значение "ложь" до начала выполнения цикла.</p>
+	<p>Выражение обновления выполняется сразу после исполнения тела цикла и до того, как проверено условие продолжения выполнения цикла.</p>
+	<p>Обычно здесь используется выражение инкрементации, но может быть применено и любое другое выражение.</p>
+	<p>Пример использования цикла for():</p>
+
+	<pre class="brush: csharp;">
+	...
+	for(counter=0; counter < 10;counter++)
+	{
+		System.out.println("Counter is " + counter);
+	}
+	</pre>
+
+	<p>В данном примере предполагается, что переменная counter была объявлена ранее.</p>
+	<p>Цикл будет выполнен 10 раз и будут напечатаны значения счетчика от 0 до 9.</p>
+	<p>Разрешается определять переменную прямо в предложении:</p>
+
+	<pre class="brush: csharp;">
+	for(int cnt = 0;cnt < 10; cnt++)
+	{
+		System.out.println("Counter is " + cnt);
+	}
+	</pre>
+
+	<p>Результат выполнения этой конструкции будет аналогичен предыдущему.</p>
+	<p>Однако нужно обратить внимание, что область видимости переменной cnt будет ограничена телом цикла.</p>
+	<p>Любая часть конструкции for() может быть опущена.</p>
+	<p>В вырожденном случае мы получим оператор for с пустыми значениями</p>
+
+	<pre class="brush: csharp;">
+	for(;;)
+	{
+		...
+	}
+	</pre>
+
+	<p>В данном случае цикл будет выполняться бесконечно.</p>
+	<p>Эта конструкция аналогична конструкции while(true){}.</p>
+	<p>Условия, в которых она может быть применена, мы рассмотрим позже.</p>
+	<p>Возможно также расширенное использование синтаксиса оператора for().</p>
+	<p>Предложение и выражение могут состоять из нескольких частей, разделенных запятыми.</p>
+
+	<pre class="brush: csharp;">
+	for(i = 0, j = 0; i < 5; i++, j+=2)
+	{
+		...
+	}
+	</pre>
+
+	<p>Использование такой конструкции вполне правомерно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="54.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="56.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/55.html", "Управление циклами", "bm656"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm656", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm656") == 1) { document.getElementById("bma656").style.display = "block"; document.getElementById("bm656").style.display = "none"; } else { document.getElementById("bma656").style.display = "none"; document.getElementById("bm656").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Управление циклами") == 1) { arrs.splice(i, 1); localStorage.setItem("bm656", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

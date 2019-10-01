@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma154" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm154" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Свойства классов
+	</h1>
+
+	<p>Кроме традиционного для объектно-ориентированных языков применения специальных методов, обеспечивающих обращение к закрытым полям, язык C# позволяет получить к ним доступ с помощью механизма свойств.</p>
+	<p>Однако, свойство это не просто средство доступа к полям класса или его объекта.</p>
+	<p>У свойств более широкие возможности.</p>
+	<p>Дело в том, что в ряде случаев объекты класса могут иметь признаки вторичные по отношению к значениям их полей.</p>
+	<p>Например для объектов приведенного выше класса Person с полями фамилия и год_рождения разумно ввести такой показатель, как возраст в текущий момент времени.</p>
+	<p>Делать такой показатель полем объекта неудобно – значение показателя должно зависеть не только от времени создания объекта, но и от момента обращения к этому объекту.</p>
+	<p>Для класса чисел в научной нотации вторичными характеристиками каждого объекта можно сделать, например, его значение в естественной форме вещественного числа или значение 10p, где р – порядок числа в научной нотации, представленный полем объекта.</p>
+	<p>Если в классе треугольников полями объектов сделать длины трёх сторон треугольника, то такие характеристики как периметр или площадь можно объявить свойствами объектов класса.</p>
+	<p>Свойство – это член класса, который обеспечивает доступ к характеристикам класса или его объекта.</p>
+	<p>С точки зрения внешнего пользователя свойства синтаксически не отличаются от полей класса.</p>
+	<p>Однако, между свойствами и полями имеется принципиальное различие – в объекте отсутствует ассоциированный со свойством участок памяти.</p>
+	<p>Такой участок памяти выделяется для каждого поля класса, а свойство, связанное с этим полем, представляет собой упрощённое по сравнению с методами средство для получения либо задания значения поля.</p>
+	<p>Для обращения к свойствам применяются их имена.</p>
+	<p>Эти имена можно использовать в выражениях.</p>
+	<p>Однако, прежде чем объяснять особенности применения свойств, рассмотрим правила их объявления в классе.</p>
+	<p>Декларация свойства состоит из двух частей.</p>
+	<p>Первая часть подобна объявлению поля.</p>
+	<p>Вторая часть представляет собой конструкцию особого вида, включающую пару особых методов с фиксированными именами: get и set.</p>
+	<p>Эти специфические методы называют аксессорами.</p>
+	<p>Общую форму объявления свойства можно представить так:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_свойства opt
+	тип_свойства имя_свойства
+	{
+		декларация get-аксессора opt
+		декларация set-аксессора opt
+	}
+	</pre>
+
+	<p>В качестве модификаторов свойства используются:</p>
+	<p><b>new, public, protected, internal, private, static, virtual, sealed, override, abstract, extern</b></p>
+	<p>В объявлении свойства могут присутствовать в допустимых сочетаниях несколько модификаторов, которые в этом случае отделяются друг от друга пробелами.</p>
+	<p>Модификаторы, определяющие доступность членов вне объявления класса, мы уже рассмотрели в связи с полями и методами классов.</p>
+	<p>Модификатор static позволяет отнести свойство к классу в целом, а не к его объектам.</p>
+	<p>Остальные модификаторы до изучения наследования рассматривать не будем.</p>
+	<p><b>Тип_свойства</b> - это тип той характеристики, которую представляет свойство.</p>
+	<p><b>Имя_свойства</b> - идентификатор, выбираемый программистом для именования свойства.</p>
+	<p>Вторая часть объявления свойства (можно назвать её телом объявления свойства) – это заключенная в фигурные скобки пара объявлений "методов" – аксессоров со специальными именами get и set.</p>
+	<p>Формат декларации аксессора доступа (get- аксессора):</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_аксессора opt
+	get тело_аксессора
+	Формат декларации аксессора изменения "декларация аксессора изменения" (set -аксессора):
+	модификаторы_аксессора opt
+	set тело_аксессора
+	</pre>
+
+	<p>Модификаторы аксессоров:</p>
+	<p><b>protected, internal, private, protected internal, internal protected</b></p>
+	<p>Тело аксессора это либо блок, либо пустой оператор, обозначаемый символом точка с запятой.</p>
+	<p>Пустой оператор в качестве тела применяется для аксессоров тех свойств, которые объявлены с модификаторами abstract и extern.</p>
+	<p>Сейчас такие свойства мы не рассматриваем.</p>
+	<p>Аксессор доступа (get-аксессор) – подобен методу без параметров, возвращающему значение, тип которого определяется типом свойства.</p>
+	<p>Достаточно часто аксессор доступа возвращает значение конкретного поля класса или его объекта.</p>
+	<p>Для возврата значения из аксессора в его теле должен выполниться оператор <b>return выражение;</b>.</p>
+	<p>Аксессор изменения (set-аксессор) – подобен методу с возвращаемым значением типа void и единственным неявно заданным параметром, значение которого определяет новое значение свойства.</p>
+	<p>Тип параметра определяется типом свойства.</p>
+	<p>Имя параметра, которое используется в теле аксессора изменений, всегда value.</p>
+	<p>В теле аксессоров свойства могут быть сложные алгоритмы обработки.</p>
+	<p>Например, при изменении свойства можно контролировать диапазон допустимых значений.</p>
+	<p>В теле аксессора доступа, возвращаемое значение может вычисляться с учетом значений не одного, а разных полей, и т.д..</p>
+	<p>Часто свойство используют для работы с одним закрытым полем класса.</p>
+	<p>Заметим, что и при таком использовании свойство не вводит новых полей, а только управляет доступом к уже существующим в классе полям.</p>
+	<p>Существует соглашение (не обязательное) начинать имена свойств с заглавных букв.</p>
+	<p>Если свойство представляет "во внешнем мире" конкретное поле класса, то имя свойства повторяет имя поле, но отличается от него первой заглавной буквой.</p>
+	<p>Например, если в классе объявлено поле tempor, то представляющее его свойство рекомендуется назвать Tempor.</p>
+	<p>Пример класса чисел в научной нотации со свойствами (12_02.cs):</p>
+
+	<pre class="brush: csharp;">
+	// Класс чисел в научной нотации
+	class Real
+	{
+		// Закрытые поля:
+		// мантисса - явно инициализирована
+		double m = 8.0;
+		// инициализация по умолчанию
+		int p;
+		// свойство для получения значения мантиссы:
+		public double Mantissa { get { return m; } }
+		// свойство для показателя:
+		public int Exponent
+		{
+			get { return p; }
+			set { p = value; }
+		}
+		// свойство для значения числа:
+		public double RealValue
+		{
+			get { return m * Math.Pow(10, p); }
+			set
+			{
+				m = value; p = 0;
+				reduce();
+			}
+		}
+		// "Внутренний" для класса метод
+		void reduce()
+		{
+			double sign = 1; if (m < 0) {sign = -1; m = -m; }
+			for (; m >= 10; m /= 10, p += 1) ;
+			for (; m < 1; m *= 10, p -= 1) ;
+			m *= sign;
+		}
+	}
+	</pre>
+
+	<p>В классе Real уже рассмотренные закрытые члены: вспомогательный метод reduce(), поля double m – мантисса, int p – показатель.</p>
+	<p>Кроме того, объявлены три открытых свойства:</p>
+	<p>- public double Mantissa – для получения значения мантиссы;</p>
+	<p>- public int Exponent – для получения и изменения показателя;</p>
+	<p>- public double RealValue – для получения числа в виде значения вещественного типа и для задания значений полей объекта по значению типа double.</p>
+	<p>В определении свойства Mantissa только один аксессор get, он позволяет получить значение поля double m.</p>
+	<p>Свойство Exponent включает два аксессора:</p>
+	<p><b>set</b> { p = value; } – изменяет значение поля int p;</p>
+	<p><b>get</b> { return p; } – возвращает значение того же поля.</p>
+	<p>Свойство RealValue позволяет обратиться к объекту класса Real как к числовому значению типа double.</p>
+	<p>Аксессоры свойства:</p>
+	<p><b>get</b> { return m * Math.Pow(10, p); }</p>
+	<p><b>set</b> { m = value; p = 0; reduce(); }</p>
+	<p>Аксессор get возвращает числовое значение, вычисленное на основе значений полей объекта.</p>
+	<p>Аксессор set, получив из внешнего обращения значение value, присваивает его переменной поля double m.</p>
+	<p>При этом переменная int p получает нулевое значение.</p>
+	<p>Затем для приведения числа к научной нотации в теле аксессора выполняется обращение к вспомогательному методу класса reduce().</p>
+	<p>Его мы уже рассмотрели в связи с обсуждением конструкторов.</p>
+	<p>Следующий фрагмент кода иллюстрирует применение свойств класса (программа 12_02.cs):</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		// конструктор умолчания
+		Real number = new Real();
+		string form = " = {0,8:F5} * 10^{1,-3:D2}";
+		Console.WriteLine("number" + form, number.Mantissa, number.Exponent);
+		number.Exponent = 2;
+		Console.WriteLine("number" + form, number.Mantissa, number.Exponent);
+		Console.WriteLine("number RealValue = " + number.RealValue);
+		number.RealValue = -314.159;
+		Console.WriteLine("number" + form, number.Mantissa, number.Exponent);
+		Console.WriteLine("number RealValue = " + number.RealValue);
+	}
+	</pre>
+
+	<p>В программе с помощью конструктора умолчания Real() определен один объект класса чисел в научной нотации и объявлена ссылка number, ассоциированная с этим объектом.</p>
+	<p>Дальнейшие манипуляции с объектом выполнены с помощью свойств Mantissa, Exponent, RealValue.</p>
+	<p>Для обращения к ним используются уточненные имена вида <b>имя_объекта.имя_свойства</b>.</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	number = 8,00000 * 10^00
+	number = 8,00000 * 10^02
+	number RealValue = 800
+	number = -3,14159 * 10^02
+	number RealValue = -314,159
+	</pre>
+
+	<p>В первой строке результатов приведено изображение числа из объекта, созданного конструктором умолчания.</p>
+	<p>Значения полей при выводе получены с помощью уточненных имён свойств number.Mantissa, number.Exponent.</p>
+	<p>Оператор <b>number.Exponent = 2;</b> через свойство Exponent изменяет значение поля показателя int p.</p>
+	<p>Этим определяется вторая строка результатов выполнения программы.</p>
+	<p>В третьей строке – числовое значение объекта number, полученное с помощью свойства RealValue.</p>
+	<p>Оператор <b>number.RealValue = -314.159;</b> через свойство RealValue изменяет оба поля объекта number.</p>
+	<p>Результат изменения полей иллюстрирует предпоследняя строка результатов.</p>
+	<p>В последней строке – значение свойства RealValue.</p>
+	<p>Аксессор get выполняется, когда из кода, внешнего по отношению к классу или его объекту, выполняется «чтение» значения свойства.</p>
+	<p>При этом в точку вызова возвращается некоторое значение или ссылка на объект.</p>
+	<p>Тип значения или ссылки соответствует типу в объявлении свойства.</p>
+	<p>При этом возможны неявные приведения типов.</p>
+	<p>Например, если get-аксессор возвращает значение типа int, а тип свойства double, то будет автоматически выполнено приведение типов.</p>
+	<p>Get-аксессор подобен методу без параметров, возвращающему значение или ссылку с типом свойства.</p>
+	<p>Если внешний по отношению к классу или его объекту код присваивает некоторое значение свойству, то вызывается set-аксессор этого свойства.</p>
+	<p>В теле этого аксессора присвоенное свойству значение представлено специальной переменной с фиксированным именем value.</p>
+	<p>Тип этой переменной совпадает с типом свойства. У set-аксессора возвращаемое значение отсутствует.</p>
+	<p>Можно считать, что set-аксессор функционально подобен методу с одним параметром.</p>
+	<p>У этого параметра тот же тип, что и тип свойства, и фиксированное имя value.</p>
+	<p>Можно использовать в объявлении свойства только один из аксессоров.</p>
+	<p>Это позволяет вводить свойства только для записи (изменения) и свойства только для чтения.</p>
+	<p>Возникает вопрос, чем открытое свойство, обеспечивающее только чтение, отличается от открытого поля, объявленного с модификатором readonly.</p>
+	<p>Основное отличие в том, что поле хранит некоторое значение, которое не может изменить процесс чтения из этого поля.</p>
+	<p>При чтении значения свойства есть возможность выполнить заранее запланированные действия (вычисления), причём никаких ограничений на характер этих действий (вычислений) не накладывается.</p>
+	<p>Результат вычислений свойства может зависеть, например, от состояния среды, в которой выполняется программа, или от влияния процессов, выполняемых параллельно.</p>
+	<p>Пример поля с модификатором readonly: "дата рождения".</p>
+	<p>Свойство "точный возраст" должно вычисляться с учётом конкретного момента обращения к этому свойству.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="66.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="68.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/67.html", "Свойства классов", "bm154"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm154", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm154") == 1) { document.getElementById("bma154").style.display = "block"; document.getElementById("bm154").style.display = "none"; } else { document.getElementById("bma154").style.display = "none"; document.getElementById("bm154").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Свойства классов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm154", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

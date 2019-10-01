@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma461" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm461" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		MDI
+	</h1>
+
+	<p>MDI (Multi Document Interface) – это способ создания многодокументных окон, когда новое, дочернее окно создается внутри главного, и не может выйти за его пределы.</p>
+	<p>Вспомните, например, пакет MS Office 97, где Word, Excel и другие программы открывали файл в окне, которое находилось внутри главного окна.</p>
+	<p>Если вам доводилось видеть самый распространенный сегодня продукт для бухгалтерского учета "1С Предприятие", то вы также видели MDI-окна, именно на этой технологии построена эта программа.</p>
+	<p>Такой способ считается устаревшим и корпорация Microsoft рекомендует не пользоваться им, однако во многих случаях он является наиболее удобным способом.</p>
+	<p>Например, сама Microsoft, несмотря на собственные рекомендации, использует эту технологию.</p>
+	<p>Нажмите "Пуск - Выполнить".</p>
+	<p>В окне для ввода команды наберите "MMC" (разумеется, без кавычек, латинскими символами).</p>
+	<p>Появится MDI -окно Консоли управления системой, которое находится внутри главного окна, и не может выйти за его пределы.</p>
+	<p>Изучение MDI -окон лучше всего делать на практике, чем мы сейчас и займемся.</p>
+	<p>Создайте новое приложение.</p>
+	<p>Мы будем делать многооконный редактор текстов, который позволит обрабатывать несколько текстовых файлов одновременно, переключаться между ними.</p>
+	<p>Свойство Name формы переименуйте в fMain.</p>
+	<p>В свойстве Caption напишите "Текстовый редактор MyEdit".</p>
+	<p>Сохраните проект в отдельную папку, модуль назовите Main, а проект в целом – MyEdit.</p>
+	<p>Теперь в свойстве Position выберите poDesktopCenter, чтобы форма появлялась по центру Рабочего стола.</p>
+	<p>Обратим внимание на свойство FormStyle.</p>
+	<p>Это свойство отвечает за стиль формы, по умолчанию установлено fsNormal (обычное).</p>
+	<p>До сих пор мы не меняли его, для большинства окон такое значение свойства как раз и нужно.</p>
+	<p>Но сейчас мы делаем главное окно многодокументного приложения, поэтому выберите для FormStyle значение fsMDIForm (главное MDI-окно).</p>
+	<p>Для дочернего MDI-окна мы в дальнейшем будем выбирать значение fsMDIChild.</p>
+	<p>На форму установите компонент ControlBar с вкладки Additional, установите у него свойство Align равное alTop, а свойство AutoSize в True.</p>
+	<p>Теперь поверх ControlBar установим компонент ToolBar с вкладки Win32.</p>
+	<p>В свойстве EdgeBorders этого компонента переведите в False подсвойство ebTop, чтобы убрать верхнюю оборку.</p>
+	<p>Свойство AutoSize и Flat также установим в True.</p>
+	<p>Также обратите внимание на свойство ShowHint этого компонента.</p>
+	<p>При значении True, оно позволяет выводить подсказку для кнопок, расположенных на этой панели инструментов, при наведении на них указателя мыши.</p>
+	<p>Установим True в этом свойстве.</p>
+	<p>Не забывайте время от времени сохранять проект.</p>
+	<p>Так, панель инструментов у нас уже есть, кнопки будем создавать по ходу работы.</p>
+	<p>Поочередно установите на форму главное меню (MainMenu), всплывающее меню (PopupMenu) и ActionList с вкладки Standard, добавьте компонент ImageList с вкладки Win32.</p>
+	<p>Далее установите диалоги OpenDialog и SaveDialog с вкладки Dialogs.</p>
+	<p>Все это компоненты невизуальные, поэтому можно их поместить на любое свободное место формы.</p>
+	<p>Начнем с компонента ImageList, так как картинки нам понадобятся и для обеих меню, и для панели инструментов.</p>
+	<p>Команды, которые будет выполнять программа, будут следующими: открыть файл, сохранить, создать, выравнивать окна каскадом, горизонтально и вертикально.</p>
+	<p>Все эти команды будут сопровождаться изображениями, поэтому придется подобрать соответствующие картинки, например:</p>
+
+	<img src="delphi33.png" id="image" />
+
+	<p>Подберите такие же или похожие изображения, или создайте их самостоятельно и добавьте в ImageList под теми же индексами.</p>
+	<p>Приготовление главного окна программы почти закончено, теперь нам понадобится создать дочернее окно, в котором будет находиться сам редактор текстов.</p>
+	<p>Выполните команду "File – New – Form", чтобы создать новое окно.</p>
+	<p>Свойство Name новой формы переименуйте в fEditor (так будем называть наш редактор), в свойстве Caption напишите "Дочернее окно".</p>
+	<p>Свойству FormStyle выберите значение fsMDIChild.</p>
+	<p>Сохраните этот модуль как Editor.</p>
+	<p>Теперь попробуйте скомпилировать проект и запустить программу на выполнение.</p>
+	<p>Сразу видны недостатки: дочернее окно появляется сразу же, а при попытке его закрыть, оно просто сворачивается.</p>
+	<p>Нас это не устраивает, ведь нам нужно открывать это окно по команде, а при закрытии уничтожать его.</p>
+	<p>Исправить это можно.</p>
+	<p>Закройте программу (но не проект!).</p>
+	<p>Выберите команду меню Project – Options.</p>
+	<p>У вас откроется окно, в котором можно задавать некоторые настройки проекта в целом.</p>
+	<p>В левой части окна, в поле "Auto-create forms" выведен список форм проекта, которые создаются автоматически.</p>
+	<p>Выделите название дочерней формы fEditor, нажмите на кнопку со стрелкой вправо, чтобы переместить ее в поле "Available forms":</p>
+
+	<img src="delphi34.png" id="image" />
+
+	<p>Теперь эта форма не будет создаваться автоматически, нам придется делать это вручную.</p>
+	<p>Теперь нужно будет исправить и закрытие этой формы, чтобы она не сворачивалась, а действительно закрывалась.</p>
+	<p>Для этого выделите дочернюю форму, создайте для нее обработчик события onClose и впишите туда следующий код:</p>
+
+	<pre class="brush: csharp;">
+	Action := caFree;
+	</pre>
+
+	<p>Таким образом, при попытке закрыть форму, мы уничтожаем объект, которым эта форма является.</p>
+	<p>Пойдем дальше.</p>
+	<p>На этой форме нам не потребуются ни меню, ни панель инструментов.</p>
+	<p>Установите на нее только компонент Memo, очистите весь текст в свойстве Lines, а свойство Align переведите в alClient, чтобы компонент занял всю форму.</p>
+	<p>Не забудьте сохранить проект.</p>
+	<p>Дочерняя форма готова, переходим снова к главной форме.</p>
+	<p>Вы заметили, что нам не пришлось выполнять команду меню "File – Use unit", чтобы главная форма видела дочернюю?</p>
+	<p>Когда вы делаете MDI-приложение, дочерняя форма уже будет видна из главной, однако теперь она не создается автоматически, поэтому нам придется все же выполнить эту команду.</p>
+	<p>Выделите главную форму, выполните команду меню "File – Use unit" и выберите модуль Editor, чтобы его можно было запустить на выполнение из главного окна.</p>
+
+	<p>Сейчас займемся компонентом ActionList.</p>
+	<p>Вначале свяжем его с нашей коллекцией рисунков.</p>
+	<p>Выделите компонент, и в свойстве Images выберите наш ImageList.</p>
+	<p>Далее дважды щелкните по ActionList, чтобы открыть редактор действий.</p>
+	<p>Появится окно редактора, разделенное на две области.</p>
+	<p>Область Categories содержит категории действий, а область Actions – сами действия.</p>
+	<p>Создадим новое действие.</p>
+	<p>Для этого щелкните правой кнопкой по области Actions и выберите команду New Action (новое действие).</p>
+	<p>Действие создастся:</p>
+
+	<img src="delphi35.png" id="image" />
+
+	<p>По умолчанию, действие имеет имя Action1.</p>
+	<p>Выделите это действие и переименуйте его свойство Name в FileNew.</p>
+	<p>Теперь настроим это действие.</p>
+	<p>В свойстве Caption напишите "Новый", это действие будет открывать окно редактора с новым документом.</p>
+	<p>В свойстве Category напишите "File", в этой категории будем хранить все действия, связанные с командой меню "Файл".</p>
+	<p>Сразу же наше действие исчезло из окна – создана новая категория, и действие перенесено в нее.</p>
+	<p>Выберите File в области Categories, а в области Actions снова выделите наше действие.</p>
+	<p>Теперь нас интересует свойство Hint – строка подсказки, которая выскакивает при наведении указателя мыши на объект.</p>
+	<p>Подсказка выскакивает, если свойство ShowHint объекта установлено в True, мы это сделали только для панели инструментов.</p>
+	<p>Значит, подсказки будут выходить только для кнопочек.</p>
+	<p>В свойстве Hint напишите следующее: "Создать новый файл".</p>
+	<p>Следующее интересное свойство – ImageIndex, оно показывает индекс изображения для выбранного действия.</p>
+	<p>Когда вы откроете свойство, откроется список картинок, из которых можно выбрать нужную:</p>
+
+	<img src="delphi36.png" id="image" />
+
+	<p>Действие мы подготовили, однако оно работать просто так не будет.</p>
+	<p>Чтобы заставить действие работать, нужно на вкладке Events (События) создать для него обработчик события onExecute.</p>
+	<p>Щелкните дважды по этому событию, и напишите в нем следующий код:</p>
+
+	<pre class="brush: csharp;">
+	fEditor := TfEditor.Create(Owner);
+	//создаем новое окно
+	</pre>
+
+	<p>Переменная fEditor была объявлена в разделе глобальных переменных дочерней формы:</p>
+
+	<pre class="brush: csharp;">
+	var
+	fEditor: TfEditor;
+	</pre>
+
+	<p>С помощью функции Create() мы создаем новый объект (форму), и присваиваем его этой переменной.</p>
+	<p>То есть, создаем дочернюю форму вручную.</p>
+	<p>Таким же образом вы сможете создавать в дальнейшем другие дочерние окна, указывая их идентификатор.</p>
+	<p>Действие создано.</p>
+	<p>Теперь создадим кнопку на панели инструментов, которая будет выполнять это действие.</p>
+	<p>Выделите панель инструментов ToolBar, в свойстве Images укажите наш ImageList, чтобы панель использовала те же изображения, что и ActionList.</p>
+	<p>Теперь щелкните по панели правой кнопкой, выберите команду "New Button".</p>
+	<p>Появилась новая кнопка.</p>
+	<p>Выделите ее, и в свойстве Action выберите наше действие – FileNew.</p>
+	<p>Сейчас же на кнопочке появилось нужное изображение, и теперь нажатие на нее приведет к созданию нового дочернего окна.</p>
+	<p>Сохраните проект, скомпилируйте его и выполните.</p>
+	<p>Несколько раз нажав на кнопку, вы создали несколько дочерних окон с редактором.</p>
+	<p>Закрытие дочернего окна уже не сворачивает его, а уничтожает.</p>
+	<p>Привяжем это же действие к пункту главного меню.</p>
+	<p>Выделите MainMenu, в свойстве Images выберите этот же ImageList.</p>
+	<p>Дважды щелкните по главному меню, чтобы открыть редактор.</p>
+	<p>Создайте категорию "Файл" и команду "Новый".</p>
+	<p>В свойстве Action этой команды выберите наше действие FileNew.</p>
+	<p>Сохраните проект, скомпилируйте и запустите его.</p>
+	<p>В меню появилась команда "Файл – Новый", которая имеет ту же картинку и выполняет то же действие, что и кнопка на панели инструментов.</p>
+	<p>Проделаем все те же самые действия для всплывающего меню.</p>
+	<p>Но здесь нет категорий, поэтому просто создайте команду "Новый".</p>
+	<p>Не забудьте предварительно привязать к PopupMenu наш ImageList, а к главной форме в свойстве PopupMenu – само всплывающее меню.</p>
+	<p>Создать новое окно несложно, сложнее открыть уже имеющийся файл.</p>
+	<p>Снова откройте редактор действий ActionList.</p>
+	<p>В категории File создайте новое действие, переименуйте его в FileOpen.</p>
+	<p>Выделите действие, в свойстве Hint напишите "Открыть файл", в свойстве Caption "Открыть", в свойстве ImageIndex выберите подходящую картинку.</p>
+	<p>В событие onExecute введите код:</p>
+
+	<pre class="brush: csharp;">
+if OpenDialog1.Execute then begin
+    fEditor := TfEditor.Create(Owner);
+    fEditor.Memo1.Lines.LoadFromFile(OpenDialog1.FileName);
+    fEditor.Caption := OpenDialog1.FileName;
+  end; //if
+	</pre>
+
+	<p>Вначале мы проверяем, выбрал ли пользователь файл?</p>
+	<p>Если да, то создаем новое дочернее окно.</p>
+	<p>По умолчанию, оно активно, поэтому можем обращаться к нему по имени переменной fEditor.</p>
+	<p>Загружаем в Memo выбранный файл, затем в заголовок окна выводим имя файла.</p>
+	<p>Создайте новую кнопку, привяжите к ней это действие.</p>
+	<p>Создайте в главном меню команду "Файл - Открыть", привяжите это же действие.</p>
+	<p>В всплывающем меню создайте команду "Открыть", и привяжите к ней это же действие.</p>
+	<p>Сохраните, скомпилируйте и запустите проект, попробуйте несколько раз открывать разные текстовые файлы.</p>
+	<p>Для большего эффекта можете в компонентах OpenDialog и SaveDialog создать фильтры для расширения *.txt.</p>
+	<p>Для действия FileSave (сохранить файл) код события onExecute будет такой:</p>
+
+	<pre class="brush: csharp;">
+//если активного окна нет - выходим:
+  if ActiveMDIChild = nil then exit;
+  //если в строке окна есть имя файла, сохраняем в него:
+  if Length(ActiveMDIChild.Caption)> 0 then
+    fEditor.Memo1.Lines.SaveToFile(fEditor.Caption)
+  //иначе спрашиваем, куда сохранять, и сохраняем:
+  else if SaveDialog1.Execute then begin
+    fEditor.Memo1.Lines.SaveToFile(SaveDialog1.FileName);
+    fEditor.Caption := SaveDialog1.FileName;
+  end; //else if
+	</pre>
+
+	<p>Как видно из кода, команда ActiveMDIChild будет содержать значение nil (ничего, пусто), если нет ни одного активного окна.</p>
+	<p>Все остальные операции с этим действием создайте самостоятельно, и привяжите это действие к команде главного меню "Файл – Сохранить", к команде всплывающего меню "Сохранить", к новой кнопке на панели инструментов.</p>
+	<p>Также самостоятельно создайте действие FileExit (выход из программы), и привяжите его к кнопке и соответствующим пунктам главного и всплывающего меню.</p>
+	<p>У MDI – приложений есть несколько полезных свойств и методов. Рассмотрим некоторые из них.</p>
+	<p>ActiveMDIChild – указывает на активное дочернее окно. Например, текст в</p>
+
+	<pre class="brush: csharp;">
+	ActiveMDIChild.Caption
+	</pre>
+
+	<p>является заголовком активной дочерней формы.</p>
+	<p>MDIChildCount возвращает целое число – количество открытых дочерних окон.</p>
+	<p>MDIChildren позволяет получить доступ к любому, даже неактивному дочернему окну. Например,</p>
+
+	<pre class="brush: csharp;">
+	MDIChildren[1]
+	</pre>
+
+	<p>это первое дочернее окно</p>
+	<p>Напоследок научимся вставлять в ActionList стандартные действия.</p>
+	<p>Откройте редактор действий.</p>
+	<p>Щелкните по нему правой кнопкой, и выберите команду "New Standard Action".</p>
+	<p>Откроется список, в котором можно выбрать категорию и команды действий.</p>
+	<p>Нам нужна категория Window (Окно).</p>
+	<p>Выделите эту категорию и следующие команды в ней:</p>
+
+	<img src="delphi37.png" id="image" />
+
+	<p>Как только вы нажмете ОК, эти действия попадут в список ActionList, в категорию Window.</p>
+	<p>Отсортируйте команды следующим образом, и для указанных команд укажите изображения:</p>
+
+	<img src="delphi38.png" id="image" />
+
+	<p>По порядку, в свойствах Caption этих действий укажите: "Выравнивание каскадом, Выравнивание горизонтально, Выравнивание вертикально, Упорядочить, Свернуть все, Закрыть окно".</p>
+	<p>Сделайте соответствующие пункты в разделе "Окно" главного меню, и в свойстве Action этих пунктов присвойте соответствующие команды.</p>
+	<p>Никакого кода вводить не нужно, он уже содержится в этих командах.</p>
+	<p>Сохраните проект, скомпилируйте и посмотрите, как он работает.</p>
+	<p>Новые команды меню будут недоступны, пока нет открытых окон, при открытых окнах ими можно будет пользоваться.</p>
+	<p>Не написав ни строчки кода, мы организовали обработку окон многооконного проекта, используя стандартные действия ActionList.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="74.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="76.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/75.html", "MDI", "bm461"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm461", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm461") == 1) { document.getElementById("bma461").style.display = "block"; document.getElementById("bm461").style.display = "none"; } else { document.getElementById("bma461").style.display = "none"; document.getElementById("bm461").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("MDI") == 1) { arrs.splice(i, 1); localStorage.setItem("bm461", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

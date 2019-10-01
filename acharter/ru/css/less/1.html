@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma227" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm227" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Введение в Less
+	</h1>
+
+	<p>Less — это <b>препроцессор CSS</b>, позволяющий использовать переменные, функции, циклы и другие технологии для упрощения работы со стилями.</p>
+	<p>Препроцессор в данном случае означает, что мы имеем дело с динамическим языком стилей, который преобразуется в CSS.</p>
+	<p>Таким образом, на выходе получаем стандартный стилевой файл.</p>
+	<p>Less преследует благородные цели — облегчить работу разработчикам сайтов дав им подходы и приёмы, которые в CSS на данный момент отсутствуют, но характерны для языков программирования.</p>
+	<p>Например, те же переменные позволяют задать какое-либо значение, а затем использовать его многократно, подставляя лишь имя переменной.</p>
+	<p>Разработал Less <b>Алексис Селье</b> на языке Ruby, а затем под влиянием нарастающей популярности Node.js переписал код на JavaScript.</p>
+	<p>Характерной особенностью Less стал синтаксис основанный на CSS.</p>
+	<p>Это сразу же снизило порог вхождения и изучения новой технологии, к тому же не возникает никаких проблем с редакторами кода, они прекрасно поддерживают подсветку синтаксиса.</p>
+	<p>В дальнейшем Less оказал своё влияние на препроцессор Sass, в котором появился новый похожий синтаксис.</p>
+	<p>Но в целом, вопрос, кто на кого оказал влияние открыт, потому что многие полезные вещи были заимствованы друг у друга.</p>
+	<p>Так что в настоящий момент и Less и Sass похожи как братья, различаясь лишь в деталях.</p>
+
+	<h1 id="title">
+		Начало работы
+	</h1>
+
+	<p>Для начала скачайте библиотеку <b>less.js</b> или сжатый less.min.js с официального сайта:</p>
+
+	<pre class="brush: csharp;">
+		http://lesscss.org/
+	</pre>
+
+	<p>Затем подключите less.js или сжатый less.min.js на свою страницу через &lt;script&gt;.</p>
+	<p>Обратите внимание: все файлы нужно подключать в шапку сайта - секцию &lt;head&gt;</p>
+
+	<pre class="brush: csharp;">
+		&lt;script src=&quot;less.js&quot;&gt;&lt;/script&gt;
+	</pre>
+
+	<p>Также можно использовать CDN (Content Delivery Network, сеть доставки контента), тогда не придётся самостоятельно скачивать файл.</p>
+	<p>Подключение в этом случае происходит следующим образом.</p>
+
+	<pre class="brush: csharp;">
+		&lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js&quot;&gt;&lt;/script&gt;
+	</pre>
+
+	<p>Теперь добавляем свой файл в <b>формате .less</b> на веб-страницу через элемент &lt;link&gt;.</p>
+	<p>Обратите внимание на значение атрибута rel, оно отличается от традиционного.</p>
+	<p>Кроме того, важна последовательность строк — вначале стиль, потом скрипт, это принципиально.</p>
+
+	<pre class="brush: csharp;">
+	&lt;head&gt;
+
+	&lt;link rel=&quot;stylesheet/less&quot; href=&quot;styles.less&quot;&gt;
+
+	&lt;script src=&quot;less.js&quot;&gt;&lt;/script&gt;
+
+	&lt;/head&gt;
+	</pre>
+
+	<p>Теперь у нас все готово... Начинаем!</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/less/1.html", "Введение в Less", "bm227"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm227", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm227") == 1) { document.getElementById("bma227").style.display = "block"; document.getElementById("bm227").style.display = "none"; } else { document.getElementById("bma227").style.display = "none"; document.getElementById("bm227").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Введение в Less") == 1) { arrs.splice(i, 1); localStorage.setItem("bm227", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

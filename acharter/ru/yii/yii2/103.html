@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1309" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1309" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Url хелпер
+	</h1>
+
+    <p>Url хелпер предоставляет набор статических методов для управления URL.</p>
+
+    <h2 id="title">
+        Получение общих URL
+    </h2>
+
+    <p>Вы можете использовать два метода получения общих URL: домашний URL (Home) и базовый URL (Base) текущего запроса.</p>
+    <p>Используйте следующий код, чтобы получить домашний URL:</p>
+
+    <pre class="brush: csharp;">
+    $relativeHomeUrl = Url::home();
+    $absoluteHomeUrl = Url::home(true);
+    $httpsAbsoluteHomeUrl = Url::home('https');
+    </pre>
+
+    <p>Если вы не передали параметров, то получите относительный URL.</p>
+    <p>Вы можете передать true, чтобы получить абсолютный URL для текущего протокола или явно указать протокол (https, http).</p>
+    <p>Чтобы получить базовый URL текущего запроса:</p>
+
+    <pre class="brush: csharp;">
+    $relativeBaseUrl = Url::base();
+    $absoluteBaseUrl = Url::base(true);
+    $httpsAbsoluteBaseUrl = Url::base('https');
+    </pre>
+
+    <p>Единственный параметр данного метода работает также как и Url::home().</p>
+
+    <h2 id="title">
+        Создание URL
+    </h2>
+
+    <p>Чтобы создать URL для соответствующего роута используйте метод Url::toRoute().</p>
+    <p>Метод использует [[\yii\web\UrlManager]].</p>
+    <p>Для того чтобы создать URL:</p>
+
+    <pre class="brush: csharp;">
+    $url = Url::toRoute(['product/view', 'id' =&gt; 42]);
+    </pre>
+
+    <p>Вы можете задать роут строкой, например, site/index.</p>
+    <p>А также вы можете использовать массив, если хотите задать дополнительные параметры запроса для URL.</p>
+    <p>Формат массива должен быть следующим:</p>
+
+    <pre class="brush: csharp;">
+    // сгенерирует: /index.php?r=site/index&param1=value1&param2=value2
+    ['site/index', 'param1' =&gt; 'value1', 'param2' =&gt; 'value2']
+    </pre>
+
+    <p>Если вы хотите создать URL с якорем, то вы можете использовать параметр массива с ключом #.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // сгенерирует: /index.php?r=site/index&param1=value1#name
+    ['site/index', 'param1' =&gt; 'value1', '#' =&gt; 'name']
+    </pre>
+
+    <p>Роут может быть и абсолютным, и относительным.</p>
+    <p>Абсолютный URL начинается со слеша (например, /site/index), относительный - без (например, site/index or index).</p>
+    <p>Относительный URL будет сконвертирован в абсолютный по следующим правилам:</p>
+
+    <ul>
+        <li>Если роут пустая строка, то будет использовано текущее значение [[\yii\web\Controller::route|route]];</li>
+        <li>Если роут не содержит слешей (например, index), то он будет считаться экшеном текущего контролера и будет определен с помощью [[\yii\web\Controller::uniqueId]];</li>
+        <li>Если роут начинается не со слеша (например, site/index), то он будет считаться относительным роутом текущего модуля и будет определен с помощью [[\yii\base\Module::uniqueId|uniqueId]].</li>
+    </ul>
+
+    <p>Начиная с версии 2.0.2, вы можете задавать роуты с помощью псевдонимов.</p>
+    <p>В этом случае, сначала псевдоним будет сконвертирован в соответствующий роут, который будет преобразован в абсолютный в соответствии с вышеописанными правилами.</p>
+    <p>Примеры использования метода:</p>
+
+    <pre class="brush: csharp;">
+    // /index.php?r=site/index
+    echo Url::toRoute('site/index');
+    
+    // /index.php?r=site/index&src=ref1#name
+    echo Url::toRoute(['site/index', 'src' =&gt; 'ref1', '#' =&gt; 'name']);
+    
+    // /index.php?r=post/edit&id=100     псевдоним "@postEdit" задан как "post/edit"
+    echo Url::toRoute(['@postEdit', 'id' =&gt; 100]);
+    
+    // http://www.example.com/index.php?r=site/index
+    echo Url::toRoute('site/index', true);
+    
+    // https://www.example.com/index.php?r=site/index
+    echo Url::toRoute('site/index', 'https');
+    </pre>
+
+    <p>Другой метод Url::to() очень похож на [[toRoute()]].</p>
+    <p>Единственное отличие: входным параметром должен быть массив.</p>
+    <p>Если будет передана строка, то она будет воспринята как URL.</p>
+    <p>Первый аргумент может быть:</p>
+
+    <ul>
+        <li>массивом: будет вызван [[toRoute()]], чтобы сгенерировать URL. Например: ['site/index'], ['post/index', 'page' =&gt; 2]. В разделе [[toRoute()]] подробно описано как задавать роут;</li>
+        <li>Строка, начинающаяся с @, будет обработана как псевдоним. Будет возвращено соответствующее значение псевдонима;</li>
+        <li>Пустая строка: вернет текущий URL;</li>
+        <li>Обычная строка: вернет строку без изменений</li>
+    </ul>
+
+    <p>Когда у метода задан второй параметр $scheme (строка или true), то сгенерированный URL будет с протоколом (полученным из [[\yii\web\UrlManager::hostInfo]]).</p>
+    <p>Если в $url указан протокол, то его значение будет заменено.</p>
+    <p>Пример использования:</p>
+
+    <pre class="brush: csharp;">
+    // /index.php?r=site/index
+    echo Url::to(['site/index']);
+    
+    // /index.php?r=site/index&src=ref1#name
+    echo Url::to(['site/index', 'src' =&gt; 'ref1', '#' =&gt; 'name']);
+    
+    // /index.php?r=post/edit&id=100     псевдоним "@postEdit" задан как "post/edit"
+    echo Url::to(['@postEdit', 'id' =&gt; 100]);
+    
+    // Текущий URL
+    echo Url::to();
+    
+    // /images/logo.gif
+    echo Url::to('@web/images/logo.gif');
+    
+    // images/logo.gif
+    echo Url::to('images/logo.gif');
+    
+    // http://www.example.com/images/logo.gif
+    echo Url::to('@web/images/logo.gif', true);
+    
+    // https://www.example.com/images/logo.gif
+    echo Url::to('@web/images/logo.gif', 'https');
+    </pre>
+
+    <p>Начиная с версии 2.0.3, вы можете использовать [[yii\helpers\Url::current()]], чтобы создавать URL на основе текущего запрошенного роута и его GET-параметров.</p>
+    <p>Вы можете изменить, удалить или добавить новые GET-параметры передав в метод параметр $params.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // предположим $_GET = ['id' =&gt; 123, 'src' =&gt; 'google'], а текущий роут "post/view"
+    
+    // /index.php?r=post/view&id=123&src=google
+    echo Url::current();
+    
+    // /index.php?r=post/view&id=123
+    echo Url::current(['src' =&gt; null]);
+    // /index.php?r=post/view&id=100&src=google
+    echo Url::current(['id' =&gt; 100]);
+    </pre>
+
+    <h2 id="title">
+        Запоминание URL
+    </h2>
+
+    <p>Существуют задачи, когда вам необходимо запомнить URL и потом использовать его в процессе одного или нескольких последовательных запросов.</p>
+    <p>Это может быть достигнуто следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    // Запомнить текущий URL
+    Url::remember();
+    
+    // Запомнить определенный URL. Входные параметры смотрите на примере Url::to().
+    Url::remember(['product/view', 'id' =&gt; 42]);
+    
+    // Запомнить URL под определенным именем
+    Url::remember(['product/view', 'id' =&gt; 42], 'product');
+    </pre>
+
+    <p>В следующем запросе мы можем получить сохраненный URL следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $url = Url::previous();
+    $productUrl = Url::previous('product');
+    </pre>
+
+    <h2 id="title">
+        Проверить относительность URL
+    </h2>
+
+    <p>Чтобы проверить относительный URL или нет (например, если в нем не содержится информации о хосте), вы можете использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $isRelative = Url::isRelative('test/it');
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="102.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/103.html", "Yii2: Url хелпер", "bm1309"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1309", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1309") == 1) { document.getElementById("bma1309").style.display = "block"; document.getElementById("bm1309").style.display = "none"; } else { document.getElementById("bma1309").style.display = "none"; document.getElementById("bm1309").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Url хелпер") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1309", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

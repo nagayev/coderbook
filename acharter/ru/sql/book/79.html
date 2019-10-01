@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1093" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1093" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Работа с курсорами
+	</h1>
+
+	<p>Работу с курсором можно разделить на несколько четко выраженных стадий.</p>
+	<p>- Прежде чем курсор может быть использован, его следует объявить (определить).</p>
+	<p>В ходе этого процесса выборка данных не производится, просто определяется оператор SELECT, который будет использован, и некоторые опции курсора. </p>
+	<p>- После объявления курсор может быть открыт для использования.</p>
+	<p>В ходе этого процесса уже производится выборка данных согласно предварительно определенному оператору SELECT. </p>
+	<p>- После того как курсор заполнен данными, могут быть извлечены (выбраны) отдельные необходимые строки. </p>
+	<p>- После того как это сделано, курсор должен быть за крыт и, возможно, должны быть освобождены ресурсы, которые он занимал (в зависимости от СУБД).</p>
+	<p>После того как курсор объявлен, его можно открывать и закрывать столь часто, сколько необходимо.</p>
+	<p>Если курсор открыт, операция выборки может выполняться так часто, как необходимо.</p>
+
+	<h1 id="title">
+		Создание курсоров
+	</h1>
+
+	<p>Курсоры создаются с помощью оператора DECLARE, синтаксис которого различен для разных СУБД.</p>
+	<p>Оператор DECLARE дает курсору имя и принимает оператор SELECT, дополненный при необходимости предложением WHERE и другими.</p>
+	<p>Чтобы показать, как это работает, мы создадим курсор, который будет делать выборку всех клиентов, не имеющих адресов электронной почты, в виде части приложения, позволяющего служащему вводить недостающие адреса.</p>
+	<p>Приведенная версия подходит для DB2, SQL Server и Sybase:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	DECLARE CustCursor CURSOR
+	FOR
+	SELECT * FROM Customers
+	WHERE cust_email IS NULL
+	</pre>
+
+	<p>А вот версия для Oracle и PostgreSQL:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	DECLARE CURSOR CustCursor
+	IS
+	SELECT * FROM Customers
+	WHERE cust email IS NULL
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В обеих версиях для определения имени курсора используется оператор DECLARE — в данном случае это будет имя Cust:Cursor.</p>
+	<p>Оператор SELECT определяет курсор, содержащий имена всех клиентов, которые не имеют адреса электронной почты (соответствующее значение равно NULL).</p>
+	<p>Теперь, после того как курсор определен, его можно открыть.</p>
+
+	<h1 id="title">
+		Использование курсоров
+	</h1>
+
+	<p>Курсоры открываются с помощью оператора OPEN CURSOR, синтаксис которого настолько прост, что его поддерживают большинство СУБД:</p>
+
+	<pre class="brush: csharp;">
+	OPEN CURSOR CustCursor
+	</pre>
+
+	<p>При обработке оператора OPEN CURSOR выполняется запрос, и выборка данных сохраняется для последующих просмотра и прокрутки.</p>
+	<p>Теперь доступ к данным этого курсора может быть получен с помощью оператора FETCH.</p>
+	<p>Оператор FETCH указывает строки, которые должны быть выбраны, откуда они должны быть выбраны и где их следует сохранить (имя переменной, например).</p>
+	<p>В первом примере используется синтаксис Oracle для выборки одной строки курсора (первой).</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	DECLARE TYPE CustCursor IS REF CURSOR 4^ RETURN Customers%ROWTYPE;
+	DECLARE CustRecord Customers%ROWTYPE BEGIN
+	OPEN CustCursor; FETCH CustCursor INTO CustRecord;
+	CLOSE CustCursor; END;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В данном примере оператор FETCH используется для выборки текущей строки (автоматически он начнет с первой строки) в переменную, объявленную с именем CustRecord.</p>
+	<p>С выбранными данными ничего не делается. В следующем примере (в нем вновь используется синтаксис Oracle) выбранные данные подвергаются циклической обработке от первой строки до последней:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	DECLARE TYPE CustCursor IS REF CURSOR
+	RETURN Customers%ROWTYPE;
+	DECLARE CustRecord Customers%ROWTYPE BEGIN
+	OPEN CustCursor;
+	LOOP
+	FETCH CustCursor INTO CustRecord;
+	EXIT WHEN CustCursor%NOTFOUND;
+	END LOOP;
+	CLOSE CustCursor;
+	END;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Аналогично предыдущему примеру, здесь используется оператор FETCH для выборки текущей строки в переменную, объявленную с именем CustRecord.</p>
+	<p>Однако в отличие от предыдущего примера, здесь оператор FETCH находится внутри цикла LOOP, так что он выполняется снова и снова.</p>
+	<p>Код <b>EXIT WHEN CustCursor%NOTFOUND</b> указывает, что этот процесс должен быть завершен (выход из цикла), когда больше не останется строк для выборки.</p>
+	<p>В этом примере также не выполняется никакой обработки, тогда как в реальном коде вам следовало бы заменить . . . вашим собственным кодом.</p>
+	<p>Вот другой пример, на этот раз с использованием синтаксиса Microsoft SQL Server:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	DECLARE Scust_id CHAR(10),
+	@cust_name CHAR(50),
+	@custaddress CHAR(50),
+	@cust_city CHAR(50),
+	@cust_state CHAR(5),
+	@cust_ZIP CHAR{10),
+	@cust_country CHAR(50),
+	@Scust_contact CHAR(50),
+	@cust_email CHAR(255),
+	OPEN CustCursor
+	FETCH NEXT FROM CustCursor
+	INTO ecust_id, @cust_name, @cust_address,
+	@cust_city, @cust_state, @cust_ZIP,
+	@cust_country, @cust_contact, @cust_email
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+	...
+	FETCH NEXT FROM CustCursor
+	INTO Scust id, @cust_name, @cust_address,
+	@cust_city, @cust_state, @cust ZIP,
+	ecust_country, @cust_contact, @cust_email
+	END
+	CLOSE CustCursor
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В этом примере переменные объявляются для каждого из выбираемых столбцов, а операторы FETCH осуществляют выборку строки и сохранение значений в этих переменных.</p>
+	<p>Цикл WHILE используется для организации цикла по строкам, а условие WHILE @@FETCH_STATUS = 0 обеспечивает завершение обработки (выход из цикла) после того как все строки будут извлечены.</p>
+	<p>И вновь этот пример ничего на самом деле не обрабатывает.</p>
+	<p>В реальном коде нужно заменить . . . вашим собственным кодом.</p>
+
+	<h1 id="title">
+		Закрытие курсоров
+	</h1>
+
+	<p>Как следует из предыдущих примеров, после использования курсоров их нужно закрывать.</p>
+	<p>Кроме того, в некоторых СУБД (таких как SQL Server) требуется, чтобы ресурсы, занятые курсором, были освобождены явным образом.</p>
+	<p>Вот соответствующий синтаксис для СУБД DB2, Oracle и PostgreSQL:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CLOSE CustCursor
+	</pre>
+
+	<p>А это синтаксис для Microsoft SQL Server:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CLOSE CustCursor
+	DEALLOCATE CURSOR CustCursor
+	</pre>
+
+	<p>Для закрытия курсора используется оператор CLOSE; после того как курсор закрыт, его нельзя использовать, не открыв перед этим вновь.</p>
+	<p>Однако его не нужно объявлять заново при повторном использовании, достаточно оператора OPEN.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="78.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="80.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/79.html", "Работа с курсорами", "bm1093"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1093", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1093") == 1) { document.getElementById("bma1093").style.display = "block"; document.getElementById("bm1093").style.display = "none"; } else { document.getElementById("bma1093").style.display = "none"; document.getElementById("bm1093").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Работа с курсорами") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1093", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

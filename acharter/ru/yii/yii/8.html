@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1159" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1159" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Контроллер Yii
+	</h1>
+
+    <p>Контроллер (controller) — это экземпляр класса CController или унаследованного от него класса.</p>
+    <p>Он создается объектом приложения в случае, когда пользователь его запрашивает.</p>
+    <p>При запуске контроллер выполняет соответствующее действие, что обычно подразумевает создание соответствующих моделей и отображение необходимых представлений.</p>
+    <p>В самом простом случае действие — это метод класса контроллера, название которого начинается на action.</p>
+    <p>У контроллера есть действие по умолчанию, которое выполняется в случае, когда пользователь не указывает действие при запросе.</p>
+    <p>По умолчанию это действие называется index. Изменить его можно путём установки значения CController::defaultAction.</p>
+    <p>Следующий код определяет контроллер site с действиями index (действие по умолчанию) и contact:</p>
+
+    <pre class="brush: csharp;">
+    class SiteController extends CController
+    {
+        public function actionIndex()
+        {
+            // ...
+        }
+     
+        public function actionContact()
+        {
+            // ...
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Маршрут
+    </h2>
+
+    <p>Контроллеры и действия опознаются по их идентификаторам.</p>
+    <p>Идентификатор контроллера — это запись формата path/to/xyz, соответствующая файлу класса контроллера protected/controllers/path/to/XyzController.php, где xyz следует заменить реальным названием класса (например, post соответствует protected/controllers/PostController.php).</p>
+    <p>Идентификатор действия — это название метода без префикса action.</p>
+    <p>Например, если класс контроллера содержит метод actionEdit, то идентификатор соответствующего действия — edit.</p>
+    <p>Пользователь обращается к контроллеру и действию посредством маршрута (route).</p>
+    <p>Маршрут формируется путём объединения идентификаторов контроллера и действия, отделенных косой чертой.</p>
+    <p>Например, маршрут post/edit указывает на действие edit контроллера PostController, и по умолчанию URL http://hostname/index.php?r=post/edit приведёт к вызову именно этих контроллера и действия.</p>
+    <p><b>Примечание:</b> По умолчанию маршруты чувствительны к регистру. Это возможно изменить путём установки свойства CUrlManager::caseSensitive равным false в конфигурации приложения. В режиме, не чувствительном к регистру, убедитесь, что названия директорий, содержащих файлы классов контроллеров, указаны в нижнем регистре, а также, что controller map и action map используют ключи в нижнем регистре.</p>
+    <p>Приложение может содержать модули.</p>
+    <p>Маршрут к действию контроллера внутри модуля задаётся в формате moduleID/controllerID/actionID.</p>
+    <p>Более подробно это описано в разделе о модулях (<a href="12.html">перейти</a>).</p>
+
+    <h2 id="title">
+        Создание экземпляра контроллера
+    </h2>
+
+    <p>Экземпляр контроллера создаётся, когда CWebApplication обрабатывает входящий запрос. Получив идентификатор контроллера, приложение использует следующие правила для определения класса контроллера и его местоположения:</p>
+
+    <ul>
+        <li>если установлено свойство CWebApplication::catchAllRequest, контроллер будет создан на основе этого свойства, а контроллер, запрошенный пользователем, будет проигнорирован. Как правило, это используется для установки приложения в режим технического обслуживания и отображения статической страницы с соответствующим сообщением;</li>
+        <li>если идентификатор контроллера обнаружен в CWebApplication::controllerMap, то для создания экземпляра контроллера будет использована соответствующая конфигурация контроллера;</li>
+        <li>если идентификатор контроллера соответствует формату 'path/to/xyz', то имя класса контроллера определяется как XyzController, а соответствующий класс как protected/controllers/path/to/XyzController.php. Например, идентификатор контроллера admin/user будет соответствовать классу контроллера — UserController и файлу protected/controllers/admin/UserController.php. Если файл не существует, будет сгенерировано исключение CHttpException с кодом ошибки 404.</li>
+    </ul>
+
+    <p>При использовании модулей процесс, описанный выше, будет выглядеть несколько иначе.</p>
+    <p>В частности, приложение проверит, соответствует ли идентификатор контроллеру внутри модуля.</p>
+    <p>Если соответствует, то сначала будет создан экземпляр модуля, а затем экземпляр контроллера.</p>
+
+    <h2 id="title">
+        Действие
+    </h2>
+
+    <p>Как было упомянуто выше, действие — это метод, имя которого начинается на action.</p>
+    <p>Более продвинутый способ — создать класс действия и указать контроллеру создавать экземпляр этого класса при необходимости.</p>
+    <p>Такой подход позволяет использовать действия повторно.</p>
+    <p>Для создания класса действия необходимо выполнить следующее:</p>
+
+    <pre class="brush: csharp;">
+    class UpdateAction extends CAction
+    {
+        public function run()
+        {
+            // некоторая логика действия
+        }
+    }
+    </pre>
+
+    <p>Чтобы контроллер знал об этом действии, необходимо переопределить метод actions() в классе контроллера:</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        public function actions()
+        {
+            return array(
+                'edit'=>'application.controllers.post.UpdateAction',
+            );
+        }
+    }
+    </pre>
+
+    <p>В приведённом коде мы используем псевдоним маршрута application.controllers.post.UpdateAction для указания файла класса действия protected/controllers/post/UpdateAction.php.</p>
+    <p>Создавая действия, основанные на классах, можно организовать приложение в модульном стиле.</p>
+    <p>Например, следующая структура директорий может быть использована для организации кода контроллеров:</p>
+
+    <pre class="brush: csharp;">
+    protected/
+        controllers/
+            PostController.php
+            UserController.php
+            post/
+                CreateAction.php
+                ReadAction.php
+                UpdateAction.php
+            user/
+                CreateAction.php
+                ListAction.php
+                ProfileAction.php
+                UpdateAction.php
+    </pre>
+
+    <h2 id="title">
+        Привязка параметров действий
+    </h2>
+
+    <p>Начиная с версии 1.1.4, в Yii появилась поддержка автоматической привязки параметров к действиям контроллера.</p>
+    <p>То есть можно задать именованные параметры, в которые автоматически будут попадать соответствующие значения из $_GET.</p>
+    <p>Для того чтобы показать, как это работает, предположим, что нам нужно реализовать действие create контроллера PostController.</p>
+    <p>Действие принимает два параметра:</p>
+
+    <ul>
+        <li>category: ID категории, в которой будет создаваться запись (целое число);</li>
+        <li>language: строка, содержащая код языка, который будет использоваться в записи.</li>
+    </ul>
+
+    <p>Скорее всего, для получения параметров из $_GET в контроллере нам придётся написать следующий скучный код:</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        public function actionCreate()
+        {
+            if(isset($_GET['category']))
+                $category=(int)$_GET['category'];
+            else
+                throw new CHttpException(404,'неверный запрос');
+     
+            if(isset($_GET['language']))
+                $language=$_GET['language'];
+            else
+                $language='en';
+     
+            // … действительно полезная часть кода …
+        }
+    }
+    </pre>
+
+    <p>Используя параметры действий, мы можем получить более приятный код:</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        public function actionCreate($category, $language='en')
+        {
+            $category=(int)$category;
+     
+            // … действительно полезная часть кода …
+        }
+    }
+    </pre>
+
+    <p>Мы добавляем два параметра методу actionCreate.</p>
+    <p>Имя каждого должно в точности совпадать с одним из ключей в $_GET.</p>
+    <p>Параметру $language задано значение по умолчанию en, которое используется, если в запросе соответствующий параметр отсутствует.</p>
+    <p>Так как $category не имеет значения по умолчанию, в случае отсутствия соответствующего параметра в запросе будет автоматически выброшено исключение CHttpException (с кодом ошибки 400).</p>
+    <p>Начиная с версии 1.1.5, Yii поддерживает указание массивов в качестве параметров действий.</p>
+    <p>Использовать их можно следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        public function actionCreate(array $categories)
+        {
+            // Yii приведёт $categories к массиву
+        }
+    }
+    </pre>
+
+    <p>Мы добавляем ключевое слово array перед параметром $categories.</p>
+    <p>В результате, если параметр $_GET['categories'] является простой строкой, то он будет приведён к массиву, содержащему исходную строку.</p>
+    <p><b>Примечание:</b> Если параметр объявлен без указания типа array, то он должен быть скалярным (т.е. не массивом). В этом случае передача массива через $_GET параметр приведёт к исключению HTTP.</p>
+    <p>Начиная с версии 1.1.7, автоматическая привязка параметров работает и с действиями, оформленными в виде классов.</p>
+    <p>Если метод run() в классе действия описать с параметрами, то эти параметры наполняются соответствующими значениями из HTTP-запроса:</p>
+
+    <pre class="brush: csharp;">
+    class UpdateAction extends CAction
+    {
+        public function run($id)
+        {
+            // $id будет заполнен значением из $_GET['id']
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Фильтры
+    </h2>
+
+    <p>Фильтр — это часть кода, которая может выполняться до или после выполнения действия контроллера в зависимости от конфигурации.</p>
+    <p>Например, фильтр контроля доступа может проверять, аутентифицирован ли пользователь перед тем, как будет выполнено запрошенное действие.</p>
+    <p>Фильтр, контролирующий производительность, может быть использован для определения времени, затраченного на выполнение действия.</p>
+    <p>Действие может иметь множество фильтров.</p>
+    <p>Фильтры запускаются в том порядке, в котором они указаны в списке фильтров, при этом фильтр может предотвратить выполнение действия и следующих за ним фильтров.</p>
+    <p>Фильтр может быть определён как метод класса контроллера.</p>
+    <p>Имя метода должно начинаться на filter. Например, метод filterAccessControl определяет фильтр accessControl.</p>
+    <p>Метод фильтра должен выглядеть так:</p>
+
+    <pre class="brush: csharp;">
+    public function filterAccessControl($filterChain)
+    {
+        // для выполнения последующих фильтров и выполнения действия вызовите метод $filterChain->run()
+    }
+    </pre>
+
+    <p>где $filterChain — экземпляр класса CFilterChain, представляющего собой список фильтров, ассоциированных с запрошенным действием.</p>
+    <p>В коде фильтра можно вызвать $filterChain->run() для того, чтобы продолжить выполнение последующих фильтров и действия.</p>
+    <p>Фильтр также может быть экземпляром класса CFilter или его производного.</p>
+    <p>Следующий код определяет новый класс фильтра:</p>
+
+    <pre class="brush: csharp;">
+    class PerformanceFilter extends CFilter
+    {
+        protected function preFilter($filterChain)
+        {
+            // код, выполняемый до выполнения действия
+            return true; // false — для случая, когда действие не должно быть выполнено
+        }
+     
+        protected function postFilter($filterChain)
+        {
+            // код, выполняемый после выполнения действия
+        }
+    }
+    </pre>
+
+    <p>Для того чтобы применить фильтр к действию, необходимо переопределить метод CController::filters(), возвращающий массив конфигураций фильтров.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    class PostController extends CController
+    {
+        …
+        public function filters()
+        {
+            return array(
+                'postOnly + edit, create',
+                array(
+                    'application.filters.PerformanceFilter - edit, create',
+                    'unit'=>'second',
+                ),
+            );
+        }
+    }
+    </pre>
+
+    <p>Данный код определяет два фильтра: postOnly и PerformanceFilter.</p>
+    <p>Фильтр postOnly задан как метод (соответствующий метод уже определен в CController), в то время как PerformanceFilter — фильтр на базе класса.</p>
+    <p>Псевдоним application.filters.PerformanceFilter указывает на файл класса фильтра — protected/filters/PerformanceFilter.</p>
+    <p>Для конфигурации PerformanceFilter используется массив, что позволяет задать начальные значения свойств фильтра.</p>
+    <p>В данном случае свойство unit фильтра PerformanceFilter будет инициализировано значением 'second'.</p>
+    <p>Используя операторы '+' и '-' можно указать, к каким действиям должен и не должен быть применён фильтр.</p>
+    <p>В приведённом примере postOnly будет применён к действиям edit и create, а PerformanceFilter — ко всем действиям, кроме edit и create.</p>
+    <p>Если операторы '+' и '-' не указаны, фильтр будет применён ко всем действиям.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="7.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="9.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/8.html", "Контроллер Yii", "bm1159"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1159", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1159") == 1) { document.getElementById("bma1159").style.display = "block"; document.getElementById("bm1159").style.display = "none"; } else { document.getElementById("bma1159").style.display = "none"; document.getElementById("bm1159").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Контроллер Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1159", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

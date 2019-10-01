@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma80" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm80" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Дружественные функции С++
+	</h1>
+
+	<p>В этом уроке мы расскажем о следующем:</p>
+	<p>- Что такое дружественные функции и, главное, зачем они нужны.</p>
+	<p>- Чем отличаются обычные методы класса от дружественных функций класса.</p>
+	<p>- Как объявлять и определять дружественные функции.</p>
+	<p>- Как вызывать дружественные функции из главной main() функции .</p>
+	<p>- Самым важным, но и, скорее всего, самым непонятным для вас сейчас станет определение дружественной функции. Дружественная функция — это функция, которая не является членом класса, но имеет доступ к членам класса, объявленным в полях private или protected. Долго не вникайте в суть этого определения, а лучше сразу переходите к следующему абзацу. Обещаю, что после прочтения статьи вы вернетесь к этому определению и  вас посетит мысль: «Ну да — так и есть! Тут все понятно!»</p>
+	<p>Приступим к основному занятию программиста — практике!</p>
+	<p>В примере запрограммируем следующее: создадим класс Woman25, который, используя дружественные функции и обычные методы класса, будет получать данные об объекте (имя и вес) и выводить их на экран.</p>
+	<p>Методы и friend-функции будут выполнять аналогичные действия.</p>
+	<p>В этом и есть особенная польза данного примера — вы сможете посмотреть отличия в объявлении и определении дружественных функций от обычных методов класса.</p>
+	<p>На основании полученных данных,  программа даст пользователю совет относительно корректировки его веса.</p>
+	<p>Ну что-же, лучше один раз увидеть…</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	#include &lt;string.h&gt;
+	using namespace std;
+	class Woman25
+	{
+		private:
+		//имя
+		char *name;
+		//вес
+		int weight;
+		//объявление дружественных функций
+		friend void setData(char *, int, Woman25&);
+		friend void getData(Woman25&);
+		public:
+		//конструктор
+		Woman25()
+		{
+			name = new char [20];
+			strcpy(name, "Норма");
+			weight = 60;
+		}
+
+		//деструктор
+		-Woman25()
+		{      
+			delete [] name;
+			cout << "!!! Деструктор !!!" << endl;  
+		}
+		//объявление методов класса
+		void setData(char*, int);
+		void getData();
+		void advise();
+	};
+
+	//определяем friend-функцию setData
+	void setData(char *n, int w, Woman25& object)
+	{
+		////////////
+		strcpy(object.name, n);
+		object.weight = w;
+	}
+
+	//определяем friend-функцию getData
+	void getData(Woman25& object)
+	{
+		cout << object.name << "\t: " << object.weight  << " кг" << endl;
+	}
+
+	//определяем set-метод класса
+	void Woman25::setData(char *n, int w)
+	{
+		strcpy(name, n);
+		weight = w;
+	}
+
+	//определяем get-метод класса
+	void Woman25::getData()
+	{
+		cout << name << "\t: " << weight  << " кг" << endl;      
+	}
+
+	//определяем метод класса Совет (advise)
+	void Woman25::advise()
+	{
+		//если вес меньше 55 кг
+		if(weight < 55)
+		{ 
+			cout << "Вам надо потреблять больше калорий!" << endl;
+			cout << "=====================================" << endl << endl;
+			//если вес в пределах 55-65 кг
+		}
+		else if(weight >= 55 && weight <= 65)
+		{
+			cout << "Ваш вес в норме!" << endl;
+			cout << "=====================================" << endl << endl;
+			//если вес > 65 кг
+		}
+		else
+		{
+			cout << "Вам надо ограничивать себя в еде!" << endl;
+			cout << "=====================================" << endl << endl;
+		}
+	}
+
+	int main()
+	{
+		setlocale(LC_ALL, "rus");
+		//создаем объект Norm, сработает конструктор и weight будет = 60, name - Норма
+		Woman25 Norm;
+		//вызов метода класса
+		Norm.getData();
+		cout << "=====================================" << endl << endl;
+		//второй объект
+		Woman25 Anna; 
+		Anna.setData("Анна", 100);
+		Anna.getData();
+		Anna.advise();
+		//третий объект
+		Woman25 Inna; 
+		setData("Инна", 50, Inna);
+		getData(Inna);
+		Inna.advise();
+		return 0;
+	}
+	</pre>
+
+	<p>Комментарии к исходному коду.</p>
+	<p>В строках 6 — 30 создаем класс Woman25.</p>
+	<p>Он содержит два  приватных элемента класса: char *name; и  int weight;.</p>
+	<p>В private также объявим дружественные функции friend void setData(char *, int, Woman25&); и friend void getData(Woman25&);.</p>
+	<p>Хотя их можно объявлять и определять в любом  поле класса, будь то private, public или protected, но об этом поговорим позже.</p>
+	<p>Так мы сделали, чтобы показать, что несмотря на объявление дружественных функций в поле private, к ним можно обращаться напрямую из функции main().</p>
+	<p>Тогда, когда методы класса должны располагаться в поле public всегда, если мы собираемся вызывать их вне класса.</p>
+	<p>Объявление дружественных функций отличается от объявления методов класса еще и тем, что перед типом возвращаемого функцией значения используется зарезервированное слово friend.</p>
+	<p>Обратите внимание, что в  виде параметра мы передаем этим функциям ссылку на объект нашего класса — Woman25&.</p>
+	<p>В обычных методах этого не будет.</p>
+	<p>В поле public расположился конструктор класса — строки 15 — 20.</p>
+	<p>В нем мы  задаем значение нормального веса — 60 кг, а так же, с помощью функции strcpy(name, "Норма");, вносим данные в элемент класса name.</p>
+	<p>Затем в строках 21 — 25 определяем деструктор класса ~Woman25().</p>
+	<p>Его задача, освободить, выделенную конструктором, динамическую память.</p>
+	<p>А для того, чтобы убедиться, что он сработал и удалил динамическую память всех созданных объектов класса при завершении работы программы, мы добавили в него строку cout &lt;&lt; &quot;!!! Деструктор !!!&quot; &lt;&lt; endl;.</p>
+	<p>Строки 27 — 29 — объявление обычных методов класса.</p>
+	<p>Теперь начинается, пожалуй, самое интересное — определение вне класса наших дружественных функций и обычных методов класса.</p>
+	<p>Все это располагается в строках 32 — 66.</p>
+	<p>Смотрите, когда мы определяем дружественные функции, строки 32 — 36 и 38 — 41, мы не используем оператор :: двойное двоеточие (область видимости метода).</p>
+	<p>Это уже говорит нам о том, что дружественная функция не принадлежит классу, не является его компонентом.</p>
+	<p>А при определении остальных методов использование оператора  ::  является обязательным. Метод класса advise(), на основании полученных данных о весе, дает пользователю один из советов либо сообщает, что вес в норме.</p>
+	<p>Переходим в главную функцию — строки 68 — 87.</p>
+	<p>Тут мы создаем объект класса Woman25 Norm;, при создании которого сработает конструктор и  инициализирует элементы name и weight.</p>
+	<p>Вызываем метод класса   Norm.getData(); чтобы вывести на экран значение нормы.</p>
+	<p>Со вторым созданным объектом Woman25 Anna; работаем, вызывая обычные set и get— методы класса, а с третьим объектом Woman25 Inna; — вызывая дружественные функции.</p>
+	<p>Как видите, вызываются они как функции, которые не принадлежат классу.</p>
+	<p>Объект класса мы передаем, как параметр.</p>
+	<p>Запускаем программу и видим следующее.</p>
+
+	<pre class="brush: csharp;">
+	Норма : 60 кг
+
+	=====================================
+
+	Анна : 100 кг
+	Вам надо ограничивать себя в еде!
+
+	=====================================
+
+	Инна : 50 кг
+	Вам надо потреблять больше калорий!
+
+	=====================================
+
+	!!! Деструктор !!!
+	!!! Деструктор !!!
+	!!! Деструктор !!!
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>И friend-функции, и методы класса справились со своими задачами, а мы с вами увидели отличия в их объявлении и определении.</p>
+	<p>Так же мы увидели, что деструктор класса, как положено, сработал 3 раза (т.е. при уничтожении каждого созданного объекта).</p>
+	<p>Если у вас возникает вопрос "Собственно, а зачем все это, если методы класса и так прекрасно работают?" — это хорошо!</p>
+	<p>Ответ такой — "Представьте, что у нас есть еще десяток классов. Например Girl6_7, Girl8_9, Man25 и т.д., Используя дружественные функции, нам не придется для каждого класса определять  set и get-методы. Это в нашей программе они короткие! А если бы они занимали 20 — 30 строк? А так достаточно определить метод в одном из классов  или вообще определить функцию, как глобальную, а в остальные классы прописать ее прототип, как дружественной функции (используя слово friend). Мы экономим массу времени и наш код становится намного короче."</p>
+	<p>Теперь, как всегда, немного теории, для закрепления материала: </p>
+	<p>Дружественная функция может располагаться в любом поле класса – private, public или protected.</p>
+	<p>Она при любых обстоятельствах будет иметь доступ к private-элементам класса и, даже если она сама находится в поле private (как в нашем примере), к ней можно будет обратиться вне класса, не используя специальных методов.</p>
+	<p>Когда мы определяем дружественную функцию, элементы класса необходимо явно передавать в нее в виде параметров функции.</p>
+	<p>Так как она не является компонентом класса, она не получает указатель this.</p>
+	<p>В виде параметра, в дружественную функцию так же надо передать указатель или ссылку на объект класса.</p>
+	<p>Иначе она не увидит  данные какого класса ей принять и обработать.</p>
+	<p>Функция может использоваться, как дружественная к нескольким классам.</p>
+	<p>Вызываются дружественные функции, как обычные функции.</p>
+	<p>Т.е не используется такой способ — Объект_класса.функция().</p>
+	<p>После внесения  всех необходимых параметров в нее при вызове, она сама увидит с элементами какого класса и объекта надо работать.</p>
+	<p>Вот и все для начала.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="58.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="60.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/59.html", "Дружественные функции С++", "bm80"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm80", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm80") == 1) { document.getElementById("bma80").style.display = "block"; document.getElementById("bm80").style.display = "none"; } else { document.getElementById("bma80").style.display = "none"; document.getElementById("bm80").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Дружественные функции С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm80", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

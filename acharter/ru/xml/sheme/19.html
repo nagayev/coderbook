@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1148" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1148" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Типы данных для даты и времени
+	</h1>
+	
+	<p>Типы данных для представления даты и времени используются для значений, которые содержат, как понятно из названия, дату и время.</p>
+
+	<h1 id="title">
+		Данные даты (date)
+	</h1>
+	
+	<p>Дата при использовании типа date определяется в формате "ГГГГ-ММ-ДД", где:</p>
+	<p>- ГГГГ - год</p>
+	<p>- ММ - месяц</p>
+	<p>- ДД - день</p>
+	<p>Примечание: Все компоненты обязательны!</p>
+	<p>В XML схеме декларация данных, представляющих дату, выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;start&quot; type=&quot;xs:date&quot;/&gt;
+	</pre>
+
+	<p>В XML документе такой элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;2002-09-24&lt;/start&gt;
+	</pre>
+
+	<b>Временные зоны</b>
+	<p>Чтобы определить временную зону, можно либо указать дату с добавлением после нее литеры "Z", что укажет на поправку зоны UTC:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;2002-09-24Z&lt;/start&gt;
+	</pre>
+
+	<p>либо после даты указать смещение времени от зоны UTC в виде отрицательного или положительного числа:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;2002-09-24-06:00&lt;/start&gt;
+	</pre>
+
+	<p>или</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;2002-09-24+06:00&lt;/start&gt;
+	</pre>
+
+	<h1 id="title">
+		Данные времени (time)
+	</h1>
+	
+	<p>Время определяется в формате "чч:мм:сс", где:</p>
+	<p>- чч - часы</p>
+	<p>- мм - минуты</p>
+	<p>- сс - секунды</p>
+	<p>Примечание: Все компоненты обязательны!</p>
+	<p>В XML схеме декларация данных, представляющих время, выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;start&quot; type=&quot;xs:time&quot;/&gt;
+	</pre>
+
+	<p>В XML документе такой элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;09:00:00&lt;/start&gt;
+	</pre>
+
+	<p>Или так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;09:30:10.5&lt;/start&gt;
+	</pre>
+
+	<p>Временные зоны</p>
+	<p>Чтобы определить временную зону, можно либо указать время с добавлением после него литеры "Z", что укажет на поправку зоны UTC:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;09:30:10Z&lt;/start&gt;
+	</pre>
+
+	<p>либо после времени указать смещение от зоны UTC в виде отрицательного или положительного числа:</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;09:30:10-06:00&lt;/start&gt;
+	</pre>
+
+	<p>или</p>
+
+	<pre class="brush: csharp;">
+		&lt;start&gt;09:30:10+06:00&lt;/start&gt;
+	</pre>
+
+	<h1 id="title">
+		Тип данных dateTime
+	</h1>
+
+	<p>Тип данных dateTime используется для определения даты и времени.</p>
+	<p>Значения типа dateTime имеют формат "ГГГГ-ММ-ДДTчч:мм:сс", где:</p>
+	<p>ГГГГ - год</p>
+	<p>ММ - месяц</p>
+	<p>ДД - день</p>
+	<p>T — указывает на начало данных времени</p>
+	<p>чч - час</p>
+	<p>мм - минуты</p>
+	<p>сс - секунды</p>
+	<p>Примечание: Все компоненты обязательны!</p>
+	<p>В XML схеме декларация данных типа dateTime выглядит следующим образом:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;startdate&quot; type=&quot;xs:dateTime&quot;/&gt;
+	</pre>
+
+	<p>В XML документе такой элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;startdate&gt;2002-05-30T09:00:00&lt;/startdate&gt;
+	</pre>
+
+	<p>Или так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;startdate&gt;2002-05-30T09:30:10.5&lt;/startdate&gt;
+	</pre>
+
+	<p>Временные зоны</p>
+	<p>Чтобы определить временную зону, можно либо указать данные dateTime с добавлением после них литеры "Z", что укажет на поправку зоны UTC:</p>
+
+	<pre class="brush: csharp;">
+		&lt;startdate&gt;2002-05-30T09:30:10Z&lt;/startdate&gt;
+	</pre>
+
+	<p>либо после времени указать смещение от зоны UTC в виде отрицательного или положительного числа:</p>
+
+	<pre class="brush: csharp;">
+		&lt;startdate&gt;2002-05-30T09:30:10-06:00&lt;/startdate&gt;
+	</pre>
+
+	<p>или</p>
+
+	<pre class="brush: csharp;">
+		&lt;startdate&gt;2002-05-30T09:30:10+06:00&lt;/startdate&gt;
+	</pre>
+
+	<h1 id="title">
+		Данные о продолжительности
+	</h1>
+	
+	<p>Типы данных о продолжительности используются для определения интервалов времени.</p>
+	<p>Интервал времени определяется в формате "PnYnMnDTnHnMnS", где:</p>
+	<p>- P указывает период (обязателен)</p>
+	<p>- nY указывает число лет</p>
+	<p>- nM указывает число месяцев</p>
+	<p>- nD указывает число дней</p>
+	<p>- T указывает на начало раздела с временем (обязателен, если будут определяться часы, минуты или секунды)</p>
+	<p>- nH указывает количество часов</p>
+	<p>- nM указывает количество минут</p>
+	<p>- nS указывает количество секунд</p>
+	<p>В XML схеме декларация интервала времени выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name=&quot;period&quot; type=&quot;xs:duration&quot;/&gt;
+	</pre>
+
+	<p>В XML документе такой элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;period&gt;P5Y&lt;/period&gt;
+	</pre>
+
+	<p>В приведенном выше примере указан период в пять лет.</p>
+	<p>Или элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;period&gt;P5Y2M10D&lt;/period&gt;
+	</pre>
+
+	<p>В этом примере указан период в пять лет, два месяца и 10 дней.</p>
+	<p>Или элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;period&gt;P5Y2M10DT15H&lt;/period&gt;
+	</pre>
+
+	<p>В этом примере указан период в 5 лет, 2 месяца, 10 дней и 15 часов.</p>
+	<p>Или элемент должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+		&lt;period&gt;PT15H&lt;/period&gt;
+	</pre>
+
+	<p>Здесь указан период в 15 часов.</p>
+	<p>Отрицательная продолжительность</p>
+	<p>Чтобы определить отрицательный период времени, необходимо перед P поставить знак минуса:</p>
+
+	<pre class="brush: csharp;">
+		&lt;period&gt;-P10D&lt;/period&gt;
+	</pre>
+
+	<p>В этом примере указан период в минус 10 дней.</p>
+
+	<h1 id="title">
+		Типы данных, определяющие дату и время
+	</h1>
+
+	<table>
+		<tr>
+			<th>Имя</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>date</td>
+			<td>Определяет дату</td>
+		</tr>
+		<tr>
+			<td>dateTime</td>
+			<td>Определяет дату и время</td>
+		</tr>
+		<tr>
+			<td>duration</td>
+			<td>Определяет интервал времени</td>
+		</tr>
+		<tr>
+			<td>gDay</td>
+			<td>Определяет часть даты - день (ДД)</td>
+		</tr>
+		<tr>
+			<td>gMonth</td>
+			<td>Определяет часть даты - месяц (MM)</td>
+		</tr>
+		<tr>
+			<td>gMonthDay</td>
+			<td>Определяет часть даты — месяц и день (MM-ДД)</td>
+		</tr>
+		<tr>
+			<td>gYear</td>
+			<td>Определяет часть даты - год (ГГГГ)</td>
+		</tr>
+		<tr>
+			<td>gYearMonth</td>
+			<td>Определяет часть даты — год и месяц (ГГГГ-MM)</td>
+		</tr>
+		<tr>
+			<td>time</td>
+			<td>Определяет время</td>
+		</tr>
+	</table>
+	
+	<h1 id="title">
+		Ограничения по данным даты и времени
+	</h1>
+	
+	<p>С данными даты и времени могут использоваться следующие ограничители:</p>
+	<p>- enumeration</p>
+	<p>- maxExclusive</p>
+	<p>- maxInclusive</p>
+	<p>- minExclusive</p>
+	<p>- minInclusive</p>
+	<p>- pattern</p>
+	<p>- whiteSpace</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="18.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="20.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/sheme/19.html", "Типы данных - дата и время", "bm1148"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1148", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1148") == 1) { document.getElementById("bma1148").style.display = "block"; document.getElementById("bm1148").style.display = "none"; } else { document.getElementById("bma1148").style.display = "none"; document.getElementById("bm1148").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Типы данных - дата и время") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1148", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

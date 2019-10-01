@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma944" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm944" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Функции и их аргументы
+	</h1>
+	
+	<p>В этой статье я планирую рассказать о функциях, именных и анонимных, инструкциях def, return и lambda, обязательных и необязательных аргументах функции, функциях с произвольным числом аргументов.</p>
+
+	<h1 id="title">
+		Именные функции, инструкция def
+	</h1>
+
+	<p>Функция в python - объект, принимающий аргументы и возвращающий значение.</p>
+	<p>Обычно функция определяется с помощью инструкции def.</p>
+	<p>Определим простейшую функцию:</p>
+	
+	<pre class="brush: csharp;">
+	def add(x, y):
+		return x + y
+	</pre>
+
+	<p>Инструкция return говорит, что нужно вернуть значение.</p>
+	<p>В нашем случае функция возвращает сумму x и y.</p>
+	<p>Теперь мы ее можем вызвать:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; add(1, 10)
+	11
+	&gt;&gt;&gt; add('abc', 'def')
+	'abcdef'
+	</pre>
+
+	<p>Функция может быть любой сложности и возвращать любые объекты (списки, кортежи, и даже функции!):</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def newfunc(n):
+...     def myfunc(x):
+...         return x + n
+...     return myfunc
+...
+&gt;&gt;&gt; new = newfunc(100)  # new - это функция
+&gt;&gt;&gt; new(200)
+300
+	</pre>
+
+	<p>Функция может и не заканчиваться инструкцией return, при этом функция вернет значение None:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def func():
+...     pass
+...
+&gt;&gt;&gt; print(func())
+None
+	</pre>
+
+	<h1 id="title">
+		Аргументы функции
+	</h1>
+	
+	<p>Функция может принимать произвольное количество аргументов или не принимать их вовсе.</p>
+	<p>Также распространены функции с произвольным числом аргументов, функции с позиционными и именованными аргументами, обязательными и необязательными.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def func(a, b, c=2): # c - необязательный аргумент
+...     return a + b + c
+...
+&gt;&gt;&gt; func(1, 2)  # a = 1, b = 2, c = 2 (по умолчанию)
+5
+&gt;&gt;&gt; func(1, 2, 3)  # a = 1, b = 2, c = 3
+6
+&gt;&gt;&gt; func(a=1, b=3)  # a = 1, b = 3, c = 2
+6
+&gt;&gt;&gt; func(a=3, c=6)  # a = 3, c = 6, b не определен
+Traceback (most recent call last):
+  File "", line 1, in
+    func(a=3, c=6)
+TypeError: func() takes at least 2 arguments (2 given)
+	</pre>
+
+	<p>Функция также может принимать переменное количество позиционных аргументов, тогда перед именем ставится *:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def func(*args):
+...     return args
+...
+&gt;&gt;&gt; func(1, 2, 3, 'abc')
+(1, 2, 3, 'abc')
+&gt;&gt;&gt; func()
+()
+&gt;&gt;&gt; func(1)
+(1,)
+	</pre>
+
+	<p>Как видно из примера, args - это кортеж из всех переданных аргументов функции, и с переменной можно работать также, как и с кортежем.</p>
+	<p>Функция может принимать и произвольное число именованных аргументов, тогда перед именем ставится **:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def func(**kwargs):
+...     return kwargs
+...
+&gt;&gt;&gt; func(a=1, b=2, c=3)
+{'a': 1, 'c': 3, 'b': 2}
+&gt;&gt;&gt; func()
+{}
+&gt;&gt;&gt; func(a='python')
+{'a': 'python'}
+	</pre>
+
+	<p>В переменной kwargs у нас хранится словарь, с которым мы, опять-таки, можем делать все, что нам заблагорассудится.</p>
+
+	<h1 id="title">
+		Анонимные функции, инструкция lambda
+	</h1>
+	
+	<p>Анонимные функции могут содержать лишь одно выражение, но и выполняются они быстрее.</p>
+	<p>Анонимные функции создаются с помощью инструкции lambda.</p>
+	<p>Кроме этого, их не обязательно присваивать переменной, как делали мы инструкцией def func():</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; func = lambda x, y: x + y
+	&gt;&gt;&gt; func(1, 2)
+	3
+	&gt;&gt;&gt; func('a', 'b')
+	'ab'
+	&gt;&gt;&gt; (lambda x, y: x + y)(1, 2)
+	3
+	&gt;&gt;&gt; (lambda x, y: x + y)('a', 'b')
+	'ab'
+	</pre>
+
+	<p>lambda функции, в отличие от обычной, не требуется инструкция return, а в остальном, ведет себя точно так же:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; func = lambda *args: args
+	&gt;&gt;&gt; func(1, 2, 3, 4)
+	(1, 2, 3, 4)
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="18.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="20.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/19.html", "Функции", "bm944"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm944", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm944") == 1) { document.getElementById("bma944").style.display = "block"; document.getElementById("bm944").style.display = "none"; } else { document.getElementById("bma944").style.display = "none"; document.getElementById("bm944").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Функции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm944", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

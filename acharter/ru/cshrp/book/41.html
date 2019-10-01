@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma128" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm128" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Массивы строк
+	</h1>
+
+	<p>Как любые объекты, строки можно объединять в массивы.</p>
+	<p>Хотя внимательный читатель заметит, что в массив помещаются не строки, а только ссылки на них, но при использовании массивов ссылок на строки не требуются никакие специальные операции для организации обращения к собственно строкам через ссылки на них.</p>
+	<p>Поэтому в литературе, посвящённой языку C#, зачастую говорят просто о массивах строк.</p>
+	<p>В следующей программе создаётся массив ссылок на строки, по умолчанию инициализированный пустыми строками.</p>
+	<p>Затем в цикле элементам массива (ссылкам) присваиваются значения ссылок на объекты-строки разной длины.</p>
+	<p>Далее к массиву применяется оператор перебора контейнеров foreach, и строки выводятся на консоль.</p>
+
+	<pre class="brush: csharp;">
+	// 08_01.cs - массивы строк...
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			string [] stAr = new string[4];
+			for (int i = 0; i < star.Length; i++)
+			stAr[i] = new string('*', i + 1);
+			foreach (string rs in stAr)
+			Console.Write("\t" + rs);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	* ** *** ****
+	</pre>
+
+	<p>В программе создан массив из четырёх пустых строк.</p>
+	<p>Он представлен ссылкой stAr.</p>
+	<p>Обратите внимание, что для создания объектов, адресуемых элементами массива, применяется конструктор с прототипом <b>string (char, int);</b>.</p>
+	<p>Этот конструктор создаёт строку в виде последовательности одинаковых символов, количество которых определяет второй параметр.</p>
+	<p>Первый параметр позволяет задать повторяемый символ.</p>
+	<p>Итерационная переменная цикла foreach имеет тип string, так как просматриваемым контейнером служит массив типа string[ ].</p>
+	<p>Для иллюстрации применения методов Split(), Join(), рассмотрим следующую задачу.</p>
+	<p>Пусть значением строки является предложение, слова которого разделены пробелами.</p>
+	<p>Требуется заменить каждый пробел последовательностью символов "-:-".</p>
+	<p>Следующая программа решает сформулированную задачу.</p>
+
+	<pre class="brush: csharp;">
+	// 08_02.cs – декомпозиция "декомпозиция строк" и объединение строк.
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			string sent = "De gustibus non est disputandum";
+			// о вкусах не спорят
+			//ссылка на массив строк
+			string[] words;
+			words = sent.Split(' ');
+			Console.WriteLine("words.Length = " + words.Length);
+			foreach (string st in words)
+			Console.Write("{0}\t", st);
+			sent = string.Join("-:-", words);
+			Console.WriteLine("\n" + sent);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	words.Length = 5 De gustibus non est disputandum De-:-gustibus-:-non-:-est-:-disputandum
+	</pre>
+
+	<p>В строке, связанной со ссылкой sent, помещены слова, разделённые пробелами.</p>
+	<p>Определена ссылка words на массив строк (объектов класса string).</p>
+	<p>Обращение sent.Split(' ') "разбивает" строку, адресованную ссылкой sent, на фрагменты.</p>
+	<p>Признак разбиения – символ пробел ' ', использованный в качестве аргумента.</p>
+	<p>Из выделенных фрагментов формируется массив (объект класса string[ ]), и ссылка на него присваивается переменной words.</p>
+	<p>Выражение words.Length равно длине (количеству элементов) сформированного массива.</p>
+	<p>Напомним, что Length – свойство класса массивов string[ ], унаследованное от базового класса Array.</p>
+	<p>Оператор foreach перебирает элементы массива words, и итерационная переменная st последовательно принимает значения каждого из них.</p>
+	<p>Напомним, что особенность итерационной переменной состоит в том, что она позволяет только получать, но не позволяет изменять значения перебираемых элементов.</p>
+	<p>В теле цикла foreach один оператор – обращение к статическому методу Write() класса Console.</p>
+	<p>Его выполнение обеспечивает вывод значений элементов массива (строк).</p>
+	<p>Эскейп-последовательность '\t' в поле подстановки разделяет табуляцией выводимые слова.</p>
+	<p>Статический метод Join() предназначен для выполнения действий в некотором смысле обратных действиям метода Split().</p>
+	<p>Обращение string.Join("-:-", words) объединяет (конкатенирует) строки массива, представленного ссылкой words, то есть соединяет в одну строку слова исходного предложения.</p>
+	<p>Между словами вставляется строка, использованная в качестве первого аргумента метода Join().</p>
+	<p>Тем самым каждый пробел между словами исходной строки заменяется строкой "-:-".</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="40.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="42.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/41.html", "Массивы строк", "bm128"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm128", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm128") == 1) { document.getElementById("bma128").style.display = "block"; document.getElementById("bm128").style.display = "none"; } else { document.getElementById("bma128").style.display = "none"; document.getElementById("bm128").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Массивы строк") == 1) { arrs.splice(i, 1); localStorage.setItem("bm128", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

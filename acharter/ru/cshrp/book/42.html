@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma129" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm129" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Сравнение строк
+	</h1>
+
+	<p>Для объектов класса string определены только две операции сравнения == и !=.</p>
+	<p>Если необходимо сравнивать строки по их упорядоченности, например, в лексикографическом порядке, то этих двух операций недостаточно.</p>
+	<p>Кроме уже упомянутого нестатического метода CompareTo() в классе string есть статический метод (точнее набор перегруженных методов) с именем Compare, позволяющий сравнивать строки или их фрагменты.</p>
+	<p>Так как сравнение и сортировка строк очень важны в задачах обработки текстовой информации, то рассмотрим два варианта метода Compare().</p>
+	<p>Наиболее простой метод имеет следующий заголовок: <b>int static Compare (string, string)</b>.</p>
+	<p>Сравнивая две строки, использованные в качестве аргументов, метод возвращает значение 0, если строки равны.</p>
+	<p>Если первая строка лексикографически меньше второй – возвращается отрицательное значение.</p>
+	<p>В противном случае возвращаемое значение положительно.</p>
+	<p>В следующем фрагменте программы определён массив ссылок на строки, из него выбирается и присваивается переменной res ссылка на лексикографически наибольшую строку (08_03.cs):</p>
+
+	<pre class="brush: csharp;">
+	string[] eng = {"one", "two", "three", "four"};
+	string res = eng[0];
+	foreach (string num in eng)
+	if (string.Compare(res, num) < 0)
+	res = num;
+	</pre>
+
+	<p>Значением строки, связанной со ссылкой-переменной res, будет "two".</p>
+	<p>Проиллюстрированная форма метода Compare( ) оценивает лексикографическую упорядоченность, соответствующую английскому алфавиту.</p>
+	<p>Следующий вариант этого метода позволяет использовать разные алфавиты.</p>
+
+	<pre class="brush: csharp;">
+	int static Compare (string, string, Boolean,CultureInfo)
+	</pre>
+
+	<p>Первые два параметра – сравниваемые строки.</p>
+	<p>Третий параметр указывает на необходимость учитывать регистр символов строк.</p>
+	<p>Если он равен true, то регистры не учитываются и строки "New" и "nEw" будут считаться равными.</p>
+	<p>Четвёртый параметр – объект класса System.Globalization.CultureInfo – позволяет указать алфавит, который необходимо использовать при лексикографическом сравнении строк.</p>
+	<p>Для построения объекта, который может быть использован в качестве аргумента, заменяющего четвёртый параметр, используют конструктор класса CultureInfo(string).</p>
+	<p>Аргумент конструктора – строка, содержащая условное обозначение нужного алфавита.</p>
+	<p>Точнее сказать, обозначается не алфавит, а культура (Culture), которой принадлежит соответствующий язык.</p>
+	<p>Для обозначения национальных культур, приняты имена и коды, таблицу которых можно найти в литературе и документации.</p>
+	<p>Мы в наших примерах будем использовать два алфавита: английский (имя культуры "en", код культуры 0х0009) и русский ("ru" и 0х0019).</p>
+	<p>В следующем фрагменте программы(08_03.cs), который построен по той же схеме, что и предыдущий, определён массив ссылок на строки с русскими названиями представителей семейства тетеревиных из отряда куриных.</p>
+	<p>Из массива выбирается ссылки на лексикографически наименьшую строку, т.е. расположенную после упорядочения по алфавиту в начале списка.</p>
+
+	<pre class="brush: csharp;">
+	string[ ] hens = {"Куропатка белая", "Куропатка тундровая",	"Тетерев", "Глухарь", "Рябчик" };
+	string res = hens[0];
+	foreach (string hen in hens)
+	if (string.Compare(res, hen, true,
+	new System.Globalization.CultureInfo("ru")) > 0)
+	res = hen;
+	Console.WriteLine(res);
+	</pre>
+
+	<p>Результат, выводимый на консоль:</p>
+
+	<pre class="brush: csharp;">
+	Глухарь
+	</pre>
+
+	<p>Обратите внимание, что четвёртый параметр метода Compare() заменён в вызове безымянным объектом класса CultureInfo, сформированным конструктором класса в выражении с операцией new.</p>
+	<p>Аргумент конструктора – литерная строка "ru" – обозначение нужного алфавита (в данном примере – русского языка).</p>
+	<p>Если возвращаемый результат, больше нуля, то есть первая строка, именуемая ссылкой res, лексикографически больше второй, то вторая строка, связанная со ссылкой hen, принимается в качестве претендента на наименьшее значение.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="41.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="43.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/42.html", "Сравнение строк", "bm129"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm129", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm129") == 1) { document.getElementById("bma129").style.display = "block"; document.getElementById("bm129").style.display = "none"; } else { document.getElementById("bma129").style.display = "none"; document.getElementById("bm129").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Сравнение строк") == 1) { arrs.splice(i, 1); localStorage.setItem("bm129", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

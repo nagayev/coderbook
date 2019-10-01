@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma62" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm62" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Функции в С++
+	</h1>
+
+	<p>До сих пор мы писали программы единым, функционально неделимым, кодом.</p>
+	<p>Алгоритм программы находился в главной функции, причём других функций в программе не было.</p>
+	<p>Мы писали маленькие программы, поэтому не было потребности в объявлении своих функций.</p>
+	<p>Для написания больших программ, опыт показывает, что лучше пользоваться функциями.</p>
+	<p>Программа будет состоять из отдельных фрагментов кода, под отдельным фрагментом кода понимается функция.</p>
+	<p>Отдельным, потому, что работа отдельной функции не зависит от работы какой-нибудь другой.</p>
+	<p>То есть алгоритм в каждой функции функционально достаточен и не зависим от других алгоритмов программы.</p>
+	<p>Однажды написав функцию, её можно будет с лёгкостью переносить в другие программы.</p>
+	<p>Функция (в программировании) — это фрагмент кода или алгоритм, реализованный на каком-то языке программирования, с целью выполнения определённой последовательности операций.</p>
+	<p>Итак, функции позволяют сделать программу модульной, то есть разделить программу на несколько маленьких подпрограмм (функций), которые в совокупности выполняют поставленную задачу.</p>
+	<p>Еще один огромнейший плюс функций в том, что их можно многократно использовать.</p>
+	<p>Данная  возможность позволяет многократно использовать один раз написанный код, что в свою очередь, намного сокращает объем кода программы!</p>
+	<p>Кроме того, что в С++ предусмотрено объявление своих функций, также можно воспользоваться функциями определёнными в стандартных заголовочных файлах языка программирования С++.</p>
+	<p>Чтобы воспользоваться функцией, определённой в заголовочном файле, нужно его подключить.</p>
+	<p>Например, чтобы воспользоваться функцией, которая возводит некоторое число в степень, нужно подключить заголовочный файл &lt;cmath&gt; и в запустить функцию pow() в теле программы.</p>
+	<p>Разработаем программу, в которой запустим функцию pow().</p>
+
+	<pre class="brush: csharp;">
+	// inc_func.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	//действие 1 - подключаем заголовочный файл &lt;cmath&gt; который содержит прототипы основных математических функций
+	#include &lt;cmath&gt;
+	 
+	int main(int argc, char* argv[])
+	{
+		//действие 2 - запуск функции возведения числа в степень
+		float power = pow(3.14,2);
+		return 0;
+	}
+	</pre>
+
+	<p>Подключение заголовочных файлов выполняется так, как показано в строке 5, т. е. объявляется препроцессорная директива #include, после чего внутри знаков &lt;&gt; пишется имя заголовочного файла.</p>
+	<p>Когда подключен заголовочный файл, можно использовать функцию, что, и сделано в строке 9.</p>
+	<p>Функция pow() возводит число 3.14 в квадрат и присваивает полученный результат переменной power, где</p>
+	<p>1. pow — имя функции;</p>
+	<p>2. числа 3.14 и 2 — аргументы функции;</p>
+	<p>Всегда после имени функции ставятся круглые скобочки, внутри которых, функции передаются аргументы, и если аргументов несколько, то они отделяются друг от друга запятыми.</p>
+	<p>Аргументы нужны для того, чтобы функции передать информацию. Например, чтобы возвести число 3.14 в квадрат используя функцию pow(), нужно как-то этой функции  сообщить, какое число, и в какую степень его возводить.</p>
+	<p>Вот именно для этого и придуманы аргументы функций, но бывают функции, в которых аргументы не передаются, такие функции вызываются с пустыми круглыми скобочками.</p>
+	<p>Итак, для того, чтобы воспользоваться функцией из стандартного заголовочного файла С++ необходимо выполнить два действия:</p>
+	<p>1. Подключить необходимый заголовочный файл;</p>
+	<p>2. Запустить нужную функцию.</p>
+	<p>Кроме вызова функций из стандартных заголовочных файлов, в языке программирования С++ предусмотрена возможность создания собственных функций.</p>
+	<p>В языке программирования С++ есть два типа функций:</p>
+	<p>1. Функции, которые не возвращают значений</p>
+	<p>2. Функции, возвращающие значение</p>
+	<p>Функции, не возвращающие значения, завершив свою работу, никакого ответа программе не дают.</p>
+	<p>Рассмотрим структуру объявления таких функций.</p>
+
+	<pre class="brush: csharp;">
+	// структура объявления функций не возвращающих значений
+	void /*имя функции*/(/*параметры функции*/) // заголовок функции
+	{
+		// тело функции
+	}
+	</pre>
+
+	<p>Строка 2 начинается с зарезервированного слова void — это тип данных, который не может хранить какие-либо данные.</p>
+	<p>Тип данных void говорит о том, что данная функция не возвращает никаких значений.</p>
+	<p>void никак по-другому не используется и нужен только для того, чтобы компилятор мог определить тип функции.</p>
+	<p>После зарезервированного слова void пишется имя функции.</p>
+	<p>Сразу за именем функции ставятся две круглые скобочки, открывающаяся и закрывающаяся.</p>
+	<p>Если нужно функции передавать какие-то данные, то внутри круглых скобочек объявляются параметры функции, они отделяются друг от друга запятыми.</p>
+	<p>Строка 2 называется заголовком функции.</p>
+	<p>После заголовка функции пишутся две фигурные скобочки, внутри которых находится алгоритм, называемый телом функции.</p>
+	<p>Разработаем программу, в которой объявим функцию нахождения факториала, причём функция не должна возвращать значение.</p>
+
+	<pre class="brush: csharp;">
+	// struct_func.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	// объявление функции нахождения n!
+	void faktorial(int numb)// заголовок функции
+	{
+		// инициализируем переменную rezult значением 1
+		int rezult = 1;
+		// цикл вычисления значения n!
+		for (int i = 1; i <= numb; i++)
+		// накапливаем произведение в переменной rezult
+		rezult *= i;
+		// печать значения n!
+		cout << numb << "! = " << rezult << endl;
+	}
+	
+	int main(int argc, char* argv[])
+	{
+		// переменная для хранения значения n!
+		int digit;
+		cout << "Enter number: ";
+		cin >> digit;
+		// запуск функции нахождения факториала
+		faktorial(digit);
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>После того, как были подключены все необходимые заголовочные файлы, можно объявлять функцию нахождения факториала.</p>
+	<p>Под объявлением функции подразумевается выбор имени функции, определение параметров функции и написание алгоритма, который является телом функции.</p>
+	<p>После выполнения этих действий функцию можно использовать в программе.</p>
+	<p>Так как функция не должна возвращать значение, то тип возвращаемых данных должен быть void.</p>
+	<p>Имя функции — faktorial, внутри круглых скобочек объявлена переменная numb типа int.</p>
+	<p>Эта переменная является параметром функции faktorial().</p>
+	<p>Таким образом, все объявления в строке 8 в совокупности составляют заголовок функции.</p>
+	<p>Строки 9 — 14 составляют тело функции faktorial().</p>
+	<p>Внутри тела в строке 10 объявлена переменная rezult, которая будет хранить результат нахождения n!</p>
+	<p>После чего, в строках 11-12 Объявлен оператор цикла for для нахождения факториала.</p>
+	<p>В строке 13 объявлен оператор cout, с помощью которого значение факториала будет печататься на экране.</p>
+	<p>Теперь, когда функция объявлена можно воспользоваться ею.</p>
+	<p>В строке 21 запускается функция faktorial(digit), внутри скобочек функции передаётся аргумент, т. е. значение, содержащееся в переменной digit.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Enter number: 5
+	5! = 120
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Итак, после запуска программы, было введена цифра 5, и программа вычислила, что значение 120 это 5!.</p>
+	<p>Функции, возвращающие значение, по завершению своей работы возвращают определённый результат.</p>
+	<p>Такие функции могут возвращать значение любого типа данных.</p>
+	<p>Структура функций, возвращающих значение будет немного отличатся от структуры функций рассмотренных ранее.</p>
+
+	<pre class="brush: csharp;">
+	// структура объявления функций возвращающих значения
+	// заголовок функции
+	/*возвращаемый тип данных*/ /*имя функции*/(/*параметры функции*/)
+	{
+		// тело функции
+		return /*возвращаемое значение*/;
+	}
+	</pre>
+
+	<p>Структура объявления функций осталась почти неизменной, за исключением двух строк.</p>
+	<p>В заголовке функции сначала нужно определять возвращаемый тип данных, это может быть тип данных int, если необходимо возвратить целое число или тип данных float — для чисел с плавающей точкой.</p>
+	<p>В общем, любой другой тип данных, всё зависит от того, что функция должна вернуть.</p>
+	<p>Так как функция должна вернуть значение, то для этого должен быть предусмотрен специальный механизм, как в строке 5.</p>
+	<p>C помощью зарезервированного слова return  можно вернуть значение, по завершении работы функции.</p>
+	<p>Всё, что нужно, так это указать переменную, содержащую нужное значение, или некоторое значение, после оператора return.</p>
+	<p>Тип данных возвращаемого значения в строке 5 должен совпадать с типом данных в строке 2.</p>
+	<p>Переделаем программу нахождения факториала так, чтобы функция faktorial() возвращала значение факториала.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="40.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="42.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/41.html", "Функции в С++", "bm62"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm62", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm62") == 1) { document.getElementById("bma62").style.display = "block"; document.getElementById("bm62").style.display = "none"; } else { document.getElementById("bma62").style.display = "none"; document.getElementById("bm62").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Функции в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm62", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma431" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm431" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Модуль
+	</h1>
+
+	<p>Проект в Delphi представляет собой набор программных единиц – модулей.</p>
+	<p>Модуль на английском языке называется Unit.</p>
+	<p>Когда мы разрабатываем форму, мы одновременно обрабатываем модуль этой формы.</p>
+	<p>Модуль – это файл с расширением *.pas.</p>
+	<p>Это расширение – сокращение от языка программирования Pascal, на котором строилась Delphi.</p>
+	<p>Иначе говоря, модуль – исходный код программы, или исходник.</p>
+	<p>Как только мы создаем новую форму, сразу же создается и модуль для нее.</p>
+	<p>Delphi заполняет этот модуль необходимым кодом, а нам остается создавать код для обработки кнопок и различных событий.</p>
+	<p>Давайте на примере уже рабочей программы посмотрим, из чего состоит проект.</p>
+	<p>Откройте проект MyNotebook из "Меню".</p>
+	<p>Перейдите на редактор кода.</p>
+	<p>На самом верху вы видите строку</p>
+
+	<pre class="brush: csharp;">
+	unit Main;
+	</pre>
+
+	<p>Unit – это зарезервированное слово, обозначающее Модуль формы.</p>
+	<p>Зарезервированными называются служебные слова, которые уже имеют собственные названия в компиляторе, и такие названия нельзя давать переменным, константам, массивам, компонентам, функциям или процедурам.</p>
+	<p>Зарезервированные слова в коде всегда выделяются жирным шрифтом, вы можете это видеть на примере таких слов, как unit, interface, uses, begin или end, и так далее:</p>
+
+	<img src="delphi15.png" id="image" />
+
+	<p>Когда мы создавали форму, то сразу дали ей имя (свойство Name ) fMain.</p>
+	<p>А когда сохраняли проект, Delphi прежде всего запросила имя для модуля формы.</p>
+	<p>Мы назвали модуль также как форму, но без начальной буквы f - Main.</p>
+	<p>Вот почему наверху кода unit (Модуль) этой формы имеет имя Main.</p>
+	<p>Теперь вы понимаете, как важно соблюдать правила наименования форм и модулей?</p>
+	<p>Когда в проекте будет много форм, то и модулей будет много, и если вы не будете соблюдать эти правила, то запросто запутаетесь в названиях.</p>
+	<p>И также важно давать формам и модулям осмысленные имена.</p>
+	<p>В сложных проектах таких форм и модулей может быть сотни!</p>
+	<p>Но вернемся к проекту MyNotebook.</p>
+	<p>Взгляните на код. Далее идет служебное слово interface.</p>
+	<p>Эта директива сообщает компилятору, что начинается раздел интерфейса.</p>
+	<p>В этом разделе, прежде всего, указываются модули, подключенные к данному модулю.</p>
+	<p>Они описываются после служебного слова uses.</p>
+	<p>Когда мы вводим какую-либо функцию или процедуру, мы не задумываемся, откуда она берется.</p>
+	<p>А эта функция описана в одном из подключенных модулей!</p>
+	<p>Давайте в этом убедимся. Спустите курсор в нижнюю часть модуля.</p>
+	<p>Последней у нас описана процедура вызова модального окна fAbout.</p>
+	<p>Ниже этого вызова введите строку:</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage('Привет!');
+	</pre>
+
+	<p>Она тут совершенно не нужна, и потом мы ее удалим.</p>
+	<p>А пока что установите курсор внутри самого слова ShowMessage, и нажмите &lt;Ctrl&gt;+&lt;F1&gt;.</p>
+	<p>Тем самым, вы вызываете контекстную подсказку именно об этой команде.</p>
+	<p>И в самом начале справки вы видите указание, в каком модуле описана данная процедура:</p>
+
+	<pre class="brush: csharp;">
+	Unit
+	Dialogs or QDialogs
+	</pre>
+
+	<p>Теперь вернитесь к разделу uses, в котором описаны подключенные модули.</p>
+	<p>Вы можете убедиться, что модуль Dialogs в списке присутствует.</p>
+	<p>Если бы это было не так, то при попытке вызвать процедуру ShowMessage компилятор сразу сообщил бы нам об ошибке, он просто не нашел бы описания этой процедуры и не знал, откуда ее вызвать.</p>
+	<p>Данный раздел подключенных модулей Delphi генерирует самостоятельно, и добавлять сюда другие модули вручную приходится лишь в том случае, когда вы хотите воспользоваться процедурой, описанной в модуле, которого в списке нет.</p>
+	<p>Вы точно знаете, что такая процедура или функция существует, но компилятор выдает ошибку.</p>
+	<p>Тогда вы устанавливаете курсор на имя процедуры и вызываете контекстную подсказку.</p>
+	<p>И смотрите, в каком модуле описана данная процедура.</p>
+	<p>Если этого модуля в списке нет, а процедура вам нужна позарез, добавьте модуль в список.</p>
+	<p>Кстати, количество подключенных к форме модулей объясняет, почему, казалось бы, небольшой проект имеет достаточно большой размер *.exe файла.</p>
+	<p>Ведь подключенные модули содержат множество описаний функций и процедур, и даже если мы их не используем, они все равно доступны.</p>
+	<p>Однако беспокоиться по этому поводу не стоит – нам едва ли придется писать программы, для которых критичен размер исполняемого файла.</p>
+	<p>Это, как правило, драйверы или вирусы, и хотя на Delphi можно написать и то, и другое, для этих задач больше подходит чистый С.</p>
+	<p>А если вы будете использовать Borland C++ Builder или Microsoft C++ Visual, то и они имеют множество подключенных модулей, и размер даже маленькой программки окажется большим.</p>
+	<p>Вернемся к нашему коду.</p>
+	<p>Далее идет служебное слово type, которое описывает форму – какие в ней находятся компоненты, как они называются, и какие процедуры используются.</p>
+	<p>В этом блоке вы видите разделы:</p>
+
+	<pre class="brush: csharp;">
+private
+    { Private declarations }
+  public
+    { Public declarations }
+	</pre>
+
+	<p>В раздел private можно добавлять описания собственных функций и процедур, которые не должны быть видны из других подключенных модулей.</p>
+	<p>А если вы эти же самые процедуры и функции опишете в разделе public, то их можно будет использовать и в других модулях проекта.</p>
+	<p>Позже мы не раз будем пользоваться этой возможностью.</p>
+
+	<p>Далее идет описание глобальных записей, констант и переменных.</p>
+	<p>Здесь у нас есть только одна глобальная переменная:</p>
+
+	<pre class="brush: csharp;">
+	var fMain: TfMain;
+	</pre>
+
+	<p>Это – форма.</p>
+	<p>Да, да, не удивляйтесь, форма – это переменная типа TForm.</p>
+	<p>Точнее, не просто переменная, а объект со своими свойствами, событиями и методами.</p>
+	<p>Здесь же вы можете объявить собственные переменные или массивы, чтобы они стали глобальными.</p>
+	<p>Глобальные переменные видны во всем модуле, в любой, описанной ниже процедуре или функции.</p>
+	<p>Вот пример: допустим, нам много раз придется проверять адрес, откуда запущена программа.</p>
+	<p>Скажем, по этому адресу у нас лежит файл, в который мы то и дело сохраняем различные настройки программы, или считываем их.</p>
+	<p>А в процессе работы программы текущая папка может быть изменена на другую.</p>
+	<p>В результате, обратившись к файлу просто по имени, мы рискуем вызвать ошибку в программе.</p>
+	<p>Чтобы этого избежать, нужно полностью указывать и адрес файла, и его имя.</p>
+	<p>В этом разделе глобальных переменных мы можем создать собственную переменную:</p>
+
+	<pre class="brush: csharp;">
+	var
+	fMain: TfMain;
+	adres: String;
+	//для адреса, откуда запущена программа
+	</pre>
+
+	<p>Затем выделить главную форму, перейти на вкладку Events (События) и двойным щелчком мыши сгенерировать событие OnCreate, которое происходит однажды, при создании формы, или же OnActivate, которое происходит, когда форма становится активной.</p>
+	<p>В этом событии прописать такую строку:</p>
+
+	<pre class="brush: csharp;">
+	adres := ExtractFilePath(Application.ExeName);
+	</pre>
+
+	<p>Переменную adres в процедуре описывать не нужно – она глобальная, и мы ее уже описали.</p>
+	<p>Функция Application.ExeName вернет полное имя файла нашей программы, а функция ExtractFilePath() вычленит из этого имени адрес, и вернет его.</p>
+	<p>В дальнейшем, в любой процедуре или функции модуля, где будет необходимо обратиться к файлу, например, myparam.ini, который находится там же, откуда запущена программа, достаточно указать:</p>
+
+	<pre class="brush: csharp;">
+	... adres + 'myparam.ini' ...
+	</pre>
+
+	<p>и мы получим имя файла вместе с полным адресом, откуда бы программа ни была запущена.</p>
+	<p>Далее идет раздел implementation.</p>
+	<p>Это раздел реализации.</p>
+	<p>Он содержит сами процедуры и функции, которые поддерживают работу этой формы.</p>
+	<p>Кроме того, в этом разделе также может присутствовать директива uses, в которой объявлены модули, подключенные к данной форме.</p>
+	<p>Данный раздел необязателен – если в вашем проекте только одна форма, то раздела не будет вовсе.</p>
+	<p>Если есть еще одна форма, как в нашем примере – форма fAbout, модуль которой называется About, то этот раздел добавляется автоматически, как только вы воспользуетесь командой File -&gt; Use Unit.</p>
+	<p>Сразу под ключевым словом implementation у нас есть строка</p>
+
+	<pre class="brush: csharp;">
+	uses About;
+	</pre>
+
+	<p>которая говорит о том, что к данной форме подключен модуль About.</p>
+	<p>Можно модули добавлять и вручную, однако лучше все-таки делать это с помощью команды меню – так вы будете застрахованы от возможных ошибок.</p>
+	<p>Однако если вы создали ошибочную связь с другой формой, то удалить эту связь можно вручную.</p>
+	<p>Далее вы видите такую строку, выделенную зеленым цветом:</p>
+
+	<pre class="brush: csharp;">
+	{$R *.dfm}
+	</pre>
+
+	<p>Это не комментарий, как можно было бы подумать, а директива компилятору, что в процессе компиляции следует использовать файл описания формы.</p>
+	<p>Файлы, которые составляют проект, мы рассмотрим чуть позже.</p>
+	<p>После этой директивы, собственно, и начинается работа программиста.</p>
+	<p>Далее идут процедуры и функции, сгенерированные для обработки событий компонентов формы.</p>
+	<p>Сюда же программист может добавить собственные процедуры и функции, однако не забывайте правила – чтобы воспользоваться процедурой или функцией, она должна быть описана выше того места, где мы хотим ее вызвать!</p>
+	<p>Самой последней строкой в модуле обязательно должна присутствовать завершающая модуль команда end с точкой.</p>
+	<p>Точка указывает, что модуль завершен, после нее других строк быть не должно.</p>
+	<p>Закройте этот проект, сохранять его не нужно, команда ShowMessage, которую мы дали для примера, в программе не нужна.</p>
+	<p>Создайте новый проект и перейдите в редактор кода.</p>
+	<p>Сразу после директивы компилятора вы видите строку</p>
+
+	<pre class="brush: csharp;">
+	end.
+	</pre>
+
+	<p>Обратите внимание, что слова begin перед ней нет, и быть не должно!</p>
+	<p>Это – единственное исключение из правила скобок begin..end.</p>
+	<p>Собственно, это даже не исключение, потому что эта end не является закрывающей скобкой, это завершение модуля.</p>
+	<p>Теперь, если мы будем устанавливать на форму компоненты, и обрабатывать для них события, будут формироваться процедуры между директивой компилятору и завершающей end.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="44.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="46.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/45.html", "Модуль", "bm431"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm431", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm431") == 1) { document.getElementById("bma431").style.display = "block"; document.getElementById("bm431").style.display = "none"; } else { document.getElementById("bma431").style.display = "none"; document.getElementById("bm431").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модуль") == 1) { arrs.splice(i, 1); localStorage.setItem("bm431", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

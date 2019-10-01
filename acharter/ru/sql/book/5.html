@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1019" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1019" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Выборка отдельных столбцов
+	</h1>
+
+	<p>Начнем с простого SQL-оператора SELECT:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name
+	FROM Products;
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В приведенном выше операторе используется оператор SELECT для выборки одного столбца под названием prod_name из таблицы Products.</p>
+	<p>Искомое имя столбца указывается сразу после ключевого слова SELECT, а ключевое слово FROM указывает на имя таблицы, из которой выбираются данные.</p>
+	<p>Результат выполнения этого оператора будет следующий:</p>
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_name
+	Fish bean bag toy
+	Bird bean bag toy
+	Rabbit bean bag toy
+	8 inch teddy bear
+	12 inch teddy bear
+	18 inch teddy bear
+	Raggedy Ann
+	King doll
+	Queen doll
+	</pre>
+
+	<p><b>Неотсортированные данные</b></p>
+	<p>Если вы попробовали выполнить этот запрос самостоятельно, то заметили, что данные были отображены в ином порядке.</p>
+	<p>В этом случае не нужно волноваться — так и должно быть.</p>
+	<p>Если результаты запроса не отсортированы явным образом (это мы обсудим в следующем уроке), то данные будут возвращены без особого порядка.</p>
+	<p>Это может быть порядок, в котором данные были занесены в таблицу, или какой-либо другой порядок.</p>
+	<p>Главное, чтобы ваш запрос возвращал одно и то же число строк.</p>
+	<p>Простой оператор SELECT, который использовался в предыдущем примере, возвращает все строки таблицы.</p>
+	<p>Данные не фильтруются (как это делается при возвращении подмножества данных) и не сортируются.</p>
+	<p>Эту тему мы обсудим в следующих нескольких уроках.</p>
+	<p><b>Используйте пробелы</b></p>
+	<p>Все лишние пробелы в SQL-операторе при обработке пропускаются.</p>
+	<p>Поэтому SQL- оператор может быть записан как в одной длинной строке, так и разбит на несколько строк.</p>
+	<p>Большинство SQL-разработчиков разбивают операторы на несколько строк, чтобы их было легче читать и отлаживать.</p>
+	<p><b>Завершение операторов</b></p>
+	<p>Несколько SQL-операторов должны быть разделены точкой с запятой (символом ;).</p>
+	<p>В большинстве СУБД не требуется вставлять точку с запятой после единственного оператора, но если в вашем конкретном случае СУБД выдает ошибку, вам придется это делать.</p>
+	<p>Несомненно, при желании можно всегда добавлять точку с запятой, она никому не будет мешать, даже если этот символ не обязателен.</p>
+	<p>Исключением является СУБД Sybase Adaptive Server, которая "не любит" SQL-операторы, заканчивающиеся символом ;.</p>
+	<p><b>SQL-операторы и регистр</b></p>
+	<p>Важно отметить, что SQL-операторы нечувствительны к регистру, поэтому операторы SELECT, select и Select эквивалентны.</p>
+	<p>Многие SQL-разработчики используют верхний регистр для всех ключевых слов SQL и нижний регистр для имен столбцов и таблиц, чтобы код легче читался.</p>
+	<p><b>Однако будьте внимательны:</b> SQL-операторы не зависят от регистра, в отличие от имен таблиц, столбцов и значений (которые зависят от СУБД и ее конфигурации).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="4.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="6.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/5.html", "Выборка отдельных столбцов", "bm1019"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1019", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1019") == 1) { document.getElementById("bma1019").style.display = "block"; document.getElementById("bm1019").style.display = "none"; } else { document.getElementById("bma1019").style.display = "none"; document.getElementById("bm1019").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Выборка отдельных столбцов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1019", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma116" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm116" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Одномерные массивы
+	</h1>
+
+	<p>Напомним, что система типов языка C# построена на основе классов.</p>
+	<p>Типы делятся на четыре группы (значений, ссылок, указателей и тип void).</p>
+	<p>С типами значений мы уже знакомы.</p>
+	<p>К типам ссылок отнесены собственно классы (библиотечные и определяемые программистом), массивы и строки.</p>
+	<p><b>Рассмотрим массивы.</b></p>
+	<p>Одномерный массив – набор однотипных элементов, доступ к которым осуществляется с помощью выражения с операцией индексирования:</p>
+
+	<pre class="brush: csharp;">
+	имя_ссылки_на_массив [индексирующее_выражение]
+	</pre>
+
+	<p>Здесь <b>имя_ссылки_на_массив</b> – ссылка типа, производного от класса Array.</p>
+	<p>Индексирующее_выражение должно иметь целочисленный тип (или приводится к целочисленному типу).</p>
+	<p>Значение индексирующего выражения (иначе индекс) должно принадлежать фиксированному конечному диапазону [0, indMax], где 0 – нижняя граница, indMax – верхняя граница индекса.</p>
+	<p>indMax однозначно определяет количество элементов (размер) массива, равное indMax+1.</p>
+	<p>Имя_ссылки_на_массив – выбираемый пользователем идентификатор.</p>
+	<p>Чтобы идентификатор стал именем ссылки на массив, используется объявление вида:</p>
+
+	<pre class="brush: csharp;">
+	тип [ ] имя_ссылки_на_массив;
+	</pre>
+
+	<p>Этим оператором объявляется переменная типа ссылки на массив, а тип определяет тип элементов этого массива.</p>
+	<p>Кроме того, объявление указанного формата вводит в программу новый тип с обозначением тип[ ].</p>
+	<p>Примеры:</p>
+	<p>int [ ] integers;</p>
+	<p>double [ ] points;</p>
+	<p>Здесь integers – ссылка на массив типа int [ ] с элементами типа int; points – ссылка на массив типа double [ ] с элементами типа double.</p>
+	<p>В результате обработки таких объявлений компилятор выделит в стеке участки для размещения переменных (ссылок) integers и points.</p>
+	<p>Однако, массивов, которые могут адресовать эти ссылки, пока не существует, и значениями integers и points является null.</p>
+	<p>Каждый конкретный массив создаётся как объект класса, производного от класса Array точно от соответствующего ему системного класса System.Array.</p>
+	<p>Для создания экземпляра (объекта) конкретного типа массивов используется операция new.</p>
+	<p>Выражение: <b>new тип [размер-массива]</b> определяет объект-массив с заданным в квадратных скобках количеством элементов указанного типа.</p>
+	<p>Этот объект компилятор размещает в области памяти, называемой кучей (heap).</p>
+	<p>Результат выполнения операции new – ссылка на выделенный для объекта участок памяти.</p>
+	<p>Чтобы связать ссылку с этим объектом используют операцию присваивания:</p>
+
+	<pre class="brush: csharp;">
+	имя_ссылки_на_массив = new тип[размер-массива];
+	</pre>
+
+	<p>Тип ссылки на массив должен соответствовать типу, указанному после операции new.</p>
+	<p>Примеры:</p>
+
+	<pre class="brush: csharp;">
+	integers=new int [14];
+	points=new double [8];
+	</pre>
+
+	<p>После этих и предыдущих объявлений ссылка integers (размещённая в стеке) будет адресовать (ссылаться на) участок памяти в куче, отведённый для конкретного массива из 14-ти элементов типа int.</p>
+	<p>Ссылка points будет связана с массивом из 8-ми элементов типа double.</p>
+	<p>Допустимо объединение объявления ссылки на массив и определения массива- объекта:</p>
+
+	<pre class="brush: csharp;">
+	тип[ ] имя_ссылки_на_массив=new тип [размер_массива];
+	</pre>
+
+	<p>Пример: <b>char[ ] line = new char[12];</b></p>
+	<p>Такое объявление вводит тип char[ ], определяет объект-массив char[12], объявляет ссылку line на массив с элементами типа char и связывает эту ссылку с объектом-массивом.</p>
+	<p>После определения массива его элементы получают умалчиваемые значения.</p>
+	<p>Для элементов арифметических типов по умолчанию устанавливаются нулевые значения, для элементов типа char – значения ‘\0’, для элементов логического типа – значения false, для элементов типа string – пустые строки, для элементов с типами ссылок и для элементов типа object – значения null.</p>
+	<p>Определив ссылку на массив и связав её с конкретным объектом-массивом, можно обращаться к элементам массива, используя выражения с операцией индексирования.</p>
+	<p>В следующей программе определены массивы разных типов и выведены значения их отдельных элементов.</p>
+
+	<pre class="brush: csharp;">
+	// 07_01.cs - массивы - инициализация по умолчанию
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			bool [] bar = new bool[5];
+			Console.WriteLine("bar[2] = " + bar[2]);
+			int[] integers = new int[14];
+			Console.WriteLine("integers[0] = " + integers[0]);
+			double[] points = new double[8];
+			Console.WriteLine("points[7] = " + points[7]);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	bar[2] = False
+	integers[0] = 0
+	points[7] = 0
+	</pre>
+
+	<p>Можно изменить значение элемента массива, использовав ссылку на массив с соответствующим индексом в левой части выражения с операцией присваивания.</p>
+	<p>При создании экземпляра (объекта) типа массивов разрешена его явная инициализация, т.е. общий вид выражения с операцией new таков: <b>new тип [размер-массива] инициализатор;</b>.</p>
+	<p>Инициализатор не обязателен, поэтому ранее мы применяли операцию new без него.</p>
+	<p>Инициализатор – заключенный в фигурные скобки список инициализирующих выражений.</p>
+	<p>Инициализатор имеет вид: <b>{список_выражений}</b>.</p>
+	<p>Каждое выражение в списке инициализатора (они разделены в списке запятыми) определяет значение соответствующего элемента создаваемого массива.</p>
+	<p>Количество инициализирующих выражений в списке инициализатора должно соответствовать размеру массива, т.е. числу его элементов.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	double a=1.1;
+	double [4] x=new double [4] {2.0/4, 3.0, 4.0,a};
+	</pre>
+
+	<p>Здесь x – ссылка на массив с элементами типа double, элементы имеют значения:</p>
+	<p>x[0]==&gt;0.5,</p>
+	<p>x[1]==&gt;3.0,</p>
+	<p>x[2]==&gt;4.0,</p>
+	<p>x[3]==&gt;1.1.</p>
+	<p>Тот же результат получится, если удалить из обеих квадратных скобок размер массива 4.</p>
+	<p>Дело в том, что если размер массива не указан, то он определяется количеством инициализирующих выражений.</p>
+	<p>Для объявления экземпляра массива с применением инициализатора допустима и зачастую используется сокращённая форма без явного использования операции <b>new: тип [ ] имя_ссылки_на_массив = инициализатор;</b>.</p>
+	<p>Как и ранее инициализатор – заключённая в фигурные скобки последовательность выражений, разделённых запятыми.</p>
+	<p>Размер массива в этом случае может быть явно не указан и определяется числом выражений.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	long[ ] g = {8/4, 3L, 4, (int)2.4};
+	</pre>
+
+	<p>Тот же результат можно получить, явно применив операцию</p>
+
+	<pre class="brush: csharp;">
+	new: long [ ] s = new long [ ]{8/4, 3L, 4, (int)2.4};
+	</pre>
+
+	<p>В одном объявлении могут быть определены несколько однотипных ссылок на массивы с одинаковыми типами элементов: <b>byte [ ] x, y, z;</b>.</p>
+	<p>Инициализация массивов допустима и при таком определении нескольких однотипных ссылок в одном объявлении.</p>
+	<p>Например, так:</p>
+
+	<pre class="brush: csharp;">
+	int [ ] b={1,2,3,4,5}, z=new int [ ] {6,7,8,9}, d=z;
+	</pre>
+
+	<p>Определяя ссылки на массивы и массивы как объекты, необходимо помнить их различия.</p>
+	<p>Компилятор в стеке выделяет память для каждой ссылки при её объявлении.</p>
+	<p>А память в куче для объекта-массива выделяется только при явном (или неявном) применении операции new.</p>
+	<p>В данном примере ссылки d и z адресуют один и тот же массив (объект класса, производного от Array) из четырёх элементов типа int.</p>
+	<p>Таким образом, к одному и тому же элементу массива в нашем примере возможен доступ с помощью двух ссылок.</p>
+	<p>В результате выполнения операторов</p>
+
+	<pre class="brush: csharp;">
+	d[3]=43; Console.WriteLine("z [3]="+ z [3]);
+	</pre>
+
+	<p>будет выведено</p>
+
+	<pre class="brush: csharp;">
+	z [3]=43
+	</pre>
+
+	<p>Обратите внимание на тот факт, что у объекта-массива (то есть у той конструкции, которую называют массивом) нет имени.</p>
+	<p>Ссылка на массив не является уникальным именем экземпляра массива, ведь с массивом могут быть ассоциированы одновременно несколько ссылок.</p>
+	<p>К массивам (которые являются на самом деле частным случаем контейнеров или коллекций) применим ещё не рассмотренный нами оператор цикла, вводимый служебным словом foreach.</p>
+	<p>Формат этого оператора: foreach (тип имя_переменной in ссылка_на_массива) тело_цикла В заголовке цикла используется ссылка на уже существующий одномерный массив, тип элементов которого должен соответствовать типу, указанному перед именем переменной.</p>
+	<p>Тело цикла это либо отдельный оператор (завершаемый обязательной точкой с запятой) либо блок – заключенная в фигурные скобки последовательность операторов.</p>
+	<p>В заголовке оператора цикла конструкция тип имя_переменной определяет переменную цикла с выбранным программистом именем.</p>
+	<p>Эта переменная автоматически последовательно принимает значения всех элементов массива, начиная с элемента, имеющего нулевой индекс.</p>
+	<p>Для каждого из значений выполняется тело цикла.</p>
+	<p>Количество итераций цикла определяется числом элементов массива.</p>
+	<p>Определенная в заголовке цикла переменная доступна только в теле цикла, и там её значение может быть использовано.</p>
+	<p>Однако, попытки изменить с помощью обращений к этой переменной элементы массивы будут безуспешными.</p>
+	<p>Переменная цикла foreach получает значения элементов массива, но не может их изменять.</p>
+	<p>В качестве примера приведем следующую программу, где цикл foreach используется для вывода значений элементов символьного массива.</p>
+
+	<pre class="brush: csharp;">
+	// 07_02.cs - массивы одномерные и цикл foreach
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			char[] hi = {'H','e','l','l','o',',',' ','C','#','!',};
+			foreach(char ch in hi)
+			Console.Write(ch);
+			Console.WriteLine();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Hello, C#!
+	</pre>
+
+	<p>Обратите внимание, что при объявлении объекта-массива и адресующей его ссылки hi выполнена инициализация массива, и не потребовалось явно применять операцию new.</p>
+	<p>До сих пор мы рассматривали массивы, размеры которых определялись при их создании – инициализацией либо явным указанием числа элементов.</p>
+	<p>При выполнении операции new число элементов массива может быть задано не только константой, но и каким-либо выражением.</p>
+	<p>Наиболее типичный случай – размер массива определяет пользователь, вводя нужное для решения задачи числовое значение.</p>
+	<p>В качестве примера рассмотрим задачу преобразования значения целочисленной переменной в последовательность символов, изображающих цифры значения переменной.</p>
+	<p>Классический способ получения последовательности цифр заданного числа – это цикл с двумя операторами в теле:</p>
+
+	<pre class="brush: csharp;">
+	do
+	{
+		цифра = число%10;
+		число = число/10;
+	}
+	while(число!=0);
+	</pre>
+
+	<p>На каждой итерации цифра получает значение младшего разряда целого числа, а затем число уменьшается в 10 раз, т.е. отбрасывается его младшая цифра.</p>
+	<p>Если добавить в тело цикла оператор, преобразующий цифры в символьное представление, то получим изображение числа в обратном порядке, т.е. для числа 753 получим цифры '3', '5', '7'.</p>
+	<p>Чтобы получить последовательность цифр в нужном порядке можно использовать массив с элементами типа char.</p>
+	<p>Размер массива заранее неизвестен и определяется значением (длиной) обрабатываемого числа.</p>
+	<p>Длину числа (число цифр) можно вычислить, используя десятичный логарифм.</p>
+	<p>В языке C# это можно сделать с помощью метода с заголовком double Math.Log10(double value).</p>
+	<p>Метод возвращает значение double, а размер массива должен быть задан целым числом, поэтому придётся выполнить приведение типов.</p>
+	<p>С учётом сказанного, напишем программу, которая преобразует в последовательность символов цифры положительного числа, вводимого пользователем с клавиатуры.</p>
+
+	<pre class="brush: csharp;">
+	// 07_03.cs - массив с заранее не определенным размером
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			int number;
+			do Console.Write("Введите целое положительное число: ");
+			while (!int.TryParse(Console.ReadLine(), out number)||number<=0);
+			int len = (int)Math.Log10(number) + 1;
+			char[] ciphers = new char[len];
+			int figure, i = len - 1;
+			do
+			{
+				figure = number % 10;
+				number = number / 10;
+				ciphers[i--] = (char)(figure + '0');
+			}
+			while (number != 0);
+			Console.Write(“Цифры числа:”);
+			foreach (char ch in ciphers)
+			Console.Write(" " + ch);
+			Console.WriteLine();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Введите целое положительное число :rws&lt;ENTER&gt;
+
+	Введите целое положительное число: 975310&lt;ENTER&gt;
+
+	Цифры числа: 9 7 5 3 1 0
+	</pre>
+
+	<p>В программе int number – число, вводимое пользователем.</p>
+	<p>Для чтения и последующего преобразования введённой последовательности цифр в числовое значение используются уже известные нам статические методы Console.ReadLine() и int.TryParse().</p>
+	<p>Переменная int len в объявлении получает значение количества цифр во введённом числе.</p>
+	<p>Она определяет длину символьного массива, адресуемого ссылкой ciphers.</p>
+	<p>Переменная int figure последовательно принимает значения цифр числа.</p>
+	<p>Переменная int i служит индексом при записи в массив изображений цифр.</p>
+	<p>Обратите внимание на выражение (char)(figure+'0').</p>
+	<p>В скобках выполняется сложение значения цифры (переменная figure) с кодом символа '0'.</p>
+	<p>Тем самым формируется числовой код символа, соответствующего значению цифры.</p>
+	<p>Так как элементы массива имеют тип char, то необходимо явное приведение типа (char).</p>
+	<p>После записи изображения каждой цифры в массив, индекс i уменьшается на 1.</p>
+	<p>Цикл foreach осуществляет прямой перебор массива ciphers[], и цифры на экран выводятся в правильном порядке.</p>
+	<p>Результаты выполнения программы иллюстрируют сказанное.</p>
+	<p>Итак, мы убедились, что размер массива можно выбрать до его определения.</p>
+	<p>Однако как только массив (объект класса массивов) определён, его размер изменить невозможно.</p>
+	<p>Если размер нужно увеличить или уменьшить приходится сначала создать новый массив нужных размеров, потом копировать в него значения элементов имеющегося массива и уничтожить этот старый массив.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="30.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/29.html", "Одномерные массивы", "bm116"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm116", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm116") == 1) { document.getElementById("bma116").style.display = "block"; document.getElementById("bm116").style.display = "none"; } else { document.getElementById("bma116").style.display = "none"; document.getElementById("bm116").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Одномерные массивы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm116", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

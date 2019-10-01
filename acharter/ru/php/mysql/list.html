@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/achart.css" />
+    <title>Coder Book menu</title>
+</head>
+
+<body id="pageBody">
+    <div id="menuHeadMinList">
+        <div id="headLineMenuList" style="background: #939393;">
+            <a id="backButtonMenu" href="../ch.html" ontouchstart="return true;">
+                <img src="../../../../img/menu/backcopy.png" id="backButtonMenuImg" />
+            </a>
+            <div id="windowTitleList">
+                PHP и MySQL
+            </div>
+        </div>
+    </div>
+
+    <div id="chartersList">
+
+        <div id="InfoMenuButtonsList">
+            <a href="tutorial1.html" onclick="localStorage.setItem('2php1', 1);">
+                <div id="line" name="infoMenuLink" ontouchstart="return true;">
+                    <div id="num" name="num">1.</div>
+                    <div id="tit" name="tit">Основная информация о MySQL</div>
+                </div>
+            </a>
+            <div class="bmEdit" onclick="dellBm897();" id="bma897" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm897();" id="bm897" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+            <div class="readed" id="2php1" style="display: none;"></div>
+            
+            <a href="tutorial2.html" onclick="localStorage.setItem('2php2', 1);">
+                <div id="line" name="infoMenuLink" ontouchstart="return true;">
+                    <div id="num" name="num">2.</div>
+                    <div id="tit" name="tit">Поля и их типы в MySQL</div>
+                </div>
+            </a>
+            <div class="bmEdit" onclick="dellBm898();" id="bma898" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm898();" id="bm898" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+            <div class="readed" id="2php2" style="display: none;"></div>
+            
+            <a href="tutorial3.html" onclick="localStorage.setItem('2php3', 1);">
+                <div id="line" name="infoMenuLink" ontouchstart="return true;">
+                    <div id="num" name="num">3.</div>
+                    <div id="tit" name="tit">Операторы и команды MySQL</div>
+                </div>
+            </a>
+            <div class="bmEdit" onclick="dellBm899();" id="bma899" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm899();" id="bm899" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+            <div class="readed" id="2php3" style="display: none;"></div>
+            
+            <a href="tutorial4.html" onclick="localStorage.setItem('2php4', 1);">
+                <div id="line" name="infoMenuLink" ontouchstart="return true;">
+                    <div id="num" name="num">4.</div>
+                    <div id="tit" name="tit">Функции PHP для MySQL</div>
+                </div>
+            </a>
+            <div class="bmEdit" onclick="dellBm900();" id="bma900" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm900();" id="bm900" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+            <div class="readed" id="2php4" style="display: none;"></div>
+            
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { localStorage.setItem("fSize", 16); }
+        document.getElementById("windowTitleList").style.fontSize = (localStorage.getItem("fSize") - (-2)) + "px";
+        var fsText = document.getElementsByName("infoMenuLink");
+        for(var i=0;i<fsText.length;i++) { fsText[i].style.fontSize = localStorage.getItem("fSize") + "px"; }
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = '../ch.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                //change colors
+                document.getElementById("headLineMenuList").style.backgroundColor = localStorage.getItem("#939393");
+
+                var vrows = document.getElementsByName("infoMenuLink");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#404040"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#888888');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                //change colors
+                document.getElementById("headLineMenuList").style.backgroundColor = localStorage.getItem("#000000");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+
+                var vrows = document.getElementsByName("infoMenuLink");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#efefef"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#000000');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                //change colors
+                document.getElementById("headLineMenuList").style.backgroundColor = localStorage.getItem("#6f6654");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+
+                var vrows = document.getElementsByName("infoMenuLink");
+                for(var i=0;i<vrows.length;i++) { vrows[i].style.color = localStorage.getItem("#484746"); }
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#5d5547');});
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names1 = ["../acharter/ru/php/mysql/tutorial1.html", "Основная информация о MySQL", "bm897"];
+        var names2 = ["../acharter/ru/php/mysql/tutorial2.html", "Поля и их типы в MySQL", "bm898"];
+        var names3 = ["../acharter/ru/php/mysql/tutorial3.html", "Операторы и команды MySQL", "bm899"];
+        var names4 = ["../acharter/ru/php/mysql/tutorial4.html", "Функции PHP для MySQL", "bm900"];
+
+        function setzBm897() { arrs.push(names1); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm897", 1); RefBms(); }
+        function setzBm898() { arrs.push(names2); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm898", 1); RefBms(); }
+        function setzBm899() { arrs.push(names3); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm899", 1); RefBms(); }
+        function setzBm900() { arrs.push(names4); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm900", 1); RefBms(); }
+
+        window.onload = function()
+        {
+            RefBms();
+
+            // readed
+            if (localStorage.getItem("2php1") == 1) { document.getElementById("2php1").style.display = "block"; }
+            if (localStorage.getItem("2php2") == 1) { document.getElementById("2php2").style.display = "block"; }
+            if (localStorage.getItem("2php3") == 1) { document.getElementById("2php3").style.display = "block"; }
+            if (localStorage.getItem("2php4") == 1) { document.getElementById("2php4").style.display = "block"; }
+        }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm897") == 1) { document.getElementById("bma897").style.display = "block"; document.getElementById("bm897").style.display = "none"; } else { document.getElementById("bma897").style.display = "none"; document.getElementById("bm897").style.display = "block"; }
+            if (localStorage.getItem("bm898") == 1) { document.getElementById("bma898").style.display = "block"; document.getElementById("bm898").style.display = "none"; } else { document.getElementById("bma898").style.display = "none"; document.getElementById("bm898").style.display = "block"; }
+            if (localStorage.getItem("bm899") == 1) { document.getElementById("bma899").style.display = "block"; document.getElementById("bm899").style.display = "none"; } else { document.getElementById("bma899").style.display = "none"; document.getElementById("bm899").style.display = "block"; }
+            if (localStorage.getItem("bm900") == 1) { document.getElementById("bma900").style.display = "block"; document.getElementById("bm900").style.display = "none"; } else { document.getElementById("bma900").style.display = "none"; document.getElementById("bm900").style.display = "block"; }
+
+        }
+
+        function dellBm897() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Основная информация о MySQL") == 1) { arrs.splice(i, 1); localStorage.setItem("bm897", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+        function dellBm898() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Поля и их типы в MySQL") == 1) { arrs.splice(i, 1); localStorage.setItem("bm898", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+        function dellBm899() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Операторы и команды MySQL") == 1) { arrs.splice(i, 1); localStorage.setItem("bm899", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+        function dellBm900() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Функции PHP для MySQL") == 1) { arrs.splice(i, 1); localStorage.setItem("bm900", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+    </script>
+
+</body>
+</html>

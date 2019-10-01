@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma854" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm854" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Константы в PHP
+	</h1>
+	
+	<p>Когда не нужно менять заданное значение для переменной, то имеет смысл создать константу и потом использовать ее в любой части скрипта.</p>
+	<p>Для описания константы используют функцию define, которой передается ее имя и значение, например:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			define("pi", 3.14);
+		?&gt;
+	</pre>
+	
+	<p>Имя константы нужно всегда заключать в кавычки, а ее значение только тогда когда оно является строкой.</p>
+	<p>Пример использования константы:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			define("pi", 3.14); 
+			echo "Математическая константа Пи равняется ", pi;
+		?&gt;
+	</pre>
+	
+	<div class="button">Отображение в браузере:</div>
+	<div class="codeResult">
+		<p>Математическая константа Пи равняется 3.14</p>
+	</div>
+	
+	<p>Попытка изменения константы приведет к неработоспособности скрипта!</p> 
+	<p>В качестве имени константы нельзя использовать зарезервированные слова в PHP, которые описанные ниже:</p>
+	
+	<h1 id="title">
+		__LINE__ - Номер текущей строки скрипта
+	</h1>
+	
+	<p>- global</p>
+	<p>- if</p>
+	<p>- include</p>
+	<p>- include_once</p>
+	<p>- isset</p>
+	<p>- list</p>
+	<p>- new</p>
+	<p>- old_function</p>
+	<p>- or</p>
+	<p>- php_user_filter</p>
+	
+	<h1 id="title">
+		__FILE__ - Полное имя файла текущего скрипта
+	</h1>
+
+	<p>- default</p>
+	<p>- die</p>
+	<p>- do</p>
+	<p>- echo</p>
+	<p>- else</p>
+	<p>- elseif</p>
+	<p>- empty</p>
+	<p>- enddeclare</p>
+	<p>- endfor</p>
+	<p>- endforeach</p>
+	
+	<h1 id="title">
+		__FUNCTION__ - Имя текущей исполняемой функции
+	</h1>
+	
+	<p>- endif</p>
+	<p>- endswitch</p>
+	<p>- endwhile</p>
+	<p>- eval</p>
+	<p>- exception</p>
+	<p>- exit</p>
+	<p>- extends</p>
+	<p>- for</p>
+	<p>- foreach</p>
+	<p>- function</p>
+	
+	<h1 id="title">
+		__CLASS__ - Имя текущего класса
+	</h1>
+	
+	<p>- print</p>
+	<p>- require</p>
+	<p>- require_once</p>
+	<p>- return</p>
+	<p>- static</p>
+	<p>- switch</p>
+	<p>- unset</p>
+	<p>- use</p>
+	<p>- while</p>
+	<p>- xor</p>
+	
+	<p><b>PHP_VERSION</b> - Версия PHP</p>
+	<p><b>PHP_OS</b> - Операционная система под управлением которой работает PHP</p>
+	<p><b>DEFAULT_INNCLUE_PATH</b> - Список путей, в которых PHP ищет подключаемые файлы</p>
+	
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/php/book/7.html", "Константы в PHP", "bm854"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm854", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm854") == 1) { document.getElementById("bma854").style.display = "block"; document.getElementById("bm854").style.display = "none"; } else { document.getElementById("bma854").style.display = "none"; document.getElementById("bm854").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Константы в PHP") == 1) { arrs.splice(i, 1); localStorage.setItem("bm854", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

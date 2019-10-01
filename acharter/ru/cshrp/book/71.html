@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma158" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm158" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Включение объектов классов
+	</h1>
+
+	<p>В соответствии с основной задачей, решаемой при проектировании программы, входящие в нее классы могут находиться в разных отношениях.</p>
+	<p>Наиболее простое – отношение независимости классов, то есть независимости порождаемых ими объектов.</p>
+	<p>Более сложное – отношение включения, для которого используют названия "имеет" (has-a) и "включает", иначе "является частью" (is-partof).</p>
+	<p>В теории объектно-ориентированного анализа различают две формы отношения включения – композицию и агрегацию.</p>
+	<p>При отношении композиции объекты одного класса или нескольких разных классов входят как поля в объект другого (включающего) класса.</p>
+	<p>Таким образом включенные объекты не существуют без включающего их объекта.</p>
+	<p>При отношении агрегации объект одного класса объединяет уже существующие объекты других классов.</p>
+	<p>То есть и включающий объект, и включаемые в него объекты существуют в некотором смысле самостоятельно.</p>
+	<p>При уничтожении включающего объекта входившие в него объекты сохраняются.</p>
+	<p>Рассмотрим на примерах особенности реализации на языке C# отношений композиции и агрегации.</p>
+	<p>Определим (программа 13_01.cs) класс "точка на плоскости":</p>
+
+	<pre class="brush: csharp;">
+	class Point
+	{
+		double x, y;
+		public double X { get { return x; } set { x = value; } }
+		public double Y { get { return y; } set { y = value; } }
+	}
+	</pre>
+
+	<p>В классе закрытые поля double x, y определяют координаты точки.</p>
+	<p>Свойства X и Y обеспечивают удобный доступ к координатам точки, представленной объектом класса Рoint.</p>
+	<p>В классе Рoint нет явно определенного конструктора, и компилятор добавляет конструктор умолчания – открытый конструктор без параметров.</p>
+	<p>Координаты создаваемой точки по умолчанию получают нулевые значения.</p>
+	<p>Объекты класса Рoint можно по-разному включать в более сложные классы.</p>
+	<p>Возьмем в качестве такого включающего класса класс Сircle, объект которого представляет "окружность на плоскости".</p>
+	<p>Объект класса Рoint (точку) будем использовать в качестве центра окружности.</p>
+	<p>Начнем с композиции классов и, отложив объяснения, дадим такое определение класса:</p>
+
+	<pre class="brush: csharp;">
+	class Сircle
+	{
+		// Закрытые поля:
+		// радиус окружности
+		double rad;
+		// центр окружности
+		Рoint centre = new Рoint();
+		// свойство для радиуса окружности:
+		public double Rad { get { return rad; }
+		set { rad = value; } }
+		// свойство для значения длины окружности:
+		public double Len { get { return 2*rad*Math.PI; } }
+		// свойство для центра окружности:
+		public Рoint Centre { get { return centre; }
+		set { centre = value; } }
+		public void display()
+		{
+			Console.WriteLine("Centre: X={0}, Y={1};"+" Radius={2},
+			Length={3, 6:f2}",
+			centre.X, centre.Y, this.rad, Len);
+		}
+	}
+	</pre>
+
+	<p>В классе Circle два закрытых поля: double rad – радиус окружности и Point centre – ссылка на объект класса Point.</p>
+	<p>Для инициализации этой ссылки используется выражение с операцией new, в котором выполняется явное обращение к конструктору класса Рoint.</p>
+	<p>Тем самым при создании каждого объекта "окружность" всегда создается в виде его поля объект "точка", определяющий центр окружности.</p>
+	<p>Три открытых свойства обеспечивают доступ к характеристикам объекта- окружности: Rad – радиус окружности, Len – длина окружности, Centre – центр окружности.</p>
+	<p>В классе определен открытый метод display(), выводящий координаты центра и значения других характеристик объекта, представляющего окружность.</p>
+	<p>Так как в классе Circle нет явно определенных конструкторов, то неявно создается конструктор без параметров, и поля определяемого с его помощью объекта получают значения по умолчанию.</p>
+	<p>В следующей программе создан объект класса Circle.</p>
+	<p>Затем с помощью свойств классов Circle и Point изменены значения его полей.</p>
+	<p>Метод display() выводит сведения о характеристиках объекта.</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		Circle rim = new Circle();
+		rim.Centre.X = 10;
+		rim.Centre.Y = 20;
+		rim.Rad = 3.0;
+		rim.display();
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Centre: X=10, Y=20; Radius=3, Length= 18,85
+	</pre>
+
+	<p>Основное, на что следует обратить внимание, – в программе нет отдельно существующего объекта класса Point.</p>
+	<p>Именно это является основным признаком композиции классов.</p>
+	<p>Объект класса Point явно создаётся только при создании объекта класса Circle.</p>
+	<p>Не изменяя класс Рoint, можно следующим образом построить класс "окружность на плоскости", используя агрегацию классов (программа 13_2.cs):</p>
+
+	<pre class="brush: csharp;">
+	class Сircle
+	{
+		// Закрытые поля:
+		// радиус окружности
+		double rad;
+		// ссылка без инициализации
+		Рoint centre;
+		// конструктор
+		public Сircle(Рoint p, double rd)
+		{
+			centre = p;
+			rad = rd;
+		}
+		public double Rad { ... }
+		public double Len { ... }
+		public Рoint Centre { ... }
+		public void display() { ... }
+	}
+	</pre>
+
+	<p>В тексте нового класса Сircle показаны полностью только объявления полей и конструктор, первый параметр которого – ссылка на объект класса Рoint.</p>
+	<p>Свойства и метод display() остались без изменений.</p>
+	<p>При таком измененном определении класса Сircle для создания его объекта необходимо, чтобы уже существовал объект класса Рoint, с помощью которого в объекте будет определено значение поля centre.</p>
+	<p>В следующей программе (в методе Main) создан объект класса Рoint.</p>
+	<p>Затем с помощью свойств X и Y изменены значения его полей.</p>
+	<p>На основе этого объекта конструктор класса Сircle формирует объект "окружность на плоскости".</p>
+	<p>Метод display() выводит сведения о характеристиках построенного объекта.</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		Рoint pt = new Рoint();
+		pt.X = 10;
+		pt.Y = 20;
+		Сircle rim = new Сircle(pt,10);
+		rim.display();
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Centre: X=10, Y=20;
+	Radius=10,
+	Length=62,83
+	</pre>
+
+	<p>В отличие от композиции при агрегации в классе Сircle нет явной инициализации поля centre.</p>
+	<p>Для обеспечения включения объекта класса Рoint в объект класса Сircle в классе Сircle явно определен конструктор, одним из параметров которого служит ссылка на объект класса Рoint.</p>
+	<p>В теле конструктора значение этой ссылки присваивается полю centre класса Сircle.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="70.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="72.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/71.html", "Включение объектов", "bm158"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm158", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm158") == 1) { document.getElementById("bma158").style.display = "block"; document.getElementById("bm158").style.display = "none"; } else { document.getElementById("bma158").style.display = "none"; document.getElementById("bm158").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Включение объектов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm158", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma169" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm169" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Интерфейс как тип
+	</h1>
+
+	<p>Несмотря на то, что нельзя создавать экземпляры (объекты) интерфейсов, но интерфейс как и класс в языке C# является ссылочным типом.</p>
+	<p>Подобно тому, как можно объявлять ссылку, имеющую тип абстрактного класса, разрешено объявлять ссылку с типом интерфейса.</p>
+	<p>Такая ссылка может быть равноправно связана с объектом любого класса, который реализовал данный интерфейс.</p>
+	<p>С помощью такой ссылки возможно получить доступ ко всем членам класса, реализующим соответствующие члены интерфейса.</p>
+	<p>Однако ссылка с типом интерфейса не позволяет получить доступ к членам класса, которые отсутствовали в интерфейсе, но были добавлены в класс, реализующий интерфейс.</p>
+	<p>Интерфейс как тип может специфицировать параметр метода, может определять тип возвращаемого методом значения, может определять тип элементов массива.</p>
+	<p>Рассмотрим эти возможности на иллюстративных примерах.</p>
+	<p>Определим интерфейс, специфицирующий средства обработки геометрических фигур:</p>
+
+	<pre class="brush: csharp;">
+	// интерфейс геометрической фигуры
+	interface IGeo
+	{
+		// преобразовать размеры
+		void transform(double coef);
+		// вывести характеристики
+		void display();
+	}
+	</pre>
+
+	<p>В приведённом интерфейсе нет сведений о конкретных особенностях тех геометрических фигур, классы которых могут реализовать IGeo.</p>
+	<p>Например, ничего не ограничивает размерность пространства, в котором определены фигуры.</p>
+	<p>Возможности преобразований фигур с помощью реализаций метода transform() могут быть достаточно произвольными.</p>
+	<p>Самыми разными могут быть сведения о фигурах, выводимые реализациями метода display().</p>
+	<p>Определим два класса, реализующих интерфейс IGeo: Circle – круг и Cube – куб.</p>
+	<p>Поле double rad в классе Circle – это радиус круга.</p>
+	<p>Поле double rib в классе Cube – ребро куба.</p>
+	<p>Реализация метода transform() в обоих классах изменяют линейные размеры (rad и rib) в заданное параметром число раз.</p>
+	<p>Чтобы продемонстрировать применимость интерфейсной ссылки в качестве параметра, определим статическую функцию report(), из тела которой выполняется обращение к реализации метода display().</p>
+	<p>Указанным соглашениям соответствует следующая программа:</p>
+
+	<pre class="brush: csharp;">
+	// 14_03.cs - интерфейсные ссылки
+	using System;
+	// интерфейс геометрической фигуры
+	interface IGeo
+	{
+		// преобразовать размеры
+		void transform(double coef);
+		// вывести характеристики
+		void display();
+	}
+
+	// круг
+	class Circle : IGeo
+	{
+		// радиус круга
+		double rad = 1;
+		public void transform(double coef) { rad *= coef; }
+		public void display()
+		{
+			Console.WriteLine("Площадь круга: {0:G4}", Math.PI*rad*rad);
+		}
+	}
+
+	// куб
+	class Cube : IGeo
+	{
+		// ребро куба
+		double rib = 1;
+		public void transform(double coef) { rib *= coef; }
+		public void display()
+		{
+			Console.WriteLine("Объем куба: {0:G4}", rib * rib * rib);
+		}
+	}
+	
+	class Program
+	{
+		public static void report(IGeo g)
+		{
+			Console.WriteLine("Данные объекта класса {0}:", g.GetType()); g.display();
+		}
+		public static void Main()
+		{
+			Circle cir = new Circle();
+			report(cir);
+			Cube cub = new Cube();
+			report(cub);
+			IGeo ira = cir;
+			report(ira);
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Данные объекта класса Circle:
+	Площадь круга: 3,142
+	Данные объекта класса Cube:
+	Объем куба: 1
+	Данные объекта класса Circle:
+	Площадь круга: 3,142
+	</pre>
+
+	<p>Обратим внимание на статистический метод report().</p>
+	<p>Его параметр g – ссылка с типом интерфейса IGeo.</p>
+	<p>Выражение g.GetType() в теле метода report() позволяет получить имя класса, ссылка на который используется в качестве аргумента при обращении к методу report().</p>
+	<p>Оператор g.display() обеспечивает вызов той реализации метода display(), которая соответствует типу аргумента.</p>
+	<p>Использование интерфейсной ссылки в качестве параметра позволяет применять метод report() для обработки объектов любых классов, которые реализовали интерфейс IGeo.</p>
+	<p>Код метода Main() иллюстрирует сказанное.</p>
+	<p>В нём определены два объекта классов Circle и Cube и ассоциированные с ними ссылки cir, cub.</p>
+	<p>Их использование в качестве аргументов метода report() приводит к вызовам методов display() из соответствующих классов.</p>
+	<p>Это подтверждают результаты выполнения программ.</p>
+	<p>Обратить внимание на последние две строки тела функции Main().</p>
+	<p>Определена ссылка ira с типом интерфейса IGeo, которой затем присвоено значение ссылки на объект класса Circle.</p>
+	<p>Это очень важная особенность – интерфейсной ссылке можно присвоить ссылку на объект любого класса, который реализовал данный интерфейс.</p>
+	<p>В теле метода report() аргумент в этом случае воспринимается как имеющий тип класса Circle, реализовавшего интерфейс IGeo.</p>
+	<p>Остановимся на этом подробнее.</p>
+	<p>Ссылка IGeo ira при объявлении имеет тип интерфейса, а после присваивания ira=cir ссылка ira получает тип класса Circle.</p>
+	<p>Таким образом, наша программа иллюстрирует различие между объявленным типом ссылки и её типом времени исполнения.</p>
+	<p>О таком различии говорят как о статическом и динамическом типах одной и той же переменной.</p>
+	<p>Несмотря на то, что параметр метода report() специфицирован как ссылка типа IGeo и ссылка ira типа IGeo использована в качестве аргумента, вызов базируется на типе времени исполнения и выполняется обращение к объекту класса Circle.</p>
+	<p>Такая возможность называется поздним иначе динамическим связыванием.</p>
+	<p>Решение о том, какой метод вызывать, принимается при позднем связывании на основе типа времени исполнения.</p>
+	<p>В противоположность этому, стратегия использования объявленного типа называется ранним или статическим связыванием.</p>
+	<p>Применение в качестве параметров и аргументов интерфейсных ссылок и ссылок с типом базового класса (при наличии виртуальных членов) обеспечивает позднее (динамическое) связывание.</p>
+	<p>Позднее связывание – одно из проявлений полиморфизма в языке C#.</p>
+	<p>Чтобы продемонстрировать другие возможности применения интерфейсных ссылок, используем без изменений ещё раз интерфейс IGeo и реализующие его классы Circle и Cube.</p>
+	<p>В класс Program добавим статический метод:</p>
+
+	<pre class="brush: csharp;">
+	public static IGeo mapping(IGeo g, double d)
+	{
+		g.transform(d);
+		return g;
+	}
+	</pre>
+
+	<p>Первый параметр – ссылка с типом интерфейса.</p>
+	<p>Метод, получив в качестве первого аргумента ссылку на конкретный объект, изменяет его линейные размеры и возвращает в качестве результата ссылку на изменённый объект.</p>
+	<p>Второй параметр – коэффициент изменения линейных размеров.</p>
+	<p>Используем методы mapping() и report() следующим образом (программа 14_04.cs):</p>
+
+	<pre class="brush: csharp;">
+	public static void Main( )
+	{
+		// единичный радиус
+		IGeo ira = new Circle( );
+		report(ira);
+		ira.transform(3);
+		report(ira);
+		ira = mapping(new Cube( ), 2);
+		report(ira);
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Данные объекта класса Circle:
+	Площадь круга: 3,142
+	Данные объекта класса Circle:
+	Площадь круга: 28,27
+	Данные объекта класса Cube:
+	Объем куба: 8
+	</pre>
+
+	<p>В методе Main( ) ссылка ira с объявленным типом IGeo связана с объектом класса Circle, который она "представляет" в обращениях к статическому методу report( ) и в вызове нестатического метода transform().</p>
+	<p>Первый аргумент метода mapping( ) – вновь созданный объект класса Cube.</p>
+	<p>По умолчанию у этого объекта- куба ребро равно 1.</p>
+	<p>Результат выполнения статического метода mapping() присваивается ссылке ira, после чего она ассоциирована с изменённым объектом класса Cube.</p>
+	<p>Во всех использованиях интерфейсной ссылки ira проявляется её динамический тип, и этот тип не остаётся постоянным во время исполнения программы.</p>
+	<p>Результаты выполнения программы дополняют сказанное.</p>
+	<p>Так как интерфейс является типом, то можно определять массивы с элементами, имеющими тип интерфейса.</p>
+	<p>Элементам такого массива можно присваивать как значения интерфейсных ссылок, так и значения ссылок на объекты любых классов, реализующих данный интерфейс.</p>
+	<p>В следующей программе (14_05.cs) определён массив типа IGeo[ ] и именующая его ссылка iarray.</p>
+	<p>Элементам массива присваиваются значения ссылок на объекты классов Circle и Cube.</p>
+	<p>Код без объявлений интерфейса, классов и статических методов report() и mapping():</p>
+
+	<pre class="brush: csharp;">
+	public static void Main()
+	{
+		IGeo[ ] iarray = new IGeo[4];
+		IGeo ira = new Circle();
+		iarray[0] = ira;
+		ira.transform(3);
+		iarray[1] = ira;
+		ira = mapping(new Cube( ), 2);
+		iarray[2] = ira;
+		iarray[3] = new Circle( );
+		foreach(IGeo obj in iarray)
+		report(obj);
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Данные объекта класса Circle:
+	Площадь круга: 28,27
+	Данные объекта класса Circle:
+	Площадь круга: 28,27
+	Данные объекта класса Cube:
+	Объем куба: 8
+	Данные объекта класса Circle:
+	Площадь круга: 3,142
+	</pre>
+
+	<p>В методе Main( ) элементам массива присвоены ссылки на объекты разных классов.</p>
+	<p>Затем в операторе foreach с помощью ссылки типа IGeo перебираются значения всех элементов массива и для каждого из них вызывается статический метод report().</p>
+	<p>Обратим внимание на выводимые результаты и последовательность присваивания значений элементам массива.</p>
+	<p>Ссылка IGeo ira при объявлении адресует объект класса Circle, и её значение присвоено элементу iarray[0].</p>
+	<p>Затем оператор ira.transform(3) изменяет объект, связанный со ссылкой ira, и её значение присваивается элементу iarray[1].</p>
+	<p>Таким образом значения элементов iarray[0] и iarray[1] равны и оба элемента адресуют уже изменённый объект класса Circle.</p>
+	<p>Оператор <b>ira=mapping(new Cube(),2);</b> присваивает интерфейсной ссылке ira адрес модифицированного объекта класса Cube.</p>
+	<p>После этого присваивается значение элементу iarray[2].</p>
+	<p>Наконец элементу iarray[3] присваивается ссылка на новый объект класса Circle.</p>
+	<p>Таким образом, в программе определены 3 объекта, адресуемые четырьмя элементами массива.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="81.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="83.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/82.html", "Интерфейс как тип", "bm169"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm169", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm169") == 1) { document.getElementById("bma169").style.display = "block"; document.getElementById("bm169").style.display = "none"; } else { document.getElementById("bma169").style.display = "none"; document.getElementById("bm169").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Интерфейс как тип") == 1) { arrs.splice(i, 1); localStorage.setItem("bm169", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1378" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1378" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Собираем всё вместе
+    </h1>
+    
+    <p>Мы рассмотрели несколько различных видов объектов (числа и буквы), мы создавали переменные, указывающие на них; а следующее, что мы хотим сделать — заставить их всех дружно работать вместе.</p>
+    <p>Мы уже знаем, что если мы хотим, чтобы программа напечатала 25, то следующий код не будет работать, поскольку нельзя складывать числа и строки:</p>
+
+    <pre class="brush: csharp;">
+    var1 = 2
+    var2 = '5'
+
+    puts var1 + var2
+    </pre>
+
+    <p>Частично трудность заключается в том, что ваш компьютер не знает, пытаетесь ли вы получить 7 (2 + 5), или вы хотите получить 25 ('2' + '5').</p>
+    <p>Прежде чем мы сможем сложить их вместе, нам нужно каким-то образом получить строковую версию значения var1 или целочисленную версию значения var2.</p>
+
+    <h2 id="title">
+        Преобразования
+    </h2>
+    
+    <p>Чтобы получить строковую версию объекта, мы просто записываем после него .to_s:</p>
+
+    <pre class="brush: csharp;">
+    var1 = 2
+    var2 = '5'
+
+    puts var1.to_s + var2
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+        25
+    .
+    </pre>
+
+    <p>Подобным же образом to_i возвращает целочисленную версию значения объекта, а to_f возвращает плавающую версию.</p>
+    <p>Давайте взглянем на то, что эти три метода делают (и что не делают) чуть более пристально:</p>
+
+    <pre class="brush: csharp;">
+    var1 = 2
+    var2 = '5'
+
+    puts var1.to_s + var2
+    puts var1 + var2.to_i
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    25
+    7
+    </pre>
+
+    <p>Обратите внимание, что даже после того, как мы получили строковую версию var1, вызвав to_s, переменная var1 продолжает постоянно указывать на 2, и никогда — на '2'.</p>
+    <p>До тех пор, пока мы явно не переприсвоим значение var1 (что требует применение знака  =), она будет указывать на 2 до конца работы программы.</p>
+    <p>А теперь давайте испробуем несколько более интересных (и несколько просто-таки странных) преобразований:</p>
+
+    <pre class="brush: csharp;">
+    puts '15'.to_f
+    puts '99.999'.to_f
+    puts '99.999'.to_i
+    puts ''
+    puts '5 - это моё любимое число!'.to_i
+    puts 'Кто вас спрашивал о 5 или о чём-нибудь подобном?'.to_i
+    puts 'Ваша мамочка.'.to_f
+    puts ''
+    puts 'строковое'.to_s
+    puts 3.to_i
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    15.0
+    99.999
+    99
+
+    5
+    0
+    0.0
+
+    строковое
+    3
+    </pre>
+
+    <p>Итак, это, возможно, вызвало у вас некоторое удивление.</p>
+    <p>Первый пример весьма обычен и даёт в результате 15.0.</p>
+    <p>После этого мы преобразовали строку '99.999' в число с плавающей точкой и в целое.</p>
+    <p>Плавающее получилось таким, как мы и ожидали; целое было, как всегда, округлено.</p>
+    <p>Далее, у нас было несколько примеров, когда несколько ... необычных строк преобразовывались в числа.</p>
+    <p>to_i игнорирует всё, начиная с первой конструкции, которая не распознана как число, и далее до конца строки.</p>
+    <p>Таким образом, первая строка была преобразована в 5, а остальные, поскольку они начинались с букв, были полностью проигнорированы, так что компьютер вывел только ноль.</p>
+    <p>Наконец, мы увидели, что последние два наших преобразования не изменили ровным счётом ничего — в точности, как мы и предполагали.</p>
+
+    <h2 id="title">
+        Другой взгляд на puts
+    </h2>
+
+    <p>Есть что-то странное в нашем любимом методе...</p>
+    <p>Посмотрите-ка вот на это:</p>
+
+    <pre class="brush: csharp;">
+    puts 20
+    puts 20.to_s
+    puts '20'
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    20
+    20
+    20
+    </pre>
+
+    <p>Почему эти три вызова puts выводят одно и то же?</p>
+    <p>Ну, положим, последние два так и должны выводить, поскольку 20.to_s и есть '20'.</p>
+    <p>А как насчёт первого, с целым числом 20?</p>
+    <p>Собственно говоря, что же это значит: написать целое число 20?</p>
+    <p>Когда вы пишете 2, а затем 0 на листе бумаги, вы записываете строку, а не целое.</p>
+    <p>Число 20 — это количество пальцев у меня на руках и ногах; это не 2 с последующим 0.</p>
+    <p>Что ж, у нашего знакомого, puts, есть большой секрет: прежде, чем метод puts пытается вывести объект, он использует to_s, чтобы получить строковую версию этого объекта.</p>
+    <p>Фактически, s в слове puts обозначает string; puts на самом деле значит put string ["вывести строку" — Прим. перев.].</p>
+    <p>Сейчас это может показаться не слишком впечатляющим, но в Ruby есть много, много разнообразных объектов (вы даже научитесь создавать собственные объекты!), и было бы неплохо узнать, что произойдёт, если вы попытаетесь вывести с помощью puts действительно причудливый объект, например, фотографию вашей бабушки, музыкальный файл или что-нибудь ещё. Но об этом позже...</p>
+    <p>А тем временем, у нас есть для вас ещё несколько методов, и они позволят нам писать разнообразные забавные программы...</p>
+    
+    <h2 id="title">
+        Методы gets и chomp
+    </h2>
+    
+    <p>Если puts обозначает put string, уверен, что вы догадаетесь, что обозначает gets.</p>
+    <p>И так же, как puts всегда "выплёвывает" строки, gets считывает только строки.</p>
+    <p>А откуда он берёт их?</p>
+    <p>От вас!</p>
+    <p>Ну, по крайней мере, с вашей клавиатуры.</p>
+    <p>Так как ваша клавиатура может производить только строки, всё это прекрасно работает.</p>
+    <p>В действительности происходит вот что: gets просто сидит себе и считывает всё, что вы вводите, пока вы не нажмёте Enter.</p>
+    <p>Давайте попробуем:</p>
+
+    <pre class="brush: csharp;">
+    puts gets
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    Здесь есть эхо?
+    Здесь есть эхо?
+    </pre>
+
+    <p>Конечно же, что бы вы ни вводили с клавиатуры, будет просто выведено вам обратно.</p>
+    <p>Выполните пример несколько раз и попробуйте вводить разные строки.</p>
+    <p>Теперь мы можем делать интерактивные программы!</p>
+    <p>Например, эта, когда вы введёте своё имя, поприветствует вас:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Приветик, ну и как Вас зовут?'
+    name = gets
+    puts 'Вас зовут ' + name + '?  Какое прекрасное имя!'
+    puts 'Рад познакомиться с Вами, ' + name + '.  :)'
+    </pre>
+
+    <p>Ммм-да! Я только что выполнил её — я ввёл своё имя, и вот что получилось:</p>
+
+    <pre class="brush: csharp;">
+    Приветик, ну и как Вас зовут?
+    Chris
+    Вас зовут Chris 
+    ?  Какое прекрасное имя!
+    Рад познакомиться с Вами, Chris
+    .  :)
+    </pre>
+
+    <p>Хммм... похоже, когда я ввел буквы "К", "р", "и", "с" и затем нажал на Enter, gets воспринял все буквы моего имени и символ Enter!</p>
+    <p>К счастью, имеется метод как раз для подобных случаев: chomp.</p>
+    <p>Он убирает все символы Enter, которые "болтаются" в конце вашей строки.</p>
+    <p>Давайте снова проверим эту программу, но на сей раз призовём на помощь chomp:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Приветик, ну и как Вас зовут?'
+    name = gets.chomp
+    puts 'Вас зовут ' + name + '?  Какое прекрасное имя!'
+    puts 'Рад познакомиться с Вами, ' + name + '.  :)'
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    Приветик, ну и как Вас зовут?
+    Chris
+    Вас зовут Chris?  Какое прекрасное имя!
+    Рад познакомиться с Вами, Chris.  :)
+    </pre>
+
+    <p>Гораздо лучше!</p>
+    <p>Обратите внимание, что поскольку name указывает на <b>gets.chomp</b>, нам не требуется писать <b>name.chomp</b>; значение name уже было <b>chomp-нуто</b>.</p>
+
+    <h2 id="title">
+        Попробуйте ещё кое-что
+    </h2>
+    
+    <ul>
+        <li>Напишите программу, которая спрашивает у человека имя, затем отчество, затем фамилию. В результате она должна поприветствовать человека, называя его полным именем.</li>
+        <li>Напишите программу, которая спрашивает у человека его любимое число. Пусть ваша программа прибавит единицу к этому числу, а затем предложит результат в качестве большего и лучшего любимого числа. (Однако будьте при этом тактичными.)</li>
+    </ul>
+
+    <p>После того, как вы закончите эти две программы (и любые другие, которые вы пожелаете попробовать), давайте изучим ещё несколько методов (и узнаем о них ещё что-нибудь).</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/ruby/6.html", "Собираем всё вместе", "bm1378"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1378", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1378") == 1) { document.getElementById("bma1378").style.display = "block"; document.getElementById("bm1378").style.display = "none"; } else { document.getElementById("bma1378").style.display = "none"; document.getElementById("bm1378").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Собираем всё вместе") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1378", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

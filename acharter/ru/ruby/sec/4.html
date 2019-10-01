@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1342" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1342" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Указания и Хранение сессий
+    </h1>
+    
+    <h2 id="title">
+        Указания по сессии
+    </h2>
+    
+    <p>Вот несколько общих указаний по сессиям.</p>
+
+    <ul>
+        <li>Не храните большие объекты в сессии. Вместо этого следует хранить их в базе данных и сохранять в сессии их id. Это позволит избежать головной боли при синхронизации и не будет забивать место хранения сессии (в зависимости от того, какое хранение сессии было выбрано, смотрите ниже). Также будет хорошо, если вы вдруг измените структуру объекта, а старые его версии все еще будут в куки некоторых клиентов. Конечно, при хранении сессий на сервере вы сможете просто очистить сессии, но при хранении на клиенте это сильно помогает.</li>
+        <li>Критические данные не следует хранить в сессии. Если пользователь очищает куки или закрывает браузер, они потеряются. А в случае хранения сессии на клиенте, пользователь сможет прочесть данные.</li>
+    </ul>
+
+    <h2 id="title">
+        Хранение сессии
+    </h2>
+
+    <p>Rails предоставляет несколько механизмов хранения для хэшей сессии.</p>
+    <p>Наиболее важным является <b>ActionDispatch::Session::CookieStore</b>.</p>
+    <p>Rails 2 представил новый способ хранения сессии по умолчанию, CookieStore.</p>
+    <p>CookieStore сохраняет хэш сессии прямо в куки на стороне клиента.</p>
+    <p>Сервер получает хэш сессии из куки, и устраняется необходимость в ID сессии.</p>
+    <p>Это значительно увеличивает скорость приложения, но является спорным вариантом хранения, и вы должны подумать об условиях безопасности этого:</p>
+
+    <ul>
+        <li>Куки предполагают ограничение размера в 4kB. Это нормально, так как не нужно хранить большие объемы данных в сессии, о чем писалось ранее. Хранение id пользователя в сессии это обычно нормально.</li>
+        <li>Клиент может увидеть все, что вы храните в сессии, поскольку они хранятся чистым текстом (фактически кодированы Base64, но не зашифрованы). Поэтому, разумеется, вы не захотите хранить тут секретные данные. Для предотвращения фальсификации хэша сессии, из сессии рассчитывается дайджест с помощью серверного секретного ключа (secrets.secret_token) и вставляется в конец куки.</li>
+    </ul>
+
+    <p>В Rails 4 было введено шифрование куки через AES в режиме CBC с HMAC, используя SHA1 для проверки верификации.</p>
+    <p>Это предотвращает доступ и подделку содержимого куки пользователем.</p>
+    <p>Таким образом, куки становятся более безопасным местом для хранения данных.</p>
+    <p>Шифрование выполняется с помощью серверного <b>secret_key_base</b>.</p>
+    <p>Две соли используются при получении ключей для шифрования и верификации.</p>
+    <p>Эти соли устанавливаются через конфигурационные значения <b>config.action_dispatch.encrypted_cookie_salt</b> и <b>config.action_dispatch.encrypted_signed_cookie_salt</b>.</p>
+    <p>Rails 5.2 использует AES-GCM для шифрования, который объединяет аутентификацию и шифрование в один более быстрый шаг и создает более короткие шифротексты.</p>
+    <p>Зашифрованные куки автоматически обновляются, если включен <b>config.action_dispatch.use_authenticated_cookie_encryption</b>.</p>
+    <p>Не используйте банальный секретный ключ, т.е. слово из словаря, или короче 30 символов!</p>
+    <p>Вместо этого используйте rails secret для генерации секретных ключей!</p>
+    <p>В test и development средах приложения получают <b>secret_key_base</b> из имени приложения.</p>
+    <p>В других средах должен использоваться случайный ключ, присутствующий в <b>config/credentials.yml.enc</b>, показанный здесь в дешифрованном состоянии:</p>
+
+    <pre class="brush: csharp;">
+    secret_key_base: 492f...
+    </pre>
+
+    <p>Прежние версии Rails использовали CookieStore, который использовал <b>secret_token</b> вместо <b>secret_key_base</b>, используемого EncryptedCookieStore.</p>
+    <p>Подробнее читайте в документации по обновлению.</p>
+    <p>Если вам досталось приложение, в котором секретный ключ был скомпрометирован (т.е. приложение, исходники которого были в общем доступе), настоятельно рекомендуется изменить секретный ключ.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="3.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="5.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/4.html", "Указания и Хранение сессий", "bm1342"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1342", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1342") == 1) { document.getElementById("bma1342").style.display = "block"; document.getElementById("bm1342").style.display = "none"; } else { document.getElementById("bma1342").style.display = "none"; document.getElementById("bm1342").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Указания и Хранение сессий") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1342", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

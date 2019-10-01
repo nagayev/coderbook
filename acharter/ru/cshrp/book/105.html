@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma192" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm192" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Обобщённые структуры
+	</h1>
+
+	<p>Правила объявления и использования обобщенных структур не отличаются от правил для обобщенных классов.</p>
+	<p>Для обобщенных структур типизирующие параметры указываются в угловых скобках вслед за именем структурного типа.</p>
+	<p>Для типизирующих параметров могут быть указаны ограничения, а правила объявления ограничений те же, что и для классов.</p>
+	<p>Так как у обобщенных структур много общего с обобщенными классами, то рассмотрим здесь только те правила, о которых не говорилось в связи с классами (хотя эти правила общие и для классов и для структур).</p>
+	<p>Начнем с того, что обобщения и классов и структур допускают перегрузку.</p>
+	<p>Основой перегрузки является количество типизирующих параметров в объявлении одноименных типов.</p>
+	<p>При перегрузке обобщенных типов конкретный тип определяется по числу аргументов, использованных при инстанцировании.</p>
+	<p>Пример перегрузки обобщенных структур:</p>
+
+	<pre class="brush: csharp;">
+	struct Element&lt;D&gt;
+	{
+		public D memb;
+	}
+
+	struct Element&lt;E, R&gt;
+	{
+		public E memb1;
+		public R memb2;
+	}
+	</pre>
+
+	<p>В данном случае два открытых типа (два обобщенных структурных типа) имеют одинаковые имена, но разное количество типизирующих параметров.</p>
+	<p>Имена этих параметров не имеют значения при перегрузке.</p>
+	<p>Невозможно объявить в том же пространстве имен, например, обобщенную структуру с заголовком struct Element&lt;T, F&gt;.</p>
+	<p>Обобщенный тип называют открытым типом, а сконструированный на его основе полностью специфицированный тип – закрытым, подчеркивая, что на основе этого сконструированного типа уже нельзя объявлять другие типы.</p>
+	<p>Пример переменной и экземпляра структуры закрытого типа:</p>
+
+	<pre class="brush: csharp;">
+	Element&lt;int&gt; ded = new Element&lt;int&gt;();
+	Console.WriteLine("ded.memb = " + ded.memb);
+	</pre>
+
+	<p>Результат выполнения:</p>
+
+	<pre class="brush: csharp;">
+	ded.memb = 0
+	</pre>
+
+	<p>Как всегда по умолчанию члены структур инициализируются умалчиваемыми значениями соответствующих типов.</p>
+	<p>В нашем примере целочисленное поле структуры равно нулю.</p>
+	<p>Следует отметить, что обобщенный тип и одноименный с ним регулярный тип считаются разными типами.</p>
+	<p>Например, наряду с обобщенным классом Example&lt;U&gt; в той же программе можно декларировать такой регулярный класс:</p>
+
+	<pre class="brush: csharp;">
+	public class Example { }
+	</pre>
+
+	<p>Это не приведет к ошибочной ситуации.</p>
+	<p>Обобщенные типы могут включать статические члены.</p>
+	<p>В этих случаях каждый статический член обобщенного типа при создании сконструированных типов "размножается".</p>
+	<p>То есть каждому закрытому типу принадлежит свой экземпляр статического члена обобщенного типа.</p>
+	<p>Пример обобщённого типа структур со статическим членом:</p>
+
+	<pre class="brush: csharp;">
+	using System;
+	struct memb&lt;T&gt;
+	{
+		public static int count;
+		public T data;
+		public memb (T d)
+		{
+			data = d;
+			count++;
+		}
+	}
+
+	class Program
+	{
+		static void Main( )
+		{
+			memb&lt;char&gt; mc1 = new memb&lt;char&gt;('Z');
+			memb&lt;char&gt; mc2 = new memb&lt;char&gt;('F');
+			memb&lt;byte&gt; mb = new memb&lt;byte&gt;(12);
+			Console.WriteLine("memb&lt;char&gt;.count = " + memb&lt;char&gt;.count);
+			Console.WriteLine("memb&lt;byte&gt;.count = " + memb&lt;byte&gt;.count);
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	memb&lt;char&gt;.count = 2
+	memb&lt;byte&gt;.count = 1
+	</pre>
+
+	<p>В обобщенный тип структур memb&lt;T&gt; входит счетчик экземпляров</p>
+	<p><b>public static int count;</b></p>
+	<p>По умолчанию он инициализируется нулевым значением.</p>
+	<p>При каждом обращении к конструктору значение счетчика увеличивается на 1.</p>
+	<p>Тип поля данных data и тип параметра конструктора определяются типизирующим параметром обобщенной структуры, то есть зависит от типизирующего аргумента.</p>
+	<p>В основной программе созданы два объекта закрытой структуры memb&lt;char&gt; и один экземпляр типа memb&lt;byte&gt;.</p>
+	<p>Результаты выполнения программы иллюстрируют правило "размножения" статических членов обобщенных типов.</p>
+	<p>Статический член принадлежит не обобщенному типу, а в каждый из сконструированных на его основе типов входит свой собственный статический член (он в свою очередь может быть параметризован типизирующим параметром, но это не показано в приведенном примере).</p>
+	<p>В качестве примера обобщенного структурного типа со статическими методами рассмотрим такую программу:</p>
+
+	<pre class="brush: csharp;">
+	using System;
+	struct GenStr&lt;T,V&gt;
+	{
+		//статический конструктор
+		static GenStr( )
+		{
+			Console.Write("{0}+{1}", typeof(T).Name, typeof(V).Name);
+		}
+		//статический метод
+		public static void method( ) { }
+	}
+	
+	class Program
+	{
+		static void Main( )
+		{
+			GenStr&lt;string, int&gt;.method( );
+		}
+	}
+	</pre>
+
+	<p>В обобщенном типе GenStr&lt;T,V&gt; объявлены статический конструктор и статический метод method(), не имеющий параметров и "ничего не делающий".</p>
+	<p>В основной программе конструируется закрытый структурный тип GenStr&lt;string, int&gt; и для него выполняется обращение к статическому методу method().</p>
+	<p>Тем самым неявно вызывается статический конструктор, в теле которого выводятся названия типов, использованных в качестве типизирующих аргументов при объявлении закрытого структурного типа.</p>
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	String+Int32
+	</pre>
+
+	<p>При вложении обобщенных типов рекомендуется для типизирующих параметров внешнего и вложенного обобщенных типов использовать разные идентификаторы.</p>
+	<p>Предположим обратное, то есть объявим такую обобщенную структуру, в теле которой объявлена другая обобщённая структура:</p>
+
+	<pre class="brush: csharp;">
+	struct memb&lt;T&gt;
+	{
+		...
+		struct into&lt;T&gt;
+		{
+			T field;
+		}
+	}
+	</pre>
+
+	<p>Объявление корректно, но при создании закрытого типа, например, memb&lt;int&gt;, вложенная структура продолжает иметь открытый тип into&lt;T&gt;, и конкретный тип поля field, остается, по крайней мере, непонятным.</p>
+	<p>В следующем примере показано корректное объявление вложенных обобщенных структур:</p>
+
+	<pre class="brush: csharp;">
+	struct memb&lt;T&gt;
+	{
+		...
+		struct into&lt;U&gt;
+		{
+			T field1;
+			U field2;
+		}
+	}
+	</pre>
+
+	<p>Типизирующий параметр Т внешнего обобщенного типа доступен и в нем и во вложенном типе.</p>
+	<p>В то же время параметр U доступен только во вложенном обобщенном типе.</p>
+	<p>При таком объявлении закрытый тип memb&lt;int&gt; определяет тип поля field1, но оставляет обобщенной структуру into&lt;U&gt; и не влияет на тип поля field2.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="104.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="106.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/105.html", "Обобщённые структуры", "bm192"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm192", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm192") == 1) { document.getElementById("bma192").style.display = "block"; document.getElementById("bm192").style.display = "none"; } else { document.getElementById("bma192").style.display = "none"; document.getElementById("bm192").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обобщённые структуры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm192", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

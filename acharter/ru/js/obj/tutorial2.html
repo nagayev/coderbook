@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma731" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm731" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Массивы в JavaScript
+	</h1>
+
+	<p>Массивы представляют собой контейнеры, в которых может быть сохранено неограниченное количество переменных.</p>
+	<p>Каждому значению, которое заносится в массив присваивается уникальный идентификатор, по которому Вы затем сможете обращаться к данному элементу внутри массива.</p>
+	<p>В каких случаях удобно использовать массивы?</p>
+	<p>Предположим у Вас имеется список вещей, которые Вы желаете купить в ближайшем будущем.</p>
+	<p>Вы можете записать его в переменные следующим образом:</p>
+	
+	<pre class="brush: csharp;">
+		item1 = "Автомобиль";
+		item2 = "Микроволновая печь";
+		item3 = "Стиральная машина";
+		item4 = "Пылесос";
+	</pre>
+	
+	<p>Создание списка таким образом может быть удобно если он содержит только несколько вещей как в данном примере, но что если список вещей, которые Вы хотите приобрести содержит более 100 наименований и Вам необходимо провести его сортировку по алфавиту или извлечь элемент имеющий определенное значение с помощью циклов?</p>
+	<p>Иными словами список составленный данным образом является набором ничем не связанных переменных, а массив является конструкцией специально предназначенной для хранения таких списков и имеет набор встроенных методов и свойств для проведения различных операций над ними.</p>
+
+	<h1 id="title">
+		Создание массивов
+	</h1>
+
+	<p>Вы можете создать массивы тремя разными способами:</p>
+
+	<p><b>Первый cпособ:</b></p>
+	
+	<pre class="brush: csharp;">
+		// Создаем список желаемых вещей из предыдущего примера с помощью массива
+		item = new Array();
+		item[0] = "Автомобиль";
+		item[1] = "Микроволновая печь";
+		item[2] = "Стиральная машина";
+		item[3] = "Пылесос";
+	</pre>
+	
+	<p><b>Второй способ:</b></p>
+	
+	<pre class="brush: csharp;">
+		var item = new Array("Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос");
+	</pre>
+	
+	<p><b>Третий способ:</b></p>
+	
+	<pre class="brush: csharp;">
+		var item = ["Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос"];
+	</pre>
+	
+	<h1 id="title">
+		Доступ к переменным в массиве
+	</h1>
+	
+	<p>Для того, чтобы обратиться к элементу сохраненному в массиве необходимо указать имя массива и индекс желаемого элемента в квадратных скобках (массив[индекс]).</p>
+	<p><b>Обратите внимание:</b> нумерация индексов в массивах начинается <b>не с 1, а с 0</b>.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим массив
+		var item = ["Автомобиль","Микроволновая печь","Стиральная машина", "Пылесос"];
+		
+		//Выведем значение первого элемента массива
+		document.write(item[0]+'&lt;br /&gt;');
+		
+		//Выведем значение третьего элемента массива
+		document.write(item[2]+'&lt;br /&gt;');
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par1').innerHTML='Автомобиль<br />Стиральная машина';">Выполнить код</span>
+    <p id="par1"></p>
+	
+	<p>Значения элементов в массивах могут быть изменены.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим массив
+		var item = ["Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос"];
+		
+		//Изменим значение третьего элемента
+		item[2] = "Снегоход";
+		
+		//Выведем измененное значение
+		document.write(item[2]);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par2').innerHTML='Снегоход';">Выполнить код</span>
+    <p id="par2"></p>
+	
+	<h1 id="title">
+		Свойства объекта Array
+	</h1>
+	
+	<p>С помощью свойства length Вы можете узнать количество элементов в массиве.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим массив
+		var item = ["Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос"];
+		
+		//Выведем количество элементов массива
+		document.write(item.length);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par3').innerHTML='4';">Выполнить код</span>
+    <p id="par3"></p>
+	
+	<h1 id="title">
+		Методы объекта Array
+	</h1>
+	
+	<p>С помощью метода concat() Вы можете объединить два и более массива в один.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим 1 массив
+		var item1=["Автомобиль", "Микроволновая печь"];
+		
+		//Создадим 2 массив
+		var item2=["Стиральная машина"];
+		
+		//Создадим 3 массив
+		var item3=["Пылесос"];
+		
+		//Объединим массивы и запишем результат в переменную item
+		item=item1.concat(item2,item3);
+		
+		//Выведем содержимое массива item на страницу.
+		var i;
+		for (i in item)
+		{
+		   document.write(i + " элемент массива: " + item[i] + "&lt;br /&gt;");
+		}
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par4').innerHTML='0 элемент массива: Автомобиль<br />1 элемент массива: Микроволновая печь<br />2 элемент массива: Стиральная машина<br />3 элемент массива: Пылесос<br />';">Выполнить код</span>
+    <p id="par4"></p>
+	
+	<p>С помощью метода sort() Вы можете отсортировать значения массива.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим массив
+		var item=["Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос"];
+		
+		//Отсортируем массив
+		item.sort();
+		
+		//Выведем отсортированное содержимое массива item на страницу.
+		var i;
+		for (i in item)
+		{
+		   document.write(i + " элемент массива: " + item[i] + "&lt;br /&gt;");
+		}
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par5').innerHTML='0 элемент массива: Автомобиль<br />1 элемент массива: Микроволновая печь<br />2 элемент массива: Пылесос<br />3 элемент массива: Стиральная машина<br />';">Выполнить код</span>
+    <p id="par5"></p>
+	
+	<p>С помощью метода pop() Вы можете удалить последний элемент массива.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим массив
+		var item=["Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос"];
+		
+		//Удалим последнее значение массива и сохраним ее в переменной del
+		del=item.pop();
+		
+		//Выведем удаленный элемент 
+		document.write("Удаленный элемент: " + del + "&lt;br /&gt;");
+		
+		//Выведем содержимое массива item на страницу.
+		var i;
+		for (i in item)
+		{
+		   document.write(i+ " элемент массива: " + item[i] + "&lt;br /&gt;");
+		}
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par6').innerHTML='Удаленный элемент: Пылесос<br />0 элемент массива: Автомобиль<br />1 элемент массива: Микроволновая печь<br />2 элемент массива: Стиральная машина<br />';">Выполнить код</span>
+    <p id="par6"></p>
+	
+	<p>Метод slice(начало, конец) позволяет извлечь (вырезать) элементы из массива и создать из извлеченных элементов новый массив.</p>
+	<p>начало указывает индекс элемента, с которого начнется извлечение.</p>
+	<p>конец указывает индекс элемента массива, на котором закончится извлечение.</p>
+	<p>Если данный параметр не будет задан извлечение будет проведено до конца строки.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим массив
+		var item=["Автомобиль", "Микроволновая печь", "Стиральная машина", "Пылесос"];
+		
+		//Извлечем два последних элемента массива и создадим из них массив sl1 
+		sl1=item.slice(2);
+		
+		//Выведем содержимое sl1
+		document.write(sl1 + "&lt;br /&gt;");
+		
+		//Извлечем два первых элемента массива и создадим из них массив sl2
+		sl2=item.slice(0,2);
+		
+		//Выведем содержимое sl2
+		document.write(sl2 + "&lt;br /&gt;");
+		
+		//Извлечем последний элемент массива и и создадим из него массив sl3
+		sl3=item.slice(-1);
+		
+		//Выведем содержимое sl3
+		document.write(sl3);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par7').innerHTML='Стиральная машина,Пылесос<br />Автомобиль,Микроволновая печь<br />Пылесос';">Выполнить код</span>
+    <p id="par7"></p>
+	
+	<p><b>Обратите внимание:</b> полный список свойств и методов данного объекта Вы можете найти в нашем JavaScript справочнике.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial1.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial3.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/obj/tutorial2.html", "JS Array", "bm731"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm731", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm731") == 1) { document.getElementById("bma731").style.display = "block"; document.getElementById("bm731").style.display = "none"; } else { document.getElementById("bma731").style.display = "none"; document.getElementById("bm731").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("JS Array") == 1) { arrs.splice(i, 1); localStorage.setItem("bm731", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

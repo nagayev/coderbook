@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma968" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm968" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Жизненный цикл компонента
+	</h1>
+
+	<p>Любимая фраза этого учебника "давайте представим задачу":</p>
+	<p>Мы отрисовали компонент, в котором есть input, и хотим чтобы фокус установился в него.</p>
+	<p>Когда я первый раз подумал "как это сделать", даже не придумал что и ответить.</p>
+	<p>Хорошо, допустим я знаю, что могу достучаться до DOM элемента через this.refs, но в какой момент стучаться?</p>
+	<p>Какие вообще "моменты" есть?</p>
+
+	<h1 id="title">
+		Lifecycle methods
+	</h1>
+
+	<p>У каждого компонента, есть жизненый цикл (lifecycle): компонент будет примонтирован, компонент отрисовался, компонент будет удален и так далее...</p>
+	<p>У всех этих фаз есть методы, так называемые lifecycle-methods.</p>
+	<p>Полный список в документации выглядит крайне просто, предлагаю вам в конце урока еще раз его посмотреть, а пока хватит информации и здесь:</p>
+	<p><b>componentWillMount</b> - компонент будет примонтирован.</p>
+	<p>В данный момент у нас нет возможности посмотреть DOM элементы.</p>
+	<p><b>componentDidMount</b> - компонент примонтировался.</p>
+	<p>В данный момент у нас есть возможность использовать refs, а следовательно это то самое место, где мы хотели бы указать установку фокуса.</p>
+	<p>Так же, таймауты, ajax-запросы и взаимодействие с другими библиотеками стоит обрабатывать здесь.</p>
+	<p>Этот метод подходит для решения нашей задачи:</p>
+
+	<pre class="brush: csharp;">
+		var TestInput = React.createClass(
+		{
+			componentDidMount: function()
+			{
+				//ставим фокус в input
+				ReactDOM.findDOMNode(this.refs.myTestInput).focus();
+			},
+			onBtnClickHandler: function()
+			{
+				console.log(this.refs);
+				alert(ReactDOM.findDOMNode(this.refs.myTestInput).value);
+			},
+			render: function()
+			{
+				return (
+					&lt;div&gt;
+						&lt;input className=&apos;test-input&apos; defaultValue=&apos;&apos; placeholder=&apos;введите значение&apos; ref=&apos;myTestInput&apos; /&gt;
+						&lt;button onClick={this.onBtnClickHandler} ref=&apos;alert_button&apos;&gt;Показать alert&lt;/button&gt;
+					&lt;/div&gt;
+				);
+			}
+		});
+	</pre>
+
+	<p>Принцип прежний: мы находим DOM-узел, считывам его свойство / вызываем его нативный метод, в данном случае - вызывем метод focus().</p>
+	<p>componentWillReceiveProps - компонент получает новые props.</p>
+	<p>Этод метод не вызывается в момент первого render'a.</p>
+	<p>В официальной документации очень хороший пример, пожалуй скопирую его:</p>
+
+	<pre class="brush: csharp;">
+		componentWillReceiveProps: function(nextProps)
+		{
+			this.setState(
+			{
+				likesIncreasing: nextProps.likeCount > this.props.likeCount
+			});
+		}
+	</pre>
+
+	<p>Обратите внимание: в этот момент, старые props доступны как this.props, а новые props доступны в виде nextProps аргумента функции.</p>
+	<p>Так же, если вы вызываете setState внутри этого метода - не будет вызван дополнительный render.</p>
+	<p>shouldComponentUpdate - должен ли компонент обновиться?</p>
+	<p>На самом деле, обычно реакт сам отлично разбирается.</p>
+	<p>Но иногда ручное управление позволяет существенно ускорить работу в "узких местах".</p>
+	<p>С этим методом нужно работать очень аккуратно.</p>
+	<p><b>componentWillUpdate</b> - вызывается прямо перед render, когда новые props и state получены.</p>
+	<p>В этом методе нельзя вызывать setState.</p>
+	<p><b>componentDidUpdate</b> - вызывается сразу после render.</p>
+	<p>Не вызывается в момент первого render'а компонента.</p>
+	<p><b>componentWillUnmount</b> - вызывается сразу перед тем, как компонент будет удален из DOM.</p>
+	<p>Конечно, в документации все описано немного подробнее.</p>
+	<p>Я рекомендую с ней ознакомиться.</p>
+	<p>Главная мысль данного урока: у компонента есть стадии жизни, "в которые можно писать код".</p>
+	<p>Да, пусть я выступаю здесь как "плохой программист", который советует вам писать свои велосипеды на разных стадиях жизни компонента, но именно таким образом вы быстро освоитесь.</p>
+	<p>Если же вы принадлежите к "правильному" типу программистов - пожалуйста, вот все lifecycle-методы.</p>
+	<p>Выучите, перечитайте, осознайте - и пишите код без багов ;)</p>
+	<p>Итого: существует несколько lifecycle-методов, благодаря которым мы уже почти перестали "лазить" в DOM, а если и делаем это, то осознанно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book/14.html", "Жизненный цикл", "bm968"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm968", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm968") == 1) { document.getElementById("bma968").style.display = "block"; document.getElementById("bm968").style.display = "none"; } else { document.getElementById("bma968").style.display = "none"; document.getElementById("bm968").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Жизненный цикл") == 1) { arrs.splice(i, 1); localStorage.setItem("bm968", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma810" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm810" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Базовые функции
+	</h1>
+	
+	<p>Базовая библиотека содержит некоторые основные функции Lua.</p>
+	<p>Если Вы не включили эту библиотеку в Ваше приложение, Вам необходимо тщательно проверить, действительно ли не требуются эти возможности.</p>
+
+	<h1 id="title">
+		assert (v [, message])
+	</h1>
+
+	<p>Выдает сообщение об ошибке, если значение параметра v равно false (т.е., nil или false); в противном случае, возвращаются все параметры.</p>
+	<p>message – это сообщение об ошибке; если параметр отсутствует, по умолчанию выводится "assertion failed!""</p>
+	
+	<h1 id="title">
+		collectgarbage (opt [, arg])
+	</h1>
+	
+	<p>Эта функция является интерфейсом к сборщику мусора (garbage collector).</p>
+	<p>В зависимости от значения параметра opt, выполняются различные функции:</p>
+	<p>- <b>"stop":</b> остановка сборщика мусора.</p>
+	<p>- <b>"restart":</b> рестарт сборщика мусора.</p>
+	<p>- <b>"collect":</b> выполнение полного цикла сборки мусора.</p>
+	<p>- <b>count":</b> возврат общего количества используемой Lua памяти (в K байтах).</p>
+	<p>- <b>step":</b> выполнение шага по сборке мусора. "Размер" шага регулируется параметром arg (большая величина соответствует большему шагу. Если Вы хотите регулировать размер шага, Вы должны сначала определить экспериментальным путем оптимальное значение arg. Возвращает true если шаг завершает полный цикл сборки мусора.</p>
+	<p>- <b>setpause":</b> присвоение значения arg/100 параметру пауза сборки мусора сборщика (см. §2.10).</p>
+	<p>- <b>setstepmul":</b> присвоение значения arg/100 параметру коэффициент шага сборки сборщика (см. §2.10).</p>
+	
+	<h1 id="title">
+		dofile (filename)
+	</h1>
+	
+	<p>Открывает указанный файл и выполняет его содержимое как Lua задачу (chunk).</p>
+	<p>При вызове без параметров, dofile выполняет содержимое стандартного потока ввода (stdin).</p>
+	<p>Возвращает все данные, возвращаемые выполняемой задачей.</p>
+	<p>В случае ошибки, dofile передает ошибку вызывающей задаче (т.е.dofile запускается в незащищенном режиме).</p>
+
+	<h1 id="title">
+		error (message [, level])
+	</h1>
+	
+	<p>Завершает последнюю вызванную защищенную функцию и возвращает</p>
+	<p>Обычно, error добавляет информацию о местоположении возникновения ошибки в начало сообщения.</p>
+	<p>Параметр level указывает способ определения места возникновения ошибки.</p>
+	<p>Уровень 1 (по умолчанию), определяет положение ошибки в месте вызова функции error.</p>
+	<p>Уровень 2 определяет место, где была вызвана функция, которая вызвала error; и т.д.</p>
+	<p>Если параметр равен 0, то положение ошибки не добавляется в сообщение.</p>
+
+	<h1 id="title">
+		_G
+	</h1>
+
+	<p>Глобальная переменная (не функция), которая содержит глобальное окружение (environment) (_G._G = _G).</p>
+	<p>Lua не использует эту переменную; изменение значения этой переменной не отражается на окружении и наоборот.</p>
+	<p>(Для изменения окружения используйтеsetfenv.)</p>
+
+	<h1 id="title">
+		getfenv ([f])
+	</h1>
+
+	<p>Возвращает текущее окружение, в котором выполняется функция.</p>
+	<p>f может бытькак Lua функцией, так и числом, определяющим уровень стека, на котором расположена функция: Уровень 1 – это функция, которая вызвала getfenv.</p>
+	<p>Если данная функция не является функцией Lua, или 0, getfenv возвращает глобальное окружение.</p>
+	<p>По умолчанию f равно 1.</p>
+
+	<h1 id="title">
+		getmetatable (object)
+	</h1>
+
+	<p>Если object не имеет metatable, возвращается nil.</p>
+	<p>В противном случае, если метатаблица объекта имеет поле "__metatable", возвращается значение этого поля.</p>
+	<p>Иначе возвращается метатаблица данного объекта.</p>
+
+	<h1 id="title">
+		ipairs (t)
+	</h1>
+
+	<p>Возвращает три значения: итератор, таблицу t, и 0, поэтому конструкция</p>
+
+	<pre class="brush: csharp;">
+		for i,v in ipairs(t) do body end
+	</pre>
+
+	<p>будет выполнять цикл парами (1,t[1]), (2,t[2]), ···, до первого целого ключа, отсутствующего в таблице.</p>
+
+	<h1 id="title">
+		load (func [, chunkname])
+	</h1>
+
+	<p>Загружает составной оператор (chunk) с помощью функции func для получения составного оператора по частям.</p>
+	<p>Каждый вызов func должен возвращать строку, которая соединяется с предыдущими результатами.</p>
+	<p>Возврат значения nil (или отсутствие значения) говорит о конце составного оператора.</p>
+	<p>В случае отсутствия ошибок, возвращается откомпилированный составной оператор как функция; иначе, возвращается nil и сообщение об ошибке.</p>
+	<p>Окружением возвращаемой функции является глобальное окружение.</p>
+	<p>chunkname используется как имя задачи для сообщения об ошибке, т.е. как отладочная информация.</p>
+
+	<h1 id="title">
+		loadfile ([filename])
+	</h1>
+
+	<p>Аналогично load, но задача считывается из файла filename или из стандартного потока ввода, если имя файла не указано.</p>
+
+	<h1 id="title">
+		loadstring (string [, chunkname])
+	</h1>
+
+	<p>Аналогично load, но задача считывается из данной строки.</p>
+	<p>Для загрузки и выполнения данной строки, используйте следующую конструкцию:</p>
+
+	<pre class="brush: csharp;">
+	assert(loadstring(s))()
+	</pre>
+
+	<h1 id="title">
+		next (table [, index])
+	</h1>
+
+	<p>Позволяет программе получить все поля таблицы.</p>
+	<p>Первый параметр – это таблица, второй – индекс в этой таблице.</p>
+	<p>next возвращает следующий индекс в таблице и соответствующее ему значение.</p>
+	<p>Если второй параметр nil, next возвращает начальный индекс и связанное с ним значение.</p>
+	<p>При вызове последнего индекса, или с nil в пустой таблице, next возвращает nil.</p>
+	<p>Если второй параметр отсутствует, он интерпретируется как nil.</p>
+	<p>В частности, Вы можете использовать next(t) для проверки пустая таблица или нет.</p>
+	<p>Порядок следования индексов неопределен, даже для числовых индексов.</p>
+	<p>(Для прохождения по таблице в числовом порядке, используйте числовой for или функциюipairs.)</p>
+	<p>Результат работы next неопределен (undefined) если, в процессе сканирования таблицы, Вы присваиваете какое либо значение в несуществующее поле таблицы.</p>
+	<p>Однако Вы можете модифицировать существующие поля.</p>
+	<p>В частности, Вы можете очистить существующие поля.</p>
+
+	<h1 id="title">
+		pairs (t)
+	</h1>
+
+	<p>Возвращает три значения: функцию next (результат вызова, примечание переводчика), таблицу t, и nil, поэтому конструкция</p>
+
+	<pre class="brush: csharp;">
+	for k,v in pairs(t) do body end
+	</pre>
+
+	<p>будет выполнять итерацию по всем ключевым парам таблицы t.</p>
+	<p>См. предупреждения для функции next если Вы хотите в процессе итерации модифицировать таблицу.</p>
+
+	<h1 id="title">
+		pcall (f, arg1, ···)
+	</h1>
+
+	<p>Вызывает функцию f с данными параметрами в защищенном режиме (protected mode).</p>
+	<p>Это значит, что при возникновении любой ошибки внутри функции f она дальше не передается; напротив, pcall перехватывает ошибку и возвращает статус.</p>
+	<p>pcall возвращает сначала статус (тип boolean), который равен true если вызов завершился без ошибок.</p>
+	<p>В этом случае, pcall также возвращает все данные, которые возвращает функция f, сразу после статуса.</p>
+	<p>В случае возникновения ошибки, pcall возвращает false и сообщение об ошибке.</p>
+
+	<h1 id="title">
+		print (···)
+	</h1>
+
+	<p>Принимает любое количество параметров и отображает их значения в stdout, используется функция tostring для преобразования параметров в строки.</p>
+	<p>print неудобен для форматированного вывода, он удобен для быстрого отображения значения, обычно используется для отладки.</p>
+	<p>Чтобы сформатировать вывод используйте string.format</p>
+
+	<h1 id="title">
+		rawequal(v1, v2)
+	</h1>
+
+	<p>Проверка равенства v1 и v2, без вызова каких либо метаметодов.</p>
+	<p>Возвращает статус типа boolean.</p>
+
+	<h1 id="title">
+		rawget (table, index)
+	</h1>
+
+	<p>Возвращает реальное значение из table[index], без вызова метаметодов.</p>
+	<p>table должен быть таблицей; index может быть любым значением.</p>
+
+	<h1 id="title">
+		rawset (table, index, value)
+	</h1>
+
+	<p>Присваивает value реальное значение из table[index] без выполнения метаметодов.</p>
+	<p>table должен быть таблицей, index - любое значение отличное от nil, value – любое значение Lua.</p>
+	<p>Данная функция возвращает table.</p>
+
+	<h1 id="title">
+		select (index, ···)
+	</h1>
+
+	<p>Если index - число, возвращает все параметры после параметра с номером index.</p>
+	<p>В противном случае, index должен быть строкой "#", в этом случае select возвращает общее количество параметров (исключая index, примечание переводчика).</p>
+
+	<h1 id="title">
+		setfenv (f, table)
+	</h1>
+
+	<p>Устанавливает окружение, которое будет использовано данной функцией.</p>
+	<p>f может быть как Lua функцией, так и числом, которое указывает уровень стека функции: Уровень 1 – это функция, вызывающая setfenv.</p>
+	<p>setfenv возвращает данную функцию.</p>
+	<p>В особом случае, когда f равно 0, setfenv изменяет окружение запущеной нити.</p>
+	<p>В этом случае setfenv ничего не возвращает.</p>
+
+	<h1 id="title">
+		setmetatable (table, metatable)
+	</h1>
+
+	<p>Устанавливает метатаблицу для данной таблицы.</p>
+	<p>Вы не можете изменить метатаблицу из Lua, это можно сделать только из C.</p>
+	<p>Если параметр metatable равен nil, то производится удаление метатаблицы для данной таблицы.</p>
+	<p>Если метатаблица содержит поле "__metatable", то возникает ошибка.</p>
+	<p>Функция возвращает таблицу table.</p>
+
+	<h1 id="title">
+		tonumber (e [, base])
+	</h1>
+
+	<p>Попытка преобразования параметра в число.</p>
+	<p>Если параметр уже является числом или строкой, конвертируемой в число, то tonumber возвращает это число; иначе, возвращает nil.</p>
+	<p>Необязательный параметр указывает основание системы счисления для интерпретации числа.</p>
+	<p>Основание может быть любым целым числом в диапазоне от 2 до 36, включительно.</p>
+	<p>Если основание больше 10, то символ 'A' (как в верхнем, так и в нижнем регистре) представляет 10, 'B' представляет 11, и так далее, символ 'Z' представляет 35.</p>
+	<p>При основании 10 (по умолчанию), число может быть представлено в экспоненциальной форме.</p>
+	<p>Для других оснований можно указывать только беззнаковые целые числа.</p>
+
+	<h1 id="title">
+		tostring(e)
+	</h1>
+
+	<p>Принимает параметр любого типа и конвертирует его в строку в подходящем формате.</p>
+	<p>Если требуется специальное форматирование, используйте функцию string.format.</p>
+	<p>Если метатаблица для e имеет поле "__tostring", tostring вызывает его значение с параметром e, и возвращает результат этого вызова.</p>
+
+	<h1 id="title">
+		type (v)
+	</h1>
+
+	<p>Возвращает тип параметра в виде строки.</p>
+	<p>Возможные результаты этой функции - это "nil" (как строка, а не значение nil), "number", "string", "boolean", "table", "function", "thread" и "userdata".</p>
+
+	<h1 id="title">
+		unpack (list [, i [, j]])
+	</h1>
+
+	<p>Возвращает элементы из данной таблицы. Функция эквивалентна следующей конструкции</p>
+
+	<pre class="brush: csharp;">
+		return list[i], list[i+1], ···, list[j]
+	</pre>
+
+	<p>с тем исключением, что указанная выше конструкция может быть написана только для фиксированного количества элементов.</p>
+	<p>По умолчанию, i равно 1, а j – длине списка, как это определено в операторе length.</p>
+
+	<h1 id="title">
+		_VERSION
+	</h1>
+
+	<p>Глобальная переменная (не функция) Содержит строку, описывающую номер версии интерпретаора.</p>
+	<p>В настоящий момент значение этой переменной равно "Lua 5.1".</p>
+
+	<h1 id="title">
+		xpcall (f, err)
+	</h1>
+
+	<p>Эта функция аналогична pcall, с тем отличием, что здесь Вы можете установить обработчик ошибок.</p>
+	<p>xpcall вызывает функцию f в защищенном режиме, используя обработчик ошибок err.</p>
+	<p>Любые ошибки внутри f не передаются в вызывающую программу; напротив, xpcall перехватывает ошибку, вызывает функцию err с объектом, вызвавшим ошибку, и возвращает статус.</p>
+	<p>Возвращает сначала статус (тип boolean), который равен true если вызов завершился без ошибок.</p>
+	<p>В этом случае, xpcall также возвращает всё, что возвращает вызов функции f, сразу после статуса.</p>
+	<p>Вслучае возникновения ошибок, xpcall возвращает false и результат из err.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="43.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="45.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/44.html", "Базовые функции", "bm810"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm810", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm810") == 1) { document.getElementById("bma810").style.display = "block"; document.getElementById("bm810").style.display = "none"; } else { document.getElementById("bma810").style.display = "none"; document.getElementById("bm810").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Базовые функции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm810", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma662" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm662" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Проверяемые и непроверяемые исключения
+	</h1>
+
+	<p>Все исключительные ситуации можно разделить на две категории: проверяемые (checked) и непроверяемые (unchecked).</p>
+	<p>Все исключения, порождаемые от Throwable, можно разбить на три группы. Они определяются тремя базовыми типами: наследниками Throwable - классами Error и Exception, а также наследником Exception - RuntimeException.</p>
+	<p>Ошибки, порожденные от Exception (и не являющиеся наследниками RuntimeException ), являются проверяемыми.</p>
+	<p>Т.е. во время компиляции проверяется, предусмотрена ли обработка возможных исключительных ситуаций.</p>
+	<p>Как правило, это ошибки, связанные с окружением программы (сетевым, файловым вводом-выводом и др.), которые могут возникнуть вне зависимости от того, корректно написан код или нет.</p>
+	<p>Например, открытие сетевого соединения или файла может привести к возникновению ошибки и компилятор требует от программиста предусмотреть некие действия для обработки возможных проблем.</p>
+	<p>Таким образом повышается надежность программы, ее устойчивость при возможных сбоях.</p>
+	<p>Исключения, порожденные от RuntimeException, являются непроверяемыми и компилятор не требует обязательной их обработки.</p>
+	<p>Как правило, это ошибки программы, которые при правильном кодировании возникать не должны (например, IndexOutOfBoundsException - выход за границы массива, java.lang.ArithmeticException - деление на ноль).</p>
+	<p>Поэтому, чтобы не загромождать программу, компилятор оставляет на усмотрение программиста обработку таких исключений с помощью блоков try-catch.</p>
+	<p>Исключения, порожденные от Error, также не являются проверяемыми.</p>
+	<p>Они предназначены для того, чтобы уведомить приложение о возникновении фатальной ситуации, которую программным способом устранить практически невозможно (хотя формально обработчик допускается).</p>
+	<p>Они могут свидетельствовать об ошибках программы, но, как правило, это неустранимые проблемы на уровне JVM.</p>
+	<p>В качестве примера можно привести StackOverflowError (переполнение стека), OutOfMemoryError (нехватка памяти).</p>
+	<p>Если в конструкции обработки исключений используется несколько операторов catch, классы исключений нужно перечислять в них последовательно, от менее общих к более общим.</p>
+	<p>Рассмотрим два примера:</p>
+
+	<pre class="brush: csharp;">
+	try
+	{
+		...
+	}
+
+	catch(Exception e)
+	{
+		...
+	}
+
+	catch(IOException ioe)
+	{
+		...
+	}
+
+	catch(UserException ue)
+	{
+		...
+	}
+	</pre>
+
+	<p><b>Создание пользовательских классов исключений</b></p>
+	<p>Как уже отмечалось, допускается создание собственных классов исключений.</p>
+	<p>Для этого достаточно создать свой класс, унаследовав его от любого наследника java.lang.Throwable (или от самого Throwable ).</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	public class UserException extends Exception
+	{
+		public UserException()
+		{
+			super();
+		}
+	
+		public UserException(String descry)
+		{
+			super(descry);
+		}
+	}
+	</pre>
+
+	<p>Соответственно, данное исключение будет создаваться следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	throw new UserException("Дополнительное описание");
+	</pre>
+
+	<p><b>Переопределение методов и исключения</b></p>
+	<p>При переопределении методов следует помнить, что если переопределяемый метод объявляет список возможных исключений, то переопределяющий метод не может расширять этот список, но может его сужать.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	public class BaseClass
+	{
+		public void method () throws IOException
+		{
+			...
+		}
+	}
+
+	public class LegalOne extends BaseClass
+	{
+		public void method () throws IOException
+		{
+			...
+		}
+	}
+
+	public class LegalTwo extends BaseClass
+	{
+		public void method ()
+		{
+			...
+		}
+	}
+
+	public class LegalThree extends BaseClass
+	{
+		public void method ()
+		throws
+		
+		EOFException,MalformedURLException
+		{
+			...
+		}
+	}
+
+	public class IllegalOne extends BaseClass
+	{
+		public void method ()
+		throws
+		
+		IOException,IllegalAccessException
+		{
+			...
+		}
+	}
+	
+	public class IllegalTwo extends BaseClass
+	{
+		public void method ()
+		{
+			...
+			throw new Exception();
+		}
+	}
+	</pre>
+
+	<p>В данном случае:</p>
+	<p><b>* определение класса LegalOne</b> будет корректным, так как переопределение метода method() верное (список ошибок не изменился);</p>
+	<p><b>* определение класса LegalTwo</b> будет корректным, так как переопределение метода method() верное (новый метод не может выбрасывать ошибок, а значит, не расширяет список возможных ошибок старого метода);</p>
+	<p><b>* определение класса LegalThree</b> будет корректным, так как переопределение метода method() будет верным (новый метод может создавать исключения, которые являются подклассами исключения, возбуждаемого в старом методе, то есть список сузился);</p>
+	<p><b>* определение класса IllegalOne</b> будет некорректным, так как переопределение метода method() неверно ( IllegalAccessException не является подклассом IOException, список расширился);</p>
+	<p><b>* определение класса IllegalTwo</b> будет некорректным: хотя заголовок method() объявлен верно (список не расширился), в теле метода бросается исключение, не указанное в throws.</p>
+	<p><b>Особые случаи</b></p>
+	<p>Во время исполнения кода могут возникать ситуации, которые почти не описаны в литературе.</p>
+	<p>Рассмотрим такую ситуацию:</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+
+	public class Test
+	{
+		public Test() { }
+		
+		public static void main(String[] args)
+		{
+			Test test = new Test();
+			
+			try
+			{
+				test.doFileInput("bogus.file");
+			}
+			catch (IOException ex)
+			{
+				System.out.println("Second exception handle stack trace");
+				ex.printStackTrace();
+			}
+		}
+		
+		private String doFileInput(String fileName)
+		
+		throws FileNotFoundException,IOException
+		{
+			String retStr = "";
+			java.io.FileInputStream fis = null;
+			
+			try
+			{
+				fis = new java.io.FileInputStream(fileName);
+			}
+			catch (FileNotFoundException ex)
+			{
+				System.out.println("First exception handle stack trace");
+				ex.printStackTrace();
+				throw ex;
+			}
+
+			return retStr;
+		}
+	}
+	</pre>
+
+	<p>Результат работы будет выглядеть следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	java.io.FileNotFoundException: bogus.file (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.&lt;init&gt;(FileInputStream.java:64)
+	at experiment.Test.doFileInput(Test.java:33)
+	at experiment.Test.main(Test.java:21)
+	First exception handle stack trace
+	java.io.FileNotFoundException: bogus.file (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.&lt;init&gt;(FileInputStream.java:64)
+	at experiment.Test.doFileInput(Test.java:33)
+	at experiment.Test.main(Test.java:21)
+	Second exception handle stack trace
+	</pre>
+
+	<p>Так как при вторичном возбуждении используется один и тот же объект Exception, стек в обоих случаях будет содержать одну и ту же последовательность вызовов.</p>
+	<p>То есть при повторном возбуждении исключения, если мы используем тот же объект, изменения его параметров не происходит.</p>
+	<p>Рассмотрим другой пример:</p>
+
+	<pre class="brush: csharp;">
+	import java.io.*;
+	
+	public class Test
+	{
+		public Test() { }
+		
+		public static void main(String[] args)
+		{
+			Test test = new Test();
+			try
+			{
+				test.doFileInput();
+			}
+			catch (IOException ex)
+			{
+				System.out.println("Exception hash code " + ex.hashCode());
+				ex.printStackTrace();
+			}
+		}
+		
+		private String doFileInput()
+		
+		throws FileNotFoundException,IOException
+		{
+			String retStr = "";
+			
+			java.io.FileInputStream fis = null;
+			
+			try
+			{
+				fis = new java.io.FileInputStream("bogus.file");
+			}
+			catch (FileNotFoundException ex)
+			{
+				System.out.println("Exception hash code " + ex.hashCode());
+				ex.printStackTrace();
+				fis = new java.io.FileInputStream("anotherBogus.file");
+				throw ex;
+			}
+
+			return retStr;
+		}
+	}
+	</pre>
+
+	<p>Результат:</p>
+
+	<pre class="brush: csharp;">
+	java.io.FileNotFoundException: bogus.file (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.&lt;init&gt;(FileInputStream.java:64)
+	at experiment.Test.doFileInput(Test.java:33)
+	at experiment.Test.main(Test.java:21)
+	Exception hash code 3214658
+	java.io.FileNotFoundException: anotherBogus.file (The system cannot find the path specified)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.&lt;init&gt;(FileInputStream.java:64)
+	at experiment.Test.doFileInput(Test.java:38)
+	at experiment.Test.main(Test.java:21)
+	Exception hash code 6129586
+	</pre>
+
+	<p>Несложно заметить, что, хотя последовательность вызовов одна и та же, в вызываемом и вызывающем методах обрабатываются разные объекты исключений.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В данной лекции рассмотрены основные языковые конструкции.</p>
+	<p>Для организации циклов в Java предназначены три основных конструкции: while, do, for.</p>
+	<p>Для изменения порядка выполнения операторов применяются continue и break (с меткой или без).</p>
+	<p>Также существуют два оператора ветвления: if и switch.</p>
+	<p>Важной темой является обработка ошибок, поскольку без нее не обходится ни одна программа, ведь причиной сбоев может служить не только ошибка программиста, но и внешние события, например, разрыв сетевого соединения.</p>
+	<p>Основной конструкцией обработки исключительных ситуаций является try-catch-finally.</p>
+	<p>Для явной инициализации исключительной ситуации служит ключевое слово throw.</p>
+	<p>Ошибки делятся на проверяемые и непроверяемые.</p>
+	<p>Чтобы повысить надежность программы, компилятор требует обработки исключений, классы которых наследуются от Exception, кроме классов-наследников RuntimeException.</p>
+	<p>Предполагается, что такие ошибки могут возникать не столько по ошибке разработчика, сколько по внешним неконтролируемым причинам.</p>
+	<p>Классы, унаследованные от RuntimeException, описывают программные сбои.</p>
+	<p>Ожидается, что программист сведет вероятность таких ошибок к минимуму, а потому, чтобы не загромождать код, они являются непроверяемыми, компилятор оставляет обработку на усмотрение разработчика.</p>
+	<p>Ошибки-наследники Error свидетельствуют о фатальных сбоях, поэтому их также необязательно обрабатывать.</p>
+	<p>Методы, код которых может порождать проверяемые исключения, должны либо сами их обрабатывать, либо в заголовке метода должно быть указано ключевое слово throws с перечислением необрабатываемых проверяемых исключений.</p>
+	<p>На непроверяемые ошибки это правило не распространяется.</p>
+	<p>Переопределенный ( overridden ) метод не может расширять список возможных исключений исходного метода.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="60.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="62.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/61.html", "Ошибки при выполнении (ч. 2)", "bm662"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm662", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm662") == 1) { document.getElementById("bma662").style.display = "block"; document.getElementById("bm662").style.display = "none"; } else { document.getElementById("bma662").style.display = "none"; document.getElementById("bm662").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ошибки при выполнении (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm662", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

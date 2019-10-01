@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1263" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1263" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Темизация
+	</h1>
+
+    <p>Темизация — это способ заменить один набор представлений другим без переписывания кода, что замечательно подходит для изменения внешнего вида приложения.</p>
+    <p>Для того, чтобы начать использовать темизацию, настройте свойство [[yii\base\View::theme|theme]] компонента приложения view.</p>
+    <p>Конфигурация настраивает объект [[yii\base\Theme]], который отвечает за то, как именно заменяются файлы отображений.</p>
+    <p>Главным образом, стоит настроить следующие свойства [[yii\base\Theme]]:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Theme::basePath]]
+    </pre>
+
+    <p>базовая директория, в которой размещены темизированные ресурсы (CSS, JS, изображения, и так далее).</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Theme::baseUrl]]
+    </pre>
+
+    <p>базовый URL для доступа к темизированным ресурсам.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Theme::pathMap]]
+    </pre>
+
+    <p>правила замены файлов представлений. Подробно описаны далее.</p>
+    <p>Например, если вы вызываете $this->render('about') в SiteController, то будет использоваться файл отображения @app/views/site/about.php.</p>
+    <p>Тем не менее, если вы включите темизацию как показано ниже, то вместо него будет использоваться @app/themes/basic/site/about.php.</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'components' =&gt; [
+            'view' =&gt; [
+                'theme' =&gt; [
+                    'basePath' =&gt; '@app/themes/basic',
+                    'baseUrl' =&gt; '@web/themes/basic',
+                    'pathMap' =&gt; [
+                        '@app/views' =&gt; '@app/themes/basic',
+                    ],
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Информация:</b> При настройке тем поддерживаются псевдонимы пути. При замене отображений они преобразуются в реальные пути в файловой системе или URL.</p>
+    <p>Вы можете обратиться к объекту [[yii\base\Theme]] через свойство [[yii\base\View::theme]].</p>
+    <p>Например, в файле отображения, это будет выглядеть следующим образом (объект view доступен как $this):</p>
+
+    <pre class="brush: csharp;">
+    $theme = $this->theme;
+    
+    // returns: $theme->baseUrl . '/img/logo.gif'
+    $url = $theme->getUrl('img/logo.gif');
+    
+    // returns: $theme->basePath . '/img/logo.gif'
+    $file = $theme->getPath('img/logo.gif');
+    </pre>
+
+    <p>Свойство [[yii\base\Theme::pathMap]] определяет то, как заменяются файлы представлений.</p>
+    <p>Свойство принимает массив пар ключ-значение где ключи являются путями к оригинальным файлам, которые мы хотим заменить, а значения — соответствующими путями к файлам из темы.</p>
+    <p>Замена основана на частичном совпадении: если путь к представлению начинается с любого из ключей массива [[yii\base\Theme::pathMap|pathMap]], то соответствующая ему часть будет заменена значением из того же массива.</p>
+    <p>Для приведённой выше конфигурации @app/views/site/about.php частично совпадает с ключом @app/views и будет заменён на @app/themes/basic/site/about.php.</p>
+
+    <h2 id="title">
+        Темизация модулей
+    </h2>
+
+    <p>Для того, чтобы темизировать модули, свойство [[yii\base\Theme::pathMap]] может быть настроено следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    'pathMap' =&gt; [
+        '@app/views' =&gt; '@app/themes/basic',
+        '@app/modules' =&gt; '@app/themes/basic/modules', // <-- !!!
+    ],
+    </pre>
+
+    <p>Это позволит вам темизировать @app/modules/blog/views/comment/index.php в @app/themes/basic/modules/blog/views/comment/index.php.</p>
+
+    <h2 id="title">
+        Темизация виджетов
+    </h2>
+
+    <p>Для того, чтобы темизировать виджеты вы можете настроить свойство [[yii\base\Theme::pathMap]] следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    'pathMap' =&gt; [
+        '@app/views' =&gt; '@app/themes/basic',
+        '@app/widgets' =&gt; '@app/themes/basic/widgets', // <-- !!!
+    ],
+    </pre>
+
+    <p>Это позволит вам темизировать @app/widgets/currency/views/index.php в @app/themes/basic/widgets/currency/index.php.</p>
+
+    <h2 id="title">
+        Наследование тем
+    </h2>
+
+    <p>Иногда требуется создать базовую тему, задающую общий вид приложения и далее изменять этот вид в зависимости, например, от сегодняшнего праздника.</p>
+    <p>Добиться этого можно при помощи наследования тем.</p>
+    <p>При этом один путь к файлу ставится в соответствие нескольким путям из темы:</p>
+
+    <pre class="brush: csharp;">
+    'pathMap' =&gt; [
+        '@app/views' =&gt; [
+            '@app/themes/christmas',
+            '@app/themes/basic',
+        ],
+    ]
+    </pre>
+
+    <p>В этом случае представление @app/views/site/index.php темизируется либо в @app/themes/christmas/site/index.php, либо в @app/themes/basic/site/index.php в зависимости от того, в какой из тем есть нужный файл.</p>
+    <p>Если файлы присутствуют и там и там, используется первый из них.</p>
+    <p>На практике большинство темизированных файлов будут расположены в @app/themes/basic, а их версии для праздников в @app/themes/christmas.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="56.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="58.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/57.html", "Yii2: Темизация", "bm1263"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1263", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1263") == 1) { document.getElementById("bma1263").style.display = "block"; document.getElementById("bm1263").style.display = "none"; } else { document.getElementById("bma1263").style.display = "none"; document.getElementById("bm1263").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Темизация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1263", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

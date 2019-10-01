@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1312" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1312" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Модули Node.js
+	</h1>
+    
+    <p>Node.js использует модульную систему.</p>
+    <p>То есть вся встроенная функциональность разбита на отдельные пакеты или модули.</p>
+    <p>Модуль представляет блок кода, который может использоваться повторно в других модулях.</p>
+    <p>При необходимости мы можем подключать нужные нам модули.</p>
+    <p>Какие встроенные модули есть в node.js и какую функциональность они предоставляют, можно узнать из документации.</p>
+    <p>Для загрузки модулей применяется функция require(), в которую передается название модуля.</p>
+    <p>К примеру, в первом приложении из предыдущей темы для получения и обработки запроса был необходим модуль http:</p>
+
+    <pre class="brush: csharp;">
+    var http = require("http");
+    </pre>
+
+    <p>После получения модуля мы сможем использовать весь определенный в нем функционал, который опять же можно посмотреть в документации.</p>
+    <p>Подобным образом мы можем загружать и использовать другие встроенные модули.</p>
+    <p>Например, используем модуль os, который предоставляет информацию об окружении и операционной системе:</p>
+
+    <pre class="brush: csharp;">
+    var os = require("os");
+    // получим имя текущего пользователя
+    var userName = os.userInfo().username;
+     
+    console.log(userName);
+    </pre>
+
+    <p>Мы не ограничены встроенными модулями и при необходимости можем создать свои.</p>
+    <p>Так, в прошлой теме проект состоял из файла app.js, в котором создавался сервер, обрабатывающий запросы.</p>
+    <p>Добавим в тот же каталог новый файл greeting.js и определим в нем следующий код:</p>
+
+    <pre class="brush: csharp;">
+    console.log("greeting module");
+    </pre>
+
+    <p>В файле app.js подключим наш модуль:</p>
+
+    <pre class="brush: csharp;">
+    var greeting = require("./greeting");
+    </pre>
+
+    <p>В отличие от встроенных модулей для подключения своих модулей надо передать в функцию require относительный путь с именем файла (расширение файла необязательно):</p>
+
+    <pre class="brush: csharp;">
+    var greeting = require("./greeting");
+    </pre>
+
+    <p>Запустим приложение:</p>
+
+    <img src="n7.png" id="image" />
+
+    <p>На консоль выводится та строка, которая определена в файле greeting.js.</p>
+    <p>Теперь изменим файл greeting.js:</p>
+
+    <pre class="brush: csharp;">
+    var currentDate = new Date();
+    module.exports.date = currentDate;
+     
+    module.exports.getMessage = function(name){
+        var hour = currentDate.getHours();
+        if(hour > 16)
+            return "Добрый вечер, " + name;
+        else if(hour > 10)
+            return "Добрый день, " + name;
+        else
+            return "Доброе утро, " + name;
+    }
+    </pre>
+
+    <p>Здесь определена переменная currentDate.</p>
+    <p>Однако из вне она недоступна.</p>
+    <p>Она доступна только в пределах данного модуля.</p>
+    <p>Чтобы какие переменные или функции модуля были доступны, необходимо определить их в объекте module.exports.</p>
+    <p>Объект module.exports - это то, что возвращает функция require() при получении модуля.</p>
+    <p>Вообще объект module представляет ссылку на текущий модуль, а его свойство exports определяет все свойства и методы модуля, которые могут быть экспортированы и использованы в других модулях.</p>
+    <p>В частности, здесь определяется свойство date и метод getMessage, который принимает некоторый параметр.</p>
+    <p>Далее изменим файл app.js:</p>
+
+    <pre class="brush: csharp;">
+    var os = require("os");
+    var greeting = require("./greeting");
+     
+    // получим имя текущего пользователя
+    var userName = os.userInfo().username;
+     
+    console.log(`Дата запроса: ${greeting.date}`);
+    console.log(greeting.getMessage(userName));
+    </pre>
+
+    <p>Все экспортированные методы и свойства модуля доступны по имени: greeting.date и greeting.getMessage().</p>
+    <p>Перезапустим приложение:</p>
+
+    <img src="n8.png" id="image" />
+
+    <h2 id="title">
+        Определение конструкторов и объектов в модуле
+    </h2>
+
+    <p>Кроме определения простейших функций или свойств в модуле могут определяться сложные объекты или функции конструкторов, которые затем используются для создания объектов.</p>
+    <p>Так, добавим в папку проекта новый файл user.js:</p>
+
+    <pre class="brush: csharp;">
+    function User(name, age){
+         
+        this.name = name;
+        this.age = age;
+        this.displayInfo = function(){
+             
+            console.log(`Имя: ${this.name}  Возраст: ${this.age}`);
+        }
+    }
+    User.prototype.sayHi = function() {
+        console.log(`Привет, меня зовут ${this.name}`);
+    };
+     
+    module.exports = User;
+    </pre>
+
+    <p>Здесь определена стандартная функция конструктора User, которая принимает два параметра.</p>
+    <p>При этом весь модуль теперь указывает на эту функцию конструктора:</p>
+
+    <pre class="brush: csharp;">
+    module.exports = User;
+    </pre>
+
+    <p>Подключим и используем этот модуль в файле app.js:</p>
+
+    <pre class="brush: csharp;">
+    var User = require("./user.js");
+     
+    var eugene = new User("Eugene", 32);
+    eugene.sayHi();
+    </pre>
+
+    <p>Запустим приложение:</p>
+
+    <img src="n9.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="4.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/3.html", "Модули Node.js", "bm1312"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1312", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1312") == 1) { document.getElementById("bma1312").style.display = "block"; document.getElementById("bm1312").style.display = "none"; } else { document.getElementById("bma1312").style.display = "none"; document.getElementById("bm1312").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Модули Node.js") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1312", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

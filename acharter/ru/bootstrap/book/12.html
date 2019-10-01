@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma12" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm12" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Формы
+	</h1>
+
+	<p>Вёрстка форм — это одна из сильных сторон Bootstrap.</p>
+	<p>Фреймворк не только помогает расположить элементы форм в нужном порядке, но и обеспечивает изменение вида элементов и их взаимодействие с пользователем.</p>
+	<p>Давайте рассмотрим типовую форму для входа на сайт и на её примере разберём, как работает Boostrap для форм.</p>
+	<p>В примере показано создание базовой формы пока без добавления дополнительных классов.</p>
+
+	<pre class="brush: csharp;">
+	<form>
+
+	<fieldset>
+
+	<legend>Вход на сайт</legend>
+
+	<p><label for="inputLogin">Логин</label></p>
+
+	<p><input id="inputLogin" placeholder="Введите логин"></p>
+
+	<p> <label for="inputPassword">Пароль</label></p>
+
+	<p><input type="password" id="inputPassword" placeholder="Введите пароль"></p>
+
+	<p><label><input type="checkbox"> Запомнить меня</label></p>
+
+	<p><button type="submit">Войти</button></p>
+
+	</fieldset>
+
+	</form>
+	</pre>
+
+	<p>Форма выглядит скучно, поскольку какое-либо оформление ещё не включено.</p>
+
+	<img src="gridBTSP34.png" id="image" />
+
+	<p>Для начала добавим к текстовому полю и полю с паролем класс <b>form-control</b>, это изменит стиль текстовых полей.</p>
+	<p>Далее нужно сгруппировать заголовок и поле за ним, чтобы расстояние между ними было меньше обычного.</p>
+	<p>Добавим <xm>&lt;label> и &lt;input></xm> внутрь элемента <xm>&lt;div></xm> с классом form-group.</p>
+	<p>Кроме того изменим чекбокс с текстом, добавив их внутрь <xm>&lt;div></xm> с классом checkbox и зададим другой вид кнопки.</p>
+	<p>В примере показаны изменения формы.</p>
+
+	<pre class="brush: csharp;">
+	<form>
+
+	<fieldset>
+
+	<legend>Вход на сайт</legend>
+
+	<div class="form-group">
+
+	<label for="inputLogin">Логин</label>
+
+	<input id="inputLogin" placeholder="Введите логин" class="form-control">
+
+	</div>
+
+	<div class="form-group">
+
+	<label for="inputPassword">Пароль</label>
+
+	<input type="password" id="inputPassword" placeholder="Введите пароль" class="form-control">
+
+	</div>
+
+	<div class="checkbox">
+
+	<label><input type="checkbox"> Запомнить меня</label>
+
+	</div>
+
+	<button type="submit" class="btn btn-default">Войти</button>
+
+	</fieldset>
+
+	</form>
+	</pre>
+
+	<h1 id="title">
+		Однострочная форма
+	</h1>
+
+	<p>Чтобы сделать форму компактнее, к элементу <xm>&lt;form></xm> достаточно добавить класс <b>form-inline</b>.</p>
+	<p>Элементы формы после этого вытянутся в одну строку.</p>
+	<p>Также из кода следует убрать <xm>&lt;fieldset> и &lt;legend></xm>.</p>
+
+	<img src="gridBTSP36.png" id="image" />
+
+	<p>В примере показано создание такой формы.</p>
+
+	<pre class="brush: csharp;">
+	<form class="form-inline">
+
+	<div class="form-group">
+
+	<label for="inputLogin">Логин</label>
+
+	<input id="inputLogin" placeholder="Введите логин" class="form-control">
+
+	</div>
+
+	<div class="form-group">
+
+	<label for="inputPassword">Пароль</label>
+
+	<input type="password" id="inputPassword" placeholder="Введите пароль" class="form-control">
+
+	</div>
+
+	<div class="checkbox">
+
+	<label><input type="checkbox"> Запомнить меня</label>
+
+	</div>
+
+	<button type="submit" class="btn btn-default">Войти</button>
+
+	</form>
+	</pre>
+
+	<p>При уменьшении размера окна форма перестанет быть однострочной и примет исходный вид.</p>
+
+	<h1 id="title">
+		Горизонтальная форма
+	</h1>
+
+	<p>Такой вид формы часто встречается на сайтах, когда поле и метка к нему располагаются на одной строке.</p>
+
+	<img src="gridBTSP37.png" id="image" />
+
+	<p>Для создания формы такого вида требуется проделать несколько действий:</p>
+	<p>- к <xm>&lt;form></xm> добавить класс form-horizontal;</p>
+	<p>- к <xm>&lt;label></xm> добавить класс control-label, тогда метка поля будет выравниваться по правому краю и по центральной горизонтальной оси поля;</p>
+	<p>- обернуть <xm>&lt;label> и &lt;input> в &lt;div></xm> с классом form-group;</p>
+	<p>- использовать модульную сетку.</p>
+	<p>Мы уже имели дело с 12-колоночной модульной сеткой, применим эти навыки для управления дизайном формы.</p>
+	<p>Метка будет занимать две колонки, а ширина самого поля — оставшиеся десять колонок.</p>
+	<p>Вместо добавления дополнительного <xm>&lt;div></xm> добавим класс col-sm-2 непосредственно к <xm>&lt;label></xm>, так немного сократится число элементов кода.</p>
+	<p>Что касается чекбокса и кнопки, то добавим к ним класс col-sm-offset-2, он сдвинет поля прямо под текстовое поле.</p>
+
+	<pre class="brush: csharp;">
+	<form class="form-horizontal">
+
+	<div class="form-group">
+
+	<label for="inputLogin" class="col-sm-2 control-label">Логин</label>
+
+	<div class="col-sm-10">
+
+	<input id="inputLogin" placeholder="Введите логин" class="form-control">
+
+	</div>
+
+	</div>
+
+	<div class="form-group">
+
+	<label for="inputPassword" class="col-sm-2 control-label">Пароль</label>
+
+	<div class="col-sm-10">
+
+	<input type="password" id="inputPassword" placeholder="Введите пароль" class="form-control">
+
+	</div>
+
+	</div>
+
+	<div class="form-group">
+
+	<div class="col-sm-10 col-sm-offset-2 checkbox">
+
+	<label><input type="checkbox"> Запомнить меня</label>
+
+	</div>
+
+	</div>
+
+	<div class="form-group">
+
+	<div class="col-sm-10 col-sm-offset-2">
+
+	<button type="submit" class="btn btn-default">Войти</button>
+
+	</div>
+
+	</div>
+
+	</form>
+	</pre>
+
+	<p>В классах мы использовали префикс sm, чтобы на смартфонах форма выглядела традиционно, а на больших экранах — как горизонтальная.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="11.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="13.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/bootstrap/book/12.html", "Формы", "bm12"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm12", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm12") == 1) { document.getElementById("bma12").style.display = "block"; document.getElementById("bm12").style.display = "none"; } else { document.getElementById("bma12").style.display = "none"; document.getElementById("bm12").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Формы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm12", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

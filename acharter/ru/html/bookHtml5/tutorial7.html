@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma499" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm499" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Drag and Drop
+	</h1>
+
+	<p><b>Обратите внимание:</b> браузеры Internet Explorer 9+, Chrome, Firefox, Opera, и Safari имеют поддержку drag and drop.</p>
+	<p>Технология drag and drop (иногда может упоминаться как drag'n'drop) позволяет сделать элементы на Ваших веб-страницах перетаскиваемыми (совсем как окна с программами в операционной системе).</p>
+	<p>Ранее это было возможным только с помощью реализаций сложных JavaScript функций или подключением jQuery.</p>
+	<p>Сейчас технология drag and drop является частью спецификации HTML5 и ее поддержка встроена во все современные веб-браузеры.</p>
+
+	<h1 id="title">
+		Как сделать элемент перетаскиваемым
+	</h1>
+	
+	<p>Практически любые элементы на веб-страницах можно сделать перетаскиваемыми включая картинки, ссылки и обычные текстовые элементы.</p>
+	<p>Для того, чтобы сделать элемент перетаскиваемым необходимо добавить к нему HTML5 атрибут <b>draggable</b> со значением <b>true</b>.</p>
+	
+	<pre class="brush: csharp;">
+		<img draggable='true'>
+	</pre>
+	
+	<p>Мало просто сделать элемент перетаскиваемым, чтобы извлечь из этого какую-либо пользу мы должны дополнительно обработать перетаскиваемый элемент с помощью специальных событий перетаскивания, которые были добавлены в HTML5:</p>
+	
+	<table>
+		<tr>
+			<th>Событие</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>dragstart</td>
+			<td>Выполнится в начале операции перетаскивания</td>
+		</tr>
+		<tr>
+			<td>ondrag</td>
+			<td>Выполнится во время перетаскивания элемента</td>
+		</tr>
+		<tr>
+			<td>ondragenter</td>
+			<td>Выполнится когда перетаскиваемый элемент будет наведен на элемент, который может его принять</td>
+		</tr>
+		<tr>
+			<td>ondragleave</td>
+			<td>Выполнится когда перетаскиваемый элемент будет выведен за пределы границ элемента, который может его принять</td>
+		</tr>
+		<tr>
+			<td>ondragover</td>
+			<td>Выполнится когда перетаскиваемый элемент будет перемещаться в пределах границ элемента, который может его принять</td>
+		</tr>
+		<tr>
+			<td>ondrop</td>
+			<td>Выполнится когда перетаскиваемый элемент будет перемещен в принимающий его элемент</td>
+		</tr>
+		<tr>
+			<td>ondropend</td>
+			<td>Выполнится в конце операции перетаскивания</td>
+		</tr>
+	</table>
+	
+	<h1 id="title">
+		Обработка элемента во время перетаскивания
+	</h1>
+	
+	<p>Всю обработку перетаскивания элемента можно условно разбить на два шага:</p>
+	<p>1. Сохранение данных перетаскиваемого элемента в начале операции перетаскивания.</p>
+	<p>2. Извлечение ранее сохраненных данных, после того, как перетаскиваемый элемент будет перемещен в принимающий его элемент.</p>
+	<p>Для того, чтобы сохранить данные мы должны воспользоваться методом <b>setData("тип_данных","сохраняемые_данные")</b> HTML5 объекта <b>DataTransfer</b>.</p>
+	<p>Данные перетаскиваемого элемента необходимо сохранять в самом начале перетаскивания, то есть во время события <b>ondragstart</b>.</p>
+	
+	<p>Для того, чтобы извлечь ранее сохраненные данные мы должны воспользоваться методом <b>getData("тип_данных")</b> объекта <b>DataTransfer</b>.</p>
+	<p>Данные перетаскиваемого элемента необходимо извлекать после того, как перетаскиваемый элемент будет перемещен в область принимающего его элемента, то есть во время события <b>ondrop</b>.</p>
+	<p><b>Обратите внимание:</b> тип данных во время сохранения и извлечения должен совпадать, то есть если Вы сохраняли данные с типом "text/plain" Вы должны использовать "text/plain" и для их извлечения.</p>
+	<p>По умолчанию элементы не могут принимать другие элементы, поэтому если мы хотим создать принимающий элемент мы должны привязать к нему обработчик события <b>ondragover</b> и передать ему <b>event.preventDefault()</b>.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/html/bookHtml5/tutorial7.html", "HTML5 Drag'n'Drop", "bm499"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm499", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm499") == 1) { document.getElementById("bma499").style.display = "block"; document.getElementById("bm499").style.display = "none"; } else { document.getElementById("bma499").style.display = "none"; document.getElementById("bm499").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("HTML5 Drag'n'Drop") == 1) { arrs.splice(i, 1); localStorage.setItem("bm499", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

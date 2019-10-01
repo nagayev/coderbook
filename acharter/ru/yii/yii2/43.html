@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1249" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1249" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Sphinx
+	</h1>
+
+    <p>Это расширение добавляет полнотекстовый поисковый движок Sphinx для фреймворка Yii 2.</p>
+    <p>Он поддерживает все функции Sphinx, включая Real-time индексы.</p>
+
+    <h2 id="title">
+        Установка
+    </h2>
+
+    <h3 id="title">
+        Требования
+    </h3>
+
+    <p>Требуется, хотя бы, версия Sphinx 2.0.</p>
+    <p>Однако, чтобы использовать все возможности расширения, необходим Sphinx версии 2.2 или выше.</p>
+
+    <h3 id="title">
+        Получение с помощью Composer
+    </h3>
+
+    <p>Предпочтительный способ установки расширения через composer.</p>
+    <p>Для этого запустите</p>
+
+    <pre class="brush: csharp;">
+    php composer.phar require --prefer-dist yiisoft/yii2-sphinx
+    </pre>
+
+    <p>или добавьте</p>
+
+    <pre class="brush: csharp;">
+    "yiisoft/yii2-sphinx": "~2.0.0"
+    </pre>
+
+    <p>в секцию require вашего composer.json.</p>
+
+    <h3 id="title">
+        Конфигурация
+    </h3>
+
+    <p>Это расширение взаимодействует с демоном поиска Sphinx, используя протокол MySQL и язык запросов SphinxQL.</p>
+    <p>Чтобы настроить Sphinx "searchd" для поддержки протокола MySQL, необходимо добавить следующую конфигурацию:</p>
+
+    <pre class="brush: csharp;">
+    searchd
+    {
+        listen = localhost:9306:mysql41
+        ...
+    }
+    </pre>
+
+    <p>Для использования расширения, просто добавьте этот код в конфигурацию вашего приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            'sphinx' =&gt; [
+                'class' =&gt; 'yii\sphinx\Connection',
+                'dsn' =&gt; 'mysql:host=127.0.0.1;port=9306;',
+                'username' =&gt; '',
+                'password' =&gt; '',
+            ],
+        ],
+    ];
+    </pre>
+
+    <h2 id="title">
+        Базовое использование
+    </h2>
+
+    <p>Поскольку это расширение использует протокол MySQL для доступа к Sphinx, оно разделяет базовый подход и множество кода из регулярного пакета "yii\db".</p>
+    <p>Запуск запросов SphinxQL очень похож на обычные SQL-запросы:</p>
+
+    <pre class="brush: csharp;">
+    $sql = 'SELECT * FROM idx_item WHERE group_id = :group_id';
+    $params = [
+        'group_id' =&gt; 17
+    ];
+    $rows = Yii::$app->sphinx->createCommand($sql, $params)->queryAll();
+    </pre>
+
+    <p>Вы, также, можете использовать Query Builder:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $rows = $query->select('id, price')
+        ->from('idx_item')
+        ->andWhere(['group_id' =&gt; 1])
+        ->all();
+    </pre>
+
+    <p><b>Примечание:</b> Sphinx, по умолчанию, ограничивает количество записей, возвращаемых любым запросом, до 10. Если вам нужно получить больше записей, вам следует явно указать ограничение.</p>
+
+    <h2 id="title">
+        Составление инструкции 'MATCH'
+    </h2>
+
+    <p>Использование Sphinx не имеет смысла, если вы не используете его полнотекстовый поиск.</p>
+    <p>В SphinxQL он предоставляется с помощью инструкции 'MATCH'.</p>
+    <p>Вы всегда можете составить его вручную как часть условия 'where', но если вы используете yii\sphinx\Query, вы можете сделать это через yii\sphinx\Query::match():</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $rows = $query->from('idx_item')
+        ->match($_POST['search'])
+        ->all();
+    </pre>
+
+    <p>Пожалуйста обратите внимание, что аргумент инструкции Sphinx 'MATCH' использует сложный внутренний синтаксис для лучшей настройки.</p>
+    <p>По умолчанию yii\sphinx\Query::match() будет избегать всех специальных символов, связанных с этим синтаксисом, из его аргумента.</p>
+    <p>Поэтому, если вы хотите использовать сложный оператор 'MATCH', вы должны использовать yii\db\Expression для этого:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    use yii\db\Expression;
+    
+    $query = new Query();
+    $rows = $query->from('idx_item')
+        ->match(new Expression(':match', ['match' =&gt; '@(content) ' . Yii::$app->sphinx->escapeMatchValue($_POST['search'])]))
+        ->all();
+    </pre>
+
+    <p><b>Примечание:</b> если вы создаете аргумент 'MATCH', обязательно используйте \yii\sphinx\Connection::escapeMatchValue() для правильного экранирования каких-либо специальных символов, которые могут сломать запрос.</p>
+    <p>Начиная с версии 2.0.6 вы можете использовать [[\yii\sphinx\MatchExpression]] для композиции утверждения 'MATCH'.</p>
+    <p>Он позволяет создавать выражение 'MATCH' с использованием заполнителей аналогично связанным параметрам, значения которых будут автоматически экранированы с помощью [[\yii\sphinx\Connection::escapeMatchValue()]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    use yii\sphinx\MatchExpression;
+    
+    $rows = (new Query())
+        ->match(new MatchExpression('@title :title', ['title' =&gt; 'Yii'])) // value of ':title' will be escaped automatically
+        ->all();
+    </pre>
+
+    <p>Вы можете использовать [[match()], [[andMatch()]] и [[orMatch()]] для объединения нескольких условий.</p>
+    <p>Каждое условие может быть задано с использованием синтаксиса массива, аналогичного тому, который используется для [[\yii\sphinx\Query:where]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    use yii\sphinx\MatchExpression;
+    
+    $rows = (new Query())
+        ->match(
+            // produces '((@title "Yii") (@author "Paul")) | (@content "Sphinx")' :
+            (new MatchExpression())
+                ->match(['title' =&gt; 'Yii'])
+                ->andMatch(['author' =&gt; 'Paul'])
+                ->orMatch(['content' =&gt; 'Sphinx'])
+        )
+        ->all();
+    </pre>
+
+    <p>Вы также можете составлять выражения со специальными операторами, такими как 'MAYBE', 'PROXIMITY' и т.д.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    use yii\sphinx\MatchExpression;
+    
+    $rows = (new Query())
+        ->match(
+            // produces '@title "Yii" MAYBE "Sphinx"' :
+            (new MatchExpression())->match([
+                'maybe',
+                'title',
+                'Yii',
+                'Sphinx',
+            ])
+        )
+        ->all();
+    
+    $rows = (new Query())
+        ->match(
+            // produces '@title "Yii"~10' :
+            (new MatchExpression())->match([
+                'proximity',
+                'title',
+                'Yii',
+                10,
+            ])
+        )
+        ->all();
+    </pre>
+
+    <h2 id="title">
+        Использование ActiveRecord
+    </h2>
+
+    <p>Это расширение предоставляет ActiveRecord решение, подобное [[\yii\db\ActiveRecord]].</p>
+    <p>Чтобы объявить класс ActiveRecord, вам нужно расширить [[\yii\sphinx\ActiveRecord]] и реализовать метод indexName:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\ActiveRecord;
+    
+    class Article extends ActiveRecord
+    {
+        /**
+         * @return string the name of the index associated with this ActiveRecord class.
+         */
+        public static function indexName()
+        {
+            return 'idx_article';
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Извлечение META информации
+    </h2>
+
+    <p>Sphinx позволяет получать статистическую информацию о последнем выполненном запросе с помощью инструкции SHOW META SphinxQL.</p>
+    <p>Эта информация обычно используется для получения общего количества строк в индексе без дополнительного запроса SELECT COUNT (*) ....</p>
+    <p>Хотя вы всегда можете запустить такой запрос вручную, yii\sphinx\Query позволяет вам делать это автоматически без дополнительных усилий.</p>
+    <p>Все, что вам нужно сделать, это включить yii\sphinx\Query::showMeta и использовать yii\sphinx\Query::search() для извлечения всех строк и метаинформации:</p>
+
+    <pre class="brush: csharp;">
+    $query = new Query();
+    $results = $query->from('idx_item')
+        ->match('foo')
+        ->showMeta(true) // включить автоматический запрос 'SHOW META'
+        ->search(); // извлечь все строки и META информацию
+    
+    $items = $results['hits'];
+    $meta = $results['meta'];
+    $totalItemCount = $results['meta']['total'];
+    </pre>
+
+    <p><b>Примечание:</b> Общее количество элементов, которое может быть извлечено из 'meta', ограничено опцией sphinx max_matches. Если ваш индекс содержит больше записей, чем значение max_matches (обычно - 1000), вы должны либо поднятьmax_matches через [[Query::options]], либо использовать [[Query::count()]], чтобы получить количество записей.</p>
+
+    <h2 id="title">
+        Фасетный поиск
+    </h2>
+
+    <p>Начиная с версии 2.2.3 Sphinx обеспечивает возможность фасетного поиска с помощью FACET:</p>
+
+    <pre class="brush: csharp;">
+    SELECT * FROM idx_item FACET brand_id FACET categories;
+    </pre>
+
+    <p>yii\sphinx\Query поддерживает композицию этого предложения, а также выборку фасетных результатов.</p>
+    <p>Вы можете указать фасеты через yii\sphinx\Query::facets. Чтобы получать результаты с фасетами, вам нужно использовать метод yii\sphinx\Query::search().</p>
+    <p>Для примера:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $results = $query->from('idx_item')
+        ->facets([
+            'brand_id',
+            'categories',
+        ])
+        ->search($connection); // получить все строки и фасеты
+    
+    $items = $results['hits'];
+    $facets = $results['facets'];
+    
+    foreach ($results['facets']['brand_id'] as $frame) {
+        $brandId = $frame['value'];
+        $count = $frame['count'];
+        ...
+    }
+    </pre>
+
+    <p><b>Примечание:</b> убедитесь, что вы используете сервер Sphinx версии 2.2.3 или выше, прежде чем пытаться использовать особенности фасетов.</p>
+    <p>Вы можете указать дополнительные опции фасета, такие как select или order используя формат массива:</p>
+
+    <pre class="brush: csharp;">
+    use yii\db\Expression;
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $results = $query->from('idx_item')
+        ->facets([
+            'price' =&gt; [
+                'select' =&gt; 'INTERVAL(price,200,400,600,800) AS price', // using function
+                'order' =&gt; ['FACET()' =&gt; SORT_ASC],
+            ],
+            'name_in_json' =&gt; [
+                'select' =&gt; [new Expression('json_attr.name AS name_in_json')], // необходимо использовать `Expression`, чтобы избежать ненужного цитирования
+            ],
+        ])
+        ->search($connection);
+    </pre>
+
+    <p><b>Примечание:</b> если вы укажете пользовательский выбор для фасета, убедитесь, что в названии фасета имеется соответствующий столбец внутри оператора select.</p>
+    <p>Например, если вы указали фасет с именем 'my_facet', его оператор select должен содержать атрибут 'my_facet' или выражение связанное как 'my_facet' ('expr() AS my_facet').</p>
+
+    <h2 id="title">
+        Работа с провайдерами данных
+    </h2>
+
+    <p>Вы можете использовать [[\yii\data\ActiveDataProvider]] с [[\yii\sphinx\Query]] и [[\yii\sphinx\ActiveQuery]]:</p>
+
+    <pre class="brush: csharp;">
+    use yii\data\ActiveDataProvider;
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $query->from('yii2_test_article_index')->match('development');
+    $provider = new ActiveDataProvider([
+        'query' =&gt; $query,
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ]
+    ]);
+    $models = $provider->getModels();
+    use yii\data\ActiveDataProvider;
+    use app\models\Article;
+    
+    $provider = new ActiveDataProvider([
+        'query' =&gt; Article::find(),
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ]
+    ]);
+    $models = $provider->getModels();
+    </pre>
+
+    <p>Однако, если вы хотите использовать преимущества 'facet' или мета-информацию запроса вам нужно использовать yii\sphinx\ActiveDataProvider.</p>
+    <p>Он позволяет подготовить общее количество элементов с помощью 'meta' информации запроса и получить результаты фасета:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\ActiveDataProvider;
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $query->from('idx_item')
+        ->match('foo')
+        ->showMeta(true)
+        ->facets([
+            'brand_id',
+            'categories',
+        ]);
+    $provider = new ActiveDataProvider([
+        'query' =&gt; $query,
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ]
+    ]);
+    $models = $provider->getModels();
+    $facets = $provider->getFacets();
+    $brandIdFacet = $provider->getFacet('brand_id');
+    </pre>
+
+    <p><b>Примечание:</b> Поскольку смещение и ограничение нумерации страниц могут превышать границы Sphinx 'max_matches', провайдер данных установит 'max_matches' автоматически на основании этих значений. Однако, если [[Query::showMeta]] установлен, такая корректировка не выполняется, так как это нарушит подсчет общего количества, поэтому вам придется иметь дело с ограничениями 'max_matches' на свое усмотрение.</p>
+
+    <h2 id="title">
+        Создание снипетов (Выдержки)
+    </h2>
+
+    <p>Сниппет (выдержка) - фрагмент исходного текста индекса, который содержит выделенные слова изсостояния полнотекстового поиска.</p>
+    <p>Sphinx имеет мощный встроенный механизм для создания фрагментов.</p>
+    <p>Однако, поскольку Sphinx не сохраняет исходный проиндексированный текст, фрагменты для строк в результате запроса должны быть построены отдельно через другой запрос.</p>
+    <p>Такой запрос может быть выполнен с помощью yii\sphinx\Command::callSnippets():</p>
+
+    <pre class="brush: csharp;">
+    $sql = "SELECT * FROM idx_item WHERE MATCH('about')";
+    $rows = Yii::$app->sphinx->createCommand($sql)->queryAll();
+    
+    $rowSnippetSources = [];
+    foreach ($rows as $row) {
+        $rowSnippetSources[] = file_get_contents('/path/to/index/files/' . $row['id'] . '.txt');
+    }
+    
+    $snippets = Yii::$app->sphinx->createCommand($sql)->callSnippets('idx_item', $rowSnippetSources, 'about');
+    </pre>
+
+    <p>Вы можете упростить этот рабочий процесс, используя [[yii\sphinx\Query::snippetCallback]].</p>
+    <p>Это PHP колбек, который получает массив строк результата запроса в качестве аргумента и должен возвращать массив строк источника фрагмента в порядке, который соответствует одной из входящих строк.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    $query = new Query();
+    $rows = $query->from('idx_item')
+        ->match($_POST['search'])
+        ->snippetCallback(function ($rows) {
+            $result = [];
+            foreach ($rows as $row) {
+                $result[] = file_get_contents('/path/to/index/files/' . $row['id'] . '.txt');
+            }
+            return $result;
+        })
+        ->all();
+    
+    foreach ($rows as $row) {
+        echo $row['snippet'];
+    }
+    </pre>
+
+    <p>Если вы используете Active Record, вы можете создать фрагменты [[yii\sphinx\ActiveQuery::snippetByModel()]].</p>
+    <p>Этот метод извлекает источник фрагмента для каждой строки, вызывающий метод getSnippetSource() модели результата.</p>
+    <p>Все, что вам нужно сделать, это реализовать его в классе Active Record, чтобы он вернул правильное значение:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\ActiveRecord;
+    
+    class Article extends ActiveRecord
+    {
+        public function getSnippetSource()
+        {
+            return file_get_contents('/path/to/source/files/' . $this->id . '.txt');;
+        }
+    }
+    
+    $articles = Article::find()->snippetByModel()->all();
+    
+    foreach ($articles as $article) {
+        echo $article->snippet;
+    }
+    </pre>
+
+    <h2 id="title">
+        Использование генератора Gii
+    </h2>
+
+    <p>Это расширение предоставляет генератор кода, который может быть интегрирован с модулем yii 'gii'.</p>
+    <p>Оно позволяет генерировать Active Record код. Чтобы включить его, вы должны настроить вашу конфигурацию приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'modules' =&gt; [
+            // ...
+            'gii' =&gt; [
+                'class' =&gt; 'yii\gii\Module',
+                'generators' =&gt; [
+                    'sphinxModel' =&gt; [
+                        'class' =&gt; 'yii\sphinx\gii\model\Generator'
+                    ]
+                ],
+            ],
+        ]
+    ];
+    </pre>
+
+    <h2 id="title">
+        Связывание параметров с плавающей точкой
+    </h2>
+
+    <p>Существуют проблемы, связанные с привязкой значений float используя PDO и SphinxQL.</p>
+    <p>PDO не предоставляет способ привязки параметра float в режиме подготовленных операторов, поэтому значения float передаются в режиме PDO::PARAM_STR и, таким образом, привязаны к оператору в виде цитируемых строк, например '9.85'.</p>
+    <p>К сожалению, SphinxQL не может распознать значения float, переданные таким образом, создавая следующую ошибку:</p>
+
+    <pre class="brush: csharp;">
+    syntax error, unexpected QUOTED_STRING, expecting CONST_INT or CONST_FLOAT
+    </pre>
+
+    <p>Чтобы обойти эту проблему, любой параметр связывается с [[\yii\sphinx\Command]], какой точно PHP тип 'float' будет вставляться в содержимое SphinxQL как литерал вместо привязки.</p>
+    <p>Эта функция работает только в том случае, если значение является оригинальным PHP float (строки, содержащие float, не работают).</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    // следующий код работает отлично:
+    $rows = (new Query())->from('item_index')
+        ->where('price > :price AND price < :priceMax', [
+            'price' =&gt; 2.1,
+            'priceMax' =&gt; 2.9,
+        ])
+        ->all();
+    
+    //это приведет к ошибке:
+    $rows = (new Query())->from('item_index')
+        ->where('price > :price AND price < :priceMax', [
+            'price' =&gt; '2.1',
+            'priceMax' =&gt; '2.9',
+        ])
+        ->all();
+    </pre>
+
+    <p>Однако, если вы используете 'hash' условия над полями индекса, объявленными как 'float', преобразование типа будет выполняется автоматически:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    // следующий код работает отлично, если 'price' - это поле float в 'item_index':
+    $rows = (new Query())->from('item_index')
+        ->where([
+            'price' =&gt; '2.5'
+        ])
+        ->all();
+    </pre>
+
+    <p><b>Примечание:</b> к тому моменту, когда вы это читаете, эта привязка к float, может быть уже исправлена на стороне сервера Sphinx, или другие опасения по поводу этой функции, что делает ее нежелательной. В этом случае вы можете отключить автоматическое преобразование параметров float через [[\yii\sphinx\Connection::enableFloatConversion]].</p>
+
+    <h2 id="title">
+        Работа с распределенными индексами
+    </h2>
+
+    <p>Это расширение использует запрос DESCRIBE для получения информации о структуре индекса Sphinx (имена полей и типы).</p>
+    <p>Однако для распределенных индексов это не всегда возможно.</p>
+    <p>Схема такого индекса может быть найдена только, если его объявление содержит в списке один доступный локальный индекс.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    index item_distributed
+    {
+        type = distributed
+    
+        # local index :
+        local = item_local
+    
+        # remote indexes :
+        agent = 127.0.0.1:9312:remote_item_1
+        agent = 127.0.0.1:9313:remote_item_2
+        # ...
+    }
+    </pre>
+
+    <p>Рекомендуется иметь по крайней мере один локальный индекс в объявлении распределенного индекса.</p>
+    <p>Вы не обязаны его фактически использовать - этот локальный индекс может быть пустым, он необходим только для объявления схемы.</p>
+    <p>Тем не менее, разрешено указывать распределенный индекс без локального.</p>
+    <p>Для такого индекса будет использоваться схема-заглушка по умолчанию.</p>
+    <p>Однако в этом случае автоматическое преобразование типов для полей индекса будет недоступно, и вы должны выполнить типизацию данных самостоятельно.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\sphinx\Query;
+    
+    // распределенный индекс с локальным
+    $rows = (new Query())->from('item_distributed_with_local')
+        ->where(['category_id' =&gt; '12']) // отлично работает строка `'12'` - преобразуется в целое число `12`
+        ->all();
+    
+    // распределенный индекс без локального
+    $rows = (new Query())->from('item_distributed_without_local')
+        ->where(['category_id' =&gt; '12']) // produces SphinxQL error: 'syntax error, unexpected QUOTED_STRING, expecting CONST_INT'
+        ->all();
+    
+    $rows = (new Query())->from('item_distributed_without_local')
+        ->where(['category_id' =&gt; (int)'12']) // необходимо выполнить приведение типов
+        ->all();
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="42.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="44.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/43.html", "Yii2: Sphinx", "bm1249"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1249", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1249") == 1) { document.getElementById("bma1249").style.display = "block"; document.getElementById("bm1249").style.display = "none"; } else { document.getElementById("bma1249").style.display = "none"; document.getElementById("bm1249").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Sphinx") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1249", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma114" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm114" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Операторы передачи управления
+	</h1>
+
+	<p>Кроме оператора безусловного перехода (иначе – оператора безусловной передачи управления goto) к операторам передачи управления относят:</p>
+	<p>- оператор возврата из метода return;</p>
+	<p>- оператор выхода из цикла или переключателя break;</p>
+	<p>- оператор перехода к следующей итерации цикла continue;</p>
+	<p>- оператор посылки исключения throw.</p>
+	<p>Оператор return подробно рассмотрим, перейдя к методам (функциям).</p>
+	<p>Оператор throw требует хорошего понимания механизма генерации и обработки исключений, поэтому знакомство с ним нужно отложить.</p>
+	<p>Поэтому сейчас остановимся на операторах break, continue и goto.</p>
+	<p>Оператор break служит для принудительного выхода из цикла или переключателя.</p>
+	<p>Определение "принудительный" подчеркивает безусловность перехода.</p>
+	<p>Например, в случае цикла не проверяются и не рассматриваются условия дальнейшего продолжения итераций.</p>
+	<p>Оператор break прекращает выполнение оператора цикла или переключателя и осуществляет передачу управления (переход) к следующему за циклом или переключателем оператору.</p>
+	<p>При этом в отличии от перехода с помощью goto оператор, к которому выполняется передача управления, может быть не помечен.</p>
+	<p>Оператор break нельзя использовать нигде, кроме циклов и переключателей.</p>
+	<p>Необходимость в использовании оператора break в теле цикла возникает, когда условия продолжения итераций нужно проверять не в начале итерации (циклы for, while), не в конце итерации (цикл do), а в середине тела цикла.</p>
+	<p>В этом случае тело цикла может иметь такую структуру:</p>
+
+	<pre class="brush: csharp;">
+	{
+		операторы
+		if (условие) break;
+		операторы
+	}
+	</pre>
+
+	<p>Например, если начальные значения целых переменных i, j таковы, что i &lt; j, то следующий цикл определяет наименьшее целое, не меньшее их среднего арифметического:</p>
+
+	<pre class="brush: csharp;">
+	while (i < j) { i++; if (i == j) break; j--; }
+	</pre>
+
+	<p>Для i == 0, j == 3 результат i == j == 2 достигается при выходе из цикла с помощью оператора break.</p>
+	<p>Запись i == j == 2 не в тексте программы означает равенство значений переменных i, j и константы 2.</p>
+	<p>Для i == 0 и j == 2 результат i == j == 1 будет получен при естественном завершении цикла.</p>
+	<p>Как уже упомянуто, циклы могут быть многократно вложенными.</p>
+	<p>Однако, следует помнить, что оператор break позволяет выйти только из того цикла, в котором он размещен.</p>
+	<p>При многократном вложении циклов оператор break не может вызвать передачу управления из самого внутреннего уровня непосредственно на самый внешний.</p>
+	<p>Например, при решении задачи поиска в матрице хотя бы одного элемента с заданным значением, когда цикл перебора элементов строки вложен в цикл перебора строк, удобнее пользоваться не оператором break, а оператором безусловной передачи управления goto.</p>
+	<p>В качестве примера, когда при вложении циклов целесообразно применение оператора break, назовём задачу вычисления произведений элементов отдельных строк матрицы.</p>
+	<p>Задача требует вложения циклов.</p>
+	<p>Во внешнем выбирается очередная строка, во внутреннем – вычисляется произведение её элементов.</p>
+	<p>Вычисление произведения элементов строки можно прервать, если один из сомножителей окажется равным 0.</p>
+	<p>При появлении в строке нулевого элемента оператор break прерывает выполнение только внутреннего цикла, однако внешний цикл перебора строк выполнится для всех строк.</p>
+	<p>Оператор безусловного перехода, который мы рассмотрели в связи с метками и переключателем, имеет вид: <b>goto идентификатор;</b> где идентификатор – имя метки оператора, расположенного в той же функции, где используется оператор безусловного перехода.</p>
+	<p>Принятая в настоящее время дисциплина программирования рекомендует либо вовсе отказаться от оператора goto, либо свести его применение к минимуму и строго придерживаться следующих рекомендаций:</p>
+	<p>- не входить внутрь блока извне (компилятор C# этого не позволит – сообщит об ошибке);</p>
+	<p>- не входить внутрь условного оператора, т.е. не передавать управление операторам, размещенным после служебных слов if или else;</p>
+	<p>- не входить извне внутрь переключателя (компилятор C# сообщит об ошибке);</p>
+	<p>- не передавать управление внутрь цикла.</p>
+	<p>Следование перечисленным рекомендациям позволяет исключить возможные нежелательные последствия бессистемного использования оператора безусловного перехода.</p>
+	<p>Полностью отказываться от оператора goto вряд ли стоит.</p>
+	<p>Есть случаи, когда этот оператор обеспечивает наиболее простые и понятные решения.</p>
+	<p>Один из них – это ситуация, когда нужно выйти из нескольких вложенных друг в друга циклов или переключателей.</p>
+	<p>Оператор break здесь не поможет, так как он обеспечивает выход только из самого внутреннего вложенного цикла или переключателя.</p>
+	<p>Оператор continue (оператор перехода к следующей итерации) употребляется только в операторах цикла.</p>
+	<p>С его помощью завершается текущая итерация и начинается проверка условия возможности дальнейшего продолжения цикла, т.е. условия начала следующей итерации.</p>
+	<p>Для объяснений действия оператора continue рекомендуется рассматривать операторы цикла в следующем виде:</p>
+
+	<pre class="brush: csharp;">
+	while (foo) { do { for (;foo;)
+	{
+		... ... ...
+		contin: ; contin: ; contin: ;
+	}
+	}
+	while (foo); }
+	</pre>
+
+	<p>В каждой из форм многоточием обозначены операторы тела цикла.</p>
+	<p>Вслед за ними размещен пустой оператор с меткой contin.</p>
+	<p>Если среди операторов тела цикла есть оператор continue и он выполняется, то его действие эквивалентно оператору безусловного перехода на метку contin.</p>
+	<p>Пример использования оператора continue.</p>
+	<p>Вводя с клавиатуры последовательность вещественных чисел, подсчитать сумму только положительных.</p>
+	<p>Окончанием ввода последовательности считать ввод нулевого значения.</p>
+
+	<pre class="brush: csharp;">
+	// 06_04.cs - оператор перехода к следующей итерации
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			double sum = 0, x;
+			do { Console.Write("x = ");
+				x = Double.Parse(Console.ReadLine());
+				if (x < 0) continue;
+				sum += x;
+			}
+			while (x != 0);
+			Console.WriteLine("Сумма = "+sum);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	x = 2&lt;ENTER&gt;
+	x = -4&lt;ENTER&gt;
+	x = 6&lt;ENTER&gt;
+	x = 0&lt;ENTER&gt;
+	Сумма = 8
+	</pre>
+
+	<p>Напомним, что без обработки исключений применение метода Parse() делает программу незащищённой от синтаксических ошибок во вводимых исходных данных.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="26.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="28.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/27.html", "Операторы передачи", "bm114"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm114", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm114") == 1) { document.getElementById("bma114").style.display = "block"; document.getElementById("bm114").style.display = "none"; } else { document.getElementById("bma114").style.display = "none"; document.getElementById("bm114").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Операторы передачи") == 1) { arrs.splice(i, 1); localStorage.setItem("bm114", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma876" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm876" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Создание массивов в PHP
+	</h1>
+	
+	<p>Массив - это набор данных, которые объединены под одним именем.</p>
+	<p>Массив состоит из нескольких элементов, которые имеют свой определенный индекс.</p>
+	<p>Массивы создаются при помощи <b>оператора присвоения</b>, также как и переменная. </p>
+	<p>Имена массивов начинаются со знака $, после которого следует произвольный идентификатор, далее идут квадратные скобки: $arr[0] = "php";</p>
+	<p>Данная конструкция создает массив и присваивает его элементу с индексом 0 значение "php", после чего мы можем обращаться к этому элементу как к обычной переменной: <b>echo $arr[0]</b>.</p>
+	<p>В результате мы увидим слово php.</p>
+	<p>Также, мы можем добавить еще элементы к массиву:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr[1] = "html";
+			$arr[2] = "css";
+		?&gt;
+	</pre>
+	
+	<p>В качестве индекса элементов массива мы можем использовать не только числа:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr["Kiev"] = 3000000; 
+			$arr["Paris"] = 5000000; 
+			$arr["LA"] = 15000000;
+		?&gt;
+	</pre>
+	
+	<p>В качестве значений индексов элементов и самих элементов мы можем использовать одинаковые типы данных одновременно!</p>
+	<p>Также существует сокращенная запись для индексирования:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr[] = 3000000; 
+			$arr[] = 5000000; 
+			$arr[] = 15000000;
+		?&gt;
+	</pre>
+	
+	<p>В этом случае первый элемент (3000000) получит индекс 0! Нужно иметь это ввиду.</p>
+	
+	<h1 id="title">
+		Для создания массива
+	</h1>
+	
+	<p>Для создания массива мы можем использовать функцию array:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr = array("php", "html", "css");
+		?&gt;
+	</pre>
+	
+	<p>В этом случае первый элемент получит индекс 0.</p>
+	<p>Если нужно присвоить какой-то другой номер, то можно воспользоваться конструкцией =&gt;:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr = array(1 =&gt; "php", "html", "css");
+		?&gt;
+	</pre>
+	
+	<p>Теперь элемент под номером 1 это "php", а не "html"!</p>
+	<p>Также, можно создать массив со строковым индексом:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr = array("first" =&gt; "php", "second" =&gt; "html", "third" =&gt; "css");
+		?&gt;
+	</pre>
+	
+	<p>Начиная с версии PHP 5.4, массивы можно создать через квадратные скобки:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$arr = ["php", "laravel", "yii", "zend", "cakephp"];
+		?&gt;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="30.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/php/book/29.html", "Создание массивов", "bm876"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm876", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm876") == 1) { document.getElementById("bma876").style.display = "block"; document.getElementById("bm876").style.display = "none"; } else { document.getElementById("bma876").style.display = "none"; document.getElementById("bm876").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание массивов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm876", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

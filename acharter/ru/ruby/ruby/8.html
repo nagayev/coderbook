@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1380" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1380" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Управление выполнением
+    </h1>
+
+    <p>Ааааа, управление выполнением...</p>
+    <p>Вот где всё соединяется воедино.</p>
+    <p>И хотя эта глава короче и легче, чем глава о методах, она откроет вам целый мир программных возможностей.</p>
+    <p>После этой главы мы сможем писать по-настоящему интерактивные программы; до этого мы создавали программы, которые выводили разные вещи в зависимости от вашего ввода с клавиатуры, но после этой главы они также будут действительно делать разные вещи.</p>
+    <p>Но прежде, чем мы сможем сделать это, нам нужно иметь возможность сравнивать объекты в наших программах.</p>
+    <p>Нам нужны...</p>
+    
+    <h2 id="title">
+        Методы сравнения
+    </h2>
+    
+    <p>Давайте быстро пробежимся по этому разделу, чтобы можно было перейти к следующему разделу, "Ветвления", где будут происходить самые классные вещи.</p>
+    <p>Так, чтобы узнать, что один объект больше или меньше другого, мы применяем методы &gt; и &lt;, вот так:</p>
+
+    <pre class="brush: csharp;">
+    puts 1 &gt; 2
+    puts 1 &lt; 2
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    false
+    true
+    </pre>
+
+    <p>Ничего сложного.</p>
+    <p>Подобным же образом мы можем выяснить, что объект больше или равен другому (или меньше или равен) с помощью методов &gt;= и &lt;=.</p>
+
+    <pre class="brush: csharp;">
+    puts 5 &gt;= 5
+    puts 5 &lt;= 4
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    true
+    false
+    </pre>
+
+    <p>И наконец, мы можем выяснить, равны ли два объекта или нет, используя == (что обозначает "они равны?") и != (что обозначает "они различны?").</p>
+    <p>Важно не путать = с ==.</p>
+    <p><b>=</b> используется, чтобы заставить переменную указывать на объект (присваивание), а <b>==</b> используется для ответа на вопрос: "Эти два объекта равны?"</p>
+
+    <pre class="brush: csharp;">
+    puts 1 == 1
+    puts 2 != 1
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    true
+    true
+    </pre>
+
+    <p>Конечно, мы также можем сравнивать строки. Когда сравниваются строки, они сопоставляются в лексикографическом порядке, что обычно означает словарную упорядоченность.</p>
+    <p>cat в словаре идёт перед dog, поэтому:</p>
+
+    <pre class="brush: csharp;">
+    puts 'cat' < 'dog'
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    true
+    </pre>
+
+    <p>Однако, здесь таится ловушка: обычно в компьютерах устроено так, что устанавливается такой порядок букв, в котором заглавные располагаются перед строчными буквами.</p>
+    <p>Так хранятся буквы в шрифтах, например: сначала все заглавные буквы, а за ними — строчные.</p>
+    <p>Это означает, что компьютер будет думать, что 'Zoo' располагается перед 'ant', так что, если вы хотите выяснить, какое слово идёт первым в настоящем словаре, обязательно примените метод downcase (или upcase или capitalize) к обоим словам прежде, чем вы попытаетесь их сравнить.</p>
+    <p>Последнее замечание перед "Ветвлением": методы сравнения не возвращают нам строки 'true' и 'false'; они возвращают нам специальные объекты true и false.</p>
+    <p>Конечно, true.to_s вернёт нам 'true', именно поэтому puts напечатал 'true'.</p>
+    <p><b>true</b> и <b>false</b> всегда используются для...</p>
+
+    <h2 id="title">
+        Ветвления
+    </h2>
+    
+    <p>Ветвление — это простое, но очень мощное понятие.</p>
+    <p>Фактически, оно настолько простое, что, ей-Богу, мне совсем даже и не нужно объяснять его; я просто покажу его вам:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Привет, как Вас зовут?'
+    name = gets.chomp
+    puts 'Привет, ' + name + '.'
+    if name == 'Chris'
+      puts 'Какое милое имя!'
+    end
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    Привет, как Вас зовут?
+    Chris
+    Привет, Chris.
+    Какое милое имя!
+    </pre>
+
+    <p>Но если мы введём другое имя...</p>
+
+    <pre class="brush: csharp;">
+    Привет, как Вас зовут?
+    Chewbacca
+    Привет, Chewbacca.
+    </pre>
+
+    <p>Вот это и есть ветвление.</p>
+    <p>Если то, что находится после if, имеет значение true, мы выполняем код между if и end.</p>
+    <p>Если то, что находится после if, имеет значение false, то не выполняем.</p>
+    <p>Ясно и просто.</p>
+    <p>Я выделил отступом код между if и end просто потому, что, полагаю, таким образом легче отслеживать ветвление.</p>
+    <p>Почти все программисты делают так, независимо от того, на каком языке они программируют.</p>
+    <p>В этом простом примере может показаться, что от этого не слишком много пользы, но когда программа становится более сложной, это существенно меняет дело.</p>
+    <p>Часто нам бы хотелось, чтобы программа выполняла что-то, если выражение равно true, и нечто другое, если оно равно false.</p>
+    <p>Для этого имеется else:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Я - предсказатель судьбы.  Скажите мне своё имя:'
+    name = gets.chomp
+    if name == 'Chris'
+      puts 'Я предвижу у Вас в будущем великие дела.'
+    else
+      puts 'Ваше будущее... О Боже!  Посмотрите-ка на часы!'
+      puts 'На самом деле мне пора уходить, извините!'
+    end
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    Я предсказатель будущего.  Скажите мне своё имя:
+    Chris
+    Я предвижу у Вас в будущем великие дела.
+    А теперь давайте попробуем другое имя...
+    Я предсказатель будущего.  Скажите мне своё имя:
+    Ringo
+    Ваше будущее... О Боже! Посмотрите-ка на часы!
+    На самом деле мне пора уходить, извините!
+    </pre>
+
+    <p>Ветвление — это как будто мы подошли к развилке в коде: мы выберем дорожку к людям, чьё имя — Крис (name == 'Chris'), или же (else) мы выберем другой путь.</p>
+    <p>И совсем как ветви на дереве, у вас могут быть ветвления, которые сами содержат ветвления:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Здравствуйте и добро пожаловать в 7-й класс на урок английского.'
+    puts 'Меня зовут миссис Габбард.  А тебя зовут...?'
+    name = gets.chomp
+
+    if name == name.capitalize
+      puts 'Садись, пожалуйста, ' + name + '.'
+    else
+      puts name + '?  Ты имел в виду: ' + name.capitalize + ', не так ли?'
+      puts 'Ты что, даже не знаешь, как пишется твоё имя??'
+      reply = gets.chomp
+      
+      if reply == 'да'
+        puts 'Хммм!  Ну хорошо, садись!'
+      else
+        puts 'УБИРАЙСЯ ВОН!!'
+      end
+    end
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    Здравствуйте и добро пожаловать в 7-й класс на урок английского.
+    Меня зовут миссис Габбард.  А тебя зовут...?
+    chris
+    chris?  Ты имел в виду: Chris, не так ли?
+    Ты что, даже не знаешь, как пишется твоё имя??
+    да
+    Хммм!  Ну хорошо, садись!
+    </pre>
+
+    <p>Прекрасно, напишу его с заглавной буквы...</p>
+
+    <pre class="brush: csharp;">
+    Здравствуйте и добро пожаловать в 7-й класс на урок английского.
+    Меня зовут миссис Габбард.  А тебя зовут...?
+    Chris
+    Садись, пожалуйста, Chris.
+    </pre>
+
+    <p>Иногда можно запутаться, пытаясь "вычислить", куда же ведут все эти if-ы, else-ы и end-ы.</p>
+    <p>Я делаю так: пишу end сразу же, когда напишу if.</p>
+    <p>Так, когда я писал приведённую выше программу, сначала она выглядела вот так:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Здравствуйте и добро пожаловать в 7-й класс на урок английского.'
+    puts 'Меня зовут миссис Габбард.  А тебя зовут...?'
+    name = gets.chomp
+
+    if name == name.capitalize
+    else
+    end
+    </pre>
+
+    <p>Затем я вставил комментарии — те вещи в коде, которые компьютер проигнорирует:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Здравствуйте и добро пожаловать в 7-й класс на урок английского.'
+    puts 'Меня зовут миссис Габбард.  А тебя зовут...?'
+    name = gets.chomp
+
+    if name == name.capitalize
+      #  Она говорит вежливо.
+    else
+      #  Она постепенно свирепеет.
+    end
+    </pre>
+
+    <p>Всё, что стоит после знака #, считается комментарием (конечно, если только он не находится внутри строки).</p>
+    <p>После этого я заменил комментарии работающим кодом.</p>
+    <p>Некоторым нравится оставлять комментарии; лично я думаю, что хорошо написанный код обычно говорит сам за себя.</p>
+    <p>Раньше я применял больше комментариев, но чем более "бегло" я пишу на Ruby, тем меньше я их использую.</p>
+    <p>На самом деле я нахожу их в большинстве случаев отвлекающими внимание.</p>
+    <p>Но это каждый выбирает для себя сам; и у вас сложится свой собственный (обычно развивающийся) стиль.</p>
+    <p>И вот, мой следующий шаг выглядел так:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Здравствуйте и добро пожаловать в 7-й класс на урок английского.'
+    puts 'Меня зовут миссис Габбард.  А тебя зовут...?'
+    name = gets.chomp
+
+    if name == name.capitalize
+      puts 'Садись, пожалуйста, ' + name + '.'
+    else
+      puts name + '?  Ты имел в виду: ' + name.capitalize + ', не так ли?'
+      puts 'Ты что, даже не знаешь, как пишется твоё имя??'
+      reply = gets.chomp
+      
+      if reply == 'да'
+      else
+      end
+    end
+    </pre>
+
+    <p>Снова я написал if, else и end одновременно.</p>
+    <p>Это на самом деле помогает мне отслеживать, "где я нахожусь" в тексте программы.</p>
+    <p>К тому же от этого задача кажется немного легче, поскольку я могу сфокусироваться на небольшой части программы — на вставке кода между if и else.</p>
+    <p>Ести и другое преимущество от того, что я поступаю именно так.</p>
+    <p>Оно состоит в том, что компьютер может понять программу на любом этапе разработки.</p>
+    <p>Каждая из незаконченных версий программы, которые я показывал вам, будет выполняться.</p>
+    <p>Они не были закончены, но это были работающие программы.</p>
+    <p>Таким образом, я мог проверять её по ходу её написания, что помогало увидеть, как обстоят дела, и где она всё ещё нуждалась в доработке.</p>
+    <p>Когда она прошла все проверки, я и выяснил,  что я её закончил!</p>
+    <p>Эти подсказки помогут вам писать программы с ветвлением, но они также помогут освоить другой основной тип управления выполнением:</p>
+
+    <h2 id="title">
+        Циклы
+    </h2>
+    
+    <p>Довольно часто вам может захотеться, чтобы ваш компьютер выполнял одно и то же снова и снова — в конце концов, предполагается, что именно этим компьютеры занимаются лучше всего.</p>
+    <p>Когда вы говорите вашему компьютеру повторять что-либо, вам также нужно сказать ему, когда остановиться.</p>
+    <p>Компьютеру никогда не может наскучить, поэтому если вы не скажете ему остановиться, он и не остановится.</p>
+    <p>Мы можем быть уверены, что подобное не случится, если скажем компьютеру повторять отдельные части программы пока (while) определённое условие является истинным.</p>
+    <p>Это работает очень похоже на то, как работает if:</p>
+
+    <pre class="brush: csharp;">
+    command = ''
+
+    while command != 'пока'
+      puts command
+      command = gets.chomp
+    end
+
+    puts 'Приходите ещё!'
+    </pre>
+
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    Ау?
+    Ау?
+    Привет!
+    Привет!
+    Рад познакомиться.
+    Рад познакомиться.
+    О... как приятно!
+    О... как приятно!
+    пока
+    Приходите ещё!
+    </pre>
+
+    <p>Вот это и есть цикл.</p>
+    <p>Вы, наверное, заметили пустую строку в в начале вывода; она — от первого puts, перед первым gets.</p>
+    <p>Как бы вы изменили программу, чтобы избавиться от этой пустой строки?</p>
+    <p>Проверьте её!</p>
+    <p>Она работает в точности, как программа выше, не считая первой пробельной строки?</p>
+    <p>Циклы позволяют вам делать самые разные интересные вещи, какие только можно себе вообразить.</p>
+    <p>Они, однако, могут также вызвать и неприятности, если вы сделаете ошибку.</p>
+    <p>Что если ваш компьютер попадётся в ловушку бесконечного цикла?</p>
+    <p>Если вы думаете, что именно так, возможно, и случилось, то просто, удерживая клавишу Ctrl, нажмите на клавишу C.</p>
+    <p>Но прежде, чем мы начнём забавляться с циклами, давайте изучим несколько вещей, которые облегчат нам жизнь.</p>
+
+    <h2 id="title">
+        Чуть-чуть логики
+    </h2>
+    
+    <p>Давайте снова взглянем на нашу первую программу с ветвлением.</p>
+    <p>Что если моя жена пришла домой, увидела эту программу, попробовала выполнить её, и она не сказала ей, какое милое имя у неё?</p>
+    <p>Я не хотел бы обидеть её чувства (и спать на кушетке), так что давайте перепишем её:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Привет, как Вас зовут?'
+    name = gets.chomp
+    puts 'Привет, ' + name + '.'
+    if name == 'Chris'
+      puts 'Какое милое имя!'
+    else
+      if name == 'Katy'
+        puts 'Какое милое имя!'
+      end
+    end
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    Привет, как Вас зовут?
+    Katy
+    Привет, Katy.
+    Какое милое имя!
+    </pre>
+
+    <p>Ну да, она работает... но это не очень-то красивая программа.</p>
+    <p>Почему не очень?</p>
+    <p>Ну, потому, что лучшее правило, которое я когда-либо узнал в программировании, — это правило DRY (Don't Repeat Yourself), то есть "Не повторяйся!".</p>
+    <p>Возможно я бы мог написать небольшую книгу только о том, почему это такое хорошее правило.</p>
+    <p>В нашем случае, мы повторили строку puts 'Какое милое имя!'.</p>
+    <p>Почему это так важно?</p>
+    <p>Ладно, а что если я сделал опечатку, когда переписывал её?</p>
+    <p>Что если я хотел изменить с 'милое' на 'прекрасное' в обеих строках?</p>
+    <p>Я же ленивый, помните?</p>
+    <p>По сути, если я хочу, чтобы программа делала одно и то же, когда она получает 'Chris' или 'Katy', тогда она должна действительно делать одно и то же:</p>
+
+    <pre class="brush: csharp;">
+    puts 'Привет, как Вас зовут?'
+    name = gets.chomp
+    puts 'Привет, ' + name + '.'
+    if (name == 'Chris' or name == 'Katy')
+      puts 'Какое милое имя!'
+    end
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    Привет, как Вас зовут?
+    Katy
+    Привет, Katy.
+    Какое милое имя!
+    </pre>
+
+    <p>Гораздо лучше.</p>
+    <p>Чтобы заставить это заработать, я применил or.</p>
+    <p>Другие логические операции это and и not.</p>
+    <p>И когда работаешь с ними, лучшим решением будет всегда использовать скобки.</p>
+    <p>Давайте посмотрм, как они работают:</p>
+
+    <pre class="brush: csharp;">
+    iAmChris  = true
+    iAmPurple = false
+    iLikeFood = true
+    iEatRocks = false
+    
+    puts (iAmChris  and iLikeFood)
+    puts (iLikeFood and iEatRocks)
+    puts (iAmPurple and iLikeFood)
+    puts (iAmPurple and iEatRocks)
+    puts
+    puts (iAmChris  or iLikeFood)
+    puts (iLikeFood or iEatRocks)
+    puts (iAmPurple or iLikeFood)
+    puts (iAmPurple or iEatRocks)
+    puts
+    puts (not iAmPurple)
+    puts (not iAmChris )
+    </pre>
+
+    <p>Результат:</p>
+    
+    <pre class="brush: csharp;">
+    true
+    false
+    false
+    false
+    
+    true
+    true
+    true
+    false
+    
+    true
+    false
+    </pre>
+
+    <p>Единственная из них, которая может обмануть вас, — это операция or.</p>
+    <p>В английском языке мы часто используем "or" в значении "один или другой, но не оба".</p>
+    <p>Например, ваша мама могла бы сказать: "На десерт ты можешь съесть торт или пирожное".</p>
+    <p>Она не предполагала, что вы можете съесть и то и другое!</p>
+    <p>Компьютер, напротив, использует or в значении "один или другой или оба".</p>
+    <p>Другой способ выразить это: "по крайней мере, один из них — истинный".</p>
+    <p>Вот почему с компьютерами гораздо веселее, чем с мамами.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="7.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="9.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/ruby/8.html", "Управление выполнением", "bm1380"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1380", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1380") == 1) { document.getElementById("bma1380").style.display = "block"; document.getElementById("bm1380").style.display = "none"; } else { document.getElementById("bma1380").style.display = "none"; document.getElementById("bm1380").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Управление выполнением") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1380", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

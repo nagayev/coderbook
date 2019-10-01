@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma101" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm101" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Переполнения при операциях с целыми
+	</h1>
+
+	<p>Рассматривая поразрядные операции, мы ограничились операндами беззнакового типа byte, так как использование знаковых типов требует знакомства с правилами кодирования отрицательных целых чисел.</p>
+	<p>Переменные и константы типа byte могут иметь значения от 0 до 255.</p>
+	<p>Соответствующие двоичные коды - 00000000 (все нули) и 11111111 (все единицы).</p>
+	<p>В то же время для знакового типа sbyte установлены пределы от -128 до +127.</p>
+	<p>Это связано с принятым на аппаратном уровне правилом кодирования знаковых целых чисел.</p>
+	<p>Для их внутреннего представления используется так называемый дополнительный код.</p>
+	<p>Если k – количество разрядов, отведенное для представления числа x (для sbyte k равно 8), то дополнительный код определяет выражение:</p>
+
+	<pre class="brush: csharp;">
+	x, если x >= 0, доп (x) = 2k - |x|, если x < 0
+	</pre>
+
+	<p>В битовом представлении чисел с использованием дополнительного кода у всех положительных чисел самый левый бит равен 0, а у отрицательных – единице.</p>
+	<p>Минимальное число типа sbyte равно -128.</p>
+	<p>Его двоичный код 10000000.</p>
+	<p>Число -1 представлено кодом 11111111.</p>
+	<p>Представление нуля 00000000, код единицы 00000001.</p>
+	<p>Зная правила двоичного кодирования отрицательных целых чисел, легко понять, как меняется значение переменной знакового типа при поразрядных операциях.</p>
+	<p>Например, применяя к положительному числу операцию поразрядного инвертирования ~, мы меняем знак числа и на 1 увеличиваем его абсолютное значение.</p>
+	<p>При поразрядном инвертировании отрицательного числа результат равен уменьшенному на 1 его абсолютному значению.</p>
+	<p>Следующая программа иллюстрирует применение операции:</p>
+
+	<pre class="brush: csharp;">
+	//03_05.cs - поразрядное инвертирование знаковых чисел!!!
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			sbyte sb = 9;
+			sbyte nb = 3;
+			Console.WriteLine("~sb = " + ~sb);
+			Console.WriteLine("~sb+sb = " + (~sb+sb));
+			Console.WriteLine("~nb = " + ~nb);
+			Console.WriteLine("~nb+nb = " + (~nb + nb));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	sb = -10
+	sb+sb = -1
+	nb = -4
+	nb+nb = -1
+	</pre>
+
+	<p>Поразрядный сдвиг влево &lt;&lt; целочисленного аргумента знакового типа может не только изменить его абсолютное значение, но и, зачастую, изменяет его знак.</p>
+	<p>Приводить примеры здесь нет необходимости.</p>
+	<p>Гораздо важнее рассмотреть особенности выполнения традиционных арифметических операций над беззнаковыми и знаковыми операндами с ограниченным количеством разрядов.</p>
+	<p>Начнем с беззнаковых целочисленных типов.</p>
+	<p>В результате выполнения следующего фрагмента программы:</p>
+
+	<pre class="brush: csharp;">
+	byte b=255, c=1, d; d=(byte)(b+c);
+	</pre>
+
+	<p>Значением переменной d будет 0.</p>
+	<p>Обоснованность такого результата иллюстрирует следующее двоичное представление: 11111111 = 255 + 00000001 = 1__ 100000000 = 0 (нуль за счет отбрасывания левого разряда).</p>
+	<p>Теперь обратимся к операндам знаковых типов, например, типа sbyte.</p>
+	<p>Если просуммировать числа -1 (с поразрядным представлением 11111111) и 1 (с кодом 00000001), то получим девятиразрядное число с битовым представлением 100000000.</p>
+	<p>Для внутреннего представления чисел типа sbyte отводится 8 разрядов.</p>
+	<p>Девятиразрядное число в эти рамки не помещается, и левая (старшая) единица отбрасывается.</p>
+	<p>Тем самым результатом суммирования становится код нуля 00000000.</p>
+	<p>Все совершенно верно – выражение (-1+1) должно быть равно нулю!</p>
+	<p>Однако, так правильно завершаются вычисления не при всех значениях целочисленных операндов.</p>
+	<p>За счет ограниченной разрядности внутреннего представления значений целых типов при вычислении выражений с целочисленными операндами существует опасность аварийного выхода результата за пределы разрядной сетки.</p>
+	<p>Например, после выполнения следующего фрагмента программы:</p>
+
+	<pre class="brush: csharp;">
+	sbyte x=127, y=127, z; z=(sbyte) (x+y);
+	</pre>
+
+	<p>Значением переменной z будет – 2.</p>
+	<p>В этом легко убедиться, представив выполнение операции суммирования в двоичном виде:</p>
+
+	<pre class="brush: csharp;">
+	01111111 = 127 + 01111111 = 127 11111110 = - 2
+	</pre>
+
+	<p><b>Примечание:</b> В операторе z=(sbyte)(x+y); использована операция приведения типов (sbyte).</p>
+	<p>При её отсутствии результат суммирования x+y автоматически приводится к типу int.</p>
+	<p>Попытка присвоить значение типа int переменной z, имеющей тип sbyte, воспринимается как ошибка, и компиляция завершается аварийно.</p>
+	<p>Приведенные иллюстрации переполнений разрядной сетки при арифметических операциях с восьмиразрядными целыми (типов byte, sbyte) могут быть распространены и на целые типы с большим количеством разрядов.</p>
+	<p>Основным типом для представления целочисленных данных в C# является тип int.</p>
+	<p>Для представления целочисленных значений типа int используются 32- разрядные участки памяти.</p>
+	<p>Тем самым предельные значения для значения типа int таковы:</p>
+	<p><b>положительные</b> от 0 до 231-1;</p>
+	<p><b>отрицательные</b> от -1 до -231.</p>
+	<p>В следующей программе результаты умножений переменной типа int на саму себя выходят за пределы разрядной сетки.</p>
+
+	<pre class="brush: csharp;">
+	// 03_06.cs - переполнение при целочисленных операндах
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			int m = 1001;
+			Console.WriteLine("m = " + m);
+			Console.WriteLine("m = " + (m = m * m));
+			Console.WriteLine("m = " + (m = m * m));
+			Console.WriteLine("m = " + (m = m * m));
+		}
+	}
+	</pre>
+
+	<p>В программе значение целочисленной переменной вначале равной 1001 последовательно умножается само на себя.</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	m = 1001
+	m = 1002001
+	m = -1016343263
+	m = 554036801
+	</pre>
+
+	<p>После первого умножения m*m значением переменной m становится 100200110, после второго результат выходит за разрядную сетку из 32-х битов.</p>
+	<p>Левые лишние разряды отбрасываются, однако, оставшийся самый левый 32-й бит оказывается равным 1, и код воспринимается как представление отрицательного числа.</p>
+	<p>После следующего умножения 32-й бит оказывается равным 0, и арифметически неверный результат воспринимается как код положительного числа.</p>
+	<p>Особо отметим, что исполняющая система никак не реагирует на выход результата за разрядную сетку, и программисту нужно самостоятельно следить за возможностью появления таких неверных результатов.</p>
+	<p>В рассмотренных программах с переменными типов byte и sbyte мы несколько раз применили операцию преобразования (иначе приведения) типов.</p>
+	<p>Например, были использованы конструкции:</p>
+
+	<pre class="brush: csharp;">
+	(byte)(bb&dd) z=(sbyte)(x+y);
+	</pre>
+
+	<p>В следующей главе приведение типов будет рассмотрено подробно, а сейчас покажем его роль в некоторых выражениях с целочисленными операндами.</p>
+	<p>Поместим в программу операторы:</p>
+
+	<pre class="brush: csharp;">
+	short dd=15, nn=24; dd=(dd+nn)/dd;
+	</pre>
+
+	<p>При компиляции программы будет выведено сообщение об ошибке:</p>
+
+	<pre class="brush: csharp;">
+	Cannot implicitly convert type ‘int’ to ‘short’
+	</pre>
+
+	<p>Невозможно неявное преобразование типа int в short.</p>
+	<p>Несмотря на то, что в операторах использованы переменные только одного типа short, в сообщении компилятора указано, что появилось значение типа int!</p>
+	<p>Компилятор не ошибся – при вычислении выражений с целочисленными операндами, отличными от типа long, они автоматически приводятся к типу int.</p>
+	<p>Поэтому результат вычисления <b>(dd+nn)/dd</b> имеет тип int.</p>
+	<p>Для значений типа short выделяется два байта (16 разрядов), значение типа int занимает 4 байта.</p>
+	<p>Попытка присвоить переменной dd с типом short значения типа int воспринимается компилятором как потенциальный источник ошибки за счёт потери 16-ти старших разрядов числа.</p>
+	<p>Именно поэтому выдано сообщение об ошибке.</p>
+	<p>Программист может "успокоить" компилятор, применив следующим образом операцию приведения типов:</p>
+
+	<pre class="brush: csharp;">
+	dd=(short)((dd+nn)/dd);
+	</pre>
+
+	<p>При таком присваивании программист берет на себя ответственность за правильность вычислений.</p>
+	<p>Обратите внимание на необходимость дополнительных скобок.</p>
+	<p>Если записать <b>(short)(dd+nn)/dd</b>, то в соответствии с рангами операций к типу short будет приведено значение (dd+nn), а результат его деления на dd получит тип int.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/14.html", "Переполнения", "bm101"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm101", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm101") == 1) { document.getElementById("bma101").style.display = "block"; document.getElementById("bm101").style.display = "none"; } else { document.getElementById("bma101").style.display = "none"; document.getElementById("bm101").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Переполнения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm101", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

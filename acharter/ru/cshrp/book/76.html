@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma163" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm163" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Абстрактные методы и абстрактные классы
+	</h1>
+
+	<p>В ряде случаев класс создается только как базовый, и его автор не предполагает, что кто-то будет создавать объекты этого класса вне наследования.</p>
+	<p>Например, объекты уже рассмотренного в примерах класса фигур с заданными габаритами вряд ли пригодны для метода, который вычисляет площадь или периметр фигуры.</p>
+	<p>Эти характеристики нельзя определить, если о фигуре известны только ее габариты.</p>
+	<p>Однако, в базовом классе можно "запланировать" проведение этих вычислений в производных классах.</p>
+	<p>Для этого в базовый класс добавляют так называемые абстрактные методы, и класс объявляют абстрактным.</p>
+	<p>Абстрактные методы задают сигнатуру реальных методов, которые должны быть реализованы в классах, производных от абстрактного.</p>
+	<p>Абстрактный метод может быть объявлен только в абстрактном классе.</p>
+	<p>В заголовке абстрактного метода указывается модификатор abstract.</p>
+	<p>У абстрактного метода после скобки, ограничивающей спецификацию параметров, помещается символ точка с запятой.</p>
+	<p>У абстрактного метода не может быть тела в виде блока операторов в фигурных скобках.</p>
+	<p>Абстрактный метод по умолчанию является виртуальным.</p>
+	<p>Таким образом добавлять модификатор virtual не требуется.</p>
+	<p>Для того чтобы класс был определен как абстрактный, в его заголовок помещают модификатор abstract.</p>
+	<p>Создавать объекты абстрактных классов невозможно.</p>
+	<p>Если в абстрактном классе объявлены несколько абстрактных методов, а производный класс содержит реализацию не всех из них, то производный класс в свою очередь становится абстрактным.</p>
+	<p>В абстрактном классе могут быть определены любые не абстрактные члены (методы, поля, свойства и т.д.).</p>
+	<p>Кроме того, класс может быть объявлен абстрактным даже в том случае, если в нём отсутствуют абстрактные члены.</p>
+	<p>Продемонстрируем особенности использования абстрактных классов и абстрактных методов на примере классов, производных от класса "фигура на плоскости".</p>
+	<p>Превратим этот базовый класс в абстрактный, добавив в него абстрактный метод для вычисления площади фигуры.</p>
+	<p>Метод вывода сведений об объекте класса также сделаем абстрактным.</p>
+	<p>Для иллюстрации объявим в этом классе не виртуальный метод, выполняющий сжатие (или увеличение) габаритных размеров фигуры в заданное число раз.</p>
+	<p>Текст программы с таким классом:</p>
+
+	<pre class="brush: csharp;">
+	// 13_12.cs - абстрактные методы в абстрактном классе
+	using System;
+	// абстрактный базовый класс
+	abstract class Figure
+	{
+		// размеры вдоль осей
+		protected double dx, dy;
+		public abstract void print();
+		public void compress(double r) { dx *= r; dy *= r; }
+		abstract public double square();
+	}
+
+	class Rectangle : Figure
+	{
+		public Rectangle(double xi, double yi)
+		{ dx = xi; dy = yi; }
+		public override void print()
+		{
+			Console.Write("Площадь прямоугольника={0:f2}. \t", square());
+			Console.WriteLine("Габариты: dx={0:f2}, dy={1:f2}", dx, dy);
+		}
+		public override double square()
+		{ return dx * dy; }
+	}
+
+	class Triangle : Figure
+	{
+		public Triangle(double xi, double yi)
+		{ dx = xi; dy = yi; }
+		public override void print()
+		{
+			Console.Write("Площадь треугольника={0:f2}. \t", square());
+			Console.WriteLine("Габариты: dx={0:f2}, dy={1:f2}", dx, dy);
+		}
+		public override double square()
+		{ return dx * dy / 2; }
+	}
+	
+	class Program
+	{
+		static void Main()
+		{
+			Figure fig = new Rectangle(3.0, 4.0);
+			fig.print();
+			fig = new Triangle(5.0, 4.0);
+			fig.print();
+			fig.compress(2.0);
+			fig.print();
+			Triangle tri = new Triangle(8.0, 4.0);
+			tri.print();
+			tri.compress(0.25);
+			tri.print();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Площадь прямоугольника=12,00. Габариты: dx=3,00, dy=4,00
+	Площадь треугольника=10,00. Габариты: dx=5,00, dy=4,00
+	Площадь треугольника=22,50. Габариты: dx=7,50, dy=6,00
+	Площадь треугольника=16,00. Габариты: dx=8,00, dy=4,00
+	Площадь треугольника=1,00. Габариты: dx=2,00, dy=1,00
+	</pre>
+
+	<p>В методе Main( ) определены две ссылки fig и tri.</p>
+	<p>Первая имеет тип базового класса Figure и адресует вначале объект производного класса Rectangle, затем производного объект класса Triangle.</p>
+	<p>Ссылка fig обеспечивает обращения к перегруженным методам print() производных классов Rectangle и Triangle.</p>
+	<p>Ссылка tri может адресовать только объекты класса Rectangle и способна обеспечить вызов метода print() только этого же производного класса.</p>
+	<p>В то же время для этой ссылки (и для ссылки fig) доступен метод сompress() базового класса, унаследованный производными классами.</p>
+	<p>Результаты выполнения программы иллюстрируют сказанное.</p>
+	<p>Завершая рассмотрение наследования классов, повторим, что в производном классе метод по отношению к методу базового класса может быть новым, перегруженным, унаследованным, скрывающим (экранирующим) метод базового класса и реализующим виртуальный или абстрактный метод базового класса.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="75.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="77.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/76.html", "Абстрактные методы", "bm163"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm163", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm163") == 1) { document.getElementById("bma163").style.display = "block"; document.getElementById("bm163").style.display = "none"; } else { document.getElementById("bma163").style.display = "none"; document.getElementById("bm163").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Абстрактные методы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm163", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

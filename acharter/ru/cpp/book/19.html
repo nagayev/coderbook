@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma40" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm40" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Форматированный ввод/вывод в С++
+	</h1>
+
+	<p>Возможность управлять вводом-выводом в С++, обеспечивают форматирующие функции-члены, флаги и манипуляторы.</p>
+	<p>Флаги, функции и манипуляторы выполняют одну и туже задачу — задают определённый формат ввода/вывода информации в потоках.</p>
+	<p>Ввод/вывод на экран/с экрана в С++ осуществляется с помощью операторов cin и cout соответственно, а значит  манипуляторы форматирования используются совместно с данными операторами ввода/вывода.</p>
+	<p>Различие между функциями флагами и манипуляторами форматирования состоит в способе их применения.</p>
+	<p>Теперь рассмотрим способы применения объектов форматирования.</p>
+		
+	<pre class="brush: csharp;">
+	//Основные форматирующие функции-члены:
+	// устанавливает символ заполнитель
+	cout.fill('/*symbol*/');
+
+	// где symbol - символ заполнитель, символ передаётся в одинарных кавычках
+	// задает ширину поля
+	cout.width(/*width_field*/);
+
+	// где width_field - количество позиций(одна позиция вмещает один символ)
+	// задает количество знаков после десятичной точки
+	cout.precision(/*number*/);
+
+	// где number - количество знаков после десятичной точки
+	</pre>
+
+	<p>Доступ к функциям осуществляется через операцию точка, а в круглых скобочках передаётся аргумент.</p>
+	<p>Аргумент функции fill() может передаваться в виде символа, обрамленного одинарными кавычками, или в виде числа(код символа).</p>
+	<p>Одних функций не достаточно для форматирования потоков ввода/вывода, поэтому в С++ предусмотрен ещё один способ форматирования — флаги.</p>
+	<p>Флаги форматирования позволяют включить или выключить один из параметров ввода/вывода.</p>
+	<p>Чтобы установить флаг ввода/вывода, необходимо вызвать функцию setf(), если необходимо отключить флаг вывода, то используется функция  unsetf().</p>
+	<p>Далее показаны конструкции установки и снятия флагов вывода.</p>
+
+	<pre class="brush: csharp;">
+	// установка флага вывода
+	cout.setf( ios::/*name_flag*/ );
+
+	// где name_flag - это имя флага
+	</pre>
+
+	<p>Доступ к функциям оператора вывода выполняется через операцию точка.</p>
+	<p>Метод setf() принимает один аргумент — имя флага.</p>
+	<p>Флаги вывода объявлены в классе ios, поэтому, перед тем, как обратиться к флагу, необходимо написать имя класса — ios, после которого, с помощью операции разрешения области действия, вызвать нужный флаг.</p>
+
+	<pre class="brush: csharp;">
+	// снятие флага вывода
+	cout.unsetf( ios::/*name_flag*/ );
+
+	// где name_flag - это имя флага
+	</pre>
+
+	<p>Если при вводе/выводе необходимо установить(снять) несколько флагов, то можно воспользоваться поразрядной логической операцией ИЛИ |.</p>
+	<p>В этом случае конструкция языка C++ будет такой:</p>
+
+	<pre class="brush: csharp;">
+	// установка нескольких флагов
+	cout.setf( ios::/*name_flag1*/ | ios::/*name_flag2*/ | ios::/*name_flag_n*/ );
+	
+	// снятие нескольких флагов
+	cout.unsetf( ios::/*name_flag1*/ | ios::/*name_flag2*/ | ios::/*name_flag_n*/ );
+	</pre>
+
+	<p>В таблице ниже подробно описаны основные флаги форматирования.</p>
+
+	<table>
+		<tr>
+			<th>Флаг</th>
+			<th>Назначение</th>
+		</tr>
+		<tr>
+			<td>boolalpha</td>
+			<td>Вывод логических величин в текстовом виде (true, false)</td>
+		</tr>
+		<tr>
+			<td>oct</td>
+			<td>Ввод/вывод величин в восьмеричной системе счисления (сначала снимаем флаг dec, затем устанавливаем флаг oct)</td>
+		</tr>
+		<tr>
+			<td>dec</td>
+			<td>Ввод/вывод величин в десятичной системе счисления (флаг установлен по умолчанию)</td>
+		</tr>
+		<tr>
+			<td>hex</td>
+			<td>Ввод/вывод величин в шестнадцатеричной системе счисления (сначала снимаем флаг dec, затем устанавливаем флаг hex)</td>
+		</tr>
+		<tr>
+			<td>showbase </td>
+			<td>Выводить индикатор основания системы счисления</td>
+		</tr>
+		<tr>
+			<td>uppercase</td>
+			<td>В шестнадцатеричной системе счисления использовать буквы верхнего регистра(по умолчанию установлены буквы нижнего регистра)</td>
+		</tr>
+		<tr>
+			<td>showpos</td>
+			<td>Вывод знака плюс + для положительных чисел</td>
+		</tr>
+		<tr>
+			<td>scientific</td>
+			<td>Вывод чисел с плавающей точкой в экспоненциальной форме</td>
+		</tr>
+		<tr>
+			<td>fixed</td>
+			<td>Вывод чисел с плавающей точкой в фиксированной форме(по умолчанию)</td>
+		</tr>
+		<tr>
+			<td>right</td>
+			<td>Выравнивание по правой границе(по умолчанию). Сначала необходимо установить ширину поля(ширина поля должна быть заведомо большей чем, длина выводимой строки).</td>
+		</tr>
+		<tr>
+			<td>left </td>
+			<td>Выравнивание по левой границе. Сначала необходимо установить ширину поля(ширина поля должна быть заведомо большей чем, длина выводимой строки).</td>
+		</tr>
+	</table>
+
+	<p>Ещё один способ форматирования — форматирование с помощью манипуляторов.</p>
+	<p><b>Манипулятор</b> — объект особого типа, который управляет потоками ввода/вывода, для форматирования передаваемой в потоки информации.</p>
+	<p>Отчасти манипуляторы дополняют функционал, для форматирования ввода/вывода.</p>
+	<p>Но большинство манипуляторов выполняют точно, то же самое, что и функции с флагами форматирования.</p>
+	<p>Есть случаи, когда проще пользоваться флагами или функциями форматирования, а иногда удобнее использовать манипуляторы форматирования.</p>
+	<p>Именно по этому в С++ предусмотрено несколько средств форматирования ввода/вывода.</p>
+	<p>В таблице ниже показаны основные манипуляторы форматирования С++.</p>
+
+	<table>
+		<tr>
+			<th>Манипулятор</th>
+			<th>Назначение</th>
+		</tr>
+		<tr>
+			<td>endl</td>
+			<td>Переход на новую строку при выводе</td>
+		</tr>
+		<tr>
+			<td>boolalpha</td>
+			<td>Вывод логических величин в текстовом виде (true, false)</td>
+		</tr>
+		<tr>
+			<td>noboolalpha</td>
+			<td>Вывод логических величин в числовом виде (true, false)</td>
+		</tr>
+		<tr>
+			<td>oct</td>
+			<td>Вывод величин в восьмеричной системе счисления</td>
+		</tr>
+		<tr>
+			<td>dec</td>
+			<td>Вывод величин в десятичной системе счисления (по умолчанию)</td>
+		</tr>
+		<tr>
+			<td>hex</td>
+			<td>Вывод величин в шестнадцатеричной системе счисления</td>
+		</tr>
+		<tr>
+			<td>showbase</td>
+			<td>Выводить индикатор основания системы счисления</td>
+		</tr>
+		<tr>
+			<td>noshowbase</td>
+			<td>Не выводить индикатор основания системы счисления (по умолчанию).</td>
+		</tr>
+		<tr>
+			<td>uppercase</td>
+			<td>В шестнадцатеричной системе счисления использовать буквы верхнего регистра (по умолчанию установлены буквы нижнего регистра).</td>
+		</tr>
+		<tr>
+			<td>nouppercase</td>
+			<td>В шестнадцатеричной системе счисления использовать буквы нижнего регистра (по умолчанию).</td>
+		</tr>
+		<tr>
+			<td>showpos</td>
+			<td>Вывод знака плюс + для положительных чисел</td>
+		</tr>
+		<tr>
+			<td>noshowpos</td>
+			<td>Не выводить знак плюс + для положительных чисел (по умолчанию).</td>
+		</tr>
+		<tr>
+			<td>scientific</td>
+			<td>Вывод чисел с плавающей точкой в экспоненциальной форме</td>
+		</tr>
+		<tr>
+			<td>fixed</td>
+			<td>Вывод чисел с плавающей точкой в фиксированной форме (по умолчанию).</td>
+		</tr>
+		<tr>
+			<td>setw(int number)</td>
+			<td>Установить ширину поля, где number — количество позиций, символов (выравнивание по умолчанию по правой границе). Манипулятор с параметром.</td>
+		</tr>
+		<tr>
+			<td>right</td>
+			<td>Выравнивание по правой границе(по умолчанию). Сначала необходимо установить ширину поля(ширина поля должна быть заведомо большей чем, длина выводимой строки).</td>
+		</tr>
+		<tr>
+			<td>left</td>
+			<td>Выравнивание по левой границе. Сначала необходимо установить ширину поля(ширина поля должна быть заведомо большей чем, длина выводимой строки).</td>
+		</tr>
+		<tr>
+			<td>setprecision(int count)</td>
+			<td>Задаёт количество знаков после запятой, где count — количество знаков после десятичной точки</td>
+		</tr>
+		<tr>
+			<td>setfill(int symbol)</td>
+			<td>Установить символ заполнитель. Если ширина поля больше, чем выводимая величина, то свободные места поля будут наполняться символом symbol — символ заполнитель</td>
+		</tr>
+	</table>
+
+	<p>Форматированный ввод/вывод в С++ это одна из самых простых тем в программировании.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="18.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="20.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/19.html", "Форматированный ввод/вывод", "bm40"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm40", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm40") == 1) { document.getElementById("bma40").style.display = "block"; document.getElementById("bm40").style.display = "none"; } else { document.getElementById("bma40").style.display = "none"; document.getElementById("bm40").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Форматированный ввод/вывод") == 1) { arrs.splice(i, 1); localStorage.setItem("bm40", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1261" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1261" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Провайдеры данных
+	</h1>
+
+    <p>В разделах Постраничное разделение данных и Сортировка было описано, как сделать возможность для конечных пользователей, чтобы они могли выбирать определённую страницу для вывода данных и сортировку их по некоторым колонкам.</p>
+    <p>Провайдер данных это класс, который реализует [[yii\data\DataProviderInterface]].</p>
+    <p>Такая реализация поддерживает в основном разбивку на страницы и сортировку.</p>
+    <p>Они обычно используются для работы виджетов данных, что позволяет конечным пользователям интерактивно использовать сортировку данных и их разбивку на страницы.</p>
+    <p>В Yii реализованы следующие классы провайдеров данных:</p>
+
+    <ul>
+        <li>[[yii\data\ActiveDataProvider]]: использует [[yii\db\Query]] или [[yii\db\ActiveQuery]] для запроса данных из базы данных, возвращая их в виде массива или экземпляров Active Record.</li>
+        <li>[[yii\data\SqlDataProvider]]: выполняет запрос SQL к базе данных и возвращает результат в виде массива.</li>
+        <li>[[yii\data\ArrayDataProvider]]: принимает большой массив и возвращает выборку из него с возможностью сортировки и разбивки на страницы.</li>
+    </ul>
+
+    <p>Использование всех этих провайдеров данных имеет общую закономерность:</p>
+
+    <pre class="brush: csharp;">
+    // создание провайдера данных с конфигурацией для сортировки и постраничной разбивки
+    $provider = new XyzDataProvider([
+        'pagination' =&gt; [...],
+        'sort' =&gt; [...],
+    ]);
+    
+    // Получение данных с разбивкой на страницы и сортировкой.
+    $models = $provider->getModels();
+    
+    // получение количества данных на текущей странице
+    $count = $provider->getCount();
+    
+    // получение общего количества данных на всех страницах
+    $totalCount = $provider->getTotalCount();
+    </pre>
+
+    <p>Определение поведений сортировки и разбивки для провайдера данных устанавливается через его свойства [[yii\data\BaseDataProvider::pagination|pagination]] и [[yii\data\BaseDataProvider::sort|sort]], которые соответствуют настройкам [[yii\data\Pagination]] and [[yii\data\Sort]].</p>
+    <p>Вы можете отключить сортировку и разбивку на страницы путём выставления их настроек в false.</p>
+    <p>Виджеты данных, такие как [[yii\grid\GridView]], имеют свойство dataProvider, которое может принимать экземпляр провайдера данных для отображения его данных.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    echo yii\grid\GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+    ]);
+    </pre>
+
+    <p>Эти провайдеры данных в некоторой степени различаются по использовании, в зависимости от источника данных.</p>
+    <p>Далее опишем более подробно использование каждого провайдера данных.</p>
+
+    <h2 id="title">
+        ActiveDataProvider
+    </h2>
+
+    <p>Для использования [[yii\data\ActiveDataProvider]], необходимо настроить его свойство [[yii\data\ActiveDataProvider::query|query]].</p>
+    <p>Оно принимает любой [[yii\db\Query]] или [[yii\db\ActiveQuery]] объект.</p>
+    <p>Если использовать первый, то данные будут возвращены в виде массивов, если второй - данные также могут быть возвращены в виде массивов, а также в виде экземпляров Active Record.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\data\ActiveDataProvider;
+    
+    $query = Post::find()->where(['status' =&gt; 1]);
+    
+    $provider = new ActiveDataProvider([
+        'query' =&gt; $query,
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ],
+        'sort' =&gt; [
+            'defaultOrder' =&gt; [
+                'created_at' =&gt; SORT_DESC,
+                'title' =&gt; SORT_ASC, 
+            ]
+        ],
+    ]);
+    
+    // возвращает массив Post объектов
+    $posts = $provider->getModels();
+    </pre>
+
+    <p>Если изменить $query в этом примере на следующий код, то будут возвращены сырые массивы.</p>
+
+    <pre class="brush: csharp;">
+    use yii\db\Query;
+    
+    $query = (new Query())->from('post')->where(['status' =&gt; 1]);
+    </pre>
+
+    <p><b>Примечание:</b> Если query содержит условия сортировки в orderBy, то новые условия, полученные от конечных пользователей (через настройки sort) будут добавлены к существующим условиям в orderBy. Любые условия в limit и offset будут переписаны запросом конечного пользователя к различным страницам ( через конфигурацию pagination).</p>
+    <p>По умолчанию, [[yii\data\ActiveDataProvider]] использует компонент приложения db для подключения к базе данных.</p>
+    <p>Можно использовать разные базы данных, настроив подключение через конфигурацию свойства [[yii\data\ActiveDataProvider::db]].</p>
+
+    <h2 id="title">
+        SqlDataProvider
+    </h2>
+
+    <p>[[yii\data\SqlDataProvider]] работает с сырыми запросами SQL, которые используются для извлечение необходимых данных.</p>
+    <p>Основываясь на спецификации из [[yii\data\SqlDataProvider::sort|sort]] и [[yii\data\SqlDataProvider::pagination|pagination]], провайдер данных будет добавлять ORDER BY и LIMIT конструкции к SQL запросу, для возврата только запрошенной страницы данных с учётом определённой сортировки.</p>
+    <p>Для использования [[yii\data\SqlDataProvider]], необходимо настроить свойства [[yii\data\SqlDataProvider::sql|sql]] и [[yii\data\SqlDataProvider::totalCount|totalCount]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\data\SqlDataProvider;
+    
+    $count = Yii::$app->db->createCommand('
+        SELECT COUNT(*) FROM post WHERE status=:status
+    ', [':status' =&gt; 1])->queryScalar();
+    
+    $provider = new SqlDataProvider([
+        'sql' =&gt; 'SELECT * FROM post WHERE status=:status',
+        'params' =&gt; [':status' =&gt; 1],
+        'totalCount' =&gt; $count,
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ],
+        'sort' =&gt; [
+            'attributes' =&gt; [
+                'title',
+                'view_count',
+                'created_at',
+            ],
+        ],
+    ]);
+    
+    // возвращает массив данных
+    $models = $provider->getModels();
+    </pre>
+
+    <p><b>Совет:</b> Свойство [[yii\data\SqlDataProvider::totalCount|totalCount]] обязательно только тогда, когда вам нужна разбивка на страницы.</p>
+    <p>Всё потому, что запрос SQL [[yii\data\SqlDataProvider::sql|sql]] будет изменяться провайдером данных для возврата только текущей запрошенной страницы.</p>
+    <p>Провайдеру необходимо знать общее количество данных в запросе для корректного вычисления разбивки на доступные страницы.</p>
+
+    <h2 id="title">
+        ArrayDataProvider
+    </h2>
+
+    <p>[[yii\data\ArrayDataProvider]] лучше использовать для работы с большим массивом.</p>
+    <p>Этот провайдер помогает вернуть выборку из большого массива с сортировкой по одному или нескольким колонкам.</p>
+    <p>Для использования [[yii\data\ArrayDataProvider]] необходимо определить свойство [[yii\data\ArrayDataProvider::allModels|allModels]], как большой массив.</p>
+    <p>Элементы в большом массиве могут быть ассоциативными массивами (например результаты выборки из DAO) или объекты ( Active Record экземпляры).</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    use yii\data\ArrayDataProvider;
+    
+    $data = [
+        ['id' =&gt; 1, 'name' =&gt; 'name 1', ...],
+        ['id' =&gt; 2, 'name' =&gt; 'name 2', ...],
+        ...
+        ['id' =&gt; 100, 'name' =&gt; 'name 100', ...],
+    ];
+    
+    $provider = new ArrayDataProvider([
+        'allModels' =&gt; $data,
+        'pagination' =&gt; [
+            'pageSize' =&gt; 10,
+        ],
+        'sort' =&gt; [
+            'attributes' =&gt; ['id', 'name'],
+        ],
+    ]);
+    
+    // получает строки для текущей запрошенной странице
+    $rows = $provider->getModels();
+    </pre>
+
+    <p><b>Примечание:</b> Сравнивая с Active Data Provider и SQL Data Provider, ArrayDataProvider менее эффективный потому, что требует загрузки всех данных в память.</p>
+
+    <h2 id="title">
+        Принципы работы с ключами данных
+    </h2>
+
+    <p>При возврате данных с помощью провайдера, часто требуется идентификация каждого элемента по уникальному ключу.</p>
+    <p>Например, если данные - это какая-то информация по клиенту, то возможно понадобится использовать ID клиента, как ключ для данных по каждому клиенту.</p>
+    <p>Провайдер данных через [[yii\data\DataProviderInterface::getModels()]] может вернуть список из ключей и соответствующего набора данных.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    use yii\data\ActiveDataProvider;
+    
+    $query = Post::find()->where(['status' =&gt; 1]);
+    
+    $provider = new ActiveDataProvider([
+        'query' =&gt; $query,
+    ]);
+    
+    // возвращает массив объектов Post
+    $posts = $provider->getModels();
+    
+    // возвращает значения первичного ключа в соответствии с $posts
+    $ids = $provider->getKeys();
+    </pre>
+
+    <p>В вышеописанном примере, так как [[yii\data\ActiveDataProvider]] предоставляется один [[yii\db\ActiveQuery]] объект, то в этом случае провайдер достаточно умён, чтобы вернуть значения первичных ключей в качестве идентификатора.</p>
+    <p>Также есть возможность настроить способ вычисления значения идентификатора, через настройку [[yii\data\ActiveDataProvider::key]], как имя колонки или функцию вычисления значений ключа.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // в качестве ключа используется столбец "slug"
+    $provider = new ActiveDataProvider([
+        'query' =&gt; Post::find(),
+        'key' =&gt; 'slug',
+    ]);
+    
+    // в качестве ключа используется md5(id)
+    $provider = new ActiveDataProvider([
+        'query' =&gt; Post::find(),
+        'key' =&gt; function ($model) {
+            return md5($model->id);
+        }
+    ]);
+    </pre>
+
+    <h2 id="title">
+        Создание своего провайдера данных
+    </h2>
+
+    <p>Для создания своих классов провайдера данных, необходимо реализовать [[yii\data\DataProviderInterface]].</p>
+    <p>Простой способ сделать это - наследовать [[yii\data\BaseDataProvider]], который помогает сфокусироваться на логике ядра провайдера данных.</p>
+    <p>В основном необходимо реализовать следующие методы:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\data\BaseDataProvider::prepareModels()|prepareModels()]]
+    </pre>
+
+    <p>подготавливает модели данных, которые будут доступны в текущей странице и возвращает их в виде массива.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\data\BaseDataProvider::prepareKeys()|prepareKeys()]]
+    </pre>
+
+    <p>принимает массив имеющихся в настоящее время моделей данных и возвращает ключи, связанные с ними.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\data\BaseDataProvider::prepareTotalCount()|prepareTotalCount]]
+    </pre>
+
+    <p>возвращает значение, указывающее общее количество моделей данных в провайдере данных.</p>
+    <p>Ниже приведён пример провайдера данных, который эффективно считывает данные из CSV:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\data\BaseDataProvider;
+    
+    class CsvDataProvider extends BaseDataProvider
+    {
+        /**
+         * @var string name of the CSV file to read
+         */
+        public $filename;
+        
+        /**
+         * @var string|callable name of the key column or a callable returning it
+         */
+        public $key;
+        
+        /**
+         * @var SplFileObject
+         */
+        protected $fileObject; // SplFileObject is very convenient for seeking to particular line in a file
+        
+     
+        /**
+         * @inheritdoc
+         */
+        public function init()
+        {
+            parent::init();
+            
+            // open file
+            $this->fileObject = new SplFileObject($this->filename);
+        }
+     
+        /**
+         * @inheritdoc
+         */
+        protected function prepareModels()
+        {
+            $models = [];
+            $pagination = $this->getPagination();
+     
+            if ($pagination === false) {
+                // in case there's no pagination, read all lines
+                while (!$this->fileObject->eof()) {
+                    $models[] = $this->fileObject->fgetcsv();
+                    $this->fileObject->next();
+                }
+            } else {
+                // in case there's pagination, read only a single page
+                $pagination->totalCount = $this->getTotalCount();
+                $this->fileObject->seek($pagination->getOffset());
+                $limit = $pagination->getLimit();
+     
+                for ($count = 0; $count < $limit; ++$count) {
+                    $models[] = $this->fileObject->fgetcsv();
+                    $this->fileObject->next();
+                }
+            }
+     
+            return $models;
+        }
+     
+        /**
+         * @inheritdoc
+         */
+        protected function prepareKeys($models)
+        {
+            if ($this->key !== null) {
+                $keys = [];
+     
+                foreach ($models as $model) {
+                    if (is_string($this->key)) {
+                        $keys[] = $model[$this->key];
+                    } else {
+                        $keys[] = call_user_func($this->key, $model);
+                    }
+                }
+     
+                return $keys;
+            } else {
+                return array_keys($models);
+            }
+        }
+     
+        /**
+         * @inheritdoc
+         */
+        protected function prepareTotalCount()
+        {
+            $count = 0;
+     
+            while (!$this->fileObject->eof()) {
+                $this->fileObject->next();
+                ++$count;
+            }
+     
+            return $count;
+        }
+    }
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="54.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="56.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/55.html", "Yii2: Провайдеры данных", "bm1261"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1261", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1261") == 1) { document.getElementById("bma1261").style.display = "block"; document.getElementById("bm1261").style.display = "none"; } else { document.getElementById("bma1261").style.display = "none"; document.getElementById("bm1261").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Провайдеры данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1261", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

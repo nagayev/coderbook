@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1031" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1031" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Порядок обработки
+	</h1>
+
+	<p>Предложения WHERE могут содержать любое количество логических операторов AND и OR.</p>
+	<p>Комбинируя их, можно создавать сложные фильтры.</p>
+	<p>Однако при комбинировании ключевых слов AND и OR возникает одна проблема.</p>
+	<p>Рассмотрим следующий пример.</p>
+	<p>Необходимо вывести список всех изготовленных производителями DLL01 и BRS01 товаров, цена которых $10 и выше.</p>
+	<p>В следующей инструкции SELECT используется комбинация ключевых слов AND и OR для формулирования предложения WHERE:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name, prod_price
+	FROM Products
+	WHERE vend_id = 'DLL01' OR vend_id = 'BRS01'
+	AND prod_price > = 10;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_name prod_price
+	Fish bean bag toy 3.4900
+	Bird bean bag toy 3.4900
+	Rabbit bean bag toy 3.4900
+	18 inch teddy bear 11.9900
+	Raggedy Ann 4.9900
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Взгляните на результат.</p>
+	<p>В четырех возвращенных строках значатся цены ниже $10 — очевидно, строки не были отфильтрованы так, как надо.</p>
+	<p><b>Что же произошло?</b></p>
+	<p>Причина в порядке обработки.</p>
+	<p>SQL (как и большинство других языков) вначале обрабатывает логические операторы AND, а потом уже логические операторы OR.</p>
+	<p>Когда SQL "видит" такое предложение WHERE, он его считывает так: выбрать все продукты, которые стоят $10 и больше, изготовленные производителем BRS01, и все продукты, изготовленные производителем DLL01 независимо от их цены.</p>
+	<p>Другими словами, так как приоритет у логического оператора AND выше, были объединены "не те" операторы.</p>
+	<p>Решение этой проблемы состоит в использовании скобок для точного группирования необходимых логических операторов.</p>
+	<p>Взгляните на следующий оператор SELECT и его выходные данные:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name, prod_price
+	FROM Products
+	WHERE (vend_id = 'DLL01' OR vend_id = 'BRS0l')
+	AND prod_price >= 10;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_name prod_price
+	18 inch teddy bear 11.9900
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Единственным отличием между предыдущим выражением и этим являются скобки, в которые заключены первые два предложения оператора WHERE.</p>
+	<p>Поскольку скобки имеют еще больший приоритет, чем логические операторы AND и OR, СУБД вначале обрабатывает условие OR внутри скобок.</p>
+	<p>Соответственно, SQL-оператор будет пониматься так: выбрать все продукты, изготовленные либо производителем DLL01, либо производителем BRS01, которые стоят $10 и больше, а это именно то, что нужно.</p>
+	<p><b>Использование скобок в предложениях WHERE</b></p>
+	<p>Когда бы вы ни использовали предложения WHERE С ключевыми словами AND И OR, всегда вставляйте скобки, чтобы точно сгруппировать логические операторы.</p>
+	<p>Не полагайтесь на порядок обработки по умолчанию, даже если он подразумевает необходимый вам результат.</p>
+	<p>Нет никаких недостатков в использовании скобок, кроме того, вы всегда будете застрахованы от неопределенностей.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="16.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="18.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/17.html", "Порядок обработки", "bm1031"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1031", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1031") == 1) { document.getElementById("bma1031").style.display = "block"; document.getElementById("bm1031").style.display = "none"; } else { document.getElementById("bma1031").style.display = "none"; document.getElementById("bm1031").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Порядок обработки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1031", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma92" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm92" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Типы ссылок и типы значений
+	</h1>
+
+	<p>В стандарте C# в связи с типами используется выражение "унифицированная система типов".</p>
+	<p>Смысл унификации состоит в том, что все типы происходят от класса object "класс:класс object", то есть являются производными от этого класса и наследуют его члены.</p>
+	<p>О механизме наследования речь пойдет позднее, но в примерах программ мы будем применять для объектов и классов возможности, унаследованные ими от класса object.</p>
+	<p>Типы C# позволяют представлять, во-первых, те "скалярные" данные, которые используются в расчетах (целые и вещественные числа, логические значения) и в обработке текстов (символы, строки).</p>
+	<p>Вторая группа типов соответствует специфическим для программирования на языках высокого уровня "агрегирующим"конструкциям: массивам, структурам, объектам (классам).</p>
+	<p>Такое деление типов на две названные группы унаследовано языком C# из предшествующих ему языков программирования.</p>
+	<p>Примечание.</p>
+	<p>В С# имеются типы указателей и тип void, означающий отсутствие значения.</p>
+	<p>Указатели используются только в небезопасных участках кода программ и рассматриваться не будут.</p>
+	<p>Однако, при разработке C# решили, что в системе типов целесообразно иметь ещё одно разделение.</p>
+	<p>Поэтому язык C# поддерживает два вида (две категории) типов: типы значений "типы значений" (value types) и типы ссылок "типы ссылок" (reference types).</p>
+	<p>Принципиальное различие этих двух видов типов заключается в том, что объект ссылочного типа может именоваться одновременно несколькими ссылками, что абсолютно недопустимо для объектов с типами значений.</p>
+	<p>Для переменных традиционных языков, например Си, всегда соблюдается однозначное соответствие:</p>
+
+	<pre class="brush: csharp;">
+	имя_переменной --> значение_переменной
+	</pre>
+
+	<p>Точно такая же схема отношений справедлива в языке C# для объектов с типами значений:</p>
+
+	<pre class="brush: csharp;">
+	имя_объекта --> значение_объекта
+	</pre>
+
+	<p>Если рассматривать реализацию такого отношения в программе, то нужно вспомнить, что память компьютера организована в виде последовательности ячеек.</p>
+	<p>Каждая ячейка имеет индивидуальный, обычно числовой адрес (наименьшая из адресуемых ячеек – байт).</p>
+	<p>При выполнении программы каждому объекту выделяется блок (участок) памяти в виде одного или нескольких смежных байтов.</p>
+	<p>Адрес первого из них считается адресом объекта.</p>
+	<p>Код, находящийся в выделенном для объекта блоке памяти, представляет значение объекта.</p>
+	<p>Представить машинную реализацию объекта с типом значений можно так:</p>
+
+	<pre class="brush: csharp;">
+	адрес_объекта => код_значения_объекта
+	</pre>
+
+	<p>Переменные, имеющие типы значений, непосредственно представляют в программе конкретные данные.</p>
+	<p>Переменные, имеющие типы ссылок, представляют в программе конкретные данные косвенно, хотя косвенность этого представления не показана явно в тексте программы.</p>
+	<p>Доступ к данным по имени переменной с типом ссылки иллюстрирует триада:</p>
+
+	<pre class="brush: csharp;">
+	имя_переменной => значение_адреса_данных => значение_данных
+	</pre>
+
+	<p>Машинную реализацию такой триады можно изобразить так:</p>
+
+	<pre class="brush: csharp;">
+	адрес_переменной => код_адреса_данных => код_значеня_данных
+	</pre>
+
+	<p>Однако при программировании доступ к данным с помощью ссылки можно воспринимать в соответствии со схемой доступа к данным с помощью традиционной переменной (имеющей тип значений):</p>
+
+	<pre class="brush: csharp;">
+	имя_ссылки => значение_данных
+	</pre>
+
+	<p>Но при использовании такой схемы появляется новое и принципиальное отличие – доступность одних и тех же данных (одного участка памяти) с помощью нескольких ссылок:</p>
+
+	<pre class="brush: csharp;">
+	имя_ссылки_1 имя_ссылки_2 ... => значение_данных имя_ссылки_К
+	</pre>
+
+	<p>Основное и принципиальное для программиста-пользователя отличие типов значений от типов ссылок состоит в следующем.</p>
+	<p>Каждой переменной, которая имеет тип значений, принадлежит её собственная копия данных, и поэтому операции с одной переменной не влияют на значения других переменных.</p>
+	<p>Несколько переменных с типом ссылок могут быть одновременно соотнесены с одним и тем же объектом.</p>
+	<p>Поэтому операции, выполняемые с одной из этих переменных, могут изменять объект, на который в этот момент ссылаются другие переменные (с типом ссылок).</p>
+	<p>Различия между типами значений и типами ссылок иллюстрирует ещё одна особенность.</p>
+	<p>Объект ссылочного типа никогда не имеет своего собственного имени.</p>
+	<p>Если обратить внимание на принципы организации памяти компьютера, то следует отметить, что на логическом уровне она разделена на две части: стек "стек" и управляемую кучу "управляемая куча" (manager heap).</p>
+	<p>Объекты с типами значений, как таковые, всегда при реализации получают память в стеке.</p>
+	<p>При присваиваниях их значения копируются.</p>
+	<p>Объекты ссылочных типов размещаются в куче.</p>
+	<p>Как и объекты, переменные могут быть ссылочных типов (ссылки) и типов значений.</p>
+	<p>Следовательно, можно сказать, что типы значений – это те типы, переменные которых непосредственно хранят свои данные, тогда как ссылочные типы – это те типы, переменные которых хранят ссылки, по которым соответствующие данные могут быть доступны.</p>
+	<p>Примеры и особенности переменных обоих видов рассмотрим чуть позже.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="4.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="6.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/5.html", "Ссылки и значения", "bm92"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm92", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm92") == 1) { document.getElementById("bma92").style.display = "block"; document.getElementById("bm92").style.display = "none"; } else { document.getElementById("bma92").style.display = "none"; document.getElementById("bm92").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ссылки и значения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm92", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma229" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm229" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Переменные в Less
+	</h1>
+
+	<p>Переменные нужны для организации и упрощения написания кода и позволяют предварительно задать популярные значения, а затем повторно использовать их в любом месте кода просто написав имя переменной.</p>
+	<p>Это удобно, потому что нам при необходимости не придётся отыскивать и править множество значений, достаточно изменить его в одном месте и значения везде заменятся автоматически.</p>
+	<p>Переменные начинаются с символа @, затем идёт имя переменной, оно может включать в себя латинские символы, символ подчёркивания (_) и дефис (-).</p>
+	<p>После имени пишем двоеточие и любое значение допустимое в CSS, либо имя другой переменной.</p>
+	<p>Всё это похоже на синтаксис CSS, так что должно быть знакомо.</p>
+
+	<pre class="brush: csharp;">
+	@dark-color: #333;
+	@light-color: #f0f0f0;
+
+	.creature
+	{
+		background-color: @dark-color;
+		color: @light-color;
+	}
+	</pre>
+
+	<p>Теперь в любом месте кода можем вызвать переменную подставляя её имя.</p>
+	<p>В CSS вместо переменной будет написано её значение.</p>
+	<p>Вот что в итоге получится.</p>
+
+	<pre class="brush: csharp;">
+	.creature
+	{
+		background-color: #333;
+		color: #f0f0f0;
+	}
+	</pre>
+
+	<p>На деле переменные не ограничиваются подстановкой значений, переменные можно добавлять в качестве имён селекторов, путей и др.</p>
+	<p>В этом случае синтаксис вызова переменной немного изменится и обращаться к ней надо как @{var}.</p>
+	<p>Ниже показано, как это делается.</p>
+
+	<pre class="brush: csharp;">
+	@dark-color: #333;
+	@light-color: #f0f0f0;
+	@path-img: "../img";
+	@block: block;
+
+	.@{block}
+	{
+		background: url("@{path-img}/pic.png") no-repeat;
+	}
+
+	.@{block}-title
+	{
+		background:@dark-color;
+		color: @light-color;
+	}
+
+	.@{block}-content
+	{
+		padding: 10px;
+	}
+	</pre>
+
+	<p>Вот что мы получим на выходе.</p>
+
+	<pre class="brush: csharp;">
+	.block
+	{
+		background: url("../img/pic.png") no-repeat;
+	}
+
+	.block-title
+	{
+		background: #333333;
+		color: #f0f0f0;
+	}
+
+	.block-content
+	{
+		padding: 10px;
+	}
+	</pre>
+
+	<h1 id="title">
+		Вычисления
+	</h1>
+
+	<p>Переменные могут участвовать в математических выражениях и их можно складывать, вычитать, умножать и делить между собой или с другими значениями.</p>
+	<p>Разумеется, правильный результат будет только в том случае, если данные сочетаются, так что складывать проценты с пикселями не получится.</p>
+	<p>Ниже используется деление, сложение и вычитание переменных.</p>
+
+	<pre class="brush: csharp;">
+	@num-columns: 3;
+	@bg-color: #3ac;
+	@column-width: 100% / @num-columns;
+	@size: 100% - 20px;
+	@bg-new: @bg-color + 30;
+	</pre>
+
+	<p>В результате вычисления мы получим следующие значения:</p>
+
+	<pre class="brush: csharp;">
+	@num-columns: 3;
+	@bg-color: #3ac;
+	@column-width: 33.33333333%;
+	@size: 80%;
+	@bg-new: #51c8ea;
+	</pre>
+
+	<p>Как видите, Less при отнимании пикселей из процентов не выдаёт ошибку, а просто заменяет одни единицы на другие.</p>
+	<p>В итоге он вычитает 20% от 100%, а никак не пиксели.</p>
+	<p>Так что учитывайте этот момент в своих вычислениях.</p>
+
+	<h1 id="title">
+		Ленивая загрузка
+	</h1>
+
+	<p>Паша дал Маше два яблока, а Петя ей три.</p>
+	<p>Сколько яблок стало у Маши?</p>
+	<p>Нет, не пять, потому что мы не знаем, сколько яблок было у Маши первоначально.</p>
+	<p>Мораль: <b>обнуляйте переменные</b>.</p>
+	<p>Этот программистский анекдот справедлив при работе с языками вроде JavaScript, но не с Less.</p>
+	<p>Потому что Less применяет паттерн Lazy Loading (ленивая загрузка).</p>
+	<p>Принцип такой — если в коде встречается переменная, значение которой выше не определено, то работа с ней откладывается, пока не встретится инициализация переменной.</p>
+	<p>Это несколько усложняет работу с кодом, потому что его уже нельзя читать сверху вниз, но зато снижает число возможных ошибок.</p>
+	<p>В этом примере мы вначале присваиваем свойству color значение переменной, которое на этот момент не известно.</p>
+	<p>Затем уже ниже определяем саму переменную и её значение.</p>
+
+	<pre class="brush: csharp;">
+	body { color: @bg-color; }
+	@bg-color: #3ac;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="4.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/less/3.html", "Переменные в Less", "bm229"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm229", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm229") == 1) { document.getElementById("bma229").style.display = "block"; document.getElementById("bm229").style.display = "none"; } else { document.getElementById("bma229").style.display = "none"; document.getElementById("bm229").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Переменные в Less") == 1) { arrs.splice(i, 1); localStorage.setItem("bm229", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

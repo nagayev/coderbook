@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma429" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm429" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		PChar
+	</h1>
+
+	<p>Это тоже строка, и в будущем нам придется с ней сталкиваться.</p>
+	<p>Эта строка работает совершенно иначе, чем String.</p>
+	<p>Строка String представляет собой массив символов, в нулевом элементе которого содержится количество байт, отводимых под эту строку.</p>
+	<p>А переменная типа PChar – это не сама строка, а указатель на начало строки, то есть переменная указывает на первый символ строки в памяти компьютера.</p>
+	<p>А где же тогда PChar хранит количество байт в строке?!</p>
+	<p>А нигде!</p>
+	<p>Мы уже говорили о таблице символов ANSI, и выяснили, что нулевой символ – пустой.</p>
+	<p>Вот последний символ PChar как раз и хранит этот символ, и компьютер, найдя его, считает, что строка окончена.</p>
+	<p>Со строками PChar работать очень неудобно, однако нам придется это делать, когда мы будем работать с функциями WinAPI напрямую.</p>
+	<p>Функции WinAPI – это функции самой Windows, а не Delphi.</p>
+	<p>Однако Delphi позволяет использовать их.</p>
+	<p>Иногда это бывает необходимо, например, когда средств Delphi недостаточно для выполнения намеченной задачи.</p>
+	<p>Использование таких функций не всегда удобно, однако они выполняются процессором намного быстрее, так как содержатся в самой операционной системе.</p>
+	<p>Пример – функция MessageBox().</p>
+	<p>Вы уже привыкли выводить сообщения с помощью функции Delphi ShowMessage()?</p>
+	<p>Привыкайте к новой функции!</p>
+
+	<pre class="brush: csharp;">
+	Application.MessageBox('строка 1', 'строка 2',[ кнопки + тип_окна]);
+	</pre>
+
+	<p>Здесь:</p>
+
+	<pre class="brush: csharp;">
+	строка 1 - выводит текст внутри окна.
+	строка 2 – текст в заголовке окна.
+	</pre>
+
+	<p>Если не указывать [кнопки + тип_окна] то выйдет простое окно с кнопкой ОК, как в функции ShowMessage().</p>
+
+	<p>Типы кнопок</p>
+
+	<table>
+		<tr>
+			<th>Кнопки</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>MB_OK</td>
+			<td>(ОК)</td>
+		</tr>
+		<tr>
+			<td>MB_OKCANCEL</td>
+			<td>(ОК и Отмена)</td>
+		</tr>
+		<tr>
+			<td>MB_RETRYCANCEL</td>
+			<td>(Повторить и Отмена)</td>
+		</tr>
+		<tr>
+			<td>MB_YESNO</td>
+			<td>(Да и Нет)</td>
+		</tr>
+		<tr>
+			<td>MB_YESNOCANCEL</td>
+			<td>(Да, Нет и Отмена)</td>
+		</tr>
+		<tr>
+			<td>MB_ABORTRETRYIGNORE</td>
+			<td>(Прервать, Повтор и Пропустить)</td>
+		</tr>
+	</table>
+
+	<p>Типы окон</p>
+
+	<table>
+		<tr>
+			<th>Тип окна</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>MB_ICONWARNING</td>
+			<td>(желтый треугольник с "!")</td>
+		</tr>
+		<tr>
+			<td>MB_ICONINFORMATION</td>
+			<td>(белый шарик с "i")</td>
+		</tr>
+		<tr>
+			<td>MB_ICONQUESTION</td>
+			<td>(белый шарик с "?")</td>
+		</tr>
+		<tr>
+			<td>MB_ICONERROR</td>
+			<td>(красный круг с белым крестиком)</td>
+		</tr>
+	</table>
+
+	<p>Эта функция, помимо вывода сообщения, также возвращает значение – идентификатор кнопки, которую нажал пользователь:</p>
+	<p>Возвращаемое функцией значение</p>
+
+	<table>
+		<tr>
+			<th>Значение</th>
+			<th>Нажатая кнопка</th>
+		</tr>
+		<tr>
+			<td>IDOK</td>
+			<td>ОК</td>
+		</tr>
+		<tr>
+			<td>IDCANCEL</td>
+			<td>Отмена</td>
+		</tr>
+		<tr>
+			<td>IDABORT</td>
+			<td>Прервать</td>
+		</tr>
+		<tr>
+			<td>IDRETRY</td>
+			<td>Повтор</td>
+		</tr>
+		<tr>
+			<td>IDIGNORE</td>
+			<td>Пропустить</td>
+		</tr>
+		<tr>
+			<td>IDYES</td>
+			<td>Да</td>
+		</tr>
+		<tr>
+			<td>IDNO</td>
+			<td>Нет</td>
+		</tr>
+	</table>
+
+	<p>Пример использования:</p>
+
+	<pre class="brush: csharp;">
+Application.MessageBox('Ошибка копирования файла!', 'Ошибка',
+     MB_ABORTRETRYIGNORE+MB_ICONERROR)
+	</pre>
+
+	<p>В результате выполнения этой функции программа выведет окно:</p>
+
+	<img src="delphi14.png" id="image" />
+
+	<p>Давайте сразу попробуем эту функцию на примере.</p>
+	<p>Создайте новое приложение.</p>
+	<p>На форму установите компонент Label для вывода результата, и кнопку.</p>
+	<p>В свойстве Caption компонента Label удалите весь текст.</p>
+	<p>Создаем обработчик нажатия кнопки.</p>
+	<p>Поскольку функция возвращает перечисляемое значение, мы можем использовать case.</p>
+	<p>Пишем такой код:</p>
+
+	<pre class="brush: csharp;">
+case Application.MessageBox('Ошибка копирования файла!', 'Ошибка',
+         MB_ABORTRETRYIGNORE+MB_ICONERROR) of
+  IDABORT : Label1.Caption := 'Прервать';
+  IDRETRY  : Label1.Caption := 'Повтор';
+  IDIGNORE: Label1.Caption := 'Пропустить'; 
+end; //case
+	</pre>
+
+	<p>В примере в качестве селектора для case мы указали саму функцию.</p>
+	<p>Когда пользователь нажмет одну из кнопок, функция вернет числовое значение, соответствующее константе одной из кнопок.</p>
+	<p>В результате, выполнится нужный код, и в свойство Caption компонента Label запишется, какая из кнопок была нажата.</p>
+	<p>Сохраните пример, откомпилируйте и посмотрите, как он работает.</p>
+	<p>Попробуйте изменить тип окна на другой, например на MB_ICONQUESTION.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="42.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="44.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/43.html", "PChar", "bm429"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm429", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm429") == 1) { document.getElementById("bma429").style.display = "block"; document.getElementById("bm429").style.display = "none"; } else { document.getElementById("bma429").style.display = "none"; document.getElementById("bm429").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("PChar") == 1) { arrs.splice(i, 1); localStorage.setItem("bm429", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

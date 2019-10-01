@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma94" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm94" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Простые типы. Константы-литералы
+	</h1>
+
+	<p>Рассмотрение типов начнем с простых (базовых) типов значений, которые в качестве базовых типов традиционны для многих языков программирования, особенно для Си и Си++.</p>
+	<p>Простые типы значений языка C# можно подразделить на следующие группы:</p>
+	<p>- числовые "числовые" (арифметические) типы;</p>
+	<p>- логический "логический" (булевский) тип;</p>
+	<p>- символьный "символьный" тип.</p>
+	<p>К числовым типам относятся: знаковые и беззнаковые целочисленные типы "целочисленные типы", вещественные типы "вещественные типы" и десятичный тип "десятичный тип".</p>
+	<p>Числовые значения представляются в программе с помощью констант (литералов), и переменных трех разных видов:</p>
+	<p>- целые числа (знаковые типы: sbyte, short, int, long, беззнаковые типы: byte, ushort, uint, ulong);</p>
+	<p>- вещественные числа (типы float, double);</p>
+	<p>- десятичные числа (тип decimal).</p>
+	<p>Примеры целочисленных литералов:</p>
+	<p>- 48 – знакового целого типа (int);</p>
+	<p>- 43L – знакового длинного целого типа (long);</p>
+	<p>- 49U - беззнакового целого типа (uint);</p>
+	<p>- 93UL - беззнакового длинного целого типа (ulong).</p>
+	<p>Обратите внимание на необходимость суффиксов.</p>
+	<p>L (или l) используется для придания литералу типа long.</p>
+	<p>Суффикс U (или u) превращает литерал в беззнаковое значение (значение беззнакового типа).</p>
+	<p>Константы (литералы) вещественных типов могут быть записаны в виде с фиксированной точкой: 101.284 – тип double -0.221F – тип float 12.0f – тип float.</p>
+	<p>Кроме того, широко используется экспоненциальная запись — научная нотация, при которой явно выписываются мантисса и экспонента, а между ними размещается разделить Е или е.</p>
+	<p>Примеры: <b>-0.24Е-13</b> – тип double <b>1.44Е+11F</b> – тип float <b>-16.3Е+02f</b> – тип float.</p>
+	<p>Обратите внимание на необходимость суффикса F или f в записи вещественной константы с одинарной точностью.</p>
+	<p>При его отсутствии константа по умолчанию воспринимается и обрабатывается как значение типа double.</p>
+	<p>Тип decimal специально введён в язык С#, чтобы обеспечить вычисления, при выполнении которых недопустимы (точнее, должны быть минимизированы) ошибки округления.</p>
+	<p>Например, при финансовых вычислениях с большими суммами даже минимальные погрешности за счёт округления могут приводить к заметным потерям.</p>
+	<p>Переменные и константы типа decimal позволяют представлять числовые значения в диапазоне от 10-28 до 7,9.1028.</p>
+	<p>Для каждого числа выделяется 128 двоичных разрядов, причем число хранится в форме с фиксированной точкой.</p>
+	<p>С помощью этого типа можно представлять числа, имеющие до 28-ми десятичных разрядов. В записи десятичной константы используется суффикс m (или M).</p>
+	<p>Примеры десятичных литералов: 308.0008M 12.6m 123456789000m.</p>
+	<p>Для представления логических значений используются константы типа bool: true – истина; false – ложь.</p>
+	<p>По сравнению с предшествующими языками, например, Си и С++ в С# для представления кодов отдельных символов (для данных типа char) используется не 1 байт, а 2 байта и для кодирования используется Unicod.</p>
+	<p>Символьные литералы ограничены обязательными апострофами (не путайте с кавычками!): 'A', 'z', '2', 'O', 'Я'.</p>
+	<p>В символьных литералах для представления одного символа могут использоваться эскейп-последовательности "эскейп-последовательность", каждая из которых начинается с обратной косой черты <b>\</b>.</p>
+	<p>В виде эскейп- последовательностей изображаются управляющие символы:</p>
+	<p>- <b>\' – апостроф</b>;</p>
+	<p>- <b>\" – кавычки</b>;</p>
+	<p>- <b>\\ - обратная косая черта</b>;</p>
+	<p>- <b>\а – звуковой сигнал</b>;</p>
+	<p>- <b>\b – возврат на шаг (забой)</b>;</p>
+	<p>- <b>\n – новая строка</b>;</p>
+	<p>- <b>\r – возврат каретки;</b> </p>
+	<p>- <b>\t – табуляция (горизонтальная)</b>;</p>
+	<p>- <b>\0 – нулевое значение</b>;</p>
+	<p>- <b>\f – перевод страницы</b>;</p>
+	<p>- <b>\v – вертикальная табуляция</b>.</p>
+	<p>С помощью явной записи числового значения кода эскейп - последовательностью можно представить любой символ Юникода.</p>
+	<p>Формат такого представления: '\uhhhh', где h – шестнадцатеричная цифра, u – обязательный префикс.</p>
+	<p>Предельные значения от '\u0000' до '\uFFFF'.</p>
+	<p>Пример:</p>
+	<p>'\u0066' соответствует символу 'f'.</p>
+	<p>Разрешены также эскейп-последовательности вида '\xhh', где h- шестнадцатеричная цифра, x – префикс.</p>
+	<p>Например, '\x2B' представляет код символа 't'.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/7.html", "Простые типы", "bm94"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm94", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm94") == 1) { document.getElementById("bma94").style.display = "block"; document.getElementById("bm94").style.display = "none"; } else { document.getElementById("bma94").style.display = "none"; document.getElementById("bm94").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Простые типы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm94", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

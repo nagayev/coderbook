@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma201" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm201" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Установка шрифта
+	</h1>
+
+	<p>CSS свойство <b>font-family</b> позволяет устанавливать шрифт для текста HTML элементов.</p>
+	<p><b>Обратите внимание:</b> если название шрифта состоит из нескольких слов, то оно обязательно должно заключаться в кавычки.</p>
+	
+	<pre class="brush: csharp;">
+		p {font-family:Arial;}
+	</pre>
+
+	<h1 id="title">
+		Безопасные шрифты
+	</h1>
+
+	<p>Безопасными шрифтами называют шрифты, вероятность поддержки которых на любом компьютере с любой установленной ОС близка к 100%.</p>
+	<p>Список безопасных шрифтов:</p>
+	<p>Arial</p>
+	<p>Arial Black</p>
+	<p>Courier New</p>
+	<p>Comic Sans MS</p>
+	<p>Georgia</p>
+	<p>Impact</p>
+	<p>Times New Roman</p>
+	<p>Trebuchet MS</p>
+	<p>Verdana</p>
+	
+	<pre class="brush: csharp;">
+	<p style='font-family:Arial;'>Демонстрация шрифта Arial.</p>
+	</pre>
+	
+	<p><b>Обратите внимание:</b> в CSS3 было добавлено новое свойство @font-face, позволяющее использовать на веб-страницах небезопасные шрифты.</p>
+	<p><b>Обратите внимание:</b> если Вы хотите использовать небезопасные шрифты, но не хотите использовать новые свойства используйте резервные шрифты, о которых рассказано далее.</p>
+
+	<h1 id="title">
+		Резервные шрифты
+	</h1>
+	
+	<p>При задании шрифта для элемента Вы можете указать резервный шрифт, который будет использован в случае, если основной шрифт не установлен на компьютере пользователя.</p>
+	<p>Элементы могут также иметь несколько резервных шрифтов, которые будут поочередно перебираться пока не найдется установленный шрифт.</p>
+	
+	<pre class="brush: csharp;">
+		/* Если на компьютере пользователя
+		нет шрифта Verdana,то будет использован
+		Times New Roman, если на компьютере
+		нет Times New Roman, то будет
+		использован Arial  */
+		p { font-family: Verdana, "Times New Roman", Arial; }
+	</pre>
+	
+	<p>В качестве замыкающего резервного шрифта часто указывают семейство, к которому принадлежит основной шрифт, чтобы в крайнем случае браузер автоматически выбрал один из шрифтов данного семейства установленных на компьютере пользователя.</p>
+	<p>В CSS шрифты делятся на следующие "семейства":</p>
+	<p><b>- Serif</b> шрифты данного семейства имеют небольшие засечки на концах символов. Примеры шрифтов данного семейства: Times New Roman, Georgia.</p>
+	<p><b>- Sans-Serif</b> шрифты данного семейства не имеют засечек. Примеры: Arial, Arial Black, Trebuchet MS, Verdana.</p>
+	<p><b>- Monospace</b> все символы шрифтов данного семейства занимают одинаковую ширину. Примеры: Courier New.</p>
+	<p><b>- Fantasy</b> семейство "причудливых" шрифтов использующихся в основном для создания красочных заголовков. Примеры: Impact</p>
+	<p><b>- Cursive</b> семейство шрифтов рукописного начертания. Примеры: Comic Sans MS.</p>
+	
+	<pre class="brush: csharp;">
+		/* Если на компьютере пользователя
+		нет шрифта Verdana, то будет использован
+		Arial, если на компьютере нет Arial,
+		то будет использоваться один из шрифтов
+		семейства Sans-Serif имеющихся на компьютере  */
+		p {font-family:Verdana,Arial,sans-serif;}
+	</pre>
+	
+	<h1 id="title">
+		Размер шрифта
+	</h1>
+	
+	<p>CSS свойство font-size устанавливает размер шрифта HTML элементов.</p>
+	<p>Размер шрифта можно задать двумя способами:</p>
+	
+	<h1 id="title">
+		Абсолютный способ
+	</h1>
+	
+	<p>Этот способ по сравнению со следующим удобнее, но его использование может привести к несоответствию при отображении одной и той же страницы в различных браузерах.</p>
+	<p>Данный способ позволяет задавать размер шрифта в абсолютных единицах таких как: пиксели (px) или проценты (%).</p>
+	
+	<pre class="brush: csharp;">
+		p.fz1 {font-size:20px;}
+		p.fz2 {font-size:30px;}
+		p.fz3 {font-size:13px;}
+	</pre>
+	
+	<div class="button">Результат работы кода:</div>
+	
+	<p style="font-size:20px;"> Это первый абзац. </p>
+	<p style="font-size:30px;"> Это второй абзац. </p>
+	<p style="font-size:15px;"> Это третий абзац. </p>
+	
+	<h1 id="title">
+		Относительный способ
+	</h1>
+	
+	<p>Данный способ помогает избежать проблем с несоответствием при отображении страницы в разных браузерах, так как все размеры устанавливаются относительно.</p>
+	<p>Для задания размера шрифта данным способом используются единицы em. 1em эквивалентен размеру шрифта в браузере по умолчанию и равен 16px.</p>
+	<p><b>Обратите внимание:</b> W3C рекомендует для задания шрифта использовать именно этот способ.</p>
+	
+	<pre class="brush: csharp;">
+		p.fz1 { font-size: 1.2em; }
+	</pre>
+	
+	<p><b>Обратите внимание:</b> не используйте свойство font-size для того, чтобы оформлять абзацы как заголовки. Всегда используйте для определения абзацев теги p, а для заголовков h1-h6.</p>
+	
+	<h1 id="title">
+		Стиль шрифта
+	</h1>
+	
+	<p>Свойство <b>font-style</b> позволяет сделать шрифт HTML элемента курсивным.</p>
+	<p>Свойство <b>font-weight</b> позволяет изменять толщину шрифта.</p>
+	
+	<pre class="brush: csharp;">
+		p.italic {font-style:italic;}
+		p.fz1 {font-weight:bold;}
+	</pre>
+	
+	<div class="button">Результат работы кода:</div>
+	
+	<p style="font-style:italic;"> Это первый абзац. </p>
+	<p style="font-weight:bold;"> Это второй абзац. </p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/book/6.html", "CSS Шрифт", "bm201"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm201", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm201") == 1) { document.getElementById("bma201").style.display = "block"; document.getElementById("bm201").style.display = "none"; } else { document.getElementById("bma201").style.display = "none"; document.getElementById("bm201").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("CSS Шрифт") == 1) { arrs.splice(i, 1); localStorage.setItem("bm201", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

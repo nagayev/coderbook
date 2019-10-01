@@ -1,0 +1,1408 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma805" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm805" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Функции и типы
+	</h1>
+	
+	<p>В этом разделе описаны все функции и типы из C API в алфавитном порядке.</p>
+
+	<h1 id="title">
+		lua_Alloc
+	</h1>
+
+	<pre class="brush: csharp;">
+	typedef void * (*lua_Alloc) (void *ud,
+	void *ptr,
+	size_t osize,
+	size_t nsize);
+	</pre>
+
+	<p>Тип функции выделения памяти, используемый Lua.</p>
+	<p>Функция выделения должна предоставлять функционал, схожий с <b>realloc</b>, но не точно такой же.</p>
+	<p>Ее аргументы: ud, непрозрачный (opaque) указатель, передаваемый <b>lua_newstate</b>, ptr, указатель на блок block выделенной, перевыделенной или освобожденной памяти; osize, исходный размер блока; nsize, новый размер блока.</p>
+	<p>ptr равен NULL тогда и только тогда когда osize нулевой.</p>
+	<p>Когда nsize равен нулю, процедура выделения памяти (allocator) должна вернуть NULL; если osize не ноль, она должна освободить блок, на который указывает ptr.</p>
+	<p>Когда nsize не ноль, процедура возвращает NULL тогда и только тогда она не может выполнить запрос.</p>
+	<p>Если nsize не ноль и osize ноль, процедура должна вести себя как <b>malloc</b>.</p>
+	<p>Если nsize и osize не ноль, процедура ведят себя как realloc. Луа предполагает, что такая процедура никогда не приводит к ошибочной ситуации при osize >= nsize.</p>
+	<p>Вот пример реализации простой функии выделения памяти.</p>
+	<p>Он используется во вспомогательной библиотеке состоянием <b>luaL_newstate</b>.</p>
+
+	<pre class="brush: csharp;">
+	static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize)
+	{
+		(void)ud;  (void)osize;  /* not used */
+		
+		if (nsize == 0)
+		{
+			free(ptr);
+			return NULL;
+		}
+		else
+		return realloc(ptr, nsize);
+	}
+	</pre>
+
+	<p>Этот код предполагает что NULL не имеет эффекта и что realloc(NULL, size) эквивалентна malloc(size).</p>
+	<p>ANSI C соответствует обоим поведениям.</p>
+
+	<h1 id="title">
+		lua_atpanic
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_CFunction lua_atpanic (lua_State *L, lua_CFunction panicf);
+	</pre>
+
+	<p>Устанавливает новую panic function и возвращает старую.</p>
+	<p>Если происходит ошибка вне любого protected environment, Lua вызывает <b>panic function</b>, а затем exit(EXIT_FAILURE), таким образом выходя из приложения.</p>
+	<p>Ваша panic function может предотвратить выход из программы, если не будет оканчиваться (e.g., при помощи long jump).</p>
+	<p>Panic function может осуществлять доступ к сообщению об ошибке на вершине стека.</p>
+
+	<h1 id="title">
+		lua_call
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_call (lua_State *L, int nargs, int nresults);
+	</pre>
+
+	<p>lua_call вызывает функцию.</p>
+	<p>Для вызова функции вы должны использовать следующую последовательность: первое, функция, которая должны быть вызвана помещается на вершину стека; затем, аргументы функции помещаются (push) в прямом порядке; т.о., первый аргумент помещается первым.</p>
+	<p>Затем вы вызываете <b>lua_call</b>; nargs это количество аргументов которые вы поместили в стек.</p>
+	<p>Все аргументы и значение функции выбираются(pop) из стека когда вызывается функция.</p>
+	<p>Результаты функции помещаются в стек по окончании вызова.</p>
+	<p>Количество результатов соответствует nresults, если nresults не LUA_MULTRET.</p>
+	<p>В противном случае, все результаты, возвращенные функцией помещаются в стек.</p>
+	<p>Lua заюотится о том чтобы возвращенные значения поместились в стек.</p>
+	<p>Результаты функции помещаются в стек в прямом порядке (первый результат - первым), т.о. после вызова последний результат оказывается на вершине стека.</p>
+	<p>Любая ошибка внутри вызванной функции распространяется вверх (при помощи longjmp).</p>
+	<p>Эквивалентыный код в Lua:</p>
+
+	<pre class="brush: csharp;">
+	a = f('how', t.x, 14)
+	</pre>
+
+	<p>То же в C:</p>
+
+	<pre class="brush: csharp;">
+	lua_getfield(L, LUA_GLOBALSINDEX, 'f');
+	/* function to be called */
+
+	lua_pushstring(L, 'how');
+	/* 1st argument */
+
+	lua_getfield(L, LUA_GLOBALSINDEX, 't');
+	/* table to be indexed */
+
+	lua_getfield(L, -1, 'x');
+	/* push result of t.x (2nd arg) */
+
+	lua_remove(L, -2);
+	/* remove 't' from the stack */
+
+	lua_pushinteger(L, 14);
+	/* 3rd argument */
+
+	lua_call(L, 3, 1);
+	/* call 'f' with 3 arguments and 1 result */
+
+	lua_setfield(L, LUA_GLOBALSINDEX, 'a');
+	/* set global 'a' */
+	</pre>
+
+	<p>Заметьте что код сбалансирован: в его конце стек возвращается в исходныю конфигурацию.</p>
+	<p>Это считается хорошей практикой программирования.</p>
+
+	<h1 id="title">
+		lua_CFunction
+	</h1>
+
+	<pre class="brush: csharp;">
+		typedef int (*lua_CFunction) (lua_State *L);
+	</pre>
+
+	<p>Тип для функций C.</p>
+	<p>Для правильной связи с Lua, функция C должна использовать следующую последовательность действий, которая определяет, как параметры передаются параметры и результаты: функция C получает аргументы из Lua через стек в прямом порядка (первый аргумент помещается в стек первым).</p>
+	<p>Поэтому, когда функция начинает исполняться, lua_gettop(L) возвращает количество аргументов полученных функцией.</p>
+	<p>Первый аргумент (если он существует) имеет индекс 1, а последний - lua_gettop(L).</p>
+	<p>Для возвращения значений в Lua, функция C просто помещает их в стек, в прямом порядке, и возвращает количество результатов.</p>
+	<p>Любое другое значение в стеке ниже результатов будет проигнорировано Lua.</p>
+	<p>Также как и функция Lua, функция C, вызванная из Lua может также возвращать множество результатов.</p>
+	<p>В качестве примера, следующая функция получает переменное число аргументов (числовых) и возвращает из среднее значение и сумму:</p>
+
+	<pre class="brush: csharp;">
+	static int foo (lua_State *L)
+	{
+		int n = lua_gettop(L);
+		/* number of arguments */
+	
+		lua_Number sum = 0;
+		int i;
+	
+		for (i = 1; i <= n; i++)
+		{
+			if (!lua_isnumber(L, i))
+			{
+				lua_pushstring(L, 'incorrect argument');
+				lua_error(L);
+			}
+
+			sum += lua_tonumber(L, i);
+		}
+	
+		lua_pushnumber(L, sum/n);
+		/* first result */
+	
+		lua_pushnumber(L, sum);
+		/* second result */
+	
+		return 2;
+		/* number of results */
+	}
+	</pre>
+
+	<h1 id="title">
+		lua_checkstack
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_checkstack (lua_State *L, int extra);
+	</pre>
+
+	<p>Проверяет что существует, по крайней мере, extra свободных слотов стека.</p>
+	<p>Функция возвращает false, если не может увеличить стек до требуемого размера.</p>
+	<p>Эта функция никогда не уменьшает размер стека; если стек уже больше, чем требуемый новый размер, он остается неизменным.</p>
+
+	<h1 id="title">
+		lua_close
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_close (lua_State *L);
+	</pre>
+
+	<p>Уничтожает все объекты в заданном состоянии Lua (Lua state) (вызывая соответствующие garbage-collection метаметоды, если таковые есть) и освобождает всю динамическую память, используемыю этим состоянием (state).</p>
+	<p>На некоторых платформах, вам может не понядобиться вызывать эту функцию, т.к. все ресурсы освобождаются автоматически, когда закрывается программа (host program).</p>
+	<p>С другой стороны, долго работающие программы, такие как демоны или веб-сервера, могут потребовать освобождения состояний, как только они не нужны, для избежания слишком сильного разрастания.</p>
+
+	<h1 id="title">
+		lua_concat
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_concat (lua_State *L, int n);
+	</pre>
+
+	<p>Конкатенирует n значений на вершине стека, выталкивает(pop) их, и оставляет результат на вершине.</p>
+	<p>Еслии n равен 1, результатом является единственная строка в стеке (т.о., функция ничего не делает); если n равен 0, результатом является пустая строка.</p>
+	<p>Конкатенация производится в соответствии с обычной семантикой Lua.</p>
+
+	<h1 id="title">
+		lua_cpcall
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_cpcall (lua_State *L, lua_CFunction func, void *ud);
+	</pre>
+
+	<p>Вызывает функцию C func в защищенном режиме (protected mode).</p>
+	<p>func запускается с единственным значением в ее стеке, пользовательскими данными, содержащими ud.</p>
+	<p>В случае ошибок, lua_cpcall возвращает аналогичные коды ошибок как lua_pcall, а также error object на вершине тека; в противном случае, она возвращает 0, и не изменяет стек.</p>
+	<p>Все значения, возвращаемые func игнорируются.</p>
+
+	<h1 id="title">
+		lua_createtable
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_createtable (lua_State *L, int narr, int nrec);
+	</pre>
+
+	<p>Создает новую пустую таблицу, и вставляет (push)ее в стек.</p>
+	<p>Под новую таблицу выделяется место для narr элементов массива и nrec элементов не массива (non-array elements).</p>
+	<p>Это выделение удобно когда вы знаете точное количество элементов, которое будет помещено в таблицу.</p>
+	<p>В противном случае, вы можете использовать функциюlua_newtable</p>
+
+	<h1 id="title">
+		lua_dump
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_dump (lua_State *L, lua_Writer writer, void *data);
+	</pre>
+
+	<p>Выгружает функцию в бинарном формате (binary chunk).</p>
+	<p>Получает функцию Lua с вершины стека и создает binary chunk, который, если будет загружен вновь, дает функцию, эквивалентную выгруженной.</p>
+	<p>В процессе генерации частей chunk, lua_dump вызывает функцию writer (см. lua_Writer) с соответствующими данными для записи.</p>
+	<p>Возвращает значение, соответствующее коду ошибки (error code), возвращенному последним обращением к writer; 0 обозначает отсутствие ошибок.</p>
+	<p>Эта функия не выталкивает функцию Lua из стека.</p>
+
+	<h1 id="title">
+		lua_equal
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_equal (lua_State *L, int index1, int index2);
+	</pre>
+
+	<p>Возвращает 1 если два значения с индексами (acceptable indices) index1 и index2 эквивалентны, в соответствии с семантикой Lua оператора == (т.е., может вызывать метаметоды).</p>
+	<p>В противном случае возвращает 0.</p>
+	<p>Также возвращает 0 если любой из индексов ошибочен.</p>
+
+	<h1 id="title">
+		lua_error
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_error (lua_State *L);
+	</pre>
+
+	<p>Генерирует ошибку Lua. Сообщение об ошибке (которое может быть любым значением Lua любого типа) должно быть на вершине стека.</p>
+	<p>Эта функция делает long jump, и т.о. никогда не заканчивается. (см. luaL_error)</p>
+
+	<h1 id="title">
+		lua_gc
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_gc (lua_State *L, int what, int data);
+	</pre>
+
+	<p>Контролироет сборщик мусора.</p>
+	<p>Эта функция выполняет несколько задач, в соответствии с значением параметра <b>what:</b>:</p>
+
+	<p><b>LUA_GCSTOP:</b> останавливает сборщик.</p>
+	<p><b>LUA_GCRESTART:</b> перезапускает сборщик.</p>
+	<p><b>LUA_GCCOLLECT:</b> производит полный цикл сборки мусора.</p>
+	<p><b>LUA_GCCOUNT:</b> возвращает текущее значение объема памяти (в Kbytes), которое используется Lua.</p>
+	<p><b>LUA_GCCOUNTB:</b> возвращает остаток деления текущего количества байт памяти, используемого Lua на 1024.</p>
+	<p><b>LUA_GCSTEP:</b> выполняет инкрементальный шаг сбора мусора. Размер шага "size" контролируется значением data (большие значения означают большее количество шагов), но нет прямого соответствия между занчсением этого параметра и объемом освобождаемой памяти. Если вы хотите контролировать размер шага вам нужно экспериментально подобрать размер data. Эта функция возвращает 1 если шаг закончил цикл сборки мусора.</p>
+	<p><b>LUA_GCSETPAUSE:</b> выставляет data/100 новым значением для параметра pause сборщика мусора. Функция возвращает предыдущее значение данного параметра.</p>
+	<p><b>LUA_GCSETSTEPMUL:</b> выставляет data/100 как новое значение step multiplier сборщика. Функция возвращает предыдущее значение данного параметра.</p>
+
+	<h1 id="title">
+		lua_getallocf
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Alloc lua_getallocf (lua_State *L, void **ud);
+	</pre>
+
+	<p>Возвращает функцию выделения памяти данного состояния (state).</p>
+	<p>Если ud не равен NULL, Lua сохраняет в *ud непрозрачный (opaque) указатель передаваемый в lua_newstate.</p>
+
+	<h1 id="title">
+		lua_getfenv
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_getfenv (lua_State *L, int index);
+	</pre>
+
+	<p>Вставляет (Push) в стек таблицуокружения (environment table) значения заданного индекса.</p>
+
+	<h1 id="title">
+		lua_getfield
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_getfield (lua_State *L, int index, const char *k);
+	</pre>
+
+	<p>Вставляет (Push) в стек значение t[k], где t – это значение заданного валидного индекса index.</p>
+	<p>Так же, как в Lua, эта функция может вызывать (trigger) метаметод для события индекса ("index" event).</p>
+
+	<h1 id="title">
+		lua_getglobal
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_getglobal (lua_State *L, const char *name);
+	</pre>
+
+	<p>Вставляет (Push) в стек значение глобальной переменной (value of the global name).</p>
+	<p>Эта функция определяется как следующий макрос:</p>
+
+	<pre class="brush: csharp;">
+		#define lua_getglobal(L,s)  lua_getfield(L, LUA_GLOBALSINDEX, s)
+	</pre>
+
+	<h1 id="title">
+		lua_getmetatable
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_getmetatable (lua_State *L, int index);
+	</pre>
+
+	<p>Вставляет в стек метатаблицу (metatable) значения в заданном валидном индексе (acceptable index).</p>
+	<p>Если индекс не валиден, или значение не имеет метатаблицы, функция возвращает 0 и ничего не вставляет в стек.</p>
+
+	<h1 id="title">
+		lua_gettable
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_gettable (lua_State *L, int index);
+	</pre>
+
+	<p>Вставляет в стек значение t[k], где t – это значение у указанном валидном индексе index и k – это значение на вершине стека.</p>
+	<p>Эта функция выталкивает ключ из стека (вставляет результат на его место).</p>
+	<p>Также как в Lua, эта функция может вызывать (trigger) метаметод для события индекса.</p>
+
+	<h1 id="title">
+		lua_gettop
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_gettop (lua_State *L);
+	</pre>
+
+	<p>Возвращает индекс на значения, находящегося на вершине стека.</p>
+	<p>Т.к. индексы начинаются с 1, это значение равно количеству элементов в стеке (и т.о. 0 обозначает пустой стек).</p>
+
+	<h1 id="title">
+		lua_insert
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_insert (lua_State *L, int index);
+	</pre>
+
+	<p>Перемещает верхний элемент в заданный валидный индекс, сдвигая вверх все элементы, находящиеся выше заданного индекса.</p>
+	<p>Процедура не может быть вызвана с псевдо-индексом (pseudo-index), т.к. псевдо-индекс (pseudo-index) не содержит реального положения в стеке.</p>
+
+	<h1 id="title">
+		lua_Integer
+	</h1>
+
+	<pre class="brush: csharp;">
+		typedef ptrdiff_t lua_Integer;
+	</pre>
+
+	<p>Данный тип используется Lua API для представления целых чисел.</p>
+	<p>По умолчанию ptrdiff_t, который соответствует наибольшему целому типу со знаком поддерживается "без проблем".</p>
+
+	<h1 id="title">
+		lua_isboolean
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isboolean (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе имеет тип boolean, и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_iscfunction
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_iscfunction (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – функция C, и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isfunction
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isfunction (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – функция (C или Lua), и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_islightuserdata
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_islightuserdata (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – это пользовательские данные (light userdata), и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isnil
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isnil (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – nil, и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isnone
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isnone (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если заданный допустимый индекс не является валидным (т.е., указывает на элемент вне текущего стека), и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isnoneornil
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isnoneornil (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1, если заданный допустимый индекс не является валидным (т.е., указывает на элемент вне текущего стека) или значение элемента по данному индексу равно nil, и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isnumber
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isnumber (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – число или строка, конвертируемая в число, и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isstring (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – строка или число (которое всегда можно сконвертировать в строку), и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_istable
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_istable (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – таблица, и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isthread
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isthread (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – нить (поток, thread), и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_isuserdata
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_isuserdata (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе – пользовательские данные (userdata) (full или light), и 0 в противном случае.</p>
+
+	<h1 id="title">
+		lua_lessthan
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_lessthan (lua_State *L, int index1, int index2);
+	</pre>
+
+	<p>Возвращает 1 если значение в заданном допустимом (acceptable) индексе index1 меньше чем значение в допустимом индексе index2, в соответствии с семантикой оператора &lt; Lua (т.о., может вызыать метаметоды). В противном случае возвращает 0.</p>
+	<p>Также возвращает 0 если любой из индексов не валиден.</p>
+
+	<h1 id="title">
+		lua_load
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_load (lua_State *L,
+		lua_Reader reader,
+		void *data,
+		const char *chunkname);
+	</pre>
+
+	<p>Загружает chunk Lua.</p>
+	<p>Если нет ошибок,lua_load вставляет (push) скомпилированный chunk как Lua функцию на вершину стека.</p>
+	<p>В противном случае, функция вставляет сообщение об ошибке.</p>
+	<p>Возвращаемые значения lua_load:</p>
+	<p><b>0:</b> нет ошибок;</p>
+	<p><b>LUA_ERRSYNTAX:ошибка</b> синтаксиса;</p>
+	<p><b>LUA_ERRMEM:</b> ошибка выделения памяти.</p>
+	<p>Эта функция только загружает chunk; но не запускает.</p>
+	<p>lua_load автоматически определяет, является ли chunk текстовым или бинарным, и соответствующе его загружает (см. программу luac).</p>
+	<p>Функция lua_load использует предоставленную пользователем функцию reader для чтения chunk (см. lua_Reader).</p>
+	<p>Аргумент data – непрзрачное (opaque) значение, передаваемое в функцию reader.</p>
+	<p>Аргумент chunkname дает имя chunk, которое может быть использовано для обработки сообщений об ошибках и получения отладочной информации.</p>
+
+	<h1 id="title">
+		lua_newstate
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_State *lua_newstate (lua_Alloc f, void *ud);
+	</pre>
+
+	<p>Создает новое независимое состояние (state).</p>
+	<p>Возвращает NULL, если не удается создать состояние (из-за недостатка памяти).</p>
+	<p>Аргумент f – функция выделения памяти; Lua совершает все выделения памяти для этого состояния через эту функцию.</p>
+	<p>Второй аргумент, ud – это непрозрачный указатель (opaque pointer), который Lua передает функции выделения памяти при каждом вызове.</p>
+
+	<h1 id="title">
+		lua_newtable
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_newtable (lua_State *L);
+	</pre>
+
+	<p>Создает новую пустую таблицу и вставляет ее в стек.</p>
+	<p>Действие этой функции эквивалентно lua_createtable(L, 0, 0).</p>
+
+	<h1 id="title">
+		lua_newthread
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_State *lua_newthread (lua_State *L);
+	</pre>
+
+	<p>Создает новую нить (thread), вставляет ее в стек, и возвращает указатель на lua_State, , который представляет (represents) эту новую нить.</p>
+	<p>Новое состояние (state), возвращенное функцией разделяет с исходным (original) состоянием все глобальные объекты (такие как tables), но обладет независимым стеком выполнения.</p>
+	<p>Не существует непосредственно функии, закрывающей или уничтожающей нить.</p>
+	<p>Нити – это забота сборщика мусора, как и любой другой объект Lua.</p>
+
+	<h1 id="title">
+		lua_newuserdata
+	</h1>
+
+	<pre class="brush: csharp;">
+		void *lua_newuserdata (lua_State *L, size_t size);
+	</pre>
+
+	<p>Эта функция выделяет новый блок памяти с заданного размера, вставляет в стек новую пользовательскую полную информацию (full userdata) с адресом блока, и возвращает этот адрес.</p>
+	<p>Пользовательская информация (userdata) представляет значения C в Lua.</p>
+	<p>Полная пользовательская информация (full userdata) представляет блок памяти.</p>
+	<p>Это - объект (такой же как таблица): вы должны создать его, он может облатдать собственной метатаблицей, и вы можете определить, когда она будет собрана (collected).</p>
+	<p>Полная пользовательская информаия (full userdata) равна только самой себе (в соответствии с «сырым» сравнением (under raw equality)).</p>
+	<p>Когда Lua собирает полную пользовательскую информацию (full userdata) с сиспользованием метаметода gc, Lua вызывает метаметод и помечает пользовательскую информацию как finalized.</p>
+	<p>Когда эта пользовательская информация собирается снова, то Lua освобождает соответствующую память.</p>
+
+	<h1 id="title">
+		lua_next
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_next (lua_State *L, int index);
+	</pre>
+
+	<p>Выталкивает (Pop) ключ из стека, и вставляет пару ключ-значение из таблицы по заданному индексу ("следующую" пару после заданного ключа).</p>
+	<p>Если больше не существует елементов в таблицы, то lua_next возвращает 0 (и ничего не вставляет в стек).</p>
+	<p>Типичный обход (traversal) выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	/* table is in the stack at index 't' */
+	lua_pushnil(L);  /* first key */
+
+	while (lua_next(L, t) != 0)
+	{
+		/* uses 'key' (at index -2) and 'value' (at index -1) */
+		printf('%s - %s\n',
+		lua_typename(L, lua_type(L, -2)),
+		lua_typename(L, lua_type(L, -1)));
+		
+		/* removes 'value'; keeps 'key' for next iteration */
+		lua_pop(L, 1);
+	}
+	</pre>
+
+	<p>Во время обхода таблицы, не вызывайтеlua_tolstring непосредственно для ключа, если не уверенны точно, что ключ действительно является строкой.</p>
+	<p>Повторный вызов (Recall) lua_tolstring изменяет значение по заданному индесу; это «сбивает с толку» (confuses) следующий вызов lua_next.</p>
+
+	<h1 id="title">
+		lua_Number
+	</h1>
+
+	<pre class="brush: csharp;">
+		typedef double lua_Number;
+	</pre>
+
+	<p>Тип чисел в Lua.</p>
+	<p>По умолчанию – double, но это можно изменить в luaconf.h.</p>
+	<p>В конфигурационном файле вы можете изменить настройки Lua так, чтобы оперировать другими типами чисел (напр., float или long).</p>
+
+	<h1 id="title">
+		lua_objlen
+	</h1>
+
+	<pre class="brush: csharp;">
+		size_t lua_objlen (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает длину данных, расположенных по заданному допустимому индексу: для строк, возвращает длину строки; для таблиц – результат выполнения оператора дляины ('#'); для пользовательских данных – размер блока данных, выделенных для пользовательских данных; для других типов – 0.</p>
+
+	<h1 id="title">
+		lua_pcall
+	</h1>
+
+	<pre class="brush: csharp;">
+		nt lua_pcall (lua_State *L, int nargs, int nresults, int errfunc);
+	</pre>
+
+	<p>Вызывает функцию в защищенном режиме.</p>
+	<p>Параметры nargs и nresults имеют значение, аналогичное lua_call.</p>
+	<p>Во время вызова не произошло ошибок, lua_pcall ведет себя в точности как lua_call.</p>
+	<p>Однако, если встретились ошибки, lua_pcall перехватывает их, вставляет в стек сообщение об ошибке, и возвращает код ошибки.</p>
+	<p>Также как и lua_call, lua_pcall всегда удаляет функцию и ее аргументы из стека.</p>
+	<p>Если errfunc равен 0, то сообщение об ошибке, возвращенное через стек – это исходное (original) сообщение об ошибке.</p>
+	<p>В противном случае, errfunc – это индекс стека функции-обработчика ошибок.</p>
+	<p>(В текущей реализации, этот индекс не может быть псевдо-индексом.)</p>
+	<p>В случае ошибок времени выполнения, эта функция будет вызвана с сообщением об ошибке и возвращенное ею значение и будет сообщением, возвращенным через стек lua_pcall.</p>
+	<p>Чаще всего, функция обработки ошибок (error handler function) используется для добавления дополнительной отладочной информации в сообщение об ошибке, такой как stack traceback.</p>
+	<p>Такая информация не может быть собрана после возврата из lua_pcall, , т.к. в этот момент стек был уже изменен (unwound).</p>
+	<p>Функция lua_pcall возвращает 0 в случае успешного завершения или один из следующих кодов ошибок (определенных в lua.h):</p>
+	<p>- <b>LUA_ERRRUN:</b>ошибка времени выполнения.</p>
+	<p>- <b>LUA_ERRMEM:</b>ошибка выделения памяти. Для таких ошибок, Lua не вызвает функию-обработчик ошибок.</p>
+	<p>- <b>LUA_ERRERR:</b>ошибка во время выполнения функции-обработчика ошибок.</p>
+
+	<h1 id="title">
+		lua_pop
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pop (lua_State *L, int n);
+	</pre>
+
+	<p>Выталкивает n элементов из стека.</p>
+
+	<h1 id="title">
+		lua_pushboolean
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushboolean (lua_State *L, int b);
+	</pre>
+
+	<p>Вставляет булеву переменную со значением b в стек.</p>
+
+	<h1 id="title">
+		lua_pushcclosure
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushcclosure (lua_State *L, lua_CFunction fn, int n);
+	</pre>
+
+	<p>Вставляет новый экземпляр функции C в стек.</p>
+	<p>Когда функция C создана, есть возможность ассоциировать с ней некоторые значения, т.о. создавая экземпляр функции C (C closure); ); эти значения затем доступны функции во время ее вызова.</p>
+	<p>Для того чтобы ассоциировать значения с функцией C, сначала эти значения должны быть вставлены в стек (если есть несколько значений, первое вставляется первым).</p>
+	<p>Затем lua_pushcclosure вызывется для того, чтобы создать и вставить функцию C в стек, с аргументом n, соответствующем количеству ассоциируемых значений.</p>
+	<p>lua_pushcclosure также выталкивает эти значения из стека.</p>
+
+	<h1 id="title">
+		lua_pushcfunction
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushcfunction (lua_State *L, lua_CFunction f);
+	</pre>
+
+	<p>Вставляет функцию C в стек.</p>
+	<p>Эта функция получает указатель на функцию C и вставляет в стек значение Lua типа function, которое, будучи вызванным, передает управление функции C.</p>
+	<p>Любая функция, которая должна быть зарегистрирована в Lua должна соответствовать определенным правилам, чтобы получить параметры и вернуть результаты (см. lua_CFunction).</p>
+	<p>lua_pushcfunction определена следующим макросом:</p>
+
+	<pre class="brush: csharp;">
+	#define lua_pushcfunction(L,f)  lua_pushcclosure(L,f,0)
+	</pre>
+
+	<h1 id="title">
+		lua_pushfstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *lua_pushfstring (lua_State *L, const char *fmt, ...);
+	</pre>
+
+	<p>Вставляет в стек отформатированную строку и возвращает указатель на эту строку.</p>
+	<p>Эта функция аналогична функции C sprintf, но обладает некоторыми важными отличиями:</p>
+	<p>- Вам не нужно выделять память для результата: результат – строка Lua и Lua позаботится о выделении памяти (и освобождении, в процессе сборки мусора).</p>
+	<p>- Символы замены довольно ограничены. Не существует флагов, длин, или точностей.Символы замены могут быть только '%%' (вставляет '%' в строку), '%s' (вставляет строку, оканчивающуюся 0, без ограничений на длину), '%f' (вставляет lua_Number), '%p' (вставляет указатель в шестнадцатиричном формате), '%d' (вставляет целое число), и '%c' (вставляет целое число как символ).</p>
+
+	<h1 id="title">
+		lua_pushinteger
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushinteger (lua_State *L, lua_Integer n);
+	</pre>
+
+	<p>Вставляет число со значением n в стек</p>
+
+	<h1 id="title">
+		lua_pushlightuserdata
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushlightuserdata (lua_State *L, void *p);
+	</pre>
+
+	<p>Вставляет light пользовательские данные в стек.</p>
+	<p>Пользовательские данные представляют значения C в Lua.</p>
+	<p>Light пользовательские данные представляют собой указатель.</p>
+	<p>Это – значение (как число): вы не создаете его, оно не имеет метатаблицы, и оно никогда не собирается сборщиком мусора (т.к.никогда не было создано).</p>
+	<p>Light пользовательские данные эквивалентны любым light пользовательским данным с таким же адресом C.</p>
+
+	<h1 id="title">
+		lua_pushlstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushlstring (lua_State *L, const char *s, size_t len);
+	</pre>
+
+	<p>Вставляет строку, начинающуюся с указателя s с длиной len.</p>
+	<p>Lua создает (или многократно использует) внутреннюю копиюданной строки, т.о. память s может быть освобождена или использована заново сразу после того, как функция завершилась.</p>
+	<p>Строка может содержать ноли.</p>
+
+	<h1 id="title">
+		lua_pushnil
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushnil (lua_State *L);
+	</pre>
+
+	<p>Вставляет значение nil в стек.</p>
+
+	<h1 id="title">
+		lua_pushnumber
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushnumber (lua_State *L, lua_Number n);
+	</pre>
+
+	<p>Вставляет число со значением n в стек.</p>
+
+	<h1 id="title">
+		lua_pushstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushstring (lua_State *L, const char *s);
+	</pre>
+
+	<p>Вставляет строку, оканчивающуюся нулем, начинающуюся с указателя s в стек.</p>
+	<p>Lua создает (или многократно использует) внутреннюю копию данной строки, т.о. память может быть освобождена сразу после завершения функции.</p>
+	<p>Строка не может содержать нолей; т.к. считает окончанием строки.</p>
+
+	<h1 id="title">
+		lua_pushthread
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_pushthread (lua_State *L);
+	</pre>
+
+	<p>Вставляет нить L в стек.</p>
+	<p>Возвращает 1 если данная нить – основная в данном состоянии.</p>
+
+	<h1 id="title">
+		lua_pushvalue
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_pushvalue (lua_State *L, int index);
+	</pre>
+
+	<p>Вставляет копию элемента в стек по заданному валидному индексу.</p>
+
+	<h1 id="title">
+		lua_pushvfstring
+	</h1>
+
+	<pre class="brush: csharp;">
+	const char *lua_pushvfstring (lua_State *L,
+	const char *fmt,
+	va_list argp);
+	</pre>
+
+	<p>Эквивалентна lua_pushfstring, за исключением того, что получает va_list вместо переменного количества аргументов.</p>
+
+	<h1 id="title">
+		lua_rawequal
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_rawequal (lua_State *L, int index1, int index2);
+	</pre>
+
+	<p>Возвращает 1 если два значения по допустимым индексам index1 и index2 базово равны (т.е., без вызова метаметодов).</p>
+	<p>В противном случае возвращает 0.</p>
+	<p>Также возвращает 0 если любой из индексов не является валидным.</p>
+
+	<h1 id="title">
+		lua_rawget
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_rawget (lua_State *L, int index);
+	</pre>
+
+	<p>Аналогична lua_gettable, но совершает «сырой» доступ (т.е., без метаметодов).</p>
+
+	<h1 id="title">
+		lua_rawgeti
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_rawgeti (lua_State *L, int index, int n);
+	</pre>
+
+	<p>Вставляет в стек значение t[n], где t – это значение в заданном валидном индексе index.</p>
+	<p>Доступ «сырой», т.е. метаметоды не вызыаются.</p>
+
+	<h1 id="title">
+		lua_rawset
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_rawset (lua_State *L, int index);
+	</pre>
+
+	<p>Аналогича lua_settable, но совершает «сырое»присваивание (т.е., без метаметодов).</p>
+
+	<h1 id="title">
+		lua_rawseti
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_rawseti (lua_State *L, int index, int n);
+	</pre>
+
+	<p>Выполняет действия, аналогичные t[n] = v, где t – это значение по валидному индексу index, а v – значение на вершине стека.</p>
+	<p>Эта функция выталкивает значение из стека.</p>
+	<p>Присваивание – «сырое»; т.е., не вызывает метаметодов.</p>
+
+	<h1 id="title">
+		lua_Reader
+	</h1>
+
+	<pre class="brush: csharp;">
+	typedef const char * (*lua_Reader) (lua_State *L,
+	void *data,
+	size_t *size);
+	</pre>
+
+	<p>Функция чтения, используемая lua_load.</p>
+	<p>Каждый раз, когда требуется новая часть chunk, lua_load вызывает функцию чтения, передавая параметр data.</p>
+	<p>Функция чтения должна возвращать указатель на блок памяти с новой частью chunk и выставлять size в значение разбера блоак.</p>
+	<p>Блок должен существовать до тех пор пока функция не будет вызвана еще раз.</p>
+	<p>Для того, чтобы сигнализировать об окончании chunk, функция чтения должна возвращать NULL.</p>
+	<p>Функция чтения может возвращать части любого размера, большего ноля.</p>
+
+	<h1 id="title">
+		lua_register
+	</h1>
+
+	<pre class="brush: csharp;">
+	typedef const char * (*lua_Reader) (lua_State *L,
+	void *data,
+	size_t *size);
+	</pre>
+
+	<p>Функция чтения, используемая lua_load.</p>
+	<p>Каждый раз, когда требуется новая часть chunk, lua_load вызывает функцию чтения, передавая параметр data.</p>
+	<p>Функция чтения должна возвращать указатель на блок памяти с новой частью chunk и выставлять size в значение разбера блоак.</p>
+	<p>Блок должен существовать до тех пор пока функция не будет вызвана еще раз. Для того, чтобы сигнализировать об окончании chunk, функция чтения должна возвращать NULL.</p>
+	<p>Функция чтения может возвращать части любого размера, большего ноля.</p>
+
+	<h1 id="title">
+		lua_register
+	</h1>
+
+	<pre class="brush: csharp;">
+	void lua_register (lua_State *L,
+	const char *name,
+	lua_CFunction f);
+	</pre>
+	
+	<p>Выставляет функцию C f новым значением global name.</p>
+	<p>Функция определена как макрос:</p>
+
+	<pre class="brush: csharp;">
+	#define lua_register(L,n,f) \
+	(lua_pushcfunction(L, f), lua_setglobal(L, n))
+	</pre>
+
+	<h1 id="title">
+		lua_remove
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_remove (lua_State *L, int index);
+	</pre>
+	
+	<p>Удаляет элемент по данному валидному индексу, сдвигая вниз элементы над этим индексом.</p>
+	<p>Не может быть вызвана с псевдо-индексом, т.к. псевдо-индекс не является реальной позицией в стеке.</p>
+
+	<h1 id="title">
+		lua_replace
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_replace (lua_State *L, int index);
+	</pre>
+	
+	<p>Копирует верхний элемент в соответствующую позицию (и выталкивает верхний элемент), без сдвига элементов (т.о. замещая значение в соответствующей позиции).</p>
+
+	<h1 id="title">
+		lua_resume
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_resume (lua_State *L, int narg);
+	</pre>
+	
+	<p>Запускает и восстанавливает сопрограмму в данной нити.</p>
+	<p>Для запуска сопрограммы, вы сначала должны создать новую нить (см. lua_newthread); затем вы вставляете в ее стек главную функцию плюс любые аргументы; затем вы вызываетеlua_resume, с narg равным количеству аргументов.</p>
+	<p>Эта функция закончит работу тогда, когда сопрограмма остановится (suspend) или закончит свое исполнение.</p>
+	<p>Когда она остановится, стек будет содержать все значения, переданные lua_yield, или все значения, возвращенный функцией.lua_resume возвращает LUA_YIELD если сопрограмма уступает ресурсы, 0 если сопрограмма заканчивает свое выполнение без ошибок, или код ошибки в случае ошибочной ситуации (см. lua_pcall).</p>
+	<p>В случае ошибок, стек не очищается (unwound), т.о. вы можете использовать API отладки для его анализа.</p>
+	<p>Сообщение об ошибке находится на вершине стека.</p>
+	<p>Для перезапуска сопрограммы, вы передаете в ее стек только значения, которые должны быть переданы как результаты yield, и затем вызываете lua_resume.</p>
+
+	<h1 id="title">
+		lua_setallocf
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_setallocf (lua_State *L, lua_Alloc f, void *ud);
+	</pre>
+	
+	<p>Изменяет функцию распределения (allocator function) данного состояния на f с пользовательскими данными ud.</p>
+
+	<h1 id="title">
+		lua_setfenv
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_setfenv (lua_State *L, int index);
+	</pre>
+
+	<p>Выталкивает таблицу из стека из стека и выставляет ей новое окружение для значения по заданному индексу.</p>
+	<p>Если значение по данному индексу не является функцией, нитью или пользовательскими данными, lua_setfenv возвращает 0.</p>
+	<p>Иначе, она возвращает 1.</p>
+	
+	<h1 id="title">
+		lua_setfield
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_setfield (lua_State *L, int index, const char *k);
+	</pre>
+
+	<p>Выполняет действие, аналогичное t[k] = v, где t – значение по заданному валидному индексу index и v – значение на вершине стека.</p>
+	<p>Эта функция выталкивает значение из стека.</p>
+	<p>Также как в Lua, эта функция сожжет вызывать метаметод для события "новый индекс".</p>
+	
+	<h1 id="title">
+		lua_setglobal
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_setglobal (lua_State *L, const char *name);
+	</pre>
+	
+	<p>Выталкивает значение из стека и приравнивает его глобальной переменной (global) name.</p>
+	<p>Определена как макрос:</p>
+
+	<pre class="brush: csharp;">
+		#define lua_setglobal(L,s)   lua_setfield(L, LUA_GLOBALSINDEX, s)
+	</pre>
+
+	<h1 id="title">
+		lua_setmetatable
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_setmetatable (lua_State *L, int index);
+	</pre>
+	
+	<p>Выталкивает таблицу из стека и приравнивает ее метатаблице значения по заданному допустимому индексу.</p>
+
+	<h1 id="title">
+		lua_settable
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_settable (lua_State *L, int index);
+	</pre>
+	
+	<p>Выполняет аналогичные t[k] = v действия, где t – это значение по заданному валидному индексу index, v – это значение на вершин стека, и k – это значение, находящееся на одно ниже вершины стека.</p>
+	<p>Эта функция выталкивает ключ и значение из стека.</p>
+	<p>Также как в Lua, эта функция может вызывать метаметод для события "новый индекс".</p>
+
+	<h1 id="title">
+		lua_settop
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_settop (lua_State *L, int index);
+	</pre>
+	
+	<p>Принивает любой допустимый индекс, или 0, и ставит вершину стека в этот индекс.</p>
+	<p>Если новая вершина выше, чем старая, то новые элементы заполняются nil.</p>
+	<p>Если индекс равен 0, то все значения стека очищаются.</p>
+
+	<h1 id="title">
+		lua_State
+	</h1>
+
+	<pre class="brush: csharp;">
+		typedef struct lua_State lua_State;
+	</pre>
+	
+	<p>Непоницаемая (Opaque) структура, которая содержит полное состояние интерпретатора Lua.</p>
+	<p>Библиотека Lua полностью реентерабельна: она не содержит глобальных переменных.</p>
+	<p>Вся информация о состоянии содержится в этой структуре.</p>
+	<p>Указатель на это состояние должен передаваться как первый аргумент любой функции в библиотеке, кроме lua_newstate, которая создает новое состояние Lua.</p>
+
+	<h1 id="title">
+		lua_status
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_status (lua_State *L);
+	</pre>
+	
+	<p>Возвращает состояние нити L.</p>
+	<p>Состояние может быть 0 для обычной нити, кодом ошибки, если нить завершила выполнение с ошибкой, или LUA_YIELD если нить остановлена.</p>
+
+	<h1 id="title">
+		lua_toboolean
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_toboolean (lua_State *L, int index);
+	</pre>
+
+	<p>Конвертирует значение Lua по указанному допустимому индексу в булево значение C (0 или 1). Как и все тесты в Lua, lua_toboolean возвращает 1 для любого значения Lua отличного от false и nil; в противном случае возвращает 0.</p>
+	<p>Также возвращает 0 когда вызывается с не валидным индексом.</p>
+	<p>(Если вы хотите получать только настоящие булевы значения, используйте lua_isboolean для проверки типа.)</p>
+	
+	<h1 id="title">
+		lua_tocfunction
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_CFunction lua_tocfunction (lua_State *L, int index);
+	</pre>
+	
+	<p>Конвертирует значение по заданному допустимому индексу в функцию C.</p>
+	<p>Значение должно быть функцией C; иначе, она возвращает NULL.</p>
+
+	<h1 id="title">
+		lua_tointeger
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Integer lua_tointeger (lua_State *L, int idx);
+	</pre>
+
+	<p>Конвертирует значение Lua по заданному допустимому индексу в целый тип со знаком lua_Integer.</p>
+	<p>Значение Lua должно быть числом или строкой, конвертируемой в число, в противном случае, lua_tointeger возвращает 0.</p>
+	<p>Если число не целое, оно обрубается каким-то неопределенным способом (it is truncated in some non-specified way).</p>
+	
+	<h1 id="title">
+		lua_tolstring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *lua_tolstring (lua_State *L, int index, size_t *len);
+	</pre>
+	
+	<p>Конвертирует значение Lua по зданному допустимому индексу в функцию C.</p>
+	<p>Если len не равна NULL, функция также возвращает в *len длину строки.</p>
+	<p>Значение Lua должно быть строкой или числом; в противном случае, функция возвращает NULL.</p>
+	<p>Если значение – число, то lua_tolstring также изменяет предыдущее значение в стеке на строку.</p>
+	<p>(Это изменение «смущает» lua_next когда lua_tolstring применяется к ключам при обходе таблицы.)</p>
+	<p>lua_tolstring возвращает fully aligned pointer на строку в состоянии Lua.</p>
+	<p>Эта строка всегда имеет ноль ('\0') после последнего символа (как в C), но может содержать также другие нули.</p>
+	<p>Т.к. Lua обладает сборщиком мусора, нет гарантии что указатель, возвращенный lua_tolstring будет валиден после удаления соответствующео значения из стека.</p>
+
+	<h1 id="title">
+		lua_tonumber
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_Number lua_tonumber (lua_State *L, int index);
+	</pre>
+	
+	<p>Конвертирует значение Lua по данному допустимому индексу в тип C lua_Number (см. lua_Number).</p>
+	<p>Значение Lua должно быть числом или строкой, конвертируемой в число, иначе, lua_tonumber возвращает 0.</p>
+
+	<h1 id="title">
+		lua_topointer
+	</h1>
+
+	<pre class="brush: csharp;">
+		const void *lua_topointer (lua_State *L, int index);
+	</pre>
+	
+	<p>Конвертирует значение по заданному допустимому индексу в безтиповой указатель C (void*).</p>
+	<p>Значение может быть различных типов: пользовательские данные, таблица, нить, или функция; в противном случае, lua_topointer возвращает NULL.</p>
+	<p>Различные объекты дадут различные указатели.</p>
+	<p>Не существует способа сконвертировать указатель назад, в исходное значение.</p>
+	<p>Обычно эту функцию используют для получения отладочной информации.</p>
+
+	<h1 id="title">
+		lua_tostring
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *lua_tostring (lua_State *L, int index);
+	</pre>
+	
+	<p>Эквивалентна lua_tolstring с длиной len равной NULL.</p>
+
+	<h1 id="title">
+		lua_tothread
+	</h1>
+
+	<pre class="brush: csharp;">
+		lua_State *lua_tothread (lua_State *L, int index);
+	</pre>
+	
+	<p>Конвертирует значение в указанном допустимом индексе в нить Lua (представленную как lua_State*).</p>
+	<p>Это значение должно буть нитью; иначе, функция возвращает NULL.</p>
+
+	<h1 id="title">
+		lua_touserdata
+	</h1>
+
+	<pre class="brush: csharp;">
+		void *lua_touserdata (lua_State *L, int index);
+	</pre>
+	
+	<p>Если знаение по указанному допустимому индексу – это full пользовательские данные, возвращает их адрес блока.</p>
+	<p>Если значение – это light пользовательские данные, возвращает их указатель.</p>
+	<p>В противном случае, возвращает NULL.</p>
+
+	<h1 id="title">
+		lua_type
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_type (lua_State *L, int index);
+	</pre>
+
+	<p>Возвращает тип значения по указанному допустимому индексу, или LUA_TNONE для не валидного индекса (т.е., для индекса "пустой" ячейки стека).</p>
+	<p>Типы, возвращаемые lua_type,, закодированы следующими константами, определенными в lua.h: LUA_TNIL, LUA_TNUMBER, LUA_TBOOLEAN, LUA_TSTRING, LUA_TTABLE, LUA_TFUNCTION, LUA_TUSERDATA, LUA_TTHREAD, и LUA_TLIGHTUSERDATA.</p>
+	
+	<h1 id="title">
+		lua_typename
+	</h1>
+
+	<pre class="brush: csharp;">
+		const char *lua_typename  (lua_State *L, int tp);
+	</pre>
+
+	<p>Возвращает имя типа, закодированного значением tp, которое должно быть одним из значений, возвращаемых lua_type.</p>
+	
+	<h1 id="title">
+		lua_Writer
+	</h1>
+
+	<pre class="brush: csharp;">
+	typedef int (*lua_Writer) (lua_State *L,
+	const void* p,
+	size_t sz,
+	void* ud);
+	</pre>
+	
+	<p>Функция записи, используемая lua_dump Каждый раз, когда она создает новую часть chunk, lua_dump вызывает функцию записи, передавая буфер для записи (p), его размер (sz), параметр data, передаваемый lua_dump.</p>
+	<p>Функция записи возвращает код ошибки: 0 обозначает, что ошибок не произошло; любое другое значение обозначает ошибку и останавливает lua_dump, предотвращая вызов функции записи снова.</p>
+
+	<h1 id="title">
+		lua_xmove
+	</h1>
+
+	<pre class="brush: csharp;">
+		void lua_xmove (lua_State *from, lua_State *to, int n);
+	</pre>
+	
+	<p>Меняет местами знаяения между различными потоками одного глобального состояния.</p>
+	<p>Эта функция выталкивает n значений из стека from, и вставляет их в стек to.</p>
+
+	<h1 id="title">
+		lua_yield
+	</h1>
+
+	<pre class="brush: csharp;">
+		int lua_yield  (lua_State *L, int nresults);
+	</pre>
+	
+	<p>Останавливает сопрограмму.</p>
+	<p>Эта функция должна быть использована только при передаче возвращаемого значения функции C, напр.:</p>
+
+	<pre class="brush: csharp;">
+		return lua_yield (L, nresults);
+	</pre>
+	
+	<p>Когда функция C вызывает lua_yield таким образом, работающая сопрограмма останавливает свое выполнение, а вызовlua_resume, который заустил эту сопрограмму завершается.</p>
+	<p>Параметр nresults – это число значений из стека, которые передаются как результаты в lua_resume.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="38.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="40.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/39.html", "Функции и типы", "bm805"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm805", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm805") == 1) { document.getElementById("bma805").style.display = "block"; document.getElementById("bm805").style.display = "none"; } else { document.getElementById("bma805").style.display = "none"; document.getElementById("bm805").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Функции и типы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm805", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

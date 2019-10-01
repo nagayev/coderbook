@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1348" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1348" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Перенаправление
+    </h1>
+    
+    <p>Перенаправление в веб-приложении - это недооцененный инструмент взломщика: на сайт-ловушку может направить пользователя не только злоумышленник, но и сам пользователь.</p>
+    <p>Всякий раз когда пользователь допускается к передаче (всего или части) URL для перенаправления, это является возможной уязвимостью.</p>
+    <p>Наиболее банальной атакой может быть перенаправление пользователей на фальшивое веб-приложение, которое выглядит и работает как настоящее.</p>
+    <p>Эта так называемая фишинг атака работает через посланную не вызывающую подозрения ссылку в email для пользователей, вставленную в приложение ссылку с помощью XSS или ссылку, помещенную на внешнем сайте.</p>
+    <p>Она не вызывает подозрений, так как ссылка начинается с URL к веб-приложению, а URL к злонамеренному сайту скрыт в параметре перенаправления:</p>
+
+    <pre class="brush: csharp;">
+    http://www.example.com/site/redirect?to=www.attacker.com
+    </pre>
+
+    <p>Вот пример экшна legacy:</p>
+
+    <pre class="brush: csharp;">
+    def legacy
+      redirect_to(params.update(action:'main'))
+    end
+    </pre>
+
+    <p>Он перенаправит пользователя на экшен main, если тот попытается получить доступ к экшену legacy.</p>
+    <p>Намерением было сохранить параметры URL к экшену legacy и передать их экшену main.</p>
+    <p>Однако это может быть использовано злоумышленником, если он включит ключ host в URL:</p>
+
+    <pre class="brush: csharp;">
+    http://www.example.com/site/legacy?param1=xy&param2=23&host=www.attacker.com
+    </pre>
+
+    <p>Этот URL в конце вряд ли будет замечен и перенаправит пользователя на хост attacker.com.</p>
+    <p>Простой контрмерой будет являться включение только ожидаемых параметров в экшен legacy (снова подход белого списка, в отличие от устранения нежелательных параметров).</p>
+    <p>И если вы перенаправляете на URL, сверьтесь с белым списком или регулярным выражением.</p>
+
+    <h1 id="title">
+        Самодостаточный XSS
+    </h1>
+
+    <p>Другая перенаправляющая и самодостаточная XSS атака работает в Firefox и Opera с использованием протокола данных.</p>
+    <p>Этот протокол отображает свое содержимое прямо в браузер и может быть чем угодно от HTML или JavaScript до простых изображений:</p>
+
+    <pre class="brush: csharp;">
+    data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K
+    </pre>
+
+    <p>Этот пример является закодированным Base64 JavaScript, который отображает простое окно сообщения.</p>
+    <p>В перенаправляющем URL злоумышленник может перенаправить на этот URL с помощью злонамеренного кода в нем.</p>
+    <p>В качестве контрмеры не позволяйте пользователю предоставлять (полностью или частично) URL, на который нужно перенаправить.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="9.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="11.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/10.html", "Перенаправление", "bm1348"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1348", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1348") == 1) { document.getElementById("bma1348").style.display = "block"; document.getElementById("bm1348").style.display = "none"; } else { document.getElementById("bma1348").style.display = "none"; document.getElementById("bm1348").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перенаправление") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1348", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

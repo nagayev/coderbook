@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1198" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1198" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Обработка ошибок Yii
+	</h1>
+
+    <p>Yii предоставляет полноценный функционал обработки ошибок на базе механизма обработки ошибок в РНР 5.</p>
+    <p>В момент поступления пользовательского запроса создается экземпляр приложения, который регистрирует метод handleError для обработки предупреждений и уведомлений, а также метод handleException для обработки не пойманных исключений.</p>
+    <p>Таким образом, если в процессе выполнения приложения возникают предупреждения, уведомления РНР или непойманные исключения, один из обработчиков ошибок получит управление и запустит необходимую процедуру обработки ошибок.</p>
+    <p><b>Подсказка:</b> Регистрация обработчиков ошибок осуществляется в конструкторе приложения путем вызова функций РНР set_exception_handler и set_error_handler. Если вы не хотите, чтобы Yii обрабатывал ошибки и исключения, во входном скрипте установите значение false константам YII_ENABLE_ERROR_HANDLER и YII_ENABLE_EXCEPTION_HANDLER.</p>
+    <p>По умолчанию, метод handleError (или handleException) вызывает событие onError (или onException).</p>
+    <p>Если ошибка (или исключение) не обрабатывается обработчиком события, он обращается за помощью к компоненту приложения errorHandler.</p>
+
+    <h2 id="title">
+        Вызов исключений
+    </h2>
+
+    <p>Вызов исключений в Yii ничем не отличается от вызова обычного исключения РНР.</p>
+    <p>В случае необходимости, вызов исключения осуществляется следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    throw new ExceptionClass('ExceptionMessage');
+    </pre>
+
+    <p>Yii определяет три класса для исключений: CException, CDbException и CHttpException.</p>
+    <p>CException — типовой класс исключения.</p>
+    <p>CDbException представляет исключения, вызываемые некоторыми операциями базы данных.</p>
+    <p>CHttpException отвечает за исключения, которые отображаются конечному пользователю, и содержит свойство statusCode, соответствующее коду состояния НТТР.</p>
+    <p>Класс исключения определяет также, каким образом отображается ошибка.</p>
+    <p>Об этом будет рассказано ниже.</p>
+    <p><b>Подсказка:</b> Вызов исключения CHttpException — это простой способ сообщить об ошибках, вызванных неверными действиями пользователя.</p>
+    <p>Например, если пользователь указывает в адресе URL неверный идентификатор записи, для отображения ошибки 404 (страница не найдена) мы можем выполнить следующее действие:</p>
+
+    <pre class="brush: csharp;">
+    // если идентификатора записи не существует
+    throw new CHttpException(404,'Указанная запись не найдена');
+    </pre>
+
+
+    <h2 id="title">
+        Отображение ошибок
+    </h2>
+
+    <p>В момент, когда компонент приложения CErrorHandler получает ошибку, выбирается соответствующее представление для её отображения.</p>
+    <p>Если предполагается, что сообщение об ошибке должно отображаться конечным пользователям, например CHttpException, то используется представление с именем errorXXX, где XXX соответствует коду состояния НТТР (400, 404, 500 и т.д.).</p>
+    <p>Если же это внутренняя ошибка и отображаться она должна только разработчикам, используется представление с именем exception.</p>
+    <p>В последнем случае будет отображен весь стек вызовов, а также указание на строку возникновения ошибки.</p>
+    <p><b>Инфо:</b> Если приложение запускается в производственном режиме, все ошибки, включая внутренние, отображаются с использованием представления errorXXX. Это сделано из соображений безопасности, поскольку стек вызова может содержать важную информацию. В этом случае для выявления причин возникновения ошибки необходимо использовать протокол ошибок.</p>
+    <p>CErrorHandler осуществляет поиск файла, соответствующего представлению, в следующем порядке:</p>
+
+    <ol>
+        <li>WebRoot/themes/ThemeName/views/system: папка системных представлений текущей темы оформления;</li>
+        <li>WebRoot/protected/views/system: папка системных представлений приложения, используемая по умолчанию;</li>
+        <li>yii/framework/views: папка стандартных системных представлений, предоставляемых фреймворком.</li>
+    </ol>
+
+    <p>Следовательно, если нам необходимо изменить внешний вид сообщений, мы можем просто создать файлы представлений ошибок в папке системных представлений приложения или темы.</p>
+    <p>Каждый файл представления — это обычный РНР-скрипт, состоящий преимущественно из HTML-кода.</p>
+    <p>Подробнее с этим можно разобраться, просто изучив используемые по умолчанию файлы, расположенные в папке фреймворка с именем view.</p>
+
+    <h2 id="title">
+        Управление отображением ошибок в действии контроллера
+    </h2>
+
+    <p>Yii позволяет использовать действие контроллера для отображения ошибок.</p>
+    <p>Для этого необходимо задать обработчик ошибок в настройках приложения:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        …
+        'components'=>array(
+            'errorHandler'=>array(
+                'errorAction'=>'site/error',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Выше мы задали маршрут site/error, ведущий к действию error контроллера SiteController, свойству CErrorHandler::errorAction.</p>
+    <p>Если необходимо, можно использовать другой маршрут.</p>
+    <p>Код действия error должен выглядеть примерно так:</p>
+
+    <pre class="brush: csharp;">
+    public function actionError()
+    {
+        if($error=Yii::app()->errorHandler->error)
+            $this->render('error', $error);
+    }
+    </pre>
+
+    <p>Сначала мы получаем подробную информацию об ошибке из CErrorHandler::error.</p>
+    <p>Если она не пуста — отображаем её в представлении error.</p>
+    <p>Информация, получаемая из CErrorHandler::error является массивом, содержащим следующие данные:</p>
+
+    <ul>
+        <li>code: код ответа HTTP (например, 403 или 500);</li>
+        <li>type: тип ответа (например, CHttpException или PHP Error);</li>
+        <li>message: текст сообщения;</li>
+        <li>file: имя PHP-скрипта, в котором возникла ошибка;</li>
+        <li>line: номер строки, на которой возникла ошибка;</li>
+        <li>trace: стэк вызовов ошибки;</li>
+        <li>source: часть кода, где возникла ошибка.</li>
+    </ul>
+
+    <p><b>Подсказка:</b> Проверка CErrorHandler::error на пустое значение делается, т.к. действие error может быть вызвано пользователем напрямую. Так как мы передаём массив $error представлению, он будет автоматически развёрнут в отдельные переменные, поэтому мы можем обращаться к ним напрямую, как $code или $type.</p>
+
+    <h2 id="title">
+        Протоколирование сообщений
+    </h2>
+
+    <p>Если возникает ошибка, то соответствующее сообщение с уровнем error всегда вносится в лог.</p>
+    <p>В случае, если ошибка — результат предупреждения или уведомления РНР, сообщению присваивается категория php, если же ошибка вызвана не пойманным исключением, сообщению присваивается категория exception.ExceptionClassName (в случае CHttpException к категории добавляется код состояния).</p>
+    <p>Для отслеживания ошибок, возникающих в процессе выполнения приложения, можно использовать функционал журналирования.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="46.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="48.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/47.html", "Обработка ошибок Yii", "bm1198"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1198", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1198") == 1) { document.getElementById("bma1198").style.display = "block"; document.getElementById("bm1198").style.display = "none"; } else { document.getElementById("bma1198").style.display = "none"; document.getElementById("bm1198").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обработка ошибок Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1198", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

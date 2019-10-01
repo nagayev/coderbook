@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma959" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm959" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Использование props
+	</h1>
+
+	<p>У каждого компонента могут быть свойства.</p>
+	<p>Они хранятся в this.props, и передаются компоненту как атрибуты.</p>
+	<p>Общий вид:</p>
+
+	<pre class="brush: csharp;">
+		var value1 = {name: Garry, surname: Potter};
+		&lt;MyComponent data={value1} eshe_odno_svoistvo={[1,2,3,4,5]} /&gt;
+	</pre>
+
+	<p>В свойство можно передать любой javascript примитив, объект, переменную и даже выражение.</p>
+	<p>Значение свойства должно быть взято в фигурные скобки.</p>
+	<p>Значения доступны через this.props.ИМЯ_СВОЙСТВА</p>
+	<p>В нашем случае, мы получим:</p>
+
+	<pre class="brush: csharp;">
+	this.props.data - объект {name: Garry, surname: Potter}
+	this.props.eshe_odno_svoistvo - массив [1,2,3,4,5]
+	</pre>
+
+	<p>this.props используются только для чтения!</p>
+	<p>Давайте создадим несколько новостей для нашего приложения.</p>
+	<p>Добавьте в начало файла js/app.js</p>
+
+	<pre class="brush: csharp;">
+	var my_news = [
+	{
+		author: 'Саша Печкин',
+		text: 'В четверг, четвертого числа...'
+	},
+	{
+		author: 'Просто Вася',
+		text: 'Считаю, что $ должен стоить 35 рублей!'
+	},
+	{
+		author: 'Гость',
+		text: 'Бесплатно. Скачать. Лучший сайт - http://localhost:3000'
+	}
+	];
+	</pre>
+
+	<p>И измените строку с подключением компонента News следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	const App = props => {
+		return (
+			&lt;div className=&quot;app&quot;&gt;
+				Всем привет, я компонент App! Я умею отображать новости.
+			&#x9;&lt;News data={my_news} /&gt; {/*добавили свойство data */}
+			&#x9;&lt;Comments /&gt;
+			&lt;/div&gt;
+		);
+	}
+	</pre>
+
+	<p>Обратите внимание, комментарии внутри JSX пишутся в фигурных скобках: {/* текст комментария */}</p>
+	<p>Так же прошу заметить, JSX это не весь js-код, который содержится в App.js, грубо говоря JSX - это HTML-разметка + переменные/выражения.</p>
+	<p>Поэтому в остальных местах можно писать комментарии привычным для вас способом ( //... или /*...*/ )</p>
+	<p>Скачайте плагин react dev tools для удобной отладки реакт приложений.</p>
+	<p>После этого откройте в консоли вкладку react.</p>
+
+	<img src="reactImg4.jpg" id="image" />
+
+	<p>Напомню: в данный момент, мы добавили свойство data в наш компонент &lt;News /&gt;.</p>
+	<p>Необязательно было называть свойство так, можно было написать, например:</p>
+
+	<pre class="brush: csharp;">
+		&lt;News posledine_novosti={my_news} /&gt;
+	</pre>
+
+	<p>Тогда в консоли разработчика, это выглядело бы так:</p>
+
+	<img src="reactImg5.jpg" id="image" />
+
+	<p>Сейчас у нашего компонента есть свойство, в котором лежат наши новости, но компонент не умеет их отображать.</p>
+	<p>Это легко исправить.</p>
+	<p>Представим HTML разметку для наших новостей:</p>
+
+	<pre class="brush: csharp;">
+		&lt;div class=&quot;news&quot;&gt;
+			&lt;p class=&quot;news__author&quot;&gt;Саша Печкин:&lt;/p&gt;
+			&lt;p class=&quot;news__text&quot;&gt;В четверг, четвертого числа...&lt;/p&gt;
+		&lt;/div&gt;
+	</pre>
+
+	<p>Вопрос: У нас есть разметка для одного элемента данных, есть данные целиком (массив my_news). Как отобразить эти данные?</p>
+	<p>Ответ: Нужно создать шаблон, пройтись по всем переменным в массиве с новостями и подставить значения.</p>
+	<p>Когда вам нужно отобразить переменную в шаблоне разметки - она так же оборачивается в фигурные скобки.</p>
+	<p>На практике это выглядит проще, чем в теории, поэтому давайте представим, как может выглядеть наша JSX разметка:</p>
+
+	<pre class="brush: csharp;">
+	this.props.data.map(function(item, index)
+	{
+		return (
+			&lt;div key={index}&gt;
+			&#x9;&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+			&#x9;&lt;p className=&quot;news__text&quot;&gt;{item.text}&lt;/p&gt;
+			&lt;/div&gt;
+		)
+	})
+	</pre>
+
+	<p>Мы использовали метод массивов - Map.</p>
+	<p>Если вы незнакомы с ним, прочитайте документацию.</p>
+	<p>Мы обернули разметку внутри return в корневой элемент &lt;div&gt;.</p>
+	<p>Мы могли бы обернуть ее в любой другой элемент, главное, что нужно запомнить - внутри return всегда должен возвращаться DOM-узел (то есть, что угодно, обернутое в родительский тэг).</p>
+	<p>Мы использовали у родительского элемента атрибут key (&lt;div key={index}&gt;).</p>
+	<p>Если объяснить предельно просто: реакту нужна уникальность, чтобы все его механизмы работали корректно.</p>
+	<p>По "ключу" он будет понимать с каким именно дочерним узлом вы работаете и какому родителю он принадлежит.</p>
+	<p>По поводу использования индекса в качестве ключа в конце урока есть ценное замечание.</p>
+	<p>Мы использовали в шаблоне, значения переменных + текст, например</p>
+	
+	<pre class="brush: csharp;">
+		&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+	</pre>
+
+	<p>могло бы быть представлено в нативном js-коде как</p>
+
+	<pre class="brush: csharp;">
+		&lt;p className=&quot;news__author&quot;&gt;&apos;&apos;+item.author+&apos;:&apos;&lt;/p&gt;
+	</pre>
+
+	<p>(пустая строка + значение переменной + двоеточие).</p>
+	<p>В результате работы функции map, мы получили новый массив, состоящий из необходимых нам реакт-элементов.</p>
+	<p>Это и есть решение нашей задачи, нам осталось лишь сохранить этот массив в переменной, например newsTemplate, и в render функции компонента &lt;News /&gt; вернуть разметку + "переменную-шаблон".</p>
+	<p>js/app.js</p>
+
+	<pre class="brush: csharp;">
+	/*
+	class News exte React.createClass(
+	{
+		render: function()
+		{
+			var data = this.props.data;
+			
+			var newsTemplate = data.map(function(item, index)
+			{
+				return (
+					&lt;div key={index}&gt;
+					&#x9;&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+					&#x9;&lt;p className=&quot;news__text&quot;&gt;{item.text}&lt;/p&gt;
+					&lt;/div&gt;
+				)
+			})
+
+			return (
+				&lt;div className=&quot;news&quot;&gt;
+				&#x9;{newsTemplate}
+				&lt;/div&gt;
+			);
+		}
+	});*/
+	const News = props => {
+		return (
+			&lt;div key={index}&gt;
+				&#x9;&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+				&#x9;&lt;p className=&quot;news__text&quot;&gt;{item.text}&lt;/p&gt;
+			&lt;/div&gt;
+		);
+	}
+	</pre>
+
+	<p>Посмотрим что получилось:</p>
+
+	<img src="reactImg6.jpg" id="image" />
+
+	<p>Напоследок, мне не хочется, но придется вновь разрушить магию.</p>
+	<p>Давайте сконсолим, newsTemplate.</p>
+	<p>Просто добавьте console.log перед return'ом метода render компонента &lt;News /&gt;.</p>
+	<p>js/app.js</p>
+
+	<pre class="brush: csharp;">
+	...
+	var News = React.createClass(
+	{
+		render: function()
+		{
+			var data = this.props.data;
+			
+			var newsTemplate = data.map(function(item, index)
+			{
+				return (
+					&lt;div key={index}&gt;
+					&lt;p className=&quot;news__author&quot;&gt;{item.author}:&lt;/p&gt;
+					&lt;p className=&quot;news__text&quot;&gt;{item.text}&lt;/p&gt;
+					&lt;/div&gt;
+				)
+			})
+	
+			console.log(newsTemplate);
+	
+			return (
+				&lt;div className=&quot;news&quot;&gt;
+					{newsTemplate}
+				&lt;/div&gt;
+			);
+		}
+	});
+	...
+	</pre>
+
+	<p>Взглянем в консоль:</p>
+
+	<img src="reactImg7.jpg" id="image" />
+
+	<p>Объект, у объекта свойства... все как обычно в мире javascript.</p>
+	<p>Итого: мы научились отображать свойства компонента.</p>
+	<p>P.S. Здесь и в продолжении всего курса в коде для отображения массива новостей используется key = {index}.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="04.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="06.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book/05.html", "Использование props", "bm959"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm959", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm959") == 1) { document.getElementById("bma959").style.display = "block"; document.getElementById("bm959").style.display = "none"; } else { document.getElementById("bma959").style.display = "none"; document.getElementById("bm959").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Использование props") == 1) { arrs.splice(i, 1); localStorage.setItem("bm959", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma46" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm46" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Оператор continue
+	</h1>
+
+	<p>Оператор continue используется только в циклах.</p>
+	<p>В операторах for, while, do while, оператор continue выполняет пропуск оставшейся части кода тела цикла и переходит к следующей итерации цикла.</p>
+	<p>Рассмотрим фрагмент кода с оператором continue.</p>
+
+	<pre class="brush: csharp;">
+	// пример использования оператора continue:
+	int count = 0;
+	
+	// начало цикла do while
+	do
+	{
+		continue;
+		count++;
+	}
+	while ( count  <  10 )
+	</pre>
+
+	<p>Посмотрите внимательно на выше приведенный пример, и Вы увидите, что do while бесконечный, так как каждая итерация цикла приводит к выполнению оператора continue, который пропускает операцию инкремента переменной-счётчика count и переходит на следующую итерацию цикла.</p>
+	<p>Таким образом значение в переменной count не меняется, а значит и условие всегда будет истинным.</p>
+	<p>Разработаем программу с оператором continue.</p>
+	<p>Программа должна работать циклически. Внутри цикла необходимо организовать ввод чисел.</p>
+	<p>Если введено число от 0 до 10 включительно, то необходимо напечатать квадрат этого числа, иначе используя оператор continue пропустить оператор возведения в квадрат введенного числа.</p>
+	<p>При введении отрицательного числа осуществить выход из цикла.</p>
+
+	<pre class="brush: csharp;">
+	// continue.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	int main(int argc, char* argv[])
+	{
+		// переменная для хранения введённого числа
+		int in_number;
+		do
+		{
+			cout << "Enter number: ";
+			// считываем введённое число в переменную in_number
+			cin >> in_number;
+			// если введённое число не входит в заданный интервал
+			if ( in_number > 10 || in_number < 0 )
+			// переход на следующую итерацию цикла do while
+			continue;
+			// возводим в квадрат введённое число
+			cout << "square = " << in_number * in_number << endl;
+			// пока введённое число больше либо равно нулю цикл будет работать
+		}
+		while ( in_number >= 0 );
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Цикличность в программе организуем циклом с постусловием — do while.</p>
+	<p>В цикле сначала считываем введённое число в переменную in_number, после чего, выполняется проверка условия в операторе if.</p>
+	<p>Условие оператора условного выбора if будет истинным в том случае, если введённое число будет строго меньше нуля или строго больше 10.</p>
+	<p>Заданный интервал — [0;10], число взятое из этого интервала возводится в квадрат.</p>
+	<p>Истинность условия оператора if приводит к выполнению оператора continue в строке 15.</p>
+	<p>А оператор continue пропускает операторы в строке 16 и переходит к проверке условия продолжения цикла do while.</p>
+	<p>Условие в цикле будет истинно, пока вводимые числа будут строго больше 0.</p>
+	<p>Результат работы программы показан ниже. </p>
+
+	<pre class="brush: csharp;">
+	Enter number: 15
+	Enter number: 11
+	Enter number: 5
+	square = 25
+	Enter number: 9
+	square = 81
+	Enter number: -23
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Сначала вводились числа 15 и 11, эти числа не входят в заданный интервал и поэтому квадрат этих чисел не вычислялся.</p>
+	<p>Числа 5 и 9 принадлежат заданному интервалу, а значит программа должна вычислить их квадраты.</p>
+	<p>Когда ввели отрицательное число  do while завершил свою работу.</p>
+	<p>Теперь переделаем эту программу так, чтобы можно было обойтись без оператора continue, то есть напишем эквивалент оператору continue.</p>
+
+	<pre class="brush: csharp;">
+	// continue.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// переменная для хранения введённого числа
+		int in_number;
+		do
+		{
+			cout << "Enter number: ";
+			// считываем введённое число в переменную in_number
+			cin >> in_number;
+			// если введённое число входит в заданный интервал
+			if ( in_number <= 10 && in_number >= 0 )
+			// переход на следующую итерацию цикла do while
+			//continue;
+			// возводим в квадрат введённое число
+			cout << "square = " << in_number * in_number << endl;
+			// пока введённое число больше либо равно нулю цикл будет работать
+		} while ( in_number >= 0 );
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В эквивалентной программе без оператора continue код уменьшился на одну строку — закомментированная строка 15.</p>
+	<p>Изменилось условие оператора условного выбора if.</p>
+	<p>Строка 16 — это тело оператора if, а значит, если условие в if истинно будет выполнятся оператор в строке 16.</p>
+	<p>Многие программисты считают, что операторы break и continue нарушают структурность программного кода и предпочитают обходится без них.</p>
+	<p>Так, что если есть возможность обойтись без операторов break и continue, лучше так и сделать.</p>
+	<p>Тем более, что операторы break и continue всегда можно заменить структурированными операторами, мы это доказали, показав эквивалентные программы.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="24.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="26.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/25.html", "Оператор continue", "bm46"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm46", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm46") == 1) { document.getElementById("bma46").style.display = "block"; document.getElementById("bm46").style.display = "none"; } else { document.getElementById("bma46").style.display = "none"; document.getElementById("bm46").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Оператор continue") == 1) { arrs.splice(i, 1); localStorage.setItem("bm46", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

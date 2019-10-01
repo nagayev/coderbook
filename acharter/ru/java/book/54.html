@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma655" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm655" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Оператор switch
+	</h1>
+
+	<p>Оператор switch() удобно использовать в случае необходимости множественного выбора.</p>
+	<p>Выбор осуществляется на основе целочисленного значения.</p>
+	<p>Структура оператора:</p>
+
+	<pre class="brush: csharp;">
+	switch(int value)
+	{
+		case const1:
+		выражение или блок
+		case const2:
+		выражение или блок
+		case constn:
+		выражение или блок
+		default:
+		выражение или блок
+	}
+	</pre>
+
+	<p>Причем, фраза default не является обязательной.</p>
+	<p>В качестве параметра switch может использоваться переменная типа byte, short, int, char или выражение.</p>
+	<p>Выражение должно в конечном итоге возвращать параметр одного из указанных ранее типов.</p>
+	<p>В операторе switch не могут применяться значения примитивного типа long и ссылочных типов Long, String, Integer, Byte и т.д.</p>
+	<p>При выполнении оператора switch производится последовательное сравнение значения x с константами, указанными после case, и в случае совпадения выполняется выражение следующее за этим условием.</p>
+	<p>Если выражение выполнено нормально и нет преждевременного его завершения, то производится выполнение для последующих case.</p>
+	<p>Если же выражение, следующее за case, завершилось ненормально, то будет прекращено выполнение всего оператора switch.</p>
+	<p>Если не выполнен ни один оператор case, то выполнится оператор default, если он имеется в данном switch.</p>
+	<p>Если оператора default нет и ни одно из условий case не выполнено, то ни одно из выражений switch также выполнено не будет.</p>
+	<p>Следует обратить внимание, что, в отличие от многозвенного if-else, если какое-либо условие case выполнено, то выполнение switch не прекратится, а будут выполняться следующие за ним выражения.</p>
+	<p>Если этого необходимо избежать, то после кода следующего за оператором case используется оператор break, прерывающий дальнейшее выполнение оператора switch.</p>
+	<p>После оператора case должен следовать литерал, который может быть интерпретирован как 32-битовое целое значение.</p>
+	<p>Здесь не могут применяться выражения и переменные, если они не являются final static.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	int x = 2;
+	switch(x)
+	{
+		case 1:
+		case 2:
+		System.out.println("Равно 1 или 2");
+		break;
+		case 3:
+		case 4:
+		System.out.println("Равно 3 или 4");
+		break;
+		default:
+		System.out.println("Значение не определено");
+	}
+	</pre>
+
+	<p>В данном случае на консоль будет выведен результат "Равно 1 или 2".</p>
+	<p>Если же убрать операторы break, то будут выведены все три строки.</p>
+	<p>Вот такая конструкция вызовет ошибку времени компиляции.</p>
+
+	<pre class="brush: csharp;">
+	int x = 5;
+	switch(x)
+	{
+		// только константы!
+		case y:
+		...
+		break;
+	}
+	</pre>
+
+	<p>В операторе switch не может быть двух case с одинаковыми значениями.</p>
+	<p>Т.е. конструкция</p>
+
+	<pre class="brush: csharp;">
+	switch(x)
+	{
+		case 1:
+		System.out.println("One");
+		break;
+		case 1:
+		System.out.println("Two");
+		break;
+		case 3:
+		System.out.println("Tree or other value");
+	}
+	</pre>
+
+	<p>недопустима.</p>
+	<p>Также в конструкции switch может быть применен только один оператор default.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="53.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="55.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/54.html", "Оператор switch", "bm655"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm655", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm655") == 1) { document.getElementById("bma655").style.display = "block"; document.getElementById("bm655").style.display = "none"; } else { document.getElementById("bma655").style.display = "none"; document.getElementById("bm655").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Оператор switch") == 1) { arrs.splice(i, 1); localStorage.setItem("bm655", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

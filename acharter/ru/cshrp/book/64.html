@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma151" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm151" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Конструкторы объектов класса
+	</h1>
+
+	<p>Недостаток рассмотренных выше класса counter и класса Link – невозможность определять объекты, начальные значения полей которых задаются вне объявления класса.</p>
+	<p>Конструктор умолчания умеет создавать только объекты со значениями полей, определенными инициализацией.</p>
+	<p>При создании любого объекта класса Real поле m равно 8.0 и поле p равно 0.</p>
+	<p>Нужные программисту начальные значения полей создаваемого объекта можно определять с помощью явно объявленного в классе конструктора.</p>
+	<p>Конструктор объектов (иначе экземпляров) класса – это метод класса, в котором реализованы все действия, необходимые для инициализации объекта класса при его создании.</p>
+	<p>Для простоты выражение "конструктор объектов (иначе экземпляров) класса" обычно сокращают и говорят просто о конструкторе.</p>
+	<p>Обратите внимание, что этот термин не применяют к статическому конструктору.</p>
+	<p>Внешне любой конструктор – это метод класса, имя которого всегда совпадает с именем самого класса.</p>
+	<p>Формат объявления конструктора:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_конструктора opt
+	имя_конструктора
+	(спецификация_параметров opt)
+	инициализатор_конструктора opt
+	тело_конструктора
+	</pre>
+
+	<p><b>Имя_конструктора</b> – имя именно того класса, которому конструктор принадлежит, других имен у конструктора не может быть.</p>
+	<p>Обратите внимание, что у конструктора отсутствует тип возвращаемого значения, даже тип void в качестве типа возвращаемого значения для конструктора недопустим.</p>
+	<p>В качестве модификаторов конструктора используются: public, protected, internal, private, extern.</p>
+	<p>Первые четыре модификатора — это модификаторы доступа.</p>
+	<p>Их назначение мы уже рассмотрели.</p>
+	<p>О назначении модификатора extern мы уже упоминали в связи с методами класса.</p>
+	<p>Спецификация параметров конструктора может отсутствовать, но если она есть, то содержит спецификации всех параметров конструктора.</p>
+	<p><b>Тело_конструктора</b> - это либо блок - последовательность операторов, заключенная в фигурные скобки, либо пустой оператор, обозначаемый только отдельным символом точка с запятой.</p>
+	<p>Пустой оператор в качестве тела используется только для конструкторов с модификатором extern.</p>
+	<p>Мы будем в качестве тела конструктора использовать блок.</p>
+	<p>Назначение операторов тела конструктора – выполнить инициализацию создаваемого объекта класса.</p>
+	<p><b>Инициализатор_конструктора</b> – это специальное средство, позволяющее до выполнения операторов тела конструктора обратиться к конструктору базового класса или к другому конструктору этого же класса.</p>
+	<p>Для обращения к конструктору базового класса используется выражение:</p>
+	<p><b>: base (список_аргументов opt)</b></p>
+	<p>Здесь base – служебное слово, необязательный список аргументов – список выражений, соответствующих параметрам вызываемого конструктора базового класса.</p>
+	<p>Инициализатор конструктора, выполняющий обращение к другому конструктору своего же класса, выглядит так:</p>
+	<p><b>: this (список_аргументов opt)</b></p>
+	<p>Здесь this – служебное слово, необязательный список аргументов – список выражений, соответствующих параметрам другого конструктора.</p>
+	<p>Хотя язык C# с помощью механизма сбора мусора (garbage collection) в достаточной мере защищён от таких проблем как "утечка памяти" и "висячие ссылки", однако в C# остаётся, например, задача глубокого копирования и важным вопросом в ряде случаев является приведение типов, введённых пользовательскими классами.</p>
+	<p>Зачастую для квалифицированного решения названных проблем можно пользоваться конструкторами разных видов.</p>
+	<p>В классе могут быть явно объявлены:</p>
+	<p>- конструктор умолчания (конструктор безпараметров);</p>
+	<p>- конструктор копирования;</p>
+	<p>- конструктор приведения типов;</p>
+	<p>- конструктор общего вида.</p>
+	<p>При отсутствии в объявлении класса каких бы то ни было конструкторов, компилятор встраивает в класс конструктор умолчания – открытый конструктор без параметров.</p>
+	<p>Его роль – задать начальные значения полей создаваемого объекта класса с помощью инициализаторов, присутствующих в объявлениях полей, либо по умолчанию.</p>
+	<p>Если автор класса желает по особому инициализировать поля объектов, либо конструктор умолчания просто необходим в классе наряду с другими конструкторами, – его требуется явно включать в объявления класса.</p>
+	<p>Формат объявления:</p>
+
+	<pre class="brush: csharp;">
+	class CLASS
+	{
+		public CLASS()
+		{
+			операторы_тела_конструктора opt
+		}
+	}
+	</pre>
+
+	<p>Конструктор копирования это конструктор с одним параметром, тип которого – ссылка на объект своего класса.</p>
+	<p>Такой конструктор по умолчанию не создаётся, а зачастую нужно в программе иметь возможность создать точную копию уже существующего объекта.</p>
+	<p>Присваивание ссылке с типом класса значения ссылки на существующий объект того же класса копии объекта не создаёт.</p>
+	<p>Две ссылки начинают адресовать один и тот же объект.</p>
+	<p>Примеры такой ситуации мы уже приводили, разбирая отличия ссылок от переменных с типом значений.</p>
+	<p>В следующей программе объявлен класс с конструктором копирования.</p>
+
+	<pre class="brush: csharp;">
+	// 11_06.cs конструкторы
+	using System;
+	class CL
+	{
+		public int dom = 6;
+		// конструктор умолчания
+		public CL() { }
+		// конструктор копирования
+		public CL(CL ob)
+		{
+			dom = ob.dom;
+		}
+	}
+	class Program
+	{
+		static void Main()
+		{
+			CL one = new CL();
+			CL two = new CL(one);
+			two.dom = 5*one.dom;
+			Console.WriteLine("one.dom="+one.dom+", two.dom="+two.dom);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	one.dom=6, two.dom=30
+	</pre>
+
+	<p>В классе CL конструктор без параметров объявлен явно.</p>
+	<p>Для простоты примера в классе CL всего одно открытое поле int dom.</p>
+	<p>В методе Main() ссылка one связана с объектом, инициализированным конструктором без параметров.</p>
+	<p>Объект, адресуемый ссылкой two – копия объекта one, но эти объекты независимы, что иллюстрируют результаты выполнения программы.</p>
+	<p>Особенности обращений конструкторов одного класса друг к другу расмотрим на промере класса, особым образом представляющего вещественные числа.</p>
+	<p>В научной записи (в научной нотации) число записывается в виде произведения двух чисел: целой степени p числа 10 и числа m, удовлетворяющего условию 1.0 &lt;= m &lt; 10.0.</p>
+	<p>Иногда p называют показателем, а m – мантиссой числа.</p>
+	<p>Таким образом, запись каждого числа выглядит так: m*10p.</p>
+	<p>При выводе значения числа в научной нотации возведение в степень будем обозначать символом ^.</p>
+	<p><b>Примеры:</b> постоянная Авогадро: 6.02486 * 1023 (г*моль)-1, заряд электрона: -4.80286 * 10-10 СГСЭ.</p>
+	<p>Определим класс Real для представления чисел в научной нотации.</p>
+	<p>В классе определим метод display() для вывода на консоль значения объекта и метод incrementM() для увеличения на 1 значения мантиссы числа.</p>
+	<p>При этом значение числа увеличивается, конечно, не на 1, а на 10p.</p>
+	<p>Для мантисс и показателей введем закрытые поля double m и int p.</p>
+	<p>Определение класса может быть таким (программа 11_07.cs):</p>
+
+	<pre class="brush: csharp;">
+	using System;
+	// Класс чисел в научной нотации
+	// Закрытые поля:
+	class Real
+	{
+		// мантисса - явная инициализация
+		double m = 8.0;
+		// порядок - инициализация по умолчанию
+		int p;
+		// Метод - приращение мантиссы:
+		public void incrementM()
+		{
+			m += 1;
+			if (m >= 10)
+			{
+				m /= 10;
+				p++;
+			}
+		}
+		// Метод для вывода значения числа (объекта):
+		public void display(string name)
+		{
+			string form = name + "\t = {0,8:F5}*10^{1,-3:D2}";
+			Console.WriteLine(form, m, p);
+		}
+		// Конструктор общего вида:
+		public Real(double mi, int pi)
+		{
+			m = mi;
+			p = pi;
+			reduce();
+		}
+		// конструктор приведения типов:
+		public Real(double mi) : this(mi, 0) { }
+		// конструктор копирования:
+		public Real(Real re) : this(re.m, re.p) { }
+		// конструктор умолчания:
+		public Real() { }
+		// "Внутренний" для класса метод:
+		// Приведение числа к каноническому виду.
+		void reduce()
+		{
+			double sign = 1; if (m < 0) {sign = -1; m = -m; }
+			for (; m >= 10; m /= 10, p += 1) ;
+			for (; m < 1; m *= 10, p -= 1) ;
+			m *= sign;
+		}
+	}
+	</pre>
+
+	<p>Среди методов класса нам сейчас важно рассмотреть явно определенные в классе конструкторы.</p>
+	<p>Конструктор общего вида:</p>
+
+	<pre class="brush: csharp;">
+	public Real(double mi, int pi)
+	{
+		m = mi;
+		p = pi;
+		reduce();
+	}
+	</pre>
+
+	<p>Параметры определяют значения мантиссы m и порядка p создаваемого объекта класса.</p>
+	<p>В соответствии с правилами записи чисел в научной нотации для них необходимо соблюдение условия:</p>
+
+	<pre class="brush: csharp;">
+	1.0 <= m < 10.0.
+	</pre>
+
+	<p>Так как значение аргумента mi при обращении к конструктору может не удовлетворять этому условию, то в теле конструктора вызывается закрытый для внешних обращений метод void reduce().</p>
+	<p>Его задача – нужным образом преобразовать значения полей m и p.</p>
+	<p>Конструктор приведения типов:</p>
+
+	<pre class="brush: csharp;">
+	public Real(double mi) : this(mi, 0) { }
+	</pre>
+
+	<p>Это частный случай конструктора общего вида с одним параметром.</p>
+	<p>В нашем примере он формирует объект класса Real по одному значению типа double, использованному в качестве аргумента.</p>
+	<p>Тем самым этот конструктор позволяет преобразовать числовое значение в объект класса Real.</p>
+	<p>В конструкторе применен инициализатор, содержащий обращение this(mi, 0) к конструктору с заголовком Real(double mi, int pi).</p>
+	<p>Значение второго аргумента, определяющего значение поля int p, задано нулевой константой, что соответствует естественному для математики способу записи вещественного числа.</p>
+	<p>Констуктор копирования:</p>
+
+	<pre class="brush: csharp;">
+	public Real(Real re) : this(re.m, re.p) { }
+	</pre>
+
+	<p>Позволяет создать копию объекта.</p>
+	<p>Ещё раз обратим внимание на его отличие от операции присваивания, применение которой копирует только значение ссылки на объект.</p>
+	<p>После присваивания ссылок на один объект начинают указывать несколько переменных (ссылок).</p>
+	<p>Тело конструктора копирования в нашем примере не содержит операторов.</p>
+	<p>Для присваивания значений полям создаваемого объекта используется инициализатор конструктора, содержащий обращение this(re.m, re.p) к конструктору общего вида.</p>
+	<p>Вместо инициализатора можно было бы присваивать значения переменным m и p в теле конструктора.</p>
+	<p>Конструктор копирования по умолчанию не создается.</p>
+	<p>Конструктор умолчания, т.е. конструктор без параметров:</p>
+
+	<pre class="brush: csharp;">
+	public Real() { }
+	</pre>
+
+	<p>Отсутствие параметров, отсутствие (в данном примере) инициализатора конструктора и пустое тело конструктора вызывает вопрос.</p>
+	<p>А зачем нужен такой конструктор?</p>
+	<p>Ведь в предыдущем варианте класса Real объявления такого конструктора не было.</p>
+	<p>При наличии явно определенных конструкторов (хотя бы одного) компилятор не встраивает в определение класса конструктор с пустым списком параметров.</p>
+	<p>При необходимости такой конструктор нужно объявлять явно, что и сделано.</p>
+	<p>Конструктор умолчания выполняет инициализацию полей класса в соответствии с теми значениями, которые указаны в декларации класса.</p>
+	<p>Однако, в теле конструктора умолчания полям объекта можно было бы присвоить и другие значения.</p>
+	<p>Пример применения конструкторов класса (программа 11_07.cs):</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		// конструктор общего вида
+		Real number = new Real(303.0, 1);
+		number.display("number");
+		// констр. приведения типов
+		Real number1 = new Real(0.000321);
+		number1.display("number1");
+		// конструктор копирования
+		Real numCopy = new Real(number);
+		// присваивание ссылок
+		number1 = number;
+		// изменение объекта
+		number.incrementM();
+		number.display("number");
+		number1.display("number1");
+		// копия сохранила значение
+		numCopy.display("numCopy");
+		// конструктор умолчания
+		Real numb = new Real();
+		numb.display("numb");
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	number = 3,03000 * 10^03
+	number1 = 3,21000 * 10^-04
+	number = 4,03000 * 10^03
+	number1 = 4,03000 * 10^03
+	numCopy = 3,03000 * 10^03
+	numb = 8,00000 * 10^00
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="63.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="65.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/64.html", "Конструкторы объектов", "bm151"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm151", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm151") == 1) { document.getElementById("bma151").style.display = "block"; document.getElementById("bm151").style.display = "none"; } else { document.getElementById("bma151").style.display = "none"; document.getElementById("bm151").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Конструкторы объектов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm151", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

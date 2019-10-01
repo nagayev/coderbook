@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma390" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm390" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Типы переменных
+	</h1>
+
+	<p>Каждая переменная имеет свой тип.</p>
+	<p>Тип переменной обязательно нужно указывать, потому что разные типы переменных занимают разный размер, и компьютеру нужно знать, сколько байт в оперативной памяти требуется отвести под указанную переменную.</p>
+	<p>Создание переменной состоит из двух этапов:</p>
+	<p>1) Объявление переменной (указываем имя и тип переменной ).</p>
+	<p>Переменная объявляется в специальном разделе var (позже мы познакомимся с этим разделом).</p>
+	<p>2) Присвоение переменной какого-то значения.</p>
+	<p>Объявление переменной выглядит так:</p>
+
+	<pre class="brush: csharp;">
+var
+   Peremennaya1 : Real;
+   Peremennaya2, Peremennaya3 : Integer;
+	</pre>
+
+	<p>Как видно из примера, вначале указывается имя переменной, затем, после двоеточия указывается тип переменной.</p>
+	<p>Если нужно объявить несколько переменных одного типа, их имена разделяются запятыми.</p>
+	<p>В приведенном примере мы объявили одну вещественную переменную типа Real и две целые переменные типа Integer.</p>
+	<p>Присваивать значение переменным можно неоднократно.</p>
+	<p>Переменная потому и называется так, что ее значение в процессе работы программы может меняться.</p>
+	<p>Оператор присвоения значения выглядит так:</p>
+
+	<p><b>:=</b></p>
+
+	<p>Примеры присвоения значений переменным:</p>
+
+	<pre class="brush: csharp;">
+	A := 10;
+	B := 20.35;
+	C := 'Это строка';
+	D := True;
+	A := 3+5-1;
+	</pre>
+
+	<p>Механизм присвоения значения работает следующим образом: вначале рассчитывается значение в правой части команды, то есть, после знака :=.</p>
+	<p>Затем результат этого значения записывается в переменную.</p>
+	<p>В последней строке примера мы использовали выражение "3+5-1".</p>
+	<p>Вначале получается результат, в нашем случае он равен 7.</p>
+	<p>Затем этот результат записывается в переменную.</p>
+	<p>В дальнейшем, имя переменной можно использовать в различных выражениях, например:</p>
+
+	<pre class="brush: csharp;">
+	A1 := 3;
+	A2 := A1 + 7;
+	A1 := A1 + 1;
+	</pre>
+
+	<p>В первой строке мы записали в переменную число 3.</p>
+	<p>Вторая строка содержит выражение, результатом которого будет число 10.</p>
+	<p>А вот третья строка интересней.</p>
+	<p>Как вы полагаете, что будет записано в переменную A1?</p>
+	<p>Если ваш ответ 4, вы совершенно правы: вначале рассчитывается результат правой части команды, где в переменной A1 еще старое значение, затем он записывается в эту же переменную, изменяя ее значение.</p>
+
+	<p>Ниже перечислены основные типы переменных:</p>
+
+	<p><b>Integer</b></p>
+	<p><i>Целое число</i></p>
+	<p>Переменная может содержать только целые числа, как со знаком, так и без знака.</p>
+	<p><b>Real</b></p>
+	<p><i>Вещественное число</i></p>
+	<p>Переменная может принимать в качестве значения целые и дробные числа, со знаком и без знака.</p>
+	<p><b>String</b></p>
+	<p><i>Строка</i></p>
+	<p>Переменная может хранить любые символы и наборы символов. В переменную String можно записать до 2 Гб символов.</p>
+	<p><b>Boolean</b></p>
+	<p><i>Логический тип</i></p>
+	<p>Булева переменная, может быть либо False (Ложь), либо True (Истина).</p>
+
+	<p>На самом деле, типов переменных значительно больше, и по мере усложнения программ мы будем изучать эти типы.</p>
+	<p>Тут представлены только основные типы.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="03.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="05.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/04.html", "Типы переменных", "bm390"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm390", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm390") == 1) { document.getElementById("bma390").style.display = "block"; document.getElementById("bm390").style.display = "none"; } else { document.getElementById("bma390").style.display = "none"; document.getElementById("bm390").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Типы переменных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm390", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

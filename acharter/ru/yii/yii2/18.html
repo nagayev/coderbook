@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1224" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1224" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Фильтры
+	</h1>
+
+    <p>Фильтры — это объекты, которые могут запускаться как перед так и после действий контроллера.</p>
+    <p>Например, фильтр управления доступом может запускаться перед действиями удостовериться, что запросившему их пользователю разрешен доступ; фильтр сжатия содержимого может запускаться после действий для сжатия содержимого ответа перед отправкой его конечному пользователю.</p>
+    <p>Фильтр может состоять из пре-фильтра (фильтрующая логика применяется перед действиями) и/или пост-фильтра (логика, применяемая после действий).</p>
+
+    <h2 id="title">
+        Использование фильтров
+    </h2>
+
+    <p>Фильтры являются особым видом поведений.</p>
+    <p>Их использование ничем не отличается от использования поведений.</p>
+    <p>Вы можете объявлять фильтры в классе контроллера путём перекрытия метода behaviors():</p>
+
+    <pre class="brush: csharp;">
+    public function behaviors()
+    {
+        return [
+            [
+                'class' =&gt; 'yii\filters\HttpCache',
+                'only' =&gt; ['index', 'view'],
+                'lastModified' =&gt; function ($action, $params) {
+                    $q = new \yii\db\Query();
+                    return $q->from('user')->max('updated_at');
+                },
+            ],
+        ];
+    }
+    </pre>
+
+    <p>По умолчанию фильтры, объявленные в классе контроллера, будут применяться ко всем его действиям.</p>
+    <p>Тем не менее, вы можете явно указать и конкретные действия задав свойство</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\ActionFilter::only|only]]
+    </pre>
+
+    <p>В примере выше фильтр HttpCache применяется только к действиям index и view.</p>
+    <p>Вы можете настроить свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\ActionFilter::except|except]]
+    </pre>
+
+    <p>чтобы указать действия, к которым фильтр применяться не должен.</p>
+    <p>Кроме контроллеров, можно объявлять фильтры в модуле или в приложении.</p>
+    <p>В этом случае они применяются ко всем действиям контроллеров, находящихся в этом модуле или приложении если не заданы свойства</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\ActionFilter::only|only]]
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\ActionFilter::except|except]]
+    </pre>
+
+    <p>как было описано выше.</p>
+    <p><b>Примечание:</b> При объявлении фильтров в модулях или приложениях, следует использовать маршруты вместо идентификаторов действий в свойствах [[yii\base\ActionFilter::only|only]] и [[yii\base\ActionFilter::except|except]] так как сами по себе, идентификаторы действий не могут полностью идентифицировать действие в контексте модуля или приложения.</p>
+    <p>Когда несколько фильтров указываются для одного действия, они применяются согласно следующим правилам:</p>
+
+    <ul>
+        <li>
+        Пре-фильтрация
+            <ul>
+                <li>Применяются фильтры, объявленные в приложении в том порядке, в котором они перечислены в behaviors().</li>
+                <li>Применяются фильтры, объявленные в модуле в том порядке, в котором они перечислены в behaviors().</li>
+                <li>Применяются фильтры, объявленные в контроллере в том порядке, в котором они перечислены в behaviors().</li>
+                <li>Если, какой-либо из фильтров отменяет выполнение действия, оставшиеся фильтры (как пре-фильтры, так и пост-фильтры) не будут применены.</li>
+            </ul>
+        </li>
+        <li>Выполняется действие, если оно прошло пре-фильтрацию.</li>
+        <li>
+        Пост-фильтрация
+            <ul>
+                <li>Применяются фильтры объявленные в контроллере, в порядке обратном, перечисленному в behaviors().</li>
+                <li>Применяются фильтры объявленные в модуле, в порядке обратном, перечисленному в behaviors().</li>
+                <li>Применяются фильтры объявленные в приложении, в порядке обратном, перечисленному в behaviors().</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2 id="title">
+        Создание фильтров
+    </h2>
+
+    <p>При создании нового фильтра действия, необходимо наследоваться от [[yii\base\ActionFilter]] и переопределить методы</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\ActionFilter::beforeAction()|beforeAction()]]
+    </pre>
+
+    <p>и/или</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\ActionFilter::afterAction()|afterAction()]]
+    </pre>
+
+    <p>Первый из них будет вызван перед выполнением действия, а второй после.</p>
+    <p>Возвращаемое</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\ActionFilter::beforeAction()|beforeAction()]]
+    </pre>
+
+    <p>значение определяет, будет ли действие выполняться или нет.</p>
+    <p>Если вернётся false, то оставшиеся фильтры не будут применены и действие выполнено не будет.</p>
+    <p>Пример ниже показывает фильтр, который выводит время выполнения действия:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use Yii;
+    use yii\base\ActionFilter;
+    
+    class ActionTimeFilter extends ActionFilter
+    {
+        private $_startTime;
+    
+        public function beforeAction($action)
+        {
+            $this->_startTime = microtime(true);
+            return parent::beforeAction($action);
+        }
+    
+        public function afterAction($action, $result)
+        {
+            $time = microtime(true) - $this->_startTime;
+            Yii::trace("Action '{$action->uniqueId}' spent $time second.");
+            return parent::afterAction($action, $result);
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Стандартные фильтры
+    </h2>
+
+    <p>Yii предоставляет набор часто используемых фильтров, которые находятся, в основном, в пространстве имен yii\filters.</p>
+    <p>Далее вы будете кратко ознакомлены с ними.</p>
+
+    <h3 id="title">
+        [[yii\filters\AccessControl|AccessControl]]
+    </h3>
+
+    <p>Фильтр AccessControl обеспечивает простое управление доступом, основанное на наборе правил</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\AccessControl::rules|rules]]
+    </pre>
+
+    <p>В частности, перед тем как действие начинает выполнение, фильтр AccessControl проверяет список указанных правил, пока не найдёт соответствующее текущему контексту переменных (таких как IP адрес пользователя, статус аутентификации и так далее).</p>
+    <p>Найденное правило указывает, разрешить или запретить выполнение запрошенного действия.</p>
+    <p>Если ни одно из правил не подходит, то доступ будет запрещён.</p>
+    <p>В следующем примере авторизованным пользователям разрешен доступ к действиям create и update, в то время как всем другим пользователям доступ запрещён.</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\AccessControl;
+    
+    public function behaviors()
+    {
+        return [
+            'access' =&gt; [
+                'class' =&gt; AccessControl::className(),
+                'only' =&gt; ['create', 'update'],
+                'rules' =&gt; [
+                    // разрешаем аутентифицированным пользователям
+                    [
+                        'allow' =&gt; true,
+                        'roles' =&gt; ['@'],
+                    ],
+                    // всё остальное по умолчанию запрещено
+                ],
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Более подробно об управлении доступом вы можете прочитать в разделе Авторизация.</p>
+
+    <h3 id="title">
+        Фильтр метода аутентификации
+    </h3>
+
+    <p>Фильтр метода аутентификации используется для аутентификации пользователя различными способами, такими как HTTP Basic Auth, OAuth 2.</p>
+    <p>Классы данных фильтров находятся в пространстве имён yii\filters\auth.</p>
+
+    <p>Следующий пример показывает, как использовать [[yii\filters\auth\HttpBasicAuth]] для аутентификации пользователя с помощью токена доступа, основанного на методе basic HTTP auth.</p>
+    <p>Обратите внимание, что для того чтобы это работало, ваш класс</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\User::identityClass|user identity class]]
+    </pre>
+
+    <p>должен реализовывать метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::findIdentityByAccessToken()|findIdentityByAccessToken()]]
+    </pre>
+    
+    <pre class="brush: csharp;">
+    use yii\filters\auth\HttpBasicAuth;
+    
+    public function behaviors()
+    {
+        return [
+            'basicAuth' =&gt; [
+                'class' =&gt; HttpBasicAuth::className(),
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Фильтры метода аутентификации часто используются при реализации RESTful API.</p>
+    <p>Более подробную информацию о технологии RESTful, смотрите в разделе Authentication.</p>
+
+    <h3 id="title">
+        [[yii\filters\ContentNegotiator|ContentNegotiator]]
+    </h3>
+
+    <p>ContentNegotiator поддерживает согласование формата ответа и языка приложения.</p>
+    <p>Он пытается определить формат ответа и/или язык, путём проверки GET параметров и HTTP заголовка Accept.</p>
+    <p>В примере ниже, ContentNegotiator сконфигурирован чтобы поддерживать форматы ответа JSON и XML, а также Английский (США) и Немецкий языки.</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\ContentNegotiator;
+    use yii\web\Response;
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' =&gt; ContentNegotiator::className(),
+                'formats' =&gt; [
+                    'application/json' =&gt; Response::FORMAT_JSON,
+                    'application/xml' =&gt; Response::FORMAT_XML,
+                ],
+                'languages' =&gt; [
+                    'en-US',
+                    'de',
+                ],
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Часто требуется, чтобы форматы ответа и языки приложения были определены как можно раньше в его жизненном цикле.</p>
+    <p>По этой причине, ContentNegotiator разработан так, что помимо фильтра может использоваться как компонент предварительной загрузки.</p>
+    <p>Например, вы можете настроить его в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\ContentNegotiator;
+    use yii\web\Response;
+    
+    [
+        'bootstrap' =&gt; [
+            [
+                'class' =&gt; ContentNegotiator::className(),
+                'formats' =&gt; [
+                    'application/json' =&gt; Response::FORMAT_JSON,
+                    'application/xml' =&gt; Response::FORMAT_XML,
+                ],
+                'languages' =&gt; [
+                    'en-US',
+                    'de',
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Информация:</b> В случае, если предпочтительный тип содержимого и язык не могут быть определены из запроса, будут использованы первый формат и язык, описанные в [[formats]] и [[languages]].</p>
+
+    <h3 id="title">
+        [[yii\filters\HttpCache|HttpCache]]
+    </h3>
+
+    <p>Фильтр HttpCache реализовывает кэширование на стороне клиента, используя HTTP заголовки Last-Modified и Etag:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\HttpCache;
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' =&gt; HttpCache::className(),
+                'only' =&gt; ['index'],
+                'lastModified' =&gt; function ($action, $params) {
+                    $q = new \yii\db\Query();
+                    return $q->from('user')->max('updated_at');
+                },
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Подробнее об использовании HttpCache можно прочитать в разделе HTTP Кэширование.</p>
+
+    <h3 id="title">
+        [[yii\filters\PageCache|PageCache]]
+    </h3>
+
+    <p>Фильтр PageCache реализует кэширование целых страниц на стороне сервера.</p>
+    <p>В следующем примере PageCache применяется только в действии index для кэширования всей страницы в течение не более чем 60 секунд или пока количество записей в таблице post не изменится.</p>
+    <p>Он также хранит различные версии страницы в зависимости от выбранного языка приложения.</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\PageCache;
+    use yii\caching\DbDependency;
+    
+    public function behaviors()
+    {
+        return [
+            'pageCache' =&gt; [
+                'class' =&gt; PageCache::className(),
+                'only' =&gt; ['index'],
+                'duration' =&gt; 60,
+                'dependency' =&gt; [
+                    'class' =&gt; DbDependency::className(),
+                    'sql' =&gt; 'SELECT COUNT(*) FROM post',
+                ],
+                'variations' =&gt; [
+                    \Yii::$app->language,
+                ]
+            ],
+        ];
+    }
+    </pre>
+
+    <p>Подробнее об использовании PageCache читайте в разделе Кэширование страниц.</p>
+
+    <h3 id="title">
+        [[yii\filters\RateLimiter|RateLimiter]]
+    </h3>
+
+    <p>Ограничитель количества запросов в единицу времени (RateLimiter) реализует алгоритм ограничения запросов, основанный на алгоритме leaky bucket.</p>
+    <p>В основном, он используется при создании RESTful API.</p>
+    <p>Подробнее об использовании данного фильтра можно прочитать в разделе Ограничение запросов.</p>
+
+    <h3 id="title">
+        [[yii\filters\VerbFilter|VerbFilter]]
+    </h3>
+
+    <p>Фильтр по типу запроса (VerbFilter) проверяет, разрешено ли запросам HTTP выполнять затребованные ими действия.</p>
+    <p>Если нет, то будет выброшено исключение HTTP с кодом 405.</p>
+    <p>В следующем примере в фильтре по типу запроса указан обычный набор разрешённых методов запроса при выполнения CRUD операций.</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\VerbFilter;
+    
+    public function behaviors()
+    {
+        return [
+            'verbs' =&gt; [
+                'class' =&gt; VerbFilter::className(),
+                'actions' =&gt; [
+                    'index'  =&gt; ['get'],
+                    'view'   =&gt; ['get'],
+                    'create' =&gt; ['get', 'post'],
+                    'update' =&gt; ['get', 'put', 'post'],
+                    'delete' =&gt; ['post', 'delete'],
+                ],
+            ],
+        ];
+    }
+    </pre>
+
+    <h3 id="title">
+        [[yii\filters\Cors|Cors]]
+    </h3>
+
+    <p>Совместное использование разными источниками CORS</p>
+
+    <ul>
+        <li>это механизм, который позволяет использовать различные ресурсы (шрифты, скрипты, и т.д.) с отличных от основного сайта доменов. В частности, AJAX вызовы JavaScript могут использовать механизм XMLHttpRequest. В противном случае, такие "междоменные" запросы были бы запрещены из-за политики безопасности same origin. CORS задаёт способ взаимодействия сервера и браузера, определяющий возможность делать междоменные запросы.</li>
+    </ul>
+
+    <p>Фильтр [[yii\filters\Cors|Cors filter]] следует определять перед фильтрами Аутентификации / Авторизации, для того чтобы быть уверенными, что заголовки CORS будут всегда посланы.</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\Cors;
+    use yii\helpers\ArrayHelper;
+    
+    public function behaviors()
+    {
+        return ArrayHelper::merge([
+            [
+                'class' =&gt; Cors::className(),
+            ],
+        ], parent::behaviors());
+    }
+    </pre>
+
+
+    <p>Если вам необходимо добавить CORS-фильтрацию к [[yii\rest\ActiveController]] в вашем API, обратитесь к разделу Контроллеры.</p>
+    <p>Фильтрация Cors может быть настроена с помощью свойства [[yii\filters\Cors::$cors|$cors]].</p>
+
+        <pre class="brush: csharp;">
+        cors['Origin']
+        </pre>
+
+    <p>массив, используемый для определения источников. Может принимать значение ['*'] (все) или</p>
+
+    <pre class="brush: csharp;">
+        ['http://www.myserver.net', 'http://www.myotherserver.com']
+    </pre>
+
+    <p>По умолчанию значение равно ['*'].</p>
+
+        <pre class="brush: csharp;">
+        cors['Access-Control-Request-Method']
+        </pre>
+
+    <p>массив разрешенных типов запроса, таких как ['GET', 'OPTIONS', 'HEAD'].</p>
+    <p>Значение по умолчанию ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'].</p>
+
+    <pre class="brush: csharp;">
+    cors['Access-Control-Request-Headers']
+    </pre>
+
+    <p>массив разрешенных заголовков. Может быть ['*'] то есть все заголовки или один из указанных ['X-Request-With']. Значение по умолчанию ['*'].</p>
+
+    <pre class="brush: csharp;">
+    cors['Access-Control-Allow-Credentials']
+    </pre>
+
+    <p>определяет, может ли текущий запрос быть сделан с использованием авторизации.</p>
+    <p>Может принимать значения true, false или null (не установлено). Значение по умолчанию null.</p>
+
+    <pre class="brush: csharp;">
+    cors['Access-Control-Max-Age']
+    </pre>
+
+    <p>определяет срок жизни запроса, перед его началом.</p>
+    <p>По умолчанию 86400.</p>
+    <p>Например, разрешим CORS для источника : http://www.myserver.net с методами GET, HEAD и OPTIONS :</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\Cors;
+    use yii\helpers\ArrayHelper;
+    
+    public function behaviors()
+    {
+        return ArrayHelper::merge([
+            [
+                'class' =&gt; Cors::className(),
+                'cors' =&gt; [
+                    'Origin' =&gt; ['http://www.myserver.net'],
+                    'Access-Control-Request-Method' =&gt; ['GET', 'HEAD', 'OPTIONS'],
+                ],
+            ],
+        ], parent::behaviors());
+    }
+    </pre>
+
+    <p>Вы можете настроить заголовки CORS переопределения параметров по умолчанию для каждого из действий.</p>
+    <p>Например, добавление Access-Control-Allow-Credentials для действия login может быть сделано так:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\Cors;
+    use yii\helpers\ArrayHelper;
+    
+    public function behaviors()
+    {
+        return ArrayHelper::merge([
+            [
+                'class' =&gt; Cors::className(),
+                'cors' =&gt; [
+                    'Origin' =&gt; ['http://www.myserver.net'],
+                    'Access-Control-Request-Method' =&gt; ['GET', 'HEAD', 'OPTIONS'],
+                ],
+                'actions' =&gt; [
+                    'login' =&gt; [
+                        'Access-Control-Allow-Credentials' =&gt; true,
+                    ]
+                ]
+            ],
+        ], parent::behaviors());
+    }
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/18.html", "Yii2: Фильтры", "bm1224"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1224", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1224") == 1) { document.getElementById("bma1224").style.display = "block"; document.getElementById("bm1224").style.display = "none"; } else { document.getElementById("bma1224").style.display = "none"; document.getElementById("bm1224").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Фильтры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1224", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

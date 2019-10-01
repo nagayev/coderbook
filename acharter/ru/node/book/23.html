@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1332" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1332" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		JSON и AJAX
+	</h1>
+    
+    <p>JSON представляет один из самых популярных форматов хранения и передачи данных, и Express имеет все возможности для работы с JSON.</p>
+    <p>Однако опять же, как и в прошлой теме, для полноценной работы с json необходим пакет body-parser, который можно добавить с помощью команды</p>
+
+    <pre class="brush: csharp;">
+    npm install body-parser --save
+    </pre>
+
+    <p>Пусть в проекте приложения в папке public имеется файл register.html со следующим кодом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Регистрация&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Введите данные&lt;/h1&gt;
+        &lt;form action=&quot;/register&quot; method=&quot;post&quot; name=&quot;registerForm&quot;&gt;
+            &lt;label&gt;Имя&lt;/label&gt;&lt;/br&gt;
+            &lt;input type=&quot;text&quot; name=&quot;userName&quot; /&gt;&lt;/br&gt;&lt;/br&gt;
+            &lt;label&gt;Возраст&lt;/label&gt;&lt;/br&gt;
+            &lt;input type=&quot;number&quot; name=&quot;userAge&quot; /&gt;&lt;/br&gt;&lt;/br&gt;
+            &lt;input type=&quot;submit&quot; value=&quot;&Ocy;&tcy;&pcy;&rcy;&acy;&vcy;&icy;&tcy;&softcy;&quot; /&gt;
+        &lt;/form&gt;
+        &lt;script src=&quot;https://code.jquery.com/jquery-2.2.4.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            $("form").submit(function(e) {
+                
+                e.preventDefault();
+                var registerForm = document.forms["registerForm"];
+                var userName = registerForm.elements["userName"].value;
+                var userAge = registerForm.elements["userAge"].value;
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/user",
+                    data: JSON.stringify({userName: userName, userAge: userAge}),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(data){ 
+                        console.log(data);
+                        },
+                    });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;html&gt;
+    </pre>
+
+    <p>Здесь, как и в прошлой теме, определена форма с двумя полями для ввода имени и возраста пользователя.</p>
+    <p>Но теперь с помощью кода jquery мы перехватываем отправку формы, и отправляем ее с помощью ajax, а сами отправляемые данные сериализуем json.</p>
+    <p>Далее определим в главном файле приложения - в app.js код, который бы принимал отправленные данные:</p>
+
+    <pre class="brush: csharp;">
+    var express = require("express");
+    var bodyParser = require("body-parser");
+    
+    var app = express();
+    // создаем парсер для данных в формате json
+    var jsonParser = bodyParser.json();
+    
+    app.use(express.static(__dirname + "/public"));
+    
+    app.post("/user", jsonParser, function (request, response) {
+        if(!request.body) return response.sendStatus(400);
+        console.log(request.body);
+        response.json(`${request.body.userName} - ${request.body.userAge}`);
+    });
+    
+    app.get("/", function(request, response){
+        
+        response.send("&lt;h1&gt;Главная страница&lt;/h1&gt;");
+    });
+    
+    app.listen(3000);
+    </pre>
+
+    <p>Прежде всего для получения данных в формате json необходимо создать парсер:</p>
+
+    <pre class="brush: csharp;">
+    var jsonParser = bodyParser.json();
+    </pre>
+
+    <p>И поскольку с клиентом мы взаимодействуем через формат json, то данные клиенту отправляются с помощью метода response.json():</p>
+
+    <pre class="brush: csharp;">
+    app.post("/user", jsonParser, function (request, response) {
+        if(!request.body) return response.sendStatus(400);
+        console.log(request.body);
+        response.json(`${request.body.userName} - ${request.body.userAge}`);
+    });
+    </pre>
+
+    <p>Для получения данных, как и в случае с формами, используются выражения типа request.body.userName, где request.body инкапсулирует данные формы, а userName - ключ данных.</p>
+    <p>Запустим приложение и обратимся к странице register.html.</p>
+    <p>Введем какие-нибудь данные и после отправки в консоли браузера отобразится ответ сервера:</p>
+
+    <img src="n51.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="22.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="24.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/23.html", "JSON и AJAX", "bm1332"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1332", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1332") == 1) { document.getElementById("bma1332").style.display = "block"; document.getElementById("bm1332").style.display = "none"; } else { document.getElementById("bma1332").style.display = "none"; document.getElementById("bm1332").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("JSON и AJAX") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1332", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

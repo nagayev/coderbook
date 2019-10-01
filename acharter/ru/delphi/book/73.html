@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma459" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm459" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Перемещаемые панели инструментов
+	</h1>
+
+	<p>Если вам в приложении потребуется лишь пара-тройка кнопок в панели инструментов, то проще воспользоваться первым вариантом.</p>
+	<p>Но если вы делаете серьезное приложение и желаете, чтобы у него была профессиональная панель инструментов, то лучше воспользоваться перемещаемой панелью, как у программ из MS Office.</p>
+	<p>Такие панели можно двигать, можно отрывать их от формы и делать из них отдельное окно.</p>
+	<p>Впрочем, давайте сразу же напишем пример программы с такой панелью.</p>
+	<p>Создайте новое приложение, установите на форму компонент ControlBar с вкладки Additional.</p>
+	<p>Это простой компонент, работает как панель, но он позволяет панелям инструментов перемещаться внутри себя по желанию пользователя.</p>
+	<p>Свойство Align установите в Top, а свойство AutoSize – в True.</p>
+	<p>Тогда компонент будет автоматически растягиваться или сужаться, когда вы будете двигать панели инструментов внутри него.</p>
+	<p>Теперь перейдите на вкладку Win32, и найдите там компонент ToolBar.</p>
+	<p>Это и есть панель инструментов, установите ее поверх ControlBar.</p>
+	<p>Как видите, ControlBar сразу принял нужную высоту.</p>
+	<p>Если вы снимете выделение с этого компонента, то увидите, что он имеет оборку сверху.</p>
+	<p>Обычно на программах такой оборки нет, поэтому снимем ее.</p>
+	<p>Свойство EdgeBorders компонента раскрывается, и показывает, какие оборки есть.</p>
+	<p>Установите ebTop в False.</p>
+	<p>Теперь наша панель инструментов имеет профессиональный вид, только кнопочек ей недостает.</p>
+	<p>Желательно и тут установить свойство AutoSize в True.</p>
+	<p>Начнем добавлять кнопки.</p>
+	<p>Щелкните правой кнопкой мыши по панели инструментов и выберите команду NewButton.</p>
+	<p>Появилась новая кнопка. Команда NewSeparator в этом меню создает разделители между кнопками.</p>
+	<p>Удалить кнопку или разделитель просто – выделяете ее и нажимаете &lt;Delete&gt;.</p>
+	<p>Давайте создадим такую же панель, как в прошлом примере.</p>
+	<p>После первой кнопки вставьте сепаратор, потом еще две кнопки. Опять таки, эти кнопки выпуклые, а в современных приложениях они выглядят более плоскими.</p>
+	<p>Выделите саму панель, и свойство Flat измените на True, тогда все кнопки на панели будут выглядеть плоскими.</p>
+	<p>Теперь установим на форму компонент ImageList и загрузим те же три картинки: dooropen.bmp, led2on.bmp и led2off.bmp.</p>
+	<p>Теперь выделите панель инструментов, и в свойстве Images выберите наш ImageList.</p>
+	<p>Картинки из списка автоматически загрузились в кнопки.</p>
+	<p>Если вам не понравилось распределение этих картинок, можете изменить их, изменяя свойство ImageIndex.</p>
+	<p>Первая картинка там имеет индекс 0, вторая – 1, и так далее.</p>
+	<p>Таким образом, вы можете присваивать кнопкам различные картинки из списка.</p>
+	<p>Давайте рассмотрим некоторые полезные свойства кнопки на панели инструментов.</p>
+	<p>Сама кнопка называется ToolButton, но такого компонента на палитре инструментов нет, ее можно загрузить, только щелкнув по панели инструментов правой кнопкой мыши и выбрав команду NewButton.</p>
+	<p>Кнопка по своим свойствам схожа с кнопкой SpeedButton.</p>
+	<p>Рассмотрим их подробно.</p>
+	<p><b>AllowAllUp.</b></p>
+	<p>Если установлено в True, то кнопка синхронизирует свое состояние с другими кнопками группы – в любой момент может быть нажата только одна кнопка группы.</p>
+	<p>Это свойство работает только в том случае, если свойство Grouped (группировка) у кнопки также установлено в True.</p>
+	<p>Выделите две последних кнопки и установите у него оба этих свойства в True.</p>
+	<p><b>Caption.</b></p>
+	<p>Содержит надпись на кнопке, которая будет выходить вместе с изображением, если у самой панели инструментов свойство ShowCaptions установить в True.</p>
+	<p>У первой кнопки в этом свойстве напишите "Выход", у второй – "Активна", а у третьей "Неактивна".</p>
+	<p>Что там будет активно или нет, не имеет значения, сейчас мы просто учимся работать с панелью инструментов.</p>
+	<p>Теперь выделите саму панель инструментов, и установите свойство ShowCaptions в True.</p>
+	<p>Как видите, кнопки стали большими, и вместе с изображением на них выходит также и текст.</p>
+	<p>В некоторых приложениях вы можете встретить такие панели инструментов.</p>
+	<p>Снова верните это свойство в False. Чтобы вернуть кнопкам первоначальный размер, выделите первую кнопку и измените ее размеры.</p>
+	<p>Установите свойства Height и Width равным 23.</p>
+	<p><b>Down.</b></p>
+	<p>Как и прежде, это свойство отвечает за состояние кнопки – нажата она или нет.</p>
+	<p>Чтобы повторить предыдущий пример, установите у первой кнопки Down в True.</p>
+	<p><b>ImageIndex.</b></p>
+	<p>С этим свойством мы уже разбирались, оно отвечает за картинку, которая изображена на кнопке.</p>
+	<p><b>Style.</b></p>
+	<p>Стиль кнопки.</p>
+	<p>Пожалуй, самое интересное свойство.</p>
+	<p>Если вы скомпилируете пример, то увидите, что при нажатии на кнопку, она возвращается в отжатое состояние.</p>
+	<p>А как быть, если нам, как в прошлом примере, требуется, чтобы всегда была нажата только одна кнопка из группы?</p>
+	<p>Мы уже сгруппировали две последние кнопки и указали им синхронизировать состояние с другими кнопками группы.</p>
+	<p>Теперь снова выделите их, а в свойстве Style выберите tbsCheck.</p>
+	<p>Этот стиль позволяет кнопке оставаться в нажатом состоянии.</p>
+	<p>Чтобы отжать ее, нужно будет снова щелкнуть по кнопке.</p>
+	<p>Если же кнопки сгруппированы, как в нашем примере, то нажатие на другую кнопку отожмет первую.</p>
+	<p>Сама панель инструментов также имеет ряд интересных свойств, которые требуется знать.</p>
+	<p>Выделите ее, и посмотрите на Инспектор Объектов.</p>
+	<p>Такие свойства, как Align, Height и Width мы разбирать не будем, так как знакомы с ними по другим компонентам.</p>
+	<p><b>AutoSize.</b></p>
+	<p>Если True, то панель автоматически выравнивает высоту, учитывая высоту кнопок.</p>
+	<p><b>ButtonHeight.</b></p>
+	<p>Определяет высоту кнопок, создаваемых на этой панели.</p>
+	<p><b>ButtonWidth.</b></p>
+	<p>Определяет ширину кнопок на этой панели.</p>
+	<p>Чтобы кнопки были квадратными, оставляйте эти свойства равными друг другу.</p>
+	<p><b>Caption.</b></p>
+	<p>Название панели инструментов, которое будет видно, если снять панель инструментов с места и сделать из нее отдельное окно.</p>
+	<p>Укажите в этом свойстве "Файл".</p>
+	<p><b>Flat.</b></p>
+	<p>Если равно True, то кнопки выглядят современно, без выпуклостей.</p>
+	<p><b>List.</b></p>
+	<p>Работает, если ShowCaptions установлен в True.</p>
+	<p>Если равно True, то изображение прижмется к левой границе, а текст – к правой.</p>
+	<p>Иначе изображение будет сверху, а текст – снизу кнопки.</p>
+	<p><b>ShowCaptions.</b></p>
+	<p>Разрешает или запрещает показ текста на кнопках.</p>
+	<p>Кроме того, мы знаем, что кнопки могут иметь разные состояния, и быть активными или неактивными (это зависит от свойства Enabled).</p>
+	<p>Обычная кнопка в неактивном состоянии имеет рисунок серого тона.</p>
+	<p>Кнопки имеют три варианта изображения – обычное, неактивное, и когда над кнопкой располагается указатель мыши.</p>
+	<p>В один контейнер ImageList невозможно загрузить изображения различных состояний кнопок.</p>
+	<p>Если вы желаете использовать все три состояния, то вам придется устанавливать три контейнера ImageList для изображений.</p>
+	<p>В каждый контейнер вы добавляете картинку своего состояния, важно, чтобы эти картинки имели одинаковый индекс, то есть, чтобы они соответствовали друг другу по очередности в списке.</p>
+	<p>Далее, вы устанавливаете:</p>
+	<p><b>Images.</b></p>
+	<p>Здесь вы указываете контейнер с обычным изображением кнопки, у нас это ImageList1.</p>
+	<p>DisabledImages. Здесь вы указываете контейнер с изображениями недоступных кнопок.</p>
+	<p><b>HotImages.</b></p>
+	<p>Тут указывается контейнер с изображениями кнопок в момент, когда указатель мыши находится над ними.</p>
+	<p>Обычно такие премудрости не нужны, достаточно указывать только одно изображение кнопок.</p>
+	<p>Но знать о таких возможностях компонентов нужно.</p>
+	<p><b>DragKind.</b></p>
+	<p>Пожалуй, наиболее интересное свойство панели инструментов.</p>
+	<p>Оно может иметь два варианта – dkDrag (по умолчанию), и dkDock.</p>
+	<p>Если установлено dkDrag, то панель можно будет перемещать только внутри ControlBar.</p>
+	<p>Для этого нужно указателем мыши ухватиться за вертикальную черточку в левой части панели и перемещать ее.</p>
+	<p>А вот если установить в этом свойстве dkDock, то панель инструментов можно будет снять с ControlBar, установить ее внутри окна программы или даже за ее пределами.</p>
+	<p>Попробуйте это сделать.</p>
+	<p>Теперь еще один интересный пример панели инструментов.</p>
+	<p>Кнопки на этой панели можно связывать с главным или всплывающим меню!</p>
+	<p>То есть, если у вас есть главное меню, и там есть команда "Выход", которую вы уже запрограммировали, то нет нужды писать этот же код у кнопки, достаточно связать ее с компонентом главного меню.</p>
+	<p>У нас нет кода обработчика события кнопки "Выход". Если есть – удалите.</p>
+	<p>Установите на форму главное меню.</p>
+	<p>Укажите там раздел "Файл" и подразделы "Открыть", "-" и "Выход".</p>
+	<p>Свяжите меню с нашим ImageList, и пункту "Выход" присвойте картинку dooropen.bmp.</p>
+	<p>Теперь создайте обработчик события для этого пункта и пропишите там</p>
+
+	<pre class="brush: csharp;">
+	Close;
+	</pre>
+
+	<p>Сохраните проект, скомпилируйте его и посмотрите, как он работает.</p>
+	<p>Теперь выделите кнопку "Выход" на панели инструментов, и в свойстве MenuItem выберите пункт меню, с которым нужно ассоциировать кнопку (у меня это N4).</p>
+	<p>Если вы все сделали правильно, то при работе программы, если пользователь выберет команду "Выход" в меню или нажмет кнопку "Выход" на панели инструментов, выполнится один и тот же код.</p>
+	<p>Точно также кнопки можно связать с всплывающим меню, за это отвечает свойство PopupMenu, в котором вы можете выбрать всплывающее меню.</p>
+	<p>Свойство DropDownMenu связывает кнопку с вспомогательным меню, если оно есть.</p>
+	<p>Мы изучили способы организации профессиональной панели инструментов, теперь ваши программы будут выглядеть более солидно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="72.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="74.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/73.html", "Перемещаемые панели", "bm459"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm459", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm459") == 1) { document.getElementById("bma459").style.display = "block"; document.getElementById("bm459").style.display = "none"; } else { document.getElementById("bma459").style.display = "none"; document.getElementById("bm459").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перемещаемые панели") == 1) { arrs.splice(i, 1); localStorage.setItem("bm459", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

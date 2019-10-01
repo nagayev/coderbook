@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma450" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm450" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Динамические массивы (ч. 2)
+	</h1>
+
+	<p>Теперь рассмотрим на практике работу с динамическим массивом и напишем программу – телефонный справочник.</p>
+	<p>Создайте форму, наподобие такой:</p>
+
+	<img src="delphi26.png" id="image" />
+
+	<p>Здесь у нас 7 компонентов Label, 2 ComboBox, 1 MaskEdit для ввода номера телефона и 4 Edit для ввода пользовательских данных.</p>
+	<p>Кроме того, 2 кнопочки с надписями "Добавить телефон" и "Выйти из программы".</p>
+	<p>В компоненте MaskEdit создайте маску для ввода телефона, наподобие указанной в рисунке, но с кодом своего города.</p>
+	<p>Расположите компоненты на форме так, как подсказывает вам дизайнерский вкус.</p>
+	<p>Верхний ComboBox будет нужен для выбора телефона из списка, чтобы сразу же высвечивались данные этой записи.</p>
+	<p>Проверьте свойство TabOrder всех компонентов для ввода, они должны идти один за другим при нажатии клавиши &lt;Tab&gt;.</p>
+	<p>Свойство TabOrder показывает индекс компонента на форме.</p>
+	<p>Тот компонент, у которого TabOrder равен 0, при открытии формы будет иметь фокус ввода, то есть, будет выделенным.</p>
+	<p>Когда пользователь нажмет клавишу &lt;Tab&gt;, выделение перейдет к компоненту с TabOrder равным 1, и так далее.</p>
+	<p>С помощью этого свойства мы можем указывать очередность выделения компонентов, как правило, она идет сверху - вниз, и слева - направо.</p>
+	<p>Разумеется, такие компоненты, как Label, фокуса ввода не имеют и у них отсутствует свойство TabOrder.</p>
+	<p>Форму переименуйте в fMain, модуль будет называться Main а проект – tfSprav.</p>
+	<p>Названия компонентов оставим по умолчанию, их не так много, и мы не запутаемся.</p>
+	<p>Установите форму в стиль bsDialog, а позицию – по центру экрана.</p>
+	<p>Прежде всего, нужно объявить глобальную запись для хранения необходимых данных, а также глобальный массив элементов типа этой записи.</p>
+	<p>В этот массив мы будем собирать данные, записывать их в файл и считывать из файла.</p>
+	<p>Он должен быть глобальным, чтобы мы могли работать с ним из всех процедур.</p>
+	<p>Поэтому выше раздела implementation пишем такой код:</p>
+
+	<pre class="brush: csharp;">
+type
+myTFSprav = record
+  TelNum : String[15]; //номер телефона
+  Mobil : Boolean; //мобильник – да? Нет?
+  Imya : String[20]; //имя владельца телефона
+  Otchestvo : String[20]; //его отчество
+  Familiya : String[20]; //его фамилия
+  Adres : String[50]; //его адрес
+end; //record
+
+var
+  fMain: TfMain;
+  sprav: array of myTFSprav; //объявляем динамический массив нашей записи
+	</pre>
+
+	<p>Как видите, мы указали немало полей в записи.</p>
+	<p>Однако, не все из них будут обязательны для заполнения.</p>
+	<p>Есть данные?</p>
+	<p>Запишем.</p>
+	<p>Нет?</p>
+	<p>Поля можно оставить пустыми.</p>
+	<p>Фактически, необходимыми записями являются только две – номер телефона и имя его владельца.</p>
+	<p>Номер телефона нам нужен, потому что это ведь телефонный справочник, и нет смысла в записи, если мы не указываем там поле с номером телефона.</p>
+	<p>Имя нам тоже необходимо, ведь зачем нам в файле номер телефона, если мы не знаем, чей это номер?</p>
+	<p>Сразу же создадим обработчик событий для кнопки "Выйти из программы".</p>
+	<p>Там пишем просто:</p>
+
+	<pre class="brush: csharp;">
+	Close;
+	</pre>
+
+	<p>Далее обработаем кнопку "Добавить телефон".</p>
+	<p>В самом начале у нас ведь еще нет записей, поэтому первым делом пользователь введет парочку – другую телефонных номеров.</p>
+
+	<pre class="brush: csharp;">
+{Добавить телефон}
+procedure TfMain.Button1Click(Sender: TObject);
+var
+  i : Integer;  //для счетчика записей
+begin
+  {Проверяем обязательные параметры:} 
+ //если номера телефона нет, выходим:
+  if MaskEdit1.Text = '8(374)-   -  -  ' then begin  //здесь введите свой код города
+    ShowMessage('Впишите номер телефона!');
+    MaskEdit1.SetFocus;
+    Exit;
+  end; //if
+
+  //если имени нет, выходим:
+  if Edit1.Text = '' then begin
+    ShowMessage('Впишите имя владельца телефона!');
+    Edit1.SetFocus;
+    Exit;
+  end; //if
+
+  //действительно ли пользователь хочет сохранить телефон?
+  if Application.MessageBox('Вы уверены, что хотите сохранить этот телефон?',
+    'Внимание!', MB_YESNOCANCEL+MB_ICONQUESTION)<> IDYES then Exit;
+
+  {Пользователь указал номер телефона и имя, и желает сохранить телефон
+   в список.}
+
+  //проверяем номер телефона на совпадение с имеющимися номерами, 
+  //если там есть записи. Для проверки используем цикл, сверяем каждую запись.
+  //Если такая запись уже есть, сообщаем об этом и выходим из процедуры:
+  if length(sprav) > 0 then
+    for i := Low(sprav) to High(sprav) do
+      if sprav[i].TelNum = MaskEdit1.Text then begin
+        ShowMessage('Такой номер уже есть!');
+        Exit;
+      end; //if
+
+  //добавляем новый элемент к массиву:
+  SetLength(sprav, Length(sprav)+1);
+
+  //записываем новый телефон в список:
+  sprav[High(sprav)].TelNum := MaskEdit1.Text;
+  if ComboBox2.ItemIndex = 0 then
+    sprav[High(sprav)].Mobil := True
+  else sprav[High(sprav)].Mobil := False;
+  sprav[High(sprav)].Imya := Edit1.Text;
+  sprav[High(sprav)].Otchestvo := Edit2.Text;
+  sprav[High(sprav)].Familiya := Edit3.Text;
+  sprav[High(sprav)].Adres := Edit4.Text;
+
+  //очищаем поля на форме:
+  MaskEdit1.Text := '8(374)-   -  -  ';
+  ComboBox2.ItemIndex := 0;
+  Edit1.Text := '';
+  Edit2.Text := '';
+  Edit3.Text := '';
+  Edit4.Text := '';
+
+  ShowMessage('Телефон '+ sprav[High(sprav)].TelNum + ' добавлен!');
+
+  //обновим ComboBox с телефонами:
+  ChangeCombo;
+end;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="63.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="65.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/64.html", "Динамические массивы (ч. 2)", "bm450"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm450", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm450") == 1) { document.getElementById("bma450").style.display = "block"; document.getElementById("bm450").style.display = "none"; } else { document.getElementById("bma450").style.display = "none"; document.getElementById("bm450").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Динамические массивы (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm450", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

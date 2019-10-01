@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma995" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm995" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Асинхронные actions (ч. 1)
+	</h1>
+
+	<p>Давайте представим синхронное действие:</p>
+	<p>Пользователь кликнул на кнопку</p>
+
+	<pre class="brush: csharp;">
+	dispatch action {type: ТИП_ДЕЙСТВИЯ, payload: доп.данные}
+	</pre>
+
+	<p>интерфейс обновился</p>
+	<p>Давайте представим асинхронное действие:</p>
+	<p>Пользователь кликнул на кнопку</p>
+
+	<pre class="brush: csharp;">
+	dispatch action {type: ТИП_ДЕЙСТВИЯ_ЗАПРОС}
+	</pre>
+
+	<p>запрос выполнился успешно</p>
+
+	<pre class="brush: csharp;">
+	dispatch action {type: ТИП_ДЕЙСТВИЯ_УСПЕШНО, payload: доп.данные}
+	</pre>
+
+	<p>запрос выполнился неудачно</p>
+
+	<pre class="brush: csharp;">
+	dispatch action {type: ТИП_ДЕЙСТВИЯ_НЕУДАЧНО, error: true, payload: доп.данные ошибки}
+	</pre>
+
+	<p>Благодаря такой схеме, в reducer'e мы сможем реализовать подобное:</p>
+
+	<pre class="brush: csharp;">
+		switch(тип_действия)
+		case ТИП_ДЕЙСТВИЯ_ЗАПРОС:
+		покажи preloader
+		case ТИП_ДЕЙСТВИЯ_УСПЕШНО:
+		скрой preloader, покажи данные
+		case ТИП_ДЕЙСТВИЯ_НЕУДАЧНО:
+		скрой preloader, покажи ошибку
+	</pre>
+
+	<p>Как нам известно, действие - это простой объект, который возвращается функцией его создающей (action creator).</p>
+	<p>Убедимся в этом:</p>
+	<p>src/actions/PageActions.js</p>
+
+	<pre class="brush: csharp;">
+	import { SET_YEAR } from '../constants/Page'
+	
+	export function setYear(year)
+	{
+		return
+		{
+			type: SET_YEAR,
+			payload: year
+		}
+	}
+	</pre>
+
+	<p>Было бы неплохо иметь возможность возвращать не простой объект, а функцию, внутри которой иметь доступ к методу dispatch, и вызывать его с необходимым типом действия.</p>
+	<p>Псевдокод, мог бы выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+	export function getPhotos(year)
+	{
+		return (dispatch) => {
+			dispatch(
+			{
+				type: GET_PHOTOS_REQUEST
+			})
+			$.ajax(url)
+			.success(
+				dispatch(
+				{
+					type: GET_PHOTOS_SUCCESS,
+					payload: response.photos
+				})
+			)
+			.error(
+				dispatch(
+				{
+					type: GET_PHOTOS_FAILURE,
+					payload: response.error,
+					error: true
+				})
+			)
+		}
+	}
+	</pre>
+
+	<p>Но вот незадача, actions - это простой объект, и если action creator возвращает не простой объект, а функцию, то это как-то...</p>
+	<p>Подождите!</p>
+	<p>Ведь это именно то, что нам нужно: Если action creator возвращает не простой объект, а функцию - выполни ее, иначе если это простой объект ... тадам, передай дальше.</p>
+	<p>Более того, благодаря applyMiddleware у нас как раз есть доступный метод dispatch!</p>
+	<p>И еще бонусом getState.</p>
+	<p>Отлично, мы только что поняли, что нам нужен еще один усилитель.</p>
+	<p>Такой усилитель уже написан, причем код его невероятно прост, я даже приведу его здесь:</p>
+	<p>усилитель: redux-thunk</p>
+
+	<pre class="brush: csharp;">
+	function thunkMiddleware({ dispatch, getState })
+	{
+		return next => action =>
+		typeof action === 'function' ?
+		action(dispatch, getState) :
+		next(action);
+	}
+
+	module.exports = thunkMiddleware
+	</pre>
+
+	<p>Нам остается лишь добавить зависимость в наш проект, и убедиться, что у нас redux версии, не ниже 3.1.0</p>
+
+	<pre class="brush: csharp;">
+	npm update redux --save
+	npm install redux-thunk --save
+	</pre>
+
+	<p>Для практики, предлагаю написать следующее:</p>
+	<p>- по клику на кнопку с номером года</p>
+	<p>- меняется год в заголовке</p>
+	<p>- ниже (где должны быть фото), появляется текст "Загрузка..."</p>
+	<p>- после удачной загрузки*</p>
+	<p>- убрать текст "Загрузка..."</p>
+	<p>- отобразить строку "У тебя ХХ фото" (зависит, от длины массива, переданного в action.payload)</p>
+	<p>* вместо реального метода загрузки, использовать setTimeout, который является удобным для тренировок исполнения асинхронных запросов.</p>
+	<p>Вы можете попробовать выполнить это задание сами, а потом сравнить его с решением ниже.</p>
+	<p>Для отображения / скрытия фразы "Загрузка...", используйте в reducer'е еще одно свойство у состояния.</p>
+	<p>Например, fetching:</p>
+
+	<pre class="brush: csharp;">
+	const initialState = {
+		year: 2016,
+		photos: [],
+		fetching: false
+	}
+	</pre>
+
+	<p>Решение ниже.</p>
+	<p>Для начала изменим набор констант:</p>
+	<p>src/constants/Page.js</p>
+
+	<pre class="brush: csharp;">
+	export const GET_PHOTOS_REQUEST = 'GET_PHOTOS_REQUEST'
+	export const GET_PHOTOS_SUCCESS = 'GET_PHOTOS_SUCCESS'
+	</pre>
+
+	<p>Далее добавим новый усилитель: src/store/configureStore.js</p>
+
+	<pre class="brush: csharp;">
+	import { createStore, applyMiddleware } from 'redux'
+	import rootReducer from '../reducers'
+	import createLogger from 'redux-logger'
+	import thunk from 'redux-thunk'
+
+	// <-- добавили redux-thunk
+	export default function configureStore(initialState)
+	{
+		const logger = createLogger()
+		const store = createStore(
+			rootReducer,
+			initialState,
+			applyMiddleware(thunk, logger)
+		)
+		
+		// <-- добавили его в цепочку перед logger'ом
+		if (module.hot)
+		{
+			module.hot.accept('../reducers', () => {
+				const nextRootReducer = require('../reducers')
+				store.replaceReducer(nextRootReducer)
+			})
+		}
+		return store
+	}
+	</pre>
+
+	<p>Продолжение в следующей главе...</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="20.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="22.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/21.html", "Асинхронные actions (ч. 1)", "bm995"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm995", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm995") == 1) { document.getElementById("bma995").style.display = "block"; document.getElementById("bm995").style.display = "none"; } else { document.getElementById("bma995").style.display = "none"; document.getElementById("bm995").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Асинхронные actions (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm995", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

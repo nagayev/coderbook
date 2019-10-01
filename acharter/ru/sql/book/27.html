@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1041" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1041" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Функции манипулирования текстом
+	</h1>
+
+	<p>В примере функций манипулирования текстом в седьмом уроке функция RTRIM () использовалась для удаления пробелов в конце значения столбца.</p>
+	<p>Ниже приведен еще один пример, в котором используется функция UPPER ():</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_name UPPER(vend_name) AS vend_name_upcase
+	FROM Vendors
+	ORDER BY vend_name;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_name vend_name_upcase
+	Bear Emporium BEAR EMPORIUM
+	Beras R Us BERAS R US
+	Doll House Inc. DOLL HOUSE INC.
+	Fun and Games FUN AND GAMES
+	Furball Inc. FURBALL INC.
+	Jouets et ours JOUETS ET OURS
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Функция UPPER () преобразует текст в верхний регистр и, таким образом, в этом примере имя каждого изготовителя перечислено дважды: первый раз в таком виде, в ка– ом оно хранится в таблице Vendors, а второй раз – будучи преобразованным в верхний регистр, в виде столбца vend_name_upcase.</p>
+	<p>В табл. ниже перечислены наиболее часто используемые функции манипулирования текстом.</p>
+	<p>Один элемент из табл. ниже требует более подробного объяснения.</p>
+	<p><b>SOUNDEX</b> – это алгоритм, преобразующий текстовую строку в буквенно-цифровой шаблон, описывающий фонетическое представление данного текста.</p>
+	<p>Функция SOUNDEX берет в расчет похожие по звучанию буквы и слоги, позволяя сравнивать строки не по тому, как они пишутся, а по тому, как они звучат.</p>
+	<p>Хотя SOUNDEX не подпадает под основные концепции SQL, большинство СУБД осуществляют поддержку этой функции.</p>
+
+	<table>
+		<tr>
+			<th>Функция</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>LEFT ()</td>
+			<td>Возвращает символы из левой части строки</td>
+		</tr>
+		<tr>
+			<td>LENGTH (а также DATALENGTH () ИЛИ LEN () )</td>
+			<td>Возвращает длину строки</td>
+		</tr>
+		<tr>
+			<td>LOWER()</td>
+			<td>Преобразует строку в нижний регистр</td>
+		</tr>
+		<tr>
+			<td>LTRIM () (LCASE () в Access)</td>
+			<td>Удаляет пробелы в левой части строки</td>
+		</tr>
+		<tr>
+			<td>RIGHTO (или функция подстроки)</td>
+			<td>Возвращает символы из правой части строки</td>
+		</tr>
+		<tr>
+			<td>RTRIMO .</td>
+			<td>Удаляет пробелы в правой части строки</td>
+		</tr>
+		<tr>
+			<td>SOUNDEX ()</td>
+			<td>Возвращает значение SOUNDEX строки</td>
+		</tr>
+		<tr>
+			<td>UPPER () (UCASE в Access)</td>
+			<td>Преобразует текст строки в верхний регистр</td>
+		</tr>
+	</table>
+
+	<p><b>Поддержка SOTJNDEX</b></p>
+	<p>Функция SOUNDEXO не поддерживается Microsoft Access или PostgreSQL, поэтому следующий пример не будет работать в этих СУБД.</p>
+	<p>Ниже приведен пример использования функции SOUNDEX ().</p>
+	<p>Клиент Kids Place находится в таблице Customers и имеет контактное лицо Michelle Green.</p>
+	<p>Но что, если это опечатка и на самом деле контактное лицо пишется как Michael Green?</p>
+	<p>Очевидно, поиск по корректному имени ничего не даст, это показано ниже:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name cust_contract
+	FROM Customers
+	WHERE cust_contract = 'Michael Green'
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_name cust_contract
+	</pre>
+
+	<p>А теперь попробуйте выполнить поиск при помощи функции SOUNDEX (), чтобы найти все имена контактных лиц, которые звучат как Michael Green:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name cust_contract
+	FROM Customers
+	WHERE SOUNDEX(cust_contract) = SOUNDEX('Michael Green ');
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_name cust_contract
+	Kids Place Michelle Green
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В этом примере в предложении WHERE используется функция SOUNDEX () для преобразования значения столбца cust_contact и искомой строки в их SOUNDEX- значения.</p>
+	<p>Так как Michael Green и Michelle Green звучат одинаково, их SOUNDEX- значения совпадут и предложение WHERE корректно отфильтрует необходимые данные.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="26.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="28.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/27.html", "Манипулирование текстом", "bm1041"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1041", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1041") == 1) { document.getElementById("bma1041").style.display = "block"; document.getElementById("bm1041").style.display = "none"; } else { document.getElementById("bma1041").style.display = "none"; document.getElementById("bm1041").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Манипулирование текстом") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1041", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

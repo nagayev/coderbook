@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma736" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm736" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Создание объектов
+	</h1>
+	
+	<p>В предыдущих главах мы рассматривали встроенные объекты JavaScript (такие как массивы, строки, и т.д.).</p>
+	<p>В данной главе мы научимся создавать свои собственные объекты.</p>
+	
+	<h1 id="title">
+		Что такое объект?
+	</h1>
+	
+	<p>Объект - это конструкция, которая может иметь свойства и методы.</p>
+	<p>Объекты могут быть созданы двумя способами:</p>
+	<p><b>Синтаксис (первый способ):</b></p>
+	
+	<pre class="brush: csharp;">
+		//Создадим объект obj
+		var obj=new Object();
+		
+		//Добавим объекту obj свойство name со значением 'Дмитрий'
+		obj.name='Дмитрий';
+		
+		//Добавим объекту obj свойство age со значением 26
+		obj['age']=26;
+		
+		//Обратимся к свойствам объекта для вывода их значений
+		document.write(obj.name+'&lt;br /&gt;');
+		document.write(obj.age);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par1').innerHTML='Дмитрий<br />26';">Выполнить код</span>
+    <p id="par1"></p>
+	
+	<p><b>Синтаксис (второй способ):</b></p>
+	
+	<pre class="brush: csharp;">
+		//Создадим объект obj со свойствами name и age, которые содержат 
+		//значения 'Дмитрий' и 26
+		var obj={
+		   name:'Дмитрий',
+		   age:26
+		}
+		
+		//Обратимся к свойствам объекта для вывода их значений
+		document.write(obj.name+'&lt;br /&gt;');
+		document.write(obj.age);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par2').innerHTML='Дмитрий<br />26';">Выполнить код</span>
+    <p id="par2"></p>
+	
+	<p>В JavaScript Вы можете обращаться к свойствам объектов двумя способами:</p>
+	<p>1. Используя точку ('.') после имени объекта:</p>
+	
+	<pre class="brush: csharp;">
+		//Присваиваем свойству объекта произвольное значение
+		имя_объекта.свойство=значение
+		
+		//Обращаемся к значению свойства объекта
+		имя_объекта.свойство
+	</pre>
+	
+	<p>2. Заключая название свойства в квадратные скобки ([]) после имени объекта:</p>
+	
+	<pre class="brush: csharp;">
+		//Присваиваем свойству произвольное значение
+		имя_объекта['свойство']=значение
+		
+		//Обращаемся к значению свойства
+		имя_объекта['свойство']
+	</pre>
+	
+	<h1 id="title">
+		Свойства объектов
+	</h1>
+	
+	<p>Свойства - это значения, связанные с объектами.</p>
+	<p>Например, объект человек может иметь следующие свойства: имя, возраст, профессия.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим объект human со свойствами name, age и job
+		var human={
+		   name:'Дмитрий',
+		   job:'Дизайнер',
+		   age:26
+		}
+		
+		//Выведем значения свойств на страницу
+		document.write(human.name+'&lt;br /&gt;');
+		document.write(human.job+'&lt;br /&gt;');
+		document.write(human.age);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par3').innerHTML='Дмитрий<br />Дизайнер<br />26';">Выполнить код</span>
+    <p id="par3"></p>
+	
+	<h1 id="title">
+		Методы объектов
+	</h1>
+	
+	<p>Методы - это функции, связанные с объектами.</p>
+	<p>Например, объект человек может иметь следующие методы: идти(), сидеть(), думать().</p>
+	
+	<pre class="brush: csharp;">
+		var flag;
+		
+		//Создадим объект human со свойствами name, age и job
+		var human={
+		   name:'Дмитрий',
+		   job:'Дизайнер',
+		   age:26
+		}
+		
+		//Добавим объекту метод go()
+		human.go = function ()
+		{
+		   document.write(this.name+' идет.&lt;br /&gt;');
+		   var a=true;
+		   return a;
+		}
+		
+		//Добавим объекту метод sit()
+		human.sit = function ()
+		{
+		   document.write(this.name+' сел.&lt;br /&gt;');
+		   flag=true;
+		}
+		
+		//Добавим объекту метод think()
+		human.think = function ()
+		{
+		   if (flag==true)
+		      document.write(this.name+' начал мыслительную деятельность.&lt;br /&gt;');
+		   else 
+		     document.write(this.name+' не может начать мыслительную деятельность на ходу.&lt;br /&gt;');
+		}
+		
+		human.about= function ()
+		{
+		  document.write('Объекта зовут <b>'+this.name+'</b> он работает <b>'+this.job+'ом</b> и ему <b>'+this.age+'</b> лет.');
+		}
+		
+		//Обратимся к методам объекта human
+		human.go();
+		human.think();
+		human.sit();
+		human.think();
+		human.about();
+	</pre>
+	
+	<p><b>Обратите внимание:</b> в JavaScript объекты могут иметь неограниченное количество свойств и методов.</p>
+	
+	<h1 id="title">
+		Конструкторы объектов
+	</h1>
+	
+	<p>В предыдущих примерах этой главы мы создавали прямые экземпляры объектов.</p>
+	<p>В JavaScript существует еще один способ создания объектов - с помощью конструктора объектов.</p>
+	<p>Конструктор объектов - это шаблон, на основе которого создаются объекты.</p>
+	<p>Написанный один раз конструктор, позволяет создать неограниченное количество объектов любой сложности написав лишь одну строчку кода.</p>
+	<p>Преимущества данного способа заключается в том, что он позволяет разделить логику создания объекта от его использования.</p>
+	<p>Например, один человек может специализироваться на создании сложных конструкторов объектов, а другой на написании на основе этих объектов конечных программ под заказ.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим конструктор, который будет создавать объекты со свойствами name, age и 
+		//job и методом who 		
+		function Human(name,age,job)
+		{
+		   //Свойства шаблона
+		   this.name=name;
+		   this.age=age;
+		   this.job=job;
+		
+		   //Методы шаблона
+		   this.who=function who()
+		   {
+		      document.write('Я<b> ' + this.name + '</b> мне <b>'+ this.age + ' </b>лет.');
+		      document.write(' Я работаю <b>' + this.job + 'ом</b>.&lt;br /&gt;' );
+		   }
+		}
+		
+		//Теперь мы можем создавать объекты следующим образом
+		human1=new Human('Дмитрий', 26, 'Дизайнер');
+		
+		//Обратимся к методу who созданного объекта 
+		human1.who();
+		human2=new Human('Станислав', 29, 'Программист');
+		human2.who();
+		human3=new Human('Сергей', 35, 'Менеджер');
+		human3.who();
+	</pre>
+	
+	<p><b>Обратите внимание:</b> ключевое слово this используется для обозначения "текущего" объекта. К примеру при создании объекта human1, this в конструкторе Human подменяется на human1, а при создании объекта human2 подменяется на human2.</p>
+	<p><b>Обратите внимание:</b> оператор new обязательно должен присутствовать при создании экземпляра объекта.</p>
+	
+	<h1 id="title">
+		Свойство prototype
+	</h1>
+	
+	<p>С помощью свойства prototype Вы можете добавлять новые свойства и методы к конструкторам объектов.</p>
+	<p>Добавленные к конструктору свойства и методы будут также добавлены ко всем объектам, которые были созданы данным конструктором.</p>
+	<p><b>Синтаксис:</b></p>
+	
+	<pre class="brush: csharp;">
+		конструктор.prototype.свойство(метод) = значение(функция);
+	</pre>
+	
+	<p><b>Обратите внимание:</b> свойство prototype присутствует также у всех встроенных конструкторов JavaScript таких как массив или строка.</p>
+	
+	<h1 id="title">
+		Наследование
+	</h1>
+	
+	<p>Наследование - является важным механизмом объектно-ориентированного программирования.</p>
+	<p>Наследование позволяет ускорить и упростить разработку конструкторов объектов.</p>
+	<p>С помощью механизма наследования Вы можете перенимать свойства и методы с уже имеющихся конструкторов вместо того, чтобы задавать их еще раз в ручную.</p>
+	<p><b>Обратите внимание:</b> с помощью конструкции свойство || "Стандартное значение" мы можем присвоить свойству объекта стандартное значение в случае, если значение не было передано в конструктор при создании объекта.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим конструктор Human
+		function Human(name,age,job)
+		{
+		   this.name=name || "Имя не задано";
+		   this.age=age || 99;
+		   this.job=job || "Безработный";
+		   this.who=function()
+		   {
+		      document.write('Я<b> ' + this.name + '</b> мне <b>'+ this.age + ' </b>лет.');
+		      document.write(' Я работаю <b>' + this.job + 'ом</b>.&lt;br /&gt;' );
+		   }
+		}
+		
+		/* Создадим конструктор projectHuman, который помимо свойств и методов конструктора Human имеет еще свойство project (проект), свойство term (срок сдачи проекта) и метод myProject */
+		
+		function projectHuman(project,term,name,age,job)
+		{
+			//Производим наследование от конструктора Human
+			this.base=Human;
+			this.base(name,age,job);
+			
+			//Добавляем новые свойства
+			this.project=project || "Нет проекта";
+			this.term=term || "31 декабря 2099";
+			
+			//Добавляем новый метод myProject()
+			this.myProject=function()
+			{
+				document.write("Мой текущий проект: <b>"+this.project+"</b>.&lt;br /&gt; Его срок сдачи: <b>"+this.term+"</b>.");
+			};
+		}
+		
+		//Создаем с помощью конструктора projectHuman объект human1 
+		human1=new projectHuman("Создание веб-сайта для фирмы 'ExampleCo'","20 Августа 2016",
+		"Дмитрий",26,"веб-мастер");
+		
+		//Обратимся к его методам
+		human1.who();
+		human1.myProject();
+		document.write("&lt;br /&gt;");
+		
+		//Создаем с помощью конструктора projectHuman объект human2
+		human2=new projectHuman("Небоскреб 'TreeUnited Building'","26 Сентября 2017");
+		
+		/* Обратимся к его свойствам name,age,job, которые не были переданы в конструктор, чтобы проверить их текущие значения */
+		document.write("&lt;hr /&gt;"+human2.name+"&lt;br /&gt;");
+		document.write(human2.age+"&lt;br /&gt;");
+		document.write(human2.job);
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/obj/tutorial7.html", "JS Создание", "bm736"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm736", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm736") == 1) { document.getElementById("bma736").style.display = "block"; document.getElementById("bm736").style.display = "none"; } else { document.getElementById("bma736").style.display = "none"; document.getElementById("bm736").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("JS Создание") == 1) { arrs.splice(i, 1); localStorage.setItem("bm736", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

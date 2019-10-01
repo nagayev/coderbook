@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma630" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm630" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Имена. Пакеты.
+	</h1>
+
+	<p>Имена (names) используются в программе для доступа к объявленным (declared) ранее "объектам", "элементам", "конструкциям" языка (все эти слова-синонимы были использованы здесь в их общем смысле, а не как термины ООП, например).</p>
+	<p>Конкретнее, в Java имеются имена:</p>
+	<p>-пакеты;</p>
+	<p>-классы;</p>
+	<p>-интерфейсы;</p>
+	<p>элементы (member) ссылочных типов:</p>
+	<p>- поля;</p>
+	<p>- методы;</p>
+	<p>- внутренние классы и интерфейсы;</p>
+	<p>аргументы:</p>
+	<p>- методов;</p>
+	<p>- конструкторов;</p>
+	<p>- обработчиков ошибок;</p>
+	<p>- локальные переменные.</p>
+	<p>Соответственно, все они должны быть объявлены специальным образом, что будет постепенно рассматриваться по ходу курса.</p>
+	<p>Так же объявляются конструкторы</p>
+	<p>Напомним, что пакеты (packages) в Java – это способ логически группировать классы, что необходимо, поскольку зачастую количество классов в системе составляет несколько тысяч, или даже десятков тысяч.</p>
+	<p>Кроме классов и интерфейсов в пакетах могут находиться вложенные пакеты.</p>
+	<p>Синонимами этого слова в других языках являются библиотека или модуль.</p>
+
+	<h1 id="title">
+		Имена
+	</h1>
+
+	<p>Имена бывают простыми (simple), состоящими из одного идентификатора (они определяются во время объявления) и составными (qualified), состоящими из последовательности идентификаторов, разделенных точкой.</p>
+	<p>Для пояснения этих терминов необходимо рассмотреть еще одно понятие.</p>
+	<p>У пакетов и ссылочных типов (классов, интерфейсов, массивов) есть элементы (members).</p>
+	<p>Доступ к элементам осуществляется с помощью выражения, состоящего из имен, например, пакета и класса, разделенных точкой.</p>
+	<p>Далее классы и интерфейсы будут называться объединяющим термином тип (type).</p>
+	<p>Элементами пакета являются содержащиеся в нем классы и интерфейсы, а также вложенные пакеты.</p>
+	<p>Чтобы получить составное имя пакета, необходимо к полному имени пакета, в котором он располагается, добавить точку, а затем его собственное простое имя.</p>
+	<p>Например, составное имя основного пакета языка Java – java.lang (то есть простое имя этого пакета lang, и он находится в объемлющем пакете java).</p>
+	<p>Внутри него есть вложенный пакет, предназначенный для типов технологии reflection, которая упоминалась в предыдущих главах.</p>
+	<p>Простое название пакета reflect, а значит, составное – java.lang.reflect.</p>
+	<p>Простое имя классов и интерфейсов дается при объявлении, например, Object, String, Point.</p>
+	<p>Чтобы получить составное имя таких типов, надо к составному имени пакета, в котором находится тип, через точку добавить простое имя типа.</p>
+	<p>Например, java.lang.Object, java.lang.reflect.Method или com.myfirm.MainClass.</p>
+	<p>Смысл последнего выражения таков: сначала идет обращение к пакету com, затем к его элементу – вложенному пакету myfirm , а затем к элементу пакета myfirm – классу MainClass.</p>
+	<p>Здесь com.myfirm – составное имя пакета, где лежит класс MainClass, а MainClass — простое имя.</p>
+	<p>Составляем их и разделяем точкой – получается полное имя класса com.myfirm.MainClass.</p>
+	<p>Для ссылочных типов элементами являются поля и методы, а также внутренние типы (классы и интерфейсы).</p>
+	<p>Элементы могут быть как непосредственно объявлены в классе, так и получены по наследству от родительских классов и интерфейсов, если таковые имеются.</p>
+	<p>Простое имя элементов также дается при инициализации.</p>
+	<p>Например, toString(), PI, InnerClass.</p>
+	<p>Составное имя получается путем объединения простого или составного имени типа, или переменной объектного типа с именем элемента.</p>
+	<p>Например, ref.toString(), java.lang.Math.PI, OuterClass.InnerClass.</p>
+	<p>Другие обращения к элементам ссылочных типов уже неоднократно применялись в предыдущих главах.</p>
+
+	<h1 id="title">
+		Имена и идентификаторы
+	</h1>
+
+	<p>Теперь, когда мы рассмотрели простые и составные имена, уточним разницу между идентификатором (напомним, что это вид лексемы) и именем.</p>
+	<p>Понятно, что простое имя состоит из одного идентификатора, а составное - из нескольких.</p>
+	<p>Однако не всякий идентификатор входит в состав имени.</p>
+	<p>Во-первых, в выражении объявления (declaration) идентификатор еще не является именем.</p>
+	<p>Другими словами, он становится именем после первого появления в коде в месте объявления.</p>
+	<p>Во-вторых, существует возможность обращаться к полям и методам объектного типа не через имя типа или объектной переменной, а через ссылку на объект, полученную в результате выполнения выражения.</p>
+	<p>Пример такого вызова:</p>
+
+	<pre class="brush: csharp;">
+	country.getCity().getStreet();
+	</pre>
+
+	<p>В данном примере getStreet является не именем, а идентификатором, так как соответствующий метод вызывается у объекта, полученного в результате вызова метода getCity().</p>
+	<p>Причем country.getCity как раз является составным именем метода.</p>
+	<p>Наконец, идентификаторы также используются для названий меток (label).</p>
+	<p>Эта конструкция рассматривается позже, однако приведем пример, показывающий, что пространства имен и названий меток полностью разделены.</p>
+
+	<pre class="brush: csharp;">
+	num:
+
+	for (int num = 2; num <= 100; num++)
+	{
+		int n = (int)Math.sqrt(num)+1;
+
+		while (--n != 1)
+		{
+			if (num%n==0)
+			{
+				continue num;
+			}
+		}
+
+		System.out.print(num+" ");
+	}
+	</pre>
+
+	<p>Результатом будут простые числа меньше 100:</p>
+
+	<pre class="brush: csharp;">
+	2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
+	</pre>
+
+	<p>Мы видим, что здесь применяются одноименные переменная и метка num, причем последняя используется для выхода из внутреннего цикла while на внешний for.</p>
+	<p>Очевидно, что удобнее использовать простое имя, а не составное, т.к. оно короче и его легче запомнить.</p>
+	<p>Однако понятно, что если в системе есть очень много классов со множеством переменных, можно столкнуться с ситуацией, когда в разных классах есть одноименные переменные или методы.</p>
+	<p>Для решения этой и других подобных проблем вводится новое понятие – область видимости.</p>
+
+	<h1 id="title">
+		Область видимости (введение)
+	</h1>
+
+	<p>Чтобы не заставлять программистов, совместно работающих над различными классами одной системы, координировать имена, которые они дают различным конструкциям языка, у каждого имени есть область видимости (scope).</p>
+	<p>Если обращение, например, к полю, идет из части кода, попадающей в область видимости его имени, то можно пользоваться простым именем, если нет – необходимо применять составное.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	class Point
+	{
+		int x,y;
+
+		int getX()
+		{
+			// простое имя
+			return x;
+		}
+	}
+
+	class Test
+	{
+		void main()
+		{
+			Point p = new Point();
+			// составное имя
+			p.x=3;
+		}
+	}
+	</pre>
+
+	<p>Видно, что к полю x изнутри класса можно обращаться по простому имени.</p>
+	<p>К нему же из другого класса можно обратиться только по составному имени.</p>
+	<p>Оно составляется из имени переменной, ссылающейся на объект, и имени поля.</p>
+	<p>Теперь необходимо рассмотреть области видимости для всех элементов языка.</p>
+	<p>Однако прежде выясним, что такое пакеты, как и для чего они используются.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="30.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/29.html", "Имена", "bm630"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm630", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm630") == 1) { document.getElementById("bma630").style.display = "block"; document.getElementById("bm630").style.display = "none"; } else { document.getElementById("bma630").style.display = "none"; document.getElementById("bm630").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Имена") == 1) { arrs.splice(i, 1); localStorage.setItem("bm630", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

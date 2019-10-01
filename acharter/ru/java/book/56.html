@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma657" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm657" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Операторы break и continue
+	</h1>
+
+	<p>В некоторых случаях требуется изменить ход выполнения программы.</p>
+	<p>В традиционных языках программирования для этих целей применяется оператор goto, однако в Java он не поддерживается.</p>
+	<p>Для этих целей применяются операторы break и continue.</p>
+
+	<h1 id="title">
+		Оператор continue
+	</h1>
+
+	<p>Оператор continue может использоваться в циклах while, do, for.</p>
+	<p>Если в потоке вычислений встречается оператор continue, то выполнение текущей последовательности операторов (выражений) должно быть прекращено и управление будет передано на начало блока, содержащего этот оператор.</p>
+
+	<pre class="brush: csharp;">
+	...
+	int x = (int)(Math.random()*10);
+	
+	int arr[]  = {....}
+	
+	for(int cnt=0; cn t< 10; cnt++)
+	{
+		if(arr[cnt] == x) continue;
+		...
+	}
+	</pre>
+
+	<p>В данном случае, если в массиве arr встретится значение, равное x, то выполнится оператор continue и все операторы до конца блока будут пропущены, а управление будет передано на начало цикла.</p>
+	<p>Если оператор continue будет применен вне контекста оператора цикла, то будет выдана ошибка времени компиляции.</p>
+	<p>В случае использования вложенных циклов оператору continue, в качестве адреса перехода, может быть указана метка, относящаяся к одному из этих операторов.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	public class Test
+	{
+		public Test() { }
+		
+		public static void main(String[] args)
+		{
+			Test t = new Test();
+			
+			for(int i=0; i < 10; i++)
+			{
+				if(i % 2 == 0) continue;
+				System.out.print(" i=" + i);
+			}
+		}
+	}
+	</pre>
+
+	<p>В результате работы на консоль будет выведено:</p>
+
+	<pre class="brush: csharp;">
+	i=1 i=3 i=5 i=7 i=9
+	</pre>
+
+	<p>При выполнении условия в строке 7 нормальная последовательность выполнения операторов будет прервана и управление будет передано на начало цикла.</p>
+	<p>Таким образом, на консоль будут выводиться только нечетные значения.</p>
+
+	<h1 id="title">
+		Оператор break
+	</h1>
+
+	<p>Этот оператор, как и оператор continue, изменяет последовательность выполнения, но не возвращает исполнение к началу цикла, а прерывает его.</p>
+
+	<pre class="brush: csharp;">
+	public class Test
+	{
+		public Test() {}
+		public static void main(String[] args)
+		{
+			Test t = new Test();
+			int [] x = {1,2,4,0,8};
+			int y  = 8;
+			
+			for(int cnt=0;cnt < x.length;cnt++)
+			{
+				if(0 == x[cnt]) break;
+				System.out.println("y/x = " + y/x[cnt]);
+			}
+		}
+	}
+	</pre>
+
+	<p>На консоль будет выведено:</p>
+
+	<pre class="brush: csharp;">
+	y/x = 8
+	y/x = 4
+	y/x = 2
+	</pre>
+
+	<p>При этом ошибки, связанной с делением на ноль, не произойдет, т.к. если значение элемента массива будет равно 0, то будет выполнено условие в строке 9 и выполнение цикла for будет прервано.</p>
+	<p>В качестве аргумента break может быть указана метка.</p>
+	<p>Как и в случае с continue, нельзя указывать в качестве аргумента метки блоков, в которых оператор break не содержится.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="55.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="57.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/56.html", "Операторы break и continue", "bm657"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm657", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm657") == 1) { document.getElementById("bma657").style.display = "block"; document.getElementById("bm657").style.display = "none"; } else { document.getElementById("bma657").style.display = "none"; document.getElementById("bm657").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Операторы break и continue") == 1) { arrs.splice(i, 1); localStorage.setItem("bm657", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

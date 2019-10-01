@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1066" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1066" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Объединение многих таблиц
+	</h1>
+
+	<p>SQL не ограничивает число таблиц, которые могут быть объединены посредством оператора SELECT.</p>
+	<p>Основные правила для создания объединения остаются теми же.</p>
+	<p>Вначале перечисляются все таблицы, затем определяются отношения между ними.</p>
+	<p>Вот пример.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name, vend_name, prod_price, quantity
+	FROM OrderItems, Products, Vendors
+	WHERE Products.vend_id = Vendors.vend_id
+	AND Orderltems.prod_id = Products.prod_id
+	AND order_num = 20007;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_name vend_name prod_price quantity
+	18 inch teddy bear Bears R Us 11.9900 50
+	Fish bean bag toy Doll House Inc. 3.4900 100
+	Bird bean bag toy Doll House Inc. 3.4900 100
+	Rabbit bean bag toy Doll House Inc. 3.4900 100
+	Raggedy Ann Doll House Inc. 4.9900 50
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>В этом примере выводятся предметы заказа номер 20007.</p>
+	<p>Предметы заказа хранятся в таблице Orderltems.</p>
+	<p>Каждый продукт хранится в соответствии с идентификатором продукта, который ссылается на продукт в таблице Products.</p>
+	<p>Эти продукты связаны с соответствующими поставщиками в таблице Vendors по идентификатору поставщика, который хранится вместе с каждой записью о продукте.</p>
+	<p>В предложении FROM этого примера перечисляются три таблицы, а предложение WHERE определяет оба названных предложения объединения.</p>
+	<p>Дополнительное предложение WHERE используется затем для фильтрации только предметов заказа 20007.</p>
+	<p><b>К вопросу о производительности</b></p>
+	<p>СУБД обрабатывают объединения, тратя время на обработку каждой указанной таблицы.</p>
+	<p>Этот процесс может оказаться очень ресурсоемким, поэтому не следует использовать объединения таблиц без особой на то необходимости.</p>
+	<p>Чем больше таблиц вы объединяете, тем ниже производительность.</p>
+	<p><b>Максимальное число таблиц в объединении</b></p>
+	<p>Хотя SQL не накладывает каких-либо ограничений на число таблиц в объединении, многие СУБД на самом деле имеют такие ограничения.</p>
+	<p>Обратитесь к документации своей СУБД чтобы узнать, какие ограничения такого рода она налагает (если они есть).</p>
+	<p>Теперь самое время пересмотреть следующий пример из урока 11, "Использование подзапросов", где оператор SELECT возвращает список клиентов, заказавших продукт RGAN01:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name, cust_contact
+	FROM Customers, Orders, Orderlcems
+	WHERE Customers . cust__id = Orders . cust_id
+	AND Orderlterns.order_num = Orders.order_num
+	AND prod_id = 'RGAN01';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_name cust_contact
+	Fun4All Denise L. Stephens
+	The Toy Store Kim Howard
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>Как уже говорилось в уроке 11, возвращение необходимых для этого запроса данных требует использования трех таблиц.</p>
+	<p>Однако вместо использования подчиненных подза- просов здесь были применены два объединения для связи таблиц.</p>
+	<p>Здесь были также указаны три предложения WHERE.</p>
+	<p>Первые два связывают таблицы в объединение, по- следнее фильтрует данные по продукту RGAN01.</p>
+	<p><b>Только экспериментально</b></p>
+	<p>Как видите, часто существует несколько способов для выполнения одной и той же операции SQL.</p>
+	<p>И редко удается определить, какой способ правильный, а какой нет.</p>
+	<p>Производительность может зависеть от типа выполняемой операции, используемой СУБД, количества данных в таблицах, присутствия либо отсутствия индексов и ключей, а также целого ряда других критериев.</p>
+	<p>Следовательно, зачастую бывает целесообразно поэкспериментировать с различными механизмами выборки для выяснения того, какой из них работает быстрее.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="51.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="53.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/52.html", "Объединение многих таблиц", "bm1066"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1066", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1066") == 1) { document.getElementById("bma1066").style.display = "block"; document.getElementById("bm1066").style.display = "none"; } else { document.getElementById("bma1066").style.display = "none"; document.getElementById("bm1066").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объединение многих таблиц") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1066", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

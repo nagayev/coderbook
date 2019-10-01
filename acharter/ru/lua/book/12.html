@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma762" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm762" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Метатаблицы
+	</h1>
+
+	<p>Метатаблицы позволяют переопределить поведение встроенных типов.</p>
+	<p>Для таблиц это можно сделать прямо в Lua, а для других типов придется это делать через С. </p>
+	<p>Метатаблицы схожи с конструкцией operator() в C++.</p>
+	<p>Рассмотрим, например, как можно складывать две таблицы (в самом языке такая операция не предусмотрена).</p>
+
+	<pre class="brush: csharp;">
+	-- первый операнд
+	local data1 = {x = 1}
+	
+	-- второй операнд
+	local data2 = {x = 2}
+	
+	-- создаем таблицу
+	local meta = {}
+	
+	-- в таблице определяем специальное поле __add (оператор +) 
+	function meta.__add(op1, op2)
+	return op1.x + op2.x
+	end
+	
+	-- устанавливаем метатаблицу первому операнду
+	setmetatable(data1, meta)
+	
+	-- проверяем
+	print(data1 + data2) --> 3
+	</pre>
+
+	<p>Итак, что мы сделали? Создали два объекта, каждый из которых содержит поле х.</p>
+	<p>Затем создали обычную таблицу meta.</p>
+	<p>В ней определили функцию со специальным именем __add.</p>
+	<p>Затем установили метатаблицу первому операнду. </p>
+	<p>С тем же успехом мы могли бы установить эту метатаблицу и второму операнду.</p>
+	<p>Когда Lua обнаруживает операцию над значением, то сначала ищется подходящий обработчик в метатаблице первого операнда, и если там нет, то ищется обработчик в метатаблице второго операнда.</p>
+	<p>Если обработчика и там нет, то генерируется ошибка.</p>
+	<p>Вот список операций, обработчики которых могут быть переопределены в метатаблице:</p>
+
+	<table>
+		<tr>
+			<th>Обработчик</th>
+			<th>Оператор</th>
+			<th>Примечание</th>
+		</tr>
+		<tr>
+			<td>__add(op1, op2)</td>
+			<td>+</td>
+			<td>сложение</td>
+		</tr>
+		<tr>
+			<td>__sub(op1, op2)</td>
+			<td>-</td>
+			<td>вычитание</td>
+		</tr>
+		<tr>
+			<td>__mul(op1, op2)</td>
+			<td>*</td>
+			<td>умножение</td>
+		</tr>
+		<tr>
+			<td>__div(op1, op2)</td>
+			<td>/</td>
+			<td>деление</td>
+		</tr>
+		<tr>
+			<td>__mod(op1, op2)</td>
+			<td>%</td>
+			<td>деление по модулю</td>
+		</tr>
+		<tr>
+			<td>__pow(op1, op2)</td>
+			<td>^</td>
+			<td>возведение в степень</td>
+		</tr>
+		<tr>
+			<td>__unm(op)</td>
+			<td>-</td>
+			<td>унарный минус</td>
+		</tr>
+		<tr>
+			<td>__concat(op1, op2)</td>
+			<td>..</td>
+			<td>конкатенация (склейка)</td>
+		</tr>
+		<tr>
+			<td>__len(op)</td>
+			<td>#</td>
+			<td>унарный оператор взятия длины</td>
+		</tr>
+		<tr>
+			<td>__eq(op1, op2)</td>
+			<td>==</td>
+			<td>оператор "равно"</td>
+		</tr>
+		<tr>
+			<td>__lt(op1, op2)</td>
+			<td>&lt;</td>
+			<td>оператор "меньше"</td>
+		</tr>
+		<tr>
+			<td>__le(op1, op2)</td>
+			<td>&lt;=</td>
+			<td>оператор "меньше либо равно"</td>
+		</tr>
+		<tr>
+			<td>__index(op, key)</td>
+			<td>[]</td>
+			<td>оператор обращения по ключу вызовется если, например,  вызвать local x = data1[1]</td>
+		</tr>
+		<tr>
+			<td>__newindex(op, key, value)</td>
+			<td>[]</td>
+			<td>оператор присвоения нового значения по ключу если сделать эту функцию пустой, то таблица станет "readonly", то есть в нее нельзя будет добавить новое поле со значением вызовется если, например,  вызвать data1[1] = 1</td>
+		</tr>
+		<tr>
+			<td>__call(op, ...)</td>
+			<td>()</td>
+			<td>оператор вызова функции вызовется если, например,  вызвать data1(1, 2, 3) в обработчик __call первым параметром придет операнд (в нашем случае data1), а следующими параметрами будут те параметры, что стояли в скобках (в нашем случае 1, 2, 3).</td>
+		</tr>
+	</table>
+
+	<p>Как видно, все очень просто.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="11.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="13.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book/12.html", "Метатаблицы", "bm762"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm762", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm762") == 1) { document.getElementById("bma762").style.display = "block"; document.getElementById("bm762").style.display = "none"; } else { document.getElementById("bma762").style.display = "none"; document.getElementById("bm762").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if(arrs[i].indexOf("Метатаблицы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm762", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

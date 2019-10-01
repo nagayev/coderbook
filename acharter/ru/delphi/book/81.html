@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma467" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm467" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Методы редактирования баз данных
+	</h1>
+
+	<p>Редактирование данных подразумевает под собой внесение изменений в записи, добавление или удаление записи.</p>
+	<p>Если вы видите набор данных, это еще не значит, что вы можете их редактировать.</p>
+	<p>Дело в том, что база данных ведь может быть и сетевая, а значит, ее одновременно могут редактировать несколько сотрудников.</p>
+	<p>Для того, чтобы они не мешали друг другу, и не испортили запись таблицы при сохранении, существуют методы редактирования данных.</p>
+	<p>Типичный пример редактирования данных выглядит следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	Table1.Edit;
+	//вошли в режим редактирования
+
+	Table1['FIO'] := 'Лермонтов М.Ю.';
+	//присвоили значение текущей записи и полю FIO
+
+	Table1.Post;
+	//приняли изменения
+	</pre>
+
+	<p>А если требуется по всей таблице какому-то полю присвоить одно и то же значение, например, дату, то цикл будет выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+Table1.First;
+Table1.Edit;
+while not Table1.Eof do begin
+    Table1['Date'] := StrToDate('01.01.2008');
+    Table1.Next;
+end; //while
+Table1.Post;
+	</pre>
+
+	<p>Итак, разберемся с некоторыми методами таблицы Table:</p>
+	<p><b>Edit</b> – переключает таблицу в режим редактирования.</p>
+	<p><b>Post</b> – сохраняет результаты редактирования в таблицу.</p>
+	<p><b>Insert</b> – вставляет новую строку в месте указателя, и включает режим редактирования.</p>
+	<p><b>Append</b> – вставляет пустую строку в конец таблицы, переводит указатель на нее и включает режим редактирования.</p>
+	<p><b>Cancel</b> – отменяет внесенные, но не зафиксированные изменения, и отключает режим редактирования.</p>
+	<p><b>Внимание!</b> Если вы внесли изменения в запись, то перемещение на другую запись вызовет безусловное сохранение изменений, как если бы вы вызвали метод Post.</p>
+	<p>Таким образом, в предыдущем примере метод Post сохраняет изменение лишь последней записи, а все остальные записи сохранялись при вызове метода Next.</p>
+	<p>Поэтому во время редактирования будьте аккуратны с использованием методов Next, Prior, First, Last – они сохраняют внесенные изменения.</p>
+	<p>Подводя итог вышесказанного, можно привести инструкцию действий, которые необходимо выполнить для редактирования одного или нескольких полей записи:</p>
+	<p>Вызвать метод Edit для включения режима редактирования.</p>
+	<p>Назначить новые значения требуемому полю или полям.</p>
+	<p>Вызвать метод Post или переместиться на другую запись, чтобы принять все изменения, и выключить режим редактирования.</p>
+	<p>Вернемся к нашему проекту, к окну добавления авторов.</p>
+	<p>Вначале нам нужно будет сделать кнопку "Добавить" доступной, когда пользователь введет в поле Edit какую-нибудь запись.</p>
+	<p>Выделите Edit и сгенерируйте для него событие onChange, в котором напишите:</p>
+
+	<pre class="brush: csharp;">
+	Button1.Enabled := True;
+	</pre>
+
+	<p>Далее, создайте обработчик нажатия кнопки "Добавить":</p>
+
+	<pre class="brush: csharp;">
+fDm.TAvtors.Append; //добавляем строку в конец таблицы
+  fDm.TAvtors['FIO'] := Edit1.Text; //присваиваем значение
+  fDm.TAvtors.Post; //принимаем изменения
+  Button1.Enabled := False; //снова отключаем кнопку
+  Edit1.Text := ''; //очищаем поле Edit
+	</pre>
+
+	<p>Код кнопки "Удалить текущую запись" будет таким:</p>
+
+	<pre class="brush: csharp;">
+//удаляем запись, если таблица не пуста:
+  if not fDm.TAvtors.Eof then fDm.TAvtors.Delete
+  else ShowMessage('Таблица пуста!');
+	</pre>
+
+	<p>Все, с формой добавления авторов мы закончили.</p>
+	<p>Однако имейте в виду, что если вы добавили двух авторов, то их порядковый номер будет 1 и 2.</p>
+	<p>Затем, если вы удалите их, то следующий автор, несмотря на то, что он будет единственным, будет иметь порядковый номер 3, так как автоинкремент сохраняет последнюю цифру счетчика в таблице.</p>
+	<p>С одной стороны плохо, если авторы у нас будут идти не по порядку.</p>
+	<p>С другой стороны представьте, что в будущем мы удалим автора под номером 4.</p>
+	<p>Если мы будем сдвигать счетчик по порядку, то под номером 4 окажется другой автор.</p>
+	<p>А поскольку эта таблица будет связана с таблицей книг, там окажется ошибка – книга предыдущего автора будет числиться под новым автором.</p>
+	<p>Поэтому лучше, чтобы номера авторов шли не по порядку, чем сделать ошибку и вывести в таблице неверные данные.</p>
+	<p>Так что будьте аккуратны при вводе данных в эту таблицу, и пока что старайтесь не удалять их.</p>
+	<p>Мы подошли к моменту, когда нужно приступить к редактированию нашей базы данных – библиотечного каталога.</p>
+	<p>Для этого создайте новую форму.</p>
+	<p>В свойстве Name укажите fBook, в свойстве Caption – "Редактирование книги".</p>
+	<p>В свойстве BorderStyle выберите bsDialog, сохраните форму, дав модулю имя Book.</p>
+	<p>Подключите к ней модуль DM с помощью File – Use Unit.</p>
+	<p>Бросьте на форму обычную панель, в свойстве Align которой укажите alTop, чтобы занять весь верх.</p>
+	<p>Растяните ее почти по всей форме, только чтобы внизу осталось место для двух кнопок.</p>
+	<p>Свойство Caption, конечно, очистите.</p>
+	<p>Теперь перейдите на вкладку Data Controls.</p>
+	<p>С этой вкладки установите следующие компоненты, учитывая, что слева от них будет по одному Label с названием поля:</p>
+
+	<pre class="brush: csharp;">
+	DBLookupComboBox – 1шт.
+	DBEdit – 4 шт.
+	DBMemo – 1 шт.
+	</pre>
+
+	<p>Слева от всех компонентов, кроме DBMemo бросьте Label, и еще один – в левой части сверху от DBMemo.</p>
+	<p>У самого DBMemo не забудьте в свойстве ScrollBar установить вертикальную прокрутку.</p>
+	<p>Должна получиться такая картина:</p>
+
+	<img src="delphi43.png" id="image" />
+
+	<p>На этой форме мы сможем как добавлять книги, так и редактировать существующие.</p>
+	<p>Поле Key1 здесь мы не указывали, так как это – счетчик, и пользователю не обязательно его видеть.</p>
+	<p>Теперь выделите все компоненты работы с БД (все, кроме Label ).</p>
+	<p>Чтобы в них отображались данные выбранного поля, необходимо в свойстве DataSource указать DS1, который обеспечивает связь с таблицей книг.</p>
+	<p>Далее, требуется каждый компонент привязать к нужному полю, выбрав его в списке DataField.</p>
+	<p>Для всех компонентов, кроме DBLookupComboBox этого достаточно.</p>
+	<p>Выделите DBLookupComboBox.</p>
+	<p>В свойстве ListSource нужно указать тот DataSource, который управляет данными таблицы, из которой мы будем брать подставляемые значения.</p>
+	<p>У нас это DS2.</p>
+	<p>Мы будем заполнять этот компонент списком авторов в виде "Фамилия И.О.", и вместо него в основную таблицу подставлять номер этого автора – поле Key2.</p>
+	<p>В свойстве ListField нужно указать поле, из которого мы будем брать данные, это FIO.</p>
+	<p>А в свойстве KeyField нужно указать поле, значение которого будем подставлять в нашу таблицу книг – это Key2.</p>
+	<p>Теперь подумаем над тем, как облегчить пользователю ввод даты.</p>
+	<p>Ведь нам требуется, чтобы он всегда вводил дату в одном и том же формате, значит нужно установить маску для ввода.</p>
+	<p>Выделите поле с датой.</p>
+	<p>В свойстве EditMask укажите маску для ввода даты, как мы это делали с компонентом MaskEdit.</p>
+	<p>Обычно для дат рекомендуется устанавливать маску "99/99/9999".</p>
+	<p>Далее, эти данные желательно бы выводить на экран в красивом формате.</p>
+	<p>Для этого служит свойство DisplayFormat.</p>
+	<p>Программисты любят выводить полную дату, для этого напишем "dddddd".</p>
+	<p>Маска для вывода здесь такая же, как у функции FormatDateTime, которую мы с вами проходили ранее.</p>
+	<p>Найдите в конспекте эту функцию и посмотрите, какие могут быть форматы.</p>
+	<p>Чтобы полный формат даты помещался в сетке DBGrid, свойство DisplayWidth установите в 17, это оптимальный размер для полной даты.</p>
+	<p>Возможно, сейчас вам все это кажется китайской грамотой.</p>
+	<p>Однако данный материал вовсе не сложен, просто здесь приходится выполнять много действий.</p>
+	<p>Не пугайтесь, после 2-3 собственных программ с базами данных все это покажется вам детской игрой.</p>
+	<p>Теперь сгенерируем обработчик нажатия на кнопку "Сохранить".</p>
+	<p>Там напишем следующий код:</p>
+
+	<pre class="brush: csharp;">
+	//Если изменения были, принимаем их:
+		if fDM.TBooks.Modified then fDM.TBooks.Post;
+		Close;
+	</pre>
+
+	<p>Свойство таблицы Modified возвратит True, если данные таблицы были изменены.</p>
+	<p>В этом случае методом Post мы принимаем эти изменения, физически записывая их в таблицу.</p>
+	<p>Для кнопки "Отмена" код будет другим:</p>
+
+	<pre class="brush: csharp;">
+//Отменяем изменения:
+  fDM.TBooks.Cancel;
+  Close;
+	</pre>
+
+	<p>Обратите внимание – мы с вами создаем серьезное приложение для обработки базы данных, а в форме редактирования таблицы нам пришлось написать только 4 строчки кода!</p>
+	<p>Комментарии не считаются.</p>
+	<p>Всю остальную работу за нас сделала Delphi.</p>
+	<p>Теперь перейдите на главную форму и командой File – Use Unit добавьте новый модуль Book.</p>
+	<p>Сгенерируйте обработку команды меню "Редактирование – Добавить книгу".</p>
+	<p>Там напишем такой код:</p>
+
+	<pre class="brush: csharp;">
+fDM.TBooks.Append; //добавляем запись в конец
+  fBook.ShowModal; //вызываем редактор
+	</pre>
+
+	<p>Таким образом, мы с вами научили программу добавлять новую запись в таблицу и редактировать ее.</p>
+	<p>Чтобы редактировать уже существующую запись, выделите DBGrid на главной форме, и вызовите для него обработчик события onDoubleClick, в котором вызываем редактор:</p>
+
+	<pre class="brush: csharp;">
+	fBook.ShowModal;
+	//вызываем редактор
+	</pre>
+
+	<p>На следующих лекциях мы улучшим нашу программу, используя индексы, фильтры и подстановочные поля.</p>
+	<p>А пока поэкспериментируйте с программой, при желании измените дизайн, добавьте кнопку "Удалить" в редактор книг.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="80.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="82.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/81.html", "Методы редактирования", "bm467"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm467", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm467") == 1) { document.getElementById("bma467").style.display = "block"; document.getElementById("bm467").style.display = "none"; } else { document.getElementById("bma467").style.display = "none"; document.getElementById("bm467").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Методы редактирования") == 1) { arrs.splice(i, 1); localStorage.setItem("bm467", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

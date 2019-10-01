@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma84" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm84" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Наследование классов
+	</h1>
+
+	<p>Наследование классов — очень мощная возможность в объектно ориентированном программировании.</p>
+	<p>Оно позволяет создавать производные классы (классы наследники), взяв за основу все методы и элементы базового класса (класса родителя).</p>
+	<p>Таким образом экономится масса времени на написание и отладку кода новой программы.</p>
+	<p>Объекты производного класса  свободно могут использовать всё, что создано и отлажено в базовом классе.</p>
+	<p>При этом, мы можем в производный класс,  дописать необходимый код для усовершенствования программы: добавить новые элементы, методы и т.д..</p>
+	<p>Базовый класс останется нетронутым.</p>
+	<p>Эту тему вполне возможно освоить новичкам.</p>
+	<p>Необходимо только познакомиться с синтаксисом и некоторыми особенностями.</p>
+	<p>Ниже приведен простой код программы, который мы детально разберем под листингом.</p>
+	<p>В этой программе созданы два класса: базовый — FirstClass и производный от него SecondClass.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	// базовый класс
+	class FirstClass
+	{
+		// спецификатор доступа к элементу value
+		protected:
+		int value;
+		public:
+		FirstClass()
+		{
+			value = 0;
+		}
+		FirstClass( int input )
+		{
+			value = input;
+		}
+		void show_value()
+		{
+			cout << value << endl;
+		}
+	};
+
+	// производный класс
+	class SecondClass : public FirstClass
+	{
+		public:
+		// конструктор класса SecondClass вызывает конструктор класса FirstClass
+		SecondClass() : FirstClass ()
+		{}
+		// inputS передается в конструктор с параметром класса FirstClass
+		SecondClass(int inputS) : FirstClass (inputS)
+		{}
+		// возводит value в квадрат. Без спецификатора доступа protected эта функция не могла бы изменить значение value
+		void ValueSqr ()
+		{
+			value *= value;    
+		}  
+	};
+
+	int main()
+	{
+		setlocale(LC_ALL, "rus");
+		// объект базового класса
+		FirstClass F_object(3);
+		cout << "value F_object = ";
+		F_object.show_value();
+		// объект производного класса
+		SecondClass S_object(4);
+		cout << "value S_object = ";
+		// вызов метода базового класса
+		S_object.show_value();
+		// возводим value в квадрат
+		S_object.ValueSqr();
+		cout << "квадрат value S_object = ";
+		S_object.show_value();
+		// базовый класс не имеет доступа к методам производного класса
+		//F_object.ValueSqr();
+		cout << endl;
+		return 0;
+	}
+	</pre>
+
+	<p>Разбирать пример будем по-порядку.</p>
+	<p>Ранее мы работали только со спецификаторами доступа private и  public.</p>
+	<p>В строке 6 мы встретили новый для нас спецификатор доступа protected.</p>
+	<p>Он отличается от private тем, что разрешает доступ к элементам базового класса из производных классов.</p>
+	<p>Если бы элемент value находился в поле private, то доступ к нему был бы закрыт и мы бы не могли изменить его значение через объект класса SecondClass, используя функцию ValueSqr(), определённую в строках 34 — 37.</p>
+
+	<p>Ниже, в строках 8 — 22, определены методы базового класса.</p>
+	<p>Конструктор без параметров FirstClass(), конструктор с параметром FirstClass( int input ) и метод void show_value(), который выводит значение value на экран.</p>
+	<p>Определение производного находится в строках 25 — 38.</p>
+	<p>Синтаксис наследования такой:</p>
+
+	<pre class="brush: csharp;">
+	class Имя_Производного_Класса : спецификатор доступа Имя_Базового_Класса {  } ;
+	</pre>
+
+	<p>Двоеточие :  не путайте с двойным двоеточием :: (определение области действия).  Используя этот оператор мы показываем, наследником какого класса является производный класс.</p>
+	<p>Важной особенностью производного класса, является то, что хоть он и может использовать все методы и элементы полей protected и public базового класса, но он не может обратиться к конструктору с параметрами.</p>
+	<p>Если конструкторы в производном классе не определены, при создании объекта сработает конструктор без аргументов базового класса.</p>
+	<p>А если нам надо сразу при создании объекта производного класса внести данные, то для него необходимо определить свои конструкторы.</p>
+	<p>В нашем примере показано, как же мы всё-таки можем использовать уже готовые конструкторы базового класса, чтобы не набирать код конструкторов снова — строки 28 — 32.</p>
+	<p>Для этого при определении конструктора производного класса после его имени следует поставить оператор : и  имя конструктора базового класса, который необходимо вызвать, при создании объекта производного класса — SecondClass() : FirstClass (){}.</p>
+	<p>Тело конструктора оставляем пустым т.к. всю работу проделает конструктор базового класса.</p>
+	<p>В случае конструктора с параметром, этот параметр мы передаем в конструктор с параметром базового класса SecondClass(int inputS) : FirstClass (inputS){} — строка  31.</p>
+	<p>В main-функции создаем объекты базового и производного классов — FirstClass F_object(3); и  SecondClass S_object(4); и отображаем их значения value на экран. Как видите в строке 50,  объект производного класса без проблем обращается к методу show_value() базового класса.</p>
+	<p>Так, будто это его собственный метод. Ниже вызываем метод, который возводит значения value производного класса в квадрат.</p>
+	<p>И выводим это изменённое значение на экран.</p>
+	<p>А вот если мы захотим вызвать этот метод —  F_object.ValueSqr(); —  для объекта базового класса, компилятор нам этого не позволит сделать и выдаст ошибку.</p>
+	<p>Это еще одна важная особенность - производный класс имеет доступ к базовому классу, а базовый класс, даже "не знает" о существовании производного и не может пользоваться его кодом.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	value F_object = 3
+	value S_object = 4
+	квадрат value S_object = 16
+	</pre>	
+
+	<p>В виде списка приведу  основную информацию о наследовании классов, которую важно знать:</p>
+	<p>Наследование — это определение производного класса, который может обращаться ко всем элементам и методам базового класса за исключением тех, которые находятся в поле private;</p>
+	<p>Производный класс еще называют потомком или подклассом, а базовый — родитель или надкласс;</p>
+	<p>Синтаксис определения производного класса:</p>
+
+	<pre class="brush: csharp;">
+	class Имя_Производного_Класса : спецификатор доступа Имя_Базового_Класса   { /*код*/ };
+	</pre>
+ 
+	<p>Производный класс имеет доступ ко всем элементам и методам базового класса, а базовый класс может использовать только свои собственные элементы и методы.</p>
+	<p>В производном классе необходимо явно определять свои конструкторы, деструкторы и перегруженные операторы присваивания из-за того, что они не наследуются  от базового класса.</p>
+	<p>Но их можно вызвать явным образом при определении конструктора, деструктора или перегрузки оператора присваивания производного класса, например таким образом (для конструктора):</p>
+
+	<pre class="brush: csharp;">
+	Конструктор_Производного_Класса (/*параметры*/)  :  Конструктор_Базового_Класса ( /*параметры*/) { }
+	</pre>
+
+	<p>Еще один важный момент при наследовании — перегруженные функции-методы  класса потомка.</p>
+	<p>В данном примере мы его не рассматривали. Но чтобы вы знали, если в  классе родителе и в его классах потомках встречаются методы с одинаковым именем, то для объектов  класса потомка компилятор будет использовать методы именно класса потомка.</p>
+	<p>Перегруженные методы класса потомка, могут вызывать методы класса родителя.</p>
+	<p>В таком случае важно помнить, что необходимо правильно определить область действия с помощью оператора :: .</p>
+	<p>Иначе компилятор воспримет это, как вызов функцией самой себя.</p>
+	<p>Наглядно, если бы мы перегрузили в классе SecondClass функцию show_value() — это  выглядело бы так:</p>
+
+	<pre class="brush: csharp;">
+	void show_value()
+	{
+		if(value != 0)
+		FirstClass :: show_value();
+	}
+	</pre>
+
+	<p>Эта запись указывает компилятору - если значение value не равно нулю — вызвать метод show_value() класса FirstClass.</p>
+	<p>А он в свою очередь, отобразит это значение на экране.</p>
+	<p>Думаю для первого знакомства с наследованием классов этого достаточно.</p>
+	<p>Это бесспорно классная возможность языка С++.</p>
+	<p>Она помогает экономить массу времени на написание и отладку кода с нуля.</p>
+	<p>Вместо этого мы можем использовать уже готовый и отлаженный код и подстраивать его под новые задачи, которые поставлены перед нами.</p>
+	<p>При этом наша новая программа будет занимать намного меньше строк, что значительно улучшит её читабельность.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="62.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="64.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/63.html", "Наследование классов", "bm84"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm84", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm84") == 1) { document.getElementById("bma84").style.display = "block"; document.getElementById("bm84").style.display = "none"; } else { document.getElementById("bma84").style.display = "none"; document.getElementById("bm84").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Наследование классов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm84", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

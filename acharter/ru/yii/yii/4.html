@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1155" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1155" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Создание первого приложения
+	</h1>
+
+    <p>В этом разделе мы расскажем, как создать наше первое приложение.</p>
+    <p>Для создания нового приложения мы будем использовать yiic (консольную утилиту), для генерации кода — Gii (мощный веб кодогенератор).</p>
+    <p>Будем считать для удобства, что YiiRoot — это директория, куда установлен Yii, а WebRoot — корневая директория веб-сервера.</p>
+    <p>Запускаем yiic в консоли со следующими параметрами:</p>
+
+    <pre class="brush: csharp;">
+    % YiiRoot/framework/yiic webapp WebRoot/testdrive
+    </pre>
+
+    <p><b>Примечание:</b> При использовании yiic на Mac OS, Linux или Unix вам может понадобиться изменить права доступа для файла yiic, чтобы сделать его исполняемым. Альтернативный вариант запуска утилиты представлен ниже:</p>
+
+    <pre class="brush: csharp;">
+    % cd WebRoot
+    % php YiiRoot/framework/yiic.php webapp testdrive
+    </pre>
+
+    <p>В результате в директории WebRoot/testdrive будет создан каркас приложения.</p>
+    <p>Созданное приложение — хорошая отправная точка для добавления необходимого функционала, так как оно уже содержит все необходимые директории и файлы.</p>
+    <p>Не написав ни единой строчки кода, мы уже можем протестировать наше первое Yii-приложение, перейдя в браузере по следующему URL:</p>
+
+    <pre class="brush: csharp;">
+    http://hostname/testdrive/index.php
+    </pre>
+
+    <p>Приложение содержит четыре страницы: главную, страницу «о проекте», страницу обратной связи и страницу авторизации.</p>
+    <p>Страница обратной связи содержит форму для отправки вопросов и предложений, а страница авторизации позволяет пользователю аутентифицироваться и получить доступ к закрытой части сайта (см. рисунки ниже).</p>
+
+    <p>Главная страница</p>
+    <img src="y1.png" id="image" />
+    <p>Страница обратной связи</p>
+    <img src="y2.png" id="image" />
+    <p>Страница обратной связи с ошибками ввода</p>
+    <img src="y3.png" id="image" />
+    <p>Страница обратной связи с успешно отправленной формой</p>
+    <img src="y4.png" id="image" />
+    <p>Страница авторизации</p>
+    <img src="y5.png" id="image" />
+
+    <p>Наше приложение имеет следующую структуру директорий. Подробное описание этой структуры будет рассмотрено в следующих уроках (<a href="14.html">перейти</a>).</p>
+
+    <pre class="brush: csharp;">
+    testdrive/
+        index.php                    скрипт инициализации приложения
+        index-test.php               скрипт инициализации функциональных тестов
+        assets/                      содержит файлы ресурсов
+        css/                         содержит CSS-файлы
+        images/                      содержит картинки
+        themes/                      содержит темы оформления приложения
+        protected/                   содержит защищённые файлы приложения
+            yiic                     скрипт yiic
+            yiic.bat                 скрипт yiic для Windows
+            yiic.php                 PHP-скрипт yiic
+            commands/                содержит команды 'yiic'
+                shell/               содержит команды 'yiic shell'
+            components/              содержит компоненты для повторного использования
+                Controller.php       класс базового контроллера
+                UserIdentity.php     класс 'UserIdentity' для аутентификации
+            config/                  содержит конфигурационные файлы
+                console.php          файл конфигурации консоли
+                main.php             файл конфигурации веб-приложения
+                test.php             файл конфигурации функциональных тестов
+            controllers/             содержит файлы классов контроллеров
+                SiteController.php   класс контроллера по умолчанию
+            data/                    содержит пример базы данных
+                schema.mysql.sql     схема БД для MySQL
+                schema.sqlite.sql    схема БД для SQLite
+                testdrive.db         файл БД для SQLite
+            extensions/              содержит сторонние расширения
+            messages/                содержит переведённые сообщения
+            models/                  содержит файлы классов моделей
+                LoginForm.php        модель формы для действия 'login'
+                ContactForm.php      модель формы для действия 'contact'
+            runtime/                 содержит временные файлы
+            tests/                   содержит тесты
+            views/                   содержит файлы представлений контроллеров и файлы макетов (layout)
+                layouts/             содержит файлы представлений макетов
+                    main.php         общая для всех страниц разметка
+                    column1.php      разметка для страниц с одной колонкой
+                    column2.php      разметка для страниц с двумя колонками
+                site/                содержит файлы представлений для контроллера 'site'
+                    pages/           статические страницы
+                        about.php    страница «о проекте»
+                    contact.php      файл представления для действия 'contact'
+                    error.php        файл представления для действия 'error' (отображение ошибок)
+                    index.php        файл представления для действия 'index'
+                    login.php        файл представления для действия 'login'
+    </pre>
+
+    <p>Описанный выше генератор может создать файлы, необходимые при работе с системой контроля версий Git.</p>
+    <p>Приведённая далее команда создаст все необходимые .gitignore (содержимое assets и runtime не должно оказаться в репозитории) и .gitkeep (важные директории включаем в репозиторий даже если они пустые):</p>
+
+    <pre class="brush: csharp;">
+    % YiiRoot/framework/yiic webapp WebRoot/testdrive git
+    </pre>
+
+    <p>Ещё одна поддерживаемая система контроля версий — Mercurial. Если вы пользуетесь ей, передайте третьим параметром hg. Данная возможность доступна с версии 1.1.11.</p>
+
+    <h2 id="title">
+        Соединение с базой данных
+    </h2>
+
+    <p>Большинство веб-приложений используют базы данных, и наше приложение не исключение.</p>
+    <p>Для использования базы данных необходимо объяснить приложению, как к ней подключиться.</p>
+    <p>Это делается в конфигурационном файле WebRoot/testdrive/protected/config/main.php.</p>
+    <p>Например, так:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        …
+        'components'=>array(
+            …
+            'db'=>array(
+                'connectionString'=>'sqlite:protected/data/testdrive.db',
+            ),
+        ),
+        …
+    );
+    </pre>
+
+    <p>В приведённом выше коде указано, что приложение должно подключиться к базе данных SQLite WebRoot/testdrive/protected/data/testdrive.db как только это понадобится.</p>
+    <p>Отметим, что база данных SQLite уже включена в сгенерированное приложение.</p>
+    <p>В этой базе имеется только одна таблица tbl_user:</p>
+
+    <pre class="brush: csharp;">
+    CREATE TABLE tbl_user (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        username VARCHAR(128) NOT NULL,
+        password VARCHAR(128) NOT NULL,
+        email VARCHAR(128) NOT NULL
+    );
+    </pre>
+
+    <p>Если вы хотите использовать базу данных MySQL, то вы можете воспользоваться файлом WebRoot/testdrive/protected/data/schema.mysql.sql для её создания.</p>
+    <p><b>Примечание:</b> Для работы с базой данных Yii требуется расширение PHP PDO и соответствующий драйвер PDO.Для тестового приложения необходимо подключить расширения php_pdo и php_pdo_sqlite.</p>
+
+    <h2 id="title">
+        Реализация операций CRUD
+    </h2>
+
+    <p>А теперь самое интересное.</p>
+    <p>Мы бы хотели добавить операции CRUD (создание, чтение, обновление и удаление) для только что созданной таблицы tbl_user — это часто необходимо при разработке реальных приложений.</p>
+    <p>Вместо ручного написания кода мы воспользуемся веб кодогенератором Gii.</p>
+    <p><b>Информация:</b> Gii доступен, начиная с версии 1.1.2.</p>
+    <p>Ранее для тех же целей использовался уже упомянутый yiic.</p>
+    <p>Подробнее yiic описан в разделе «генерация CRUD при помощи yiic shell».</p>
+
+    <h3 id="title">
+      Настройка Gii
+    </h3>
+
+    <p>Для того чтобы использовать Gii, нужно отредактировать файл конфигурации приложения WebRoot/testdrive/protected/config/main.php:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        …
+        'import'=>array(
+            'application.models.*',
+            'application.components.*',
+        ),
+     
+        'modules'=>array(
+            'gii'=>array(
+                'class'=>'system.gii.GiiModule',
+                'password'=>'задайте свой пароль',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>После этого перейдите по URL http://hostname/testdrive/index.php?r=gii и введите указанный в конфигурации пароль.</p>
+
+    <h3 id="title">
+        Генерация модели User
+    </h3>
+
+    <p>После входа зайдите в раздел Model Generator:</p>
+
+    <img src="y6.png" id="image" />
+
+    <p>В поле Table Name введите tbl_user.</p>
+    <p>В поле Model Class — User.</p>
+    <p>Затем нажмите на кнопку Preview. Вы увидите новый файл, который будет сгенерирован.</p>
+    <p>После нажатия кнопки Generate в protected/models будет создан файл User.php.</p>
+    <p>Как будет описано далее в руководстве, класс модели User позволяет работать с данными в таблице tbl_user в стиле ООП.</p>
+
+    <h3 id="title">
+        Генерация CRUD
+    </h3>
+
+    <p>После генерации класса модели мы сгенерируем код, реализующий для неё операции CRUD. Выбираем Crud Generator:</p>
+
+    <img src="y7.png" id="image" />
+
+    <p>В поле Model Class вводим User.</p>
+    <p>В поле Controller ID — user (в нижнем регистре).</p>
+    <p>Теперь нажимаем Preview и затем Generate.</p>
+    <p>Генерация кода CRUD завершена.</p>
+
+    <h3 id="title">
+        Доступ к страницам CRUD
+    </h3>
+
+    <p>Давайте порадуемся нашим трудам, перейдя по следующему URL:</p>
+
+    <pre class="brush: csharp;">
+    http://hostname/testdrive/index.php?r=user
+    </pre>
+
+    <p>Мы увидим страницу со списком пользователей из таблицы tbl_user.</p>
+    <p>Поскольку наша таблица пуста, то записей в ней не будет. Кликнем по кнопке Create User и, если мы еще не авторизованы, отобразится страница авторизации.</p>
+    <p>В случае успешной авторизации загрузится форма добавления нового пользователя.</p>
+    <p>Заполним её и нажмем кнопку Create. Если при заполнении формы были допущены ошибки, мы увидим красивое сообщение об ошибке.</p>
+
+    <p>Вернувшись назад к списку пользователей, мы должны увидеть только что созданного пользователя.</p>
+    <p>Повторите описанную операцию и добавьте ещё несколько пользователей.</p>
+    <p>Обратите внимание, что при значительном количестве пользователей для их отображения на одной странице список будет автоматически разбиваться на страницы.</p>
+    <p>Выполнив вход в качестве администратора (admin/admin), можно увидеть страницу управления пользователями по адресу:</p>
+
+    <pre class="brush: csharp;">
+    http://hostname/testdrive/index.php?r=user/admin
+    </pre>
+
+    <p>Появится наглядная таблица пользователей.</p>
+    <p>Кликнув на название одного из полей заголовка таблицы, можно упорядочить записи по значениям соответствующего столбца.</p>
+    <p>Для просмотра, редактирования или удаления записей можно воспользоваться кнопками в соответствующих строках таблицы.</p>
+    <p>Также можно переходить на разные страницы, фильтровать результаты и производить поиск по ним.</p>
+    <p>Всё это не требует написания ни одной строчки кода!</p>
+
+    <p>Страница управления пользователями</p>
+
+    <img src="y8.png" id="image" />
+
+    <p>Страница добавления нового пользователя</p>
+
+    <img src="y9.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="3.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="5.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/4.html", "Создание первого приложения", "bm1155"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1155", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1155") == 1) { document.getElementById("bma1155").style.display = "block"; document.getElementById("bm1155").style.display = "none"; } else { document.getElementById("bma1155").style.display = "none"; document.getElementById("bm1155").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание первого приложения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1155", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

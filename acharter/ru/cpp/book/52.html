@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma73" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm73" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Классы в С++ (ч. 2)
+	</h1>
+
+	<h1 id="title">
+		Конструкторы
+	</h1>
+
+	<p>В предыдущей программе, у класса CppStudio были объявлены элементы данных, которые могут хранить информацию о дате.</p>
+	<p>Когда был создан объект класса, мы сначала вызвали set - функцию, для того, чтобы задать текущую дату (тем самым проинициализировать элементы данных), а потом - вызвали get - функцию и увидели соответствующую дату на экране.</p>
+	<p>Если бы мы сначала вызвали get - функцию, то вместо даты мы бы увидели какие-то числа - мусор.</p>
+	<p>Так вот, при создании объектов, можно сразу же проинициализировать элементы данных класса, выполняет эту функцию конструктор.</p>
+	<p>Конструктор - специальная функция, которая выполняет начальную инициализацию элементов данных, причём имя конструктора обязательно должно совпадать с именем класса.</p>
+	<p>Важным отличием конструктора от остальных функций является то, что он не возвращает значений вообще никаких, в том числе и void.</p>
+	<p>В любом классе должен быть конструктор, даже если явным образом конструктор не объявлен (как в предыдущем классе), то компилятор предоставляет конструктор по умолчанию, без параметров.</p>
+	<p>Доработаем класс CppStudio, добавив к нему конструктор.</p>
+
+	<pre class="brush: csharp;">
+	// classes.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	
+	// имя класса
+	class CppStudio
+	{
+		// спецификатор доступа private
+		private:
+		// день
+		int day,
+		// месяц
+		month,
+		// год
+		year;
+		// спецификатор доступа public
+		public:
+
+		// конструктор класса
+		CppStudio(int date_day, int date_month, int date_year )
+		{
+			// вызов функции установки даты
+			setDate(date_day, date_month, date_year);
+		}
+
+		// функция (метод класса) выводящая сообщение на экран
+		void message()
+		{
+			cout << "\nwebsite: cppstudio.com\ntheme: Classes and Objects in C + +\n";
+		}
+
+		// установка даты в формате дд.мм.гг
+		void setDate(int date_day, int date_month, int date_year)
+		{
+			// инициализация день
+			day   = date_day;
+			// инициализация месяц
+			month = date_month;
+			// инициализация год
+			year  = date_year;
+		}
+
+		// отобразить текущую дату
+		void getDate()
+		{
+			cout << "date: " << day << "." << month << "." << year << endl;
+		}
+		// конец объявления класса CppStudio
+	};
+
+	int main(int argc, char* argv[])
+	{
+		// объявление объекта и инициализация элементов данных
+		CppStudio objCppstudio(11,11,2016);
+		// вызов функции message
+		objCppstudio.message();
+		// отобразить дату
+		objCppstudio.getDate();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Конструктор объявлен в строках 13 - 16.</p>
+	<p>Конструктор имеет три параметра, через которые он получает информацию о дате, в теле конструктора вызывается set - функция для установки даты.</p>
+	<p>Можно было реализовать начальную инициализацию элементов данных класса и без set - функции, но так как эта функция была предусмотрена, то правильнее будет использовать именно эту функцию, строка 15.</p>
+	<p>В строке 35 объявляем объект класса, причём после имени объекта в круглых скобочках передаём три аргумента.</p>
+	<p>Вот так с помощью конструктора выполняется начальная инициализация элементов данных.	</p>
+
+	<pre class="brush: csharp;">
+	website: cppstudio.com
+	theme: Classes and Objects in C + +
+	date: 11.11.2016
+	</pre>
+
+	<h1 id="title">
+		Объявление класса в отдельном файле
+	</h1>
+
+	<p>До сих пор объявление класса выполнялось в файле с главной функцией и всё работало.</p>
+	<p>Предположим, необходимо написать какую-то программу, для этого необходимо воспользоваться классом CppStudio - разработанный ранее нами класс.</p>
+	<p>Чтобы воспользоваться этим классом, необходимо подключить файл, в котором он объявлен.</p>
+	<p>Как мы уже говорили, подключение файлов выполняется с помощью препроцессорной директивы #include.</p>
+	<p>Но даже, если мы сможем подключить файл с классом, появится новая проблема - так как в файле с классом уже есть функция main(), то при построении проекта компилятор выдаст ошибку.</p>
+	<p>Суть ошибки: "В проекте найдено несколько main() - функций."</p>
+	<p>Именно поэтому класс необходимо объявлять в отдельном файле, чтобы его можно было неоднократно использовать.</p>
+	<p>Ранее мы объявляли в отдельном файле функции, таким же образом размещается класс в отдельном файле.</p>
+	<p>Для этого необходимо выполнить 3 шага:</p>
+	<p>1. добавить в проект заголовочный файл *.h;</p>
+	<p>2. в заголовочном файле объявить пользовательский класс, в нашем случае - CppStudio;</p>
+	<p>3. подключить заголовочный файл к программе, в нашем случае - #include "CppStudio.h".</p>
+	<p>В зависимости от среды разработки, способы добавления файлов в проект могут отличаться, но суть задачи от этого не меняется.</p>
+	<p>В MVS2010 заголовочный файл можно добавить, вызвав контекстное меню(клик правой кнопкой мыши) в "обозревателе решений", выбрав пункт "создать новый элемент".</p>
+	<p>В появившемся диалоговом окне выбираем нужный нам тип файла - это *.h и заполняем поле "Имя файла".</p>
+	<p>Как и прежде, имя выбираем осмысленное, как правило такое же как и имя класса.</p>
+	<p>Теперь к нашему проекту добавлен новый заголовочный файл - CppStudio.h .</p>
+	<p>В только что созданном  заголовочном файле объявляем класс и, если необходимо, подключаем дополнительные заголовочные.</p>
+	<p>Вот, что должно было получиться:	</p>
+
+	<pre class="brush: csharp;">
+	// заголовочный файл CppStudio.h
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	// объявление класса
+	// имя класса
+	class CppStudio
+	{
+		// спецификатор доступа private
+		private:
+		// день
+		int day,
+		// месяц
+		month,
+		// год
+		year;
+		// спецификатор доступа public
+		public:
+
+		// конструктор класса
+		CppStudio(int date_day, int date_month, int date_year )
+		{
+			// вызов функции установки даты
+			setDate(date_day, date_month, date_year);
+		}
+
+		// функция (метод класса) выводящая сообщение на экран
+		void message()
+		{
+			cout << "nwebsite: cppstudio.comntheme: Classes and Objects in C + +n";
+		}
+
+		// установка даты в формате дд.мм.гг
+		void setDate(int date_day, int date_month, int date_year)
+		{
+			// инициализация день
+			day   = date_day;
+			// инициализация месяц
+			month = date_month;
+			// инициализация год
+			year  = date_year;
+		}
+
+		// отобразить текущую дату
+		void getDate()
+		{
+			cout << "date: " << day << "." << month << "." << year << endl;
+		}
+		// конец объявления класса CppStudio
+	};
+	</pre>
+
+	<p>Чтобы главная функция увидела созданный нами класс и смогла его использовать, необходимо включить определение класса в исполняемом файле, с функцией main().</p>
+	<p>Делается это так:</p>
+
+	<pre class="brush: csharp;">
+	// classes.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	// подключаем класс CppStudio
+	#include "CppStudio.h"
+
+	int main(int argc, char*argv[])
+	{
+		// объявление объекта и инициализвция элементов данных
+		CppStudio objCppstudio(11,11,2016);
+		// вызов функции message
+		objCppstudio.message();
+		// отобразить дату
+		objCppstudio.getDate();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строке 5 подключено определение класса CppStudio, только после этого можно создавать объекты класса, использовать его методы и т. д.</p>
+	<p>Результат работы программы точно такой же как и раньше, изменилась лишь структура проекта.</p>
+
+	<h1 id="title">
+		Отделение интерфейса от реализации
+	</h1>
+
+	<p>Интерфейс класса - конструкция, определяющая методы и свойства, предоставляемые классом.</p>
+	<p>Реализация класса - это способ осуществления работоспособности класса.</p>
+	<p>До этого мы не отделяли интерфейс класса от его реализации, то есть реализация методов осуществлялась внутри класса.</p>
+	<p>Отделение интерфейса от реализации класса выполняется для того, чтобы скрыть способ осуществления работоспособности класса.</p>
+	<p>Отделение интерфейса от реализации выполняется за 5 шагов:</p>
+	<p>1. добавить в проект заголовочный файл *.h;</p>
+	<p>2. определить интерфейс класса в заголовочном файле</p>
+	<p>3. добавить в проект исполняемый файл *.cpp;</p>
+	<p>4. в исполняемом файле выполнить реализацию класса;</p>
+	<p>5. подключить заголовочный файл к программе.</p>
+	<p>Как добавить заголовочный файл в проект мы уже знаем, точно также добавляется и исполняемый файл, имена этим файлам даются, как правило, одинаковые.</p>
+	<p>Интерфейс класса должен выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+	// заголовочный файл класса СppStudio.h
+	// интерфейс класса
+	// объявление класса
+	// имя класса
+	class CppStudio
+	{
+		// спецификатор доступа private
+		private:
+		// день
+		int day, 
+		// месяц
+		month, 
+		// год
+		year;
+		// спецификатор доступа public
+		public:
+		// конструктор класса
+		CppStudio(int, int, int);
+		// функция (метод класса) выводящая сообщение на экран
+		void message();
+		// установка даты в формате дд.мм.гг
+		void setDate(int, int, int);
+		// отобразить текущую дату
+		void getDate();
+		// конец объявления класса CppStudio
+	};
+	</pre>
+
+	<p>В интерфейсе класса остались объявленные переменные и прототипы методов класса.</p>
+	<p>Теперь рассмотрим содержимое файла реализации методов класса.</p>
+
+	<pre class="brush: csharp;">
+	// файл реализации класса CppStudio.cpp
+	#include &lt;iostream&gt;
+	using namespace std;
+	// подключаем интерфейс класса к файлу его реализации
+	#include "CppStudio.h"
+
+	// конструктор класса
+	CppStudio::CppStudio(int date_day, int date_month, int date_year )
+	{
+		// вызов функции установки даты
+		setDate(date_day, date_month, date_year);
+	}
+
+	// функция (метод класса) выводящая сообщение на экран
+	void CppStudio::message()
+	{
+		cout << "nwebsite: cppstudio.comntheme: Classes and Objects in C + +n";
+	}
+
+	// установка даты в формате дд.мм.гг
+	void CppStudio::setDate(int date_day, int date_month, int date_year)
+	{
+		// инициализация день
+		day = date_day;
+		// инициализация месяц
+		month = date_month;
+		// инициализация год
+		year = date_year;
+	}
+
+	// отобразить текущую дату
+	void CppStudio::getDate()
+	{
+		cout << "date: " << day << "." << month << "." << year << endl;
+	}
+	</pre>
+
+	<p>Чтобы связать интерфейс класса и его реализацию, необходимо в файле реализации подключить заголовочный файл с определением класса, строка 6 (выделенная строка).</p>
+	<p>После этого можно объявлять методы класса.</p>
+	<p>Методы класса объявляются точно так же как и функции, только перед именем метода необходимо написать имя класса и поставить унарную операцию разрешения области действия "::".</p>
+
+	<pre class="brush: csharp;">
+	// синтаксис объявления методов класса вне тела класса
+	/*возвращаемый тип данных*/ /*имя класса*/::/*имя метода*/(/*параметры метода*/)
+	{
+		// операторы
+	}
+	</pre>
+
+	<p>Так как методы класса объявляются вне тела класса, то необходимо связать реализацию метода с классом, а для этого воспользуемся бинарной операцией разрешения области действия.</p>
+	<p>Бинарная операция разрешения области действия привязывает метод, объявленный извне, к классу, имя которого совпадает с именем в объявлении метода.</p>
+	<p>Вот именно поэтому в объявлении метода класса необходимо добавлять имя класса и операцию разрешения области действия.</p>
+	<p>Итак, интерфейс класса определён, методы класса объявлены, осталось подключить заголовочный файл в исполняемом файле с main() функцией и программа готова.</p>
+
+	<pre class="brush: csharp;">
+	// classes.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	// подключаем класс CppStudio
+	#include "CppStudio.h"
+	
+	int main(int argc, char*argv[])
+	{
+		// объявление объекта и инициализвция элементов данных
+		CppStudio objCppstudio(11,11,2016);
+		// вызов функции message
+		objCppstudio.message();
+		// отобразить дату
+		objCppstudio.getDate();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строке 5 подключаем заголовочный файл класса, после чего можно создавать объекты этого класса.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="51.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="53.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/52.html", "Классы в С++ (ч. 2)", "bm73"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm73", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm73") == 1) { document.getElementById("bma73").style.display = "block"; document.getElementById("bm73").style.display = "none"; } else { document.getElementById("bma73").style.display = "none"; document.getElementById("bm73").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Классы в С++ (ч. 2)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm73", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

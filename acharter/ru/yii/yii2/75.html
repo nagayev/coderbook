@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1281" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1281" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Аутентификация REST
+	</h1>
+
+    <p>В отличие от Web-приложений, RESTful API обычно не сохраняют информацию о состоянии, а это означает, что сессии и куки использовать не следует.</p>
+    <p>Следовательно, раз состояние аутентификации пользователя не может быть сохранено в сессиях или куках, каждый запрос должен приходить вместе с определенным видом параметров аутентификации.</p>
+    <p>Общепринятая практика состоит в том, что для аутентификации пользователя с каждым запросом отправляется секретный токен доступа.</p>
+    <p>Так как токен доступа может использоваться для уникальной идентификации и аутентификации пользователя, запросы к API всегда должны отсылаться через протокол HTTPS, чтобы предотвратить атаки «человек посередине» (англ. "man-in-the-middle", MitM).</p>
+    <p>Есть различные способы отправки токена доступа:</p>
+
+    <ul>
+        <li>HTTP Basic Auth: токен доступа отправляется как имя пользователя. Такой подход следует использовать только в том случае, когда токен доступа может быть безопасно сохранен на стороне абонента API. Например, если API используется программой, запущенной на сервере.</li>
+        <li>Параметр запроса: токен доступа отправляется как параметр запроса в URL-адресе API, т.е. примерно таким образом: https://example.com/users?access-token=xxxxxxxx. Так как большинство Web-серверов сохраняют параметры запроса в своих логах, такой подход следует применять только при работе с JSONP-запросами, которые не могут отправлять токены доступа в HTTP-заголовках.</li>
+        <li>OAuth 2: токен доступа выдается абоненту API сервером авторизации и отправляется API-серверу через HTTP Bearer Tokens, в соответствии с протоколом OAuth2.</li>
+    </ul>
+
+    <p>Yii поддерживает все выше перечисленные методы аутентификации.</p>
+    <p>Вы также можете легко создавать новые методы аутентификации.</p>
+    <p>Чтобы включить аутентификацию для ваших API, выполните следующие шаги:</p>
+
+    <ol>
+        <li>У компонента приложения user установите свойство [[yii\web\User::enableSession|enableSession]] равным false.</li>
+        <li>Укажите, какие методы аутентификации вы планируете использовать, настроив поведение authenticator в ваших классах REST-контроллеров.</li>
+        <li>Реализуйте метод [[yii\web\IdentityInterface::findIdentityByAccessToken()]] в вашем [[yii\web\User::identityClass|классе UserIdentity]].</li>
+    </ol>
+
+    <p>Шаг 1 не обязателен, но рекомендуется его всё-таки выполнить, так как RESTful API не должен сохранять информацию о состоянии клиента.</p>
+    <p>Когда свойство [[yii\web\User::enableSession|enableSession]] установлено в false, состояние аутентификации пользователя НЕ БУДЕТ сохраняться между запросами с использованием сессий.</p>
+    <p>Вместо этого аутентификация будет выполняться для каждого запроса, что достигается шагами 2 и 3.</p>
+    <p><b>Подсказка:</b> если вы разрабатываете RESTful API в пределах приложения, вы можете настроить свойство [[yii\web\User::enableSession|enableSession]] компонента приложения user в конфигурации приложения. Если вы разрабатываете RESTful API как модуль, можете добавить следующую строчку в метод init() модуля:</p>
+
+    <pre class="brush: csharp;">
+    public function init()
+    {
+        parent::init();
+        \Yii::$app->user->enableSession = false;
+    }
+    </pre>
+
+    <p>Например, для использования HTTP Basic Auth, вы можете настроить свойство authenticator следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\auth\HttpBasicAuth;
+    
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' =&gt; HttpBasicAuth::className(),
+        ];
+        return $behaviors;
+    }
+    </pre>
+
+    <p>Если вы хотите включить поддержку всех трёх описанных выше методов аутентификации, можете использовать CompositeAuth:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\auth\CompositeAuth;
+    use yii\filters\auth\HttpBasicAuth;
+    use yii\filters\auth\HttpBearerAuth;
+    use yii\filters\auth\QueryParamAuth;
+    
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' =&gt; CompositeAuth::className(),
+            'authMethods' =&gt; [
+                HttpBasicAuth::className(),
+                HttpBearerAuth::className(),
+                QueryParamAuth::className(),
+            ],
+        ];
+        return $behaviors;
+    }
+    </pre>
+
+    <p>Каждый элемент в массиве authMethods должен быть названием класса метода аутентификации или массивом настроек.</p>
+    <p>Реализация метода findIdentityByAccessToken() определяется особенностями приложения.</p>
+    <p>Например, в простом варианте, когда у каждого пользователя есть только один токен доступа, вы можете хранить этот токен в поле access_token таблицы пользователей.</p>
+    <p>В этом случае метод findIdentityByAccessToken() может быть легко реализован в классе User следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    use yii\db\ActiveRecord;
+    use yii\web\IdentityInterface;
+    
+    class User extends ActiveRecord implements IdentityInterface
+    {
+        public static function findIdentityByAccessToken($token, $type = null)
+        {
+            return static::findOne(['access_token' =&gt; $token]);
+        }
+    }
+    </pre>
+
+    <p>После включения аутентификации описанным выше способом при каждом запросе к API запрашиваемый контроллер будет пытаться аутентифицировать пользователя в своем методе beforeAction().</p>
+    <p>Если аутентификация прошла успешно, контроллер выполнит другие проверки (ограничение частоты запросов, авторизация) и затем выполнит действие.</p>
+    <p>Информация об аутентифицированном пользователе может быть получена из объекта Yii::$app->user->identity.</p>
+    <p>Если аутентификация прошла неудачно, будет возвращен ответ с HTTP-кодом состояния 401 вместе с другими необходимыми заголовками (такими, как заголовок WWW-Authenticate для HTTP Basic Auth).</p>
+
+    <h2 id="title">
+        Авторизация
+    </h2>
+
+    <p>После аутентификации пользователя вы, вероятно, захотите проверить, есть ли у него или у неё разрешение на выполнение запрошенного действия с запрошенным ресурсом.</p>
+    <p>Этот процесс называется авторизацией и подробно описан в разделе «Авторизация».</p>
+    <p>Если ваши контроллеры унаследованы от [[yii\rest\ActiveController]], вы можете переопределить метод [[yii\rest\Controller::checkAccess()|checkAccess()]] для выполнения авторизации.</p>
+    <p>Этот метод будет вызываться встроенными действиями, предоставляемыми контроллером [[yii\rest\ActiveController]].</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="74.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="76.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/75.html", "Yii2: Аутентификация REST", "bm1281"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1281", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1281") == 1) { document.getElementById("bma1281").style.display = "block"; document.getElementById("bm1281").style.display = "none"; } else { document.getElementById("bma1281").style.display = "none"; document.getElementById("bm1281").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Аутентификация REST") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1281", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

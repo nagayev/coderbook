@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1173" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1173" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Использование конструктора форм
+	</h1>
+
+    <p>При создании HTML форм часто приходится писать довольно большое количество повторяющегося кода, который почти невозможно использовать в других проектах.</p>
+    <p>К примеру, для каждого поля ввода нам необходимо вывести описание и возможные ошибки валидации.</p>
+    <p>Для того чтобы сделать возможным повторное использование подобного кода, можно использовать конструктор форм.</p>
+
+    <h2 id="title">
+        Общая идея
+    </h2>
+
+    <p>Конструктор форм использует объект CForm для описания параметров, необходимых для создания HTML формы, таких как модели и поля, используемые в форме, а также параметры построения самой формы.</p>
+    <p>Разработчику достаточно создать объект CForm, задать его параметры и вызвать метод для построения формы.</p>
+    <p>Параметры формы организованы в виде иерархии элементов формы.</p>
+    <p>Корнем является объект CForm.</p>
+    <p>Корневой объект формы включает в себя две коллекции, содержащие другие элементы: CForm::buttons и CForm::elements.</p>
+    <p>Первая содержит кнопки (такие как «Сохранить» или «Очистить»), вторая — поля ввода, статический текст и вложенные формы — объекты CForm, находящиеся в коллекции CForm::elements другой формы.</p>
+    <p>Вложенная форма может иметь свою модель данных и коллекции CForm::buttons и CForm::elements.</p>
+    <p>Когда пользователи отправляют форму, данные, введённые в поля ввода всей иерархии формы, включая вложенные формы, передаются на сервер.</p>
+    <p>CForm включает в себя методы, позволяющие автоматически присвоить данные полям соответствующей модели и провести валидацию.</p>
+
+    <h2 id="title">
+        Создание простой формы
+    </h2>
+
+    <p>Ниже будет показано, как построить форму входа на сайт.</p>
+    <p>Сначала реализуем действие login:</p>
+
+    <pre class="brush: csharp;">
+    public function actionLogin()
+    {
+        $model = new LoginForm;
+        $form = new CForm('application.views.site.loginForm', $model);
+        if($form->submitted('login') && $form->validate())
+            $this->redirect(array('site/index'));
+        else
+            $this->render('login', array('form'=>$form));
+    }
+    </pre>
+
+    <p>Вкратце, здесь мы создали объект CForm, используя конфигурацию, найденную по пути, который задан псевдонимом application.views.site.loginForm.</p>
+    <p>Объект CForm, как описано в разделе «Создание модели» (<a href="18.html">перейти</a>), использует модель LoginForm.</p>
+    <p>Если форма отправлена, и все входные данные прошли проверку без ошибок, перенаправляем пользователя на страницу site/index. Иначе выводим представление login, описывающее форму.</p>
+    <p>Псевдоним пути application.views.site.loginForm указывает на файл PHP</p>
+
+    <pre class="brush: csharp;">
+    protected/views/site/loginForm.php
+    </pre>
+
+    <p>Этот файл возвращает массив, описывающий настройки, необходимые для CForm:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'title'=>'Пожалуйста, представьтесь',
+     
+        'elements'=>array(
+            'username'=>array(
+                'type'=>'text',
+                'maxlength'=>32,
+            ),
+            'password'=>array(
+                'type'=>'password',
+                'maxlength'=>32,
+            ),
+            'rememberMe'=>array(
+                'type'=>'checkbox',
+            )
+        ),
+     
+        'buttons'=>array(
+            'login'=>array(
+                'type'=>'submit',
+                'label'=>'Вход',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Настройки, приведённые выше, являются ассоциативным массивом, состоящим из пар имя-значение, используемых для инициализации соответствующих свойств CForm.</p>
+    <p>Самыми важными свойствами, как мы уже упомянули, являются CForm::elements и CForm::buttons.</p>
+    <p>Каждое из них содержит массив, определяющий элементы формы.</p>
+    <p>Более детальное описание элементов формы будет приведено в следующем подразделе.</p>
+    <p>Опишем шаблон представления login:</p>
+
+    <pre class="brush: csharp;">
+    &lt;h1&gt;&Vcy;&khcy;&ocy;&dcy;&lt;/h1&gt;
+     
+    &lt;div class=&quot;form&quot;&gt;
+    &lt;?php echo $form; ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <p><b>Подсказка:</b> Приведённый выше код echo $form; эквивалентен echo $form->render();. Использование более компактной записи возможно, так как CForm реализует магический метод __toString, в котором вызывается метод render(), возвращающий код формы.</p>
+
+    <h2 id="title">
+        Описание элементов формы
+    </h2>
+
+    <p>При использовании конструктора форм вместо написания разметки мы, главным образом, описываем элементы формы.</p>
+    <p>В данном подразделе мы опишем, как задать свойство CForm::elements.</p>
+    <p>Мы не будем описывать CForm::buttons, так как конфигурация этого свойства практически ничем не отличается от CForm::elements.</p>
+    <p>Свойство CForm::elements является массивом, каждый элемент которого соответствует элементу формы.</p>
+    <p>Это может быть поле ввода, статический текст или вложенная форма.</p>
+
+    <h3 id="title">
+        Описание поля ввода
+    </h3>
+
+    <p>Поле ввода, главным образом, состоит из заголовка, самого поля, подсказки и текста ошибки и должно соответствовать определённому атрибуту модели.</p>
+    <p>Описание поля ввода содержится в экземпляре класса CFormInputElement.</p>
+    <p>Приведённый ниже код массива CForm::elements описывает одно поле ввода:</p>
+
+    <pre class="brush: csharp;">
+    'username'=>array(
+        'type'=>'text',
+        'maxlength'=>32,
+    ),
+    </pre>
+
+    <p>Здесь указано, что атрибут модели называется username, тип поля — text и его атрибут maxlength равен 32.</p>
+    <p>Любое доступное для записи свойство CFormInputElement может быть настроено приведённым выше способом.</p>
+    <p>К примеру, можно задать свойство hint для того, чтобы показывать подсказку или свойство items, если поле является выпадающим списком или группой элементов checkbox или radio.</p>
+    <p>Если имя опции не является свойством CFormInputElement, оно будет считаться атрибутом соответствующего HTML-тега input.</p>
+    <p>Например, так как опция maxlength не является свойством CFormInputElement, она будет использована как атрибут maxlength HTML-элемента input.</p>
+    <p>Следует отдельно остановиться на свойстве type. Оно определяет тип поля ввода.</p>
+    <p>К примеру, тип text означает, что будет использован элемент формы input, а password — поле для ввода пароля.</p>
+    <p>В CFormInputElement реализованы следующие типы полей ввода:</p>
+
+    <ul>
+        <li>text</li>
+        <li>hidden</li>
+        <li>password</li>
+        <li>textarea</li>
+        <li>file</li>
+        <li>radio</li>
+        <li>checkbox</li>
+        <li>listbox</li>
+        <li>dropdownlist</li>
+        <li>checkboxlist</li>
+        <li>radiolist</li>
+    </ul>
+
+    <p>Отдельно следует описать использование "списочных" типов dropdownlist, checkboxlist и radiolist.</p>
+    <p>Для них необходимо задать свойство items соответствующего элемента input.</p>
+    <p>Сделать это можно так:</p>
+
+    <pre class="brush: csharp;">
+    'gender'=>array(
+        'type'=>'dropdownlist',
+        'items'=>User::model()->getGenderOptions(),
+        'prompt'=>'Выберите значение:',
+    ),
+     
+    …
+     
+    class User extends CActiveRecord
+    {
+        public function getGenderOptions()
+        {
+            return array(
+                0 => 'Мужчина',
+                1 => 'Женщина',
+            );
+        }
+    }
+    </pre>
+
+    <p>Данный код сгенерирует выпадающий список с текстом «Выберите значение:» и опциями «Мужчина» и «Женщина», которые мы получаем из метода getGenderOptions модели User.</p>
+    <p>Кроме данных типов полей, в свойстве type можно указать класс или псевдоним пути виджета.</p>
+    <p>Класс виджета должен наследовать CInputWidget или CJuiInputWidget.</p>
+    <p>В ходе генерации элемента формы будет создан и выполнен экземпляр класса виджета.</p>
+    <p>Виджет будет использовать конфигурацию, переданную через настройки элемента формы.</p>
+
+    <h3 id="title">
+        Описание статического текста
+    </h3>
+
+    <p>Довольно часто в форме, помимо полей ввода, содержится некоторая декоративная HTML разметка.</p>
+    <p>К примеру, горизонтальный разделитель для выделения определённых частей формы или изображение, улучшающее внешний вид формы.</p>
+    <p>Подобный HTML код можно описать в коллекции CForm::elements как статический текст.</p>
+    <p>Для этого в CForm::elements в нужном нам месте вместо массива необходимо использовать строку.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'elements'=>array(
+            ......
+            'password'=>array(
+                'type'=>'password',
+                'maxlength'=>32,
+            ),
+     
+            '&lt;hr /&gt;',
+     
+            'rememberMe'=>array(
+                'type'=>'checkbox',
+            )
+        ),
+        ......
+    );
+    </pre>
+
+    <p>В приведённом коде мы вставили горизонтальный разделитель между полями password и rememberMe.</p>
+    <p>Статический текст лучше всего использовать в том случае, когда разметка и её расположение достаточно уникальны.</p>
+    <p>Если некоторую разметку должен содержать каждый элемент формы, лучше всего переопределить непосредственно построение разметки формы, как будет описано далее.</p>
+
+    <h3 id="title">
+        Описание вложенных форм
+    </h3>
+
+    <p>Вложенные формы используются для разделения сложных форм на несколько связанных простых.</p>
+    <p>К примеру, мы можем разделить форму регистрации пользователя на две вложенные формы: данные для входа и данные профиля.</p>
+    <p>Каждая вложенная форма может (хотя и не обязана) быть связана с моделью данных.</p>
+    <p>В примере с формой регистрации, если мы храним данные для входа и данные профиля в двух разных таблицах (и, соответственно, в двух моделях), то каждая вложенная форма будет сопоставлена соответствующей модели данных.</p>
+    <p>Если же все данные хранятся в одной таблице, ни одна из вложенных форм не будет привязана к модели и обе будут использовать модель главной формы.</p>
+    <p>Вложенная форма, как и главная, описывается объектом CForm.</p>
+    <p>Для того чтобы описать вложенную форму, необходимо определить элемент типа form в свойстве CForm::elements:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'elements'=>array(
+            ......
+            'user'=>array(
+                'type'=>'form',
+                'title'=>'Данные для входа',
+                'elements'=>array(
+                    'username'=>array(
+                        'type'=>'text',
+                    ),
+                    'password'=>array(
+                        'type'=>'password',
+                    ),
+                    'email'=>array(
+                        'type'=>'text',
+                    ),
+                ),
+            ),
+     
+            'profile'=>array(
+                'type'=>'form',
+                ......
+            ),
+            ......
+        ),
+        ......
+    );
+    </pre>
+
+    <p>Так же как и у главной формы, у вложенной формы необходимо задать свойство CForm::elements.</p>
+    <p>Если вложенной форме необходимо сопоставить модель данных, то это можно сделать, задав свойство CForm::model.</p>
+    <p>В некоторых случаях бывает полезно определить форму в объекте класса, отличного от CForm.</p>
+    <p>К примеру, как будет показано ниже, можно расширить CForm для реализации своего алгоритма построения разметки.</p>
+    <p>При указании типа элемента form, вложенная форма будет автоматически использовать объект того же класса, что и у главной формы.</p>
+    <p>Если указать тип элемента как, например, XyzForm (строка, оканчивающаяся на Form), то вложенная форма будет использовать объект класса XyzForm.</p>
+
+    <h2 id="title">
+        Доступ к элементам формы
+    </h2>
+
+    <p>Обращаться к элементам формы так же просто, как и к элементам массива. Свойство CForm::elements возвращает объект CFormElementCollection, наследуемый от CMap, что позволяет получить доступ к элементам формы как к элементам массива.</p>
+    <p>Таким образом, чтобы обратиться к элементу username формы login из вышеприведённого примера, можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $username = $form->elements['username'];
+    </pre>
+
+    <p>Аналогично, для доступа к элементу email формы регистрации, можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    $email = $form->elements['user']->elements['email'];
+    </pre>
+
+    <p>Так как CForm реализует доступ к элементам CForm::elements как к массиву, можно упростить приведённый код до:</p>
+
+    <pre class="brush: csharp;">
+    $username = $form['username'];
+    $email = $form['user']['email'];
+    </pre>
+
+    <h2 id="title">
+        Создание вложенной формы
+    </h2>
+
+    <p>Ранее мы уже описывали вложенные формы.</p>
+    <p>Форма, содержащая вложенные формы, называется главной.</p>
+    <p>В данном разделе мы будем использовать форму регистрации пользователя в качестве примера создания вложенных форм, соответствующих нескольким моделям данных.</p>
+    <p>Далее данные для входа пользователя хранятся в модели User, а данные профиля — в модели Profile.</p>
+    <p>Реализуем действие register следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    public function actionRegister()
+    {
+        $form = new CForm('application.views.user.registerForm');
+        $form['user']->model = new User;
+        $form['profile']->model = new Profile;
+        if($form->submitted('register') && $form->validate())
+        {
+            $user = $form['user']->model;
+            $profile = $form['profile']->model;
+            if($user->save(false))
+            {
+                $profile->userID = $user->id;
+                $profile->save(false);
+                $this->redirect(array('site/index'));
+            }
+        }
+     
+        $this->render('register', array('form'=>$form));
+    }
+    </pre>
+
+    <p>Выше мы создаём форму, используя настройки из application.views.user.registerForm.</p>
+    <p>После отправки данных формы и успешной их валидации мы пытаемся сохранить модели пользовательских данных и профиля.</p>
+    <p>Мы получаем модели через свойство model соответствующего объекта вложенной формы.</p>
+    <p>Так как валидация уже пройдена, мы вызываем $user->save(false) с параметром false, позволяющим не проводить её повторно.</p>
+    <p>Точно так же поступаем с моделью профиля.</p>
+    <p>Далее описываем настройки формы в файле protected/views/user/registerForm.php:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'elements'=>array(
+            'user'=>array(
+                'type'=>'form',
+                'title'=>'Данные для входа',
+                'elements'=>array(
+                    'username'=>array(
+                        'type'=>'text',
+                    ),
+                    'password'=>array(
+                        'type'=>'password',
+                    ),
+                    'email'=>array(
+                        'type'=>'text',
+                    )
+                ),
+            ),
+     
+            'profile'=>array(
+                'type'=>'form',
+                'title'=>'Профиль',
+                'elements'=>array(
+                    'firstName'=>array(
+                        'type'=>'text',
+                    ),
+                    'lastName'=>array(
+                        'type'=>'text',
+                    ),
+                ),
+            ),
+        ),
+     
+        'buttons'=>array(
+            'register'=>array(
+                'type'=>'submit',
+                'label'=>'Зарегистрироваться',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>При задании каждой вложенной формы мы указываем свойство CForm::title.</p>
+    <p>По умолчанию при построении HTML-формы каждая вложенная форма будет выведена в fieldset с заданным нами заголовком.</p>
+    <p>Описываем очень простой код шаблона представления register:</p>
+
+    <pre class="brush: csharp;">
+    &lt;h1&gt;&Rcy;&iecy;&gcy;&icy;&scy;&tcy;&rcy;&acy;&tscy;&icy;&yacy;&lt;/h1&gt;
+     
+    &lt;div class=&quot;form&quot;&gt;
+    &lt;?php echo $form; ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <h2 id="title">
+        Настройка отображения формы
+    </h2>
+
+    <p>Главное преимущество при использовании конструктора форм — разделение логики (конфигурация формы хранится в отдельном файле) и отображения (метод CForm::render).</p>
+    <p>Мы можем настроить рендеринг формы, переопределив метод CForm::render либо используя собственный файл представления.</p>
+    <p>Оба варианта позволяют не менять конфигурацию формы и использовать её повторно.</p>
+    <p>При переопределении CForm::render необходимо, главным образом, обойти коллекции CForm::elements и CForm::buttons и вызвать метод CFormElement::render для каждого элемента. Например:</p>
+
+    <pre class="brush: csharp;">
+    class MyForm extends CForm
+    {
+        public function render()
+        {
+            $output = $this->renderBegin();
+     
+            foreach($this->getElements() as $element)
+                $output .= $element->render();
+     
+            $output .= $this->renderEnd();
+     
+            return $output;
+        }
+    }
+    </pre>
+
+    <p>Также можно использовать представление _form:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    echo $form->renderBegin();
+     
+    foreach($form->getElements() as $element)
+        echo $element->render();
+     
+    echo $form->renderEnd();
+    </pre>
+
+    <p>Для этого достаточно написать:</p>
+
+    <pre class="brush: csharp;">
+    &lt;div class=&quot;form&quot;&gt;
+    &lt;?php $this-&gt;renderPartial(&apos;_form&apos;, array(&apos;form&apos;=&gt;$form)); ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <p>Если стандартный рендеринг формы не подходит (к примеру, в форме нужны уникальные декоративные элементы для определённых полей), в представлении можно поступить следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    какие-нибудь сложные элементы интерфейса
+
+    &lt;?php echo $form['username']; ?&gt;
+     
+    какие-нибудь сложные элементы интерфейса
+     
+    &lt;?php echo $form['password']; ?&gt;
+     
+    какие-нибудь сложные элементы интерфейса
+    </pre>
+
+    <p>В этом случае конструктор форм не очень эффективен, так как нам приходится описывать те же объёмы кода формы.</p>
+    <p>Тем не менее, преимущество есть. Оно в том, что форма, описанная в отдельном файле конфигурации, позволяет разработчику сфокусироваться на логике.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/22.html", "Использование конструктора форм", "bm1173"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1173", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1173") == 1) { document.getElementById("bma1173").style.display = "block"; document.getElementById("bm1173").style.display = "none"; } else { document.getElementById("bma1173").style.display = "none"; document.getElementById("bm1173").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Использование конструктора форм") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1173", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

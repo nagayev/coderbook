@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1194" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1194" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Управление URL Yii
+	</h1>
+
+    <p>Управление URL-адресами в веб-приложениях включает в себя два аспекта:</p>
+
+    <ol>
+        <li>Приложению необходимо разобрать запрос пользователя, поступающий в виде URL, на отдельные параметры.</li>
+        <li>Приложение должно предоставлять способ формирования адресов URL, с которыми оно сможет корректно работать.</li>
+    </ol>
+
+    <p>В приложениях на Yii эти задачи решаются с использованием класса CUrlManager.</p>
+    <p><b>Примечание:</b> Вы можете не пользоваться Yii для генерации URL, однако, так делать не рекомендуется, потому как вы не сможете легко поменять URL приложения через конфигурацию без изменения кода.</p>
+
+    <h2 id="title">
+        Создание адресов URL
+    </h2>
+
+    <p>В принципе, адреса URL можно задать прямо в коде представлений контроллера, однако куда удобнее создавать их динамически:</p>
+
+    <pre class="brush: csharp;">
+    $url=$this->createUrl($route,$params);
+    </pre>
+
+    <p>где $this относится к экземпляру контроллера; $route соответствует маршруту запроса, а $params является списком параметров GET для добавления к URL.</p>
+    <p>По умолчанию, адреса создаются посредством createUrl в get-формате.</p>
+    <p>Например, при значениях параметров $route='post/read' и $params=array('id'=>100), получим такой URL:</p>
+
+    <pre class="brush: csharp;">
+    /index.php?r=post/read&id=100
+    </pre>
+
+    <p>где параметры указаны в виде набора пар имя=значение, соединенных знаком &, а параметр r указывает на маршрут.</p>
+    <p>Однако, этот формат не очень дружелюбен по отношению к пользователю.</p>
+    <p><b>Подсказка:</b> Для того, чтобы сгенерировать URL с хештегом, к примеру, /index.php?r=post/read&id=100#title, необходимо передать параметр # следующим образом:</p>
+
+    <pre class="brush: csharp;">
+        $this->createUrl('post/read',array('id'=>100,'#'=>'title'))
+    </pre>
+    
+    <p>Мы можем сделать так, чтобы адрес, приведенный в качестве примера выше, выглядел более аккуратно и понятно за счет использования формата path, который исключает использование строки запроса и включает все GET-параметры в информационную часть адреса URL:</p>
+
+    <pre class="brush: csharp;">
+    /index.php/post/read/id/100
+    </pre>
+
+    <p>Для изменения формата представления адреса URL, нужно настроить компонент приложения urlManager таким образом, чтобы метод createUrl мог автоматически переключиться на использование нового формата, а приложение могло корректно воспринимать новый формат адресов URL:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        …
+        'components'=>array(
+            …
+            'urlManager'=>array(
+                'urlFormat'=>'path',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Обратите внимание, что указывать класс компонента urlManager не требуется, т.к. он уже объявлен как CUrlManager в CWebApplication.</p>
+    <p><b>Подсказка:</b> Адрес URL, генерируемый методом createUrl является относительным. Для того, чтобы получить абсолютный адрес, нужно добавить префикс, используя Yii::app()->request->hostInfo, или вызвать метод createAbsoluteUrl.</p>
+
+    <h2 id="title">
+        Человекопонятные URL
+    </h2>
+
+    <p>Если в качестве формата адреса URL используется path, то мы можем определить правила формирования URL, чтобы сделать адреса более привлекательными и понятными с точки зрения пользователя.</p>
+    <p>Например, мы можем использовать короткий адрес /post/100 вместо длинного варианта /index.php/post/read/id/100.</p>
+    <p>CUrlManager использует правила формирования URL как для создания, так и для обработки адресов.</p>
+    <p>Правила формирования URL задаются путем конфигурации свойства rules компонента приложения urlManager:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        …
+        'components'=>array(
+            …
+            'urlManager'=>array(
+                'urlFormat'=>'path',
+                'rules'=>array(
+                    'pattern1'=>'route1',
+                    'pattern2'=>'route2',
+                    'pattern3'=>'route3',
+                ),
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Правила задаются в виде массива пар шаблон-путь, где каждая пара соответствует одному правилу.</p>
+    <p>Шаблон правила — строка, которая должна совпадать с путём в URL.</p>
+    <p>Путь правила должен указывать на существующий путь контроллера.</p>
+    <p>Кроме показанного выше способа задания правил, можно описать правило с указанием дополнительных параметров:</p>
+
+    <pre class="brush: csharp;">
+    'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+    </pre>
+
+    <p>Начиная с версии 1.1.7, можно использовать показанный ниже формат.</p>
+    <p>То есть паттерн указывается как элемент массива, что позволяет указать несколько правил одного паттерна:</p>
+
+    <pre class="brush: csharp;">
+    array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+    </pre>
+
+    <p>Здесь массив содержит список дополнительных параметров для правила.</p>
+    <p>Возможно указать следующие параметры:</p>
+
+    <ul>
+        <li>pattern: паттерн, который будет использован при сопоставлении и создании URL. Данная возможность доступна с версии 1.1.7.</li>
+        <li>urlSuffix: суффикс URL, используемый исключительно для данного правила. По умолчанию равен null, что означает использование значения CUrlManager::urlSuffix.</li>
+        <li>caseSensitive: учитывает ли правило регистр. По умолчанию параметр равен null, что означает использование значения CUrlManager::caseSensitive.</li>
+        <li>defaultParams: GET-параметры по умолчанию (имя=>значение) для данного правила. При срабатывании правила параметры будут добавлены в $_GET.</li>
+        <li>matchValue: должны ли значения GET-параметров при создании URL совпадать с соответствующими подвыражениями в основном правиле. По умолчанию параметр равен null, что означает использование значения CUrlManager::matchValue. При значении параметра false правило будет использовано для создания URL только если имена параметров совпадают с именами в правиле. При значении true значения параметров дополнительно должны совпадать с подвыражениями в правиле. Стоит отметить, что установка значения в true снижает производительность.</li>
+        <li>verb: тип HTTP запроса (например, GET, POST, DELETE), для которого работает данное правило. По умолчанию равен null, что означает работу правила с любыми HTTP запросами. Если необходимо указать несколько типов запросов, их надо разделить запятыми. В том случае, когда правило не совпадает с текущим типом запроса, оно пропускается на этапе разбора запроса. Данная опция используется только для разбора запроса и введена для поддержки URL в стиле REST. Данная возможность доступна с версии 1.1.7.</li>
+        <li>parsingOnly: использовать ли правило только на этапе разбора запроса. По умолчанию параметр равен false, что означает, что правило используется как для разбора запроса, так и для построения URL. Данная возможность доступна с версии 1.1.7.</li>
+    </ul>
+
+    <h2 id="title">
+        Использование именованных параметров
+    </h2>
+
+    <p>Правило может быть ассоциировано с несколькими GET-параметрами.</p>
+    <p>Эти параметры указываются в шаблоне правила в виде маркеров следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;ParamName:ParamPattern&gt;
+    </pre>
+
+    <p>где ParamName соответствует имени GET-параметра, а необязательный ParamPattern — регулярному выражению, которое используется для проверки соответствия значению GET-параметра.</p>
+    <p>Если ParamPattern не указан, то параметр должен соответствовать любым символам, кроме слэша /.</p>
+    <p>В момент создания URL маркеры будут заменены на соответствующие значения параметров, а в момент обработки URL, соответствующим GET-параметрам будут присвоены результаты обработки.</p>
+    <p>Для наглядности приведем несколько примеров.</p>
+    <p>Предположим, что наш набор правил состоит из трех правил:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        'posts'=>'post/list',
+        'post/&lt;id:\d+&gt;'=>'post/read',
+        'post/&lt;year:\d{4}&gt;/&lt;title&gt;'=>'post/read',
+    )
+    </pre>
+    
+    <ul>
+        <li>Вызов $this->createUrl('post/list') сгенерирует /index.php/posts. Здесь было применено первое правило.</li>
+        <li>Вызов $this->createUrl('post/read',array('id'=>100)) сгенерирует /index.php/post/100. Применено второе правило.</li>
+        <li>Вызов $this->createUrl('post/read',array('year'=>2008,'title'=>'a sample post')) сгенерирует /index.php/post/2008/a%20sample%20post. Использовано третье правило.</li>
+        <li>Вызов $this->createUrl('post/read') сгенерирует /index.php/post/read. Ни одно из правил не было применено.</li>
+    </ul>
+
+    <p>При использовании createUrl для генерации адреса URL, маршрут и GET-параметры, переданные методу, используются для определения правила, которое нужно применить.</p>
+    <p>Правило применяется в том случае, когда все параметры, ассоциированные с правилом, присутствуют среди GET-параметров, а маршрут соответствует параметру маршрута.</p>
+
+    <p>Если же количество GET-параметров больше, чем требует правило, то лишние параметры будут включены в строку запроса.</p>
+    <p>Например, если вызвать</p>
+
+    <pre class="brush: csharp;">
+    $this->createUrl('post/read',array('id'=>100,'year'=>2008))
+    </pre>
+
+    <p>мы получим</p>
+
+    <pre class="brush: csharp;">
+    /index.php/post/100?year=2008
+    </pre>
+
+    <p>Для того, чтобы лишние параметры были отражены в информационной части пути, необходимо добавить к правилу /*.</p>
+    <p>Таким образом, используя правило post/&lt;id:\d+&gt;/* получим URL вида /index.php/post/100/year/2008.</p>
+    <p>Как уже говорилось, вторая задача правил URL — разбирать URL-запросы.</p>
+    <p>Этот процесс обратный процессу создания URL.</p>
+    <p>Например, когда пользователь запрашивает /index.php/post/100, применяется второе правило из примера выше и запрос преобразовывается в маршрут post/read и GET-параметр array('id'=>100) (доступный через $_GET).</p>
+    <p><b>Примечание:</b> Использование правил URL снижает производительность приложения. Это происходит по той причине, что в процессе парсинга запрошенного URL CUrlManager пытается найти соответствие каждому правилу до тех пор, пока какое-нибудь из правил не будет применено. Чем больше правил, тем больший урон производительности.</p>
+    <p>Поэтому в случае высоконагруженных приложений использование правил URL стоит минимизировать.</p>
+
+    <h2 id="title">
+        Параметризация маршрутов
+    </h2>
+
+    <p>Мы можем использовать именованные параметры в маршруте правила.</p>
+    <p>Такое правило может быть применено к нескольким маршрутам, совпадающим с правилом.</p>
+    <p>Это может помочь уменьшить число правил и, таким образом, повысить производительность приложения.</p>
+    <p>Для того, чтобы показать параметризацию маршрутов, используем следующий набор правил:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        '&lt;_c:(post|comment)&gt;/&lt;id:\d+&gt;/&lt;_a:(create|update|delete)&gt;&apos; =&gt; &apos;&lt;_c&gt;/&lt;_a&gt;&apos;,
+        '&lt;_c:(post|comment)&gt;/&lt;id:\d+&gt;&apos; =&gt; &apos;&lt;_c&gt;/read&apos;,
+        '&lt;_c:(post|comment)&gt;s&apos; =&gt; &apos;&lt;_c&gt;/list&apos;,
+    )
+    </pre>
+
+    <p>Мы использовали два именованных параметра в маршруте правил: _c и _a.</p>
+    <p>Первый соответствует названию контроллера и может быть равен post или comment, второй — названию action-а и может принимать значения create, update или delete.</p>
+    <p>Вы можете называть параметры по-другому, если их имена не конфликтуют с GET-параметрами, которые могут использоваться в URL.</p>
+    <p>При использовании правил, приведённых выше, URL /index.php/post/123/create будет обработано как маршрут post/create с GET-параметром id=123.</p>
+    <p>По маршруту comment/list с GET-параметром page=2, мы можем создать URL /index.php/comments?page=2.</p>
+
+    <h2 id="title">
+        Параметризация имён хостов
+    </h2>
+
+    <p>Также возможно использовать имена хостов в правилах для разбора и создания URL.</p>
+    <p>Можно выделять часть имени хоста в GET-параметр.</p>
+    <p>Например, URL http://admin.example.com/en/profile может быть разобран в GET-параметры user=admin и lang=en.</p>
+    <p>С другой стороны, правила с именами хостов могут также использоваться для создания URL адресов.</p>
+    <p>Чтобы использовать параметризованные имена хостов, включите имя хоста в правила URL:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        'http://&lt;user:\w+&gt;.example.com/&lt;lang:\w+&gt;/profile&apos; =&gt; &apos;user/profile&apos;,
+    )
+    </pre>
+
+    <p>Пример выше говорит, что первый сегмент имени хоста должен стать параметром user, а первый сегмент пути — параметром lang.</p>
+    <p>Правило соответствует маршруту user/profile.</p>
+    <p>Помните, что CUrlManager::showScriptName не работает при создании URL адреса с использованием правил с параметризованным именем хоста.</p>
+    <p>Стоит отметить, что правило с параметризованным именем хоста не должно содержать поддиректорий в том случае, если приложение находится в поддиректории корня вебсервера.</p>
+    <p>К примеру, если приложение располагается по адресу http://www.example.com/sandbox/blog, мы должны использовать точно такое же правило URL, как описано выше.</p>
+    <p>Без поддиректории: sandbox/blog.</p>
+
+    <h2 id="title">
+        Скрываем index.php
+    </h2>
+
+    <p>С целью сделать адрес URL еще более привлекательным можно спрятать имя входного скрипта index.php.</p>
+    <p>Для этого необходимо настроить веб-сервер и компонент приложения urlManager.</p>
+    <p>Вначале сконфигурируем веб-сервер таким образом, чтобы адрес URL без указания имени входного скрипта по-прежнему передавался на обработку входному скрипту.</p>
+    <p>Для сервера Apache HTTP server это достигается путем включения механизма преобразования URL и заданием нескольких правил.</p>
+    <p>Для этого необходимо создать файл /wwwroot/blog/.htaccess, содержащий правила, приведённые ниже.</p>
+    <p>Те же правила могут быть размещены в файле конфигурации Apache в секции Directory для /wwwroot/blog.</p>
+
+    <pre class="brush: csharp;">
+    RewriteEngine on
+    
+    # if a directory or a file exists, use it directly
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # otherwise forward it to index.php
+    RewriteRule . index.php
+    </pre>
+
+    <p>Далее нужно установить свойство showScriptName компонента urlManager равным false.</p>
+    <p>Теперь, вызвав $this->createUrl('post/read',array('id'=>100)), мы получим URL /post/100.</p>
+    <p>Что важно, этот адрес URL будет корректно распознан нашим веб-приложением.</p>
+
+    <h2 id="title">
+        Подмена окончания в адресе URL
+    </h2>
+
+    <p>В дополнение ко всему перечисленному выше, мы можем добавить к нашим адресам URL окончание.</p>
+    <p>Например, мы можем получить /post/100.html вместо /post/100, представив пользователю как будто бы статичную страничку.</p>
+    <p>Для этого нужно просто настроить компонент urlManager путем назначения свойству urlSuffix любого желаемого окончания.</p>
+
+    <h2 id="title">
+        Использование своего класса правила URL
+    </h2>
+
+    <p><b>Примечание:</b> данная возможность доступна с версии 1.1.8.</p>
+    <p>По умолчанию каждое правило URL для CUrlManager представлено объектом класса CUrlRule.</p>
+    <p>Этот объект разбирает запросы и создаёт URL по заданному правилу.</p>
+    <p>Несмотря на то, что CUrlRule достаточно гибок и подходит для работы с большинством форматов URL, иногда требуются какие-либо особенные возможности.</p>
+    <p>К примеру, для сайта по продаже автомобилей может потребоваться поддерживать URL вида /Производитель/Модель, где и Производитель и Модель должны соответствовать данным из определённой таблицы базы данных.</p>
+    <p>В этом случае класс CUrlRule не подойдёт так как он, в основном, работает с статически описанными регулярными выражениями, а не с базой данных.</p>
+    <p>В данном случае можно реализовать новый класс правила URL, унаследовав CBaseUrlRule, и использовать его в одном или нескольких правилах.</p>
+    <p>Для приведённого выше примера с продажей автомобилей подойдут следующие правила URL:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        // стандартное правило для обработки '/' как 'site/index'
+        '' => 'site/index',
+     
+        // стандартное правило для обработки '/login' как 'site/login' и т.д.
+        '&lt;action:(login|logout|about)&gt;&apos; =&gt; &apos;site/&lt;action&gt;',
+     
+        // своё правило для URL вида '/Производитель/Модель'
+        array(
+            'class' => 'application.components.CarUrlRule',
+            'connectionID' => 'db',
+        ),
+     
+        // стандартное правило для обработки 'post/update' и др.
+        '&lt;controller:\w+&gt;/&lt;action:\w+&gt;&apos; =&gt; &apos;&lt;controller&gt;/&lt;action&gt;',
+    ),
+    </pre>
+
+    <p>Выше мы использовали свой класс правила URL CarUrlRule для обработки URL вида /Производитель/Модель.</p>
+    <p>Данный класс может быть реализован следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    class CarUrlRule extends CBaseUrlRule
+    {
+        public $connectionID = 'db';
+     
+        public function createUrl($manager,$route,$params,$ampersand)
+        {
+            if ($route==='car/index')
+            {
+                if (isset($params['manufacturer'], $params['model']))
+                    return $params['manufacturer'] . '/' . $params['model'];
+                else if (isset($params['manufacturer']))
+                    return $params['manufacturer'];
+            }
+            return false;  // не применяем данное правило
+        }
+     
+        public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
+        {
+            if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches))
+            {
+                // Проверяем $matches[1] и $matches[3] на предмет
+                // соответствия производителю и модели в БД.
+                // Если соответствуют, выставляем $_GET['manufacturer'] и/или $_GET['model']
+                // и возвращаем строку с маршрутом 'car/index'.
+            }
+            return false;  // не применяем данное правило
+        }
+    }
+    </pre>
+
+    <p>Свой класс правила URL должен реализовать два абстрактных метода, объявленных в CBaseUrlRule:</p>
+
+    <pre class="brush: csharp;">
+    createUrl()
+    parseUrl()
+    </pre>
+
+    <p>Кроме показанного выше типичного использования, свой класс URL может пригодиться и в других ситуациях.</p>
+    <p>Например, можно реализовать класс правила, который будет записывать в журнал разбираемые и создаваемые URL.</p>
+    <p>Это может пригодиться на этапе разработки.</p>
+    <p>Также можно реализовать класс, который показывает особую страницу ошибки 404 в том случае, когда все остальные правила для разбираемого URL не сработали.</p>
+    <p>Стоит отметить, что в этом случае правило с этим специальным классом должно указываться последним в списке.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="42.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="44.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/43.html", "Управление URL Yii", "bm1194"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1194", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1194") == 1) { document.getElementById("bma1194").style.display = "block"; document.getElementById("bm1194").style.display = "none"; } else { document.getElementById("bma1194").style.display = "none"; document.getElementById("bm1194").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Управление URL Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1194", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

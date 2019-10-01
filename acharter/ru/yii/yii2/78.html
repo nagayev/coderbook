@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1284" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1284" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Обработка ошибок
+	</h1>
+
+    <p>Если при обработке запроса к RESTful API в запросе пользователя обнаруживается ошибка или происходит что-то непредвиденное на сервере, вы можете просто выбрасывать исключение, чтобы уведомить пользователя о нештатной ситуации.</p>
+    <p>Если же вы можете установить конкретную причину ошибки (например, запрошенный ресурс не существует), вам следует подумать о том, чтобы выбрасывать исключение с соответствующим кодом состояния HTTP (например, [[yii\web\NotFoundHttpException]], соответствующее коду состояния 404).</p>
+    <p>Yii отправит ответ с соответствующим HTTP-кодом и текстом.</p>
+    <p>Он также включит в тело ответа сериализованное представление исключения.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    HTTP/1.1 404 Not Found
+    Date: Sun, 02 Mar 2014 05:31:43 GMT
+    Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.20 mod_ssl/2.2.26 OpenSSL/0.9.8y
+    Transfer-Encoding: chunked
+    Content-Type: application/json; charset=UTF-8
+    
+    {
+        "name": "Not Found Exception",
+        "message": "The requested resource was not found.",
+        "code": 0,
+        "status": 404
+    }
+    </pre>
+
+    <p>Сводный список кодов состояния HTTP, используемых REST-фреймворком Yii:</p>
+
+    <ul>
+        <li><b>200:</b> OK. Все сработало именно так, как и ожидалось.</li>
+        <li><b>201:</b> Ресурс был успешно создан в ответ на POST-запрос. Заголовок Location содержит URL, указывающий на только что созданный ресурс.</li>
+        <li><b>204:</b> Запрос обработан успешно, и в ответе нет содержимого (для запроса DELETE, например).</li>
+        <li><b>304:</b> Ресурс не изменялся. Можно использовать закэшированную версию.</li>
+        <li><b>400:</b> Неверный запрос. Может быть связано с разнообразными проблемами на стороне пользователя, такими как неверные JSON-данные в теле запроса, неправильные параметры действия, и т.д.</li>
+        <li><b>401:</b> Аутентификация завершилась неудачно.</li>
+        <li><b>403:</b> Аутентифицированному пользователю не разрешен доступ к указанной точке входа API.</li>
+        <li><b>404:</b> Запрошенный ресурс не существует.</li>
+        <li><b>405:</b> Метод не поддерживается. Сверьтесь со списком поддерживаемых HTTP-методов в заголовке Allow.</li>
+        <li><b>415:</b> Не поддерживаемый тип данных. Запрашивается неправильный тип данных или номер версии.</li>
+        <li><b>422:</b> Проверка данных завершилась неудачно (в ответе на POST-запрос, например). Подробные сообщения об ошибках смотрите в теле ответа.</li>
+        <li><b>429:</b> Слишком много запросов. Запрос отклонен из-за превышения ограничения частоты запросов.</li>
+        <li><b>500:</b> Внутренняя ошибка сервера. Возможная причина — ошибки в самой программе.</li>
+    </ul>
+
+	<h2 id="title">
+		Свой формат ответа с ошибкой
+	</h2>
+
+    <p>Вам может понадобиться изменить формат ответа с ошибкой.</p>
+    <p>Например, вместо использования разных статусов ответа HTTP для разных ошибок, вы можете всегда отдавать статус 200, а реальный код статуса отдавать как часть JSON ответа:</p>
+
+    <pre class="brush: csharp;">
+    HTTP/1.1 200 OK
+    Date: Sun, 02 Mar 2014 05:31:43 GMT
+    Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.20 mod_ssl/2.2.26 OpenSSL/0.9.8y
+    Transfer-Encoding: chunked
+    Content-Type: application/json; charset=UTF-8
+    
+    {
+        "success": false,
+        "data": {
+            "name": "Not Found Exception",
+            "message": "The requested resource was not found.",
+            "code": 0,
+            "status": 404
+        }
+    }
+    </pre>
+
+    <p>Для этого можно использовать событие beforeSend компонента response прямо в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            'response' =&gt; [
+                'class' =&gt; 'yii\web\Response',
+                'on beforeSend' =&gt; function ($event) {
+                    $response = $event->sender;
+                    if ($response->data !== null && !empty(Yii::$app->request->get('suppress_response_code'))) {
+                        $response->data = [
+                            'success' =&gt; $response->isSuccessful,
+                            'data' =&gt; $response->data,
+                        ];
+                        $response->statusCode = 200;
+                    }
+                },
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Приведённый выше код изменит формат ответа (как для удачного запроса, так и для ошибок) если передан GET-параметр suppress_response_code.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="77.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="79.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/78.html", "Yii2: Обработка ошибок", "bm1284"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1284", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1284") == 1) { document.getElementById("bma1284").style.display = "block"; document.getElementById("bm1284").style.display = "none"; } else { document.getElementById("bma1284").style.display = "none"; document.getElementById("bm1284").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Обработка ошибок") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1284", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

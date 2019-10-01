@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma142" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm142" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Статические константы
+	</h1>
+
+	<p>Константы могут быть локализованы в теле метода, а могут принадлежать классу.</p>
+	<p>В последнем случае они по умолчанию без модификатора static являются статическими, т.е. недоступны через ссылку на объекты класса.</p>
+	<p>Объявление статической константы имеет вид:</p>
+	<p><b>модификаторыopt const тип_константы список_объявлений_констант</b></p>
+	<p>Необязательные модификаторы для констант – это при отсутствии наследования модификаторы доступа (public, private, protected, internal).</p>
+	<p>Объявление из списка_объявлений_констант имеет вид:</p>
+	<p><b>идентификатор = инициализирующее_выражение</b></p>
+	<p>Идентификатор служит именем статической константы.</p>
+	<p>В инициализирующее выражение имеют право входить только константы–литералы и статические константы.</p>
+	<p>Порядок их размещения в объявлении класса безразличен.</p>
+	<p>Каждая константа должна быть обязательно явно инициализирована.</p>
+	<p>Умалчиваемые значения для статических констант не предусмотрены.</p>
+	<p>Пример с классом статических констант:</p>
+
+	<pre class="brush: csharp;">
+	// 10_04.cs - статические константы класса
+	using System;
+	class Constants
+	{
+		public const double скорость_света = 299793; // км/сек
+		public const double радиус_электрона = 2.82e-13; // см
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			Console.WriteLine("радиус_электрона = {0}",
+			Constants.радиус_электрона);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	радиус_электрона = 2,82E-13
+	</pre>
+
+	<p>В отличие от статических полей константы инициализируются однажды и не принимают до явной инициализации промежуточных умалчиваемых значений.</p>
+	<p>Поэтому последовательность размещения объявлений статических констант не важна.</p>
+	<p>Для иллюстрации этой особенности приведём следующую программу:</p>
+
+	<pre class="brush: csharp;">
+	// 10_05.cs - статические константы разных классов
+	using System;
+	class One
+	{
+		public const double circle = 2 * pi * Two.radius;
+		public const double pi = 3.14159;
+	}
+
+	class Two
+	{
+		public const double radius = 20;
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			Console.WriteLine("One.circle = {0}", One.circle);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	One.circle = 125,6636
+	</pre>
+
+	<p>Следует обратить внимание на отличия статических констант от статических полей с модификатором readonly (только чтение).</p>
+	<p>Статические константы получают значения при компиляции, а статические поля (даже снабженные модификатором readonly) инициализируются в процессе выполнения программы.</p>
+	<p>Инициализация статических полей выполняется в порядке их размещения в тексте объявления класса, и до инициализации поле имеет умалчиваемое значение.</p>
+	<p>В то же время инициализирующие выражения статических констант вычисляются в "рациональной" последовательности, независимо от порядка размещения объявлений.</p>
+	<p>Эти особенности иллюстрируют объявления констант в классе One:</p>
+
+	<pre class="brush: csharp;">
+	public const double circle = 2*pi*Two.radius;
+	public const double pi=3.14159;
+	</pre>
+
+	<p>В инициализатор константы circle входит константа pi, объявление которой следует за объявлением circle.</p>
+	<p>Несмотря на это, значением circle будет 125,6636.</p>
+	<p>Конечно, при инициализации нескольких констант недопустимо появление "зацикливания".</p>
+	<p>В инициализатор константы K1 не должна входить константа K2, в инициализатор которой входит константа K1.</p>
+	<p>Указанное "зацикливание" никогда не возникает при инициализации статических полей (даже имеющих модификатор readonly).</p>
+	<p>Поле F2, объявление которого размещено ниже, может входить в инициализатор поля F1 – оно имеет там умалчиваемое значение.</p>
+	<p>При этом поле F1, использованное в инициализатор F2, будет иметь там уже конкретное значение.</p>
+	<p>Замена const на static readonly в предыдущем примере:</p>
+
+	<pre class="brush: csharp;">
+	public static readonly double circle = 2*pi*Two.radius;
+	public static readonly double pi=3.14159;
+	</pre>
+
+	<p>При такой инициализации значение circle будет 0.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="54.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="56.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/55.html", "Статические константы", "bm142"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm142", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm142") == 1) { document.getElementById("bma142").style.display = "block"; document.getElementById("bm142").style.display = "none"; } else { document.getElementById("bma142").style.display = "none"; document.getElementById("bm142").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Статические константы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm142", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

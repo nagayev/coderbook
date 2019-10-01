@@ -1,0 +1,1068 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1248" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1248" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Миграции баз данных
+	</h1>
+
+    <p>В ходе разработки и ведения баз данных приложений, которые управляют данными, структуры используемых баз данных развиваются, как и исходный код приложений.</p>
+    <p>Например, при разработке приложения, в будущем может оказаться необходимой новая таблица; уже после того, как приложение будет развернуто в рабочем режиме (продакшене), также может быть обнаружено, что для повышения производительности запросов должен быть создан определённый индекс; и так далее.</p>
+    <p>В связи с тем, что изменение структуры базы данных часто требует изменение исходного кода, yii поддерживает так называемую возможность миграции баз данных, которая позволяет отслеживать изменения в базах данных при помощи терминов миграции баз данных, которые являются системой контроля версий вместе с исходным кодом.</p>
+    <p>Следующие шаги показывают, как миграции базы данных могут быть использованы командой разработчиков в процессе разработки:</p>
+
+    <ol>
+        <li>Илья создает новую миграцию (например, создается новая таблица или изменяется определение столбца и т.п.).</li>
+        <li>Илья фиксирует новую миграцию в системе управления версиями (например, в Git, Mercurial).</li>
+        <li>Алексей обновляет свой репозиторий из системы контроля версий и получает новую миграцию.</li>
+        <li>Алексей применяет миграцию к своей локальной базе данных, тем самым синхронизируя свою базу данных, для того чтобы отразить изменения, которые сделал Илья.</li>
+    </ol>
+
+    <p>А следующие шаги показывают, как развернуть новый релиз с миграциями баз данных в рабочем режиме (продакшена):</p>
+
+    <ol>
+        <li>Сергей создаёт новую версию проекта репозитория, которая содержит некоторые новые миграции баз данных.</li>
+        <li>Сергей обновляет исходный код на рабочем сервере до новой версии.</li>
+        <li>Сергей применяет любую из накопленных миграций баз данных в рабочую базу данных.</li>
+    </ol>
+
+    <p>Yii предоставляет набор инструментов для миграций из командной строки, которые позволяют:</p>
+
+    <ul>
+        <li>создавать новые миграции;</li>
+        <li>применять миграции;</li>
+        <li>отменять миграции;</li>
+        <li>применять миграции повторно;</li>
+        <li>показывать историю и статус миграций;</li>
+    </ul>
+
+    <p>Все эти инструменты доступны через команду yii migrate.</p>
+    <p>В этом разделе мы опишем подробно, как выполнять различные задачи, используя эти инструменты.</p>
+    <p>Вы также можете сами посмотреть как использовать каждый отдельный инструмент при помощи команды yii help migrate.</p>
+    <p><b>Подсказка:</b> Миграции могут не только изменять схему базы данных, но и приводить данные в соответствие с новой схемой, создавать иерархию RBAC или очищать кеш.</p>
+
+    <h2 id="title">
+        Создание миграций
+    </h2>
+
+    <p>Чтобы создать новую миграцию, выполните следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create &lt;name&gt;
+    </pre>
+
+    <p>Требуемый аргумент name даёт краткое описание новой миграции.</p>
+    <p>Например, если миграция о создании новой таблицы с именем news, вы можете использовать имя create_news_table и выполнить следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create create_news_table
+    </pre>
+
+    <p><b>Примечание:</b> Поскольку аргумент name будет использован как часть имени класса создаваемой миграции, он должен содержать только буквы, цифры и/или символы подчеркивания.</p>
+    <p>Приведенная выше команда создаст новый PHP класс с именем файла m150101_185401_create_news_table.php в директории @app/migrations. Файл содержит следующий код, который главным образом декларирует класс миграции m150101_185401_create_news_table с следующим каркасом кода:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\db\Migration;
+    
+    class m150101_185401_create_news_table extends Migration
+    {
+        public function up()
+        {
+    
+        }
+    
+        public function down()
+        {
+            echo "m101129_185401_create_news_table cannot be reverted.\n";
+    
+            return false;
+        }
+    
+        /*
+        // Use safeUp/safeDown to run migration code within a transaction
+        public function safeUp()
+        {
+        }
+    
+        public function safeDown()
+        {
+        }
+        */
+    }
+    </pre>
+
+    <p>Каждая миграция базы данных определяется как PHP класс расширяющийся от [[yii\db\Migration]].</p>
+    <p>Имя класса миграции автоматически создается в формате m&lt;YYMMDD_HHMMSS&gt;_&lt;Name&gt; (m<ГодМесяцДень_ЧасыМинутыСекунды>_<Имя>), где</p>
+
+    <ul>
+        <li>&lt;YYMMDD_HHMMSS&gt; относится к UTC дате-времени при котором команда создания миграции была выполнена.</li>
+        <li>&lt;Name&gt; это тоже самое значение аргумента name которое вы прописываете в команду.</li>
+    </ul>
+
+    <p>В классе миграции, вы должны прописать код в методе up() когда делаете изменения в структуре базы данных.</p>
+    <p>Вы также можете написать код в методе down(), чтобы отменить сделанные up() изменения.</p>
+    <p>Метод up вызывается для обновления базы данных с помощью данной миграции, а метод down() вызывается для отката изменений базы данных.</p>
+    <p>Следующий код показывает как можно реализовать класс миграции, чтобы создать таблицу news:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\db\Schema;
+    use yii\db\Migration;
+    
+    class m150101_185401_create_news_table extends Migration
+    {
+        public function up()
+        {
+            $this->createTable('news', [
+                'id' =&gt; Schema::TYPE_PK,
+                'title' =&gt; Schema::TYPE_STRING . ' NOT NULL',
+                'content' =&gt; Schema::TYPE_TEXT,
+            ]);
+        }
+    
+        public function down()
+        {
+            $this->dropTable('news');
+        }
+    }
+    </pre>
+
+    <p><b>Информация:</b> Не все миграции являются обратимыми. Например, если метод up() удаляет строку из таблицы, возможно что у вас уже не будет возможности вернуть эту строку методом down(). Иногда Вам может быть просто слишком лень реализовывать метод down(), в связи с тем, что это не очень распространено - откатывать миграции базы данных. В этом случае вы должны в методе down() вернуть false, чтобы указать, что миграция не является обратимой.</p>
+    <p>Базовый класс миграций [[yii\db\Migration]] предоставляет подключение к базе данных через свойство [[yii\db\Migration::db|db]].</p>
+    <p>Вы можете использовать его для манипулирования схемой базы данных используя методы описанные в работе со схемой базы данных.</p>
+    <p>Вместо использования физических типов данных, при создании таблицы или столбца, следует использовать абстрактные типы для того, чтобы ваша миграция являлась независимой от конкретной СУБД.</p>
+    <p>Класс [[yii\db\Schema]] определяет набор констант для предоставления поддержки абстрактных типов. Эти константы называются в следующем формате TYPE_&lt;Name&gt;.</p>
+    <p>Например, TYPE_PK относится к типу автоинкремента (AUTO_INCREMENT) первичного ключа; TYPE_STRING относится к строковому типу.</p>
+    <p>Когда миграция применяется к конкретной базе данных, абстрактные типы будут переведены в соответствующие физические типы.</p>
+    <p>В случае с MySQL, TYPE_PK будет превращено в int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, а TYPE_STRING станет varchar(255).</p>
+    <p>Вы можете добавить дополнительные ограничения при использовании абстрактных типов. В приведенном выше примере, NOT NULL добавляется к Schema::TYPE_STRING чтобы указать, что столбец не может быть NULL.</p>
+    <p><b>Информация:</b> Сопоставление абстрактных типов и физических типов определяется свойством [[yii\db\QueryBuilder::$typeMap|$typeMap]] в каждом конкретном QueryBuilder классе.</p>
+    <p>Начиная с версии 2.0.6, появился новый построитель схем, который является более удобным инструментом для описания структуры столбцов.</p>
+    <p>Теперь, при написании миграций, можно использовать такой код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\db\Migration;
+    
+    class m150101_185401_create_news_table extends Migration
+    {
+        public function up()
+        {
+            $this->createTable('news', [
+                'id' =&gt; $this->primaryKey(),
+                'title' =&gt; $this->string()->notNull(),
+                'content' =&gt; $this->text(),
+            ]);
+        }
+    
+        public function down()
+        {
+            $this->dropTable('news');
+        }
+    }
+    </pre>
+
+    <p>Весь список методов описания типов столбцов доступен в API документации [[yii\db\SchemaBuilderTrait]].</p>
+
+    <h2 id="title">
+        Генерация миграций
+    </h2>
+
+    <p>Начиная с версии 2.0.7 появился удобный способ создания миграций из консоли.</p>
+    <p>В том случае, если миграция названа особым образом, таким как, например, create_xxx_table или drop_xxx_table сгенерированный файл миграции будет содержать дополнительный код.</p>
+
+    <h3 id="title">
+        Создание таблицы
+    </h3>
+
+    <pre class="brush: csharp;">
+    yii migrate/create create_post_table
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    class m150811_220037_create_post_table extends Migration
+    {
+        public function up()
+        {
+            $this->createTable('post', [
+                'id' =&gt; $this->primaryKey()
+            ]);
+        }
+    
+        public function down()
+        {
+            $this->dropTable('post');
+        }
+    }
+    </pre>
+
+    <p>Чтобы сразу создать поля таблицы, укажите их через опцию --fields.</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create create_post_table --fields=title:string,body:text
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    class m150811_220037_create_post_table extends Migration
+    {
+        public function up()
+        {
+            $this->createTable('post', [
+                'id' =&gt; $this->primaryKey(),
+                'title' =&gt; $this->string(),
+                'body' =&gt; $this->text()
+            ]);
+        }
+    
+        public function down()
+        {
+            $this->dropTable('post');
+        }
+    }
+    </pre>
+
+    <p>Можно указать дополнительные параметры.</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create create_post_table --fields=title:string(12):notNull:unique,body:text
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    class m150811_220037_create_post_table extends Migration
+    {
+        public function up()
+        {
+            $this->createTable('post', [
+                'id' =&gt; $this->primaryKey(),
+                'title' =&gt; $this->string(12)->notNull()->unique(),
+                'body' =&gt; $this->text()
+            ]);
+        }
+    
+        public function down()
+        {
+            $this->dropTable('post');
+        }
+    }
+    </pre>
+
+    <p><b>Примечание:</b> первичный ключ добавляется автоматически и по умолчанию называется id. Если вам необходимо другое имя, указать его можно через опцию --fields=name:primaryKey.</p>
+
+    <h3 id="title">
+        Внешние ключи
+    </h3>
+
+    <p>Начиная с версии 2.0.8, генератор поддерживает создание внешних ключей через ключевое слово foreignKey.</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create create_post_table --fields="author_id:integer:notNull:foreignKey(user),category_id:integer:defaultValue(1):foreignKey,title:string,body:text"
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * Handles the creation for table `post`.
+     * Has foreign keys to the tables:
+     *
+     * - `user`
+     * - `category`
+     */
+    class m160328_040430_create_post_table extends Migration
+    {
+        /**
+         * @inheritdoc
+         */
+        public function up()
+        {
+            $this->createTable('post', [
+                'id' =&gt; $this->primaryKey(),
+                'author_id' =&gt; $this->integer()->notNull(),
+                'category_id' =&gt; $this->integer()->defaultValue(1),
+                'title' =&gt; $this->string(),
+                'body' =&gt; $this->text(),
+            ]);
+    
+            // creates index for column `author_id`
+            $this->createIndex(
+                'idx-post-author_id',
+                'post',
+                'author_id'
+            );
+    
+            // add foreign key for table `user`
+            $this->addForeignKey(
+                'fk-post-author_id',
+                'post',
+                'author_id',
+                'user',
+                'id',
+                'CASCADE'
+            );
+    
+            // creates index for column `category_id`
+            $this->createIndex(
+                'idx-post-category_id',
+                'post',
+                'category_id'
+            );
+    
+            // add foreign key for table `category`
+            $this->addForeignKey(
+                'fk-post-category_id',
+                'post',
+                'category_id',
+                'category',
+                'id',
+                'CASCADE'
+            );
+        }
+    
+        /**
+         * @inheritdoc
+         */
+        public function down()
+        {
+            // drops foreign key for table `user`
+            $this->dropForeignKey(
+                'fk-post-author_id',
+                'post'
+            );
+    
+            // drops index for column `author_id`
+            $this->dropIndex(
+                'idx-post-author_id',
+                'post'
+            );
+    
+            // drops foreign key for table `category`
+            $this->dropForeignKey(
+                'fk-post-category_id',
+                'post'
+            );
+    
+            // drops index for column `category_id`
+            $this->dropIndex(
+                'idx-post-category_id',
+                'post'
+            );
+    
+            $this->dropTable('post');
+        }
+    }
+    </pre>
+
+    <p>Положение ключевого слова foreignKey в описании поля не изменяет сгенерированный код.</p>
+    <p>Это значит, что:</p>
+
+    <pre class="brush: csharp;">
+    author_id:integer:notNull:foreignKey(user)
+    author_id:integer:foreignKey(user):notNull
+    author_id:foreignKey(user):integer:notNull
+    </pre>
+
+    <p>Генерируют один и тот же код.</p>
+    <p>Ключевое слово foreignKey может принимать в скобках параметр, который будет использован в качестве имени таблицы для внешнего ключа.</p>
+    <p>Если параметр не был передан, то имя таблицы будет извлечено из названия поля.</p>
+    <p>В приведенном выше примере author_id:integer:notNull:foreignKey(user) будет генерировать поле author_id с внешним ключом на таблицу user, а category_id:integer:defaultValue(1):foreignKey сгенерирует поле author_id с внешним ключом на таблицу category.</p>
+    <p>Начиная с версии 2.0.11, ключевое слово foreignKey может принимать второй параметр, который следует указывать через пробел.</p>
+    <p>Этот параметр будет использован в качестве имени поля внешнего ключа.</p>
+    <p>В случае, если второй параметр не будет передан, то поле для внешнего ключа будет извлечено из схемы таблицы.</p>
+    <p>Тем не менее, это справедливо только в тех случаях, когда таблица имеется в базе данных, первичный ключ задан и не является составным.</p>
+    <p>В иных случаях будет использоваться имя по умолчанию id.</p>
+
+    <h3 id="title">
+        Удаление таблицы
+    </h3>
+
+    <pre class="brush: csharp;">
+    yii migrate/create drop_post_table --fields=title:string(12):notNull:unique,body:text
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    class m150811_220037_drop_post_table extends Migration
+    {
+        public function up()
+        {
+            $this->dropTable('post');
+        }
+    
+        public function down()
+        {
+            $this->createTable('post', [
+                'id' =&gt; $this->primaryKey(),
+                'title' =&gt; $this->string(12)->notNull()->unique(),
+                'body' =&gt; $this->text()
+            ]);
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Добавление столбца
+    </h3>
+
+    <p>Если имя миграции задано как add_xxx_column_to_yyy_table, файл будет содержать необходимые методы addColumn и dropColumn.</p>
+    <p>Для добавления столбца:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create add_position_column_to_post_table --fields=position:integer
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    class m150811_220037_add_position_column_to_post_table extends Migration
+    {
+        public function up()
+        {
+            $this->addColumn('post', 'position', $this->integer());
+        }
+    
+        public function down()
+        {
+            $this->dropColumn('post', 'position');
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Удаление столбца
+    </h3>
+
+    <p>Если имя миграции задано как drop_xxx_column_from_yyy_table, файл будет содержать необходимые методы addColumn и dropColumn.</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create drop_position_column_from_post_table --fields=position:integer
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    class m150811_220037_drop_position_column_from_post_table extends Migration
+    {
+        public function up()
+        {
+            $this->dropColumn('post', 'position');
+        }
+    
+        public function down()
+        {
+            $this->addColumn('post', 'position', $this->integer());
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Добавление промежуточной таблицы
+    </h3>
+
+    <p>Если имя миграции задано как create_junction_table_for_xxx_and_yyy_tables, файл будет содержать код для создания промежуточной таблцы.</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create create_junction_table_for_post_and_tag_tables
+    </pre>
+
+    <p>сгенерирует</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * Handles the creation for table `post_tag`.
+     * Has foreign keys to the tables:
+     *
+     * - `post`
+     * - `tag`
+     */
+    class m160328_041642_create_junction_table_for_post_and_tag_tables extends Migration
+    {
+        /**
+         * @inheritdoc
+         */
+        public function up()
+        {
+            $this->createTable('post_tag', [
+                'post_id' =&gt; $this->integer(),
+                'tag_id' =&gt; $this->integer(),
+                'created_at' =&gt; $this->dateTime(),
+                'PRIMARY KEY(post_id, tag_id)',
+            ]);
+    
+            // creates index for column `post_id`
+            $this->createIndex(
+                'idx-post_tag-post_id',
+                'post_tag',
+                'post_id'
+            );
+    
+            // add foreign key for table `post`
+            $this->addForeignKey(
+                'fk-post_tag-post_id',
+                'post_tag',
+                'post_id',
+                'post',
+                'id',
+                'CASCADE'
+            );
+    
+            // creates index for column `tag_id`
+            $this->createIndex(
+                'idx-post_tag-tag_id',
+                'post_tag',
+                'tag_id'
+            );
+    
+            // add foreign key for table `tag`
+            $this->addForeignKey(
+                'fk-post_tag-tag_id',
+                'post_tag',
+                'tag_id',
+                'tag',
+                'id',
+                'CASCADE'
+            );
+        }
+    
+        /**
+         * @inheritdoc
+         */
+        public function down()
+        {
+            // drops foreign key for table `post`
+            $this->dropForeignKey(
+                'fk-post_tag-post_id',
+                'post_tag'
+            );
+    
+            // drops index for column `post_id`
+            $this->dropIndex(
+                'idx-post_tag-post_id',
+                'post_tag'
+            );
+    
+            // drops foreign key for table `tag`
+            $this->dropForeignKey(
+                'fk-post_tag-tag_id',
+                'post_tag'
+            );
+    
+            // drops index for column `tag_id`
+            $this->dropIndex(
+                'idx-post_tag-tag_id',
+                'post_tag'
+            );
+    
+            $this->dropTable('post_tag');
+        }
+    }
+    </pre>
+
+    <p>Начиная с версии 2.0.11, имена полей для внешних ключей промежуточной таблицы будут извлечены из объединяемых таблиц.</p>
+    <p>Тем не менее, это справедливо только в тех случаях, когда таблица имеется в базе данных, первичный ключ задан и не является составным.</p>
+    <p>В других иных случаях для поля будет сгенерировано значение по умолчанию id.</p>
+
+    <h3 id="title">
+        Транзакции Миграций
+    </h3>
+
+    <p>При выполнении сложных миграций баз данных, важно обеспечить каждую миграцию либо успехом, либо ошибкой, в целом так, чтобы база данных могла поддерживать целостность и непротиворечивость.</p>
+    <p>Для достижения данной цели рекомендуется, заключить операции каждой миграции базы данных в транзакции.</p>
+    <p>Самый простой способ реализации транзакций миграций это прописать код миграций в методы safeUp() и safeDown().</p>
+    <p>Эти два метода отличаются от методов up() и down() тем, что они неявно заключены в транзакции.</p>
+    <p>В результате, если какая-либо операция в этих методах не удается, все предыдущие операции будут отменены автоматически.</p>
+    <p>В следующем примере, помимо создания таблицы news мы также вставляем в этой таблице начальную строку.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\db\Migration;
+    
+    class m150101_185401_create_news_table extends Migration
+    {
+        public function safeUp()
+        {
+            $this->createTable('news', [
+                'id' =&gt; $this->primaryKey(),
+                'title' =&gt; $this->string()->notNull(),
+                'content' =&gt; $this->text(),
+            ]);
+    
+            $this->insert('news', [
+                'title' =&gt; 'test 1',
+                'content' =&gt; 'content 1',
+            ]);
+        }
+    
+        public function safeDown()
+        {
+            $this->delete('news', ['id' =&gt; 1]);
+            $this->dropTable('news');
+        }
+    }
+    </pre>
+
+    <p>Обратите внимание, что обычно при выполнении нескольких операций в базе данных при помощи метода safeUp(), вы должны реализовать обратный порядок исполнения в методе safeDown().</p>
+    <p>В приведенном выше примере мы сначала создали таблицу, а затем вставили строку в safeUp(); а в safeDown() мы сначала удаляем строку и затем удаляем таблицу.</p>
+    <p><b>Примечание:</b> Не все СУБД поддерживают транзакции. И некоторые запросы к базам данных не могут быть введены в транзакции. Для различных примеров, пожалуйста, обратитесь к негласным обязательствам.</p>
+    <p>В этом случае вместо этих методов вы должны реализовать методы up() и down().</p>
+
+    <h3 id="title">
+        Методы доступа к базе данных
+    </h3>
+
+    <p>Базовый класс миграции [[yii\db\Migration]] предоставляет набор методов, которые позволяют Вам получить доступ и управлять базами данных.</p>
+    <p>Вы можете найти эти методы, их названия аналогичны методам DAO, предоставленным в классе [[yii\db\Command]].</p>
+    <p>Например, метод [[yii\db\Migration::createTable()]] позволяет создать новую таблицу, подобно методу [[yii\db\Command::createTable()]].</p>
+    <p>Преимущество методов, описанных при помощи [[yii\db\Migration]] заключается в том, что Вам не нужно явно создавать экземпляр/копию [[yii\db\Command]] и исполнение каждого метода будет автоматически отображать полезные сообщения говорящие вам, что операции с базой данных выполняются и сколько они идут.</p>
+    <p>Ниже представлен список всех этих методов доступа к базам данных:</p>
+
+    <ul>
+        <li>[[yii\db\Migration::execute()|execute()]]: выполнение SQL инструкции</li>
+        <li>[[yii\db\Migration::insert()|insert()]]: вставка одной строки</li>
+        <li>[[yii\db\Migration::batchInsert()|batchInsert()]]: вставка нескольких строк</li>
+        <li>[[yii\db\Migration::update()|update()]]: обновление строк</li>
+        <li>[[yii\db\Migration::delete()|delete()]]: удаление строк</li>
+        <li>[[yii\db\Migration::createTable()|createTable()]]: создание таблицы</li>
+        <li>[[yii\db\Migration::renameTable()|renameTable()]]: переименование таблицы</li>
+        <li>[[yii\db\Migration::dropTable()|dropTable()]]: удаление таблицы</li>
+        <li>[[yii\db\Migration::truncateTable()|truncateTable()]]: удаление всех строк в таблице</li>
+        <li>[[yii\db\Migration::addColumn()|addColumn()]]: добавление столбца</li>
+        <li>[[yii\db\Migration::renameColumn()|renameColumn()]]: переименование столбца</li>
+        <li>[[yii\db\Migration::dropColumn()|dropColumn()]]: удаление столбца</li>
+        <li>[[yii\db\Migration::alterColumn()|alterColumn()]]: изменения столбца</li>
+        <li>[[yii\db\Migration::addPrimaryKey()|addPrimaryKey()]]: добавление первичного ключа</li>
+        <li>[[yii\db\Migration::dropPrimaryKey()|dropPrimaryKey()]]: удаление первичного ключа</li>
+        <li>[[yii\db\Migration::addForeignKey()|addForeignKey()]]: добавление внешнего ключа</li>
+        <li>[[yii\db\Migration::dropForeignKey()|dropForeignKey()]]: удаление внешнего ключа</li>
+        <li>[[yii\db\Migration::createIndex()|createIndex()]]: создание индекса</li>
+        <li>[[yii\db\Migration::dropIndex()|dropIndex()]]: удаление индекса</li>
+    </ul>
+
+    <p><b>Информация:</b> [[yii\db\Migration]] не предоставляет методы запросов к базе данных. Это потому, что обычно не требуется отображать дополнительные сообщения об извлечении данных из базы данных. Это также, потому, что можно использовать более мощный Построитель Запросов для построения и выполнения сложных запросов.</p>
+    <p><b>Примечание:</b> при обработке данных внутри миграции, может показаться, что использование существующих классов Active Record, со всей их готовой бизнес логикой, будет разумным решением и упросит код миграции. Однако, следует помнить, что код миграций не должен меняться, по определению. В отличии от миграций, бизнес логика приложений часто изменяется. Это может привести к нарушению работы миграции при определённых изменениях на уровне Active Record. Поэтому рекомендуется делать миграции независимыми от других частей приложения, таких как классы Active Record.</p>
+
+    <h2 id="title">
+        Применение Миграций
+    </h2>
+
+    <p>Для обновления базы данных до последней структуры, вы должны применить все новые миграции, используя следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate
+    </pre>
+
+    <p>Эта команда выведет список всех миграций, которые не применялись до сих пор.</p>
+    <p>Если вы подтвердите, что вы хотите применить эти миграций, то этим самым запустите метод up() или safeUp() в каждом новом классе миграции, один за другим, в порядке их временного значения timestamp.</p>
+    <p>Для каждой миграции которая была успешно проведена, эта команда будет вставлять строку в таблицу базы данных с именем migration записав успешное проведение миграции.</p>
+    <p>Это позволяет инструменту миграции выявлять какие миграции были применены, а какие - нет.</p>
+    <p><b>Примечание:</b> Инструмент миграции автоматически создаст таблицу migration в базе данных указанной в параметре [[yii\console\controllers\MigrateController::db|db]]. По умолчанию база данных определяется как компонент приложения db.</p>
+    <p>Иногда, необходимо применить одну или несколько новых миграций, вместо всех доступных миграций.</p>
+    <p>Это возможно сделать, указав, при выполнении команды, количество миграций, которые необходимо применить.</p>
+    <p>Например, следующая команда будет пытаться применить следующие три доступные миграции:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate 3
+    </pre>
+
+    <p>Также можно явно указать конкретную миграцию, которая должна быть применена к базе данных, это можно сделать при помощи команды migrate/to в одном из следующих форматов:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/to 150101_185401                      # используя временную метку определяющую миграцию
+    yii migrate/to "2015-01-01 18:54:01"              # используя строку, которая может быть получена путем использования функции strtotime()
+    yii migrate/to m150101_185401_create_news_table   # используя полное имя
+    yii migrate/to 1392853618                         # используя временную метку UNIX
+    </pre>
+
+    <p>Если раньше имелись какие-либо не применённые миграции, до указанной конкретной миграции, то все они будут применены до данной миграции.</p>
+    <p>А если указанная миграция уже применялась ранее, то любые более поздние версии данной прикладной миграции будут отменены.</p>
+
+    <h2 id="title">
+        Отмена Миграций
+    </h2>
+
+    <p>Чтобы отменить (откатить) одну или несколько миграций, которые применялись ранее, нужно запустить следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/down     # отменяет самую последнюю применённую миграцию
+    yii migrate/down 3   # отменяет 3 последних применённых миграции
+    </pre>
+
+    <p><b>Примечание:</b> Не все миграции являются обратимыми. При попытке отката таких миграций произойдёт ошибка и остановится весь процесс отката.</p>
+
+    <h2 id="title">
+        Перезагрузка Миграций
+    </h2>
+
+    <p>Под перезагрузкой миграций подразумевается, сначала последовательный откат определённых миграций, а потом применение их снова.</p>
+    <p>Это может быть сделано следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/redo        # перезагрузить последнюю применённую миграцию
+    yii migrate/redo 3      # перезагрузить 3 последние применённые миграции
+    </pre>
+
+    <p><b>Примечание:</b> Если миграция не является обратимой, вы не сможете её перезагрузить.</p>
+
+    <h2 id="title">
+        Список Миграций
+    </h2>
+
+    <p>Чтобы посмотреть какие миграции были применены, а какие нет, используйте следующие команды:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/history     # показать последних 10 применённых миграций
+    yii migrate/history 5   # показать последних 5 применённых миграций
+    yii migrate/history all # показать все применённые миграции
+    
+    yii migrate/new         # показать первых 10 новых миграций
+    yii migrate/new 5       # показать первых 5 новых миграций
+    yii migrate/new all     # показать все новые миграции
+    </pre>
+
+    <h2 id="title">
+        Изменение Истории Миграций
+    </h2>
+
+    <p>Вместо применения или отката миграций, есть возможность просто отметить, что база данных была обновлена до определенной миграции.</p>
+    <p>Это часто используется при ручном изменении базы данных в конкретное состояние и Вам не нужно применять миграции для того, чтобы это изменение было повторно применено позже.</p>
+    <p>Этой цели можно добиться с помощью следующей команды:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/mark 150101_185401                      # используя временную метку определённой миграции
+    yii migrate/mark "2015-01-01 18:54:01"              # используя строку, которая может быть получена путем использования функции strtotime()
+    yii migrate/mark m150101_185401_create_news_table   # используя полное имя
+    yii migrate/mark 1392853618                         # используя временную метку UNIX
+    </pre>
+
+    <p>Эта команда изменит таблицу migration добавив или удалив определенные строки, тем самым указав, что к базе данных была применена указанная миграция.</p>
+    <p>Никаких миграций не будет применяться или отменяться по этой команде.</p>
+
+    <h2 id="title">
+        Настройка Миграций
+    </h2>
+
+    <p>Есть несколько способов настроить команду миграции.</p>
+
+    <h3 id="title">
+        Используя параметры командной строки
+    </h3>
+
+    <p>В команду миграций входит несколько параметров командной строки, которые могут использоваться, для того, чтобы настроить поведение миграции:</p>
+
+    <ul>
+        <li>interactive: логический тип - boolean (по умолчанию true). Указывает, следует ли выполнять миграцию в интерактивном режиме. Если это значение является - true, то пользователю будет выдан запрос, перед выполнением командой определенных действий. Вы можете установить это значение в false если команда используется в фоновом режиме.</li>
+        <li>migrationPath: строка - string (по умолчанию @app/migrations). Указывает каталог для хранения всех файлов классов миграций. Этот параметр может быть определён либо как путь до директории, либо как псевдоним пути. Обратите внимание, что данный каталог должен существовать, иначе команда будет выдавать ошибку.</li>
+        <li>migrationTable: строка - string (по умолчанию migration). Определяет имя таблицы в базе данных в которой хранится информация о истории миграций. Эта таблица будет автоматически создана командой миграции, если её не существует. Вы также можете создать её вручную, используя структуру version varchar(255) primary key, apply_time integer.</li>
+        <li>db: строка - string (по умолчанию db). Определяет ID базы данных компонента приложения. Этот параметр представляет собой базу данных, которая подвергается миграциям при помощи команды миграций.</li>
+        <li>templateFile: строка - string (по умолчанию @yii/views/migration.php). Указывает путь до файла шаблона, который используется для формирования скелета класса файлов миграции. Этот параметр может быть определён либо как путь до файла, либо как псевдоним пути. Файл шаблона - это PHP скрипт, в котором можно использовать предопределенную переменную с именем $className для того, чтобы получить имя класса миграции.</li>
+        <li>generatorTemplateFiles: массив (по умолчанию [ 'create_table' =&gt; '@yii/views/createTableMigration.php', 'drop_table' =&gt; '@yii/views/dropTableMigration.php', 'add_column' =&gt; '@yii/views/addColumnMigration.php', 'drop_column' =&gt; '@yii/views/dropColumnMigration.php', 'create_junction' =&gt; '@yii/views/createTableMigration.php' ]), в котором указаны файлы шаблонов для генерации миграций. Подробнее в разделе «Генерация миграций».</li>
+        <li>fields: массив конфигураций столбцов, который используется для генерации кода миграции. По умолчанию пуст. Формат каждой конфигурации ИМЯ_СТОЛБЦА:ТИП_СТОЛБЦА:ДЕКОРАТОР_СТОЛБЦА. Например, --fields=name:string(12):notNull даст нам столбец типа строка размера 12 с ограничением not null.</li>
+    </ul>
+
+    <p>В следующем примере показано, как можно использовать эти параметры.</p>
+    <p>Например, если мы хотим перенести модуль forum, чьи файлы миграций расположены в каталоге migrations данного модуля, для этого мы можем использовать следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    # не интерактивная миграция модуля форума
+    yii migrate --migrationPath=@app/modules/forum/migrations --interactive=0
+    </pre>
+
+    <h3 id="title">
+        Глобальная настройка команд
+    </h3>
+
+    <p>Вместо того, чтобы каждый раз вводить одинаковые значения параметров миграции, когда вы запускаете команду миграции, можно настроить её раз и навсегда в конфигурации приложения, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'controllerMap' =&gt; [
+            'migrate' =&gt; [
+                'class' =&gt; 'yii\console\controllers\MigrateController',
+                'migrationTable' =&gt; 'backend_migration',
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>С приведённой выше конфигурацией, каждый раз при запуске команды миграции, таблица backend_migration будет использована для записи истории миграций.</p>
+    <p>И Вам больше не нужно указывать её через параметр migrationTable в командной строке.</p>
+
+    <h3 id="title">
+        Миграции с пространсвом имен
+    </h3>
+
+    <p>Начиная с версии 2.0.10 вы можете использовать пространства имен при объявлении класса миграции.</p>
+    <p>Вы можете указать список пространств имен миграций через [[yii\console\controllers\MigrateController::migrationNamespaces|migrationNamespaces]].</p>
+    <p>Использование пространств имен для классов миграции позволяет сочетать несколько источников миграций.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'controllerMap' =&gt; [
+            'migrate' =&gt; [
+                'class' =&gt; 'yii\console\controllers\MigrateController',
+                'migrationNamespaces' =&gt; [
+                    'app\migrations', // Общие миграции приложения
+                    'module\migrations', // Миграции одного из модулей проекта
+                    'some\extension\migrations', // Миграции одного из расширений
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Замечание:</b> миграции из различных пространств имен образуют единую историю, т.е. вы не сможете применить или откатить миграции из одного конкретного пространства имен.</p>
+    <p>Работая с миграциями по пространствам имен: при создании, отмене и т.д., следует указывать полное имя пространства имен перед именем миграции.</p>
+    <p>Имейте в виду, что символ обратного слеша (\), как правило, является специальным символом в консоли, так что вам придется экранировать его соответствующим образом во избежании ошибок или неверного поведения.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate/create 'app\\migrations\\createUserTable'
+    </pre>
+
+    <p><b>Замечание:</b> миграции заданные через [[yii\console\controllers\MigrateController::migrationPath|migrationPath]] не могут содержать пространство имен, миграции, объявленные с пространством имен могут быть применены только используя свойство [[yii\console\controllers\MigrateController::migrationNamespaces]].</p>
+
+    <h3 id="title">
+        Отдельностоящие Миграции
+    </h3>
+
+    <p>Иногда использование единой истории для всех миграция проекта не желательно.</p>
+    <p>Например: вы можете установить расширение 'blog', которое содержит полностью независимый функционал и содержит собственные миграции, которые не должны затрагивать миграции связанные с основной функциональностью проекта.</p>
+    <p>Если необходимо, чтобы миграции из разных источников были независимы друг от друга, вы можете сконфигурировать несколько команд миграции, которые будут использовать разные пространства имён и разные таблицы для хранения истории миграций:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'controllerMap' =&gt; [
+            // Общие миграции приложения
+            'migrate-app' =&gt; [
+                'class' =&gt; 'yii\console\controllers\MigrateController',
+                'migrationNamespaces' =&gt; ['app\migrations'],
+                'migrationTable' =&gt; 'migration_app',
+            ],
+            // Миграции одного из модулей проекта
+            'migrate-module' =&gt; [
+                'class' =&gt; 'yii\console\controllers\MigrateController',
+                'migrationNamespaces' =&gt; ['module\migrations'],
+                'migrationTable' =&gt; 'migration_module',
+            ],
+            // Миграции одного из расширений
+            'migrate-rbac' =&gt; [
+                'class' =&gt; 'yii\console\controllers\MigrateController',
+                'migrationPath' =&gt; '@yii/rbac/migrations',
+                'migrationTable' =&gt; 'migration_rbac',
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Учтите, что для синхронизации базы данных при такой конфигурации потребуется вызвать несколько команд вместо одной:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate-app
+    yii migrate-module
+    yii migrate-rbac
+    </pre>
+
+    <h2 id="title">
+        Миграции в Несколько Баз Данных
+    </h2>
+
+    <p>По умолчанию, миграции применяются для базы данных, указанной в db компоненте приложения.</p>
+    <p>Если вы хотите применить миграцию к другой базе данных, вы можете определить параметр db в командной строке как показано ниже,</p>
+
+    <pre class="brush: csharp;">
+    yii migrate --db=db2
+    </pre>
+
+    <p>Приведенная выше команда применит миграции к базе данных db2.</p>
+    <p>Иногда может случиться так, что вы захотите применить некоторые из миграций к одной базе данных, а некоторые другие к другой базе данных.</p>
+    <p>Для достижения этой цели, при реализации класса миграции, необходимо явно указать идентификатор ID компонента базы данных, который миграция будет использовать, следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\db\Migration;
+    
+    class m150101_185401_create_news_table extends Migration
+    {
+        public function init()
+        {
+            $this->db = 'db2';
+            parent::init();
+        }
+    }
+    </pre>
+
+    <p>Вышеуказанная миграция будет применена к db2 даже если указать другую базу данных через параметр db командной строки.</p>
+    <p>Обратите внимание, что история миграций в этом случае будет записана в базу данных, указанную в параметре db командной строки.</p>
+    <p>Если у вас есть несколько миграций, которые используют ту же другую базу данных, то рекомендуется создать базовый класс миграций выше кода init().</p>
+    <p>Затем каждый класс миграции может расширяться от этого базового класса.</p>
+    <p><b>Совет:</b> Кроме установки свойства [[yii\db\Migration::db|db]], вы также можете работать с разными базами данных путем создания нового соединения с конкретной базой данных в классе Вашей миграции. Можно использовать DAO методы с этими соединениями для манипулирования различными базами данных.</p>
+    <p>Другая стратегия, которую вы можете выбрать, чтобы перенести (мигрировать) несколько баз данных - это сохранить миграции различных баз данных в разные директории.</p>
+    <p>Затем вы можете перенести эти базы данных в нужные базы следующими командами:</p>
+
+    <pre class="brush: csharp;">
+    yii migrate --migrationPath=@app/migrations/db1 --db=db1
+    yii migrate --migrationPath=@app/migrations/db2 --db=db2
+    ...
+    </pre>
+
+    <p>Первая команда применит миграции в директории @app/migrations/db1 к базе данных db1, а вторая команда применит миграции в директории @app/migrations/db2 к базе данных db2 и так далее.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="41.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="43.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/42.html", "Yii2: Миграции", "bm1248"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1248", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1248") == 1) { document.getElementById("bma1248").style.display = "block"; document.getElementById("bm1248").style.display = "none"; } else { document.getElementById("bma1248").style.display = "none"; document.getElementById("bm1248").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Миграции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1248", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

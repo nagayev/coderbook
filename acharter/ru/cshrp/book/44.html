@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma131" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm131" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Аргументы метода Main( )
+	</h1>
+
+	<p>До сего времени мы использовали вариант метода Main() без параметров.</p>
+	<p>Имеется возможность определять метод Main() с таким заголовком:</p>
+
+	<pre class="brush: csharp;">
+	public static void Main (string [ ] arguments)
+	</pre>
+
+	<p>где arguments – произвольно выбираемое программистом имя ссылки на массив с элементами типа string.</p>
+	<p>Эти элементы массива представляют в теле метод Main( ) аргументы командной строки.</p>
+	<p>Конкретные аргументы командной строки – это разделённые пробелами последовательности символов, размещённые после имени программы при её запуске из командной строки.</p>
+	<p>Если программа запускается не из командной строки, а из среды Visual Studio, то для задания аргументов командной строки нужно использовать следующую схему.</p>
+	<p>В основном меню выбираете пункт Project, затем в выпадающем меню выбираете команду имя_проекта Properties.</p>
+	<p>В открывшемся окне на панели слева (Application) выбираете закладку Debug.</p>
+	<p>Справа открывается панель, одно из текстовых полей которой названо Command line arguments.</p>
+	<p>Текст, который вводится в это поле, воспринимается как последовательность (разделённых пробелами) значений аргументов метода Main( ).</p>
+	<p>Как воспользоваться этими значениями (этим массивом строк) – дело автора программы.</p>
+	<p>Продемонстрируем на следующем примере основные особенности обработки аргументов командной строки.</p>
+	<p>Пусть требуется подсчитать сумму целых чисел, записанных через пробелы при запуске программы в командной строке.</p>
+	<p>Числа вводятся в виде наборов символов, которые отделены друг от друга (и от имени запускаемой программы) пробелами.</p>
+	<p>В программе предусмотрим печать сообщения об отсутствии аргументов в командной строке.</p>
+	<p>Текст программы:</p>
+
+	<pre class="brush: csharp;">
+	// 08_04.cs - Аргументы метода Main()
+	using System;
+	class Program
+	{
+	   static void Main(string[ ] numbs)
+	   {
+	       int sum = 0;
+	       if (numbs.Length == 0)
+	       {
+	           Console.WriteLine("Нет аргументов в командной строке!");
+	           return;
+	       }
+	       for (int i = 0; i < numbs.Length; i++)
+	       sum += Convert.ToInt32(numbs[i]);
+	       Console.WriteLine("Сумма чисел = " + sum);
+	   }
+	}
+	</pre>
+
+	<p>Результаты первого выполнений программы:</p>
+
+	<pre class="brush: csharp;">
+	Командная строка: Program_1.e&lt;ENTER&gt;
+	Результат:
+	Нет аргументов в командной строке!
+	Результаты второго выполнений программы:
+	Командная строка: Program_1.e 24 16 -15&lt;ENTER&gt;
+	Результат:
+	Сумма чисел = 25
+	</pre>
+
+	<p>В теле метода Main() определена целочисленная переменная sum для подсчёта суммы.</p>
+	<p>Параметр numbs – ссылка на массив ссылок на объекты типа string.</p>
+	<p>Если при запуске программы в командной строке нет аргументов – массив пуст, значение свойства numbs.Length равно нулю.</p>
+	<p>Выводится сообщение "Нет аргументов в командной строке" и оператор return; завершает выполнение программы.</p>
+	<p>При наличии аргументов, выполняется цикл for с параметром int i. (Можно применить и цикл foreach.)</p>
+	<p>Строка – очередной элемент массива numbs[i] – служит аргументом метода Convert.ToInt32().</p>
+	<p>Возвращаемое целочисленное значение увеличивает текущее значение переменной sum.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="43.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="45.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/44.html", "Аргументы метода Main( )", "bm131"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm131", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm131") == 1) { document.getElementById("bma131").style.display = "block"; document.getElementById("bm131").style.display = "none"; } else { document.getElementById("bma131").style.display = "none"; document.getElementById("bm131").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Аргументы метода Main( )") == 1) { arrs.splice(i, 1); localStorage.setItem("bm131", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

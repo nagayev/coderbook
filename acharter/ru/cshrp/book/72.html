@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma159" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm159" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Вложение классов
+	</h1>
+
+	<p>В объявление класса в качестве его члена может войти объявление типа.</p>
+	<p>Таким типом может быть класс.</p>
+	<p>Этот внутренний класс называют вложенным классом, а включающий его класс – внешним.</p>
+	<p>Особенностью вложенного класса является то, что ему доступны все члены внешнего класса, даже если эти члены закрытые (private).</p>
+	<p>Обычно вложенный класс вводится только для выполнения действий внутри внешнего класса и "не виден" вне включающего его класса.</p>
+	<p>Однако, вложенный класс может быть объявлен с модификатором public и тогда он становится доступен везде, где виден внешний класс.</p>
+	<p>Если открытый класс Nested вложен в класс Outside, то для внешнего обращения к вложенному классу следует использовать квалифицированное имя Outside.Nested.</p>
+	<p>Продемонстрируем синтаксис вложения классов на примере класса окружность (Circle), центр которой представляет объект вложенного класса Point.</p>
+	<p>Чтобы возможности внешнего класса Circle были близки к возможностям уже рассмотренных классов, реализующих композицию и агрегацию, сделаем вложенный класс Point открытым.</p>
+	<p>В следующей программе объявлен указанный класс Circle с вложенным классом Point.</p>
+
+	<pre class="brush: csharp;">
+	// 13_03.cs - вложение классов
+	using System;
+	class Circle
+	{
+		// радиус окружности
+		double rad;
+		// центр окружности
+		Point centre = new Point();
+		// свойство для радиуса окружности:
+		public double Rad { get { return rad; }
+		set { rad = value; } }
+		// свойство для значения длины окружности:
+		public double Len { get { return 2 * rad * Math.PI; } }
+		// свойство для центра окружности:
+		public Point Centre { get { return centre; }
+		set { centre = value; } }
+		public void display()
+		{
+			Console.WriteLine("Centre: X={0}, Y={1}; " +
+			"Radius={2}, Length={3,6:f2}",
+			centre.X, centre.Y, this.rad, Len);
+		}
+		public class Point
+		{
+			double x, y;
+			public double X { get { return x; } set { x = value; } }
+			public double Y { get { return y; } set { y = value; } }
+		}
+	}
+	class Program
+	{
+		static void Main()
+		{
+			Circle rim = new Circle();
+			rim.Centre.X = 100;
+			rim.Centre.Y = 200;
+			rim.Rad = 30.0;
+			rim.display();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Centre: X=100, Y=200; Radius=30, Length=188,50
+	</pre>
+
+	<p>В классе Circle для инициализации поля center используется конструктор умолчания класса Point.</p>
+	<p>Префикс "Circle" при этом не требуется применять, хотя его использование не приведёт к ошибке.</p>
+	<p>То же самое относится и к обозначению типа свойства Centre.</p>
+	<p>Нет явного определения конструкторов и во внешнем классе.</p>
+	<p>Поэтому в методе Main( ) для создания объекта, ассоциированного со ссылкой rim, используется конструктор умолчания Circle( ).</p>
+	<p>Для обращения к свойствам, определяющим центр окружности, потребовалось использовать имена с двойной квалификацией: rim.Centre.X и rim.Centre.Y.</p>
+	<p>В отличие от композиции и агрегации при вложении классов внутренний класс (не только объект) не существует независимо от внешнего.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="71.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="73.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/72.html", "Вложение", "bm159"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm159", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm159") == 1) { document.getElementById("bma159").style.display = "block"; document.getElementById("bm159").style.display = "none"; } else { document.getElementById("bma159").style.display = "none"; document.getElementById("bm159").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Вложение") == 1) { arrs.splice(i, 1); localStorage.setItem("bm159", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

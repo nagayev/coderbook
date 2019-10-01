@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma171" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm171" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Перечисления
+	</h1>
+
+	<p>В предыдущих главах рассматривались только ссылочные пользовательские типы – классы и интерфейсы.</p>
+	<p>Однако программист может объявлять и использовать собственные типы значений.</p>
+	<p>Эту возможность предоставляют перечисления и структуры.</p>
+	<p>Напомним, что переменная с типом значения однозначно представляет конкретные данные.</p>
+	<p>Самое главное для программиста – невозможность связать с одним участком памяти (то есть с одним элементом данных) несколько переменных с типом (или типами) значений.</p>
+	<p>Вопрос о том, что для переменных с типами значений память выделяется в стеке, мы уже обсуждали.</p>
+	<p>Итак, и перечисления, и структуры дают возможность объявлять пользовательские типы значений.</p>
+	<p>Начнём с перечислений.</p>
+	<p>Перечисление – особый тип, определяющий набор именованных целочисленных констант.</p>
+	<p>Формат объявления перечисления:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_перечисления opt enum имя_перечисления
+	:базовый_тип
+	{список_перечисления}
+	</pre>
+
+	<p><b>Имя_перечисления</b> – выбранный программистом идентификатор, который становятся именем нового типа.</p>
+	<p><b>Список_перечисления</b> – список неповторяющихся имен констант, для каждой из которых указано или задано по умолчанию инициализирующее выражение (значения инициализирующих выражений могут совпадать).</p>
+	<p><b>enum</b> – служебное слово.</p>
+	<p>Конструкция может быть опущена, и тогда константы списка имеют тип int.</p>
+	<p>В качестве базового типа явно можно использовать любой целый тип (int, long, …) кроме char.</p>
+	<p>В качестве модификаторов перечислений могут использоваться new, public, protected, internal, private.</p>
+	<p>В качестве примера введем перечисление – тип с именем НомерПланеты, объявляющее константы, значениями которых служат номера наиболее известных малых планет.</p>
+
+	<pre class="brush: csharp;">
+	enum НомерПланеты : uint
+	{
+		Церера = 1, Паллада = 2, Юнона = 3, Веста = 4, Эрос = 433, Гидальго = 944, Ганимед = 1036, Амур = 1221, Икар = 1566
+	}
+	</pre>
+
+	<p>Номера планет (по астрономическому каталогу) – это целые положительные числа, поэтому в качестве базового типа выбран тип констант uint.</p>
+	<p>В списке перечисления НомерПланеты имена констант – это названия планет, и каждой константе приписано конкретное значение – номер планеты по каталогу.</p>
+	<p>Если для констант перечисления не заданы инициализирующие выражения, то первой константе присваивается нулевое значение, а каждая следующая получает значение на 1 больше.</p>
+	<p>Если в списке перечисления отсутствует инициализация для не первой константы, то она получает значение на 1 больше, нежели предыдущая.</p>
+	<p>Операндами инициализирующего выражения могут быть только константы.</p>
+	<p>Значение инициализирующего выражения должно принадлежать области допустимых значений базового типа перечисления.</p>
+	<p>В инициализирующее выражение могут входить другие константы перечисления.</p>
+	<p>Например, тот же список перечисления НомерПланеты, можно определить так:</p>
+
+	<pre class="brush: csharp;">
+	enum НомерПланеты : uint
+	{
+		Церера = 1, Паллада, Юнона=Веста–Церера, Веста=4, Эрос = 433,Гидальго = 944, Ганимед = 1036, Амур = 1221, Икар = 1566
+	}
+	</pre>
+
+	<p>Константы перечислений подобны статическим членам классов.</p>
+	<p>Внутри списка перечисления к ним можно обращаться по именам констант.</p>
+	<p>Обращение к константе перечисления вне списка выполняется с помощью квалифицированного имени:</p>
+	<pre class="brush: csharp;">
+	имя_перечисления.имя_константы_из_списка
+	</pre>
+	<p>Как многократно повторялось, все типы языка C# являются производными от базового класса System.Object.</p>
+	<p>Это относится и к перечислениям.</p>
+	<p>Поэтому к ним применимы уже рассмотренные нами методы класса Object.</p>
+	<p>Однако непосредственным (прямым) базовым классом для перечислений служит класс System.Еnum, который построен на базе класса Object.</p>
+	<p>В классе System.Еnum методы класса Object переопределены с тем, чтобы максимально приблизиться к задачам, решаемым с помощью перечислений.</p>
+	<p>Например (программа 15_01.cs):</p>
+
+	<pre class="brush: csharp;">
+	string str = НомерПланеты.Икар.ToString();
+	</pre>
+
+	<p>Значением str будет строка "Икар" (а вовсе не "1566", что соответствовало бы значению константы).</p>
+	<p>Хотя константы перечисления имеют целочисленные значения, однако их типом служит то конкретное перечисление, которому они принадлежат.</p>
+	<p>Если применить к константе перечисления метод GetType(), то строка–результат будет иметь вид:</p>
+	<p><b>"имя_класса+имя_перечисления"</b></p>
+	<p>Здесь указывается имя того класса, в котором определено перечисление.</p>
+	<p>Обратите внимание, что разделяет или соединяет имена знак "+".</p>
+	<p>Например, если перечисление НомерПланеты объявлено в классе Program (15_01.cs), то значением выражения НомерПланеты.Веста.GetType() будет строка:</p>
+
+	<pre class="brush: csharp;">
+	"Program+НомерПланеты"
+	</pre>
+
+	<p>При конкатенации со строкой квалифицированное имя</p>
+	<pre class="brush: csharp;">
+	имя_перечисления.имя_константы_из_списка
+	</pre>
+	<p>трактуется как строка вида "<b>имя_константы_из_списка</b>".</p>
+	<p>Например (программа 15_02.cs), значением выражения:</p>
+	<p><b>"имя планеты: "+НомерПланеты.Амур</b></p>
+	<p>будет строка:</p>
+	<p><b>"имя планеты: Амур"</b></p>
+	<p>Чтобы получить при конкатенации со строкой целочисленное значение константы перечисления, необходимо явное приведение типа.</p>
+	<p>Например, значение выражения:</p>
+	<p><b>НомерПланеты.Юнона + "</b></p>
+	<p>имеет номер</p>
+	<p><b>"+(int)НомерПланеты.Юнона"</b></p>
+	<p>будет строка:</p>
+	<p><b>"Юнона имеет номер 3"</b></p>
+	<p>В тоже время при использовании констант перечисления в арифметических выражениях они воспринимаются как целочисленные значения.</p>
+	<p>Например, (программа 15_02.cs):</p>
+
+	<pre class="brush: csharp;">
+	long res = НомерПланеты.Ганимед – НомерПланеты.Гидальго;
+	</pre>
+
+	<p>значением переменной res будет 92.</p>
+
+	<p>Так как enum вводит тип, то разрешено определять переменные этого типа.</p>
+	<p>Такая переменная имеет право принимать значения именованных целочисленных констант, введенных соответствующим перечислением.</p>
+	<p>В этом случае переменная приобретает свойства этих констант.</p>
+	<p>Например, рассмотрим последовательность операторов (программа 15_03.cs):</p>
+
+	<pre class="brush: csharp;">
+	НомерПланеты number = НомерПланеты.Амур;
+	string str = number.ToString();
+	Console.WriteLine("str: " + str);
+	long res = number - НомерПланеты.Веста;
+	</pre>
+
+	<p>Значением str будет "Амур", значением переменной res будет 1217.</p>
+	<p>К константам перечисления и переменным с типом перечисления применимы: операции сравнения (==, !=, &lt;, &gt;, &lt;=, &gt;=), бинарная арифметическая операция –, поразрядные операции (^, &, |, ~)> и sizeof.</p>
+	<p>К переменным с типом перечисления применимы унарные операции ++, --.</p>
+	<p><b>Обратите внимание</b>, что к константам перечисления нельзя применять бинарные арифметические операции +, /, *, % и унарные операции – и +.</p>
+	<p>Таким образом, нельзя выполнить суммирование или деление двух констант перечисления.</p>
+	<p>Поэтому для использования значений констант в арифметических выражениях необходимо выполнить явное приведение их типов.</p>
+	<p>Например, так:</p>
+
+	<pre class="brush: csharp;">
+	number = (НомерПланеты)((int) НомерПланеты.Церера + (int) НомерПланеты.Юнона);
+	</pre>
+
+	<p>После выполнения этого оператора переменная number примет значение константы перечисления со значением 4 и именем "Веста".</p>
+	<p>Чтобы присвоить переменной с типом перечисления значение (даже того типа, который является для перечисления базовым), необходимо явное приведение типов.</p>
+	<p>Например, так:</p>
+	<p><b>number = (НомерПланеты)944;</b></p>
+	<p>Переменная number примет значение константы Гидальго.</p>
+	<p>Если переменной с типом перечисления присвоить значение, которое отсутствует в списке именованных констант, то имя представляемой переменной константы совпадёт с её значением.</p>
+	<p>Например:</p>
+	<p><b>number = (НомерПланеты)999;</b></p>
+	<p>Переменная number примет значение константы перечисления с именем "999"и значением 999.</p>
+	<p>Операции автоизменений (декремент "декремент"-- и инкремент "инкремент" ++) позволяют так изменять значение переменной перечисления, что она принимает и значения, отсутствующие среди именованных констант перечисления.</p>
+	<p>Принимая такие значения, переменная перечисления играет роль литерала – ее имя совпадает с представленным значением.</p>
+	<p>В следующей программе введена переменная number перечисления НомерПланеты, значением которой в цикле становятся константы Церера, Паллада, Юнона, Веста.</p>
+	<p>Затем переменная number принимает значения, отсутствующие в перечислении.</p>
+
+	<pre class="brush: csharp;">
+	// 15_04.cs - переменная перечисления
+	using System;
+	class Program
+	{
+		enum НомерПланеты : uint
+		{
+			Церера = 1, Паллада = 2, Юнона = 3, Веста = 4, Эрос = 433, Гидальго = 944, Ганимед = 1036, Амур = 1221, Икар = 1566
+		}
+
+		static void Main()
+		{
+			НомерПланеты number;
+			Console.WriteLine("Номера планет: ");
+			for (number = НомерПланеты.Церера;
+			number <= НомерПланеты.Веста + 2; number++)
+			Console.WriteLine(number + " = " + (int)number);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Номера планет:
+	Церера = 1
+	Паллада = 2
+	Юнона = 3
+	Веста = 4
+	5 = 5
+	6 = 6
+	</pre>
+
+	<p>Члены (константы) перечислений и переменные с типами перечислений можно использовать в качестве аргументов методов и в метках переключателей.</p>
+	<p>В метке переключателя член перечисления применяется в качестве константного выражения.</p>
+	<p>В следующей программе статический метод данныеОпланете() имеет параметр с типом перечисления НомерПланеты.</p>
+	<p>Метод выводит в консольное окно некоторые сведения о планетах с конкретными номерами.</p>
+
+	<pre class="brush: csharp;">
+	// 15_05.cs - переменная перечисления в переключателе
+	using System;
+	class Program
+	{
+		enum НомерПланеты : uint
+		{
+			Церера = 1, Паллада = 2, Юнона = 3, Веста = 4, Эрос = 433, Гидальго = 944, Ганимед = 1036, Амур = 1221, Икар = 1566
+		}
+
+		static void данныеОпланете(НомерПланеты p)
+		{
+			switch (p)
+			{
+				case НомерПланеты.Амур:
+				Console.WriteLine("Номер: {0}, название: {1}, диаметр: {2}", (int)p, p, 1.5);
+				break;
+				case НомерПланеты.Веста:
+				Console.WriteLine("Номер: {0}, название: {1}, диаметр: {2}", (int)p, p, 380);
+				break;
+				//Про остальные планеты из экономии ничего не пишем...
+			}
+		}
+		
+		static void Main()
+		{
+			НомерПланеты number;
+			number = НомерПланеты.Веста;
+			данныеОпланете(number);
+			данныеОпланете(НомерПланеты.Амур);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Номер: 4, название: Веста, диаметр: 380
+	Номер: 1221, название: Амур, диаметр: 1,5
+	</pre>
+
+	<p>В функции Main() определена переменная number с типом перечисления НомерПланеты.</p>
+	<p>Ей присвоено значение константы перечисления Веста и переменная служит аргументом при обращении к методу данныеОпланете().</p>
+	<p>При втором обращении к тому же методу аргумент – квалифицированное имя другой константы перечисления.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="83.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="85.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/84.html", "Перечисления", "bm171"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm171", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm171") == 1) { document.getElementById("bma171").style.display = "block"; document.getElementById("bm171").style.display = "none"; } else { document.getElementById("bma171").style.display = "none"; document.getElementById("bm171").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перечисления") == 1) { arrs.splice(i, 1); localStorage.setItem("bm171", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

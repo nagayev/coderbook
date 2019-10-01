@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma953" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm953" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Перегрузка операторов
+	</h1>
+
+	<p>Перегрузка операторов — один из способов реализации полиморфизма, когда мы можем задать свою реализацию какого-либо метода в своём классе.</p>
+	<p>Например, у нас есть два класса:</p>
+
+	<pre class="brush: csharp;">
+class A:
+    def go(self):
+        print('Go, A!')
+
+class B(A):
+    def go(self, name):
+        print('Go, {}!'.format(name))
+	</pre>
+
+	<p>В данном примере класс B наследует класс A, но переопределяет метод go, поэтому он имеет мало общего с аналогичным методом класса A.</p>
+	<p>Однако в python имеются методы, которые, как правило, не вызываются напрямую, а вызываются встроенными функциями или операторами.</p>
+	<p>Например, метод __init__ перегружает конструктор класса.</p>
+	<p>Конструктор - создание экземпляра класса.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; class A:
+...     def __init__(self, name):
+...         self.name = name
+...
+&gt;&gt;&gt; a = A('Vasya')
+&gt;&gt;&gt; print(a.name)
+Vasya
+	</pre>
+
+	<p>Собственно, далее пойдёт список таких "магических" методов.</p>
+	<p><b>__new__</b>(cls[, ...]) — управляет созданием экземпляра. В качестве обязательного аргумента принимает класс (не путать с экземпляром). Должен возвращать экземпляр класса для его последующей его передачи методу __init__.</p>
+	<p><b>__init__</b>(self[, ...]) - как уже было сказано выше, конструктор.</p>
+	<p><b>__del__</b>(self) - вызывается при удалении объекта сборщиком мусора.</p>
+	<p><b>__repr__</b>(self) - вызывается встроенной функцией repr; возвращает "сырые" данные, использующиеся для внутреннего представления в python.</p>
+	<p><b>__str__</b>(self) - вызывается функциями str, print и format. Возвращает строковое представление объекта.</p>
+	<p><b>__bytes__</b>(self) - вызывается функцией bytes при преобразовании к байтам.</p>
+	<p><b>__format__</b>(self, format_spec) - используется функцией format (а также методом format у строк).</p>
+	<p><b>__lt__</b>(self, other) - x < y вызывает x.__lt__(y).</p>
+	<p><b>__le__</b>(self, other) - x ≤ y вызывает x.__le__(y).</p>
+	<p><b>__eq__</b>(self, other) - x == y вызывает x.__eq__(y).</p>
+	<p><b>__ne__</b>(self, other) - x != y вызывает x.__ne__(y)</p>
+	<p><b>__gt__</b>(self, other) - x > y вызывает x.__gt__(y).</p>
+	<p><b>__ge__</b>(self, other) - x ≥ y вызывает x.__ge__(y).</p>
+	<p><b>__hash__</b>(self) - получение хэш-суммы объекта, например, для добавления в словарь.</p>
+	<p><b>__bool__</b>(self) - вызывается при проверке истинности. Если этот метод не определён, вызывается метод __len__ (объекты, имеющие ненулевую длину, считаются истинными).</p>
+	<p><b>__getattr__</b>(self, name) - вызывается, когда атрибут экземпляра класса не найден в обычных местах (например, у экземпляра нет метода с таким названием).</p>
+	<p><b>__setattr__</b>(self, name, value) - назначение атрибута.</p>
+	<p><b>__delattr__</b>(self, name) - удаление атрибута (del obj.name).</p>
+	<p><b>__call__</b>(self[, args...]) - вызов экземпляра класса как функции.</p>
+	<p><b>__len__</b>(self) - длина объекта.</p>
+	<p><b>__getitem__</b>(self, key) - доступ по индексу (или ключу).</p>
+	<p><b>__setitem__</b>(self, key, value) - назначение элемента по индексу.</p>
+	<p><b>__delitem__</b>(self, key) - удаление элемента по индексу.</p>
+	<p><b>__iter__</b>(self) - возвращает итератор для контейнера.</p>
+	<p><b>__reversed__</b>(self) - итератор из элементов, следующих в обратном порядке.</p>
+	<p><b>__contains__</b>(self, item) - проверка на принадлежность элемента контейнеру (item in self).</p>
+
+	<h1 id="title">
+		Перегрузка арифметических операторов
+	</h1>
+
+	<p><b>__add__</b>(self, other) - сложение. x + y вызывает x.__add__(y).</p>
+	<p><b>__sub__</b>(self, other) - вычитание (x - y).</p>
+	<p><b>__mul__</b>(self, other) - умножение (x * y).</p>
+	<p><b>__truediv__</b>(self, other) - деление (x / y).</p>
+	<p><b>__floordiv__</b>(self, other) - целочисленное деление (x // y).</p>
+	<p><b>__mod__</b>(self, other) - остаток от деления (x % y).</p>
+	<p><b>__divmod__</b>(self, other) - частное и остаток (divmod(x, y)).</p>
+	<p><b>__pow__</b>(self, other[, modulo]) - возведение в степень (x ** y, pow(x, y[, modulo])).</p>
+	<p><b>__lshift__</b>(self, other) - битовый сдвиг влево (x &lt;&lt; y).</p>
+	<p><b>__rshift__</b>(self, other) - битовый сдвиг вправо (x &gt;&gt; y).</p>
+	<p><b>__and__</b>(self, other) - битовое И (x & y).</p>
+	<p><b>__xor__</b>(self, other) - битовое ИСКЛЮЧАЮЩЕЕ ИЛИ (x ^ y).</p>
+	<p><b>__or__</b>(self, other) - битовое ИЛИ (x | y).</p>
+
+	<p>Пойдём дальше.</p>
+
+	<p><b>__radd__</b>(self, other),</p>
+	<p><b>__rsub__</b>(self, other),</p>
+	<p><b>__rmul__</b>(self, other),</p>
+	<p><b>__rtruediv__</b>(self, other),</p>
+	<p><b>__rfloordiv__</b>(self, other),</p>
+	<p><b>__rmod__</b>(self, other),</p>
+	<p><b>__rdivmod__</b>(self, other),</p>
+	<p><b>__rpow__</b>(self, other),</p>
+	<p><b>__rlshift__</b>(self, other),</p>
+	<p><b>__rrshift__</b>(self, other),</p>
+	<p><b>__rand__</b>(self, other),</p>
+	<p><b>__rxor__</b>(self, other),</p>
+	<p><b>__ror__</b>(self, other) - делают то же самое, что и арифметические операторы, перечисленные выше, но для аргументов, находящихся справа, и только в случае, если для левого операнда не определён соответствующий метод.</p>
+
+	<p>Например, операция x + y будет сначала пытаться вызвать x.__add__(y), и только в том случае, если это не получилось, будет пытаться вызвать y.__radd__(x).</p>
+	<p>Аналогично для остальных методов.</p>
+	<p>Идём дальше.</p>
+
+	<p><b>__iadd__</b>(self, other) - +=.</p>
+	<p><b>__isub__</b>(self, other) - -=.</p>
+	<p><b>__imul__</b>(self, other) - *=.</p>
+	<p><b>__itruediv__</b>(self, other) - /=.</p>
+	<p><b>__ifloordiv__</b>(self, other) - //=.</p>
+	<p><b>__imod__</b>(self, other) - %=.</p>
+	<p><b>__ipow__</b>(self, other[, modulo]) - **=.</p>
+	<p><b>__ilshift__</b>(self, other) - &lt;&lt;=.</p>
+	<p><b>__irshift__</b>(self, other) - &gt;&gt;=.</p>
+	<p><b>__iand__</b>(self, other) - &=.</p>
+	<p><b>__ixor__</b>(self, other) - ^=.</p>
+	<p><b>__ior__</b>(self, other) - |=.</p>
+	<p><b>__neg__</b>(self) - унарный -.</p>
+	<p><b>__pos__</b>(self) - унарный +.</p>
+	<p><b>__abs__</b>(self) - модуль (abs()).</p>
+	<p><b>__invert__</b>(self) - инверсия </pr</p>
+	<p><b>__complex__</b>(self) - приведение к complex.</p>
+	<p><b>__int__</b>(self) - приведение к int.</p>
+	<p><b>__float__</b>(self) - приведение к float.</p>
+	<p><b>__round__</b>(self[, n]) - округление.</p>
+	<p><b>__enter__</b>(self), __exit__(self, exc_type, exc_value, traceback) - реализация менеджеров контекста.</p>
+
+	<p>Рассмотрим некоторые из этих методов на примере двухмерного вектора, для которого переопределим некоторые методы:</p>
+	
+	<pre class="brush: csharp;">
+import math
+
+class Vector2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return 'Vector2D({}, {})'.format(self.x, self.y)
+
+    def __str__(self):
+        return '({}, {})'.format(self.x, self.y)
+
+    def __add__(self, other):
+        return Vector2D(self.x + other.x, self.y + other.y)
+
+    def __iadd__(self, other):
+        self.x += other.x
+        self.y += other.y
+        return self
+
+    def __sub__(self, other):
+        return Vector2D(self.x - other.x, self.y - other.y)
+
+    def __isub__(self, other):
+        self.x -= other.x
+        self.y -= other.y
+        return self
+
+    def __abs__(self):
+        return math.hypot(self.x, self.y)
+
+    def __bool__(self):
+        return self.x != 0 or self.y != 0
+
+    def __neg__(self):
+        return Vector2D(-self.x, -self.y)
+
+&gt;&gt;&gt; x = Vector2D(3, 4)
+&gt;&gt;&gt; x
+Vector2D(3, 4)
+&gt;&gt;&gt; print(x)
+(3, 4)
+&gt;&gt;&gt; abs(x)
+5.0
+&gt;&gt;&gt; y = Vector2D(5, 6)
+&gt;&gt;&gt; y
+Vector2D(5, 6)
+&gt;&gt;&gt; x + y
+Vector2D(8, 10)
+&gt;&gt;&gt; x - y
+Vector2D(-2, -2)
+&gt;&gt;&gt; -x
+Vector2D(-3, -4)
+&gt;&gt;&gt; x += y
+&gt;&gt;&gt; x
+Vector2D(8, 10)
+&gt;&gt;&gt; bool(x)
+True
+&gt;&gt;&gt; z = Vector2D(0, 0)
+&gt;&gt;&gt; bool(z)
+False
+&gt;&gt;&gt; -z
+Vector2D(0, 0)
+	</pre>
+
+	<p>В заключение хочу сказать, что перегрузка специальных методов - вещь хорошая, но не стоит ей слишком злоупотреблять.</p>
+	<p>Перегружайте их только тогда, когда вы уверены в том, что это поможет пониманию программного кода.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="27.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="29.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/28.html", "Перегрузка операторов", "bm953"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm953", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm953") == 1) { document.getElementById("bma953").style.display = "block"; document.getElementById("bm953").style.display = "none"; } else { document.getElementById("bma953").style.display = "none"; document.getElementById("bm953").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перегрузка операторов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm953", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

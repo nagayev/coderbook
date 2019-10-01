@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma86" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm86" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Шаблоны классов в С++
+	</h1>
+
+	<p>Мы уже ранее рассматривали в С++ такой инструмент, как  шаблоны, когда создавали шаблоны функций.</p>
+	<p>Почему стоит пользоваться шаблонами, было написано в статье, с шаблонами функций.</p>
+	<p>Там мы рассмотрели основные положения шаблонов в С++. Давайте их вспомним.</p>
+	<p>Любой шаблон начинается со слова template, будь то шаблон функции или шаблон класса.</p>
+	<p>После  ключевого слова template идут угловые скобки — &lt; &gt;, в которых перечисляется список параметров шаблона.</p>
+	<p>Каждому параметру должно предшествовать зарезервированное слово class или typename.</p>
+	<p>Отсутствие этих ключевых слов будет расцениваться компилятором как синтаксическая ошибка.</p>
+	<p>Некоторые примеры объявления шаблонов:</p>
+
+	<pre class="brush: csharp;">
+	template &lt;class T&gt;
+	</pre>
+	
+	<p>или</p>
+	
+	<pre class="brush: csharp;">
+	template &lt;typename T&gt;
+	</pre>
+	
+	<p>или</p>
+	
+	<pre class="brush: csharp;">
+	template &lt;typename T1, typename T2&gt;
+	</pre>
+
+	<p>Ключевое слово typename говорит о том, что в шаблоне будет использоваться встроенный тип данных, такой как: int, double,float, char и т. д.</p>
+	<p>А ключевое слово class сообщает компилятору, что в шаблоне функции в качестве параметра будут использоваться пользовательские типы данных, то есть классы.</p>
+	<p>Но не в коем случае не путайте параметр шаблона и шаблон класса.</p>
+	<p>Если нам надо создать шаблон класса, с одним параметром типа int и char, шаблон класса будет выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+	template &lt;typename T&gt;
+	class Name
+	{
+	//тело шаблона класса
+	};
+	</pre>
+
+	<p>где T — это параметр шаблона класса, который может принимать любой из встроенных типов данных, то, что нам и нужно.</p>
+	<p>А если параметр шаблона класса должен пользовательского типа, например типа Array, где Array — это класс, описывающий массив, шаблон класса будет иметь следующий вид:</p>
+
+	<pre class="brush: csharp;">
+	template &lt;class T&gt;
+	class Name
+	{
+	//тело шаблона класса
+	};
+	</pre>
+
+	<p>C этим вам лучше разобраться изначально, чтобы потом не возникало никаких ошибок, даже, если шаблон класса написан правильно.</p>
+	<p>Давайте создадим шаблон класса Стек, где стек — структура данных, в которой хранятся однотипные элементы данных.</p>
+	<p>В стек можно помещать и извлекать данные.</p>
+	<p>Добавляемый элемент в стек, помещается в вершину стека.</p>
+	<p>Удаляются элементы стека, начиная с его вершины.</p>
+	<p>В шаблоне класса Stack необходимо создать основные методы:</p>
+	<p>- Push — добавить элемент в стек;</p>
+	<p>- Pop   — удалить элемент из стека</p>
+	<p>- printStack — вывод стека на экран;</p>
+
+	<p>Итак реализуем эти три метода, в итоге получим самый простой класс, реализующий работу структуры стек.</p>
+	<p>Не забываем про конструкторы и деструкторы.</p>
+	<p>Смотрим код ниже.</p>
+
+	<pre class="brush: csharp;">
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	#include &lt;iomanip&gt;
+	template &lt;typename T&gt;
+	class Stack
+	{
+		private:
+		// указатель на стек
+		T *stackPtr;
+		// размер стека
+		int size;
+		// вершина стека
+		T top;
+		public:
+		// по умолчанию размер стека равен 10 элементам
+		Stack(int = 10);
+		// деструктор
+		-Stack();
+		// поместить элемент в стек
+		bool push(const T  );
+		// удалить из стека элемент
+		bool pop();
+		void printStack();
+	};
+
+	int main()
+	{
+		Stack &lt;int&gt; myStack(5);
+		// заполняем стек
+		cout << "Заталкиваем элементы в стек: ";
+		int ct = 0;
+		while (ct++ != 5)
+		{
+			int temp;
+			cin >> temp;
+			myStack.push(temp);
+		}
+		// вывод стека на экран
+		myStack.printStack();
+		cout << "\nУдаляем два элемента из стека:\n";
+		// удаляем элемент из стека
+		myStack.pop();
+		// удаляем элемент из стека
+		myStack.pop();
+		// вывод стека на экран
+		myStack.printStack();
+		return 0;
+	}
+
+	// конструктор
+	template &lt;typename T&gt;
+	Stack&lt;T&gt;::Stack(int s)
+	{
+		// инициализировать размер стека
+		size = s > 0 ? s: 10;
+		// выделить память под стек
+		stackPtr = new T[size];
+		// значение -1 говорит о том, что стек пуст
+		top = -1;
+	}
+
+	// деструктор
+	template &lt;typename T&gt;
+	Stack&lt;T&gt;::-Stack()
+	{
+		// удаляем стек
+		delete [] stackPtr;
+	}
+
+	// элемент функция класса  Stack для помещения элемента в стек
+	// возвращаемое значение - true, операция успешно завершена
+	// false, элемент в стек не добавлен
+	template &lt;typename T&gt;
+	bool Stack&lt;T&gt;::push(const T value)
+	{
+		if (top == size - 1)
+		// стек полон
+		return false;
+		top++;
+		// помещаем элемент в стек
+		stackPtr[top] = value;
+		// успешное выполнение операции
+		return true;
+	}
+
+	// элемент функция класса  Stack для удаления элемента из стек
+	// возвращаемое значение - true, операция успешно завершена
+	//  false, стек пуст
+	template &lt;typename T&gt;
+	bool Stack&lt;T&gt;::pop()
+	{
+		if (top == - 1)
+		// стек пуст
+		return false;
+		// удаляем элемент из стека
+		stackPtr[top] = 0;
+		top--;
+		// успешное выполнение операции
+		return true;
+	}
+	
+	// вывод стека на экран
+	template &lt;typename T&gt;
+	void Stack&lt;T&gt;::printStack()
+	{
+		for (int ix = size -1; ix >= 0; ix--)
+		cout << "|" << setw(4) << stackPtr[ix] << endl;
+	}
+	</pre>
+
+	<p>Как видите шаблон класса Stack объявлен и определен в файле с main-функцией.</p>
+	<p>Конечно же такой способ утилизации шаблонов никуда не годится, но для примера сойдет.</p>
+	<p>В строках 7 — 20 объявлен интерфейс шаблона класса.</p>
+	<p>Объявление класса выполняется привычным для нас образом, а перед классом находится объявление шаблона, в строке 7.</p>
+	<p>При объявлении шаблона класса, всегда используйте такой синтаксис.</p>
+	<p>Строки 47 — 100 содержат элемент-функции шаблона класса Stack, причем перед каждой функцией необходимо объявлять шаблон, точно такой же, как и перед классом — template &lt;typename T&gt;.</p>
+	<p>То есть получается, элемент-функции шаблона класса, объявляются точно также, как и обычные шаблоны функций.</p>
+	<p>Если бы мы описали реализацию методов внутри класса, то заголовок шаблона — template &lt;typename T&gt; для каждой функции прописывать не надо.</p>
+	<p>Чтобы привязать каждую элемент-функцию к шаблону класса, как обычно используем бинарную операцию разрешения области действия — :: с именем шаблона класса — Stack&lt;T&gt;.</p>
+	<p>Что мы и сделали в строках 49, 58, 68, 83, 96.</p>
+	<p>Обратите внимание на объявление объекта myStack шаблона класса Stack в функции main, строка 24.</p>
+	<p>В угловых скобочка необходимо явно указывать используемый тип данных, в шаблонах функций этого делать не нужно было.</p>
+	<p>Далее в main запускаются некоторые функции, которые демонстрируют работу шаблона класса Stack.</p>
+	<p>Результат работы программы смотрим ниже.</p>
+
+	<pre class="brush: csharp;">
+	Заталкиваем элементы в стек: 12 3456 768 5 4564
+
+	|4564
+	|   5
+	| 768
+	|3456
+	|  12
+
+	Удаляем два элемента из стека:
+
+	|   0
+	|   0
+	| 768
+	|3456
+	|  12
+	</pre>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="64.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="66.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/65.html", "Шаблоны классов в С++", "bm86"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm86", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm86") == 1) { document.getElementById("bma86").style.display = "block"; document.getElementById("bm86").style.display = "none"; } else { document.getElementById("bma86").style.display = "none"; document.getElementById("bm86").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Шаблоны классов в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm86", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

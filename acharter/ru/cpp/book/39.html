@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma60" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm60" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Перечисления в С++ (enum)
+	</h1>
+
+	<p>И так, что же такое перечисление или, правильней сказать, перечисляемые типы в С++?</p>
+	<p>Тема не из самых сложных. Само название —  перевод  с английского enumeration.</p>
+	<p>А перечисляются целые константы.</p>
+	<p>Простым для понимания сути вопроса будет такой пример: объявим перечисляемый тип годовщин свадьбы.</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	//определяем перечисление и объявляем переменную 
+	enum  weddingAnn {chintz = 1, paper, leather, linen, wooden} year;
+	 
+	int main()
+	{
+	   setlocale(LC_ALL, "rus");
+	   cout << "Олег с Ольгой отмечают\t" << chintz << "-ю годовщину со дня свадьбы!!!";
+	   cout << "\n";
+	   cout << "Андрей с Анной отмечают\t" << paper << "-ю годовщину со дня свадьбы!!!";
+	   cout << "\n";
+	   cout << "Марк с Ириной отмечают\t" << leather << "-ю годовщину со дня свадьбы!!!";
+	   cout << "\n";
+	   cout << "Игорь с Юлией отмечают\t" << linen << "-ю годовщину со дня свадьбы!!!";
+	   cout << "\n";
+	   cout << "Олег с Аллой отмечают\t" << wooden << "-ю годовщину со дня свадьбы!!!";
+	   cout << "\n\n";
+	   return 0;
+	}
+	</pre>
+
+	<p>Определяем перечисление — строка 4.</p>
+	<p>Для этого используется зарезервированное слово enum, далее даем название типу — в нашем случае weddingAnn, в фигурных скобках объявляем целочисленные константы (элементы перечисления)  {chintz = 1, paper, leather, linen, wooden}, объявляем переменную (декларатор) year в конце ставим ;.</p>
+	<p>Объявление типа  и переменной  необязательно  при определении перечисления.</p>
+	<p>В нашем примере мы могли обойтись и без них — enum {chintz = 1, paper, leather, linen, wooden};, но лучше сразу показать полную версию.</p>
+	<p>Вы, скорее всего, обратили внимание на то, что первому элементу chintz мы присвоили значение 1.</p>
+	<p>Дело в том, что по умолчанию, при определении перечисления, первой перечисляемой константе присваивается значение 0, а для остальных на единицу больше, чем у предыдущей.</p>
+	<p>Поэтому нам достаточно было присвоить значение только первой константе.</p>
+	<p>Остальные значения присвоились автоматически.</p>
+	<p>При выводе данных на экран, строки 10 — 18, мы указываем название годовщин свадеб, а компилятор уже обращается к элементам перечисления и предоставляет нам целое число, которое хранит этот элемент (идентификатор).</p>
+	<p>Что мы увидим в консоли:</p>
+
+	<pre class="brush: csharp;">
+	Олег с Ольгой отмечают   1-ю годовщину со дня свадьбы!!!
+	Андрей с Анной отмечают  2-ю годовщину со дня свадьбы!!!
+	Марк с Ириной отмечают   3-ю годовщину со дня свадьбы!!!
+	Игорь с Юлией отмечают   4-ю годовщину со дня свадьбы!!!
+	Олег с Аллой отмечают    5-ю годовщину со дня свадьбы!!!
+	</pre>
+
+	<p>Так — с этим, надеюсь, разобрались.</p>
+	<p>Теперь немного теории — то что важно запомнить.</p>
+	<p>- Первое, то что мы уже знаем:  всем идентификаторам (целочисленным константам) перечисления присваивается значение. По умолчанию первому – 0, остальным на единицу больше предыдущего значения. А если мы сами задаем значение — то это может быть любое целое число. При этом, ВАЖНО, имена целочисленных констант должны быть уникальны. При определении одинаковых имен компилятор выдаст ошибку. А вот значения, которые мы присваиваем  константам могут совпадать. Например:  enum year{vadim = 2, vanya = 2, sonya, yula = 0,  denis = sonya + 20,}; Когда выведем эти значения на экран, увидим 2, 2, 3, 0, 23.</p>
+	<p>- Перечисление — это отдельный тип данных. Так типом  идентификаторов vadim, vanya, sonya и т.д. выступает тип year.</p>
+	<p>- Значение константам можно присвоить только в фигурных скобках при определении перечисления. Изменить его ниже в коде уже нет возможности.</p>
+	<p>- Определяя перечисление, объявление типа и переменной необязательно.</p>
+	<p>- Переменная (декларатор) типа созданного нами  перечисления может иметь значение одной из определённой в перечислении константы.  Чтобы было понятней, если в функции main мы объявляем переменную типа перечисления, это будет выглядеть так — year child = sonya;.</p>
+	<p>- Используя перечисления, мы можем сделать наши коды программ более понятными. В первую очередь потому, что благодаря им возможно использовать в программе не «магические числа» инициализированных где-то в коде переменных, а  читаемые названия элементов перечисления. Но, как всегда, не увлекайтесь. Всего в меру.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="38.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="40.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/39.html", "Перечисления в С++", "bm60"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm60", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm60") == 1) { document.getElementById("bma60").style.display = "block"; document.getElementById("bm60").style.display = "none"; } else { document.getElementById("bma60").style.display = "none"; document.getElementById("bm60").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Перечисления в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm60", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

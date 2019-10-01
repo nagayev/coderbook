@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma155" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm155" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Автореализуемые свойства
+	</h1>
+
+	<p>В C# 3.0 включено новое средство, позволяющее частично автоматизировать кодирование классов одного достаточного ограниченного вида.</p>
+	<p>Эту возможность обеспечивают свойства, специфицированные как автоматически реализуемые (Automatically implemented properties).</p>
+	<p>Покажем это на примере.</p>
+	<p>Пример кода, который готовит программист:</p>
+
+	<pre class="brush: csharp;">
+	public class Point
+	{
+	   public int X {get; set;}
+	   public int Y {get; set;}
+	}
+	</pre>
+
+	<p>В классе Point нет явно определённых полей, а два открытых свойства представляют собой "полуфабрикаты" автореализуемых свойств.</p>
+	<p>В автореализуемых свойствах отсутствуют тела аксессоров, но каждый из аксессоров может иметь модификаторы доступа.</p>
+	<p>На основе такой декларации компилятор автоматически формирует эквивалентное ей объявление класса:</p>
+
+	<pre class="brush: csharp;">
+	public class Point
+	{
+	   private int x;
+	   private int y;
+	   public int X {get {return x;} set{x=value;}}
+	   public int Y {get {return y;} set{y=value;}}
+	}
+	</pre>
+
+	<p>В автоматически построенном объявлении появились два закрытых поля, типы которых совпадают с типами свойств.</p>
+	<p>Поле, отнесённое к автореализуемому свойству, называют hidden backing field – скрытым полем заднего плана.</p>
+	<p>Именно с этими полями ассоциированы свойства Х и У, которые были "запланированы" программистом.</p>
+	<p>Имена скрытых полей компилятор формирует по правилам, которые известны только ему.</p>
+	<p>В нашем примере х и у – это только условные обозначения, выбранные нами для иллюстрации.</p>
+	<p>Никакие прямые обращения к этим скрытым полям невозможны ни в классе, ни за его пределами.</p>
+	<p>Доступ к этим полям обеспечивают только ассоциированные с ними автореализуемые свойства.</p>
+	<p>В приведённом примере скрытые поля класса Point доступны с помощью свойств Х и У как для чтения так и для изменений.</p>
+	<p>При объявлении автореализуемого свойства можно ограничить доступ к связанному с ним полю, например, разрешив извне класса только чтение.</p>
+	<p>Сразу возникает вопрос.</p>
+	<p>Как задать значение такого поля, если имя его недоступно и неизвестно (известно только компилятору), а автореализуемое свойство разрешает только чтение?</p>
+	<p>Наиболее прямое решение – явно объявить в классе с автореализуемыми полями конструктор и в нём через закрытое свойство устанавливать значение скрытого поля.</p>
+	<p>Следующая программа иллюстрирует предлагаемые решения:</p>
+
+	<pre class="brush: csharp;">
+	// 12_03.cs - автореализуемые свойства
+	using System;
+	public class Point
+	{
+	   public int X { get; private set; }
+	   public int Y { get; private set; }
+	   public Point(int xi, int yi) { X = xi; Y = yi; }
+	}
+	class Program
+	{
+	   static void Main()
+	   {
+	       Point a = new Point(12, 7);
+	       Console.WriteLine(a.Y);
+	   }
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	7
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="67.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="69.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/68.html", "Автореализуемые свойства", "bm155"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm155", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm155") == 1) { document.getElementById("bma155").style.display = "block"; document.getElementById("bm155").style.display = "none"; } else { document.getElementById("bma155").style.display = "none"; document.getElementById("bm155").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Автореализуемые свойства") == 1) { arrs.splice(i, 1); localStorage.setItem("bm155", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

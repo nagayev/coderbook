@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma124" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm124" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Некоторые методы и свойства класса String
+	</h1>
+
+	<p>Хотя мы ещё не рассматривали механизм и синтаксис наследования, и не умеем конструировать производные классы, но уже сейчас полезно отметить, что класс string есть sealed-класс, то есть он не может служить базовым для других производных классов.</p>
+	<p>Наиболее важным свойством класса string является свойство Length, позволяющее получить длину (количество символов) конкретной строки (объекта класса string).</p>
+	<p>Значением выражения “\tБином \u0068”.Length будет 7, так как каждая эскейп-последовательность представляет только один символ.</p>
+	<p>Среди многочисленных методов класса string рассмотрим (и то очень кратко) только некоторые.</p>
+	<p><b>int CompareTo( )</b> – нестатический метод который сравнивает две строки и возвращает целочисленное значение.</p>
+	<p>Для двух строк S1, S2 значение S1CompareTo(S2) равно +1, если S1 &gt; S2, и равно -1, если S1 &lt; S2 и равно нулю, если S1==S2.</p>
+	<p>Сравнение строк выполняется лексикографически.</p>
+	<p><b>static string Concat()</b> – статический метод (их несколько) выполняет конкатенацию "конкатенация" строк-параметров.</p>
+	<p>Аргументов-строк может быть два, три или произвольное количество.</p>
+	<p><b>static string Copy()</b> – статический метод возвращает копию существующей строки.</p>
+	<p><b>static string Format()</b> – статический метод, формирующий строку на основе набора параметров.</p>
+	<p><b>int IndexOf()</b> – нестатический метод поиска в вызывающей строке подстроки, заданной параметром.</p>
+	<p>Возвращает индекс или -1, если поиск неудачен. Поиск с начала строки.</p>
+	<p><b>string Insert()</b> – нестатический метод для вставки строки-параметра в копию вызывающей строки с позиции, заданной дополнительным параметром.</p>
+	<p><b>static string Join()</b> – статический метод, объединяющий в одну строку строки массива–параметра.</p>
+	<p>Первый параметр типа string задаёт разделитель, которым будут отделены друг от друга в результирующей строке элементы массива.</p>
+	<p><b>int LastIndexOf()</b> – нестатический метод поиска в вызывающей строке подстроки, заданной параметром.</p>
+	<p>Возвращает индекс или -1, если поиск неудачен. Поиск с конца строки.</p>
+	<p><b>string Remove()</b> – нестатический метод, удаляет символы из копии строки.</p>
+	<p><b>string Replace()</b> – нестатический метод, заменяет символы в копии строки.</p>
+	<p><b>string [ ] Split()</b> – нестатический метод, формирует массив строк из фрагментов вызывающей строки.</p>
+	<p>Параметр типа char[ ] задаёт разделители, которыми в строке разделены фрагменты.</p>
+	<p><b>char [ ] ToCharArray()</b> – нестатический метод, копирует символы вызывающей строки в массив типа char[ ].</p>
+	<p><b>string Trim( )</b> – нестатический метод, удаляет вхождение заданных символов (например, пробела) в начале и в конце строки.</p>
+	<p><b>string Substring( )</b> – нестатический метод, выделяет из строки подстроку. Параметры задают начало и длину выделяемой части строки.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="36.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="38.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/37.html", "Методы и свойства String", "bm124"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm124", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm124") == 1) { document.getElementById("bma124").style.display = "block"; document.getElementById("bm124").style.display = "none"; } else { document.getElementById("bma124").style.display = "none"; document.getElementById("bm124").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Методы и свойства String") == 1) { arrs.splice(i, 1); localStorage.setItem("bm124", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

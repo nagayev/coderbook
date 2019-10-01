@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma437" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm437" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Диалоги (ч. 1)
+	</h1>
+
+	<p>Что такое диалоги в Delphi?</p>
+	<p>Это невизуальные, то есть, невидимые пользователю компоненты, которые выполняют стандартные для Windows диалоги пользователя и программы.</p>
+	<p>Например, диалог открытия или сохранения файла, диалог выбора шрифта или цвета, и т.п.</p>
+	<p>Любая серьезная программа содержит такие диалоги.</p>
+	<p>Работа с ними несложная, каждый диалог содержит буквально по два свойства, которые нам будут нужны.</p>
+	<p>Изучим работу диалогов на примере.</p>
+	<p>Открываем новый проект.</p>
+	<p>Сразу же форму переименовываем в fMain, в свойстве Caption пишем "Мой блокнот".</p>
+	<p>Сохраните проект под именем Editor.</p>
+	<p>Это будет более профессиональная версия редактора текстов, какой мы уже делали.</p>
+	<p>Считайте, что это вторая версия программы, что и напишете в окне fAbout.</p>
+	<p>Установите на форму компонент Memo, удалите весь текст из его свойства Lines.</p>
+	<p>Поверх Memo установите MainMenu и PopupMenu.</p>
+	<p>Перейдите на вкладку Dialogs в палитре компонентов, и также поверх Memo установите OpenDialog, SaveDialog, FontDialog и ColorDialog.</p>
+	<p>Все эти компоненты не визуальные, пользователь их видеть не сможет.</p>
+	<p>У Memo сразу же укажите свойство Align=alClient, а свойство ScrollBar=ssVertical.</p>
+	<p>Рекомендую для лучшего вида выбрать шрифт (свойство Font ) Times New Roman, а размер = 12.</p>
+	<p>На всех компьютерах с русской Windows есть этот шрифт, однако если вы будете писать программу для продажи в Интернет, лучше оставить шрифт по умолчанию, это гарантирует, что он будет читаться на всех компьютерах в мире.</p>
+	<p>Во всех диалогах есть один метод, который нас интересует – Execute.</p>
+	<p>Это метод логического типа, он возвращает True, если диалог с пользователем произошел успешно (например, пользователь выбрал открываемый файл), и False в противном случае (например, пользователь отказался от выбора файла).</p>
+	<p>В связи с этим, диалоги обычно применяют вместе с проверкой:</p>
+
+	<pre class="brush: csharp;">
+	if OpenDialog1.Execute then...
+	</pre>
+
+	<p>В диалогах, связанных с файлами ( OpenDialog – открыть файл, и SaveDialog – сохранить файл), есть свойство FileName, которое возвращает строку – адрес и имя выбранного файла.</p>
+	<p>Вот, собственно, и все, что нам нужно от этих диалогов!</p>
+	<p>Диалог FontDialog в свойстве Font возвращает выбранный шрифт.</p>
+	<p>Это свойство непростое, оно имеет тип TFont, и присвоить его можно только другому шрифту, например:</p>
+
+	<pre class="brush: csharp;">
+	Memo1.Font := FontDialog1.Font;
+	</pre>
+
+	<p>Точно также, диалог ColorDialog возвращает свойство Color – цвет, имеющее тип TColor, и это свойство можно присвоить только объекту, имеющему такой же тип:</p>
+
+	<pre class="brush: csharp;">
+	Memo1.Color := ColorDialog1.Color;
+	</pre>
+
+	<p>Продолжим наш проект.</p>
+	<p>Откройте редактор главного меню.</p>
+	<p>Создайте раздел "Файл" и подразделы "Открыть", "Сохранить", "Закрыть", "-" и "Выход".</p>
+	<p>Создайте раздел "Параметры" и подразделы "Выбрать шрифт" и "Выбрать цвет".</p>
+	<p>Создайте раздел "Справка" и подраздел "О программе".</p>
+	<p>Теперь открываем редактор PopupMenu и вписываем разделы "Открыть", "Сохранить", "Закрыть", "-" и "Выход".</p>
+	<p>Сразу же на форме выделяем саму форму (это можно сделать в окне Object – TreeView), и в свойстве PopupMenu выбираем наше меню.</p>
+	<p>Теперь это меню откроется, если пользователь щелкнет правой кнопкой по любому месту на форме.</p>
+	<p>Теперь нам нужно настроить фильтры в диалогах OpenDialog (Открыть) и SaveDialog (Сохранить).</p>
+	<p>Фильтры позволяют отображать в этих диалогах только нужные форматы файлов, и для этого выбора используется маска файла.</p>
+	<p>К примеру, маска *.* будет отображать файлы всех типов!</p>
+	<p>Дважды щелкнув по свойству Filter диалога OpenDialog, откройте редактор фильтров.</p>
+	<p>В первой колонке напишите "Текстовые документы", во второй – "*.txt".</p>
+	<p>В строке ниже укажите "Все файлы", а во второй колонке – "*.*".</p>
+	<p>Тоже самое сделайте для диалога SaveDialog:</p>
+
+	<img src="delphi20.png" id="image" />
+
+	<p>Теперь, открывая файл, вы увидите только эти два типа файлов.</p>
+	<p>Подумаем о том, что программа должна знать – изменился ли текст в Memo.</p>
+	<p>Ведь пользователь может закрыть программу и не сохранить текст, а потом будет ругать программиста за то, что он этого не предусмотрел.</p>
+	<p>При этом имеем в виду, что у нас есть много команд меню, значит, будет много процедур.</p>
+	<p>А чтобы дать программе знать, изменился ли текст, разумнее всего создать переменную логического типа – изменился текст, присваиваем ей True, иначе False.</p>
+	<p>Чтобы с этой переменной можно было работать из всех процедур, она должна быть глобальной.</p>
+	<p>Делаем глобальную переменную перед словом implementation:</p>
+
+	<pre class="brush: csharp;">
+	izmen : Boolean;
+	//изменился ли текст в Memo
+	</pre>
+
+	<p>Событию onChange компонента Memo присвойте строку:</p>
+
+	<pre class="brush: csharp;">
+	izmen := True;
+	</pre>
+
+	<p>Как только изменится текст в Memo, переменная тут же будет выдавать истину.</p>
+	<p>Теперь еще один момент – программа должна знать имя и адрес открытого файла.</p>
+	<p>Если имени файла нет, то программа будет выводить диалоговое окно, а если мы файл открывали и имя есть, то программа просто будет перезаписывать тот файл без вывода диалогового окна.</p>
+	<p>Стало быть, делаем еще одну глобальную переменную:</p>
+
+	<pre class="brush: csharp;">
+	myfile : String;
+	//Адрес и имя открытого файла
+	</pre>
+
+	<p>Я специально не беру широко распространенные слова "File" или "FileName", так как они могут быть зарезервированными или в компонентах могут быть свойства с такими именами, в результате получится конфликт названий.</p>
+	<p>Соображаем дальше.</p>
+	<p>Открыть файл можно будет командой меню "Файл – Открыть", либо командой PopupMenu "Открыть".</p>
+	<p>Стало быть, нам придется дважды писать один и тот же код?</p>
+	<p>А если он будет большим и сложным?</p>
+	<p>Можно конечно и скопировать его, компилятор это выдержит, и программа будет работать нормально.</p>
+	<p>А как же оптимизация кода?</p>
+	<p>Два одинаковых кода в программе будут занимать в два раза больше места в памяти и на диске!</p>
+	<p>Для этого мы имеем пользовательские функции и процедуры.</p>
+	<p>Вспоминаем – функцию или процедуру мы должны описать ВЫШЕ того места, где будем ее использовать, значит, первую нашу процедуру мы должны описать в разделе implementation, прямо под строчкой {$R *.dfm}.</p>
+	<p>Сейчас вы узнаете еще кое-что новенькое.</p>
+	<p>В таких вот пользовательских процедурах и функциях вы не можете напрямую обращаться к компонентам формы, поскольку Ваши процедуры и функции самой форме не принадлежат.</p>
+	<p>Если Вы введете</p>
+
+	<pre class="brush: csharp;">
+	Memo1.
+	</pre>
+
+	<p>то компилятор сразу выдаст ошибку.</p>
+	<p>Обращаться к компоненту нужно, указав сначала имя формы, на которой он находится:</p>
+
+	<pre class="brush: csharp;">
+	fMain.Memo1.
+	</pre>
+
+	<p>Однако такой код будет не слишком удобен – каждый раз придется обращаться к компонентам через форму.</p>
+	<p>Лишний набор кода, излишне длинный текст.</p>
+	<p>Выход есть – функция with (с).</p>
+	<p>Эта функция имеет вид:</p>
+
+	<pre class="brush: csharp;">
+with fMain do begin
+   ...
+end;
+	</pre>
+
+	<p>где fMain – имя формы с нужными нам компонентами.</p>
+	<p>Теперь между скобок begin...end этой конструкции мы можем обращаться к компонентам формы напрямую.</p>
+	<p>Пишем общую для всех процедуру открытия файла:</p>
+
+	<pre class="brush: csharp;">
+{Процедура открытия файла}
+procedure Otkrivaem;
+begin
+  with fMain do begin //делать вместе с формой
+    if OpenDialog1.Execute then begin //если диалог выполнен
+      //присваиваем переменной myfile адрес и имя выбранного файла:
+      myfile := OpenDialog1.FileName;
+
+      //читаем этот файл в Memo:
+      Memo1.Lines.LoadFromFile(myfile);
+      izmen := False; //файл только открыт, изменений еще нет
+    end; //if
+  end; //with
+end;
+	</pre>
+
+	<p>Теперь создаем обработчик событий для команды меню "Файл – Открыть".</p>
+	<p>Там вызываем нашу процедуру:</p>
+
+	<pre class="brush: csharp;">
+	Otkrivaem;
+	</pre>
+
+	<p>Тоже самое делаем для команды PopupMenu "Открыть".</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="50.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="52.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/51.html", "Диалоги (ч. 1)", "bm437"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm437", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm437") == 1) { document.getElementById("bma437").style.display = "block"; document.getElementById("bm437").style.display = "none"; } else { document.getElementById("bma437").style.display = "none"; document.getElementById("bm437").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Диалоги (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm437", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

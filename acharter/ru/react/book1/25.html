@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma999" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm999" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Загрузка фото
+	</h1>
+
+	<p>Нам нужно практически повторить, все что написано выше, только для блока Page.</p>
+	<p>Можете попробовать сами, используя метод photos.getAll из VK API.</p>
+	<p>Для начала, проверим список констант:</p>
+	<p>src/constants/Page.js</p>
+
+	<pre class="brush: csharp;">
+	export const GET_PHOTOS_REQUEST = 'GET_PHOTOS_REQUEST'
+	export const GET_PHOTOS_SUCCESS = 'GET_PHOTOS_SUCCESS'
+	export const GET_PHOTOS_FAIL = 'GET_PHOTOS_FAIL'
+	</pre>
+
+	<p>Напишем немало кода, для загрузки фото:</p>
+	<p>src/actions/PageActions.js</p>
+
+	<pre class="brush: csharp;">
+	import
+	{
+		GET_PHOTOS_REQUEST,
+		GET_PHOTOS_FAIL,
+		GET_PHOTOS_SUCCESS
+	} from '../constants/Page'
+
+	let photosArr = []
+	let cached = false
+	
+	function makeYearPhotos(photos, selectedYear) 
+	{
+		let createdYear, yearPhotos = []
+		photos.forEach((item) => {
+			createdYear = new Date(item.created*1000).getFullYear()
+			
+			if (createdYear === selectedYear )
+			{
+				yearPhotos.push(item)
+			}
+		})
+		yearPhotos.sort((a,b) => b.likes.count-a.likes.count);
+		return yearPhotos
+	}
+
+	function getMorePhotos(offset, count, year, dispatch)
+	{
+		// eslint-disable-line no-undef
+		VK.Api.call('photos.getAll', {extended:1, count: count, offset: offset},(r) => { 
+			try
+			{
+				if (offset <= r.response[0] - count)
+				{
+					offset+=200;
+					photosArr = photosArr.concat(r.response)
+					getMorePhotos(offset,count,year,dispatch)
+				}
+				else
+				{
+					let photos = makeYearPhotos(photosArr, year)
+					cached = true
+					
+					dispatch({
+						type: GET_PHOTOS_SUCCESS,
+						payload: photos
+					})
+				}
+			}
+			catch(e)
+			{
+				dispatch({
+					type: GET_PHOTOS_FAIL,
+					error: true,
+					payload: new Error(e)
+				})
+			}
+		})
+	}
+
+	export function getPhotos(year)
+	{
+		return (dispatch) => {
+			dispatch({
+				type: GET_PHOTOS_REQUEST,
+				payload: year
+			})
+
+			if (cached)
+			{
+				let photos = makeYearPhotos(photosArr, year)
+				
+				dispatch({
+					type: GET_PHOTOS_SUCCESS,
+					payload: photos
+				})
+			}
+			else
+			{
+				getMorePhotos(0,200,year,dispatch)
+			}
+		}
+	}
+	</pre>
+
+	<p>makeYearPhotos и getMorePhotos можно вынести в папку utils, как вспомогательные функции.</p>
+	<p>Главное здесь, что мы по прежнему вызываем действия (dispatch actions).</p>
+	<p>Все так, как было в самом начале, просто добавилось немного больше логики для получения фото.</p>
+	<p>Алгоритм получения всех фото (да и необходимость получения всех) - оставляю без комментариев.</p>
+	<p>Мне кажется, это приемлемый способ.</p>
+	<p>Чтобы потестировать показ ошибок, достаточно просто исправить цифру 200 на 2 или 20.</p>
+	<p>VK с любовью вам ответит, что вы мягко-говоря, очень настойчиво обращаетись к API ;)</p>
+	<p>Исправив редьюсер и отрисовку в компоненте, мы закончим начатое.</p>
+	<p>src/reducers/page.js</p>
+
+	<pre class="brush: csharp;">
+	import
+	{
+		GET_PHOTOS_REQUEST,
+		GET_PHOTOS_SUCCESS,
+		GET_PHOTOS_FAIL
+	} from '../constants/Page'
+
+	const initialState = {
+		year: 2016,
+		photos: [],
+		fetching: false,
+		error: ''
+	}
+
+	export default function page(state = initialState, action)
+	{
+		switch (action.type)
+		{
+			case GET_PHOTOS_REQUEST:
+			return { ...state, year: action.payload, fetching: true, error: '' }
+			case GET_PHOTOS_SUCCESS:
+			return { ...state, photos: action.payload, fetching: false, error: '' }
+			case GET_PHOTOS_FAIL:
+			return { ...state, error: action.payload.message, fetching: false }
+			default:
+			return state;
+		}
+	}
+	</pre>
+
+	<p>src/components/Page.js</p>
+
+	<pre class="brush: csharp;">
+	import React, { PropTypes, Component } from 'react'
+	export default class Page extends Component
+	{
+		onYearBtnClick(e)
+		{
+			this.props.getPhotos(+e.target.innerText)
+		}
+
+		render()
+		{
+			const { year, photos, fetching, error } = this.props
+			const years = [2016,2015,2014,2013,2012,2011,2010]
+			
+			return <div className='ib page'>
+				<p>
+				{ years.map((item,index) =>  <button className='btn' key={index} onClick={::this.onYearBtnClick}>{item}</button> )}
+				</p>
+				<h3>{year} год [{photos.length}]</h3>
+				{ error ? <p className='error'> Во время загрузки фото произошла ошибка</p> : '' }
+				{
+					fetching ?
+					<p>Загрузка...</p>
+					:
+					photos.map((entry, index) =>
+					<div key={index} className='photo'>
+					<p><img src={entry.src} /></p>
+					<p>{entry.likes.count} ❤</p>
+					</div>
+					)
+				}
+			</div>
+		}
+	}
+
+	Page.propTypes = {
+		year: PropTypes.number.isRequired,
+		photos: PropTypes.array.isRequired,
+		getPhotos: PropTypes.func.isRequired,
+		error: PropTypes.string.isRequired
+	}
+	</pre>
+
+	<p>Итого: Вы научились выполнять асинхронные запросы и корректно показывать прелоадер, ошибки или успешный результат.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="24.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/25.html", "Загрузка фото VK", "bm999"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm999", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm999") == 1) { document.getElementById("bma999").style.display = "block"; document.getElementById("bm999").style.display = "none"; } else { document.getElementById("bma999").style.display = "none"; document.getElementById("bm999").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Загрузка фото VK") == 1) { arrs.splice(i, 1); localStorage.setItem("bm999", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

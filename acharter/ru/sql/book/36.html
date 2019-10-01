@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1050" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1050" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Статистические вычисления для отдельных значений
+	</h1>
+
+	<p>Все пять статистических функций могут быть использованы двумя способами:</p>
+	<p>- для вычисления во всех строках при указании аргумента ALL или без указания какого-либо аргумента (так как ALL является аргументом по умолчанию);</p>
+	<p>- для указания отдельных значении при помощи аргумента DISTINCT.</p>
+	<p><b>ALL no умолчанию</b></p>
+	<p>Аргумент ALL не обязательно указывать, так как он является аргументом по умолчанию.</p>
+	<p>Если не указан аргумент DISTINCT, TO подразумевается аргумент ALL.</p>
+	<p><b>Не в Access</b></p>
+	<p>Microsoft Access не поддерживает использование аргумента DISTINCT В статистических функциях, поэтому следующий пример не будет работать в Access.</p>
+	<p>В следующем примере используется функция AVG() для возвращения средней цены продуктов, предлагаемых определенным поставщиком.</p>
+	<p>Это такой же оператор SELECT, как и предыдущий, но с использованием ключевого слова DISTINCT – при вычислении среднего значения учитываются только определенные цены.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT AVG(DISTINCT prod_price) AS avg_price
+	FROM Products
+	WHERE vend_id = 'LL01';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	avg_price
+	4.2400
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В этом примере вследствие использован ия ключевого слова DISTINCT значение avg_price получается более высоким, так как в таблице есть несколько предметов с одинаково низкой ценой.</p>
+	<p>Не учитывая их, мы получаем более высокую среднюю стоимость.</p>
+	<p><b>Внимание</b></p>
+	<p>Ключевое слово DISTINCT МОЖНО использовать с функцией COUNT () только в том случае, если указано имя столбца.</p>
+	<p>Его нельзя использовать с функцией COUNT(*).</p>
+	<p>Аналогично, DISTINCT нужно использовать с именем столбца, но не с выражением.</p>
+	<p><b>Использование ключевого слова DISTINCT с функциями MIN () и MAX ()</b></p>
+	<p>Несмотря на то что ключевое слово DISTINCT технически можно использовать с функциями MIN() и МАХ(), реальной нео ходимости б в этом нет.</p>
+	<p>Минимальные и максимальные значения в столбце будут теми же, независимо от того, указаны определенные значения или нет.</p>
+	<p><b>Предикаты</b></p>
+	<p>Помимо ключевых слов DISTINCT и ALL, некоторые СУБД поддерживают предикаты, такие как ТОР И ТОР PERCENT, позволяющие выполнять действия над подмножествами результатов запроса.</p>
+	<p>Обратитесь к документации вашей СУБД, чтобы точно узнать, какие предикаты вы можете использовать.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="35.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="37.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/36.html", "Статистические вычисления", "bm1050"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1050", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1050") == 1) { document.getElementById("bma1050").style.display = "block"; document.getElementById("bm1050").style.display = "none"; } else { document.getElementById("bma1050").style.display = "none"; document.getElementById("bm1050").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Статистические вычисления") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1050", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

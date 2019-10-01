@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1363" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1363" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        SQL инъекции
+    </h1>
+    
+    <p>Благодаря умным методам, это вряд ли является проблемой в большинстве приложений на Rails.</p>
+    <p>Однако, это очень разрушительная и обычная атака на веб-приложения, поэтому важно понять проблему.</p>
+
+    <h2 id="title">
+        Введение
+    </h2>
+
+    <p>Цель атаки в форме SQL инъекции - сделать запросы к базе данных, манипулируя с параметрами приложения.</p>
+    <p>Популярная цель атак в форме SQL инъекций - обойти авторизацию.</p>
+    <p>Другой целью является осуществление манипуляции с данными или чтение определенных данных.</p>
+    <p>Вот пример, как не следует использовать пользовательские данные в запросе:</p>
+
+    <pre class="brush: csharp;">
+    Project.where("name = '#{params[:name]}'")
+    </pre>
+
+    <p>Это может быть экшен поиска и пользователь может ввести имя проекта, который он хочет найти.</p>
+    <p>Если злонамеренный пользователь введет ' OR 1 --, результирующим SQL запросом будет:</p>
+
+    <pre class="brush: csharp;">
+    SELECT * FROM projects WHERE name = '' OR 1 --'
+    </pre>
+
+    <p>Два тире начинают комментарий, игнорирующий все после него.</p>
+    <p>Таким образом, запрос вернет все записи из таблицы projects, включая те, которые недоступны пользователю.</p>
+    <p>Так случилось, поскольку условие истинно для всех записей.</p>
+
+    <h2 id="title">
+        Обход авторизации
+    </h2>
+
+    <p>Обычно веб-приложения включают контроль доступа.</p>
+    <p>Пользователь вводит свои полномочия входа, веб-приложение пытается найти соответствующую запись в таблице пользователей.</p>
+    <p>Приложение предоставляет доступ, когда находит запись.</p>
+    <p>Однако, злоумышленник возможно сможет обойти эту проверку с помощью SQL инъекции.</p>
+    <p>Следующее показывает типичный запрос к базе данных в Rails для поиска первой записи в таблице users, которая соответствует параметрам полномочий входа, предоставленных пользователем.</p>
+
+    <pre class="brush: csharp;">
+    User.find_by("login = '#{params[:name]}' AND password = '#{params[:password]}'")
+    </pre>
+
+    <p>Если злоумышленник введет ' OR '1'='1 как имя и ' OR '2'>'1 как пароль, результирующий запрос SQL будет:</p>
+
+    <pre class="brush: csharp;">
+    SELECT * FROM users WHERE login = '' OR '1'='1' AND password = '' OR '2'>'1' LIMIT 1
+    </pre>
+
+    <p>Это просто найдет первую запись в базе данных и предоставит доступ этому пользователю.</p>
+
+    <h2 id="title">
+        Неавторизованное чтение
+    </h2>
+
+    <p>Выражение UNION соединяет два запроса SQL и возвращает данные одним набором.</p>
+    <p>Злоумышленник может использовать это, чтобы прочитать произвольную информацию из базы данных.</p>
+    <p>Давайте рассмотрим вышеописанный пример:</p>
+
+    <pre class="brush: csharp;">
+    Project.where("name = '#{params[:name]}'")
+    </pre>
+
+    <p>Теперь позволим внедрить другой запрос, использующий выражение UNION:</p>
+
+    <pre class="brush: csharp;">
+    ') UNION SELECT id,login AS name,password AS description,1,1,1 FROM users --
+    </pre>
+
+    <p>Это приведет к следующему запросу SQL:</p>
+
+    <pre class="brush: csharp;">
+    SELECT * FROM projects WHERE (name = '') UNION
+      SELECT id,login AS name,password AS description,1,1,1 FROM users --'
+    </pre>
+
+    <p>Результатом будет не список проектов (поскольку нет проектов с пустым именем), а список имен пользователя и их пароли.</p>
+    <p>Поэтому надеемся, что вы шифруете пароли в базе данных!</p>
+    <p>Единственной проблемой для злоумышленника может быть то, что число столбцов должно быть равное в обоих запросах.</p>
+    <p>Вот почему второй запрос включает список единичек (1), который всегда будет иметь значение 1, чтобы количество столбцов соответствовало первому запросу.</p>
+    <p>Также второй запрос переименовывает некоторые столбцы выражением AS, чтобы веб-приложение отображало значения из таблицы users.</p>
+    <p>Убедитесь, что обновили свой Rails как минимум до 2.1.1.</p>
+
+    <h2 id="title">
+        Контрмеры
+    </h2>
+
+    <p>В Ruby on Rails есть встроенный фильтр для специальных символов SQL, который экранирует ' , " , символ NULL и разрыв строки.</p>
+    <p>Использование <b>Model.find(id)</b> или <b>Model.find_by_some thing(something)</b> автоматически применяет эту контрмеру.</p>
+    <p>Но в фрагментах SQL, особенно в фрагментах условий (where("...")), методах <b>connection.execute()</b> или <b>Model.find_by_sql()</b>, это должно быть применено вручную.</p>
+    <p>Вместо передачи строки в опцию conditions, можете передать массив, чтобы экранировать испорченные строки, подобно этому:</p>
+
+    <pre class="brush: csharp;">
+    Model.where("login = ? AND password = ?", entered_user_name, entered_password).first
+    </pre>
+
+    <p>Как видите, первая часть массива это фрагмент SQL с знаками вопроса.</p>
+    <p>Экранируемые версии переменных во второй части массива заменяют знаки вопроса.</p>
+    <p>Или можете передать хэш с тем же результатом:</p>
+
+    <pre class="brush: csharp;">
+    Model.where(login: entered_user_name, password: entered_password).first
+    </pre>
+
+    <p>Форма массива или хэша доступна только в экземплярах модели.</p>
+    <p>В других местах используйте <b>sanitize_sql()</b>.</p>
+    <p>Введите в привычку думать о последствиях безопасности, когда используете внешние строки в SQL.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="24.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="26.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/25.html", "SQL инъекции", "bm1363"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1363", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1363") == 1) { document.getElementById("bma1363").style.display = "block"; document.getElementById("bm1363").style.display = "none"; } else { document.getElementById("bma1363").style.display = "none"; document.getElementById("bm1363").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("SQL инъекции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1363", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

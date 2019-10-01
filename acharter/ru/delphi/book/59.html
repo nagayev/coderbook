@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma445" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm445" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		TStringList
+	</h1>
+
+	<p>Практически любая программа взаимодействует с какими-либо типами файлов.</p>
+	<p>Delphi позволяет нам работать с файлами различных типов.</p>
+	<p>Текстовый файл – одна из этих разновидностей.</p>
+	<p>В этих файлах информация расположена не сплошным блоком данных, а в виде строк, которые заканчиваются символом конца строки и перевода каретки.</p>
+	<p>Можно работать с текстовыми файлами общим способом, то есть, побайтно считывать и записывать данные.</p>
+	<p>Однако это не всегда удобно.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	Привет!
+	Как жизнь?
+	</pre>
+
+	<p>Если мы считаем эти 2 строки сплошным блоком, то получим строку:</p>
+
+	<pre class="brush: csharp;">
+	'Привет!' + #13 + #10 + 'Как жизнь?'
+	</pre>
+
+	<p>Это очень неудобно, так как для обработки строк нам каждый раз придется искать эти два символа конца строки.</p>
+	<p>А если строк много, например 100?</p>
+	<p>И если нужно получить доступ к 75-й строке?</p>
+	<p>Тут на помощь приходит объект TStrings, который мы использовали при обработке Memo, и который является простым контейнером для хранения строк.</p>
+	<p>Однако использовать объект TStrings напрямую нельзя, так как этот объект является шаблоном для других объектов, работающих со строками.</p>
+	<p>Вспомните, в компоненте Memo и ListBox мы тоже не использовали этот объект напрямую, мы использовали его "потомков" - Lines и Items.</p>
+	<p>Поэтому лучше использовать более продвинутый вариант этого объекта – TStringList.</p>
+	<p>Этот вариант наследует все возможности объекта TStrings и добавляет еще новые.</p>
+	<p>Это, пожалуй, самый простой способ работы с текстовыми файлами.</p>
+	<p>Чтобы воспользоваться этим объектом, требуется вначале объявить переменную этого типа, затем проинициализировать ее, а в конце закрыть.</p>
+	<p>В простейшем варианте это будет выглядеть так:</p>
+
+	<pre class="brush: csharp;">
+var
+    f : TStringList;  //объявили переменную - объект
+begin
+    f := TStringList.Create();  //проинициализировали
+    f.Free;  //освободили (уничтожили)
+end;
+	</pre>
+
+	<p>Здесь мы создаем объект и тут же его уничтожаем, не работая с ним.</p>
+	<p>Когда мы объявили переменную типа объект TStringList, мы указали компилятору, сколько оперативной памяти потребуется выделить в дальнейшем для этой переменной.</p>
+	<p>Когда мы проинициализировали объект методом Create, мы выделили под него оперативную память.</p>
+	<p>В дальнейшем, с этим объектом можно работать, записывать в него текст, считывать текст, пользоваться свойствами, методами и событиями этого объекта.</p>
+	<p>Метод Free разрушает объект, уничтожает его в оперативной памяти.</p>
+	<p>После этого к переменной f типа TStringList обращаться уже нельзя.</p>
+	<p>Все, что должен был делать этот объект, должно быть описано до метода Free.</p>
+	<p>Чтение и запись с таким объектом происходит знакомым нам способом.</p>
+	<p>Допустим, нам нужно прочитать текстовый файл и изменить в нем 10-ю строку:</p>
+
+	<pre class="brush: csharp;">
+var
+    f : TStringList;
+begin
+    f := TStringList.Create();
+   //читаем текст из файла:
+    f.LoadFromFile('c:\myfile.txt');
+  //меняем текст 10-й строки (строки начинаются с 0):
+    f[9] := 'Новая строка';
+  //сохраняем измененный текст обратно в файл:
+    f.SaveToFile('c:\myfile.txt');
+    f.Free;
+end;
+	</pre>
+
+	<p>Обратите внимание, что мы обратились к 9-му индексу, так как нумерация индексов начинается с нуля, и f[9] содержит 10-ю строку.</p>
+	<p>Свойство Count этого объекта возвращает общее количество строк, начиная с первой.</p>
+	<p>Давайте напишем пример, в котором мы будем среди всех строк искать строку "Привет, Москва!".</p>
+	<p>Если такая строка будет найдена, то программа выведет номер искомой строки, иначе выведет сообщение, что такой строки нет.</p>
+	<p>Вначале воспользуйтесь собственным редактором текстов и создайте текстовый файл, куда запишите 10-15 строк.</p>
+	<p>Одну из строк сделайте "Привет, Москва!".</p>
+	<p>Затем делаем новое приложение, устанавливаем кнопку "Выполнить" и диалог OpenDialog.</p>
+	<p>Затем создаем обработчик событий для кнопки, куда записываем следующий код:</p>
+
+	<pre class="brush: csharp;">
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  f : TStringList;
+  i : Integer;
+begin
+  //если ничего не открыли, выходим из процедуры:
+  if not OpenDialog1.Execute then Exit;
+
+  //читаем из файла:
+  f := TStringList.Create();
+  f.LoadFromFile(OpenDialog1.FileName);
+
+  //ищем строку:
+  for i := 0 to f.Count-1 do begin
+     if f[i] = 'Привет, Москва!' then begin
+        ShowMessage('Строка найдена под № ' + IntToStr(i+1));
+        Break;
+     end; //if
+  end; //for
+
+  //закрываем файл:
+  f.Free;
+end;
+	</pre>
+
+	<p>Здесь код достаточно прозрачен, однако еще раз обращаю ваше внимание на то, что индексы строк начинаются с нуля, а свойство Count возвращает общее количество строк.</p>
+	<p>То есть, если в тексте лишь 2 строки и Count вернет цифру 2, то индексы этих строк будут 0 и 1, поэтому в цикле мы использовали диапазон от 0 до Count-1, иначе бы произошла ошибка переполнения цикла.</p>
+	<p>Итак, кроме того, что мы уже рассмотрели, этот объект имеет и другие, известные вам по Memo методы:</p>
+
+	<p><b>Add</b> – добавить новую строку в конец:</p>
+
+	<pre class="brush: csharp;">
+	f.Add('Новая строка');
+	</pre>
+
+	<p><b>Clear</b> – очистить объект (не будет текста):</p>
+
+	<pre class="brush: csharp;">
+	f.Clear;
+	</pre>
+
+	<p><b>Insert</b> – вставить строку. Есть 2 параметра – индекс вставляемой строки, и сама строка:</p>
+
+	<pre class="brush: csharp;">
+	f.Insert(3, 'Новая 4-я строка, следующие строки сдвинутся вниз');
+	</pre>
+
+	<p><b>Delete</b> – удалить строку. Есть параметр – индекс удаляемой строки.</p>
+
+	<pre class="brush: csharp;">
+	f.Delete(f.Count-1);
+	//удалили последнюю строку
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="58.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="60.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/59.html", "Текстовые файлы (ч. 1)", "bm445"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm445", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm445") == 1) { document.getElementById("bma445").style.display = "block"; document.getElementById("bm445").style.display = "none"; } else { document.getElementById("bma445").style.display = "none"; document.getElementById("bm445").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Текстовые файлы (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm445", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

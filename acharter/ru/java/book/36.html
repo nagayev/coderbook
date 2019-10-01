@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma637" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm637" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Дополнительные свойства классов
+	</h1>
+
+	<p>Рассмотрим в этом разделе некоторые особенности работы с классами в Java.</p>
+	<p>Обсуждение данного вопроса будет продолжено в специальной лекции, посвященной объектной модели в Java.</p>
+
+	<h1 id="title">
+		Метод main
+	</h1>
+
+	<p>Итак, виртуальная машина реализуется приложением операционной системы и запускается по обычным правилам.</p>
+	<p>Программа, написанная на Java, является набором классов.</p>
+	<p>Понятно, что требуется некая входная точка, с которой должно начинаться выполнение приложения.</p>
+	<p>Такой входной точкой, по аналогии с языками C/C++, является метод main().</p>
+	<p>Пример его объявления:</p>
+
+	<pre class="brush: csharp;">
+	public static void main(String[] args) { }
+	</pre>
+
+	<p>Модификатор static в этой лекции не рассматривался и будет изучен позже.</p>
+	<p>Он позволяет вызвать метод main(), не создавая объектов.</p>
+	<p>Метод не возвращает никакого значения, хотя в C есть возможность указать код возврата из программы.</p>
+	<p>В Java для этой цели существует метод System.exit(), который закрывает виртуальную машину и имеет аргумент типа int.</p>
+	<p>Аргументом метода main() является массив строк.</p>
+	<p>Он заполняется дополнительными параметрами, которые были указаны при вызове метода.</p>
+
+	<pre class="brush: csharp;">
+	package test.first;
+
+	public class Test
+	{
+		public static void main(String[] args)
+		{
+			for (int i=0; i&lt;args.length; i++)
+			{
+				System.out.print(args[i]+" ");
+			}
+
+			System.out.println();
+		}
+	}
+	</pre>
+
+	<p>Для вызова программы виртуальной машине передается в качестве параметра имя класса, у которого объявлен метод main().</p>
+	<p>Поскольку это имя класса, а не имя файла, то не должно указываться никакого расширения (.class или .java ) и расположение класса записывается через точку (разделитель имен пакетов), а не с помощью файлового разделителя.</p>
+	<p>Компилятору же, напротив, передается имя и путь к файлу.</p>
+	<p>Если приведенный выше модуль компиляции сохранен в файле Test.java, который лежит в каталоге test\first, то вызов компилятора записывается следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	javac test\first\Test.java
+	</pre>
+
+	<p>А вызов виртуальной машины:</p>
+
+	<pre class="brush: csharp;">
+	java test.first.Test
+	</pre>
+
+	<p>Чтобы проиллюстрировать работу с параметрами, изменим строку запуска приложения:</p>
+
+	<pre class="brush: csharp;">
+	java test.first.Test Hello, World!
+	</pre>
+
+	<p>Результатом работы программы будет:</p>
+
+	<pre class="brush: csharp;">
+	Hello, World!
+	</pre>
+
+	<h1 id="title">
+		Параметры методов
+	</h1>
+
+	<p>Для лучшего понимания работы с параметрами методов в Java необходимо рассмотреть несколько вопросов.</p>
+	<p>Как передаются аргументы в методы – по значению или по ссылке?</p>
+	<p>С точки зрения программы вопрос формулируется, например, следующим образом.</p>
+	<p>Пусть есть переменная и она в качестве аргумента передается в некоторый метод.</p>
+	<p>Могут ли произойти какие-либо изменения с этой переменной после завершения работы метода?</p>
+
+	<pre class="brush: csharp;">
+	int x=3;
+	process(x);
+	print(x);
+	</pre>
+
+	<p>Предположим, используемый метод объявлен следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	public void process(int x)
+	{
+		x=5;
+	}
+	</pre>
+
+	<p>Какое значение появится на консоли после выполнения примера?</p>
+	<p>Чтобы ответить на этот вопрос, необходимо вспомнить, как переменные разных типов хранят свои значения в Java.</p>
+	<p>Напомним, что примитивные переменные являются истинными хранилищами своих значений и изменение значения одной переменной никогда не скажется на значении другой.</p>
+	<p>Параметр метода process(), хоть и имеет такое же имя x, на самом деле является полноценным хранилищем целочисленной величины.</p>
+	<p>А потому присвоение ему значения 5 не скажется на внешних переменных.</p>
+	<p>То есть результатом примера будет 3 и аргументы примитивного типа передаются в методы по значению.</p>
+	<p>Единственный способ изменить такую переменную в результате работы метода – возвращать нужные величины из метода и использовать их при присвоении:</p>
+
+	<pre class="brush: csharp;">
+	public int doubler(int x)
+	{
+		return x+x;
+	}
+	
+	public void test()
+	{
+		int x=3;
+		x=doubler(x);
+	}
+	</pre>
+
+	<p>Перейдем к ссылочным типам.</p>
+
+	<pre class="brush: csharp;">
+	public void process(Point p)
+	{
+		p.x=3;
+	}
+	
+	public void test()
+	{
+		Point p = new Point(1,2);
+		process(p);
+		print(p.x);
+	}
+	</pre>
+
+	<p>Ссылочная переменная хранит ссылку на объект, находящийся в памяти виртуальной машины.</p>
+	<p>Поэтому аргумент метода process() будет иметь в качестве значения ту же самую ссылку и, стало быть, ссылаться на тот же самый объект.</p>
+	<p>Изменения состояния объекта, осуществленные с помощью одной ссылки, всегда видны при обращении к этому объекту с помощью другой.</p>
+	<p>Поэтому результатом примера будет значение 3.</p>
+	<p>Объектные значения передаются в Java по ссылке.</p>
+	<p>Однако если изменять не состояние объекта, а саму ссылку, то результат будет другим:</p>
+
+	<pre class="brush: csharp;">
+	public void process(Point p)
+	{
+		p = new Point(4,5);
+	}
+	
+	public void test()
+	{
+		Point p = new Point(1,2);
+		process(p);
+		print(p.x);
+	}
+	</pre>
+
+	<p>В этом примере аргумент метода process() после присвоения начинает ссылаться на другой объект, нежели исходная переменная p, а значит, результатом примера станет значение 1.</p>
+	<p>Можно сказать, что ссылочные величины передаются по значению, но значением является именно ссылка на объект.</p>
+	<p>Теперь можно уточнить, что означает возможность объявлять параметры методов и конструкторов как final.</p>
+	<p>Поскольку изменения значений параметров (но не объектов, на которые они ссылаются) никак не сказываются на переменных вне метода, модификатор final говорит лишь о том, что значение этого параметра не будет меняться на протяжении работы метода.</p>
+	<p>Разумеется, для аргумента final Point p выражение p.x=5 является допустимым (запрещается p=new Point(5, 5)).</p>
+
+	<h1 id="title">
+		Перегруженные методы
+	</h1>
+
+	<p>Перегруженными (overloaded) методами называются методы одного класса с одинаковыми именами.</p>
+	<p>Сигнатуры у них должны быть различными и различие может быть только в наборе аргументов.</p>
+	<p>Если в классе параметры перегруженных методов заметно различаются: например, у одного метода один параметр, у другого – два, то для Java это совершенно независимые методы и совпадение их имен может служить только для повышения наглядности работы класса.</p>
+	<p>Каждый вызов, в зависимости от количества параметров, однозначно адресуется тому или иному методу.</p>
+	<p>Однако если количество параметров одинаковое, а типы их различаются незначительно, при вызове может сложиться двойственная ситуация, когда несколько перегруженных методов одинаково хорошо подходят для использования.</p>
+	<p>Например, если объявлены типы Parent и Child, где Child расширяет Parent, то для следующих двух методов:</p>
+
+	<pre class="brush: csharp;">
+	void process(Parent p, Child c) {}
+	void process(Child c, Parent p) {}
+	</pre>
+
+	<p>можно сказать, что они допустимы, их сигнатуры различаются.</p>
+	<p>Однако при вызове</p>
+
+	<pre class="brush: csharp;">
+	process(new Child(), new Child());
+	</pre>
+
+	<p>обнаруживается, что оба метода одинаково годятся для использования.</p>
+	<p>Другой пример, методы:</p>
+
+	<pre class="brush: csharp;">
+	process(Object o) {}
+	process(String s) {}
+	</pre>
+
+	<p>и примеры вызовов:</p>
+
+	<pre class="brush: csharp;">
+	process(new Object());
+	process(new Point(4,5));
+	process("abc");
+	</pre>
+
+	<p>Очевидно, что для первых двух вызовов подходит только первый метод, и именно он будет вызван.</p>
+	<p>Для последнего же вызова подходят оба перегруженных метода, однако класс String является более "специфичным", или узким, чем класс Object.</p>
+	<p>Действительно, значения типа String можно передавать в качестве аргументов типа Object, обратное же неверно.</p>
+	<p>Компилятор попытается отыскать наиболее специфичный метод, подходящий для указанных параметров, и вызовет именно его.</p>
+	<p>Поэтому при третьем вызове будет использован второй метод.</p>
+	<p>Однако для предыдущего примера такой подход не дает однозначного ответа.</p>
+	<p>Оба метода одинаково специфичны для указанного вызова, поэтому возникнет ошибка компиляции.</p>
+	<p>Необходимо, используя явное приведение, указать компилятору, какой метод следует применить:</p>
+
+	<pre class="brush: csharp;">
+	process((Parent)(new Child()), new Child());
+	// или
+	process(new Child(),(Parent)(new Child()));
+	</pre>
+
+	<p>Это верно и в случае использования значения null:</p>
+
+	<pre class="brush: csharp;">
+	process((Parent)null, null);
+	// или
+	process(null,(Parent)null);
+	</pre>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой лекции началось рассмотрение ключевой конструкции языка Java – объявление класса.</p>
+	<p>Первая тема посвящена средствам разграничения доступа.</p>
+	<p>Главный вопрос – для чего этот механизм вводится в практически каждом современном языке высокого уровня.</p>
+	<p>Необходимо понимать, что он предназначен не для обеспечения "безопасности" или "защиты" объекта от неких неправильных действий.</p>
+	<p>Самая важная задача – разделить внешний интерфейс класса и детали его реализации с тем, чтобы в дальнейшем воспользоваться такими преимуществами ООП, как инкапсуляция и модульность.</p>
+	<p>Затем были рассмотрены все четыре модификатора доступа, а также возможность их применения для различных элементов языка.</p>
+	<p>Проверка уровня доступа выполняется уже во время компиляции и запрещает лишь явное использование типов.</p>
+	<p>Например, с ними все же можно работать через их более открытых наследников.</p>
+	<p>Объявление класса состоит из заголовка и тела класса.</p>
+	<p>Формат заголовка был подробно описан.</p>
+	<p>Для изучения тела класса необходимо вспомнить понятие элементов (members) класса.</p>
+	<p>Ими могут быть поля, методы и внутренние типы.</p>
+	<p>Для методов важным понятием является сигнатура.</p>
+	<p>Кроме того, в теле класса объявляются конструкторы и инициализаторы.</p>
+	<p>Поскольку они не являются элементами, к ним нельзя обратиться явно, они вызываются самой виртуальной машиной.</p>
+	<p>Также конструкторы и инициализаторы не передаются по наследству.</p>
+	<p>Дополнительно был рассмотрен метод main, который вызывается при старте виртуальной машины.</p>
+	<p>Далее описываются тонкости, возникающие при передаче параметров, и связанный с этим вопрос о перегруженных методах.</p>
+	<p>Классы Java мы продолжим рассматривать в следующих лекциях.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="35.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="37.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/36.html", "Дополнительные свойства", "bm637"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm637", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm637") == 1) { document.getElementById("bma637").style.display = "block"; document.getElementById("bm637").style.display = "none"; } else { document.getElementById("bma637").style.display = "none"; document.getElementById("bm637").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Дополнительные свойства") == 1) { arrs.splice(i, 1); localStorage.setItem("bm637", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

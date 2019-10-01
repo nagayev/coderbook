@@ -1,0 +1,650 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1244" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1244" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Контейнер внедрения зависимостей
+	</h1>
+
+    <p>Контейнер внедрения зависимостей — это объект, который знает, как создать и настроить экземпляр класса и зависимых от него объектов.</p>
+    <p>Статья Мартина Фаулера хорошо объясняет, почему контейнер внедрения зависимостей является полезным.</p>
+    <p>Здесь, преимущественно, будет объясняться использование контейнера внедрения зависимостей, предоставляемого в Yii.</p>
+
+    <h2 id="title">
+        Внедрение зависимостей
+    </h2>
+
+    <p>Yii обеспечивает функционал контейнера внедрения зависимостей через класс [[yii\di\Container]].</p>
+    <p>Он поддерживает следующие виды внедрения зависимостей:</p>
+
+    <ul>
+        <li>Внедрение зависимости через конструктор;</li>
+        <li>Внедрение зависимости через метод;</li>
+        <li>Внедрение зависимости через сеттер и свойство;</li>
+        <li>Внедрение зависимости через PHP callback;</li>
+    </ul>
+
+    <h3 id="title">
+        Внедрение зависимости через конструктор
+    </h3>
+
+    <p>Контейнер внедрения зависимостей поддерживает внедрение зависимости через конструктор при помощи указания типов для параметров конструктора.</p>
+    <p>Указанные типы сообщают контейнеру, какие классы или интерфейсы зависят от него при создании нового объекта.</p>
+    <p>Контейнер попытается получить экземпляры зависимых классов или интерфейсов, а затем передать их в новый объект через конструктор.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    class Foo
+    {
+        public function __construct(Bar $bar)
+        {
+        }
+    }
+    
+    $foo = $container->get('Foo');
+    // что равносильно следующему:
+    $bar = new Bar;
+    $foo = new Foo($bar);
+    </pre>
+
+    <h3 id="title">
+        Внедрение зависимости через метод
+    </h3>
+
+    <p>Обычно зависимости класса передаются в конструктор и становятся доступными внутри класса в течение всего времени его существования.</p>
+    <p>При помощи инъекции через метод возможно задать зависимость, которая необходима в единственном методе класса.</p>
+    <p>Передавать такую зависимость через конструктор либо невозможно, либо это влечёт за собой ненужные накладные расходы в большинстве случаев.</p>
+    <p>Метод класса может быть определён так же, как doSomething() в примере ниже:</p>
+
+    <pre class="brush: csharp;">
+    class MyClass extends \yii\base\Component
+    {
+        public function __construct(/*Легковесные зависимости тут*/, $config = [])
+        {
+            // ...
+        }
+    
+        public function doSomething($param1, \my\heavy\Dependency $something)
+        {
+            // Работаем с $something
+        }
+    }
+    </pre>
+
+    <p>Метод можно вызвать либо передав экземпляр \my\heavy\Dependency самостоятельно, либо использовав [[yii\di\Container::invoke()]]:</p>
+
+    <pre class="brush: csharp;">
+    $obj = new MyClass(/*...*/);
+    Yii::$container->invoke([$obj, 'doSomething'], ['param1' =&gt; 42]); // $something будет предоставлено DI-контейнером
+    </pre>
+
+    <h3 id="title">
+        Внедрение зависимости через сеттер и свойство
+    </h3>
+
+    <p>Внедрение зависимости через сеттер и свойство поддерживается через конфигурации.</p>
+    <p>При регистрации зависимости или при создании нового объекта, вы можете предоставить конфигурацию, которая будет использована контейнером для внедрения зависимостей через соответствующие сеттеры или свойства.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    use yii\base\BaseObject;
+    
+    class Foo extends BaseObject
+    {
+        public $bar;
+    
+        private $_qux;
+    
+        public function getQux()
+        {
+            return $this->_qux;
+        }
+    
+        public function setQux(Qux $qux)
+        {
+            $this->_qux = $qux;
+        }
+    }
+    
+    $container->get('Foo', [], [
+        'bar' =&gt; $container->get('Bar'),
+        'qux' =&gt; $container->get('Qux'),
+    ]);
+    </pre>
+
+    <p><b>Информация:</b> Метод [[yii\di\Container::get()]] третьим аргументом принимает массив конфигурации, которым инициализируется создаваемый объект. Если класс реализует интерфейс [[yii\base\Configurable]] (например, [[yii\base\BaseObject]]), то массив конфигурации передается в последний параметр конструктора класса. Иначе конфигурация применяется уже после создания объекта.</p>
+
+    <h2 id="title">
+        Более сложное практическое применение
+    </h2>
+
+    <p>Допустим, мы работаем над API и у нас есть:</p>
+
+    <ul>
+        <li>app\components\Request, наследуемый от yii\web\Request и реализующий дополнительные возможности.</li>
+        <li>app\components\Response, наследуемый от yii\web\Response с свойством format, по умолчанию инициализируемом как json.</li>
+        <li>app\storage\FileStorage и app\storage\DocumentsReader, где реализована некая логика для работы с документами в неком файловом хранилище:</li>
+    </ul>
+
+    <pre class="brush: csharp;">
+    class FileStorage
+    {
+        public function __contruct($root) {
+            // делаем что-то
+        }
+    }
+    
+    class DocumentsReader
+    {
+        public function __contruct(FileStorage $fs) {
+            // делаем что-то
+        }
+    }
+    </pre>
+
+    <p>Возможно настроить несколько компонентов сразу передав массив конфигурации в метод [[yii\di\Container::setDefinitions()|setDefinitions()]] или [[yii\di\Container::setSingletons()|setSingletons()]].</p>
+    <p>Внутри метода фреймворк обойдёт массив конфигурации и вызовет для каждого элемента [[yii\di\Container::set()|set()]] или [[yii\di\Container::setSingleton()|setSingleton()]] соответственно.</p>
+    <p>Формат массива конфигурации следующий:</p>
+
+    <ul>
+        <li>Ключ: имя класса, интерфейса или псевдонима. Ключ передаётся в первый аргумент $class метода [[yii\di\Container::set()|set()]].</li>
+        <li>Значение: конфигурация для класса. Возможные значения описаны в документации параметра $definition метода [[yii\di\Container::set()|set()]]. Значение передаётся в аргумент $definition метода [[set()]].</li>
+    </ul>
+
+    <p>Для примера, давайте настроим наш контейнер:</p>
+
+    <pre class="brush: csharp;">
+    $container->setDefinitions([
+        'yii\web\Request' =&gt; 'app\components\Request',
+        'yii\web\Response' =&gt; [
+            'class' =&gt; 'app\components\Response',
+            'format' =&gt; 'json'
+        ],
+        'app\storage\DocumentsReader' =&gt; function () {
+            $fs = new app\storage\FileStorage('/var/tempfiles');
+            return new app\storage\DocumentsReader($fs);
+        }
+    ]);
+    
+    $reader = $container->get('app\storage\DocumentsReader); 
+    // Создаст объект DocumentReader со всеми зависимостями 
+    </pre>
+
+    <p><b>Подсказка:</b> Начиная с версии 2.0.11 контейнер может быть настроен в декларативном стиле через конфигурацию приложения. Как это сделать ищите в подразделе Конфигурация приложения раздела Конфигурации.</p>
+    <p>Вроде всё работает, но если нам необходимо создать экземпляр класса DocumentWriter, придётся скопировать код, создающий экземплярFileStorage, что, очевидно, не является оптимальным.</p>
+    <p>Как описано в подразделе Разрешение зависимостей, [[yii\di\Container::set()|set()]] и [[yii\di\Container::setSingleton()|setSingleton()]] могут опционально принимать третьим аргументов параметры для конструктора.</p>
+    <p>Формат таков:</p>
+
+    <ul>
+        <li>Ключ: имя класса, интерфейса или псевдонима. Ключ передаётся в первый аргумент $class метода [[yii\di\Container::set()|set()]].</li>
+        <li>Значение: массив из двух элементов. Первый элемент передаётся в метод [[yii\di\Container::set()|set()]] вторым аргументом $definition, второй элемент — аргументом $params.</li>
+    </ul>
+
+    <p>Исправим наш пример:</p>
+
+    <pre class="brush: csharp;">
+    $container->setDefinitions([
+        'tempFileStorage' =&gt; [ // для удобства мы задали псевдоним
+            ['class' =&gt; 'app\storage\FileStorage'],
+            ['/var/tempfiles']
+        ],
+        'app\storage\DocumentsReader' =&gt; [
+            ['class' =&gt; 'app\storage\DocumentsReader'],
+            [Instance::of('tempFileStorage')]
+        ],
+        'app\storage\DocumentsWriter' =&gt; [
+            ['class' =&gt; 'app\storage\DocumentsWriter'],
+            [Instance::of('tempFileStorage')]
+        ]
+    ]);
+    
+    $reader = $container->get('app\storage\DocumentsReader); 
+    // Код будет работать ровно так же, как и в предыдущем примере.
+    </pre>
+
+    <p>Вы могли заметить вызов Instance::of('tempFileStorage').</p>
+    <p>Он означает, что [[yii\di\Container|Container]] наявно предоставит зависимость, зарегистрированную с именем tempFileStorage и передаст её первым аргументом в конструктор app\storage\DocumentsWriter.</p>
+    <p><b>Примечание:</b> Методы [[yii\di\Container::setDefinitions()|setDefinitions()]] и [[yii\di\Container::setSingletons()|setSingletons()]] доступны с версии 2.0.11.</p>
+    <p>Ещё один шаг по оптимизации конфигурации — регистрировать некоторые зависимости как синглтоны.</p>
+    <p>Зависимость, регистрируемая через метод [[yii\di\Container::set()|set()]] будет созаваться каждый раз при обращении к ней.</p>
+    <p>Некоторые классы не меняют своего состояния на протяжении всей работы приложения, поэтому могут быть зарегистрированы как синглтоны.</p>
+    <p>Это увеличит производительность приложения.</p>
+    <p>Хорошим примером может быть класс app\storage\FileStorage, который выполняет некие операции над файловой системой через простой API: $fs->read(), $fs->write().</p>
+    <p>Обе операции не меняют внутреннее состояние класса, поэтому мы можем создать класс один раз и далее использовать его.</p>
+
+    <pre class="brush: csharp;">
+    $container->setSingletons([
+        'tempFileStorage' =&gt; [
+            ['class' =&gt; 'app\storage\FileStorage'],
+            ['/var/tempfiles']
+        ],
+    ]);
+    
+    $container->setDefinitions([
+        'app\storage\DocumentsReader' =&gt; [
+            ['class' =&gt; 'app\storage\DocumentsReader'],
+            [Instance::of('tempFileStorage')]
+        ],
+        'app\storage\DocumentsWriter' =&gt; [
+            ['class' =&gt; 'app\storage\DocumentsWriter'],
+            [Instance::of('tempFileStorage')]
+        ]
+    ]);
+    
+    $reader = $container->get('app\storage\DocumentsReader');
+    </pre>
+
+    <h3 id="title">
+        Внедрение зависимости через PHP callback
+    </h3>
+
+    <p>В данном случае, контейнер будет использовать зарегистрированный PHP callback для создания новых экземпляров класса.</p>
+    <p>Каждый раз при вызове [[yii\di\Container::get()]] вызывается соответствующий callback.</p>
+    <p>Callback отвечает за разрешения зависимостей и внедряет их в соответствии с вновь создаваемыми объектами.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $container->set('Foo', function () {
+        $foo = new Foo(new Bar);
+        // ... дополнительная инициализация
+        return $foo;
+    });
+    
+    $foo = $container->get('Foo');
+    </pre>
+
+    <p>Для того, чтобы скрыть сложную логику инициализации нового объекта, можно использовать статический метод, возвращающий callable:</p>
+
+    <pre class="brush: csharp;">
+    class FooBuilder
+    {
+        public static function build()
+        {
+            $foo = new Foo(new Bar);
+            // ... дополнительная инициализация ...
+            return $foo;
+        }
+    }
+    
+    $container->set('Foo', ['app\helper\FooBuilder', 'build']);
+    
+    $foo = $container->get('Foo');
+    </pre>
+
+    <p>Теперь тот, кто будет настраивать класс Foo, не обязан знать, как этот класс устроен.</p>
+
+    <h2 id="title">
+        Регистрация зависимостей
+    </h2>
+
+    <p>Вы можете использовать [[yii\di\Container::set()]] для регистрации зависимостей.</p>
+    <p>При регистрации требуется имя зависимости, а также определение зависимости.</p>
+    <p>Именем зависимости может быть имя класса, интерфейса или алиас, так же определением зависимости может быть имя класса, конфигурационным массивом, или PHP callback'ом.</p>
+
+    <pre class="brush: csharp;">
+    $container = new \yii\di\Container;
+    
+    // регистрация имени класса, как есть. это может быть пропущено.
+    $container->set('yii\db\Connection');
+    
+    // регистрация интерфейса
+    // Когда класс зависит от интерфейса, соответствующий класс
+    // будет использован в качестве зависимости объекта
+    $container->set('yii\mail\MailInterface', 'yii\swiftmailer\Mailer');
+    
+    // регистрация алиаса. Вы можете использовать $container->get('foo')
+    // для создания экземпляра Connection
+    $container->set('foo', 'yii\db\Connection');
+    
+    // Регистрация класса с конфигурацией. Конфигурация
+    // будет применена при создании экземпляра класса через get()
+    $container->set('yii\db\Connection', [
+        'dsn' =&gt; 'mysql:host=127.0.0.1;dbname=demo',
+        'username' =&gt; 'root',
+        'password' =&gt; '',
+        'charset' =&gt; 'utf8',
+    ]);
+    
+    // регистрация алиаса с конфигурацией класса
+    // В данном случае, параметр "class" требуется для указания класса
+    $container->set('db', [
+        'class' =&gt; 'yii\db\Connection',
+        'dsn' =&gt; 'mysql:host=127.0.0.1;dbname=demo',
+        'username' =&gt; 'root',
+        'password' =&gt; '',
+        'charset' =&gt; 'utf8',
+    ]);
+    
+    // регистрация PHP callback'a
+    // Callback будет выполняться каждый раз при вызове $container->get('db')
+    $container->set('db', function ($container, $params, $config) {
+        return new \yii\db\Connection($config);
+    });
+    
+    // регистрация экземпляра компонента
+    // $container->get('pageCache') вернёт тот же экземпляр при каждом вызове
+    $container->set('pageCache', new FileCache);
+    </pre>
+
+    <p><b>Подсказка:</b> Если имя зависимости такое же, как и определение соответствующей зависимости, то её повторная регистрация в контейнере внедрения зависимостей не нужна.</p>
+    <p>Зависимость, зарегистрированная через set() создаёт экземпляр каждый раз, когда зависимость необходима.</p>
+    <p>Вы можете использовать [[yii\di\Container::setSingleton()]] для регистрации зависимости, которая создаст только один экземпляр:</p>
+
+    <pre class="brush: csharp;">
+    $container->setSingleton('yii\db\Connection', [
+        'dsn' =&gt; 'mysql:host=127.0.0.1;dbname=demo',
+        'username' =&gt; 'root',
+        'password' =&gt; '',
+        'charset' =&gt; 'utf8',
+    ]);
+    </pre>
+
+    <h2 id="title">
+        Разрешение зависимостей
+    </h2>
+
+    <p>После регистрации зависимостей, вы можете использовать контейнер внедрения зависимостей для создания новых объектов, и контейнер автоматически разрешит зависимости их экземпляра и их внедрений во вновь создаваемых объектах.</p>
+    <p>Разрешение зависимостей рекурсивно, то есть если зависимость имеет другие зависимости, эти зависимости также будут автоматически разрешены.</p>
+    <p>Вы можете использовать [[yii\di\Container::get()]] для создания или получения объектов.</p>
+    <p>Метод принимает имя зависимости, которым может быть имя класса, имя интерфейса или псевдоним.</p>
+    <p>Имя зависимости может быть зарегистрировано через set() или setSingleton().</p>
+    <p>Вы можете опционально предоставить список параметров конструктора класса и конфигурацию для настройки созданного объекта.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    // "db" ранее зарегистрированный псевдоним
+    $db = $container->get('db');
+    
+    // эквивалентно: $engine = new \app\components\SearchEngine($apiKey, ['type' =&gt; 1]);
+    $engine = $container->get('app\components\SearchEngine', [$apiKey], ['type' =&gt; 1]);
+    </pre>
+
+    <p>За кулисами, контейнер внедрения зависимостей делает гораздо больше работы, чем просто создание нового объекта.</p>
+    <p>Прежде всего, контейнер, осмотрит конструктор класса, чтобы узнать имя зависимого класса или интерфейса, а затем автоматически разрешит эти зависимости рекурсивно.</p>
+    <p>Следующий код демонстрирует более сложный пример.</p>
+    <p>Класс UserLister зависит от объекта, реализующего интерфейс UserFinderInterface; класс UserFinder реализует этот интерфейс и зависит от объекта Connection.</p>
+    <p>Все эти зависимости были объявлены через тип подсказки параметров конструктора класса.</p>
+    <p>При регистрации зависимости через свойство, контейнер внедрения зависимостей позволяет автоматически разрешить эти зависимости и создаёт новый экземпляр UserLister простым вызовом get('userLister').</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models;
+    
+    use yii\base\BaseObject;
+    use yii\db\Connection;
+    use yii\di\Container;
+    
+    interface UserFinderInterface
+    {
+        function findUser();
+    }
+    
+    class UserFinder extends BaseObject implements UserFinderInterface
+    {
+        public $db;
+    
+        public function __construct(Connection $db, $config = [])
+        {
+            $this->db = $db;
+            parent::__construct($config);
+        }
+    
+        public function findUser()
+        {
+        }
+    }
+    
+    class UserLister extends BaseObject
+    {
+        public $finder;
+    
+        public function __construct(UserFinderInterface $finder, $config = [])
+        {
+            $this->finder = $finder;
+            parent::__construct($config);
+        }
+    }
+    
+    $container = new Container;
+    $container->set('yii\db\Connection', [
+        'dsn' =&gt; '...',
+    ]);
+    $container->set('app\models\UserFinderInterface', [
+        'class' =&gt; 'app\models\UserFinder',
+    ]);
+    $container->set('userLister', 'app\models\UserLister');
+    
+    $lister = $container->get('userLister');
+    
+    // что эквивалентно:
+    
+    $db = new \yii\db\Connection(['dsn' =&gt; '...']);
+    $finder = new UserFinder($db);
+    $lister = new UserLister($finder);
+    </pre>
+
+    <h2 id="title">
+        Практическое применение
+    </h2>
+
+    <p>Yii создаёт контейнер внедрения зависимостей когда вы подключаете файл Yii.php во входном скрипте вашего приложения.</p>
+    <p>Контейнер внедрения зависимостей доступен через [[Yii::$container]].</p>
+    <p>При вызове [[Yii::createObject()]], метод на самом деле вызовет метод контейнера [[yii\di\Container::get()|get()]], чтобы создать новый объект.</p>
+    <p>Как упомянуто выше, контейнер внедрения зависимостей автоматически разрешит зависимости (если таковые имеются) и внедрит их получаемый объект.</p>
+    <p>Поскольку Yii использует [[Yii::createObject()]] в большей части кода своего ядра для создания новых объектов, это означает, что вы можете настроить глобальные объекты, имея дело с [[Yii::$container]].</p>
+    <p>Например, давайте настроим количество кнопок в пейджере [[yii\widgets\LinkPager]] по умолчанию глобально:</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$container->set('yii\widgets\LinkPager', ['maxButtonCount' =&gt; 5]);
+    </pre>
+
+    <p>Теперь, если вы вызовете в представлении виджет, используя следующий код, то свойство maxButtonCount будет инициализировано, как 5, вместо значения по умолчанию 10, как это определено в классе.</p>
+
+    <pre class="brush: csharp;">
+    echo \yii\widgets\LinkPager::widget();
+    </pre>
+
+    <p>Хотя, вы всё ещё можете переопределить установленное значение через контейнер внедрения зависимостей:</p>
+
+    <pre class="brush: csharp;">
+    echo \yii\widgets\LinkPager::widget(['maxButtonCount' =&gt; 20]);
+    </pre>
+
+    <p>Другим примером является использование автоматического внедрения зависимости через конструктор контейнера внедрения зависимостей.</p>
+    <p>Предположим, ваш класс контроллера зависит от ряда других объектов, таких как сервис бронирования гостиницы.</p>
+    <p>Вы можете объявить зависимость через параметр конструктора и позволить контейнеру внедрения зависимостей, разрешить её за вас.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    use app\components\BookingInterface;
+    
+    class HotelController extends Controller
+    {
+        protected $bookingService;
+    
+        public function __construct($id, $module, BookingInterface $bookingService, $config = [])
+        {
+            $this->bookingService = $bookingService;
+            parent::__construct($id, $module, $config);
+        }
+    }
+    </pre>
+
+    <p>Если у вас есть доступ к этому контроллеру из браузера, вы увидите сообщение об ошибке, который жалуется на то, что BookingInterface не может быть создан.</p>
+    <p>Это потому что вы должны указать контейнеру внедрения зависимостей, как обращаться с этой зависимостью:</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$container->set('app\components\BookingInterface', 'app\components\BookingService');
+    </pre>
+
+    <p>Теперь, если вы попытаетесь получить доступ к контроллеру снова, то экземпляр app\components\BookingService будет создан и введён в качестве 3-го параметра конструктора контроллера.</p>
+
+    <h2 id="title">
+        Когда следует регистрировать зависимости
+    </h2>
+
+    <p>Поскольку зависимости необходимы тогда, когда создаются новые объекты, то их регистрация должна быть сделана как можно раньше.</p>
+    <p>Ниже приведены рекомендуемые практики:</p>
+
+    <ul>
+        <li>Если вы разработчик приложения, то вы можете зарегистрировать зависимости в конфигурации вашего приложения. Как это сделать описано в подразделе Конфигурация приложения раздела Конфигурации.</li>
+        <li>Если вы разработчик распространяемого расширения, то вы можете зарегистрировать зависимости в загрузочном классе расширения.</li>
+    </ul>
+
+    <h2 id="title">
+        Итог
+    </h2>
+
+    <p>Как dependency injection, так и service locator являются популярными паттернами проектирования, которые позволяют создавать программное обеспечение в слабосвязанной и более тестируемой манере.</p>
+    <p>Мы настоятельно рекомендуем к прочтению статью Мартина Фаулера, для более глубокого понимания dependency injection и service locator.</p>
+    <p>Yii реализует свой service locator поверх контейнера внедрения зависимостей.</p>
+    <p>Когда service locator пытается создать новый экземпляр объекта, он перенаправляет вызов на контейнер внедрения зависимостей.</p>
+    <p>Последний будет разрешать зависимости автоматически, как описано выше.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="37.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="39.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/38.html", "Yii2: Dependency Injection Container", "bm1244"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1244", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1244") == 1) { document.getElementById("bma1244").style.display = "block"; document.getElementById("bm1244").style.display = "none"; } else { document.getElementById("bma1244").style.display = "none"; document.getElementById("bm1244").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Dependency Injection Container") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1244", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

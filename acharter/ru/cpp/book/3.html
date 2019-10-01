@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma24" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm24" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Структура программы в C++
+	</h1>
+
+	<p>Прежде чем приступить к написанию программ, необходимо изучить структуру программ на языке программирования С++.</p>
+	<p>Своими словами, структура программ  это разметка рабочей области (области кода) с целью чёткого определения основных блоков программ и синтаксиса.</p>
+	<p>Структура программ несколько отличается в зависимости от среды программирования.</p>
+	<p>Мы ориентируемся на IDE Microsoft Visual Studio, и по этому примеры программ будут показаны именно для MVS.</p>
+	<p>Если вы используете другую IDE, то вам не составит труда перенести код из MVS в другие среды разработки, и вы поймете со временем, как это сделать.</p>
+	
+	<h1 id="title">
+		Структура программ для Microsoft Visual Studio.
+	</h1>
+
+	<pre class="brush: csharp;">
+	// struct_program.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+
+	//здесь подключаем все необходимые препроцессорные директивы
+	int main()
+	{
+		// начало главной функции с именем main
+		//здесь будет находится ваш программный код
+	}
+	</pre>
+	
+	<p>В строке 1 говорится о точке входа для консольного приложения, это значит, что данную программу можно запустить через командную строку Windows указав имя программы, к примеру, такое <b>struct_program.cpp</b>.</p>
+	<p>Строка 1 является однострочным комментарием, так как начинается с символов <b>//</b>, подробнее о комментариях будет рассказано в следующей статье.</p>
+	<p>В строке 2 подключен заголовочный файл <b>"stdafx.h"</b>.</p>
+	<p>Данный файл похож на контейнер, так как в нем подключены основные препроцессорные директивы (те, что подключил компилятор, при создании консольного приложения), тут же могут быть подключены и вспомогательные (подключенные программистом).</p>
+	<p><b>include</b> — директива препроцессора, т. е. сообщение препроцессору.</p>
+	<p>Строки, начинающиеся с символа <b>#</b> обрабатываются препроцессором до компиляции программы.</p>
+	<p>Препроцессорные директивы также можно подключать и в строках, начиная после записи <b>#include "stdafx.h"</b> до начала главной функции.</p>
+	<p>Причём такой способ подключения библиотек является основным, а использование <b>"stdafx.h"</b> — это дополнительная возможность подключения заголовочных файлов, которая есть только в MVS.</p>
+	<p>С 4-й по 6-ю строки объявлена функция main.</p>
+	<p> Строка 4 – это заголовок функции, который состоит из типа возвращаемых данных (в данном случае int), этой функцией, и имени функции, а также круглых скобок, в которых объявляются параметры функции.</p>
+	<p><b>int</b> — целочисленный тип данных.</p>
+	<p>Между фигурными скобочками размещается основной программный код, называемый еще телом функции.</p>
+	<p>Это самая простая структура программы.</p>
+	<p>Данная структура написана в Microsoft Visual Studio.</p>
+	<p>Все выше сказанное остается справедливым и для других компиляторов, кроме строки 2.</p>
+	<p>Контейнера <b>"stdafx.h"</b> нигде кроме MVS нет.</p>
+
+	<h1 id="title">
+		Структура программы для C++ Builder.
+	</h1>
+	
+	<p>При создании консольного приложения мастер создания проектов создает автоматически следующий код:</p>
+
+	<pre class="brush: csharp;">
+	//препроцессорная директива, автоматически подключённая мастером создания  проектов
+	#include &lt;vcl.h&gt;
+
+	int main()
+	{
+		return 0;
+	}
+	</pre>
+
+	<p>Мы видим, что у функции тип данных — int.</p>
+	<p>Это говорит о том что по завершении работы функция вернет какое-то целочисленное значение, в нашем случае 0.</p>
+	<p>Целочисленное потому, что int – это тип данных для целых чисел, таких как 4, 5, 6, 456, 233 и т. д.</p>
+	<p>Главное помнить, что если тип возвращаемых данных у функции main — это int или любой другой, кроме void, то следует писать строку типа этой: return <xm>&lt;возвращаемое значение></xm>;</p>
+	<p>В строке 2 подключена библиотека vcl.h – её автоматически подключает мастер создания приложений, поэтому удалять её не следует, иначе проект не будет рабочим.</p>
+	<p>В общем говоря, мастер создает автоматически структуру программы, немного отличающуюся от тех, что мы рассмотрели, но суть остается та же.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	int main(int argc, char* argv[])
+	{
+		return 0;
+	}
+	</pre>
+
+	<p>Такой пример структуры генерируется мастером в <b>MVS2010</b>.</p>
+	<p>Данный main немного отличается.</p>
+	<p>Подробнее рассмотрим позже, но скажу, что данный main имеет такой вид, так как изначально рассчитан на поддержку юникода.</p>
+	<p><i>Юникод — стандарт кодирования символов, позволяющий представить знаки практически всех письменных языков. Подробнее о юникоде поговорим позже.</i></p>
+	<p>Существуют разные версии main, но в этом нет ничего страшного, так как main была главной функцией, так она ей и остается, поэтому все выше сказанное остается актуальным.</p>
+	<p>Пример структуры программы MVS с подключенными библиотеками.	</p>
+
+	<pre class="brush: csharp;">
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	int main()
+	{
+	}
+	</pre>
+
+	<p><i>Имя подключаемых библиотек пишется внутри знаков больше, меньше. Заголовочные файлы и имя подключаемых библиотек – синонимы.</i></p>
+
+	<h1 id="title">
+		Синтаксис подключения заголовочных файлов:
+	</h1>
+	
+	<p><b>#include <имя заголовочного файла></b></p>
+	<p>Более старые заголовочные файлы подключаются так (этот стиль подключения библиотек унаследован у языка программирования C):</p>
+	<p><b>#include <имя заголовочного файла.h></b></p>
+	<p>Различие состоит в том, что после имени ставится расширение .h.</p>
+	<p>Язык программирования С++ является регистрозависимым. Например:</p>
+	<p><b>Return 0;</b> – не правильно, будет ошибка компиляции.</p>
+	<p><b>return 0;</b> – правильно!!!</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="4.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/3.html", "Структура программы в C++", "bm24"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm24", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm24") == 1) { document.getElementById("bma24").style.display = "block"; document.getElementById("bm24").style.display = "none"; } else { document.getElementById("bma24").style.display = "none"; document.getElementById("bm24").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Структура программы в C++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm24", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

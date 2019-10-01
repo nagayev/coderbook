@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma616" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm616" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Объекты
+	</h1>
+
+	<p>По определению будем называть объектом понятие, абстракцию или любой предмет с четко очерченными границами, имеющий смысл в контексте рассматриваемой прикладной проблемы.</p>
+	<p>Введение объектов преследует две цели:</p>
+	<p><b>*</b> понимание прикладной задачи (проблемы);</p>
+	<p><b>*</b> введение основы для реализации на компьютере.</p>
+	<p>Примеры объектов: форточка, Банк "Империал", Петр Сидоров, дело № 7461, сберкнижка и т.д.</p>
+	<p>Каждый объект имеет определенное время жизни.</p>
+	<p>В процессе выполнения программы, или функционирования какой-либо реальной системы, могут создаваться новые объекты и уничтожаться уже существующие.</p>
+	<p>Гради Буч дает следующее определение объекта:</p>
+	<p><b>Объект</b> - это мыслимая или реальная сущность, обладающая характерным поведением и отличительными характеристиками и являющаяся важной в предметной области.</p>
+	<p>Каждый объект имеет состояние, обладает четко определенным поведением и уникальной идентичностью.</p>
+
+	<h1 id="title">
+		Состояние
+	</h1>
+
+	<p>Рассмотрим пример.</p>
+	<p>Любой человек может находиться в некотором положении (состоянии): стоять, сидеть, лежать, и - в то же время совершать какие-либо действия.</p>
+	<p>Например, человек может прыгать, если он стоит, и не может - если он лежит, для этого ему потребуется сначала встать.</p>
+	<p>Также в объектно-ориентированном программировании состояние объекта может определяться наличием или отсутствием связей между моделируемым объектом и другими объектами.</p>
+	<p>Более подробно все возможные связи между объектами будут рассмотрены в разделе "Типы отношений между классами".</p>
+	<p>Например, если у человека есть удочка (у него есть связь с объектом "Удочка"), он может ловить рыбу, а если удочки нет, то такое действие невозможно.</p>
+	<p>Из этих примеров видно, что набор действий, которые может совершать человек, зависит от параметров объекта, его моделирующего.</p>
+	<p>Для рассмотренных выше примеров такими характеристиками, или атрибутами, объекта "Человек" являются:</p>
+	<p><b>*</b> текущее положение человека (стоит, сидит, лежит);</p>
+	<p><b>*</b> наличие удочки (есть или нет).</p>
+	<p>В конкретной задаче могут появиться и другие свойства, например, физическое состояние, здоровье (больной человек обычно не прыгает).</p>
+	<p>Состояние (state) - совокупный результат поведения объекта: одно из стабильных условий, в которых объект может существовать, охарактеризованных количественно; в любой момент времени состояние объекта включает в себя перечень (обычно статический) свойств объекта и текущие значения (обычно динамические) этих свойств.</p>
+
+	<h1 id="title">
+		Поведение
+	</h1>
+
+	<p>Для каждого объекта существует определенный набор действий, которые с ним можно произвести.</p>
+	<p>Например, возможные действия с некоторым файлом операционной системы ПК:</p>
+	<p><b>*</b> создать;</p>
+	<p><b>*</b> открыть;</p>
+	<p><b>*</b> читать из файла;</p>
+	<p><b>*</b> писать в файл;</p>
+	<p><b>*</b> закрыть;</p>
+	<p><b>*</b> удалить.</p>
+	<p>Результат выполнения действий зависит от состояния объекта на момент совершения действия, т.е. нельзя, например, удалить файл, если он открыт кем-либо (заблокирован).</p>
+	<p>В то же время действия могут менять внутреннее состояние объекта - при открытии или закрытии файла свойство "открыт" принимает значения "да" или "нет", соответственно.</p>
+	<p>Программа, написанная с использованием ООП, обычно состоит из множества объектов, и все эти объекты взаимодействуют между собой.</p>
+	<p>Обычно говорят, что взаимодействие между объектами в программе происходит посредством передачи сообщений между ними.</p>
+	<p>В терминологии объектно-ориентированного подхода понятия "действие", "сообщение" и "метод" являются синонимами.</p>
+	<p>Т.е. выражения "выполнить действие над объектом ", "вызвать метод объекта" и "послать сообщение объекту для выполнения какого-либо действия" эквивалентны.</p>
+	<p>Последняя фраза появилась из следующей модели.</p>
+	<p>Программу, построенную по технологии ООП, можно представить себе как виртуальное пространство, заполненное объектами, которые условно "живут" некоторой жизнью.</p>
+	<p>Их активность проявляется в том, что они вызывают друг у друга методы, или посылают друг другу сообщения.</p>
+	<p>Внешний интерфейс объекта, или набор его методов,- это описание того, какие сообщения он может принимать.</p>
+	<p>Поведение (behavior) - действия и реакции объекта, выраженные в терминах передачи сообщений и изменения состояния; видимая извне и воспроизводимая активность объекта.</p>
+
+	<h1 id="title">
+		Уникальность
+	</h1>
+
+	<p><b>Уникальность</b> - это то, что отличает объект от других объектов.</p>
+	<p>Например, у вас может быть несколько одинаковых монет.</p>
+	<p>Даже если абсолютно все их свойства (атрибуты) одинаковы (год выпуска, номинал и т.д.) и при этом вы можете использовать их независимо друг от друга, они по-прежнему остаются разными монетами.</p>
+	<p>В машинном представлении под параметром уникальности объекта чаще всего понимается адрес размещения объекта в памяти.</p>
+	<p>Identity ( уникальность ) объекта состоит в том, что всегда можно определить, указывают две ссылки на один и тот же объект или на разные объекты.</p>
+	<p>При этом два объекта могут во всем быть похожими, их образ в памяти может представляться одинаковыми последовательностями байтов, но, тем не менее, их Identity может быть различна.</p>
+	<p>Наиболее распространенной ошибкой является понимание уникальности как имени ссылки на объект.</p>
+	<p>Это неверно, т.к. на один объект может указывать несколько ссылок, и ссылки могут менять свои значения (ссылаться на другие объекты).</p>
+	<p>Итак, уникальность (identity) - свойство объекта; то, что отличает его от других объектов.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/15.html", "Объекты", "bm616"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm616", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm616") == 1) { document.getElementById("bma616").style.display = "block"; document.getElementById("bm616").style.display = "none"; } else { document.getElementById("bma616").style.display = "none"; document.getElementById("bm616").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объекты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm616", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1175" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1175" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Объекты доступа к данным (DAO)
+	</h1>
+
+    <p>Объекты доступа к данным (DAO) предоставляют общий API для доступа к данным, хранящимся в различных СУБД.</p>
+    <p>Это позволяет без проблем поменять используемую СУБД на любую другую без необходимости изменения кода, использующего DAO для доступа к данным.</p>
+    <p>Yii DAO является надстройкой над PHP Data Objects (PDO) - расширением, которое предоставляет унифицированный доступ к данным многих популярных СУБД, таких как MySQL, PostgreSQL.</p>
+    <p>Поэтому для использования Yii DAO необходимо, чтобы были установлены расширение PDO и соответствующий используемой базе данных драйвер PDO (например, PDO_MYSQL).</p>
+    <p>Yii DAO состоит из четырёх основных классов:</p>
+
+    <ul>
+        <li>CDbConnection: представляет подключение к базе данных.</li>
+        <li>CDbCommand: представляет запрос к базе данных, который необходимо выполнить.</li>
+        <li>CDbDataReader: представляет однонаправленный поток строк данных, возвращаемых в ответ на запрос.</li>
+        <li>CDbTransaction: представляет транзакцию базы данных.</li>
+    </ul>
+
+    <p>Далее мы проиллюстрируем использование Yii DAO на различных примерах.</p>
+
+    <h2 id="title">
+        Соединение с базой данных
+    </h2>
+
+    <p>Для установления соединения с базой необходимо создать экземпляр класса CDbConnection и активировать его.</p>
+    <p>Дополнительная информация, необходимая для подключения к БД (хост, порт, имя пользователя, пароль и т.д.), указывается в DSN (Data Source Name).</p>
+    <p>В случае возникновения ошибки в процессе соединения с БД будет выброшено исключение (например, неверный DSN или неправильные имя пользователя/пароль).</p>
+
+    <pre class="brush: csharp;">
+    $connection=new CDbConnection($dsn,$username,$password);
+    // устанавливаем соединение
+    // можно использовать конструкцию try…catch для перехвата возможных исключений
+    $connection->active=true;
+    …
+    $connection->active=false;  // close connection
+    </pre>
+
+    <p>Формат DSN зависит от используемого драйвера PDO.</p>
+    <p>Как правило, DSN состоит из имени драйвера PDO, за которым следует двоеточие, далее указываются параметры подключения, соответствующие синтаксису подключения используемого драйвера.</p>
+    <p>Подробнее с этим можно ознакомиться в документации PDO.</p>
+    <p>Ниже представлены несколько основных форматов DSN:</p>
+
+    <pre class="brush: csharp;">
+    SQLite: sqlite:/path/to/dbfile
+    MySQL/MariaDB: mysql:host=localhost;dbname=testdb
+    PostgreSQL: pgsql:host=localhost;port=5432;dbname=testdb
+    SQL Server: mssql:host=localhost;dbname=testdb
+    Oracle: oci:dbname=//localhost:1521/testdb
+    </pre>
+
+    <p>Поскольку CDbConnection наследует класс CApplicationComponent, мы можем использовать его в качестве компонента приложения.</p>
+    <p>Для этого нужно настроить компонент db в конфигурации приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    array(
+        …
+        'components'=>array(
+            …
+            'db'=>array(
+                'class'=>'CDbConnection',
+                'connectionString'=>'mysql:host=localhost;dbname=testdb',
+                'username'=>'root',
+                'password'=>'password',
+                'emulatePrepare'=>true,  // необходимо для некоторых версий инсталляций MySQL
+            ),
+        ),
+    )
+    </pre>
+
+    <p>Теперь мы можем получить доступ к соединению с БД через Yii::app()->db.</p>
+    <p>Чтобы соединение не активировалось автоматически, необходимо установить значение CDbConnection::autoConnect в false.</p>
+    <p>Этот способ даёт нам возможность использовать одно и то же подключение к БД в любом месте кода.</p>
+
+    <h2 id="title">
+        Выполнение SQL-запросов
+    </h2>
+
+    <p>Когда соединение с БД установлено, мы можем выполнять SQL-запросы, используя CDbCommand.</p>
+    <p>Для этого необходимо создать экземпляр класса CDbCommand путём вызова CDbConnection::createCommand(), указав SQL-выражение:</p>
+
+    <pre class="brush: csharp;">
+    $connection=Yii::app()->db; // так можно делать, если в конфигурации настроен компонент соединения "db"
+    // В противном случае можно создать соединение явно:
+    // $connection=new CDbConnection($dsn,$username,$password);
+    $command=$connection->createCommand($sql);
+    // при необходимости SQL-выражение можно изменить:
+    // $command->text=$newSQL;
+    </pre>
+
+    <p>Существуют два способа выполнения SQL-запросов с использованием CDbCommand:</p>
+
+    <ul>
+        <li>execute(): выполняет SQL-запросы INSERT, UPDATE и DELETE. В случае успешного выполнения возвращает количество затронутых строк.</li>
+        <li>query(): выполняет SQL-запросы, возвращающие наборы данных, например, запросы SELECT. В случае успешного выполнения возвращает экземпляр класса CDbDataReader, обеспечивающий доступ к полученным данным. Для удобства также реализованы методы вида queryXXX(), возвращающие результаты напрямую.</li>
+    </ul>
+
+    <p>Если в процессе выполнения SQL-запроса возникнет ошибка, то будет выброшено исключение.</p>
+
+    <pre class="brush: csharp;">
+    $rowCount=$command->execute();   // выполнение запроса типа `INSERT`, `UPDATE` или `DELETE`
+    $dataReader=$command->query();   // выполнение запроса типа `SELECT`
+    $rows=$command->queryAll();      // возвращает все строки результата запроса
+    $row=$command->queryRow();       // возвращает первую строку результата запроса
+    $column=$command->queryColumn(); // возвращает первый столбец результата запроса
+    $value=$command->queryScalar();  // возвращает значение первого поля первой строки результата запроса
+    </pre>
+
+    <h2 id="title">
+        Обработка результатов запроса
+    </h2>
+
+    <p>После того как CDbCommand::query() создаст экземпляр класса CDbDataReader, мы можем получить результат запроса построчно путём повторения вызовов метода CDbDataReader::read().</p>
+    <p>Для получения данных строка за строкой можно также использовать CDbDataReader в конструкциях foreach.</p>
+
+    <pre class="brush: csharp;">
+    $dataReader=$command->query();
+    // многократно вызываем read() до возврата методом значения false
+    while(($row=$dataReader->read())!==false) { … }
+    // используем foreach для построчного обхода данных
+    foreach($dataReader as $row) { … }
+    // получаем все строки разом в виде массива
+    $rows=$dataReader->readAll();
+    </pre>
+
+    <p><b>Примечание:</b> Все методы queryXXX(), в отличие от query(), возвращают данные напрямую. Например, метод queryRow() возвращает массив, соответствующий первой строке результата запроса.</p>
+
+    <h2 id="title">
+        Использование транзакций
+    </h2>
+
+    <p>В случае когда приложение выполняет несколько запросов, каждый из которых что-то пишет или читает из БД, важно удостовериться, что набор запросов выполнен полностью, а не частично.</p>
+    <p>В этой ситуации можно воспользоваться транзакциями, представляющими собой экземпляры класса CDbTransaction:</p>
+
+    <ul>
+        <li>Начало транзакции.</li>
+        <li>Выполнение запросов по очереди. В этот момент все изменения в базе недоступны извне.</li>
+        <li>Подтверждение транзакции. Если транзакция проведена успешно, то изменения становятся общедоступны.</li>
+        <li>При возникновении ошибки в ходе выполнения запросов происходит откат транзакции в начальное состояние.</li>
+    </ul>
+
+    <p>Эту последовательность действий можно реализовать следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $transaction=$connection->beginTransaction();
+    try
+    {
+        $connection->createCommand($sql1)->execute();
+        $connection->createCommand($sql2)->execute();
+        //… прочие SQL-запросы
+        $transaction->commit();
+    }
+    catch(Exception $e) // в случае возникновения ошибки при выполнении одного из запросов выбрасывается исключение
+    {
+        $transaction->rollback();
+    }
+    </pre>
+
+    <h2 id="title">
+        Привязка параметров
+    </h2>
+
+    <p>Для предотвращения SQL-инъекций и повышения производительности при выполнении однотипных SQL-запросов мы можем «подготавливать» SQL-выражения, используя маркеры параметров (placeholders), которые в процессе привязки будут заменяться на реальные значения.</p>
+    <p>Маркеры параметров могут быть именованными (уникальные маркеры) или неименованными (вопросительные знаки).</p>
+    <p>Для замены маркеров на реальные значения нужно вызвать методы CDbCommand::bindParam() или CDbCommand::bindValue().</p>
+    <p>Экранировать или заключать в кавычки значения параметров не нужно, используемый драйвер базы данных всё сделает сам.</p>
+    <p>Привязку параметров необходимо осуществить до выполнения SQL-запроса.</p>
+
+    <pre class="brush: csharp;">
+    // выражение SQL с двумя именованными маркерами «:username» и «:email»
+    $sql="INSERT INTO tbl_user(username, email) VALUES(:username,:email)";
+    $command=$connection->createCommand($sql);
+    
+    // заменяем маркер «:username» на соответствующее значение имени пользователя
+    $command->bindParam(":username",$username,PDO::PARAM_STR);
+    
+    // заменяем маркер «:email» на соответствующее значение электронной почты
+    $command->bindParam(":email",$email,PDO::PARAM_STR);
+    $command->execute();
+    
+    // вставляем следующую строку с новыми параметрами
+    $command->bindParam(":username",$username2,PDO::PARAM_STR);
+    $command->bindParam(":email",$email2,PDO::PARAM_STR);
+    $command->execute();
+    </pre>
+
+    <p>Методы bindParam() и bindValue() очень похожи.</p>
+    <p>Единственное различие состоит в том, что первый привязывает параметр к ссылке на переменную PHP, а второй — к значению.</p>
+    <p>Для параметров, представляющих большой объем данных, с точки зрения производительности предпочтительнее использовать метод bindParam().</p>
+
+
+    <h2 id="title">
+        Привязка полей
+    </h2>
+
+    <p>При получении результатов запроса мы также можем привязать поля таблицы к переменным PHP.</p>
+    <p>Это позволяет автоматически присваивать значения переменным при чтении очередной строки:</p>
+
+    <pre class="brush: csharp;">
+    $sql="SELECT username, email FROM tbl_user";
+    $dataReader=$connection->createCommand($sql)->query();
+    
+    // привязываем первое поле (username) к переменной $username
+    $dataReader->bindColumn(1,$username);
+    
+    // привязываем второе поле (email) к переменной $email
+    $dataReader->bindColumn(2,$email);
+    while($dataReader->read()!==false)
+    {
+        // переменные $username и $email получают значения полей username и email текущей строки
+    }
+    </pre>
+
+    <h2 id="title">
+        Использование префиксов таблиц
+    </h2>
+
+    <p>Yii предоставляет встроенную поддержку префиксов таблиц.</p>
+    <p>Префикс таблиц — это строка, предваряющая имена таблиц в текущей подключённой БД.</p>
+    <p>В основном, префиксы используются на виртуальном (shared) хостинге, где к одной БД подключаются несколько приложений, использующих различные префиксы таблиц в целях избежания конфликтов имён.</p>
+    <p>Например, одно приложение использует префикс tbl_, а другое — yii_.</p>
+
+    <p>Для использования префикса таблиц установите свойство CDbConnection::tablePrefix.</p>
+    <p>Затем в SQL-выражениях используйте {{TableName}} для указания имён таблиц, где TableName — имя таблицы без префикса.</p>
+    <p>Например, если БД содержит таблицу tbl_user, где tbl_ — это префикс таблиц, то мы можем использовать следующий код для получения списка пользователей:</p>
+
+    <pre class="brush: csharp;">
+    $sql='SELECT * FROM {{user}}';
+    $users=$connection->createCommand($sql)->queryAll();
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="23.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="25.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/24.html", "Объекты доступа к данным (DAO)", "bm1175"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1175", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1175") == 1) { document.getElementById("bma1175").style.display = "block"; document.getElementById("bm1175").style.display = "none"; } else { document.getElementById("bma1175").style.display = "none"; document.getElementById("bm1175").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объекты доступа к данным (DAO)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1175", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

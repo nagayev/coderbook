@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma704" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm704" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Выполнение кода по расписанию.
+	</h1>
+
+	<p>В JavaScript код может выполняться по расписанию например, Вы можете задать, чтобы код функции начал выполняться только через 30 секунд после ее вызова.</p>
+	<p>Для выполнения кода по расписанию в JavaScript предусмотрено два специальных метода:</p>
+	<p>setTimeout(код,промежуток_времени) позволяет выполнить код через заданный промежуток_времени один раз.</p>
+	
+	<pre class="brush: csharp;">
+		&lt;body onload=&apos;start()&apos;&gt;
+		&#x9;&lt;script type=text/javascript &gt;
+				//Зададим функцию start, которая будет вызвана после полной загрузки документа
+				function start()
+				{
+				   //Создадим переменную с текстом, который будет выведен на страницу
+				   txt='Данный текст будет отображен через 3 секунды после полной загрузки документа.';
+				   
+				   //Выведем на страницу текст через 3 секунды после загрузки документа
+				   setTimeout('document.write(txt)',3000);
+				}
+		&#x9;&lt;/script&gt;
+		&lt;/body&gt;
+	</pre>
+	
+	<p>setInterval(код,промежуток_времени) позволяет выполнять код через заданный промежуток_времени бесконечное количество раз.</p>
+	
+	<pre class="brush: csharp;">
+		&lt;body onload=&apos;start()&apos;&gt;
+			&lt;p id=&apos;text1&apos;&gt;Здесь будет отображено текущее время&lt;/p&gt; 
+			
+			&lt;script type=text/javascript &gt;
+				//Зададим функцию time, которая будет выводить текущее время в абзац 
+				//с id=text1
+				function time()
+				{
+				   //Определим текущее время
+				   var dat = new Date();
+				   var hour=dat.getHours();
+				   var min=dat.getMinutes();
+				   var sec=dat.getSeconds();
+				   tim=hour+':'+min+':'+sec;
+				   
+				   //Выведем текущее время в абзац с id=text1
+				   document.getElementById('text1').innerHTML=tim;
+				}
+				
+				/* Функция start будет запущена после полной загрузки документа и будет вызывать функцию time через каждую секунду */
+				function start()
+				{
+				   id=setInterval('time()',1000);
+				}
+		&#x9;&lt;/script&gt;
+		&lt;/body&gt;
+	</pre>
+	
+	<h1 id="title">
+		Остановка кода вызванного по расписанию
+	</h1>
+
+	<p>Методы setTimeout() и setInterval() после их запуска возвращают идентификатор вызова.</p>
+	<p>Используя этот идентификатор и методы clearTimeout() и clearInterval() Вы можете остановить выполнение кода вызванного по расписанию.</p>
+	<p>С помощью clearTimeout(идентификатор_вызова) Вы можете остановить выполнение кода вызванного методом setTimeout().</p>
+
+	<pre class="brush: csharp;">
+		&lt;body onload=&apos;time()&apos;&gt;
+			&lt;p id=&apos;text1&apos;&gt;Здесь будет отображено время&lt;/p&gt;
+
+			&lt;input type=button value='Стоп' onclick=&apos;stop()&apos; /&gt;
+			
+			&lt;script type=text/javascript &gt; 
+				/* Зададим функцию time, которая будет вызывается после полной загрузки документа и будет выводить текущее время в абзац с id=text1 */
+				function time()
+				{
+				   //Определим текущее время
+				   var dat = new Date();
+				   var hour=dat.getHours();
+				   var min=dat.getMinutes();
+				   var sec=dat.getSeconds();
+				   tim=hour+':'+min+':'+sec;
+				   
+				   //Выведем текущее время в абзац с id=text1
+				   document.getElementById('text1').innerHTML=tim;
+				   
+				   /* Вызовем данную функцию снова через 1 секунду и сохраним идентификатор вызова в переменную id */
+				   id=setTimeout('time()',1000);
+				}
+
+				// С помощью функции stop Вы можете остановить выполнение кода 
+				function stop()
+				{
+				   //Остановим функцию с помощью идентификатора id
+				   clearTimeout(id);
+				}
+			&lt;/script&gt;
+		&lt;/body&gt;
+	</pre>
+	
+	<p>С помощью clearInterval(идентификатор_вызова) Вы можете остановить выполнение кода вызванного методом setInterval().</p>
+
+	<pre class="brush: csharp;">
+		&lt;body onload=&apos;start()&apos;&gt;
+			&lt;p id=&apos;text1&apos;&gt;Здесь будет отображено время&lt;/p&gt;
+			
+			&lt;input type=button value='Стоп' onclick='stop()' /&gt;
+			
+			&lt;script type=text/javascript &gt; 
+				/* Зададим функцию time которая будет вызывается после полной загрузки документа и будет выводить текущее время в абзац с id=text1 */
+				function time()
+				{
+				   //Определим текущее время
+				   var dat = new Date();
+				   var hour=dat.getHours();
+				   var min=dat.getMinutes();
+				   var sec=dat.getSeconds();
+				   tim=hour+':'+min+':'+sec;
+				   
+				   //Выведем текущее время в абзац с id=text1
+				   document.getElementById('text1').innerHTML=tim;
+				}
+
+				/* Функция start будет вызвана после полной загрузки страницы и будет вызывать функцию time() каждую секунду */
+				function start()
+				{
+				   /* Вызываем функцию time каждую секунду сохраняя при этом идентификатор вызова в переменную id */
+				   id=setInterval('time()',1000);
+				
+				}
+				
+				/* С помощью функции stop Вы можете остановить выполнение кода */
+				function stop()
+				{
+				   //Используя идентификатор вызова остановим функцию
+				   clearInterval(id);
+				}
+		&#x9;&lt;/script&gt;
+		&lt;/body&gt;
+	</pre>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial14.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial16.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/book/tutorial15.html", "Расписание", "bm704"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm704", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm704") == 1) { document.getElementById("bma704").style.display = "block"; document.getElementById("bm704").style.display = "none"; } else { document.getElementById("bma704").style.display = "none"; document.getElementById("bm704").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Расписание") == 1) { arrs.splice(i, 1); localStorage.setItem("bm704", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

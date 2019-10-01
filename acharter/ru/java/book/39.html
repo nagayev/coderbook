@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma640" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm640" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Тип переменной и тип ее значения
+	</h1>
+
+	<p>Теперь, когда были подробно рассмотрены все примеры преобразований, нужно вернуться к вопросу переменной и ее значений.</p>
+	<p>Как уже говорилось, переменная определяется тремя базовыми характеристиками: имя, тип, значение.</p>
+	<p>Имя дается произвольным образом и никак не сказывается на свойствах переменной.</p>
+	<p>А вот значение всегда имеет некоторый тип, не обязательно совпадающий с типом самой переменной.</p>
+	<p>Поэтому необходимо рассмотреть все возможные типы переменных и выяснить, значения каких типов они могут иметь.</p>
+	<p>Начнем с переменных примитивных типов.</p>
+	<p>Поскольку эти переменные действительно хранят само значение, то их тип всегда точно совпадает с типом значения.</p>
+	<p>Проиллюстрируем это правило на примере:</p>
+
+	<pre class="brush: csharp;">
+	byte b=3;
+	char c='A'+3; long m=b+c;
+	double d=m-3F;
+	</pre>
+
+	<p>Здесь переменная b будет хранить значение типа byte после сужения целочисленного литерала типа int.</p>
+	<p>Переменная c будет хранить тип char после того, как компилятор осуществит сужающее преобразование результата суммирования, который будет иметь тип int.</p>
+	<p>Для переменной m выполнится расширение результата суммирования типа от int к типу long.</p>
+	<p>Наконец, переменная d будет хранить значение типа double, получившееся в результате расширения результата разности, который имеет тип float.</p>
+	<p>Переходим к ссылочным типам.</p>
+	<p>Во-первых, значение любой переменной такого типа - ссылка, которая может указывать лишь на объекты, порожденные от тех или иных классов, и далее обсуждаются только свойства данных классов.</p>
+	<p>Также объекты могут порождаться от массивов, эта тема рассматривается в отдельной лекции.</p>
+	<p>Кроме того, ссылочная переменная любого типа может иметь значение null.</p>
+	<p>Большинство действий над такой переменной, например, обращение к полям или методам, приведет к ошибке.</p>
+	<p>Итак, какова связь между типом ссылочной переменной и ее значением?</p>
+	<p>Здесь главное ограничение - проверка компилятора, который следит, чтобы все действия, выполняющиеся над объектом, были корректны.</p>
+	<p>Компилятор не может предугадать, на объект какого класса будет реально ссылаться та или иная переменная.</p>
+	<p>Все, чем он располагает, - тип самой переменной.</p>
+	<p>Именно его и использует компилятор для проверок.</p>
+	<p>А значит, все допустимые значения переменной должны гарантированно обладать свойствами, определенными в классе-типе этой переменной.</p>
+	<p>Такую гарантию дает только наследование.</p>
+	<p>Отсюда получаем правило: ссылочная переменная типа A может указывать на объекты, порожденные от самого типа A или его наследников.</p>
+
+	<pre class="brush: csharp;">
+	Point p = new Point();
+	</pre>
+
+	<p>В этом примере переменная и ее значение одинакового типа, поэтому над объектом можно совершать все возможные для данного класса действия.</p>
+
+	<pre class="brush: csharp;">
+	Parent p = new Child();
+	</pre>
+
+	<p>Такое присвоение корректно, так как класс Child порожден от Parent.</p>
+	<p>Однако теперь допустимые действия над переменной p, а значит, над объектом, только что созданным на основе класса Child, ограничены возможностями класса Parent.</p>
+	<p>Например, если в классе Child определен некий новый метод newChildMethod(), то попытка его вызвать p.newChildMethod() будет порождать ошибку компиляции.</p>
+	<p>Необходимо подчеркнуть, что никаких изменений с самим объектом не происходит, ограничение порождается используемым способом доступа к этому объекту - переменной типа Parent.</p>
+	<p>Чтобы показать, что объект не потерял никаких свойств, произведем следующее обращение:</p>
+
+	<pre class="brush: csharp;">
+	((Child)p).newChildMethod();
+	</pre>
+
+	<p>Здесь в начале проводится явное сужение к типу Child.</p>
+	<p>Во время исполнения программы JVM проверит, совместим ли тип объекта, на который ссылается переменная p, с типом Child.</p>
+	<p>В нашем случае это именно так.</p>
+	<p>В результате получается ссылка типа Child, поэтому становится допустимым вызов метода newChildMethod(), который вызывается у объекта, созданного в предыдущей строке.</p>
+	<p>Обратим внимание на важный частный случай - переменная типа Object может ссылаться на объекты любого типа.</p>
+	<p>В дальнейшем, с изучением новых типов (абстрактных классов, интерфейсов, массивов) этот список будет продолжаться, а пока коротко обобщим то, что было рассмотрено в данном разделе.</p>
+	<p><b>Целочисленные типы данных.</b></p>
+
+	<table>
+		<tr>
+			<th>Тип переменной</th>
+			<th>Допустимые типы ее значения</th>
+		</tr>
+		<tr>
+			<td>Примитивный</td>
+			<td>В точности совпадает с типом переменной</td>
+		</tr>
+		<tr>
+			<td>Ссылочный</td>
+			<td><p>null</p><p>совпадающий с типом переменной</p><p>классы-наследники от типа переменной</p></td>
+		</tr>
+		<tr>
+			<td>Object</td>
+			<td><p>null</p><p>любой ссылочный</p></td>
+		</tr>
+	</table>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой лекции были рассмотрены правила работы с типами данных в строго типизированном языке Java.</p>
+	<p>Поскольку компилятор строго отслеживает тип каждой переменной и каждого выражения, в случае изменения этого типа необходимо четко понимать, какие действия допустимы, а какие нет, с точки зрения компилятора и виртуальной машины.</p>
+	<p>Были рассмотрены все виды приведения типов в Java, то есть переход от одного типа к другому.</p>
+	<p>Они разбиваются на 7 групп, начиная с тождественного и заканчивая запрещенными.</p>
+	<p>Основные 4 вида определяются сужающими или расширяющими переходами между простыми или ссылочными типами.</p>
+	<p>Важно помнить, что при явном сужении числовых типов старшие биты просто отбрасываются, что порой приводит к неожиданному результату.</p>
+	<p>Что касается преобразования ссылочных значений, то здесь действует правило - преобразование никогда не порождает новых и не изменяет существующих объектов.</p>
+	<p>Меняется лишь способ работы с ними.</p>
+	<p>Особенным в Java является преобразование к строке.</p>
+	<p>Затем были рассмотрены все ситуации в программе, где могут происходить преобразования типов.</p>
+	<p>Прежде всего, это присвоение значений, когда преобразование зачастую происходит незаметно для программиста.</p>
+	<p>Вызов метода во многом похож на инициализацию.</p>
+	<p>Явное приведение позволяет осуществить желаемый переход в том случае, когда компилятор не позволяет сделать это неявно.</p>
+	<p>Преобразование при выполнении числовых операций оказывает существенное влияние на результат.</p>
+	<p>В заключение была рассмотрена связь между типом переменной и типом ее значения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="38.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="40.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/39.html", "Тип переменной и ее значения", "bm640"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm640", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm640") == 1) { document.getElementById("bma640").style.display = "block"; document.getElementById("bm640").style.display = "none"; } else { document.getElementById("bma640").style.display = "none"; document.getElementById("bm640").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Тип переменной и ее значения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm640", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma58" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm58" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Кириллица в консоли
+	</h1>
+
+	<p>Самый лучший способ изучения языка программирования С++ — это составление консольных программ.</p>
+	<p>Структура консольного проекта максимально упрощена, так как нет графического режима, для которого необходимо подключение файлов ресурсов, классов и прочего, прочего.</p>
+	<p>При составлении программы может понадобиться вывести некоторое текстовое сообщение в консоль.</p>
+	<p>И если это сообщение написано на латинице, то в командной строке Windows оно будет отображаться корректно.</p>
+	<p>А если текстовое сообщение написано на кириллице, то вместо передаваемого сообщения, будет отображаться непонятная последовательность букв  и символов.</p>
+	<p>Реализуем программно то, что мы хотим сделать.</p>
+
+	<pre class="brush: csharp;">
+	// rus_text.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// передаём текстовое сообщение в командную строку windows
+		cout << "Кириллица в консоли\n";
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Программа передаёт сообщение Кириллица в консоли в командную строку Windows, и на этом завершает свою работу.</p>
+
+	<pre class="brush: csharp;">
+	╩шЁшыышЎр т ъюэёюыш
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>В результате, вместо передаваемого сообщения отображается непонятная последовательность символов, называемая — козяблики.</p>
+	<p>Возникает вопрос: "Почему так происходит?".</p>
+	<p>Чтобы понять природу происхождения так называемых козябликов, необходимо обратиться к теме — представление символов букв в компьютерах.</p>
+	<p>Природа вычислительных машин такова, что они могут работать только с числами.</p>
+	<p>Поэтому, для представления букв или символов необходимо их закодировать, то есть каждой букве или символу присвоить определённое число, которое будет являться его кодом.</p>
+	<p>Так образовались таблицы кодирования символов.</p>
+	<p>В связи с тем, что в мире существует более 2,5 тысяч языков, то для каждого алфавита создавались свои таблицы кодирования символов, вот почему существует большое количество таблиц кодирования символов.</p>
+	<p>Так как мы программируем под Windows, то нас будут интересовать такие кодировочные таблицы: cp866, cp1251 и utf-8(стандарт Unicode).</p>
+	<p>Хотя уже давно разработан единый стандарт кодирования символов — Unicode, в Windows до сих пор используются несколько кодировочных таблиц, а именно — cp866, cp1251.</p>
+	<p>Использование нескольких таблиц кодирования символов и является причиной появления козябликов, вместо сообщения Кириллица в консоли.</p>
+	<p>Unicode — единый стандарт кодирования символов, позволяющий представить знаки всех письменных языков.</p>
+	<p>Таким образом стандарт Unicode присваивает каждому символу уникальный код, независимо от языка.</p>
+	<p>Сейчас Unicode считается лучшим стандартом кодирования символов.</p>
+	<p>Вернёмся к нашей проблеме — вывод кириллицы в консоль.</p>
+	<p>Так уж повелось, в командной строке Windows кодировка символов соответствует стандарту cp866.</p>
+	<p>То есть все символы в командной строке Windows закодированы по кодировочной таблице cp866.</p>
+	<p>Причём поменять кодировку в командной строке Windows нельзя.</p>
+	<p>Просмотреть стандарт кодирования символов в консоли можно, с помощью команды GRAFTABL.</p>
+
+	<p>Во всех русскоязычных Windows кодировка cp1251 является стандартной 8 — битной кодировкой.</p>
+	<p>И при создании проекта в MVS2010 этот стандарт кодирования символов наследуется проектом, то есть программой.</p>
+	<p>Хотя кодировку для проекта в MVS2010 можно легко поменять, это не решает проблемы, так как консоль понимает только одну кодировку cp866, которой в MVS нет.</p>
+	<p>В итоге, получается, что программа передаёт коды символов сообщения стандарта cp1251.</p>
+	<p>Командная строка принимает эти коды и переводит их в символы, но уже по стандарту cp866, так как другого стандарта не знает.</p>
+	<p>В итоге сообщение передано в консоль, но символы интерпретированы не правильно, вот так и появляются козяблики.</p>
+	<p>Решить данную проблему можно только одним способом — перед тем, как передать текст в консоль, необходимо его перекодировать  в стандарт кодирования символов cp866.</p>
+	<p>Существует несколько способов преобразования кодов знаков из одного стандарта в другой, мы воспользуемся самым простым — настройка локали.</p>
+	<p>Локаль — это набор параметров: набор символов, язык пользователя, страна, часовой пояс и др.</p>
+	<p>Локаль необходима для быстрой настройки пользовательского интерфейса, в зависимости от географического положения.</p>
+	<p>В С++ есть функция setlocale(), которая выполняет перекодировку символов в соответствии с требуемым языком.</p>
+	<p>Эта функция определена в заголовочном файле &lt;clocale&gt;.</p>
+	<p>Переделаем программу, которая передает сообщение Кириллица в консоли в командную строку windows.</p>
+
+	<pre class="brush: csharp;">
+	// rus_text.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	#include &lt;clocale&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// вызов функции настройки локали
+		setlocale(LC_CTYPE, "rus");
+		cout << "Кириллица в консоли\n";
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Функция setlocale() имеет два параметра, первый параметр — тип категории локали, в нашем случае LC_TYPE — набор символов, второй параметр — значение локали.</p>
+	<p>Таким образом, сначала устанавливаем нужную локаль, в нашем случае — "rus", после чего, можно использовать кириллицу, для вывода сообщений в консоль.</p>
+
+	<pre class="brush: csharp;">
+	Кириллица в консоли
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Вместо аргумента "rus" можно также писать "Russian", или оставлять пустые двойные кавычки, тогда набор символов будет такой же как и в ОС.</p>
+	<p>На первый взгляд функция setlocale() делает своё дело, но это только на первый взгляд.</p>
+	<p>Суть в том, что данная функция работает только с потоком вывода, если же использовать поток ввода, то там будет все та же непонятная абракадабра.</p>
+	<p>Переделаем уже разобранную нами программу, таким образом, чтобы строка сохранялась в переменную, после чего, выводилась на экран.</p>
+
+	<pre class="brush: csharp;">
+	// rus_text.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	#include &lt;clocale&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// не функционирует с потоком ввода
+		setlocale(LC_CTYPE, "rus");
+		char string[20];
+		// вводим строку, используя Кириллицу (СТРОКА СОХРАНИТСЯ В ПЕРЕМЕННОЙ НЕ КОРРЕКТНО)
+		cin >> string;
+		// вывод строки
+		cout << "\nвывод: "<< string << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Кириллица в консоли
+	вывод: ?ЁаЁ<<Ёж 
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Как видно из рисунка 4, слово вывод напечаталось корректно, а вот содержимое строки string — нет.</p>
+	<p>А всё потому, что функция setlocale() работает только с потоком вывода.</p>
+	<p>Но как же быть с потоком ввода???</p>
+	<p>Есть немало способов решать данную проблему, мы рассмотрим лишь один из них.</p>
+	<p>Для этого подключаем к проекту заголовочный файл &lt;windows.h&gt;.</p>
+	<p>В файле содержатся прототипы функций SetConsoleCP() и SetConsoleOutputCP(), они-то нам и нужны.</p>
+	<p>Аргументом этих функций является идентификатор кодовой страницы, нужная нам страница win-cp 1251.</p>
+	<p>Функция SetConsoleCP() устанавливает нужную кодовую таблицу, на поток ввода, тогда как функция SetConsoleOutputCP() устанавливает нужную кодовую таблицу, на поток вывода.</p>
+
+	<pre class="brush: csharp;">
+	// прототипы функций
+	// установка кодовой страницы в поток вывода
+	BOOL WINAPI SetConsoleOutputCP (  __in UINT wCodePageID);
+	// установка кодовой страницы в поток ввода
+	BOOL WINAPI SetConsoleCP (  __in UINT wCodePageID);
+	// где wCodePageID - идентификатор кодовой таблицы
+	</pre>
+
+	<p>Есть один весомый недостаток у данных функций — они работают со шрифтом Lucida Console.</p>
+	<p>По умолчанию в консоли стоит шрифт Consolas.</p>
+	<p>Поэтому в командной строке необходимо настроить используемый шрифт.</p>
+	<p>Для этого открываем cmd, заходим в свойства, в закладке Шрифт выбираем Lucida Console, нажимаем ОК и на этом настройка завершена.</p>
+	<p>Если все сделали правильно, то в консоли корректно будут отображаться символы Кириллицы.</p>
+	<p>Теперь вместо функции setlocale() воспользуемся этими функциями.</p>
+
+	<pre class="brush: csharp;">
+	// rus_text.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	#include &lt;Windows.h&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// установка кодовой страницы win-cp 1251 в поток ввода
+		SetConsoleCP(1251);
+		// установка кодовой страницы win-cp 1251 в поток вывода
+		SetConsoleOutputCP(1251);
+		char string[20];
+		// вводим строку, используя Кириллицу
+		cin >> string;
+		// вывод строки
+		cout << "\nвывод: "<< string << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Кириллица в консоли
+	вывод: Кириллица
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="36.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="38.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/37.html", "Кириллица в консоли", "bm58"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm58", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm58") == 1) { document.getElementById("bma58").style.display = "block"; document.getElementById("bm58").style.display = "none"; } else { document.getElementById("bma58").style.display = "none"; document.getElementById("bm58").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Кириллица в консоли") == 1) { arrs.splice(i, 1); localStorage.setItem("bm58", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

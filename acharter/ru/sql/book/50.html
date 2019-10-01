@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1064" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1064" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Важность предложения WHERE
+	</h1>
+
+	<p>Может показаться странным использование предложения WHERE для установления отношения в объединении, но на это есть существенная причина.</p>
+	<p>Вспомните: когда таб- лицы объединяются в операторе SELECT, это отношение создается "на лету".</p>
+	<p>В определениях таблиц базы данных ничего не говорится о том, как СУБД должна объединять таблицы.</p>
+	<p>Вы должны указать это сами.</p>
+	<p>Когда вы объединяете две таблицы, то, что вы в действительности делаете, — это создаете пары, состоящие из каждой строки первой таблицы и каждой строки второй таблицы.</p>
+	<p>Предложение WHERE действует как фильтр, позволяющий включать в результат только строки, которые соответствуют указанному предложению фильтрации — в данном случае предложению объединения.</p>
+	<p>Без предложения WHERE каждая строка в первой таблице будет образовывать пару с каждой строкой второй таблицы независимо от того, есть логика в их объединении или нет.</p>
+	<p><b>Декартово произведение</b></p>
+	<p>Результаты, возвращаемые при умножении таблиц без указания условия объединения.</p>
+	<p>Количество выбранных строк будет равно числу строк в первой таблице, умноженному на число строк во второй таблице.</p>
+	<p>Для того чтобы разобраться в этом, посмотрите на следующий оператор SELECT и результат его применения.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT vend_narae, prod_name, prod_price
+	FROM Vendors, Products;
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	vend_name prod_name prod_price
+	Bears R Us 8 inch teddy bear 5.99
+	Bears R Us 12 inch teddy bear 8.99
+	Bears R Us 18 inch teddy bear 11.99
+	Bears R Us Fish bean bag toy 3.49
+	Bears R Us Bird bean bag toy 3.49
+	Bears R Us Rabbit bean bag toy 3.49
+	Bears R Us Raggedy Ann 4.99
+	Bears R Us King doll 9.49
+	Bears R Us Queen doll 9.49
+	Bear Emporium 8 inch teddy bear 5.99
+	Bear Emporium 12 inch teddy bear 8.99
+	Bear Emporium 18 inch teddy bear 11.99
+	Bear Emporium Fish bean bag toy 3.49
+	Bear Emporium Bird bean bag toy 3.49
+	Bear Emporium Rabbit bean bag toy 3.49
+	Bear Emporium Raggedy Ann 4 . 99
+	Bear Emporium King doll 9.49
+	Bear Emporium Queen doll 9.49
+	Doll House Inc. 8 inch teddy bear 5.99
+	Doll House Inc. 12 inch teddy bear 8.99
+	Doll House Inc. 18 inch teddy bear 11.99
+	Doll House Inc. Fish bean bag toy 3.49
+	Doll House Inc. Bird bean bag toy 3.49
+	Doll House Inc. Rabbit bean bag toy . ... 3.49
+	Doll House Inc. Raggedy Ann ,4.99
+	Doll House Inc. King doll 9.49
+	Doll House Inc. Queen doll 9.49
+	Furball Inc. 8 inch teddy bear 5.99
+	Furball Inc. 12 inch teddy bear 8.99
+	Furball Inc. 18 inch teddy bear 11.99
+	Furball Inc. Fish bean bag toy 3.49
+	Furball Inc. Bird bean bag toy 3.49
+	Furball Inc. Rabbit bean bag toy 3.49
+	Furball Inc. Raggedy Ann 4.99
+	Furball Inc. King doll 9.49
+	Furball Inc. Queen doll 9.49
+	Fun and Games 8 inch teddy bear 5.99
+	Fun and Games 12 inch teddy bear 8.99
+	Fun and Games 18 inch teddy bear 11.99
+	Fun and Games Fish bean bag toy 3.49
+	Fun and Games Bird bean bag toy 3.49
+	Fun and Games Rabbit bean bag toy 3.49
+	Pun and Games Raggedy Ann 4.99
+	un and Games King doll 9.49
+	Fun and Games Queen doll 9.49
+	Jouets et ours 8 inch teddy bear 5.99
+	Jouets et ours 12 inch teddy bear 8.99
+	Jouets et ours 18 inch teddy bear 11.99
+	Jouets et ours Fish bean bag toy 3.49
+	Jouets et ours Bird bean bag toy 3.49
+	Jouets et ours Rabbit bean bag toy 3.49
+	Jouets et ours Raggedy Ann 4.99
+	Jouets et ours King doll 9.49
+	Jouets et ours Queen doll 9.49
+	</pre>
+
+	<p><b>АНАЛИЗ</b></p>
+	<p>Как видно из представленного результата, декартово произведение вы, скорее всего, будете использовать очень редко.</p>
+	<p>Данные, возвращенные таким образом, ставят в со- ответствие каждому продукту каждого поставщика, включая продукты с указанием "не того" поставщика (и даже поставщиков, которые вообще не предлагают продуктов).</p>
+	<p><b>Не забудьте указать предложение WHERE</b></p>
+	<p>Проверьте, включили ли вы в оператор предложение where, иначе СУБД возвратит намного больше данных, чем вам нужно.</p>
+	<p>Кроме того, убедитесь в том, что предложение where сформулировано правильно.</p>
+	<p>Некорректное предложение фильтрования приведет к тому, что СУБД выдаст вам неверные данные.</p>
+	<p><b>Перекрестное объединение</b></p>
+	<p>Иногда объединение, которое возвращает декартово произведение, называют перекрестным объединением. </p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="49.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="51.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/50.html", "Важность WHERE", "bm1064"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1064", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1064") == 1) { document.getElementById("bma1064").style.display = "block"; document.getElementById("bm1064").style.display = "none"; } else { document.getElementById("bma1064").style.display = "none"; document.getElementById("bm1064").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Важность WHERE") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1064", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

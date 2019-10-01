@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma225" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm225" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		CSS3 Анимация
+	</h1>
+
+	<p><b>Обратите внимание:</b> свойства анимации поддерживаются браузерами IE10+, Firefox и Opera. Для браузеров Chrome и Safari перед свойством требуется добавить префикс -webkit.</p>
+	<p>Для создания анимации в CSS3 используется свойство <b>@keyframes</b>.</p>
+	<p>Данное свойство представляет собой контейнер, в который должны помещаться различные свойства оформления.</p>
+	<p><b>Синтаксис:</b></p>
+
+	<pre class="brush: csharp;">
+		@keyframes имяАнимации
+		{
+			/* Оформление элемента перед началом анимации */
+			from {CSS свойства}
+			
+			/* Оформление элемента после завершения анимации */
+			to {CSS свойства} 
+		}
+	</pre>
+
+	<p>После того, как анимация была создана необходимо добавить к элементу, который Вы хотите анимировать CSS3 свойство animation и указать в нем имя анимации (1 значение) и время (2 значение), в течении которого она будет выполняться.</p>
+	<p>Также Вы можете устанавливать количество повторов анимации (3 значение).</p>
+	
+	<pre class="brush: csharp;">
+		@keyframes anim
+		{
+			from {margin-left:3px;}
+			to {margin-left:500px;}
+		}
+
+		#wrap1
+		{
+			animation:anim 4s 3;
+		}
+	</pre>
+
+	<h1 id="title">
+		Ход выполнения анимации
+	</h1>
+
+	<p>Вы можете определять ход выполнения анимации не только с помощью ключевых слов from и to (которые использовались в предыдущем примере), но и с помощью %.</p>
+	<p>С помощью % Вы можете более точно контролировать ход выполнения анимации, например можно указать, что определенный элемент в начале анимации (0%) должен быть белым к середине (50%) должен окрашиваться в оранжевый цвет, а к концу (100%) становиться черным.</p>
+
+	<pre class="brush: csharp;">
+		@keyframes anim
+		{
+			0% { margin-left: 3px; }
+			30% { margin-left: 30px; }
+			60% { margin-left: 51px; }
+			100% { margin-left: 31px; }
+		}
+		
+		#wrap1
+		{
+			animation:anim 6s 3;
+		}
+	</pre>
+	
+	<h1 id="title">
+		CSS3 свойства анимации
+	</h1>
+	
+	<table>
+		<tr>
+			<th>Свойство</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>@keyframes</td>
+			<td>Контейнер для определения анимации.</td>
+		</tr>
+		<tr>
+			<td>animation</td>
+			<td>Позволяет задать все значения для настройки выполнения анимации за одно определение.</td>
+		</tr>
+		<tr>
+			<td>animation -name</td>
+			<td>Позволяет указать имя анимации.</td>
+		</tr>
+		<tr>
+			<td>animation -duration</td>
+			<td>Позволяет задать скорость выполнения анимации в секундах (по умолчанию имеет значение 0).</td>
+		</tr>
+		<tr>
+			<td>animation -timing -function</td>
+			<td>Позволяет задать функцию смягчения отвечающую за плавность выполнения анимации (по умолчанию имеет значение ease).</td>
+		</tr>
+		<tr>
+			<td>animation -delay</td>
+			<td>Позволяет задать задержку перед началом выполнения анимации (по умолчанию имеет значение 0).</td>
+		</tr>
+		<tr>
+			<td>animation -iteration -count</td>
+			<td>Позволяет задать количество повторов анимации (по умолчанию имеет значение 1).</td>
+		</tr>
+		<tr>
+			<td>animation -direction</td>
+			<td>При значении alternate в нечетные разы (1,3,5 ...) анимация будет проигрываться в нормальном, а в четные (2,4,6 ...) в обратном порядке. По умолчанию данное свойство имеет значение normal, при данном значении анимация всегда проигрывается в нормальном порядке.</td>
+		</tr>
+	</table>
+
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="12.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/css/css3/11.html", "CSS3 Анимация", "bm225"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm225", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm225") == 1) { document.getElementById("bma225").style.display = "block"; document.getElementById("bm225").style.display = "none"; } else { document.getElementById("bma225").style.display = "none"; document.getElementById("bm225").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("CSS3 Анимация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm225", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

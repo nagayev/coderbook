@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1172" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1172" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Обработка табличного ввода
+	</h1>
+
+    <p>Иногда нам может потребоваться обрабатывать данные, вводимые пользователем, в пакетном режиме. Иначе говоря, случаются ситуации, когда пользователь вводит данные для множества экземпляров модели и отправляет их на сервер все разом.</p>
+    <p>Будем называть это табличным вводом (tabular input), поскольку поля ввода, как правило, организованы в виде таблицы.</p>
+    <p>Для работы с табличным вводом нам, в первую очередь, понадобится создать или заполнить массив, состоящий из экземпляров модели данных, в зависимости от того, добавляем мы данные или обновляем.</p>
+    <p>Затем мы извлекаем данные из переменной $_POST и присваиваем их каждой модели.</p>
+    <p>В отличие от ввода данных для одной модели, здесь для присваивания значений атрибутам мы будем использовать $_POST['ModelClass'][$i] вместо $_POST['ModelClass'].</p>
+
+    <pre class="brush: csharp;">
+    public function actionBatchUpdate()
+    {
+        // извлекаем элементы, которые будем обновлять в пакетном режиме,
+        // предполагая, что каждый элемент является экземпляром класса модели 'Item'
+        $items=$this->getItemsToUpdate();
+        if(isset($_POST['Item']))
+        {
+            $valid=true;
+            foreach($items as $i=>$item)
+            {
+                if(isset($_POST['Item'][$i]))
+                    $item->attributes=$_POST['Item'][$i];
+                $valid=$item->validate() && $valid;
+            }
+            if($valid)  // все элементы корректны
+                // …некоторая обработка
+        }
+        // отображаем представление с формой для ввода табличных данных
+        $this->render('batchUpdate',array('items'=>$items));
+    }
+    </pre>
+
+    <p>Когда действие готово, необходимо создать представление batchUpdate таким образом, чтобы отобразить все необходимые поля ввода в HTML таблице:</p>
+
+    <pre class="brush: csharp;">
+    &lt;div class=&quot;form&quot;&gt;
+    &lt;?php echo CHtml::beginForm(); ?&gt;
+    &lt;table&gt;
+    &lt;tr&gt;&lt;th&gt;&Icy;&mcy;&yacy;&lt;/th&gt;&lt;th&gt;&Scy;&tcy;&ocy;&icy;&mcy;&ocy;&scy;&tcy;&softcy;&lt;/th&gt;&lt;th&gt;&Kcy;&ocy;&lcy;&icy;&chcy;&iecy;&scy;&tcy;&vcy;&ocy;&lt;/th&gt;&lt;th&gt;&Ocy;&pcy;&icy;&scy;&acy;&ncy;&icy;&iecy;&lt;/th&gt;&lt;/tr&gt;
+    &lt;?php foreach($items as $i=&gt;$item): ?&gt;
+    &lt;tr&gt;
+    &lt;td&gt;&lt;?php echo CHtml::activeTextField($item,&quot;[$i]name&quot;); ?&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;?php echo CHtml::activeTextField($item,&quot;[$i]price&quot;); ?&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;?php echo CHtml::activeTextField($item,&quot;[$i]count&quot;); ?&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;?php echo CHtml::activeTextArea($item,&quot;[$i]description&quot;); ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+    &lt;/table&gt;
+     
+    &lt;?php echo CHtml::submitButton(&apos;&Scy;&ocy;&khcy;&rcy;&acy;&ncy;&icy;&tcy;&softcy;&apos;); ?&gt;
+    &lt;?php echo CHtml::endForm(); ?&gt;
+    &lt;/div&gt;&lt;!-- form --&gt;
+    </pre>
+
+    <p>Обратите внимание, что выше мы используем "[$i]name" вместо "name" в качестве второго параметра при вызове метода CHtml::activeTextField.</p>
+    <p>В случае если возникают ошибки валидации, соответствующие поля ввода будут подсвечены автоматически, как и в случае работы с одной моделью, рассмотренной ранее.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="20.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="22.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/21.html", "Обработка табличного ввода", "bm1172"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1172", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1172") == 1) { document.getElementById("bma1172").style.display = "block"; document.getElementById("bm1172").style.display = "none"; } else { document.getElementById("bma1172").style.display = "none"; document.getElementById("bm1172").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обработка табличного ввода") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1172", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

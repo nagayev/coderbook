@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma188" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm188" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		События
+	</h1>
+
+	<p>Событие – средство, позволяющее объекту (или классу) послать во "внешний для объекта или класса мир" сообщение о переходе в некоторое новое состояние или о получении сообщения из внешнего источника.</p>
+	<p>Так как на уровне программы все действия объектов и классов реализуются с помощью методов, то и посылка сообщения оформляется как оператор в теле некоторого метода.</p>
+	<p>Синтаксически оператор посылки сообщения "посылки сообщения" выглядит так:</p>
+	<p><b>имя_события (аргументы_для_делегата);</b></p>
+	<p>Разберем, о каком событии идет речь и какую роль играет делегат, которому нужно предоставить аргументы.</p>
+	<p>Отметим, что объявление события может размещаться в классе и в интерфейсе.</p>
+	<p>Начнём с классов.</p>
+	<p>Событие это член класса (или его объекта), вводимый объявлением:</p>
+	<p><b>модификаторы opt event имя_делегата имя_события;</b></p>
+	<p>модификатором может быть abstract, new, override, static, virtual, public, protected, private, internal.</p>
+	<p>event – служебное слово декларации события.</p>
+	<p>имя_события – идентификатор, выбираемый программистом в качестве названия конкретного члена, называемого переменной события.</p>
+	<p>В практике программирования на C# принято начинать имена событий с префикса on.</p>
+	<p>имя_делегата – имя того делегата-типа (его называют делегатом события или событийным делегатом), который должен представлять событию те методы, которые будут вызываться в ответ на посылку сообщения о событии.</p>
+	<p>Таким образом, событие это член класса, имеющий тип делегата.</p>
+	<p>Этот делегат-тип должен быть доступен в точке объявления события.</p>
+	<p>Например, его определение должно быть в том же файле.</p>
+	<p>Событийный делегат-тип определяет для события сигнатуру тех методов, которые могут быть вызваны в ответ на посылку сообщения о нём.</p>
+	<p>Напомним, что в сигнатуру "сигнатура" , вводимую делегатом, входит спецификация параметров метода и тип возвращаемого методом значения.</p>
+	<p>В соответствии с этой сигнатурой определяются типы аргументов в операторе посылки сообщения о событии.</p>
+	<p>В качестве типа возвращаемого значения в событийном делегате обычно используется void.</p>
+	<p>В качестве примера определим статический метод, посылающий через каждую секунду сообщение о событии.</p>
+	<p>Чтобы такая возможность появилась, необходимо, чтобы в классе, которому принадлежит метод, было объявлено событие, и был доступен соответствующий этому событию делегат-тип.</p>
+	<p>Соответствующие объявления могут быть такими:</p>
+
+	<pre class="brush: csharp;">
+	delegate void ТimeHandler();
+	// объявление делегата-типа static event ТimeHandler onTime;
+	// объявление события
+	</pre>
+
+	<p>Рекомендуется в название событийного делегата включать в качестве суффикса слово Handler (обработчик).</p>
+	<p>Делегат ТimeHandler в соответствии с его объявлением предназначен "представлять" методы без параметров, с возвращаемым значением типа void (ничего не возвращающие в точку вызова).</p>
+	<p>Событие с именем onTime "настроено" на работу с экземплярами делегата ТimeHandler.</p>
+	<p>В том же классе, где размещено объявление события и доступен делегат-тип, можно определить метод, через каждую секунду "генерирующий" посылку сообщений:</p>
+
+	<pre class="brush: csharp;">
+	// процесс с событиями
+	static void run()
+	{
+		Console.WriteLine("Для выхода нажмите Ctrl+C!");
+		// бесконечный цикл
+		while (true)
+		{
+			// посылка сообщения о событии
+			onTime();
+			// задержка на 1 секунду
+			System.Threading.Thread.Sleep(1000);
+		}
+	}
+	</pre>
+
+	<p>В методе run() бесконечный цикл, в каждой итерации которого оператор onTime() посылает сообщение о событии, связанном с делегатом TimeHandler.</p>
+	<p>Затем вызывается статический метод Sleep() класса Thread из пространства имен System.Threading.</p>
+	<p>Назначение этого метода состоит в "задержке" процесса выполнения программы на количество миллисекунд, соответствующее значению аргумента.</p>
+	<p>В данном случае задержка равна 1000 миллисекундам, то есть одной секунде.</p>
+	<p>Метод run(), посылая сообщения о событиях, "ничего не знает" о том, кто будет получать эти сообщения, и как они будут обрабатываться.</p>
+	<p>В технологии Windows-программирования принято говорить, что объект (в нашем примере не объект, а статический метод класса) публикует события, посылая сообщения о них.</p>
+	<p>Другие объекты (в нашем примере это будут статические методы) могут подписаться на события.</p>
+	<p>Подписка на получение сообщений о событии в языке C# предусматривает следующие действия:</p>
+	<p>создание экземпляра того делегата, на который настроено событие;</p>
+	<p>подключение экземпляра делегата к событию.</p>
+	<p>Обычно эти два действия объединяют в одном операторе следующего формата:</p>
+	<p><b>имя_события += new имя_делегата (имя_метода);</b></p>
+	<p>Условие применимости подписки на событие – наличие и доступность метода, который будет вызван для обработки события.</p>
+	<p>Имя этого метода используется в качестве аргумента конструктора делегата.</p>
+	<p>Само собой, и делегат события и имя события должны быть доступны в месте подписки.</p>
+	<p>На одно событие могут быть подписаны несколько методов, для каждого из которых нужно использовать свой оператор приведенного вида.</p>
+	<p>Предположим, что "принимать сообщения" о событиях в методе run() должен метод Main() того же класса, в котором определен метод run().</p>
+	<p>Пусть обработчиками сообщения о событии должны быть два метода с заголовками:</p>
+
+	<pre class="brush: csharp;">
+	static void one( )
+	static void two( )
+	Тогда метод Main может быть таким (программа 17_08.cs):
+	static void Main()
+	{
+		// подписка на событие...
+		onTime += new TimeHandler(one);
+		// ...для метода two
+		onTime += new TimeHandler(two);
+		// запуск процесса
+		run();
+	}
+	</pre>
+
+	<p>Остальное, то есть функциональность программы в целом, зависит от возможностей и особенностей методов one() и two().</p>
+	<p>В следующей ниже программе метод one() выводит в консольное окно дату и посекундно изменяющееся значение времени.</p>
+	<p>Метод two() в начале той же строки выводит порядковый номер события.</p>
+	<p>Номер изменяется каждую секунду (при каждом обращении к методу).</p>
+
+	<pre class="brush: csharp;">
+	// 17_08.cs - статические события и статические методы
+	using System;
+	// объявление делегата-типа
+	delegate void TimeHandler( );
+	class test_cs
+	{
+		// объявление события
+		static event TimeHandler onTime;
+		// процесс с генерацией событий
+		static void run( )
+		{
+			Console.WriteLine("Для выхода нажмите Ctrl+C!");
+			// бесконечный цикл
+			while (true)
+			{
+				// посылка сообщения о событии
+				onTime( );
+				// задержка на 1 сек.
+				System.Threading.Thread.Sleep(1000);
+			}
+		}
+		static void Main( )
+		{
+			// подписка на событие...
+			onTime += new TimeHandler(one);
+			// для метода two
+			onTime += new TimeHandler(two);
+			// запуск процесса
+			run();
+		}
+		// приемник сообщения
+		static void one( )
+		{
+			string newTime = DateTime.Now.ToString();
+			Console.Write("\r\t\t{0}", newTime);
+		}
+		static int count = 0;
+		// приемник сообщения
+		static void two( )
+		{
+			Console.Write("\r{0}", count++);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы на 7-й секунде:</p>
+
+	<pre class="brush: csharp;">
+	Для выхода нажмите Ctrl+C!
+	7 16.05.2016 10:27:17
+	</pre>
+
+	<p>В тексте программы обратим внимание на вывод предупреждения пользователю:</p>
+
+	<pre class="brush: csharp;">
+	Console.WriteLine("Для выхода нажмите Ctrl+C!");
+	</pre>
+
+	<p>Сочетание клавиш Ctrl и C приводит к незамедлительному прекращению выполнения программы.</p>
+	<p>Чтобы не "затемнять" основную схему программы, иллюстрирующей только механизм работы с событиями, в нее не введены никакие средства диалога с пользователем.</p>
+	<p>В строке-аргументе метода консольного вывода Write() управляющая эскейп- последовательность \r обеспечивает при каждом обращении переход в начало строки дисплея.</p>
+	<p>Тем самым вывод все время выполняется в одну и ту же строку, изображение на которой обновляется ежесекундно.</p>
+	<p>В методе one() используется свойство Now класса Data.Time.</p>
+	<p>Его назначение – вернуть текущее значение даты и времени.</p>
+	<p>Применение метода ToString() позволяет представить эти значения в виде одной строки, которая затем выводится на дисплей.</p>
+	<p>Для подсчета событий (секунд) определена статическая переменная int count.</p>
+	<p>Ее значение выводит и затем увеличивает на 1 метод two().</p>
+	<p>В рассмотренном примере делегат объявлен вне классов и все методы статические – генерацию событий выполняет статический метод run(), подписаны на события два других статических метода.</p>
+	<p>Таким образом, с помощью механизма событий взаимодействуют не объекты, а методы одного класса test_cs.</p>
+	<p>Кроме того, в объявлении делегата отсутствуют параметры.</p>
+	<p>Поэтому при посылке сообщения о событии методы обработки не получают никакой информации из точки возникновения события.</p>
+	<p>Более общий случай – событие создаётся объектом, а в других объектах (в объектах других классов) имеется возможность реагировать на эти события.</p>
+	<p>Как мы уже показали, к одному событию может быть "приписано" несколько обработчиков и все они будут вызваны при наступлении события.</p>
+	<p>Механизм работы с событиями предусматривает несколько этапов.</p>
+	<p>Объявление делегата-типа, задающего сигнатуру тех (ещё неизвестных на данном этапе) методов, которые будут вызываться при:</p>
+	<p>- обработке события;</p>
+	<p>- определение переменной события, имеющей тип делегата события;</p>
+	<p>- определения генератора события (посылки сообщения), с указанием аргументов, информирующих получателей о состоянии объекта, пославшего сообщение;</p>
+	<p>- определение методов обработки события.</p>
+	<p>Сигнатура каждого метода должна соответствовать типу:</p>
+	<p>- делегата события;</p>
+	<p>- создание экземпляра того делегата, на который "настроено" событие. Аргумент конструктора – имя метода обработки;</p>
+	<p>- подключение экземпляра делегата к переменной события.</p>
+	<p>Перечисленные этапы обычно относятся к разным классам программы.</p>
+	<p>И этих разных классов по меньшей мере два.</p>
+	<p>Класс, обрабатывающий события, должен содержать методы обработки или по крайней мере иметь доступ к этим методам.</p>
+	<p>В нём реализуются этапы 4, 5, 6.</p>
+	<p>Второй класс – это класс, генерирующий события, реализует этапы 1, 2, 3.</p>
+	<p>Зачастую в программе присутствует третий класс – управляющий процессом на более высоком уровне.</p>
+	<p>В разных задачах его называют супервизором, монитором, диспетчером и т.п.</p>
+	<p>При наличии такого класса и двух подчинённых – класса генерации и класса обработки событий - схема работы супервизора сводятся к следующим шагам:</p>
+	<p>- Создать объект класса генерации событий;</p>
+	<p>- Создать объект класса обработки событий (этого может не потребоваться, если метод обработки является статическим);</p>
+	<p>- Создать экземпляр делегата, "настроив" его на метод класса обработки событий;</p>
+	<p>- Подключить экземпляр делегата к переменной события из объекта класса генерации;</p>
+	<p>- Передать управление объекту класса генерации событий (какому-либо из его методов, генерирующих события).</p>
+	<p>Далее всё выполняется в соответствии с общими принципами событийного управления.</p>
+	<p>В качестве примера рассмотрим программу с делегатом и четырьмя классами.</p>
+	<p>Класс Sorting содержит метод, который сортирует в порядке возрастания одномерный целочисленный массив.</p>
+	<p>В процессе сортировки подсчитывается количество перестановок значений элементов.</p>
+	<p>При каждом завершении внутреннего цикла формируется событие, передающее "во внешний мир" количество выполненных перестановок, размер массива и счётчик итераций внешнего цикла.</p>
+	<p>Для работы с событиями в классе объявлено событие onSort, имеющее тип внешнего делегата SortHandler.</p>
+	<p>Класс View содержит метод обработки события.</p>
+	<p>Метод выводит на консоль значение счётчика перестановок.</p>
+	<p>Класс display визуализирует динамику процесса сортировки – выводит на консоль имитацию элемента управления ProgressBar.</p>
+	<p>Метод Main() управляющего класса Controller в соответствии с общей схемой создаёт объект класса, генерирующего события, создаёт объект класса – обработчика (View).</p>
+	<p>Затем подключает к переменной события два наблюдателя – два безымянных экземпляра делегата SortHandler.</p>
+	<p>И, наконец, управление передаётся методу сортировки объекта – генератора событий.</p>
+
+	<pre class="brush: csharp;">
+	// 17_09.cs - события и сортировка
+	using System;
+	using System.Text;
+	// Объявление делегата-типа:
+	public delegate void SortHandler(long cn, int si, int kl);
+	// класс сортировки массивов
+	class Sorting
+	{
+		// размер массива
+		int size;
+		// ссылка на массив
+		int[ ] ar;
+		// счетчик обменов при сортировке
+		public long count;
+		// объявление события
+		public event SortHandler onSort;
+		// конструктор
+		public Sorting(int[ ] ls)
+		{
+			size = ls.Length;
+			count = 0;
+			ar = ls;
+		}
+		// сортировка с посылкой извещений
+		public void sort( )
+		{
+			int temp;
+			for (int i = 0; i < size - 1; i++)
+			{
+				for (int j = i + 1; j < size; j++)
+				if (ar[i] > ar[j])
+				{
+					temp = ar[i];
+					ar[i] = ar[j];
+					ar[j] = temp;
+					count++;
+				}
+				// генерация события
+				if (onSort != null)
+				onSort(count, size, i);
+			}
+		}
+	}
+
+	// Обработчик событий в объектах:
+	class View
+	{
+		public void nShow(long n, int si, int kl)
+		{
+			Console.Write("\r" + n);
+		}
+	}
+
+	// Обработчик событий в этом классе
+	class Display
+	{
+		static int len=30;
+		static string st = null;
+		public static void barShow(long n, int si, int kl)
+		{
+			int pos = Math.Abs((int)((double)kl / si * len));
+			string s1 = new string('\u258c', pos);
+			string s2 = new string('-', len - pos-1) +
+			'\u25c4'; // unicode для треугольника;
+			st = s1 + '\u258c' + s2; //'\u258c' - код прямоугольника
+			Console.Write("\r\t\t" + st);
+		}
+	}
+
+	class Controller
+	{
+		static void Main()
+		{
+			Random ran = new Random(55);
+			int[ ] ar = new int[19999];
+			for (int i = 0; i < ar.Length; i++)
+			ar[i] = ran.Next( );
+			Sorting run = new Sorting(ar);
+			// Создан объект
+			View watch = new View( );
+			run.onSort += new SortHandler(Display.barShow);
+			run.onSort += new SortHandler(watch.nShow);
+			run.sort( );
+			Console.Write("\n");
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	1 0 0 3 7 2 6 1 0
+	▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌▌◄
+	</pre>
+
+	<p>Обратите внимание, что событийный делегат SortHandler и переменная события onSort, должны быть одинаково доступны в месте подписки на событие.</p>
+	<p>При генерации события целесообразно проверять значение переменной события.</p>
+	<p>Эта переменная остаётся равной null, если на событие нет ни одной подписки.</p>
+	<p>Обратите внимание на тот факт, что генерация события, в отличие от генерации исключения, оформляется как обращение к методу.</p>
+	<p>Тем самым после обработки события управление автоматически возвращается в точку, непосредственно следующую за оператором генерации события.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="100.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="102.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/101.html", "События", "bm188"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm188", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm188") == 1) { document.getElementById("bma188").style.display = "block"; document.getElementById("bm188").style.display = "none"; } else { document.getElementById("bma188").style.display = "none"; document.getElementById("bm188").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("События") == 1) { arrs.splice(i, 1); localStorage.setItem("bm188", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

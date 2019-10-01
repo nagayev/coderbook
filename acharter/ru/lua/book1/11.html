@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma777" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm777" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Оператор For
+	</h1>
+	
+	<p>Оператор for допускает простую и расширенную формы записи.</p>
+	<p>В простой форме for выполняет блок кода до тех пор, пока переменная цикла, изменяеющаяся в арифметической прогрессии, не достигнет установленного порога.</p>
+
+	<pre class="brush: csharp;">
+	stat ::= for Name ' = ' exp ',' exp [', ' exp] do block end
+	</pre>
+
+	<p><i>block</i> повторяется для переменной цикла name начиная со значения первого выражения exp, до тех пор пока выполняется второе выражение exp с шагом третьeго выражения exp.</p>
+	<p>Таким образом, запись</p>
+
+	<pre class="brush: csharp;">
+	for v = e1, e2, e3 do block end
+	</pre>
+	
+	<p>эквивалентна коду</p>
+
+	<pre class="brush: csharp;">
+	do
+	  local var, limit, step = tonumber(e1), tonumber(e2), tonumber(e3)
+	  
+	  if not (var and limit and step) then error() end
+	  
+	  while (step > 0 and var <= limit) or (step <= 0 and var >= limit) do
+	    local v = var
+	    block
+	    var = var + step
+	  end
+	  
+	end
+	</pre>
+
+	<p>Обратите внимание, что:</p>
+
+	<p>- Все три логических выражения вычисляются только один раз перед началом цикла, причем полученные значения должны быть числами.</p>
+	<p>- var, limit, и step - неявные переменные, мы условно именовали их здесь для объяснения логики работы</p>
+	<p>- Если выражение step (шаг) отсутствует, то по умолчанию используется 1</p>
+	<p>- Для выхода из цикла for используйте break.</p>
+	<p>- Переменная v является локальной для цикла; вы не сможете использовать ее значение после выхода из цикла for. Если вам необходимо значение этой переменной, присвойте его другой переменной перед выходом из цикла.</p>
+
+	<p>Расширенная форма оператора for реализована с использованием функций итераторов.</p>
+	<p>На каждом обороте для получения нового значения переменной цикла вызывается итератор.</p>
+	<p>Цикл заканчивается, когда итератор вернет nil.</p>
+	<p>Синтаксис расшеренного оператора for:</p>
+
+	<pre class="brush: csharp;">
+	stat ::= for namelist in explist1 do block end
+	namelist ::= Name {', '~ Name}
+	</pre>
+
+	<p>Запись</p>
+
+	<pre class="brush: csharp;">
+	for var_1, ···, var_n in explist do block end
+	</pre>
+
+	<p>можно представить как</p>
+
+	<pre class="brush: csharp;">
+	do
+	  local f, s, var = explist
+	  while true do
+	    local var_1, ···, var_n = f(s, var)
+	    var = var_1
+	    if var == nil then break end
+	    block
+	  end
+	end
+	</pre>
+
+	<p>Заметим, что</p>
+
+	<p>- explist вычисляется только однажды. Его результатом является функция-итератор, таблица состояний и начальное значение индекса</p>
+	<p>- f, s, и var неявные переменные, именованные здесь для примера</p>
+	<p>- Выйти из цикла можно с помощью оператора break.</p>
+	<p>- Переменная var_i является локальной; вы не сможете использовать ее значение после выхода из for. Если вам необходимо ее значение, заранее сохраните его в другой переменной.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="12.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/11.html", "Оператор For", "bm777"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm777", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm777") == 1) { document.getElementById("bma777").style.display = "block"; document.getElementById("bm777").style.display = "none"; } else { document.getElementById("bma777").style.display = "none"; document.getElementById("bm777").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Оператор For") == 1) { arrs.splice(i, 1); localStorage.setItem("bm777", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

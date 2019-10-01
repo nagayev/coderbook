@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1304" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1304" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Расширение Twitter Bootstrap для Yii 2
+	</h1>
+
+    <p>Расшинение включает поддержку разметки и компонентов фреймворка Bootstrap 3 (также известного как "Twitter Bootstrap").</p>
+    <p>Bootstrap является прекрасным, отзывчивым фреймворком, который может значительно ускорить процесс разработки на стороне клиента.</p>
+    <p>Ядро Bootstrap представлено двумя частями:</p>
+
+    <ul>
+        <li>CSS основа, такая как система разметки, типографика, вспомогательные классы, и утилиты адаптивности.</li>
+        <li>Готовые к использованию компоненты, такие как формы, меню, нумерация страниц, модальные окна, вкладки и т.д.</li>
+    </ul>
+
+    <h2 id="title">
+        Установка
+    </h2>
+
+    <h3 id="title">
+        Получение Composer пакета
+    </h3>
+
+    <p>Предпочтительный способ установки расширения через composer.</p>
+    <p>Для этого запустите</p>
+
+    <pre class="brush: csharp;">
+    php composer.phar require --prefer-dist yiisoft/yii2-bootstrap
+    </pre>
+
+    <p>или добавьте</p>
+
+    <pre class="brush: csharp;">
+    "yiisoft/yii2-bootstrap": "~2.0.0"
+    </pre>
+
+    <p>в секцию require вашего composer.json.</p>
+
+    <h2 id="title">
+        Базовое использование
+    </h2>
+
+    <p>Yii не оборачивает базовый Bootstrap в PHP код, поскольку HTML, в этом случае, прост сам по себе.</p>
+    <p>Вы можете найти подробную информацию об использовании на сайте документации bootstrap.</p>
+    <p>Тем не менее, Yii обеспечивает удобный способ включения bootstrap assets на ваших страницах добавленим одной строки в AppAsset.php расположенной в вашей @app/assets директории:</p>
+
+    <pre class="brush: csharp;">
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset', // this line
+    ];
+    </pre>
+
+    <p>Использование загрузки Bootstrap через Yii asset manager позволяет минимизировать ресурсы и объединить с вашими собственными ресурсами, когда это будет необходимо.</p>
+
+    <h2 id="title">
+        Ипользование
+    </h2>
+
+    <h3 id="title">
+        Виджеты Yii
+    </h3>
+
+    <p>Большинство сложных Bootstrap компонентов обернуты в виджеты Yii, чтобы обеспечить более надежный синтаксис и интеграцию с особенностями фреймворка.</p>
+    <p>Все виджеты относятся к пространству имен \yii\bootstrap:</p>
+
+    <ul>
+        <li>[[yii\bootstrap\ActiveForm|ActiveForm]]</li>
+        <li>[[yii\bootstrap\Alert|Alert]]</li>
+        <li>[[yii\bootstrap\Button|Button]]</li>
+        <li>[[yii\bootstrap\ButtonDropdown|ButtonDropdown]]</li>
+        <li>[[yii\bootstrap\ButtonGroup|ButtonGroup]]</li>
+        <li>[[yii\bootstrap\Carousel|Carousel]]</li>
+        <li>[[yii\bootstrap\Collapse|Collapse]]</li>
+        <li>[[yii\bootstrap\Dropdown|Dropdown]]</li>
+        <li>[[yii\bootstrap\Modal|Modal]]</li>
+        <li>[[yii\bootstrap\Nav|Nav]]</li>
+        <li>[[yii\bootstrap\NavBar|NavBar]]</li>
+        <li>[[yii\bootstrap\Progress|Progress]]</li>
+        <li>[[yii\bootstrap\Tabs|Tabs]]</li>
+    </ul>
+
+    <h3 id="title">
+        Настройка CSS классов виджетов
+    </h3>
+
+    <p>Виджеты позволяют быстро создавать HTML Bootstrap компоненты, которые требуют CSS классы Bootstrap.</p>
+    <p>Классы по умолчанию, для конкретного компонента, будут добавлены автоматически виджетом, и необязательные классы, которые вы можете настроить, как правило, поддерживаются через свойства виджета.</p>
+    <p>Например, вы можете использовать [[yii\bootstrap\Button::options]] чтобы настроить внешний вид кнопки.</p>
+    <p>Класс btn, который требуется для кнопки, будет добавлен автоматически чтобы вы не беспокоились об этом.</p>
+    <p>Все, что вам нужно, это указать конкретный класс кнопки:</p>
+
+    <pre class="brush: csharp;">
+    echo Button::widget([
+        'label' =&gt; 'Action',
+        'options' =&gt; ['class' =&gt; 'btn-primary'], // создаст класс "btn btn-primary"
+    ]);
+    </pre>
+
+    <p>Тем не менее, иногда вам может понадобиться заменить классы по умолчанию альтернативными.</p>
+    <p>Например, виджет [[yii\bootstrap\ButtonGroup]] использует класс btn-group для контейнера div по умолчанию, но вам, возможно, прийдется использовать btn-group-vertical чтобы выровнять кнопки по вертикали.</p>
+    <p>С помощью опции class просто добавить btn-group-vertical к btn-group, которая даст не правильный результат.</p>
+    <p>Для того, чтобы переопределить классы виджета по умолчанию, необходимо указать параметр class как массив, содержащий определение класса настроенное в ключе widget:</p>
+
+    <pre class="brush: csharp;">
+    echo ButtonGroup::widget([
+        'options' =&gt; [
+            'class' =&gt; ['widget' =&gt; 'btn-group-vertical'] // replaces 'btn-group' with 'btn-group-vertical'
+        ],
+        'buttons' =&gt; [
+            ['label' =&gt; 'A'],
+            ['label' =&gt; 'B'],
+        ]
+    ]);
+    </pre>
+
+    <h3 id="title">
+        Html helper
+    </h3>
+
+    <p>Bootstrap вводит много последовательных HTML конструкции и каркасов, которые позволяют создавать различные визуальные эффекты.</p>
+    <p>Только самые сложные из них передставлены виджетами, поставляемые с данным расширением.</p>
+    <p>Остальные должны быть собраны вручную используя напрямую HTML.</p>
+    <p>Тем не менее, несколько специальных Bootstrap разметок предоставляются в [[\yii\bootstrap\Html]] помощнике.</p>
+    <p>[[\yii\bootstrap\Html]] является расширенной версией регулярного [[\yii\helpers\Html]] удовлетворяющий потребности Bootstrap.</p>
+    <p>Он предоставляет несколько полезных методов:</p>
+
+    <ul>
+        <li>icon() - позволяет отображать иконки Glyphicon</li>
+        <li>staticControl() - позволяет отображать "статические элементы управления" формы</li>
+    </ul>
+
+    <p>[[\yii\bootstrap\Html]] наследует все функциональные возможности, доступные в [[\yii\helpers\Html]] и может быть использован в качестве замены внутри ваших представлений. Например:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\bootstrap\Html;
+    ?&gt;
+    &lt;?= Button::widget([
+        'label' =&gt; Html::icon('approve') . Html::encode('Save & apply'),
+        'encodeLabel' =&gt; false,
+        'options' =&gt; ['class' =&gt; 'btn-primary'],
+    ]); ?&gt;
+    </pre>
+
+    <p><b>Внимание:</b> не путайте [[\yii\bootstrap\Html]] и [[\yii\helpers\Html]], будте осторожны, какой класс вы используете в своих представлениях.</p>
+
+    <h3 id="title">
+        Asset Bundles
+    </h3>
+
+    <p>Bootstrap это комплексное front-end решение, включающее CSS, JavaScript, шрифты и т.д.</p>
+    <p>Для того чтобы обеспечить вам самый гибкий контроль над компонентами Bootstrap, это расширение предоставляет несколькоо asset bundles.</p>
+    <p>Вот они:</p>
+
+<ul>
+    <li>[[yii\bootstrap\BootstrapAsset|BootstrapAsset]] - содержит CSS файлы.</li>
+    <li>[[yii\bootstrap\BootstrapPluginAsset|BootstrapPluginAsset]] - зависит от [[yii\bootstrap\BootstrapAsset]], содержащий javascript файлы.</li>
+    <li>[[yii\bootstrap\BootstrapThemeAsset|BootstrapThemeAsset]] - зависит от [[yii\bootstrap\BootstrapAsset]], содержащий Bootstrap CSS темы по умолчанию.</li>
+</ul>
+
+    <p>Конкретные приложения могут потребовать различного использования.</p>
+    <p>Если вам нужны только CSS стили, то [[yii\bootstrap\BootstrapAsset]] будет достаточным для вас.</p>
+    <p>Тем не менее, если вы хотите использовать Bootstrap JavaScript, вам необходимо зарегистрировать [[yii\bootstrap\BootstrapPluginAsset]].</p>
+    <p><b>Подсказка:</b> большинство виджетов регистрируются [[yii\bootstrap\BootstrapPluginAsset]] автоматически.</p>
+
+    <h2 id="title">
+        Использование .less файлов Bootstrap напрямую
+    </h2>
+
+    <p>Если вы хотите включить Bootstrap CSS непосредственно в ваши less файлы, вам может понадобится отключить исходные css bootstrap файлы из загрузки.</p>
+    <p>Вы можете сделать это установив [[yii\bootstrap\BootstrapAsset|BootstrapAsset]] свойство пустым.</p>
+    <p>Для этого вам необходимо настроить компонент приложения assetManager следующим образом:</p>
+
+    <pre class="brush: csharp;">
+        'assetManager' =&gt; [
+            'bundles' =&gt; [
+                'yii\bootstrap\BootstrapAsset' =&gt; [
+                    'css' =&gt; [],
+                ]
+            ]
+        ]
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="97.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="99.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/98.html", "Yii2: Расширение Twitter Bootstrap для Yii 2", "bm1304"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1304", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1304") == 1) { document.getElementById("bma1304").style.display = "block"; document.getElementById("bm1304").style.display = "none"; } else { document.getElementById("bma1304").style.display = "none"; document.getElementById("bm1304").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Расширение Twitter Bootstrap для Yii 2") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1304", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

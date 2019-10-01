@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma453" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm453" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Сетка строк StringGrid
+	</h1>
+
+	<p>Теперь на практике познакомимся с сеткой строк, похожей на ту, что используется в файлах MS Excel.</p>
+	<p>Создайте новое приложение, установите на форму сетку StringGrid с вкладки компонентов Additional.</p>
+	<p>Рядом находится еще сеточка DrawGrid.</p>
+	<p>Разница между ними небольшая, но первую используют чаще.</p>
+	<p>Сетка StringGrid самостоятельно прорисовывает данные в ячейках, при использовании сетки DrawGrid эти данные придется прорисовывать самостоятельно.</p>
+	<p>Сетку DrawGrid обычно используют для прорисовки графики, и нужда в ней возникает намного реже, чем в StringGrid.</p>
+	<p>Как видите, сетка StringGrid очень похожа на ту, что вы видели в MS Excel.</p>
+	<p>Пока еще она пуста.</p>
+	<p>Выделите ее и посмотрите на свойства.</p>
+	<p><b>BorderStyle</b> отвечает за стиль обрамления.</p>
+	<p>Может иметь только два значения – с обрамлением и без него.</p>
+	<p><b>ColCount</b> – количество колонок в сетке.</p>
+	<p>По умолчанию их 5.</p>
+	<p><b>DefaultColWidth</b> – ширина колонок по умолчанию.</p>
+	<p>К сожалению, всем колонкам устанавливается одинаковая ширина.</p>
+	<p>Однако во время работы программы ширину каждой колонки можно будет изменить программно.</p>
+	<p><b>DefaultDrawing</b> – прорисовка данных по умолчанию.</p>
+	<p>Если стоит True, то компонент сам будет отображать введенные данные, иначе это придется делать программисту.</p>
+	<p><b>DefaultRowHeight</b> – высота строк по умолчанию.</p>
+	<p>Установлено 24 пикселя, но этот размер великоват, поэтому строки получаются такими высокими.</p>
+	<p><b>FixedCols</b> – количество фиксированных колонок.</p>
+	<p>Они выделяются серым цветом, и всегда первые.</p>
+	<p>Это свойство можно назвать заголовком строк.</p>
+	<p>Практически не бывает необходимости делать более одной такой колонки.</p>
+	<p>По умолчанию как раз одна колонка и есть, попробуйте сделать две, а затем верните одну.</p>
+	<p><b>FixedRows</b> – количество фиксированных строк.</p>
+	<p>По умолчанию тоже одна, и работает также, как и FixedCols.</p>
+	<p>Как правило, эта строка служит заголовком колонок.</p>
+	<p><b>GridLineWidth</b> – толщина разделительных линий.</p>
+	<p>Попробуйте поставить ноль – линии исчезнут.</p>
+	<p>Верните единицу.</p>
+	<p><b>Options</b> – самое главное свойство компонента.</p>
+	<p>Оно содержит много настроек, которые раскроются, если щелкнуть по плюсу слева от названия свойства.</p>
+	<p>Эти дополнительные свойства имеют следующие назначения:</p>
+	<p>- <b>goFixedVertLine</b> – рисовать ли вертикальные линии у фиксированных ячеек? По умолчанию True.</p>
+	<p>- <b>goFixedHorzLine</b> – прорисовка горизонтальных линий у фиксированных ячеек.</p>
+	<p>- <b>goVertLine</b> – прорисовка вертикальных линий у всех остальных (нефиксированных) ячеек.</p>
+	<p>- <b>goHorzLine</b> – прорисовка горизонтальных линий у нефиксированных ячеек.</p>
+	<p>- <b>goRangeSelect</b> – разрешение выделять несколько ячеек.</p>
+	<p>Не работает, если включен элемент goEdit.</p>
+	<p>- <b>goDrawFocusSelect</b> – разрешено выделять ячейку, которая находится в фокусе ввода.</p>
+	<p>- <b>goRowSizing</b> – разрешено изменять высоту строки перетаскиванием мышью.</p>
+	<p>- <b>goColSizing</b> – разрешено изменять ширину колонки перетаскиванием мышью.</p>
+	<p>- <b>goRowMoving</b> – можно ли мышью перемещать строки на другое место.</p>
+	<p>- <b>goColMoving</b> – можно ли мышью перемещать колонки на другое место.</p>
+	<p>- <b>goEditing</b> – можно ли редактировать сетку?</p>
+	<p>То есть, вводить данные с клавиатуры.</p>
+	<p>Игнорируется, если включен элемент goRowSelect.</p>
+	<p>- <b>goTabs</b> – можно ли переключаться на другие ячейки с помощью клавиши &lt;Tab&gt;.</p>
+	<p>- <b>goRowSelect</b> – выделяется вся строка.</p>
+	<p>Если равно False, то только одна ячейка.</p>
+	<p>- <b>goAlwaysShowEditor</b> – если True, то редактировать ячейку можно сразу при выделении.</p>
+	<p>Если False, то для редактирования нужно нажать &lt;Enter&gt; или &lt;F2&gt;.</p>
+	<p>- <b>goThumbTracking</b> – разрешена ли прорисовка данных в ячейках при прокрутке.</p>
+	<p>Если нет, то данные будут обновлены после прокрутки.</p>
+	<p>- <b>RowCount</b> – количество строк в сетке.</p>
+	<p>С остальными свойствами вы уже знакомы по прошлым компонентам, здесь они практически ничем не отличаются.</p>
+	<p>Итак, приступим к примеру.</p>
+	<p>Мы уже говорили, что по умолчанию дается слишком большая высота строк, уменьшите ее до 16 (свойство DefaultRowHeight ).</p>
+	<p>У нас должно быть 5 строк и 5 колонок, причем фиксированными будут по одной колонке и одной строке.</p>
+	<p>Далее, пользователь должен иметь возможность вводить данные в ячейки, поэтому в разделе Options в свойстве goEditing установим True.</p>
+	<p>Теперь создаем для формы событие onShow, и вписываем следующий код:</p>
+
+	<pre class="brush: csharp;">
+begin
+  //заполняем значениями первую строку:
+  StringGrid1.Cells[0,1]:= 'Иванов';
+  StringGrid1.Cells[0,2]:= 'Петров';
+  StringGrid1.Cells[0,3]:= 'Николаев';
+  StringGrid1.Cells[0,4]:= 'Бонд';
+
+  //заполняем значениями первую колонку:
+  StringGrid1.Cells[1,0]:= 'Год рожд.';
+  StringGrid1.Cells[2,0]:= 'Место рожд.';
+  StringGrid1.Cells[3,0]:= 'Прописка';
+  StringGrid1.Cells[4,0]:= 'Семейное положение';
+
+  //меняем ширину колонок
+  StringGrid1.ColWidths[4]:= 120;
+  StringGrid1.ColWidths[3]:= 90;
+  StringGrid1.ColWidths[2]:= 90;
+
+end;
+	</pre>
+
+	<p>Как видите, обращение к отдельным ячейкам здесь точно такое, как к двухмерному массиву.</p>
+	<p>Первым индексом служит строка, вторым – колонка.</p>
+	<p>Нумерация индексов начинается с нуля, поэтому верхняя левая ячейка будет иметь индекс [0, 0].</p>
+	<p>Свойство ColWidths[i] устанавливает ширину колонки с индексом i.</p>
+	<p>Сохраните проект, скомпилируйте его и посмотрите результат.</p>
+	<p>Если ваша сетка слишком маленькая или наоборот, слишком большая, то измените ее размер, чтобы все колонки умещались в сетке.</p>
+	<p>Улучшим наш пример, добавив маску для ввода даты к столбцу "Год рождения".</p>
+	<p>Делается это совсем просто – выделяете сетку, переходите на вкладку Events и генерируете событие onGetEditMask.</p>
+	<p>Это событие происходит, когда пользователь редактирует сетку.</p>
+	<p>Там вписываете только одну строку:</p>
+
+	<pre class="brush: csharp;">
+	if ACol=1 then value := '99.99.9999 г.'
+	</pre>
+
+	<p>Если вы посмотрите на параметры этого события, то увидите, что в него передаются такие параметры, как ACol и ARow.</p>
+	<p>Это – индекс текущей колонки и текущей строки.</p>
+	<p>Параметр Value содержит текст маски.</p>
+	<p>То есть, если пользователь редактирует колонку с индексом 1 – это вторая колонка, где указывается год рождения, мы устанавливаем маску ввода даты.</p>
+	<p>Как видите, работа с сеткой не такая уж сложная.</p>
+	<p>Принцип работы такой сетки заключается в том, что вы заполняете сетку данными, как правило, заголовками строк и столбцов, а затем позволяете пользователю их редактировать.</p>
+	<p>После чего введенные пользователем данные можно переписать в двухмерный массив, или в массив с записями, а затем сохранить в файл.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="66.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="68.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/67.html", "Сетка строк StringGrid", "bm453"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm453", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm453") == 1) { document.getElementById("bma453").style.display = "block"; document.getElementById("bm453").style.display = "none"; } else { document.getElementById("bma453").style.display = "none"; document.getElementById("bm453").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Сетка строк StringGrid") == 1) { arrs.splice(i, 1); localStorage.setItem("bm453", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

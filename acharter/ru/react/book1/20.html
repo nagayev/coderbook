@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma994" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm994" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Middleware. Логгер
+	</h1>
+
+	<p>Прежде чем мы сможем создавать асинхронные действия, поговорим об усилителях и напишем, обещанный ранее усилитель - логгер.</p>
+	<p>Представляйте усилитель, как нечто стороннее, добавляющее функционал для нашего store.</p>
+	<p>Усилители, это middleware.</p>
+	<p>Суть middleware функций, взять входные данные, добавить что-то и передать дальше.</p>
+	<p>Например: есть конвейер, по которому движется пальто.</p>
+	<p>На конвейере работают Зина и Людмила.</p>
+	<p>Зина пришивает пуговку, Людмила прикладывает бирку.</p>
+	<p>Внезапно, появляется middleware Лена, встает между Зиной и Людмилой и красит пуговку в хипстерский модный цвет.</p>
+	<p>Так как Лена после покраски не уносит пальто с собой, а передает дальше, то Людмила как ни в чем не бывало приделывает бирку и пальто готово.</p>
+	<p>Только теперь оно хипстерское.</p>
+	<p>Усиленное.</p>
+	<p>Для лучшего понимания, предлагаю написать бесполезный усилитель, выдающий console.log('ping'), на каждое действие.</p>
+	<p>При этом, мы будем использовать предложенный redux метод добавления усилитей с помощью applyMiddleware.</p>
+	<p>Обновим файл конфигурации store:</p>
+	<p>store/configureStore.js</p>
+
+	<pre class="brush: csharp;">
+	import { createStore, applyMiddleware } from 'redux'
+	import rootReducer from '../reducers'
+	import { ping } from './enhancers/ping'
+	
+	// &lt;!-- подключаем наш enhancer
+	export default function configureStore(initialState)
+	{
+		const store = createStore(
+			rootReducer,
+			initialState,
+			applyMiddleware(ping)
+		)
+
+		// &lt;!-- добавляем его в цепочку middleware'ов
+		if (module.hot)
+		{
+			module.hot.accept('../reducers', () => {
+				const nextRootReducer = require('../reducers')
+				store.replaceReducer(nextRootReducer)
+			})
+		}
+
+		return store
+	}
+	</pre>
+
+	<p>Напишем усилитель:</p>
+	<p>store/enhancers/ping.js</p>
+
+	<pre class="brush: csharp;">
+	/*eslint-disable */
+	export const ping = store => next => action => {
+		console.log('ping')
+		return next(action)
+	}
+
+	/*eslint-enable */
+	// Боюсь, здесь не обойтись без ES5 версии:
+	var ping = function ping(store)
+	{
+		return function (next)
+		{
+			return function (action)
+			{
+				console.log('ping');
+				return next(action);
+			};
+		};
+	};
+	</pre>
+
+	<p>Поехали:</p>
+	<p><b>eslint-disable</b> - просто выключает проверку этого блока "линтером".</p>
+	<p><b>ping</b> - это функция, которая возвращает функцию.</p>
+	<p>Middleware - это всегда функция, которые обычно возвращают функцию, если только целью middleware не является прервать цепочку вызовов.</p>
+	<p>в возвращаемых функциях, благодаря applyMiddleware у нас становятся доступными аргументы, которые мы можем использовать во благо приложения:</p>
+	<p><b>store</b> - redux-store нашего приложения;</p>
+	<p><b>next</b> - функция-обертка, которая позволяет продолжить выполнение цепочки;</p>
+	<p><b>action</b> - действие, которое было вызвано (как вы помните, вызванные действия - это store.dispatch)</p>
+	<p>Сейчас, при клике на кнопки, у нас в консоли появляется строка ping.</p>
+	<p>Давайте изменим ее, написав простейший логгер: store/enhancers/ping.js</p>
+
+	<pre class="brush: csharp;">
+	/*eslint-disable */
+	export const ping = store => next => action => {
+		console.log(`Тип события: ${action.type}, дополнительные данные события: ${action.payload}`)
+		return next(action)
+	}
+
+	/*eslint-enable */
+	</pre>
+
+	<p>Я использовал новый строковый синтаксис.</p>
+	<p>В прошлом, наш console.log выглядел бы так:</p>
+
+	<pre class="brush: csharp;">
+	console.log('Тип события: ' + action.type + ', дополнительные данные события: ' + action.payload)
+	</pre>
+
+	<p>Покликайте на кнопки, результат должен быть следующим:</p>
+
+	<img src="reactImg33.jpg" id="image" />
+
+	<h1 id="title">
+		Redux-logger
+	</h1>
+
+	<p>Отбросим наш велосипед и поставим популярный логгер.</p>
+
+	<pre class="brush: csharp;">
+	npm i --save redux-logger
+	</pre>
+
+	<p>Удалите папку enchancers, и измените configureStore.</p>
+	<p>src/store/configureStore.js</p>
+
+	<pre class="brush: csharp;">
+	import { createStore, applyMiddleware } from 'redux'
+	import rootReducer from '../reducers'
+	import createLogger from 'redux-logger'
+	
+	export default function configureStore(initialState)
+	{
+		const logger = createLogger()
+		
+		const store = createStore(
+			rootReducer,
+			initialState,
+			applyMiddleware(logger)
+		)
+		
+		if (module.hot)
+		{
+			module.hot.accept('../reducers', () => {
+				const nextRootReducer = require('../reducers')
+				store.replaceReducer(nextRootReducer)
+			})
+		}
+
+		return store
+	}
+	</pre>
+
+	<p>Можете проверить - логгер достаточно информативный и удобен в использовании.</p>
+	<p>Таким образом, усилители - отличный способ добавить в наш процесс обработки действий некую прослойку с необходимой функциональностью.</p>
+	<p>Одним из популярнейших усилителей, является redux-thunk, который мы как раз будем использовать для создания асинхронных действий.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="19.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="21.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/20.html", "Middleware. Логгер", "bm994"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm994", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm994") == 1) { document.getElementById("bma994").style.display = "block"; document.getElementById("bm994").style.display = "none"; } else { document.getElementById("bma994").style.display = "none"; document.getElementById("bm994").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Middleware. Логгер") == 1) { arrs.splice(i, 1); localStorage.setItem("bm994", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

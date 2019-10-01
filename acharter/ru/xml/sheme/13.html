@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1142" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1142" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Определение элементов со смешанным содержимым
+	</h1>
+	
+	<p>Смешанный составной тип элементов может содержать атрибуты, элементы и текст.</p>
+	<p>XML элемент "letter", который содержит как текст, так и другие элементы:</p>
+
+	<pre class="brush: csharp;">
+		&lt;letter&gt;
+			Уважаемый господин &lt;name&gt;Джон Смит&lt;/name&gt;.
+			Ваш заказ &lt;orderid&gt;1032&lt;/orderid&gt;
+			будет выполнен &lt;shipdate&gt;2001-07-13&lt;/shipdate&gt;.
+		&lt;/letter&gt;
+	</pre>
+
+	<p>Следующая XML схема декларирует элемент "letter":</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="letter"&gt;
+			&lt;xs:complexType mixed="true"&gt;
+				&lt;xs:sequence&gt;
+					&lt;xs:element name="name" type="xs:string"/&gt;
+					&lt;xs:element name="orderid" type="xs:positiveInteger"/&gt;
+					&lt;xs:element name="shipdate" type="xs:date"/&gt;
+				&lt;/xs:sequence&gt;
+			&lt;/xs:complexType&gt;
+		&lt;/xs:element&gt;
+	</pre>
+
+	<p>Примечание: Чтобы сделать доступными символьные данные в дочерних элементах "letter", необходимо атрибут mixed установить в значение "true".</p>
+	<p>Тег &lt;xs:sequence&gt; означает, что декларированные элементы (name, orderid и shipdate) должны появляться в таком же порядке внутри элемента "letter".</p>
+	<p>Также можно присвоить имя элементу complexType, а в элементе "letter" определить атрибут type с этим именем (в этом случае один и тот же составной тип могут использовать несколько элементов):</p>
+
+	<pre class="brush: csharp;">
+		&lt;xs:element name="letter" type="lettertype"/&gt;
+		
+		&lt;xs:complexType name="lettertype" mixed="true"&gt;
+			&lt;xs:sequence&gt;
+				&lt;xs:element name="name" type="xs:string"/&gt;
+				&lt;xs:element name="orderid" type="xs:positiveInteger"/&gt;
+				&lt;xs:element name="shipdate" type="xs:date"/&gt;
+			&lt;/xs:sequence&gt;
+		&lt;/xs:complexType&gt;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/sheme/13.html", "Эл. со смешанным содерж.", "bm1142"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1142", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1142") == 1) { document.getElementById("bma1142").style.display = "block"; document.getElementById("bm1142").style.display = "none"; } else { document.getElementById("bma1142").style.display = "none"; document.getElementById("bm1142").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Эл. со смешанным содерж.") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1142", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

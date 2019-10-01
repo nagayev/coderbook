@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma117" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm117" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Массивы как наследники класса Array
+	</h1>
+
+	<p>Одномерные массивы наследуют из класса Array несколько свойств и много методов, упрощающих работу с массивами.</p>
+	<p>Среди свойств следует в первую очередь назвать свойство int Length – целочисленное (32 бита) значение, определяющее общее количество элементов экземпляра массива (изменять его нельзя).</p>
+	<p>Это свойство незаменимо в методах, параметрами которых служат ссылки на массивы.</p>
+	<p>Второе из полезных свойств – int Rank – размерность (число измерений) массива.</p>
+	<p>Методы класса Array позволяют решать многие типовые задачи обработки массивов.</p>
+	<p>Вот некоторые из статических методов, применяемые к одномерным массивам:</p>
+
+	<pre class="brush: csharp;">
+	static int BinarySearch() – бинарный поиск в упорядоченном массиве;
+	</pre>
+
+	<p><b>результат выполнения</b> – индекс соответствующего условию поиска элемента или отрицательное число, если элемента с искомым значением в массиве нет;</p>
+	<p><b>static void Сlear()</b> – позволяет очистить (обнулить, присвоить значение пробелов или значение null) все элементы массива или указанный параметрами интервал его элементов;</p>
+	<p><b>static void Copy ()</b> – копирование части массива или всего массива в другой массив;</p>
+	<p><b>static int IndexOf()</b> – возвращает наименьший индекс (минимальный номер) элемента, значение которого совпадает с образцом;</p>
+	<p><b>static int LastIndexOf()</b> – возвращает последний индекс (максимальный номер) элемента, значение которого совпадает с образцом;</p>
+	<p><b>static void Reverse()</b> – меняет на обратный порядок элементов в массиве;</p>
+	<p><b>static void Sort()</b> – выполняет сортировку элементов массива.</p>
+	<p>Необязательные параметры этого метода позволяют определить правило упорядочения.</p>
+	<p>По умолчанию арифметические массивы сортируются в порядке возрастания значений элементов.</p>
+	<p>Строки упорядочиваются лексикографически.</p>
+	<p>Нестатические методы (методы объектов) класса Array:</p>
+	<p><b>object Clone()</b> – получение точной копии того массива-объекта, к которому применён метод. Возвращает ссылку на новый массив (на копию), всегда имеющую тип оbject;</p>
+	<p><b>void CopyTo(Array, ind)</b> – в массив Array копируются элементы вызывающего массива, начиная с индекса ind;</p>
+	<p><b>int GetLength()</b> – возвращает размер массива (число элементов) по указанному аргументом измерению (номера измерений от нуля);</p>
+	<p><b>int GetUpperBound()</b> – возвращает верхнюю границу индекса массива по указанному аргументом измерению;</p>
+	<p><b>object GetValue()</b> – возвращает значение указанного параметром элемента массива;</p>
+	<p><b>void SetValue()</b> – присваивает значение указанному параметром элементу.</p>
+	<p>Следующая программа иллюстрирует применение методов Clone(), Sort(), Reverse().</p>
+
+	<pre class="brush: csharp;">
+	// 07_04.cs массивы - методы класса Array
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			char[ ] hi = { '1', 'A', '2', 'B', '3', 'C', '4', 'D', '5', 'E', };
+			char[ ] hiNew = (char[ ])hi.Clone( ); // копирование
+			Array.Sort(hiNew); // сортировка
+			Console.Write("Сортировка: ");
+			foreach (char ch in hiNew)
+			Console.Write( ch);
+			Console.WriteLine();
+			Array.Reverse(hiNew); // реверсирование
+			Console.Write("Реверсирование: ");
+			foreach (char ch in hiNew)
+			Console.Write(ch);
+			Console.WriteLine();
+			Console.Write("Исходный массив: ");
+			foreach (char ch in hi)
+			Console.Write("" + ch);
+			Console.WriteLine();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Сортировка: 12345ABCDE
+
+	Реверсирование: EDCBA54321
+
+	Исходный массив: 1A2B3C4D5E
+	</pre>
+
+	<p>В программе определён и инициализирован символьный массив и адресующая его ссылка hi.</p>
+	<p>Затем определена ссылка hiNew, и создана копия массива с помощью метода Clone(), который применён к объекту, адресованному ссылкой hi.</p>
+	<p>Так как метод Clone() возвращает ссылку на базовый класс object, то выполнено явное приведение типов (char []).</p>
+	<p>Только так можно присвоить результат ссылке hiNew.</p>
+	<p>Методом Array.Sort() выполнена сортировка массива, связанного со ссылкой hiNew.</p>
+	<p>Элементы упорядочены по возрастанию целочисленных значений кодов символов.</p>
+	<p>Далее выводятся отсортированный массив и выполнена его обработка методом Reverse().</p>
+	<p>Обратите внимание, что исходный массив остаётся без изменений.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="29.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="31.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/30.html", "Массивы как наследники", "bm117"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm117", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm117") == 1) { document.getElementById("bma117").style.display = "block"; document.getElementById("bm117").style.display = "none"; } else { document.getElementById("bma117").style.display = "none"; document.getElementById("bm117").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Массивы как наследники") == 1) { arrs.splice(i, 1); localStorage.setItem("bm117", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

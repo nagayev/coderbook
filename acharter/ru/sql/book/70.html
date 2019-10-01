@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1084" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1084" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Что такое представления
+	</h1>
+
+	<p>Представления - это виртуальные таблицы.</p>
+	<p>В отличие от таблиц, содержащих данные, представления содержат запросы, которые динамически выбирают данные, когда это необходимо.</p>
+	<p><b>Поддержка в MySQL</b></p>
+	<p>К моменту выхода этой книги СУБД MySQL еще не поддерживала представления (их поддержку планировалось осуществить в версии MySQL 5).</p>
+	<p>Поэтому приведенные нами примеры в настоящее время работать не будут.</p>
+	<p>Лучший способ объяснить, что такое представления, - рассмотреть конкретный пример.</p>
+	<p>Возвратимся к уроку "Объединение таблиц", в котором был использован следующий оператор SELECT для выборки данных сразу из трех таблиц:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name, cust_contact
+	FROM Customers, Orders, OrderItems
+	WHERE Customers.cust_id = Orders.cust_id
+	AND OrderItems.order_num = Orders.order_num
+	AND prod_id = 'RGAN01';
+	</pre>
+
+	<p>Этот запрос был использован для извлечения информации о клиентах, которые заказали указанный продукт.</p>
+	<p>Всякий, кому необходимы эти данные, должен был бы разобраться в структуре таблицы, а также в методике создания запроса и объединения таблиц.</p>
+	<p>Чтобы извлечь аналогичные данные для другого продукта (или для нескольких продуктов), последнее предложение WHERE придется модифицировать.</p>
+	<p>Теперь предположим, что вы могли бы сохранить весь этот запрос в виртуальной таблице с именем ProductCustomers.</p>
+	<p>Затем для выборки тех же самых данных нужно было бы просто сделать следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT cust_name, cust_contact
+	FROM ProductCustomers
+	WHERE prod_id = 'RGAN01';
+	</pre>
+
+	<p>Это как раз тот случай, когда в игру вступают представления.</p>
+	<p>Таблица ProductCustomers является представлением, поэтому она не содержит каких-либо столбцов или данных.</p>
+	<p>Вместо них хранится запрос - тот самый запрос, который был использован выше для объединения таблиц.</p>
+	<p><b>Постоянство СУБД</b></p>
+	<p>Синтаксис создания представлений одинаков для всех основных СУБД.</p>
+
+	<h1 id="title">
+		Для чего используют представления
+	</h1>
+
+	<p>Вы только что познакомились с одним случаем использования представления.</p>
+	<p>Довольно часто они применяются для выполнения следующих операций: </p>
+	<p>- для повторного использования операторов SQL; </p>
+	<p>- для упрощения выполнения сложных операций.</p>
+	<p>После того как запрос подготовлен, его можно с легкостью использовать повторно, для этого не нужно разбираться в особенностях его работы; </p>
+	<p>- для вывода частей таблицы вместо вывода ее полностью; </p>
+	<p>- для защиты данных.</p>
+	<p>Пользователям можно предоставить доступ к определенному поднабору таблиц, а не ко всем таблицам; </p>
+	<p>- для изменения форматирования и отображения данных.</p>
+	<p>Представления могут возвращать данные, отформатированные и отображенные иначе, чем они хранятся в таблицах.</p>
+	<p>После того как представления созданы, их можно использовать точно так же, как таблицы.</p>
+	<p>Вы можете выполнять операции SELECT, фильтровать и сортировать данные, объединять представления с другими представлениями или таблицами и, возможно, даже добавлять в них данные либо обновлять их.</p>
+	<p>На последнюю операцию накладываются некоторые ограничения. Ниже мы расскажем о них.</p>
+	<p>Важно не забывать о том, что представления - это только представления, данные которых хранятся в других таблицах.</p>
+	<p>Представления не содержат данных как таковых, поэтому данные, которые они возвращают, извлекаются из других таблиц.</p>
+	<p>Если данные этих таблиц изменяются или происходит добавление в них данных, представления возвратят уже новые, измененные данные.</p>
+	<p><b>Проблемы производительности</b></p>
+	<p>Поскольку представления не содержат данных, каждый раз, когда используется представление, для выполнения запроса приходится проводить некоторый поиск.</p>
+	<p>Если вы создали сложное представление с несколькими объединениями и фильтрами или если были использованы вложенные представления, производительность СУБД резко снизится.</p>
+	<p>Рекомендуется провести тестирование, прежде чем использовать приложения, в которых интенсивно используются представления.</p>
+
+	<h1 id="title">
+		Представления: правила и ограничения
+	</h1>
+
+	<p>Прежде чем создавать представления, следует ознакомиться с некоторыми накладываемыми на них ограничениями.</p>
+	<p>К сожалению, представления весьма специфичны для каждой СУБД, поэтому прежде чем приступать к их использованию, рекомендуем обратиться к документации вашей СУБД.</p>
+	<p>Ниже приведено несколько самых общих правил и ограничений, которыми следует руководствоваться при создании и использовании представлений.</p>
+	<p>- Представления, так же как и таблицы, должны иметь уникальные имена.</p>
+	<p>Они не могут быть названы так же, как какая-нибудь другая таблица или представление.</p>
+	<p>Не существует ограничения на количество представлений, которые могут быть созданы. </p>
+	<p>- Для того чтобы создать представление, вы должны иметь соответствующие права доступа.</p>
+	<p>Обычно их предоставляет администратор базы данных.</p>
+	<p>Представления могут быть вложенными; это означает, что представление может быть создано посредством запроса, который выбирает данные из другого представления.</p>
+	<p>Точное количество уровней вложения различно для разных СУБД.</p>
+	<p>Вложенные представления могут серьезно снизить производительность при выполнении запроса, поэтому их нужно основательно протестировать, прежде чем применять в реальных условиях.</p>
+	<p>- Во многих СУБД запрещается использование предложения ORDER BY в запросах к представлениям. </p>
+	<p>- В некоторых СУБД требуется, чтобы каждый возвращаемый столбец имел имя - это подразумевает использование псевдонимов, если столбцы представляют собой вычисляемые поля (см. урок "Создание вычисляемых полей," где представлена дополнительная информация о псевдонимах столбцов).</p>
+	<p>- Представления не могут быть проиндексированы.</p>
+	<p>Они также не могут иметь триггеров или связанных с ними значений по умолчанию. </p>
+	<p>- В некоторых СУБД представления трактуются как запросы, предназначенные только для чтения.</p>
+	<p>Это означает, что из представлений можно выбирать данные, но их нельзя вносить в таблицы, на основе которых было создано представление.</p>
+	<p>Обратитесь к документации своей СУБД, если хотите узнать подробности.</p>
+	<p>- Некоторые СУБД позволяют создавать представления, которые не позволяют добавлять или обновлять строки, если это добавление или обновление может привести к тому, что строки уже не будут являться частью данного представления.</p>
+	<p>Например, если представление возвращает только информацию о клиентах, имеющих адреса электронной почты, обновление информации о клиенте с целью удаления его адреса электронной почты приведет к тому, что данный клиент будет исключен из представления.</p>
+	<p>Таково поведение по умолчанию, и оно допускается, но некоторые СУБД способны препятствовать возникновению подобных случаев.</p>
+	<p><b>Обратитесь к документации своей СУБД</b></p>
+	<p>Список этих правил довольно длинен, и документация вашей СУБД почти наверняка содержит еще какие-то правила.</p>
+	<p>Придется потратить некоторое время на изучение этих ограничений, прежде чем браться за создание представлений.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="69.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="71.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/70.html", "Представления", "bm1084"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1084", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1084") == 1) { document.getElementById("bma1084").style.display = "block"; document.getElementById("bm1084").style.display = "none"; } else { document.getElementById("bma1084").style.display = "none"; document.getElementById("bm1084").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Представления") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1084", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1080" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1080" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Создание таблиц
+	</h1>
+
+	<p>Язык SQL используется не только для манипуляций с данными таблиц, он предназначен для выполнения всех операций с базами данных и таблицами, включая собственно создание таблиц и работу с ними.</p>
+	<p>Существует два способа создания таблиц.</p>
+	<p>- Большинство СУБД сопровождается инструментарием администратора, который можно использовать для интерактивного создания таблиц базы данных и управления ими.</p>
+	<p>- Таблицами можно также манипулировать посредством операторов языка SQL.</p>
+	<p>Для создания таблиц программным способом используют оператор SQL CREATE TABLE.</p>
+	<p>Стоит отметить, что, когда вы используете интерактивный инструментарий, в действительности вся работа выполняется операторами SQL.</p>
+	<p>Однако вам не приходится писать эти операторы; интерфейс создает и выполняет их незаметно для вас (то же самое справедливо и для процедуры изменения существующих таблиц).</p>
+	<p><b>Разница в синтаксисе</b></p>
+	<p>Точный синтаксис оператора CREATE TABLE может быть несколько различным для разных реализаций SQL Обязательно обратитесь к документации своей СУБД за дополнительной информацией и выясните, какой в точности синтаксис для нее необходим и какие возможности она поддерживает.</p>
+	<p>Полное рассмотрение всех опций, применяемых при создании таблиц, не входит в задачи нашего урока, мы рассмотрим только основы.</p>
+	<p>Для получения дополнительной и специфичной для вашей СУБД информации настоятельно рекомендуем обратиться к ее документации.</p>
+	<p><b>Примеры для конкретных СУБД</b></p>
+	<p>Операторы CREATE TABLE для конкретных СУБД приведены в примерах сценариев создания таблиц.</p>
+
+	<h1 id="title">
+		Основы создания таблиц
+	</h1>
+
+	<p>Чтобы создать таблицу с помощью оператора CREATE TABLE, нужно указать следующие данные:</p>
+	<p>- имя новой таблицы; оно вводится после ключевого слова CREATE TABLE;</p>
+	<p>- имена и определения столбцов таблицы, разделенные запятыми;</p>
+	<p>- в некоторых СУБД также требуется, чтобы было указано место размещения таблицы.</p>
+	<p>Посредством следующего оператора SQL создается таблица Products, часто используемая в нашей книге:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE TABLE Products
+	(
+		prod_id CHAR(10) NOT NULL,
+		vend_id CHAR(10) NOT NULL,
+		prod_name CHAR(254) NOT NULL,
+		prod_price DECIMAL(8,2) NOT NULL,
+		prod_desc VARCHAR(IOOO) NULL
+	);
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Как видите, имя таблицы указывается сразу же после ключевых слов CREATE TABLE.</p>
+	<p>Определение таблицы (все ее столбцы) заключается в круглые скобки.</p>
+	<p>Имена столбцов разделяются запятыми.</p>
+	<p>Приведенная в примере таблица состоит из пяти столбцов.</p>
+	<p>Определение каждого столбца начинается с имени столбца (которое должно быть уникальным в пределах данной таблицы), за ним указывается тип данных.</p>
+	<p>Оператор в целом заканчивается символом "точка с запятой", следующим после закрывающей круглой скобки.</p>
+	<p>Ранее уже говорилось, что синтаксис оператора CREATE TABLE весьма различен для разных СУБД, и только что представленный нами простой сценарий доказывает это.</p>
+	<p>В СУБД Oracle, PostgreSQL, SQL Server и Sybase представленный оператор будет работать в той форме, в которой он представлен в примере, а вот в MySQL тип VARCHAR должен быть заменен типом text.</p>
+	<p>В DB2 значение NULL следует удалить из последнего столбца.</p>
+	<p>Именно поэтому нами были предложены различные сценарии создания таблиц SQL для каждой СУБД.</p>
+	<p><b>Форматирование оператора</b></p>
+	<p>Пробелы игнорируются операторами SQL.</p>
+	<p>Оператор можно ввести в одной длинной строке или разбить ее на несколько строк, разницы между ними не будет.</p>
+	<p>Это позволяет форматировать выражения SQL так, как вам удобно.</p>
+	<p>Показанный выше оператор CREATE TABLE - хороший пример форматирования оператора SQL.</p>
+	<p>Код разбит на несколько строк, определения столбцов разнесены для удобства чтения и редактирования.</p>
+	<p>Форматировать выражения SQL подобным образом не обязательно, но все же настоятельно рекомендуется.</p>
+	<p><b>Замена существующих таблиц</b></p>
+	<p>Когда вы создаете новую таблицу, указываемое вами имя не должно существовать в СУБД, иначе будет выдано сообщение об ошибке.</p>
+	<p>Чтобы избежать случайной перезаписи, SQL требует, чтобы вы вначале вручную удалили таблицу (подробности освещены в следующем разделе), а затем вновь создали ее, а не просто перезаписали.</p>
+
+	<h1 id="title">
+		Работа со значениями NULL
+	</h1>
+
+	<p>В уроке "Фильтрация данных", рассказывалось о том, что такое значение NULL.</p>
+	<p>Использование этого значения подразумевает, что в столбце не должно содержаться никакое значение или неизвестно значение, которое должно быть в столбце.</p>
+	<p>Столбец, в котором разрешается присутствие значения NULL, позволяет также добавлять в таблицу строки, в которых не предусмотрено значение для данного столбца.</p>
+	<p>Столбец, в котором не разрешается присутствие значения NULL, не принимает строки с отсутствующим значением.</p>
+	<p>Иными словами, для этого столбца всегда потребуется вводить какое-то значение при добавлении или обновлении строк.</p>
+	<p>Каждый столбец таблицы может быть или пустым (NULL), или не пустым (NOT NULL), и это его состояние оговаривается в определении таблицы во время ее создания.</p>
+	<p>Рассмотрим следующий пример:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE TABLE Orders
+	(
+		order_num INTEGER NOT NULL,
+		order_date DATETIME NOT NULL,
+		cust_id CHAR(10) NOT NULL
+	);
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Посредством этого оператора создается таблица Orders, неоднократно использованная в книге.</p>
+	<p>Таблица Orders состоит из трех столбцов: номер заказа (order number), дата заказа (order date) и идентификатор клиента (customer ID).</p>
+	<p>Все три столбца являются необходимыми, каждый содержит ключевое слово NOT NULL, которое будет препятствовать добавлению в таблицу столбцов с отсутствующим значением.</p>
+	<p>При попытке добавления такого столбца будет возвращено сообщение об ошибке, и добавить такую запись не удастся.</p>
+	<p>В следующем примере создается таблица, в которой могут быть столбцы обеих разновидностей, NULL и NOT NULL:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE TABLE Vendors
+	(
+		vend_id CHAR(10) NULL,
+		vend_name CHAR(50) NOT NULL,
+		vend_address CHAR(50),
+		vend_city CHAR(50),
+		vend_state CHAR(5),
+		vend_ZIP CHAR(10),
+		vend_country CHAR(50)
+	);
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Посредством этого оператора создается таблица Vendors, неоднократно используемая в книге.</p>
+	<p>Столбцы с идентификатором поставщика и именем поставщика необходимы, поэтому оба определены как NOT NULL (т.е. не допускающие значение NULL).</p>
+	<p>Пять остальных столбцов допускают значения NULL, поэтому для них не указано требование NOT NULL.</p>
+	<p>Значение NULL является значением по умолчанию, поэтому, если не указано требование NOT NULL, предполагается разрешение на использование значения NULL.</p>
+	<p><b>Указание значения NULL</b></p>
+	<p>Во многих СУБД отсутствие ключевых слов NOT NULL трактуется как NULL.</p>
+	<p>Однако не во всех.</p>
+	<p>В СУБД DB2 наличие ключевого слова NULL является обязательным; если оно не указано, генерируется сообщение об ошибке.</p>
+	<p>Обратитесь к документации своей СУБД, чтобы получить исчерпывающую информацию о синтаксисе.</p>
+	<p><b>Первичные ключи и значения NULL</b></p>
+	<p>В уроке 1 говорилось о том, что первичные ключи представляют собой столбцы, значения которых уникально идентифицируют каждую строку таблицы.</p>
+	<p>Столбцы, которые допускают отсутствие значений, не могут использоваться в качестве уникальных идентификаторов.</p>
+	<p><b>Что та кое NULL</b></p>
+	<p>Не удивляйтесь, увидев значения NULL В пустых строках.</p>
+	<p>Значение NULL означает отсутствие значения; это не пустая строка.</p>
+	<p>Если вы указали в коде ' ' (две одинарных кавычки, между которыми ничего нет), это "значение" можно было бы ввести в столбец типа NOT NULL.</p>
+	<p>Пустая строка является допустимым значением; это не означает отсутствие значения.</p>
+	<p>Значения NULL указываются посредством ключевого слова NULL, но не пустой строкой.</p>
+
+	<h1 id="title">
+		Определение значений по умолчанию
+	</h1>
+
+	<p>Язык SQL позволяет определять значения по умолчанию, которые будут использованы в том случае, если при добавлении строки какое-то ее значение не указано.</p>
+	<p>Значения по умолчанию определяются с помощью ключевого слова DEFAULT в определениях столбца оператора CREATE TABLE.</p>
+	<p>Рассмотрим следующий пример:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE TABLE OrderItems
+	(
+		order_num INTEGER NOT NULL,
+		order_item INTEGER NOT NULL,
+		prod_id CHAR(10) NOT NULL,
+		quantity INTEGER NOT NULL DEFAULT 1,
+		item_price DECIMAL(8,2) NOT NULL
+	);
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Посредством этого оператора создается таблица OrderItems, содержащая отдельные предметы, которые могут быть заказаны.</p>
+	<p>Сам заказ хранится в таблице Orders.</p>
+	<p>Столбец quantity (количество) содержит количество каждого предмета в заказе.</p>
+	<p>В данном примере добавление текста DEFAULT 1 в описание столбца предписывает СУБД указывать количество, равное 1, если не указано иное.</p>
+	<p>Значения по умолчанию часто используются для хранения в столбцах даты и денежных единиц.</p>
+	<p>К примеру, системная дата может быть использована как дата по умолчанию путем указания функции или переменной, используемой для ссылки на системную дату.</p>
+	<p>Например, пользователи MySQL могли бы указать дату как DEFAULT CURRENT_DATE (), в то время как пользователям Oracle следовало бы вводить дату как DEFAULT SYSDATE, а пользователям SQL Server - как DEFAULT GETDATE ().</p>
+	<p>К сожалению, команда, используемая для получения системной даты, в каждой СУБД своя.</p>
+	<p>В таблице ниже приведен синтаксис для нескольких СУБД (если ваша СУБД не представлена в этом списке, обратитесь к ее документации).</p>
+
+	<table>
+		<tr>
+			<th>СУБД</th>
+			<th>Функция</th>
+		</tr>
+		<tr>
+			<td>Access</td>
+			<td>NOW () </td>
+		</tr>
+		<tr>
+			<td>DB2</td>
+			<td>CURRENT_DATE</td>
+		</tr>
+		<tr>
+			<td>MySQL</td>
+			<td>CURRENT_DATE()</td>
+		</tr>
+		<tr>
+			<td>Oracle</td>
+			<td>SYSDATE</td>
+		</tr>
+		<tr>
+			<td>PostgreSQL</td>
+			<td>CURRENT_DATE</td>
+		</tr>
+		<tr>
+			<td>SQL Server</td>
+			<td>GETDATE ()</td>
+		</tr>
+		<tr>
+			<td>Sybase</td>
+			<td>GETDATE ()</td>
+		</tr>
+	</table>
+
+	<p><b>Использование значений DEFAULT вместо значений NULL</b></p>
+	<p>Многие разработчики баз данных используют значения DEFAULT вместо столбцов NULL.</p>
+	<p>Часто значения DEFAULT применяются в столбцах, которые будут использованы в вычислениях или при статистической обработке данных. </p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="65.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="67.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/66.html", "Создание таблиц", "bm1080"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1080", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1080") == 1) { document.getElementById("bma1080").style.display = "block"; document.getElementById("bm1080").style.display = "none"; } else { document.getElementById("bma1080").style.display = "none"; document.getElementById("bm1080").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание таблиц") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1080", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1102" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1102" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Правила синтаксиса XML
+	</h1>
+	
+	<p>Правила синтаксиса XML крайне просты и логичны. Их легко запомнить и легко использовать.</p>
+
+	<h1 id="title">
+		Все XML элементы должны иметь закрывающий тег
+	</h1>
+
+	<p>В HTML некоторые элементы могут не иметь закрывающего тега:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;p&gt;Это параграф.
+		&lt;br&gt;
+	</pre>
+
+	<p>В XML нельзя опускать закрывающий тег. Абсолютно все элементы должны закрываться:</p>
+
+	<pre class="brush: csharp;">
+		&lt;p&gt;Это параграф.&lt;/p&gt;
+		&lt;br&gt;
+	</pre>
+
+	<p>Возможно, вы заметили из предыдущих примеров, что XML декларация не имеет закрывающего тега.</p>
+	<p>Это не ошибка.</p>
+	<p>Дело в том, что декларация не относится к XML документу, поэтому у нее и нет закрывающего тега.</p>
+
+	<h1 id="title">
+		Теги XML регистрозависимы
+	</h1>
+
+	<p>Теги XML являются регистрозависимыми.</p>
+	<p>Так, тег &lt;Letter&gt; не то же самое, что тег &lt;letter&gt;.</p>
+	<p>Открывающий и закрывающий теги должны определяться в одном регистре:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;Message&gt;Это неправильно&lt;/message&gt;
+		&lt;message&gt;Это правильно&lt;/message&gt;
+	</pre>
+
+	<p>Замечание: "Открывающий и закрывающий теги" иногда еще называют "начальный и конечный теги".</p>
+	<p>Используйте то определение, которое вам более симпатично. По сути это одно и то же.</p>
+
+	<h1 id="title">
+		XML элементы должны соблюдать корректную вложенность
+	</h1>
+
+	<p>В HTML иногда можно наблюдать такую картину:</p>
+
+	<pre class="brush: csharp;">
+		&lt;b&gt;&lt;i&gt;Это жирный и курсивный текст&lt;/b&gt;&lt;/i&gt;
+	</pre>
+
+	<p>и иногда это даже работает должным образом.</p>
+	<p>В XML все элементы обязаны соблюдать корректную вложенность:</p>
+
+	<pre class="brush: csharp;">
+		&lt;b&gt;&lt;i&gt;Это жирный и курсивный текст&lt;/i&gt;&lt;/b&gt;
+	</pre>
+
+	<p>Понятие "корректная вложенность" по отношению к приведенным примерам просто означает, что так как элемент &lt;i&gt; открывается внутри элемента &lt;b&gt;, то и закрываться он должен внутри элемента &lt;b&gt;.</p>
+
+	<h1 id="title">
+		У XML документа должен быть корневой элемент
+	</h1>
+	
+	<p>XML документ должен содержать один элемент, который будет родительским для всех других элементов. Он называется корневым элементом.</p>
+
+	<pre class="brush: csharp;">
+		&lt;корневой&gt;
+			&lt;потомок&gt;
+				&lt;подпотомок&gt;.....&lt;/подпотомок&gt;
+			&lt;/потомок&gt;
+		&lt;/корневой&gt;
+	</pre>
+
+	<h1 id="title">
+		Значения XML атрибутов должны заключаться в кавычки
+	</h1>
+	
+	<p>Так же, как и в HTML, у XML элементов могут быть атрибуты в виде пары имя/значение.</p>
+	<p>В XML значения атрибутов должны заключаться в кавычки.</p>
+	<p>Посмотрите на следующие два примера XML документа.</p>
+	<p>Первый с ошибкой, второй написан правильно:</p>
+
+	<pre class="brush: csharp;">
+		&lt;note date=12/11/2007&gt;
+			&lt;to&gt;Tove&lt;/to&gt;
+			&lt;from&gt;Jani&lt;/from&gt;
+		&lt;/note&gt;
+
+		&lt;note date=&quot;12/11/2007&quot;&gt;
+			&lt;to&gt;Tove&lt;/to&gt;
+			&lt;from&gt;Jani&lt;/from&gt;
+		&lt;/note&gt;
+	</pre>
+
+	<p>Ошибка в первом XML документе заключается в том, что значение атрибута date элемента note не заключено в кавычки.</p>
+
+	<h1 id="title">
+		Сущности
+	</h1>
+	
+	<p>Некоторые символы в XML имеют особые значения.</p>
+	<p>Если вы поместите, например, символ &quot;&lt;&quot; внутри XML элемента, то будет сгенерирована ошибка, так как парсер интерпретирует его, как начало нового элемента.</p>
+	<p>Так, к ошибке приведет следующая строка XML документа:</p>
+
+	<pre class="brush: csharp;">
+		&lt;message&gt;если жалование &lt; 1000&lt;/message&gt;
+	</pre>
+
+	<p>Чтобы такая ошибка не возникала, нужно заменить символ &quot;&lt;&quot; на его сущность:</p>
+
+	<pre class="brush: csharp;">
+		&lt;message&gt;если жалование &lt; 1000&lt;/message&gt;
+	</pre>
+
+	<p>В XML существует 5 предопределенных сущностей:</p>
+
+	<table>
+		<tr>
+			<th>Сущность</th>
+			<th>Символ</th>
+			<th>Значение</th>
+		</tr>
+		<tr>
+			<td>&amp;lt;</td>
+			<td>&lt;</td>
+			<td>меньше, чем</td>
+		</tr>
+		<tr>
+			<td>&amp;gt;</td>
+			<td>&gt;</td>
+			<td>больше, чем</td>
+		</tr>
+		<tr>
+			<td>&amp;amp;</td>
+			<td>&amp;</td>
+			<td>амперсанд</td>
+		</tr>
+		<tr>
+			<td>&apos;</td>
+			<td>'</td>
+			<td>апостроф</td>
+		</tr>
+		<tr>
+			<td>&amp;quot;</td>
+			<td>&quot;</td>
+			<td>кавычки</td>
+		</tr>
+	</table>
+
+	<p><b>Замечание:</b> Только символы &quot;&lt;&quot; и &quot;&amp;&quot; строго запрещены в XML. Символ &quot;&gt;&quot; допустим, но лучще его всегда заменять на сущность.</p>
+
+	<h1 id="title">
+		Комментарии в XML
+	</h1>
+
+	<p>Синтаксис комментариев в XML такой же, как и в HTML.</p>
+
+	<pre class="brush: csharp;">
+		&lt;!-- Это комментарий --&gt;
+	</pre>
+	
+	<h1 id="title">
+		В XML пробелы сохраняются
+	</h1>
+	
+	<p>В HTML несколько последовательных пробельных символов усекаются до одного.</p>
+	<p>В XML документе все пробельные символы сохраняются.</p>
+
+	<h1 id="title">
+		В XML новая строка сохраняется как LF
+	</h1>
+
+	<p>В приложениях Windows новая строка хранится в следующем виде: символ перевода каретки и символ новой строки (CR+LF).</p>
+	<p>Unix и Mac OSX используют LF.</p>
+	<p>Старые Mac системы используют CR.</p>
+	<p>XML сохраняет новую строку как LF.</p>
+
+	<h1 id="title">
+		Синтаксически верный XML документ
+	</h1>
+
+	<p>Если XML документ составлен в соответствии с приведенными синтаксическими правилами, то говорят, что это "синтаксически верный" XML документ.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="4.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="6.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/book/5.html", "Правила синтаксиса XML", "bm1102"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1102", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1102") == 1) { document.getElementById("bma1102").style.display = "block"; document.getElementById("bm1102").style.display = "none"; } else { document.getElementById("bma1102").style.display = "none"; document.getElementById("bm1102").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Правила синтаксиса XML") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1102", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

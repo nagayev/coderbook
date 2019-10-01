@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma152" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm152" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Деструкторы и финализаторы
+	</h1>
+
+	<p>Деструктор — это член класса, где запрограммированы все действия, которые необходимо выполнить для уничтожения объекта класса.</p>
+	<p>Объявление деструктора:</p>
+	<p><b>extern opt ~имя_класса( )</b></p>
+	<p><b>тело_деструктора</b></p>
+	<p>Как показано в формате, имя_деструктора - это имя класса с префиксом ~ (тильда).</p>
+	<p>Других имён у деструкторов не бывает.</p>
+	<p>Деструктор в классе может быть только один.</p>
+	<p>Параметров у деструктора нет.</p>
+	<p>Нет и возвращаемого значения.</p>
+	<p>Тело деструктора это блок либо пустой оператор, обозначаемый символом точка с запятой.</p>
+	<p>Пустой оператор в качестве тела деструктора используется в том случае, если деструктор снабжён модификатором extern.</p>
+	<p>В противном случае тело деструктора это блок, включающий операторы, необходимые для уничтожения объекта.</p>
+	<p>Практически тело деструктора аналогично телу метода без параметров с возвращаемым значением типа void.</p>
+	<p>Деструктор выполняется после того как соответствующий объект класса перестаёт использоваться в программе.</p>
+	<p>Вызов деструктора выполняется автоматически.</p>
+	<p>Момент вызова конкретно не определён.</p>
+	<p>Явно вызвать деструктор из кода программы нельзя.</p>
+	<p>В следующей программе класс включает определение деструктора.</p>
+	<p>Несмотря на то, что явно деструктор в программе не вызывается, его выполнение иллюстрирует результат следующей программы (11_08.cs).</p>
+
+	<pre class="brush: csharp;">
+	// 11_08.cs деструктор
+	using System;
+	class A
+    {
+	   ~A()
+       {
+	       Console.WriteLine("Destructor!");
+	   }
+	}
+	class Test
+	{
+	   static void Main()
+	   {
+	       A b = new A();
+	       b = null;
+	   }
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Destructor!
+	</pre>
+
+	<p>В архитектуре .NET деструкторы реализуются с помощью метода с названием <b>Finalize()</b>.</p>
+	<p>Этот метод, называемый финализатором, подменяет в сборке реально использованный в коде деструктор.</p>
+	<p>Программируя на уровне языка C#, можно не обращать на это внимание, но это важно понимать, если исследовать код на языке IL.</p>
+	<p>Деструктор нужен только в том классе, который требует для создаваемого объекта выделения неуправляемых ресурсов.</p>
+	<p>Например, когда конструктор объекта связывает создаваемый объект с дескриптором файла или устанавливает сетевое соединение.</p>
+	<p>Когда объект выходит из области определения, необходимы действия по освобождению дескриптора файла или сетевого соединения.</p>
+	<p>Именно такие действия должен выполнять деструктор.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="64.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="66.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/65.html", "Деструкторы и финализаторы", "bm152"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm152", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm152") == 1) { document.getElementById("bma152").style.display = "block"; document.getElementById("bm152").style.display = "none"; } else { document.getElementById("bma152").style.display = "none"; document.getElementById("bm152").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Деструкторы и финализаторы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm152", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

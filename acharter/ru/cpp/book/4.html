@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma25" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm25" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Первая программа на С++
+	</h1>
+	
+	<p>Самая простая программа на С++, это программа, печатающая текстовое сообщение, говоря печатающая, подразумевается не печать на принтере, а  всего лишь отправка данного сообщения на стандартное устройство вывода, то есть на экран.</p>
+	<p>Проще не бывает, хотя код, содержащий только функцию <b>main()</b> и некоторые препроцессорные директивы тоже является программой, на этот раз, самой простой программой.</p>
+	<p>Рассмотрим детально каждую строку программы, печатающей текстовое сообщение.</p>
+
+	<pre class="brush: csharp;">
+	// first_program.cpp: определяет точку входа для консольного приложения.
+
+	// &lt;DEN&gt;&lt;программа печатающая текст&gt;&lt;15:40&gt;&lt;23.07.2016&gt;
+	 
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		cout << "My first program!" << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Строка 1 начинается с символов //, которые показывают, что данная строка является комментарием.</p>
+	<p>Компилятор игнорирует комментарии и поэтому они предназначены только для того, чтобы программу можно было легче читать и понимать.</p>
+	<p>Точка входа для консольного приложения — это имя программы, которое надо ввести в консоли, чтобы запустить эту программу через консоль.</p>
+	<p><i>Консоль — это набор устройств ввода/вывода присоединённых к компьютеру непосредственно(не через сеть): клавиатура, монитор, мышь.</i></p>
+	<p>В нашем случае под консолью подразумевается лишь командная строка.</p>
+	<p>Обратите внимание, в строке 2 стоит специальный комментарий, такой комментарий иногда бывает очень полезен, особенно, если необходимо покопаться в старых исходниках.</p>
+	<p>И когда натыкаешься на такой комментарий в исходниках, сразу становится понятно, о чём данная программа, да и дата написания программы лишней не будет.</p>
+	<p>А если к кому-то попадет ваш исходник, то будет известно, кто автор.</p>
+	<p>Также можно добавлять ещё и адрес электронной почты.</p>
+	<p>Чтобы в дальнейшем было удобно читать свои исходники, рекомендую комментировать в следующем формате:</p>
+
+	<pre class="brush: csharp;">
+	//<Кто написал программу><вкратце, что делает><время написания><дата написания>
+	</pre>
+
+	<h1 id="title">
+		В C++ существует два способа записи комментариев:
+	</h1>
+
+	<p>1. Две косые черты //— однострочный комментарий. Такие комментарии комментируют всю строчку, не более и не менее.</p>
+	<p>2. Многострочный комментарий. Такой комментарий начинается с символов /* и заканчивается символами */.</p>
+	<p>Если вы программируете в IDE, или специальном текстовом редакторе, то комментарии будут выделяться другим цветом, как правило зеленым, цвет комментариев зависит от среды разработки программ, например в Microsoft Visual Studio 2010 комментарии выделяются зеленым цветом.</p>
+	<p>Данная программа была написана как раз в MVS2010.</p>
+	<p>Данная среда разработки была выбрана нами в качестве основной, так как она является наиболее удобной средой разработки программ на языке программирования С++ под Windows.</p>
+	<p>Это субъективно  наше мнение, которое может не совпадать с вашим.</p>
+	<p>MVS активно развивается и улучшается корпорацией Microsoft.</p>
+	<p>Также параллельно развивается проект «RAD Studio» компании Embarcadero Technologies.</p>
+	<p>Данный проект поддерживает несколько языков программирования, в том числе и С++.</p>
+	<p>Последняя версия «RAD Studio» вышла в 2016 году, и называется «Rad Studio 2016 XE».</p>
+	<p>Так, что выбор остаётся за Вами, где творить!!!</p>
+	<p>Строки 3 и 7 пустые и нужны только для того, что бы было удобно просматривать ранее написанный код.</p>
+	<p>Оставляйте пустые строки, это поможет повысить уровень удобочитаемости исходного кода.</p>
+	<p>В строке 4 подключен так называемый «контейнер» — заголовочный файл "stdafx.h".</p>
+	<p>Данный файл предназначен для сокрытия некоторых подключаемых библиотечных файлов, так что файлы можно подключать в "stdafx.h", а в файле с функцией main() просто будет подключён данный контейнер.</p>
+	<p>Контейнер "stdafx.h" можно и не использовать, но удалять нельзя.</p>
+	<p>Такой заголовочный файл "stdafx.h" существует только в MVS.</p>
+	<p>Так что если встретите в чьём-то исходнике строку типа этой:</p>
+	
+	<pre class="brush: csharp;">
+		#include "stdafx.h"
+	</pre>
+
+	<p>знайте, что такая программа написана в Microsoft Visual Studio.</p>
+	<p>Строка 5 позволяет выводить данные на экран.</p>
+	<p>Данная строка включает в программу заголовочный файл потоков ввода/вывода.</p>
+	<p>Данный файл должен быть включен во все программы, где предусматривается вывод текста на экран или считывание его с клавиатуры.</p>
+	<p><i>Всякий оператор С++ должен оканчиваться точкой с запятой ;.Директивы препроцессора #include, фигурные скобочки {}, заголовки функций int main() не оканчиваются точкой с запятой.</i></p>
+	<p>Строку 6 подробно разберем в дальнейшем, а пока скажу, что эта строка определяет пространство имен std.</p>
+	<p>В строке 8 прописан заголовок  главной функции int main().</p>
+	<p>Так как функции в С++ мы будем рассматривать чуть позже, просто прописывайте данную строку в каждой своей программе.</p>
+	<p>Строка 10 печатает текст, находящийся в кавычках, пробелы между словами не игнорируются.</p>
+	<p>В дальнейшем текст между кавычками будем называть сообщением или строковым литералом.</p>
+	<p>Символы &lt;&lt;&lt; называются операцией передачи в поток.</p>
+	<p>Данные символы используются вместе с оператором вывода cout.</p>
+	<p>Оператор endl переносит курсор на следующую строку.</p>
+	<p>Можно было бы написать так:  <b>cout &lt;&lt; "My first program!";</b>  но тогда следующее сообщение печаталось бы в текущей строке.</p>
+	
+	<pre class="brush: csharp;">
+	My first program!Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Так как после оператора cout стоит оператор endl, то каретка переводится на следующую строку, тогда следующее сообщение будет печататься в новой строке.</p>
+
+	<pre class="brush: csharp;">
+	My first program!
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Строка 11 необходима только для того чтобы программа не завершала свою работу сразу после вывода сообщения на экран.</p>
+	<p>Попробуйте запустить программу без данной строки.</p>
+	<p>system("pause"); выполняет задержку с последующим выводом сообщения:</p>
+
+	<pre class="brush: csharp;">
+	Для продолжения нажмите любую клавишу…
+	</pre>
+
+	<p>Вот в принципе и все. Дальше рассмотрим некоторые способы форматирования выводимой на экран информации.</p>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="3.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="5.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/4.html", "Первая программа на С++", "bm25"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm25", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm25") == 1) { document.getElementById("bma25").style.display = "block"; document.getElementById("bm25").style.display = "none"; } else { document.getElementById("bma25").style.display = "none"; document.getElementById("bm25").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Первая программа на С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm25", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

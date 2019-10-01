@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1190" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1190" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Определение фикстур
+	</h1>
+
+    <p>Автоматические тесты необходимо выполнять неоднократно.</p>
+    <p>Мы хотели бы выполнять тесты в некоторых известных состояниях для гарантии повторяемости процесса тестирования.</p>
+    <p>Эти состояния называются фикстуры.</p>
+    <p>Например, для тестирования функции создания записи в приложении блога, каждый раз, когда мы выполняем тесты, таблицы, хранящие соответствующие данные о записях (например, таблицы Post, Comment), должны быть восстановлены к некоторому фиксированому состоянию.</p>
+    <p>Документация по PHPUnit хорошо описывает основную установку фикстур.</p>
+    <p>В основном в этом разделе мы описываем установку фикстур базы данных так, как мы только что описали в примере.</p>
+
+    <p>Установка фикстур базы данных является, наверное, одной из наиболее длительных частей в тестировании основанных на БД веб-приложений.</p>
+    <p>Yii вводит компонент приложения CDbFixtureManager для облегчения этой проблемы.</p>
+    <p>В основном он делает следующие вещи при выполнении ряда тестов:</p>
+
+    <p>Перед выполнением всех тестов сбрасывает все таблицы, относящиеся к тестам к некоторому известному состоянию.</p>
+    <p>Перед выполнением отдельного тестового метода сбрасывает определенные таблицы к некоторому известному состоянию.</p>
+    <p>Во время выполнения тестового метода обеспечивает доступ к строкам данных, которые вносятся в фикстуру.</p>
+    <p>Для использования компонента CDbFixtureManager, мы настраиваем его в конфигурации приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'components'=>array(
+            'fixture'=>array(
+                'class'=>'system.test.CDbFixtureManager',
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Далее мы сохраняем данные фикстуры в директории protected/tests/fixtures.</p>
+    <p>Эта директория может быть настроена свойством CDbFixtureManager::basePath конфигурации приложения.</p>
+    <p>Данные фикстур организованы как коллекция PHP-файлов, называемых файлами фикстур.</p>
+    <p>Каждый файл фикстуры возвращает массив, представляющий начальные строки данных для конкретной таблицы.</p>
+    <p>Имя файла - такое же, как название таблицы. Далее приведен пример данных фикстуры для таблицы Post, сохраненной в файле Post.php:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    return array(
+        'sample1'=>array(
+            'title'=>'Тестовая запись 1',
+            'content'=>'Содержимое тестовой записи 1',
+            'createTime'=>1230952187,
+            'authorId'=>1,
+        ),
+        'sample2'=>array(
+            'title'=>'Тестовая запись 2',
+            'content'=>'Содержимое тестовой записи 2',
+            'createTime'=>1230952287,
+            'authorId'=>1,
+        ),
+    );
+    </pre>
+
+    <p>Как видим, в коде выше возвращаются 2 строки данных.</p>
+    <p>Каждая строка представлена в виде ассоциативного массива, ключи которого — это имена столбцов, а значения - значения соответствующих столбцов.</p>
+    <p>Кроме того, каждая строка индексирована строкой (например sample1, sample2), которую называют псевдоним строки.</p>
+    <p>Позже, когда мы пишем тестовые скрипты, мы можем легко обращаться к строке по ее псевдониму.</p>
+    <p>Мы опишем это подробно в следующем разделе.</p>
+    <p>Вы могли заметить, что мы не определяем значения столбца id в коде фикстуры выше.</p>
+    <p>Это потому, что столбец id — автоинкрементный первичный ключ, значение которого будет заполнено при вставке новых строк.</p>
+    <p>При первом обращении к компоненту CDbFixtureManager он будет просматривать каждый файл фикстуры и использовать его для сброса соответствующей таблицы.</p>
+    <p>Он сбрасывает таблицу, очищая её, сбрасывая значение первичного ключа, и затем вставляя строки данных из файла фикстуры в таблицу.</p>
+    <p>Иногда мы не хотим сбрасывать каждую таблицу, имеющую файл фикстуры, прежде, чем мы выполним ряд тестов, потому что сброс слишком многих файлов фикстур может занять длительное время.</p>
+    <p>В этом случае, мы можем написать PHP-скрипт для возможности настройки работы инициализации.</p>
+    <p>PHP-скрипт должен быть сохранен в файле init.php в той же директории, что и файлы фикстур.</p>
+    <p>Когда компонент CDbFixtureManager обнаружит этот скрипт, он выполнит этот скрипт вместо того, чтобы сбрасывать каждую таблицу.</p>
+    <p>Также возможно, что нам не нравится способ сброса таблицы по умолчанию, то есть, очистка таблицы полностью и вставка данных фикстуры.</p>
+    <p>Если дело обстоит так, мы можем написать скрипт инициализации для определенного файла фикстуры.</p>
+    <p>Скрипт должен иметь имя, в начале которого идет имя таблицы, а далее - .init.php.</p>
+    <p>Например, скрипт инициализации для таблицы Post назывался бы Post.init.php.</p>
+    <p>Когда компонент CDbFixtureManager увидит этот скрипт, он выполнит скрипт вместо того, чтобы использовать значение сброса таблицы по умолчанию.</p>
+    <p><b>Подсказка:</b> Наличие большого количества файлов фикстур может сильно увеличить время выполнения теста. Поэтому, Вы должны создавать файлы фикстур только для тех таблиц, содержание которых может измениться во время теста. Таблицы, которые служат для просмотра, не изменяются и, таким образом, не нуждаются в файлах фикстур.</p>
+    <p>В следующих двух разделах мы опишем, как использовать фикстуры, которыми управляет компонент CDbFixtureManager, в модульных и функциональных тестах.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="38.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="40.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/39.html", "Определение фикстур", "bm1190"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1190", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1190") == 1) { document.getElementById("bma1190").style.display = "block"; document.getElementById("bm1190").style.display = "none"; } else { document.getElementById("bma1190").style.display = "none"; document.getElementById("bm1190").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Определение фикстур") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1190", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma699" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm699" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Окна оповещения в JavaScript
+	</h1>
+
+	<p>Окна оповещения используются в случаях, когда необходимо, чтобы пользователь обязательно обратил внимание на определенную информацию.</p>
+	<p>Когда окно оповещения будет вызвано пользователь должен будет нажать кнопку "OK" для, того чтобы продолжить просмотр страницы.</p>
+	<p><b>Синтаксис:</b></p>
+
+	<pre class="brush: csharp;">
+		alert("Текст окна оповещения");
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="alert('Текст окна оповещения');">Выполнить код</span>
+	
+	<h1 id="title">
+		Окна подтверждения в JavaScript
+	</h1>
+	
+	<p>Окна подтверждения используются в случаях когда необходимо, чтобы пользователь подтвердил или отклонил что-либо.</p>
+	<p>Когда окно подтверждения будет вызвано пользователь должен будет нажать либо "OK", либо "Отмена", чтобы продолжить.</p>
+	<p>Если пользователь нажмет "OK" вернется true (истина), если пользователь нажмет "Отмена" вернется false (ложь).</p>
+	<p><b>Синтаксис:</b></p>
+
+
+	<pre class="brush: csharp;">
+		var x=confirm("Текст окна подтверждения");
+	</pre>
+
+	<pre class="brush: csharp;">
+		//Данная функция будет вызвана после полной загрузки страницы
+		
+		function popBox()
+		{
+			/* После вызова окна подтверждения в переменную x будет возвращено true или false в зависимости от того, какую кнопку нажал пользователь */
+			x=confirm("Нажмите на любую кнопку");
+			
+			if (x==true)
+			{
+				//Если пользователь нажал OK вывести соответствующее сообщение
+				document.write('Вы нажали OK');
+			}
+			else
+			{
+				//Если пользователь нажал Отмена вывести соответствующее сообщение
+				document.write('Вы нажали Отмена.');
+			}
+		}
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+	<script type="text/javascript">
+		function popBox()
+		{
+			x=confirm("Нажмите на любую кнопку");
+			if (x==true)
+			{
+				document.getElementById('par2').innerHTML= 'Вы нажали OK';
+			}
+			else
+			{
+				document.getElementById('par2').innerHTML= 'Вы нажали Отмена.';
+			}
+		}
+	</script>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="popBox()">Выполнить код</span>
+	<p id="par2"></p>
+	
+	<h1 id="title">
+		Окна запроса в JavaScript
+	</h1>
+	
+	<p>Окна запроса используются в случаях, когда от пользователя необходимо получить определенную информацию.</p>
+	<p>Когда окно запроса будет вызвано пользователь должен будет ввести определенные данные и нажать на "OK". Если пользователь не хочет вводить данные он может нажать "Отмена" и окно сразу будет закрыто.</p>
+	<p>Если пользователь введет что-либо в окно и нажмет "OK" будет возвращено введенное пользователем значение, если пользователь нажмет "Отмена", то будет возвращено null.</p>
+	<p><b>Синтаксис:</b></p>
+	
+	<pre class="brush: csharp;">
+		var x=prompt("Текст окна запроса", "Заполнитель поля ввода");
+	</pre>
+	
+	<pre class="brush: csharp;">
+		//Функция будет вызвана после загрузки страницы
+		
+		function popBox()
+		{
+		   //Выведет окно запроса
+		   ex1=prompt("Введите Ваше имя:", "Дмитрий");
+
+		   //Отобразит имя введенное пользователем в окно запроса
+		   document.write('Ваше имя: '+ex1);
+		}
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+	<script type="text/javascript">
+		function popBox1()
+		{
+		   ex1=prompt("Введите Ваше имя:", "Дмитрий");
+		  document.getElementById('par1').innerHTML= 'Ваше имя: '+ ex1;
+		}
+	</script>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="popBox1()">Выполнить код</span>
+	<p id="par1"></p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial9.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial11.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/book/tutorial10.html", "Окна", "bm699"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm699", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm699") == 1) { document.getElementById("bma699").style.display = "block"; document.getElementById("bm699").style.display = "none"; } else { document.getElementById("bma699").style.display = "none"; document.getElementById("bm699").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Окна") == 1) { arrs.splice(i, 1); localStorage.setItem("bm699", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma837" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm837" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Операторы ввода и вывода
+	</h1>
+
+	<p>В данном разделе рассмотрим организацию ввода и вывода данных с терминального устройства.</p>
+	<p>Терминальное устройство - это устройство, с которым работает пользователь, обычно это клавиатура и экран (дисплей).</p>
+
+	<h1 id="title">
+		Ввод данных
+	</h1>
+
+	<p>Для ввода исходных данных чаще всего используется процедура ReadLn:</p>
+
+	<pre class="brush: csharp;">
+	ReadLn(A1,A2,...AK);
+	</pre>
+
+	<p>Процедура производит чтение К значений исходных данных и присваивает эти значения переменным А1, А2, ..., АК.</p>
+	<p>При вводе исходных данных происходит преобразование из внешней формы представления во внутреннюю, определяемую типом переменных.</p>
+	<p>Переменные, образующие список ввода, могут принадлежать либо к целому, либо к действительному, либо к символьному типам.</p>
+	<p>Чтение исходных данных логического типа в языке Паскаль недопустимо.</p>
+	<p>Значения исходных данных могут отделяться друг от друга пробелами и нажатием клавиш табуляции и Enter.</p>
+	<p>Не допускается разделение вводимых чисел запятыми!</p>
+
+	<h1 id="title">
+		Вывод данных
+	</h1>
+
+	<p>Для вывода результатов работы программы на экран используются процедуры:</p>
+
+	<pre class="brush: csharp;">
+	Write(A1,A2,...AK);
+	WriteLn(A1,A2,...AK);
+	</pre>
+
+	<p>Первый из этих операторов производит вывод значений переменных А1, А2,...,АК в строку экрана.</p>
+	<p>Второй оператор, в отличие от первого, не только производит вывод данных на экран, но и производит переход к началу следующей экранной строки.</p>
+	<p>Если процедура writeln используется без параметров, то она просто производит пропуск строки и переход к началу следующей строки.</p>
+	<p>Переменные, составляющие список вывода, могут относиться к целому, действительному, символьному или булевскому типам.</p>
+	<p>В качестве элемента списка вывода кроме имен переменных могут использоваться выражения и строки.</p>
+	<p>Форма представления значений в поле вывода соответствует типу переменных и выражений: величины целого типа выводятся как целые десятичные числа, действительного типа - как действительные десятичные числа с десятичным порядком, символьного типа и строки - в виде символов, логического типа - в виде логических констант TRUE и FALSE.</p>
+	<p>Оператор вывода позволяет задать ширину поля вывода для каждого элемента списка вывода.</p>
+	<p>В этом случае элемент списка вывода имеет вид А:К, где А - выражение или строка, К - выражение либо константа целого типа.</p>
+	<p>Если выводимое значение занимает в поле вывода меньше позиций, чем К, то перед этим значением располагаются пробелы.</p>
+	<p>Если выводимое значение не помещается в ширину поля К, то для этого значения будет отведено необходимое количество позиций.</p>
+	<p>Для величин действительного типа элемент списка вывода может иметь вид А:К:М, где А - переменная или выражение действительного типа, К - ширина поля вывода, М - число цифр дробной части выводимого значения.</p>
+	<p>К и М - выражения или константы целого типа.</p>
+	<p>В этом случае действительные значения выводятся в форме десятичного числа с фиксированной точкой.</p>
+	<p>Пример записи операторов вывода:</p>
+
+	<pre class="brush: csharp;">
+	var rA, rB: Real;
+	 iP,iQ:Integer;
+	 bR, bS: Boolean;
+	 chT, chV, chU, chW: Char;
+	begin
+	 . . .
+	 WriteLn(rA, rB:10:2);
+	 WriteLn(iP, iQ:8);
+	 WriteLn(bR, bS:8);
+	 WriteLn(chT, chV, chU, chW);
+	end.
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/pascal/book/13.html", "Операторы ввода и вывода", "bm837"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm837", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm837") == 1) { document.getElementById("bma837").style.display = "block"; document.getElementById("bm837").style.display = "none"; } else { document.getElementById("bma837").style.display = "none"; document.getElementById("bm837").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Операторы ввода и вывода") == 1) { arrs.splice(i, 1); localStorage.setItem("bm837", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

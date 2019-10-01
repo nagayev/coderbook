@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma71" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm71" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Передача строки в функцию
+	</h1>
+
+	<p>Просматривая статьи о функциях на разных сайтах для новичков в С++, прихожу к выводу, что, зачастую, в примерах показано, как передавать функциям, в качестве параметров, числовые типы данных (int, float, double и т.д.).</p>
+	<p>Так появилась идея написать данную статью, где на практике хочу показать, как передать строку (она же — массив символов) в функцию в виде параметра.</p>
+	<p>И просто замечательно, что в С++ таких способов несколько.</p>
+	<p>Вы можете выбрать тот, который вам просто понравится или который больше подойдет для решения поставленной перед вами задачи.</p>
+	<p>Способы передачи строки в функцию хочу показать на одном примере.</p>
+	<p>Чтобы лучше освоить материал и взять максимум пользы от прочитанного, открывайте свою среду разработки и переписывайте код по мере прочтения.</p>
+	<p>Практика – лучший способ что-то понять и запомнить.</p>
+	<p>Под примером будут расположены подробные комментарии и разъяснения по данному коду.</p>
+	<p>Приступим:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+	//определяем функции
+	//функция принимает строку, как массив
+
+	void showText1 (char str[])
+	{
+		cout << str << endl;
+	}
+
+	//указатель *str будет указывать на адрес первого символа в строке
+	void showText2 (char *str)
+	{
+		cout << str << endl;
+	}
+
+	// адрес строки из 150-ти символов
+	void showText3 (char (&str)[150])
+	{
+		cout << str << endl;
+	}
+
+	int main()
+	{
+		setlocale (LC_ALL, "rus");
+		cout << "Можно ввести строку в круглых скобках при вызове функции: " << endl;
+		showText1(" cppstudio.com ");
+		cout << endl;
+		char str1[] = "str1 - передаем, как массив в функцию void showText1 (char str[]);";
+		showText1(str1);
+		cout << endl;
+		char str2[] = "str2 - передаем, в функцию void showText2 (char *str); используя указатель.";
+		showText2(str2);
+		cout << endl;
+		char str3[150] = "str3 - передаем, в функцию void showText3 (char &str[]);\nТут используем адрес строки.";
+		showText3(str3);
+		cout << endl;
+		return 0;
+	}
+	</pre>
+
+	<p>Задача всех наших созданных функций - отобразить на экране строки, которые переданы им, как параметры.</p>
+	<p>Пойдем по порядку:</p>
+	<p>1) первый способ — функция void showText1 (char str[]) принимает строку, как массив — строка 4. При определении функции, в круглых скобках надо вписать тип массива (строки) char, имя строки и квадратные скобки []. Обратите внимание, что нам не надо указывать размерность массива (количество символов в строке). С помощью  символа '\0', который автоматически добавляется в конец любой строки, функция сама найдет последний элемент массива и прекратит вывод элементов на экран.</p>
+	<p>2) второй способ, передача строки в функцию при помощи указателя, самый распространенный вариант — строка 9. При определении функции, перед именем строки ставим оператор *  —  void showText2 (char *str).</p>
+	<p>3) ну и третий способ, передача в функцию строки по адресу — строка 14. В нашем примере это функция void showText3 (char (&str)[150]). Тут следует быть внимательным, т.к. необходимо указывать точный размер строки. Без этого компилятор выдаст ошибку. А так же важно взять в круглые скобки оператор & с именем строки — (&str). В строке 38 нашего кода,  вы можете видеть, что строка char str3[150] содержит явно меньше символов. Остальным, не инициализированным, будет присвоено значение '\0'.</p>
+	<p>Думаю, строки 23-25 говорят сами за себя и комментировать не стоит.</p>
+	<p>Иногда, так удобно сделать, не объявляя и  не определяя строку заранее.</p>
+	<p>При вызове функций все просто – надо лишь внести название необходимой строки в круглые скобки.</p>
+	<p>Строки 29, 34, 39.</p>
+	<p>Результат:</p>
+
+	<pre class="brush: csharp;">
+	Можно ввести строку в круглых скобках при вызове функции:
+	cppstudio.com
+	str1 — передаем, как массив в функцию void showText1 (char str[]);
+	str2 — передаем, в функцию void showText2 (char *str); используя указатель.
+	str3 — передаем, в функцию void showText3 (char &str[]);
+	Тут используем адрес строки (адрес первого элемента символьного массива)
+	</pre>
+
+	<p>А вот еще один пример, который покажет насколько удобно работать с указателем в функциях.</p>
+	<p>В нем функция примет, в качестве параметра, указатель на строку символов, с помощью указателя пройдет по каждой ячейке памяти строки и изменит числовые символы на знак ~ или на букву O.</p>
+	<p>В результате строка, содержащая числовые символы 1234123412341234 и т.д., с легкостью превратится в "новогоднюю гирлянду".</p>
+	<p>В этом коде указатель покажет себя, как альтернатива управляющей переменной в цикле while:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	void changeSymbol(char *str)
+	{
+		//пока значение ячейки не равно символу конца строки
+		while(*str != '\0')
+		{
+			if (*str == '4') *str = 'O';
+			else *str = '-';
+			//на каждой итерации цикла, указатель смещается на одну ячейку
+			str++;
+		}
+	}
+
+	int main()
+	{
+		setlocale(LC_ALL, "rus");
+		char str[] = {"12341234123412341234123"};
+		cout << "Исходная строка: " << str << endl << endl;
+		//передаем исходную строку в функцию
+		changeSymbol(str);
+		cout << "Измененная строка: " << str << endl << endl;
+		return 0;
+	}
+	</pre>
+
+	<p>Смотрите, как интересно получается: как мы знаем, указатель указывает на адрес первой ячейки памяти строки, т.е. в нашем случае на str[0].</p>
+	<p>Значит, используя операцию разыменовывания указателя *, мы можем посмотреть, какой символ в этой ячейке хранится и, если надо, заменить его на другой - строки 6, 8, 9.</p>
+	<p>Плюс, мы можем использовать указатель на строку, вместо управляющей переменной в нашем цикле while.</p>
+	<p>Для этого, на каждой итерации цикла, инкрементируем указатель str++ — строка 11.</p>
+	<p>Таким образом, указатель будет указывать уже на очередную ячейку памяти нашей строки.</p>
+	<p>Так будет происходить до тех пор, пока указатель не перейдет на ячейку с символом '\0'.</p>
+	<p>Тут цикл while прекратит работу.</p>
+	<p>Результат — наша "новогодняя гирлянда" :)</p>
+
+	<pre class="brush: csharp;">
+	Исходная строка: 12341234123412341234123
+	Измененная строка: ---О---О---О---О---О---
+	</pre>
+
+	<p>Каким способом передать строку в функцию — определяйтесь сами.</p>
+	<p>Если у вас остались вопросы по теме, задавайте их нам в комментариях к этой статье.</p>
+	<p>Мы вам обязательно ответим и поможем разобраться.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="49.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="51.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/50.html", "Передача строки в функцию", "bm71"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm71", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm71") == 1) { document.getElementById("bma71").style.display = "block"; document.getElementById("bm71").style.display = "none"; } else { document.getElementById("bma71").style.display = "none"; document.getElementById("bm71").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Передача строки в функцию") == 1) { arrs.splice(i, 1); localStorage.setItem("bm71", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

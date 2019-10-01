@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma134" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm134" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Соотношение фиксированных параметров и аргументов
+	</h1>
+
+	<p>Чтобы объяснить возможности и особенности разных видов параметров, начнём с того, что при обращении к методу каждый фиксированный параметр замещается некоторым аргументом.</p>
+	<p>Соответствие между параметрами и замещающими их аргументами устанавливается по их взаимному расположению, то есть параметры определены позиционно.</p>
+	<p>Аргумент, заменяющий фиксированный параметр, представляет собой выражение, тип которого совпадает или может быть приведён к типу, указанному в спецификации соответствующего параметра.</p>
+	<p>Для параметра, передаваемого по значению, при обращении к методу создаётся внутри метода временный объект, которому присваивается значение аргумента.</p>
+	<p>Имя параметра в теле метода соотнесено с этим временным объектом и никак не связано с тем конкретным аргументом, который использован в обращении вместо параметра.</p>
+	<p>Операции, выполняемые в теле метода с участием такого параметра, действуют только на временный объект, которому присвоено значение аргумента.</p>
+	<p>В Стандарте C# для иллюстрации независимости аргумента от изменений параметра, передаваемого по значению, приведена следующая программа:</p>
+
+	<pre class="brush: csharp;">
+	//09_02.cs – параметр, передаваемый по значению
+	using System;
+	class Program
+	{
+		static void F(int p)
+		{
+			p++;
+			Console.WriteLine("p = {0}", p);
+		}
+
+		static void Main( )
+		{
+			int a = 1;
+			Console.WriteLine("pre: a = {0}", a);
+			F(a);
+			Console.WriteLine("post: a = {0}", a);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	pre: a = 1
+	p = 2
+	post: a = 1
+	</pre>
+
+	<p>Изменение параметра p в теле метода F( ) не повлияло на значение аргумента a.</p>
+	<p>Таким образом, как иллюстрирует приведённый пример, параметры, передаваемые по значениям, служат для передачи данных в метод, но не позволяют вернуть какую-либо информацию из метода.</p>
+	<p>В классе может быть любое количество статических методов, и они могут беспрепятственно обращаться друг к другу.</p>
+	<p>Покажем на примере какие при этом появляются возможности.</p>
+	<p><b>Задача:</b> написать функцию (метод), возвращающую значение минимального из четырёх аргументов.</p>
+	<p>Прямой путь – использовать в теле метода вложенные условные операторы или условные выражения.</p>
+	<p>Поступим по-другому – определим вспомогательную функцию, которая возвращает минимальное значение одного из двух параметров.</p>
+	<p>Программа может быть такой:</p>
+
+	<pre class="brush: csharp;">
+	//09_03.cs – вложенные вызовы функций
+	using System;
+	class Program
+	{
+		// Вспомогательная функция:
+		static double min2(double z1, double z2)
+		{
+			return z1 < z2 ? z1 : z2;
+		}
+
+		// функция возвращает минимальное из значений параметров:
+		static double min4(double x1, double x2, double x3, double x4)
+		{
+			return min2(min2(min2(x1, x2), x3), x4);
+		}
+
+		static void Main()
+		{
+			Console.WriteLine(min4(24,8,4,0.3));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	0.3
+	</pre>
+
+	<p>В данном примере оба статических метода min2( ) и min4( ) выступают в роли функций.</p>
+	<p>Обратите внимание на вложение обращений к функции min2() в операторе return функции min4( ).</p>
+	<p>Чтобы метод мог с помощью параметров изменять внешние по отношению к методу объекты, параметры должны иметь модификатор ref, то есть передаваться по ссылке.</p>
+	<p>Для иллюстрации этой возможности модифицируем программу 09_02.cs – снабдим параметр новой функции FR( ) модификатором ref.</p>
+
+	<pre class="brush: csharp;">
+	// 09_04.cs - параметр-значение, передаваемый по ссылке
+	using System;
+	class Program
+	{
+		static void FR(ref int p)
+		{
+			p++;
+			Console.WriteLine("p = {0}", p);
+		}
+
+		static void Main()
+		{
+			int a = 1;
+			Console.WriteLine("pre: a = {0}", a);
+			FR(ref a);
+			Console.WriteLine("post: a = {0}", a);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	pre: a = 1
+	p = 2
+	post: a = 2
+	</pre>
+
+	<p>После обращения к методу FR( ) значение внешней по отношению F( ) переменной a изменилось.</p>
+	<p>Обратите внимание, что аргумент, подставляемый на место передаваемого по ссылке параметра, должен быть снабжён модификатором ref.</p>
+	<p>В качестве примера метода с параметрами, передаваемыми по ссылкам, часто рассматривают метод swap( ), меняющий местами значения двух объектов, адресованных аргументами.</p>
+	<p>Рассмотрим чуть более сложную задачу – метод упорядочения (в порядке возрастания) значений трёх целочисленных переменных.</p>
+	<p>Для демонстрации возможностей вспомогательных методов определим в том же классе метод упорядочения двух переменных(программа 09_05.cs):</p>
+
+	<pre class="brush: csharp;">
+	// Вспомогательный метод
+	static void rank2(ref int x, ref int y)
+	{
+		int m;
+		if (x > y)
+		{
+			m = x; x = y; y = m;
+		}
+	}
+	</pre>
+
+	<p>Метод rank2() играет роль процедуры – он в точку вызова ничего не возвращает, так как тип возвращаемого значения void.</p>
+	<p>Параметры – целочисленные переменные, передаваемые по ссылкам.</p>
+	<p>В теле метода объявлена вспомогательная переменная int m.</p>
+	<p>Она используется как промежуточный буфер при обмене значений параметров x и y.</p>
+	<p>Имея приведённый метод, можно написать следующую процедуру, решающую нашу задачу сортировки трёх переменных:</p>
+
+	<pre class="brush: csharp;">
+	static void rank3(ref int x1, ref int x2, ref int x3)
+	{
+		rank2(ref x1, ref x2);
+		rank2(ref x2, ref x3);
+		rank2(ref x1, ref x2);
+	}
+	</pre>
+
+	<p>В теле метода rank3( ) его параметры используются в качестве аргументов при обращениях к методу rank2( ).</p>
+	<p>Процедура rank2( ) вызывается трижды, последовательно сортируя значения, на которые указывают параметры x1, x2, затем x2, x3 и затем x1, x2.</p>
+	<p>Функция Main(), иллюстрирующая применение метода rank3():</p>
+
+	<pre class="brush: csharp;">
+	static void Main()
+	{
+		int i = 85, j = 23, k = 56;
+		rank3(ref i, ref j, ref k);
+		Console.WriteLine("i={0}, j={1}, k={2}", i, j, k);
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	i=23, j=56, k=85
+	</pre>
+
+	<p>Итак, параметры, передаваемые по ссылке, используются для изменения уже существующих значений внешних по отношению к методу объектов.</p>
+	<p>Обратите внимание, что модификатор ref используется не только перед параметром, но и перед замещающим его аргументом.</p>
+	<p>Особо отметим, что аргументом может быть только переменная (не константа и не выражение) того же типа, что и параметр.</p>
+
+	<pre class="brush: csharp;">
+	//ошибка!
+	Console.WriteLine(rank3(ref 24, ref 8, ref 4));
+
+	// ERROR - аргументы должны быть переменными!!!
+	</pre>
+
+	<p>Выходные параметры снабжаются модификатором out и позволяют присвоить значения объектам вызывающего метода даже в тех случаях, когда эти объекты значений ещё не имели.</p>
+	<p>Возникает вопрос – зачем нужен модификатор out, если те же действия обеспечивает применение модификатора ref?</p>
+	<p>Связано появление модификатора out с правилом обязательной инициализации переменных.</p>
+	<p>Модификатор out "говорит" компилятору – "не обращай внимание на отсутствие значения у переменной, которая использована в качестве аргумента", и компилятор не выдаёт сообщения об ошибке.</p>
+	<p>Однако эта переменная обязательно должна получить конкретное значение в теле метода.</p>
+	<p>В противном случае компилятор зафиксирует ошибку.</p>
+	<p>Ошибкой будет и попытка использования в теле метода значения выходного параметра без присваивания ему значения.</p>
+	<p>Метод с выходными параметрами (имеющими модификаторы ref или out) обычно выступает в роли процедуры.</p>
+	<p>Хотя не запрещено такому методу возвращать значение с помощью оператора return.</p>
+	<p>Примером такого метода служит метод TryPasre(), который мы уже использовали в примерах программ.</p>
+	<p>В качестве иллюстрации применения выходных параметров приведём метод, возвращающий целую (int integer) и дробную (double fra) части вещественного числа (double x).</p>
+	<p>В функции Main( ) определим три переменных: double real – исходное число, double dPart – дробная часть, int iPart – целая часть.</p>
+	<p>Переменная real инициализирована, переменные iPart, dPart не имеют значений до обращения к методу.</p>
+
+	<pre class="brush: csharp;">
+	//09_06.cs – параметры-результаты
+	using System;
+	class Program
+	{
+		// Метод возвращает значения целой и дробной частей
+		// вещественного параметра
+		static void fun(double x, out int integer, out double fra)
+		{
+			integer = (int)x;
+			fra = x - integer;
+		}
+		static void Main()
+		{
+			double real = 53.93;
+			double dPart;
+			int iPart;
+			fun(real, out iPart, out dPart);
+			Console.WriteLine("iPart={0}, dPart={1}",iPart, dPart);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	iPart=53, dPart=0,93
+	</pre>
+
+	<p>Необходимо отметить, что при больших значениях аргумента, заменяющего параметр double x, величина (int) x может превысить предельное значение типа int.</p>
+	<p>Это приведёт к неверным результатам за счёт переполнения, о котором мы уже говорили.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="46.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="48.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/47.html", "Соотношение параметров", "bm134"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm134", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm134") == 1) { document.getElementById("bma134").style.display = "block"; document.getElementById("bm134").style.display = "none"; } else { document.getElementById("bma134").style.display = "none"; document.getElementById("bm134").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Соотношение параметров") == 1) { arrs.splice(i, 1); localStorage.setItem("bm134", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

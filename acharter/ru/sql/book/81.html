@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1095" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1095" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Что такое индексы
+	</h1>
+
+	<p>Индексы используются для логической сортировки данных с целью повышения скорости поиска и выполнения в последующем операций сортировки.</p>
+	<p>Лучший способ понять, что такое индексы — взглянуть на предметный указатель (по-английски — "index") в конце этой книги.</p>
+	<p>Предположим, что вы хотите найти вхождения слова индекс в книге.</p>
+	<p>Простейшим способом выполнения этой задачи было бы вернуться на ее первую страницу и затем просмотреть каждую строку каждой страницы в поисках соответствий.</p>
+	<p>Хотя такой способ и применим, это, очевидно, неработоспособное решение.</p>
+	<p>Просмотреть несколько страниц текста еще можно, но просматривать подобным образом всю книгу — плохая затея.</p>
+	<p>Чем больше объем текста, в котором нужно провести поиск, тем больше времени требуется на выявление мест вхождения нужных данных.</p>
+	<p>Именно поэтому книги снабжают предметными указателями.</p>
+	<p>Предметный указатель — это список слов, расположенных в алфавитном порядке, со ссылками на страницы, на которых искомые слова упоминаются в книге.</p>
+	<p>Чтобы найти термин индекс, в предметном указателе следует определить, на каких страницах он встречается.</p>
+	<p>Что делает предметный указатель эффективным средством поиска?</p>
+	<p>Попросту говоря, тот факт, что он правильно отсортирован.</p>
+	<p>Трудность поиска слов в книге обусловлена не тем, что ее объем может быть слишком велик, скорее это обусловлено тем, что ее содержимое не отсортировано в алфавитном порядке.</p>
+	<p>Если бы оно было отсортировано подобно тому, как это делается в словарях, в предметном указателе не было бы необходимости (именно поэтому словари не снабжаются предметными указателями).</p>
+	<p>Индексы баз данных работают весьма похожим образом.</p>
+	<p>Данные первичного ключа всегда отсортированы — СУБД делает это для вас.</p>
+	<p>Выборка указанных строк по первичному ключу, таким образом, всегда гарантирует быстроту и эффективность этой операции.</p>
+	<p>Поиск значений в других столбцах, однако, выполняется уже не столь эффективно.</p>
+	<p>Что произойдет, например, если вы захотите сделать выборку всех клиентов, проживающих в определенном штате?</p>
+	<p>Поскольку таблица не отсортирована по названиям штатов, СУБД придется читать каждую строку таблицы (начиная с самой первой), отыскивая соответствия, точно так же как это сделали бы вы в поисках вхождений слов в книге, не имеющей предметного указателя.</p>
+	<p>Решение этой проблемы состоит в использовании индекса.</p>
+	<p>Вы можете определить в качестве индекса один или несколько столбцов так, чтобы СУБД хранила отсортированный список содержимого удобным для вас образом.</p>
+	<p>После того как индекс определен, СУБД использует его точно так же, как вы используете предметный указатель книги.</p>
+	<p>Она производит поиск в отсортированном индексе, чтобы найти местоположения всех соответствий и затем выбрать эти строки.</p>
+	<p>Однако прежде чем создавать множество индексов, примите во внимание следующее.</p>
+	<p>- Индексы повышают производительность операций выборки, но ухудшают производительность при выполнении таких операций, как добавление данных, их модификация и удаление.</p>
+	<p>Вызвано это тем, что при выполнении подобных операций СУБД должна еще и динамически обновлять индекс.</p>
+	<p>- Для хранения данных индекса требуется много места на жестком диске.</p>
+	<p>- Не все данные подходят для индексации.</p>
+	<p>Данные, которые не являются по своей сути уникальными (как, например, названия штатов в столбце cust_state), не дадут такого выигрыша от индексации, как данные, которые имеют больше возможных значений (как, например, имя и фамилия).</p>
+	<p>- Индексы используются для фильтрации и сортировки данных.</p>
+	<p>Если вы часто сортируете данные определенным образом, эти данные могут быть кандидатом на индексацию.</p>
+	<p>- В качестве индекса можно определить несколько столбцов (например, с названием штата и названием города).</p>
+	<p>Такой индекс можно использовать, только если данные будут отсортированы в порядке "штат плюс город".</p>
+	<p>Если вы захотите отсортировать данные по названию города, такой индекс использован не будет.</p>
+	<p>Не существует твердых правил относительно того, что и когда следует индексировать.</p>
+	<p>В большинстве СУБД предлагаются утилиты, которые можно использовать для определения эффективности индексов, ими следует регулярно пользоваться.</p>
+	<p>Индексы создаются с помощью оператора CREATE INDEX (синтаксис которого весьма различен для разных СУБД).</p>
+	<p>Посредством следующего оператора создается простой индекс для столбца с наименованием продукта таблицы Products:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	CREATE INDEX prod_name_ind
+	ON PRODUCTS (prod_name);
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Каждый индекс должен иметь уникальное имя.</p>
+	<p>В данном случае оно определено как prod_name_ind после ключевых слов CREATE INDEX.</p>
+	<p>Ключевое слово ON используется для указания таблицы, которая должна быть проиндексирована, столбцы, включаемые в индекс (в нашем примере он один), указываются в круглых скобках после имени таблицы.</p>
+	<p><b>Пересмотр индексов</b></p>
+	<p>Эффективность индексов снижается, если в таблицу добавляются данные или происходит их обновление.</p>
+	<p>Многие администраторы баз данных считают так: то, что когда-то было идеальным набором индексов, может перестать быть таковым после нескольких месяцев манипуляции с данными.</p>
+	<p>Целесообразно регулярно пересматривать индексы и при необходимости осуществлять их точную настройку.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="80.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="82.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/81.html", "Что такое индексы", "bm1095"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1095", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1095") == 1) { document.getElementById("bma1095").style.display = "block"; document.getElementById("bm1095").style.display = "none"; } else { document.getElementById("bma1095").style.display = "none"; document.getElementById("bm1095").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Что такое индексы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1095", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

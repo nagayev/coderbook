@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma642" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm642" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Ключевые слова this и super
+	</h1>
+
+	<p>Эти ключевые слова уже упоминались, рассматривались и некоторые случаи их применения.</p>
+	<p>Здесь они будут описаны более подробно.</p>
+	<p>Если выполнение кода происходит в динамическом контексте, то должен быть объект, ассоциированный с ним.</p>
+	<p>В этом случае ключевое слово this возвращает ссылку на данный объект:</p>
+
+	<pre class="brush: csharp;">
+	class Test
+	{
+		public Object getThis()
+		{
+			return this;
+			// Проверим, куда указывает эта ссылка
+		}
+
+		public static void main(String s[])
+		{
+			Test t = new Test();
+			System.out.println(t.getThis()==t);
+			// Сравнение
+		}
+	}
+	</pre>
+
+	<p>Результатом работы программы будет:</p>
+
+	<pre class="brush: csharp;">
+	true
+	</pre>
+
+	<p>То есть внутри методов слово this возвращает ссылку на объект, у которого этот метод вызван.</p>
+	<p>Оно необходимо, если нужно передать аргумент, равный ссылке на данный объект, в какой-нибудь метод.</p>
+
+	<pre class="brush: csharp;">
+	class Human
+	{
+		public static void register(Human h)
+		{
+			System.out.println(h.name+" is registered.");
+		}
+
+		private String name;
+		public Human (String s)
+		{
+			name = s;
+			// саморегистрация
+			register(this);
+		}
+
+		public static void main(String s[])
+		{
+			new Human("John");
+		}
+	}
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	John is registered.
+	</pre>
+
+	<p>Другое применение this рассматривалось в случае "затеняющих" объявлений:</p>
+
+	<pre class="brush: csharp;">
+	class Human
+	{
+		private String name;
+
+		public void setName(String name)
+		{
+			this.name=name;
+		}
+	}
+	</pre>
+
+	<p>Слово this можно использовать для обращения к полям, которые объявляются ниже:</p>
+
+	<pre class="brush: csharp;">
+	class Test
+	{
+		// int b=a; нельзя обращаться к
+		// необъявленному полю!
+		int b=this.a;
+		int a=5;
+		{
+			System.out.println("a="+a+", b="+b);
+		}
+		
+		public static void main(String s[])
+		{
+			new Test();
+		}
+	}
+	</pre>
+
+	<p>Результатом работы программы будет:</p>
+
+	<pre class="brush: csharp;">
+	a=5, b=0
+	</pre>
+
+	<p>Все происходит так же, как и для статических полей – b получает значение по умолчанию для a, т.е. ноль, а затем a инициализируется значением 5.</p>
+	<p>Наконец, слово this применяется в конструкторах для явного вызова в первой строке другого конструктора этого же класса.</p>
+	<p>Там же может применяться и слово super, только уже для обращения к конструктору родительского класса.</p>
+	<p>Другие применения слова super также связаны с обращением к родительскому классу объекта.</p>
+	<p>Например, оно может потребоваться в случае переопределения (overriding) родительского метода.</p>
+	<p>Переопределением называют объявление метода, сигнатура которого совпадает с одним из методов родительского класса.</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		public int getValue()
+		{
+			return 5;
+		}
+	}
+
+	class Child extends Parent
+	{
+		// Переопределение метода
+		public int getValue()
+		{
+			return 3;
+		}
+
+		public static void main(String s[])
+		{
+			Child c = new Child();
+			// пример вызова переопределенного метода
+			System.out.println(c.getValue());
+		}
+	}
+	</pre>
+
+	<p>Вызов переопределенного метода использует механизм полиморфизма, который подробно рассматривается в конце этой лекции.</p>
+	<p>Однако ясно, что результатом выполнения примера будет значение 3.</p>
+	<p>Невозможно, используя ссылку типа Child, получить из метода getValue() значение 5, родительский метод перекрыт и уже недоступен.</p>
+	<p>Иногда при переопределении бывает полезно воспользоваться результатом работы родительского метода.</p>
+	<p>Предположим, он делал сложные вычисления, а переопределенный метод должен вернуть округленный результат этих вычислений.</p>
+	<p>Понятно, что гораздо удобнее обратиться к родительскому методу, чем заново описывать весь алгоритм.</p>
+	<p>Здесь применяется слово super.</p>
+	<p>Из класса наследника с его помощью можно обращаться к переопределенным методам родителя:</p>
+
+	<pre class="brush: csharp;">
+	class Parent
+	{
+		public int getValue()
+		{
+			return 5;
+		}
+	}
+
+	class Child extends Parent
+	{
+		// переопределение метода
+		public int getValue()
+		{
+			// обращение к методу родителя
+			return super.getValue()+1;
+		}
+		
+		public static void main(String s[])
+		{
+			Child c = new Child();
+			System.out.println(c.getValue());
+		}
+	}
+	</pre>
+
+	<p>Результатом работы программы будет значение 6.</p>
+	<p>Обращаться с помощью ключевого слова super к переопределенному методу родителя, т.е. на два уровня наследования вверх, невозможно.</p>
+	<p>Если родительский класс переопределил функциональность своего родителя, значит, она не будет доступна его наследникам.</p>
+	<p>Поскольку ключевые слова this и super требуют наличия ассоциированного объекта, т.е. динамического контекста, использование их в статическом контексте запрещено.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="40.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="42.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/41.html", "Ключевые слова this и super", "bm642"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm642", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm642") == 1) { document.getElementById("bma642").style.display = "block"; document.getElementById("bm642").style.display = "none"; } else { document.getElementById("bma642").style.display = "none"; document.getElementById("bm642").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ключевые слова this и super") == 1) { arrs.splice(i, 1); localStorage.setItem("bm642", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

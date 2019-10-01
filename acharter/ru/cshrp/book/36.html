@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma123" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm123" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Операции над строками
+	</h1>
+
+	<p>Строки языка C# предназначены для хранения последовательностей символов, для каждого из которых отводится 2 байта, и они хранятся в кодировке Unicode (как данные типа char).</p>
+	<p>В некотором смысле строка подобна одномерному массиву с элементами типа char.</p>
+	<p>Элементы (символы строки) последовательно нумеруются, начиная с 0.</p>
+	<p>Последний символ имеет номер на 1 меньше длины строки.</p>
+	<p>Для строковых объектов определена операция индексирования:</p>
+	<p>строка[индексирующее_выражение] – это ссылка на объект класса string или строковая константа;</p>
+	<p>индексирующее_выражение – должно быть целочисленным и не может быть меньше нуля.</p>
+	<p>Результат выражения с операцией индексирования – символ (значение типа char), размещённый в той позиции строки, номер которой соответствует индексному выражению.</p>
+	<p>Если значение индекса меньше нуля, а также больше или равно длине строки, возникает исключительная ситуация (генерируется исключение).</p>
+	<p>Выражение с операцией индексирования, применённое к строке, только праводопустимое.</p>
+	<p>С его помощью запрещено (невозможно) изменить соответствующий элемент строки.</p>
+	<p>В качестве примера рассмотрим выражение, формирующее символьное представление шестнадцатеричной цифры по её десятичному значению в диапазоне от 0 до 15: <b>"0123456789ABCDEF"[ind]</b>.</p>
+	<p>Если ind ==13, то значением выражения будет 'D'.</p>
+	<p>Операция присваивания (=) для строк выполняется не так как, например, для массивов.</p>
+	<p>Когда ссылке с типом массива присваивается значения ссылки на другой уже существующий массив, изменяет только значение ссылки.</p>
+	<p>Массив, как объект, становится доступен для нескольких ссылок.</p>
+	<p>Операция присваивания для строк приводит к созданию нового экземпляра той строки, на которую ссылается выражение справа от знака операции =.</p>
+	<p>Ранее существовавшая строка никак не ассоциируется с новой ссылкой.</p>
+
+	<p>Операции сравнения на равенство == и неравенство !=, применяемые к строкам, сравнивают последовательности символов в строках.</p>
+	<p>Отметим, что для массивов сравниваются значения ссылок.</p>
+	<p>Значением выражения aSt==bSt будет true.</p>
+	<p>Конкатенацию строк выполняет операция +.</p>
+	<p>Например, после приведённого определения ссылки aSt выражение aSt+" состоит из 8 бит"приведёт к формированию строки "Байт состоит из 8 бит".</p>
+	<p>Операция + перегружена и обеспечивает конкатенацию не только двух строк, а также строки и операнда другого типа, значение которого автоматически приводится к типу string.</p>
+	<p>Например, выражение aSt+" содержит "+8+" бит"формирует строку "Байт содержит 8 бит".</p>
+	<p>Однако значением выражения aSt+" содержит "+8+aCh будет строка "Байт содержит 8 System.Char[ ]".</p>
+	<p>В этом случае ссылка на массив aCh приводится к обозначению типа символьного массива.</p>
+	<p>Значением выражения aCh.ToString( ) является "System.Char[ ]".</p>
+	<p>Операция + как конкатенация имеет тот же ранг, что и операция +, обозначающая сложение арифметических данных.</p>
+	<p>Поэтому значением выражения aSt+" содержит "+4+4+" бит"будет строка "Байт содержит 44 бит".</p>
+	<p>По-видимому, это не то, что ожидали.</p>
+	<p>Но ведь операции одного ранга выполняются слева направо.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="35.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="37.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/36.html", "Операции над строками", "bm123"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm123", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm123") == 1) { document.getElementById("bma123").style.display = "block"; document.getElementById("bm123").style.display = "none"; } else { document.getElementById("bma123").style.display = "none"; document.getElementById("bm123").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Операции над строками") == 1) { arrs.splice(i, 1); localStorage.setItem("bm123", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma918" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm918" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		SQL-инъекции
+	</h1>
+	
+	<p>Многие веб-разработчики даже не догадываются, что <b>SQL-запросы</b> могут быть подделаны, и считают, что SQL-запросы всегда достоверны.</p>
+	<p>На самом деле поддельные запросы могут обойти ограничения доступа, стандартную проверку авторизации, а некоторые виды запросов могут дать возможность выполнять команды операционной системы.</p>
+	<p>Принудительное внедрение вредоносных инструкций в SQL-запросы - методика, в которой взломщик создает или изменяет текущие SQL-запросы для работы со скрытыми данными, их изменения или даже выполнения опасных команд операционной системы на сервере базы данных.</p>
+	<p>Атака выполняется на базе приложения, строящего SQL-запросы из пользовательского ввода и статических переменных.</p>
+	<p>Следующие примеры, к сожалению, построены на реальных фактах.</p>
+	<p>Благодаря отсутствию проверки пользовательского ввода и соединением с базой данных под учетной записью суперпользователя (или любого другого пользователя, наделенного соответствующими привелегиями), взломщик может создать еще одного пользователя БД с правами суперпользователя.</p>
+	<p><b>Постраничный вывод результата... и создание суперпользователя в PostgreSQL и MySQL</b></p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			// проверка пользовательских данных отсутствует
+			$offset = argv[0];
+			$query  = "SELECT id, name FROM products ORDER BY name LIMIT 20 OFFSET $offset;";
+			
+			// используя PostgreSQL 
+			$result = pg_exec($conn, $query);
+			
+			// используя MySQL
+			$result = mysql_query($query);
+		?&gt;
+	</pre>
+	
+	<p>Обычно пользователи кликают по ссылкам 'вперед' и 'назад', вследствии чего значение переменной <b>$offset</b> заносится в адресную строку.</p>
+	<p>Скрипт ожидает, что <b>$offset</b> - десятиричное число.</p>
+	<p>Однако, взломщик может попытаться взломать систему, присоединив к строке запроса дополнительную подстроку, обработанную функцией <b>urlencode()</b>:</p>
+	
+	<pre class="brush: csharp;">
+		// используя PostgreSQL
+		0;
+		insert into pg_shadow(usename,usesysid,usesuper,usecatupd,passwd)
+		select 'crack', usesysid, 't','t','crack'
+		from pg_shadow where usename='postgres';
+		--
+		
+		// используя MySQL
+		0;
+		UPDATE user SET Password=PASSWORD('crack') WHERE user='root';
+		FLUSH PRIVILEGES;
+	</pre>
+	
+	<p>Если это произойдет, скрипт предоставит взломщику доступ к базе с правами суперпользователя.</p>
+	<p>Заметим, что 0; использован для того, чтобы задать правильное значение смещения для первого запроса и корректно его завершить.</p>
+	
+	<p><b>Обратите внимание:</b> уже привычна технология, когда разработчики указывают принудительное игнорирование парсером SQL оставшейся части запроса при помощи нотации -- , означающей комментарий.</p>
+	
+	<p>Еще один вероятный способ получить пароли учетных записей в БД - атака страниц, предоставляющих поиск по базе.</p>
+	<p>Взломщику нужно лишь проверить, используется ли в запросе передаваемая на сервер и необрабатываемая надлежащим образом переменная.</p>
+	<p>Это может быть один из устанавливаемых на предыдущей странице фильтров, таких как WHERE, ORDER BY, LIMIT и OFFSET, используемых при построении запросов SELECT.</p>
+	<p>В случае, если используемая вами база данных поддерживает конструкцию UNION, взломщик может присоединить к оригинальному запросу еще один дополнительный, для извлечения пользовательских паролей.</p>
+	<p>Настоятельно рекомендуем использовать только зашифрованные пароли.</p>
+	
+	<p><b>Листинг статей... и некоторых паролей (для любой базы данных)</b></p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$query  = "SELECT id, name, inserted, size FROM products
+			WHERE size = '$size'
+			ORDER BY $order LIMIT $limit, $offset;";
+			$result = odbc_exec($conn, $query);
+		?&gt;
+	</pre>
+	
+	<p>Статическая часть запроса может комбинироваться с другим SQL-запросом, который откроет все пароли:</p>
+	
+	<pre class="brush: csharp;">
+		'
+		union select '1', concat(uname||'-'||passwd) as name, '1971-01-01', '0' from usertable;
+		--
+	</pre>
+	
+	<p>Если этот запрос (использующий ' и --) присоединить к значению одной из переменных, используемых для формирования $query, запрос заметно преобразится.</p>
+	<p>Команды UPDATE также могут использоваться для атаки.</p>
+	<p>Опять же, есть угроза разделения инструкции на несколько запросов, присоединения дополнительного запроса.</p>
+	<p>Также взломщик может видоизменить выражение SET.</p>
+	<p>В этом случае потенциальному взломщику необходимо обладать некоторой дополнительной информацией для успешного манипулирования запросами.</p>
+	<p>Эту информацию можно получить, проанализировав используемые в форме имена переменных либо просто перебирая все наиболее распространенные варианты названия соответствующих полей (а их не так уж и много).</p>
+	
+	<p><b>От восстановления пароля... до получения дополнительных привилегий (для любой базы данных)</b></p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			$query = "UPDATE usertable SET pwd='$pwd' WHERE uid='$uid';";
+		?&gt;
+	</pre>
+	
+	<p>Но злоумышленник может ввести значение <b>' or uid like'%admin%'; -- </b>для переменной $uid для изменения пароля администратора или просто присвоить переменной $pwd значение "hehehe', admin='yes', trusted=100 " (с завершающими пробелами) для получения дополнительных привелегий.</p>
+	<p>При выполнении запросы переплетаются:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			// $uid == ' or uid like'%admin%'; --
+			$query = "UPDATE usertable SET pwd='...' WHERE uid='' or uid like '%admin%'; --";
+			
+			// $pwd == "hehehe', admin='yes', trusted=100 "
+			$query = "UPDATE usertable SET pwd='hehehe', admin='yes', trusted=100 WHERE ...;";
+		?&gt;
+	</pre>
+	
+	<p>Пугающий пример того, как на сервере баз данных могут выполняться команды операционной системы показан далее.</p>
+	<p><b>Выполнение команд операционной системы на сервере (для базы MSSQL).</b></p>
+	
+	<pre class="brush: csharp;">
+		$query  = "SELECT * FROM products WHERE id LIKE '%$prod%'";
+		$result = mssql_query($query);
+	</pre>
+	
+	<p>Если взломщик введет значениме a%' exec master..xp_cmdshell 'net user test testpass /ADD' -- для переменной $prod, тогда запрос $query будет выглядеть так:</p>
+	
+	<pre class="brush: csharp;">
+		$query  = "SELECT * FROM products
+		WHERE id LIKE '%a%'
+		exec master..xp_cmdshell 'net user test testpass /ADD'--";
+		$result = mssql_query($query);
+	</pre>
+	
+	<p>MSSQL сервер выполняет SQL-команды в пакетном режиме, в том числе и операции по заведению локальных учетных записей базы данных.</p>
+	<p>В случае, если приложение работает с привилегиями администратора и сервис MSSQL запущен с необходимыми привилегиями, выполнив приведенные выше действия, взломщик получит аккаунт для доступа к серверу.</p>
+	
+	<p><b>Обратите внимание:</b> некоторые приведенные в этой главе примеры касаются конкретной базы данных. Это не означает, что аналогичные атаки на другие программные продукты невозможны. Работоспособность вашей базы данных может быть нарушена каким-либо другим способом.</p>
+	
+	<h1 id="title">
+		Способы защиты от SQL-инъекций
+	</h1>
+	
+	<p>Вы можете утешать себя тем, что в большинстве случаев, взломщик должен обладать некоторой информацией о структуре базы данных.</p>
+	<p>Вы правы, но вы не знаете, когда и как будет предпринята попытка взлома, в случае если это произойдет ваша БД окажется незащищенной.</p>
+	<p>Если вы используете программный продукт с открытыми исходными кодами или просто общедоступный пакет для работы с базой данных (например контент менеджер или форум), взломщик легко сможет воспроизвести интересующие его участки кода.</p>
+	<p>В случае если они плохо спроектированы, это может являться одной из угроз вашей безопасности.</p>
+	<p>Большинство успешных атак основывается на коде, написанном без учета соответствующих требований безопасности.</p>
+	<p>Не доверяйте никаким вводим данным, особенно если они поступают со стороны клиента, даже если это списки в форме, скрытые поля или куки.</p>
+	<p>Приведенные примеры показывают, к каким последствиям могут привести подделанные запросы.</p>
+	
+	<p>- Старайтесь не открывать соединение с базой, используя учетную запись владельца или администратора.</p>
+	<p>Всегда старайтесь использовать специально созданных пользователей с максимально ограниченными правами.</p>
+	<p>- Всегда проверяйте введенные данные на соответствие ожидаемому типу.</p>
+	<p>В PHP есть множество функций для проверки данных: начиная от простейших Функций для работы с переменными и Функции определения типа символов (такие как <b>is_numeric()</b>, <b>ctype_digit()</b>) и заканчивая Perl-совместимыми регулярными выражениями.</p>
+	<p>- В случае, если приложение ожидает цифровой ввод, примените функцию <b>is_numeric()</b> для проверки введенных данных, или принудительно укажите их тип при помощи <b>settype()</b>, или просто используйте числовое представление при помощи функции <b>sprintf()</b>.</p>
+	
+	<p><b>Более безопасная реализация постраничной навигации:</b></p>
+	
+	<pre class="brush: csharp;">
+		settype($offset, 'integer');
+		$query = "SELECT id, name FROM products ORDER BY name LIMIT 20 OFFSET $offset;";
+		
+		// обратите внимание на формат %d, использование %s было бы бессмысленно
+		$query = sprintf("SELECT id, name FROM products ORDER BY name LIMIT 20 OFFSET %d;",
+		$offset);
+	</pre>
+	
+	<p>- Экранируйте любой нецифровой ввод, используемый в запросах к БД при помощи функций <b>addslashes()</b> или <b>addcslashes()</b>.</p>
+	<p>Обратите внимание на первый пример.</p>
+	<p>Следует помнить, что одного использования кавычек в запросе мало, это легко обойти.</p>
+	<p>- Не выводите никакой информации о БД, особенно о ее структуре.</p>
+	<p>Также ознакомьтесь с соответствующими разделами документации: Сообщения об ошибках и Функции обработки и протоколирования ошибок.</p>
+	<p>- Вы можете использовать хранимые процедуры и заранее определенные курсоры для абстрагированной работы с данными, не предоставляя пользователям прямого доступа к данным и представлениям, но это решение имеет свои особенности.</p>
+	
+	<p>Помимо всего вышесказанного, вы можете логировать запросы в вашем скрипте либо на уровне базы данных, если она это поддерживает.</p>
+	<p>Очевидно, что логирование не может предотвратить нанесение ущерба, но может помочь при трассировке взломанного приложения.</p>
+	<p>Лог-файл полезен не сам по себе, а информацией, которая в нем содержится.</p>
+	<p>Причем, в большинстве случаев полезно логировать все возможные детали.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial6.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial8.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/php/sec/tutorial7.html", "SQL-инъекции", "bm918"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm918", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm918") == 1) { document.getElementById("bma918").style.display = "block"; document.getElementById("bm918").style.display = "none"; } else { document.getElementById("bma918").style.display = "none"; document.getElementById("bm918").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("SQL-инъекции") == 1) { arrs.splice(i, 1); localStorage.setItem("bm918", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

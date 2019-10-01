@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1187" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1187" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Создание расширений Yii
+	</h1>
+
+    <p>Поскольку создание расширений подразумевает их использование сторонними разработчиками, процесс создания требует дополнительных усилий.</p>
+    <p>Ниже приведены основные правила, которые необходимо соблюдать при создании расширений:</p>
+
+    <ul>
+        <li>расширение должно быть самодостаточным, т.е. зависимость от внешних ресурсов должна быть минимальна. Очень неудобно, когда для работы расширения требуется устанавливать дополнительные пакеты, классы и иные файлы ресурсов;</li>
+        <li>все файлы расширения должны быть собраны в одной директории, имя которой должно совпадать с названием расширения;</li>
+        <li>классы расширения должны начинаться с префикса, чтобы избежать конфликтов имён с классами других расширений;</li>
+        <li>расширение должно включать подробную документацию по его установке и API, чтобы сократить время, затрачиваемое другими разработчиками на его подключение и изучение;</li>
+        <li>расширение должно использовать надлежащую лицензию. Если вы хотите, чтобы ваше расширение могло быть использовано как открытыми, так и закрытыми проектами, вы можете воспользоваться лицензиями BSD, MIT и др., но не GPL, т.к. последняя требует, чтобы код, в котором используется ваше расширение, также был открыт.</li>
+    </ul>
+
+    <p>Ниже мы расскажем о том, как создать новое расширение в соответствии с классификацией, приведённой в обзоре.</p>
+    <p>Пояснения в равной степени распространяются и на расширения, используемые исключительно в собственных проектах.</p>
+
+    <h2 id="title">
+        Компонент приложения
+    </h2>
+
+    <p>Компонент приложения должен реализовывать интерфейс IApplicationComponent или расширять класс CApplicationComponent.</p>
+    <p>Основной метод, который необходимо реализовать, — IApplicationComponent::init.</p>
+    <p>В этом методе происходит инициализация компонента.</p>
+    <p>Метод вызывается после того, как компонент создан и установлены начальные значения, указанные в конфигурации приложения.</p>
+    <p>По умолчанию компонент приложения создаётся и инициализируется только в момент первого обращения к нему в ходе обработки запроса.</p>
+    <p>Если необходимо принудительно создавать компонент сразу после создания экземпляра приложения, то нужно добавить идентификатор этого компонента в свойство CApplication::preload.</p>
+
+    <h2 id="title">
+        Поведение
+    </h2>
+
+    <p>Для того чтобы создать поведение, необходимо реализовать интерфейс IBehavior.</p>
+    <p>Для удобства в Yii имеется класс CBehavior, реализующий этот интерфейс и предоставляющий некоторые общие методы.</p>
+    <p>Наследуемые классы могут реализовать дополнительные методы, которые будут доступны в компонентах, к которым прикреплено поведение.</p>
+    <p>При разработке поведений для CModel и CActiveRecord можно наследовать классы CModelBehavior и CActiveRecordBehavior соответственно.</p>
+    <p>Эти базовые классы предоставляют дополнительные возможности, специально созданные для CModel и CActiveRecord.</p>
+    <p>К примеру, класс CActiveRecordBehavior реализует набор методов для обработки событий жизненного цикла ActiveRecord.</p>
+    <p>Наследуемый класс, таким образом, может перекрыть эти методы и выполнить код, участвующий в жизненном цикле AR.</p>
+    <p>Следующий код демонстрирует пример поведения ActiveRecord.</p>
+    <p>Если это поведение прикреплено к объекту AR и вызван метод save(), атрибутам create_time и update_time будет автоматически присвоено текущее время.</p>
+
+    <pre class="brush: csharp;">
+    class TimestampBehavior extends CActiveRecordBehavior
+    {
+        public function beforeSave($event)
+        {
+            if($this->owner->isNewRecord)
+                $this->owner->create_time=time();
+            else
+                $this->owner->update_time=time();
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Виджет
+    </h2>
+
+    <p>Виджет должен расширять класс CWidget или производные от него.</p>
+    <p>Наиболее простой способ создать виджет — расширить существующий виджет и переопределить его методы или заменить значения по умолчанию.</p>
+    <p>Например, если вы хотите заменить CSS стиль для CTabView, то, используя виджет, нужно установить свойство CTabView::cssFile.</p>
+    <p>Можно также расширить класс CTabView, чтобы при использовании виджета не требовалась постоянная конфигурация, следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    class MyTabView extends CTabView
+    {
+        public function init()
+        {
+            if($this->cssFile===null)
+            {
+                $file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
+                $this->cssFile=Yii::app()->getAssetManager()->publish($file);
+            }
+            parent::init();
+        }
+    }
+    </pre>
+
+    <p>Выше мы переопределяем метод CWidget::init и, если свойство CTabView::cssFile не установлено, присваиваем ему значение URL нового CSS стиля по умолчанию.</p>
+    <p>Файл нового CSS стиля необходимо поместить в одну папку с файлом класса MyTabView, чтобы их можно было упаковать как расширение.</p>
+    <p>Поскольку CSS стиль не доступен из веб, его необходимо опубликовать как ресурс.</p>
+    <p>Чтобы написать виджет с нуля, нужно, как правило, реализовать два метода: CWidget::init и CWidget::run.</p>
+    <p>Первый метод вызывается, когда мы используем конструкцию $this->beginWidget для вставки виджета в представление, а второй — когда используется конструкция $this->endWidget.</p>
+    <p>Если необходимо получить и обработать содержимое, заключённое между вызовами этих двух функций, то можно запустить буферизацию вывода в CWidget::init и получать сохранённый вывод для дальнейшей обработки в методе CWidget::run.</p>
+    <p>Когда виджет используется на странице, он обычно подключает CSS стили, JavaScript файлы и прочие файлы ресурсов.</p>
+    <p>Файлы такого рода называются ресурсы, поскольку они хранятся вместе с файлом класса виджета и, как правило, не доступны веб-пользователям.</p>
+    <p>Для того чтобы они стали доступны пользователям, их необходимо опубликовать, используя CWebApplication::assetManager, как показано во фрагменте кода выше.</p>
+    <p>Помимо этого, если необходимо подключить файлы CSS стилей или JavaScript на текущей странице, их необходимо зарегистрировать посредством CClientScript:</p>
+
+    <pre class="brush: csharp;">
+    class MyWidget extends CWidget
+    {
+        protected function registerClientScript()
+        {
+            // …подключаем здесь файлы CSS или JavaScript…
+            $cs=Yii::app()->clientScript;
+            $cs->registerCssFile($cssFile);
+            $cs->registerScriptFile($jsFile);
+        }
+    }
+    </pre>
+
+    <p>Виджет также может иметь собственные файлы представлений.</p>
+    <p>В этом случае необходимо создать директорию views внутри директории, содержащей файл класса виджета, и поместить в неё все файлы представлений.</p>
+    <p>Для подключения представлений виджета в его классе используется конструкция $this->render('ViewName'), аналогичная соответствующему методу контроллера.</p>
+
+    <h2 id="title">
+        Действие
+    </h2>
+
+    <p>Действие должно расширять класс CAction или производные от него.</p>
+    <p>IAction::run — основной метод, который необходимо реализовать для действия.</p>
+
+    <h2 id="title">
+        Фильтр
+    </h2>
+
+    <p>Фильтр должен расширять класс CFilter или производные от него.</p>
+    <p>Основными методами, которые необходимо реализовать, являются CFilter::preFilter и CFilter::postFilter.</p>
+    <p>Первый вызывается до выполнения действия, второй — после.</p>
+
+    <pre class="brush: csharp;">
+    class MyFilter extends CFilter
+    {
+        protected function preFilter($filterChain)
+        {
+            // применяется до выполнения действия
+            return true; // значение false возвращается, если действие не должно выполняться
+        }
+     
+        protected function postFilter($filterChain)
+        {
+            // применяется после завершения выполнения действия
+        }
+    }
+    </pre>
+
+    <p>Параметр $filterChain — экземпляр класса CFilterChain, содержащий информацию о действии, к которому применяются фильтры в настоящий момент.</p>
+
+    <h2 id="title">
+        Контроллер
+    </h2>
+
+    <p>Контроллер, распространяемый как расширение, должен наследовать класс CExtController, а не класс CController.</p>
+    <p>Основной причиной этого является то, что для класса CController предполагается, что файлы представлений располагаются в application.views.ControllerID, а для CExtController считается, что файлы представлений находятся в директории views, расположенной в той же директории, что и файл класса этого контроллера.</p>
+    <p>Очевидно, что расширение-контроллер удобнее распространять, когда все файлы расширения собраны в одном месте.</p>
+
+    <h2 id="title">
+        Валидатор
+    </h2>
+
+    <p>Валидатор должен расширять класс CValidator и реализовывать его метод CValidator::validateAttribute.</p>
+
+    <pre class="brush: csharp;">
+    class MyValidator extends CValidator
+    {
+        protected function validateAttribute($model,$attribute)
+        {
+            $value=$model->$attribute;
+            if($value has error)
+                $model->addError($attribute,$errorMessage);
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Команда консоли
+    </h2>
+
+    <p>Консольная команда должна расширять класс CConsoleCommand и реализовывать его метод CConsoleCommand::run.</p>
+    <p>При желании можно переопределить метод CConsoleCommand::getHelp, который отвечает за информационную справку по команде.</p>
+
+    <pre class="brush: csharp;">
+    class MyCommand extends CConsoleCommand
+    {
+        public function run($args)
+        {
+            // $args — массив аргументов, переданных с командой
+        }
+     
+        public function getHelp()
+        {
+            return 'Usage: how to use this command';
+        }
+    }
+    </pre>
+
+    <h2 id="title">
+        Модуль
+    </h2>
+
+    <p>Информация о порядке создания и использования модулей представлена в разделе Модуль.</p>
+    <p>Если сформулировать требования в общем виде, то модуль должен быть самодостаточным, файлы ресурсов (CSS, JavaScript, изображения), используемые модулем, должны распространяться вместе с модулем, а сам модуль должен публиковать ресурсы, чтобы они были доступны для веб-пользователей.</p>
+
+    <h2 id="title">
+        Компонент общего вида
+    </h2>
+
+    <p>Разработка компонента общего вида аналогична написанию класса.</p>
+    <p>Компонент, как и модуль, должен быть самодостаточен и удобен для использования другими разработчиками.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="35.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="37.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/36.html", "Создание расширений Yii", "bm1187"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1187", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1187") == 1) { document.getElementById("bma1187").style.display = "block"; document.getElementById("bm1187").style.display = "none"; } else { document.getElementById("bma1187").style.display = "none"; document.getElementById("bm1187").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание расширений Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1187", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

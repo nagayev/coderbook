@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma846" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm846" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Записи
+	</h1>
+
+	<p>Запись представляет собой совокупность ограниченного числа логически связанных компонент, принадлежащих к разным типам.</p>
+	<p>Компоненты записи называются полями, каждое из которых определяется именем.</p>
+	<p>Поле записи содержит имя поля, вслед за которым через двоеточие указывается тип этого поля.</p>
+	<p>Поля записи могут относиться к любому типу, допустимому в языке Паскаль, за исключением файлового типа.</p>
+	<p>Описание записи в языке Паскаль осуществляется с помощью служебного слова record, вслед за которым описываются компоненты записи.</p>
+	<p>Завершается описание записи служебным словом end.</p>
+	<p>Например, телефонный справочник содержит фамилии и номера телефонов, поэтому отдельную строку в таком справочнике удобно представить в виде следующей записи:</p>
+
+	<pre class="brush: csharp;">
+	type TRec = Record
+	FIO: String[20];
+	TEL: String[7]
+	end;
+	var rec: TRec;
+	</pre>
+
+	<p>Описание записей возможно и без использования имени типа, например:</p>
+
+	<pre class="brush: csharp;">
+	var rec: Record
+	FIO: String[20];
+	TEL: String[7]
+	end;
+	</pre>
+
+	<p>Обращение к записи в целом допускается только в операторах присваивания, где слева и справа от знака присваивания используются имена записей одинакового типа.</p>
+	<p>Во всех остальных случаях оперируют отдельными полями записей.</p>
+	<p>Чтобы обратиться к отдельной компоненте записи, необходимо задать имя записи и через точку указать имя нужного поля, например:</p>
+
+	<pre class="brush: csharp;">
+	rec.FIO, rec.TEL
+	</pre>
+
+	<p>Такое имя называется составным.</p>
+	<p>Компонентой записи может быть также запись, в таком случае составное имя будет содержать не два, а большее количество имен.</p>
+	<p>Обращение к компонентам записей можно упростить, если воспользоваться оператором присоединения with.</p>
+	<p>Он позволяет заменить составные имена, характеризующие каждое поле, просто на имена полей, а имя записи определить в операторе присоединения:</p>
+
+	<pre class="brush: csharp;">
+	with rec do оператор;
+	</pre>
+
+	<p>Здесь rec - имя записи, оператор - оператор, простой или составной.</p>
+	<p>Оператор представляет собой область действия оператора присоединения, в пределах которой можно не использовать составные имена.</p>
+	<p>Например для нашего случая:</p>
+
+	<pre class="brush: csharp;">
+	with rec do begin
+	FIO:='Иванов А.А.';
+	TEL:='2223322';
+	end;
+	</pre>
+
+	<p>Такая алгоритмическая конструкция полностью идентична следующей:</p>
+
+	<pre class="brush: csharp;">
+	rec.FIO:='Иванов А.А.';
+	rec.TEL:='2223322';
+	</pre>
+
+	<p>Инициализация записей может производиться с помощью типизированных констант:</p>
+
+	<pre class="brush: csharp;">
+	type
+	RecType = Record
+	x,y: Word;
+	ch: Char;
+	dim: Array[1..3] of Byte
+	end;
+	const
+	Rec: RecType = ( x: 127;
+	y: 255;
+	ch: 'A';
+	dim: (2, 4, 8) );
+	</pre>
+
+	<p>Особой разновидностью записей являются записи с вариантами, которые объявляются с использованием зарезервированного слова case.</p>
+	<p>С помощью записей с вариантами вы можете одновременно сохранять различные структуры данных, которые имеют большую общую часть, одинаковую во все структурах, и некоторые небольшие отличающиеся части.</p>
+	<p>Например, сконструируем запись, в которой мы будем хранить данные о некоторой геометрической фигуре (отрезок, треугольник, окружность).</p>
+
+	<pre class="brush: csharp;">
+	type
+	TFigure = record
+	type_of_figure: string[10];
+	color_of_figure: byte;
+	...
+	case integer of
+	1: (x1,y1,x2,y2: integer);
+	2: (a1,a2,b1,b2,c1,c2: integer);
+	3: (x,y: integer; radius: word);
+	end;
+	var figure: TFigure;
+	</pre>
+
+	<p>Таким образом, в переменной figure мы можем хранить данные как об отрезке, так и о треугольнике или окружности.</p>
+	<p>Надо лишь в зависимости от типа фигуры обращаться к соответствующим полям записи.</p>
+	<p>Заметим, что индивидуальные поля для каждого из типов фигур занимают тем не менее одно адресное пространство памяти, а это означает, что одновременное их использование невозможно.</p>
+	<p>В любой записи может быть только одна вариантная часть.</p>
+	<p>После окончания вариантной части в записи не могут появляться никакие другие поля.</p>
+	<p>Имена полей должны быть уникальными в пределах той записи, где они объявлены.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/pascal/book/22.html", "Записи", "bm846"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm846", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm846") == 1) { document.getElementById("bma846").style.display = "block"; document.getElementById("bm846").style.display = "none"; } else { document.getElementById("bma846").style.display = "none"; document.getElementById("bm846").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Записи") == 1) { arrs.splice(i, 1); localStorage.setItem("bm846", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

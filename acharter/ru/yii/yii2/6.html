@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1212" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1212" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Работа с формами
+	</h1>
+
+    <p>В данном разделе мы обсудим получение данных от пользователя.</p>
+    <p>На странице будет располагаться форма с полями для ввода имени и email.</p>
+    <p>Полученные данные будут показаны на странице для их подтверждения.</p>
+    <p>Чтобы достичь этой цели, помимо создания действия и двух представлений вы создадите модель.</p>
+    <p>В данном руководстве вы изучите:</p>
+
+    <ul>
+        <li>Как создать модель для данных, введённых пользователем;</li>
+        <li>Как объявить правила проверки введённых данных;</li>
+        <li>Как создать HTML форму в представлении.</li>
+    </ul>
+
+    <h2 id="title">
+        Создание модели
+    </h2>
+
+    <p>В файле models/EntryForm.php создайте класс модели EntryForm как показано ниже.</p>
+    <p>Он будет использоваться для хранения данных, введённых пользователем.</p>
+    <p>Подробно о именовании файлов классов читайте в разделе «Автозагрузка классов».</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\models;
+    
+    use yii\base\Model;
+    
+    class EntryForm extends Model
+    {
+        public $name;
+        public $email;
+    
+        public function rules()
+        {
+            return [
+                [['name', 'email'], 'required'],
+                ['email', 'email'],
+            ];
+        }
+    }
+    </pre>
+
+    <p>Данный класс расширяет класс [[yii\base\Model]], который является частью фреймворка и обычно используется для работы с данными форм.</p>
+    <p>Класс содержит 2 публичных свойства name и email, которые используются для хранения данных, введённых пользователем.</p>
+    <p>Он также содержит метод rules(), который возвращает набор правил проверки данных.</p>
+    <p>Правила, объявленные в коде выше означают следующее:</p>
+
+    <ul>
+        <li>Поля name и email обязательны для заполнения;</li>
+        <li>В поле email должен быть правильный адрес email.</li>
+    </ul>
+
+    <p>Если объект EntryForm заполнен пользовательскими данными, то для их проверки вы можете вызвать метод [[yii\base\Model::validate()|validate()]].</p>
+    <p>В случае неудачной проверки свойство [[yii\base\Model::hasErrors|hasErrors]] станет равным true.</p>
+    <p>С помощью [[yii\base\Model::getErrors|errors]] можно узнать, какие именно ошибки возникли.</p>
+
+    <h2 id="title">
+        Создание действия
+    </h2>
+
+    <p>Далее создайте действие entry в контроллере site, точно так же, как вы делали это ранее.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\controllers;
+    
+    use Yii;
+    use yii\web\Controller;
+    use app\models\EntryForm;
+    
+    class SiteController extends Controller
+    {
+        // ...существующий код...
+    
+        public function actionEntry()
+        {
+            $model = new EntryForm();
+    
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                // данные в $model удачно проверены
+    
+                // делаем что-то полезное с $model ...
+     
+                return $this->render('entry-confirm', ['model' =&gt; $model]);
+            } else {
+                // либо страница отображается первый раз, либо есть ошибка в данных
+                return $this->render('entry', ['model' =&gt; $model]);
+            }
+        }
+    }
+    </pre>
+
+    <p>Действие создает объект EntryForm.</p>
+    <p>Затем оно пытается заполнить модель данными из массива $_POST, доступ к которому обеспечивает Yii при помощи [[yii\web\Request::post()]].</p>
+    <p>Если модель успешно заполнена, то есть пользователь отправил данные из HTML формы, то для проверки данных будет вызван метод [[yii\base\Model::validate()|validate()]].</p>
+    <p>Если всё в порядке, действие отобразит представление entry-confirm, которое показывает пользователю введенные им данные.</p>
+    <p>В противном случае будет отображено представление entry, которое содержит HTML форму и ошибки проверки данных, если они есть.</p>
+    <p><b>Информация:</b> Yii::$app представляет собой глобально доступный экземпляр-одиночку приложения (singleton).</p>
+    <p>Одновременно это Service Locator, дающий доступ к компонентам вроде request, response, db и так далее.</p>
+    <p>В коде выше для доступа к данным из $_POST был использован компонент request.</p>
+
+    <h2 id="title">
+        Создание представления
+    </h2>
+
+    <p>В заключение, создаём два представления с именами entry-confirm и entry, которые отображаются действием entry из предыдущего подраздела.</p>
+    <p>Представление entry-confirm просто отображает имя и email.</p>
+    <p>Оно должно быть сохранено в файле views/site/entry-confirm.php.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    ?&gt;
+    &lt;p&gt;Вы ввели следующую информацию:&lt;/p&gt;
+    
+    &lt;ul&gt;
+        &lt;li&gt;&lt;label&gt;Name&lt;/label&gt;: &lt;?= Html::encode($model->name) ?&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;label&gt;Email&lt;/label&gt;: &lt;?= Html::encode($model->email) ?&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    </pre>
+
+    <p>Представление entry отображает HTML форму. Оно должно быть сохранено в файле views/site/entry.php.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
+    ?&gt;
+    &lt;?php $form = ActiveForm::begin(); ?&gt;
+    
+        &lt;?= $form->field($model, 'name') ?&gt;
+    
+        &lt;?= $form->field($model, 'email') ?&gt;
+    
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;?= Html::submitButton('Отправить', ['class' =&gt; 'btn btn-primary']) ?&gt;
+        &lt;/div&gt;
+    
+    &lt;?php ActiveForm::end(); ?&gt;
+    </pre>
+
+    <p>Для построения HTML формы представление использует мощный виджет [[yii\widgets\ActiveForm|ActiveForm]].</p>
+    <p>Методы begin() и end() выводят открывающий и закрывающий теги формы.</p>
+    <p>Между этими вызовами создаются поля ввода при помощи метода [[yii\widgets\ActiveForm::field()|field()]].</p>
+    <p>Первым идёт поле для "name", вторым — для "email".</p>
+    <p>Далее для генерации кнопки отправки данных вызывается метод [[yii\helpers\Html::submitButton()]].</p>
+
+    <h2 id="title">
+        Попробуем
+    </h2>
+
+    <p>Чтобы увидеть всё созданное в работе, откройте в браузере следующий URL:</p>
+
+    <pre class="brush: csharp;">
+    http://hostname/index.php?r=site%2Fentry
+    </pre>
+
+    <p>Вы увидите страницу с формой и двумя полями для ввода.</p>
+    <p>Перед каждым полем имеется подпись, которая указывает, какую информацию следует вводить.</p>
+    <p>Если вы нажмёте на кнопку отправки без ввода данных или если вы введете email в неверном формате, вы увидите сообщение с ошибкой рядом с каждым проблемным полем.</p>
+
+    <img src="y5.png" id="image" />
+
+    <p>После ввода верных данных и их отправки, вы увидите страницу с данными, которые вы только что ввели.</p>
+
+    <img src="y6.png" id="image" />
+
+    <h2 id="title">
+        Как работает вся эта «магия»
+    </h2>
+
+    <p>Вы, скорее всего, задаётесь вопросом о том, как же эта HTML форма работает на самом деле.</p>
+    <p>Весь процесс может показаться немного волшебным: то как показываются подписи к полям, ошибки проверки данных при некорректном вводе и то что всё это происходит без перезагрузки страницы.</p>
+    <p>Да, проверка данных на самом деле происходит и на стороне клиента при помощи JavaScript и на стороне сервера.</p>
+    <p>[[yii\widgets\ActiveForm]] достаточно продуман, чтобы взять правила проверки, которые вы объявили в EntryForm, преобразовать их в JavaScript код и использовать его для проведения проверок.</p>
+    <p>На случай отключения JavaScript в браузере валидация проводится и на стороне сервера как показано в методе actionEntry().</p>
+    <p>Это даёт уверенность в том, что данные корректны при любых обстоятельствах.</p>
+    <p>Подписи для полей генерируются методом field(), на основе имён свойств модели.</p>
+    <p>Например, подпись Name генерируется для свойства name.</p>
+    <p>Вы можете модифицировать подписи следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= $form->field($model, 'name')->label('Ваше имя') ?&gt;
+    &lt;?= $form->field($model, 'email')->label('Ваш Email') ?&gt;
+    </pre>
+
+    <p><b>Информация:</b> В Yii есть множество виджетов, позволяющих быстро строить сложные и динамичные представления. Как вы узнаете позже, разрабатывать новые виджеты очень просто. Многое из представлений можно вынести в виджеты, чтобы использовать это повторно в других местах и упростить тем самым разработку в будущем.</p>
+
+    <h2 id="title">
+        Заключение
+    </h2>
+
+    <p>В данном разделе вы попробовали каждую часть шаблона проектирования MVC.</p>
+    <p>Вы изучили как создавать классы моделей для обработки и проверки пользовательских данных.</p>
+    <p>Также, вы изучили как получать данные от пользователя и как показать данные пользователю.</p>
+    <p>Это задача может занимать в процессе разработки значительное время.</p>
+    <p>Yii предоставляет мощные виджеты, которые делают задачу максимально простой.</p>
+    <p>В следующем разделе вы изучите как работать с базами данных, что требуется в большинстве приложений.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/6.html", "Yii2: Работа с формами", "bm1212"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1212", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1212") == 1) { document.getElementById("bma1212").style.display = "block"; document.getElementById("bm1212").style.display = "none"; } else { document.getElementById("bma1212").style.display = "none"; document.getElementById("bm1212").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Работа с формами") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1212", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

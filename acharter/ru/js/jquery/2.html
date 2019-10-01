@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma710" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm710" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Команды jQuery
+	</h1>
+
+	<p>Код jQuery как и код JavaScript состоит из последовательно идущих команд.</p>
+	<p>Команды являются основной структурной единицей jQuery.</p>
+	<p><b>Стандартный синтаксис jQuery команд:</b></p>
+
+	<pre class="brush: csharp;">
+	$(селектор).метод();
+	</pre>
+
+	<p>1) Знак $ сообщает, что символы идущие после него являются jQuery кодом;</p>
+	<p>2) Селектор позволяет выбрать элемент на странице;</p>
+	<p>3) Метод задает действие, которое необходимо совершить над выбранным элементом. Методы в jQuery разделяются на следующие группы:</p>
+	<p>- Методы для манипулирования DOM;</p>
+	<p>- Методы для оформления элементов;</p>
+	<p>- Методы для создания AJAX запросов;</p>
+	<p>- Методы для создания эффектов;</p>
+	<p>- Методы для привязки обработчиков событий.</p>
+
+	<h1 id="title">
+		Символ $
+	</h1>
+
+	<p>jQuery можно комбинировать с обычным JavaScript.</p>
+	<p>Если строка начинается с $ - это jQuery, если $ вначале строки отсутствует - это строка JavaScript кода.</p>
+
+	<pre class="brush: csharp;">
+	function start()
+	{
+		//Скроем абзац с id="hid" с помощью jQuery
+		$("p#hid").hide();
+		
+		//Изменим содержимое абзаца с id="change"
+		document.getElementById("change").innerHTML="Данное содержимое было изменено с помощью JavaScript.";
+	}
+	</pre>
+
+	<p>Некоторые JavaScript библиотеки тоже используют $ для обозначения своего кода.</p>
+	<p>Для того, чтобы избежать конфликта имен между ними в jQuery предусмотрена команда noConflict().</p>
+	<p>С помощью команды noConflict() Вы можете заменить знак $ на любой другой.</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	var произвольное_имя=jQuery.noConflict();
+	</pre>
+
+	<pre class="brush: csharp;">
+	//Изменим стандартный символ $ на nsign
+	var nsign=jQuery.noConflict();
+
+	//Изменим цвет абзаца используя nsign вместо $
+	nsign(document).ready(function()
+	{
+		nsign("p").css("color","green");
+	});
+	</pre>
+
+	<h1 id="title">
+		Селекторы jQuery
+	</h1>
+
+	<p>С помощью селекторов Вы можете выбирать элементы на странице для применения к ним определенных действий.</p>
+	<p>Ниже располагается таблица с различными примерами использования селекторов для выбора желаемых элементов:</p>
+
+	<table>
+		<tr>
+			<th>Пример</th>
+			<th>Результат</th>
+		</tr>
+		<tr>
+			<td>$("p")</td>
+			<td>Будут выбраны все элементы p, которые находятся на странице.</td>
+		</tr>
+		<tr>
+			<td>$(".par")</td>
+			<td>Будут выбраны все элементы на странице с class="par".</td>
+		</tr>
+		<tr>
+			<td>$("#par")</td>
+			<td>Будет выбран первый элемент на странице с id="par".</td>
+		</tr>
+		<tr>
+			<td>$(this)</td>
+			<td>Позволяет выбрать текущий HTML элемент. Щелкните на $(this) слева, чтобы посмотреть пример использования данного селектора в онлайн редакторе.</td>
+		</tr>
+		<tr>
+			<td>$("p.par")</td>
+			<td>Будут выбраны все элементы p на странице с class="par".</td>
+		</tr>
+		<tr>
+			<td>$("p#par")</td>
+			<td>Будут выбраны все элементы p на странице с id="par".</td>
+		</tr>
+		<tr>
+			<td>$(".par,.header,#heat")</td>
+			<td>Будут выбраны все элементы на странице со значениями атрибутов class="par", class="header" и id='heat'.</td>
+		</tr>
+		<tr>
+			<td>$("[src]")</td>
+			<td>Будут выбраны все элементы на странице, имеющие атрибут src.</td>
+		</tr>
+		<tr>
+			<td>$("[src='значение']")</td>
+			<td>Будут выбраны все элементы со значениям атрибута src="значение".</td>
+		</tr>
+		<tr>
+			<td>$("[src$='.gif']")</td>
+			<td>Будут выбраны все элементы со значениями атрибута src заканчивающимися на .gif.</td>
+		</tr>
+		<tr>
+			<td>$("div#wrap .par1")</td>
+			<td>Будут выбраны все элементы с class=par1, которые находятся внутри элементов div с id=wrap.</td>
+		</tr>
+		<tr>
+			<td>$(":input")</td>
+			<td>Будут выбраны все input элементы на странице.</td>
+		</tr>
+		<tr>
+			<td>$(":тип")</td>
+			<td>Будут выбраны все input элементы с &lt;input type=&apos;&tcy;&icy;&pcy;&apos; /&gt;.<br /><br />Например :button выберет все &lt;input type=&apos;button&apos; /&gt; элементы, :text выберет все &lt;input type=&apos;text&apos; /&gt; элементы и т.д.</td>
+		</tr>
+	</table>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		//Установим размер шрифта всех абзацев равным 20 пикселям
+		$("p").css("fontSize","20px");
+	
+		//Изменим на зеленый цвет шрифта элемента с id=el2
+		$("#el2").css("color","green");
+	
+		//Изменим на красный цвет шрифта элемента с class=el3
+		$(".el3").css("color","red");
+	
+		//Сделаем жирным шрифт элементов с id=el2 и class=el3
+		$("#el2,.el3").css("fontWeight","bold");
+	
+		//Изменим на синий цвет текста кнопки
+		$(":input").css("color","blue");
+	
+		//Установим размер шрифта всех элементов имеющих атрибут href равным 20 пикселям
+		$("[href]").css("fontSize","20px");
+	
+		//Изменим на зеленый цвет ссылки на www.wisdomweb.ru
+		$("[href='http://www.wisdomweb.ru/']").css("color","green");
+	});
+	</pre>
+
+	<p>Полный список селекторов jQuery Вы можете найти в jQuery справочнике.</p>
+
+	<h1 id="title">
+		Предотвращение преждевременного выполнения кода
+	</h1>
+
+	<p>Из учебника по JavaScript Вы наверно помните, что выполнение кода до полной загрузки документа часто приводит к ошибкам.</p>
+	<p>Дело в том, что скрипт может обратится к еще не загруженному содержимому, а это всегда приводит к ошибкам или неожиданным результатам.</p>
+	<p>Для того, чтобы избежать этого мы часто помещали код в функцию, которая начинала выполнение только после полной загрузки документа.</p>
+	<p>Предотвращение преждевременного выполнения кода в JavaScript:</p>
+
+	<pre class="brush: csharp;">
+		&lt;html&gt;
+		&#x9;&lt;head&gt;
+		&#x9;&#x9;&lt;script type=&quot;text/javascript&quot;&gt;
+				function start()
+				{
+					Код который будет выполнен после полной загрузки документа
+				}
+			&#x9;&lt;/script&gt;
+			&lt;/head&gt;
+			
+		&#x9;&lt;body onload=&quot;start()&quot;&gt;
+		&#x9;&lt;/body&gt;
+		&lt;/html&gt;
+	</pre>
+
+	<p>В jQuery можно избавиться от преждевременного выполнения кода следующими способами:</p>
+	<p>Предотвращение преждевременного выполнения кода в jQuery:</p>
+
+	<pre class="brush: csharp;">
+		&lt;script type=&apos;text/javascript&apos;&gt;
+			//Первый способ:
+			$(document).ready(function()
+			{
+				Код который будет выполнен после полной загрузки документа
+			});
+		
+			//Второй способ:
+			$().ready(function()
+			{
+				Код который будет выполнен после полной загрузки документа
+			});
+		
+			//Третий способ:
+			$(function()
+			{
+				Код который будет выполнен после полной загрузки документа
+			});
+		&lt;/script&gt;
+	</pre>
+
+	<p>Существует еще один альтернативный способ также помогающий избежать преждевременное выполнение JavaScript и jQuery кода и позволяющий также ускорить загрузку страниц (благодарим за напоминание о нем пользователя Ghringo Americano).</p>
+	<p>Необходимо помещать код в самый конец тела документа (т.е. перед &lt;/body&gt;) в данном случае интерпретатор JavaScript встроенный в браузер начнет разбирать код только после загрузки документа.</p>
+	<p>В предыдущем же способе загрузка скриптов происходит одновременно с загрузкой документа, а выполняется этот код после загрузки документа.</p>
+
+	<pre class="brush: csharp;">
+		&lt;body&gt;
+		&#x9;&lt;p&gt;Содержимое тела документа&lt;/p&gt;
+			&lt;div&gt;Содержимое тела документа&lt;/div&gt;
+			
+			&lt;script type=&apos;text/javascript&apos;&gt;
+				Код который будет выполнен после полной загрузки документа
+			&lt;/script&gt;
+		&lt;/body&gt;
+	</pre>
+
+	<h1 id="title">
+		Цепочки команд в jQuery
+	</h1>
+
+	<p>Для того, чтобы сократить размер кода Вы можете соединять команды jQuery в цепочки.</p>
+	<p>Команды в цепочке будут выполняться поочередно слева направо.</p>
+
+	<pre class="brush: csharp;">
+		&lt;script type=&apos;text/javascript&apos;&gt;
+			//Код без сокращения
+			$("p").css("color","green");
+			$("p").css("font-size","30px");
+			
+			//Сокращенный код
+			$("p").css("color","green").css("font-size","30px");
+		&lt;/script&gt;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="1.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="3.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/jquery/2.html", "jQuery Селекторы", "bm710"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm710", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm710") == 1) { document.getElementById("bma710").style.display = "block"; document.getElementById("bm710").style.display = "none"; } else { document.getElementById("bma710").style.display = "none"; document.getElementById("bm710").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("jQuery Селекторы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm710", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

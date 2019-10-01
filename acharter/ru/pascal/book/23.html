@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma847" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm847" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Файлы
+	</h1>
+
+	<p>Введение файлового типа в язык Паскаль вызвано необходимостью обеспечить возможность работы с периферийными (внешними) устройствами ЭВМ, предназначенными для ввода, вывода и хранения данных.</p>
+	<p>Файловый тип данных или файл определяет упорядоченную совокупность произвольного числа однотипных компонент.</p>
+	<p>Понятие файла достаточно широко. Это может быть обычный файл на диске, коммуникационный порт ЭВМ, устройство печати, клавиатура или другие устройства.</p>
+	<p>При работе с файлами выполняются операции ввода - вывода.</p>
+	<p>Операция ввода означает перепись данных с внешнего устройства (из входного файла) в основную память ЭВМ, операция вывода - это пересылка данных из основной памяти на внешнее устройство (в выходной файл).</p>
+	<p>Файлы на внешних устройствах часто называют физическими файлами. Их имена определяются операционной системой.</p>
+	<p>В программах на языке Паскаль имена файлов задаются с помощью строк.</p>
+	<p>Например, имя файла на диске может иметь вид:</p>
+
+	<pre class="brush: csharp;">
+	'LAB1.DAT'
+	'c:\ABC150\pr.txt'
+	'my_files'
+	</pre>
+
+	<h1 id="title">
+		Типы файлов Турбо Паскаль
+	</h1>
+
+	<p>Турбо Паскаль поддерживает три файловых типа:</p>
+	<p>- текстовые файлы;</p>
+	<p>- типизированные файлы;</p>
+	<p>- нетипизированные файлы.</p>
+	<p>Доступ к файлу в программе происходит с помощью переменных файлового типа.</p>
+	<p>Переменную файлового типа описывают одним из трех способов:</p>
+	<p><b>file of</b> тип - типизированный файл (указан тип компоненты);</p>
+	<p><b>text</b> - текстовый файл;</p>
+	<p><b>file</b> - нетипизированный файл.</p>
+	<p>Примеры описания файловых переменных:</p>
+
+	<pre class="brush: csharp;">
+	var
+	f1: file of char;
+	f2: file of integer;
+	f3: file;
+	t: text;
+	</pre>
+
+	<h1 id="title">
+		Стандартные процедуры и функции
+	</h1>
+
+	<p>Любые дисковые файлы становятся доступными программе после связывания их с файловой переменной, объявленной в программе.</p>
+	<p>Все операции в программе производятся только с помощью связанной с ним файловой переменной.</p>
+
+	<pre class="brush: csharp;">
+	Assign(f, FileName)
+	</pre>
+
+	<p>связывает файловую переменную f с физическим файлом, полное имя которого задано в строке FileName.</p>
+	<p>Установленная связь будет действовать до конца работы программы, или до тех пор, пока не будет сделано переназначение.</p>
+	<p>После связи файловой переменной с дисковым именем файла в программе нужно указать направление передачи данных (открыть файл).</p>
+	<p>В зависимости от этого направления говорят о чтении из файла или записи в файл.</p>
+
+	<pre class="brush: csharp;">
+	Reset(f)
+	</pre>
+
+	<p>открывает для чтения файл, с которым связана файловая переменная f.</p>
+	<p>После успешного выполнения процедуры Reset файл готов к чтению из него первого элемента.</p>
+	<p>Процедура завершается с сообщением об ошибке, если указанный файл не найден.</p>
+	<p>Если f - типизированный файл, то процедурой reset он открывается для чтения и записи одновременно.</p>
+
+	<pre class="brush: csharp;">
+	Rewrite(f)
+	</pre>
+
+	<p>открывает для записи файл, с которым связана файловая переменная f.</p>
+	<p>После успешного выполнения этой процедуры файл готов к записи в него первого элемента.</p>
+	<p>Если указанный файл уже существовал, то все данные из него уничтожаются.</p>
+
+	<pre class="brush: csharp;">
+	Close(f)
+	</pre>
+
+	<p>закрывает открытый до этого файл с файловой переменной f.</p>
+	<p>Вызов процедуры Close необходим при завершении работы с файлом.</p>
+	<p>Если по какой-то причине процедура Close не будет выполнена, файл все-же будет создан на внешнем устройстве, но содержимое последнего буфера в него не будет перенесено.</p>
+
+	<pre class="brush: csharp;">
+	EOF(f): boolean
+	</pre>
+
+	<p>возвращает значение TRUE, когда при чтении достигнут конец файла.</p>
+	<p>Это означает, что уже прочитан последний элемент в файле или файл после открытия оказался пуст.</p>
+
+	<pre class="brush: csharp;">
+	Rename(f, NewName)
+	</pre>
+
+	<p>позволяет переименовать физический файл на диске, связанный с файловой переменной f.</p>
+	<p>Переименование возможно после закрытия файла.</p>
+
+	<pre class="brush: csharp;">
+	Erase(f)
+	</pre>
+
+	<p>уничтожает физический файл на диске, который был связан с файловой переменной f.</p>
+	<p>Файл к моменту вызова процедуры Erase должен быть закрыт.</p>
+
+	<pre class="brush: csharp;">
+	IOResult
+	</pre>
+
+	<p>возвращает целое число, соответствующее коду последней ошибки ввода - вывода.</p>
+	<p>При нормальном завершении операции функция вернет значение 0.</p>
+	<p>Значение функции IOResult необходимо присваивать какой-либо переменной, так как при каждом вызове функция обнуляет свое значение.</p>
+	<p>Функция IOResult работает только при выключенном режиме проверок ошибок ввода - вывода или с ключом компиляции {$I-}.</p>
+
+	<h1 id="title">
+		Работа с типизированными файлами
+	</h1>
+
+	<p>Типизированный файл - это последовательность компонент любого заданного типа (кроме типа "файл").</p>
+	<p>Доступ к компонентам файла осуществляется по их порядковым номерам.</p>
+	<p>Компоненты нумеруются, начиная с 0.</p>
+	<p>После открытия файла указатель (номер текущей компоненты) стоит в его начале на нулевом компоненте.</p>
+	<p>После каждого чтения или записи указатель сдвигается к следующему компоненту.</p>
+	<p>Запись в файл:</p>
+
+	<pre class="brush: csharp;">
+	Write(f, список переменных);
+	</pre>
+
+	<p>Процедура записывает в файл f всю информацию из списка переменных.</p>
+	<p>Чтение из файла:</p>
+
+	<pre class="brush: csharp;">
+	Read(f, список переменных);
+	</pre>
+
+	<p>Процедура читает из файла f компоненты в указанные переменные.</p>
+	<p>Тип файловых компонент и переменных должны совпадать.</p>
+	<p>Если будет сделана попытка чтения несуществующих компонент, то произойдет ошибочное завершение программы.</p>
+	<p>Необходимо либо точно рассчитывать количество компонент, либо перед каждым чтением данных делать проверку их существования (функция eof, см. выше)</p>
+	<p>Смещение указателя файла:</p>
+
+	<pre class="brush: csharp;">
+	Seek(f, n);
+	</pre>
+
+	<p>Процедура смещает указатель файла f на n-ную позицию.</p>
+	<p>Нумерация в файле начинается с 0.</p>
+	<p>Определение количества компонент:</p>
+
+	<pre class="brush: csharp;">
+	FileSize(f): longint;
+	</pre>
+
+	<p>Функция возвращает количество компонент в файле f.</p>
+	<p>Определение позиции указателя:</p>
+
+	<pre class="brush: csharp;">
+	FilePos(f): longint;
+	</pre>
+
+	<p>Функция возвращает порядковый номер текущего компонента файла f.</p>
+	<p>Отсечение последних компонент файла:</p>
+
+	<pre class="brush: csharp;">
+	Truncate(f);
+	</pre>
+
+	<p>Процедура отсекает конец файла, начиная с текущей позиции включительно.</p>
+
+	<h1 id="title">
+		Работа с текстовыми файлами
+	</h1>
+
+	<p>Текстовый файл - это совокупность строк, разделенных метками конца строки.</p>
+	<p>Сам файл заканчивается меткой конца файла.</p>
+	<p>Доступ к каждой строке возможен лишь последовательно, начиная с первой.</p>
+	<p>Одновременная запись и чтение запрещены.</p>
+	<p>Чтение из текстового файла:</p>
+
+	<pre class="brush: csharp;">
+	Read(f, список переменных);
+	ReadLn(f, список переменных);
+	</pre>
+
+	<p>Процедуры читают информацию из файла f в переменные.</p>
+	<p>Способ чтения зависит от типа переменных, стоящих в списке.</p>
+	<p>В переменную char помещаются символы из файла.</p>
+	<p>В числовую переменную: пропускаются символы-разделители, начальные пробелы и считывается значение числа до появления следующего разделителя.</p>
+	<p>В переменную типа string помещается количество символов, равное длине строки, но только в том случае, если раньше не встретились символы конца строки или конца файла.</p>
+	<p>Отличие ReadLn от Read в том, что в нем после прочтения данных пропускаются все оставшиеся символы в данной строке, включая метку конца строки.</p>
+	<p>Если список переменных отсутствует, то процедура ReadLn(f) пропускает строку при чтении текстового файла.</p>
+	<p>Запись в текстовый файл:</p>
+
+	<pre class="brush: csharp;">
+	Write(f, список переменных);
+	WriteLn(f, список переменных);
+	</pre>
+
+	<p>Процедуры записывают информацию в текстовый файл.</p>
+	<p>Способ записи зависит от типа переменных в списке (как и при выводе на экран).</p>
+	<p>Учитывается формат вывода.</p>
+	<p>WriteLn от Write отличается тем, что после записи всех значений из переменных записывает еще и метку конца строки (формируется законченная строка файла).</p>
+	<p>Добавление информации к концу файла:</p>
+
+	<pre class="brush: csharp;">
+	Append(f)
+	</pre>
+
+	<p>Процедура открывает текстовый файл для добавления информации к его концу.</p>
+	<p>Используйте эту процедуру вместо Rewrite.</p>
+
+	<h1 id="title">
+		Работа с нетипизированными файлами
+	</h1>
+
+	<p>Нетипизированные файлы - это последовательность компонент произвольного типа.</p>
+	<p>Открытие нетипизированного файла:</p>
+
+	<pre class="brush: csharp;">
+	Reset(f, BufSize)
+	Rewrite(f, BufSize)
+	</pre>
+
+	<p>Параметр BufSize задает число байтов, считываемых из файла или записываемых в него за одно обращение.</p>
+	<p>Минимальное значение BufSize - 1 байт, максимальное - 64 К байт.</p>
+	<p>Если BufSize не указан, то по умолчанию он принимается равным 128.</p>
+	<p>Чтение данных из нетипизированного файла:</p>
+
+	<pre class="brush: csharp;">
+	BlockRead(f, X, Count, QuantBlock);
+	</pre>
+
+	<p>Эта процедура осуществляет за одно обращение чтение в переменную X количества блоков, заданное параметром Count, при этом длина блока равна длине буфера.</p>
+	<p>Значение Count не может быть меньше 1.</p>
+	<p>За одно обращение нельзя прочесть больше, чем 64 К байтов.</p>
+	<p>Необязательный параметр QuantBlock возвращает число блоков, прочитанных текущей операцией BlockRead.</p>
+	<p>В случае успешного завершения операции чтения QuantBlock = Count, в случае аварийной ситуации параметр QuantBlock будет содержать число удачно прочитанных блоков.</p>
+	<p>Отсюда следует, что с помощью параметра QuantBlock можно контролировать правильность выполнения операции чтения.</p>
+	<p>Запись данных в нетипизированный файл:</p>
+
+	<pre class="brush: csharp;">
+	BlockWrite(f, X, Count, QuantBlock);
+	</pre>
+
+	<p>Эта процедура осуществляет за одно обращение запись из переменной X количества блоков, заданное параметром Count, при этом длина блока равна длине буфера.</p>
+	<p>Необязательный параметр QuantBlock возвращает число блоков, записанных успешно текущей операцией BlockWrite.</p>
+	<p>Для нетипизированных файлов можно использовать процедуры Seek, FIlePos и FileSize, аналогично соответствующим процедурам типизированных файлов.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="22.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/pascal/book/23.html", "Файлы", "bm847"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm847", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm847") == 1) { document.getElementById("bma847").style.display = "block"; document.getElementById("bm847").style.display = "none"; } else { document.getElementById("bma847").style.display = "none"; document.getElementById("bm847").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Файлы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm847", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

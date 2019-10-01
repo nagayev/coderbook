@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma165" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm165" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Применение абстрактых классов
+	</h1>
+
+	<p>Мы уже отметили, что нельзя создать объект абстрактного класса.</p>
+	<p>Однако, можно объявить ссылку с типом абстрактного класса.</p>
+	<p>Такая ссылка может служить параметром метода и возвращаемым значением метода.</p>
+	<p>В обоих случаях ссылка представляет объект того конкретного класса, который является производным от абстрактного.</p>
+	<p>В качестве примера обратимся ещё раз к абстрактному классу Figure и производным от него классам Rectangle и Triangle.</p>
+	<p>В этих классах определены методы square(), возвращающие значения площадей объектов конкретных классов (не абстрактных).</p>
+	<p>Следующий метод позволяет вывести значение любого объекта классов Triangle и Rectangle (программа 13_13.cs).</p>
+
+	<pre class="brush: csharp;">
+	static void figSq(Figure f)
+	{
+		Console.WriteLine("Площадь = " + f.square());
+	}
+	</pre>
+
+	<p>Можно определять массивы ссылок с типами абстрактных классов.</p>
+	<p>Значениями этих ссылок должны быть "адреса" объектов конкретных классов, реализующих базовый.</p>
+	<p>Следующий метод возвращает ссылку с типом абстрактного класса:</p>
+
+	<pre class="brush: csharp;">
+	static Figure figRec(Figure[] ar, int n)
+	{
+		return ar[n];
+	}
+	</pre>
+
+	<p>Параметры метода – ссылка на массив ссылок с типом Figure и целое n, определяющее индекс элемента этого массива.</p>
+	<p>Возвращаемое значение метода – значение элемента массива.</p>
+	<p>При обращении к методу в качестве аргумента используется ссылка на массив с типом элементов Figure.</p>
+	<p>Каждому элементу массива–аргумента должно быть присвоено значение ссылки на объект конкретного класса, производного от Figure.</p>
+	<p>В следующем фрагменте программы определён массив ссылок с типом Figure.</p>
+	<p>Его элементам присвоены ссылки на объекты классов Rectangle и Triangle.</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static void figSq(Figure f)
+		{
+			Console.WriteLine("Площадь = " + f.square( ));
+		}
+		static Figure figRec(Figure[ ] ar, int n) { return ar[n]; }
+		static void Main( )
+		{
+			Figure[ ] arF = new Figure[4];
+			arF[0] = new Rectangle(3.0, 4.0);
+			arF[1] = new Triangle(5.0, 4.0);
+			Triangle tri = new Triangle(8.0, 4.0);
+			arF[2] = tri;
+			Rectangle rec = new Rectangle(1.0, 3.0);
+			arF[3] = rec;
+			for (int i = 0; i < arF.Length; i++)
+			{
+				Figure f = figRec(arF, i);
+				figSq(f);
+			}
+			Console.WriteLine("Типы элементов массива: ");
+			foreach (Figure g in arF)
+			Console.WriteLine(g.GetType( ));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Площадь = 12
+	Площадь = 10
+	Площадь = 16
+	Площадь = 3
+	Типы элементов массива:
+	Rectangle
+	Triangle
+	Triangle
+	Rectangle
+	</pre>
+
+	<p>В программе элементы массива arF обрабатываются в двух циклах.</p>
+	<p>В цикле с заголовком for переменной Figure f присваиваются значения, возвращаемые методом figRec().</p>
+	<p>Затем f используется в качестве аргумента метода figSq().</p>
+	<p>Тем самым выводятся значения площадей всех фигур, "адресованных" элементами массива arF.</p>
+	<p>В цикле с заголовком foreach перебираются все элементы массива arF и к каждому значению элемента, которое присвоено переменной Figure g, применяется метод GetType().</p>
+	<p>Результат – список названий классов, реализовавших абстрактный класс Figure.</p>
+	<p>Возможность присваивать элементам массива с типом абстрактного класса ссылок на объекты любых классов, реализовавших абстрактный, является очень сильным средством полифоризма.</p>
+	<p>Не меньше возможности обеспечивает применение ссылок с типом абстрактного класса в качестве параметров и возвращаемых методами значений.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="77.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="79.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/78.html", "Применение классов", "bm165"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm165", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm165") == 1) { document.getElementById("bma165").style.display = "block"; document.getElementById("bm165").style.display = "none"; } else { document.getElementById("bma165").style.display = "none"; document.getElementById("bm165").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Применение классов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm165", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

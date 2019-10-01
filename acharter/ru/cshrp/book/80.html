@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma167" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm167" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Объявления интерфейсов
+	</h1>
+
+	<p>Будем рассматривать интерфейсы, объявления которых имеют следующий формат:</p>
+	<p><b>модификатор_интерфейсаopt interface</b></p>
+	<p><b>имя_интерфейса</b></p>
+	<p><b>спецификация_базы_интерфейсаopt</b></p>
+	<p><b>тело_интерфейсаopt</b></p>
+	<p>Необязательные модификаторы интерфейса это: new, public, protected, internal, private.</p>
+	<p>Все перечисленные модификаторы нам уже знакомы.</p>
+	<p>Обратите внимание, что для интерфейса нельзя использовать модификатор static.</p>
+	<p>interface – служебное слово, вводящее объявление интерфейса;</p>
+	<p>Имя_интерфейса – идентификатор, выбираемый автором интерфейса.</p>
+	<p>Принято начинать имя интерфейса с заглавной буквы I, за которой помещать осмысленное название, которое тоже начинается с заглавной буквы.</p>
+	<p>Спецификация_базы_интерфейса – предваряемый двоеточием список интерфейсов, производными от которых является данный интерфейс.</p>
+	<p>В отличие от наследования классов, где может быть только один базовый класс, базовых интерфейсов может быть любое количество.</p>
+	<p>Тело_интерфейса – заключённая в фигурные скобки последовательность деклараций (описаний или прототипов) членов интерфейса.</p>
+	<p>Ими могут быть (как мы уже отметили):</p>
+	<p>- декларация метода;</p>
+	<p>- декларация свойства;</p>
+	<p>- декларация индексатора;</p>
+	<p>- декларация события.</p>
+	<p>В любую из перечисленных деклараций членов интерфейса может входить только модификатор new.</p>
+	<p>Его роль та же что и в декларациях членов класса.</p>
+	<p>Другие модификаторы в декларации членов интерфейса не входят.</p>
+	<p>По умолчанию все члены интерфейса являются открытыми, т.е. им приписывается статус доступа, соответствующий модификатору public.</p>
+	<p>Формат простейшего объявления интерфейса (без спецификации базы):</p>
+
+	<pre class="brush: csharp;">
+	interface имя_интерфейса
+	{
+		тип имя_метода(спецификация_параметров);
+		тип имя_свойства{get; set;}
+		тип this [спецификация_индекса] {get; set;}
+		event обработчик_события имя_события;
+	}
+	</pre>
+
+	<p>Как видно из формата, ни один из членов интерфейса не содержит операторов, задающих конкретные действия.</p>
+	<p>В интерфейсе только прототипы методов, свойств, индексаторов, событий.</p>
+	<p>Прежде чем давать другие пояснения, приведём пример объявления интерфейса (с прототипами методов и свойств):</p>
+
+	<pre class="brush: csharp;">
+	// интерфейс публикаций
+	interface IPublication
+	{
+		// готовить публикацию
+		void write();
+		// читать публикацию
+		void read();
+		// название публикации
+		string Title { set; get; }
+	}
+	</pre>
+
+	<p>В данном примере интерфейс, с именем IPublication специфицирует функциональность классов, которые могут представлять публикации – такие объекты, как статья, доклад, книга.</p>
+	<p>В соответствии с данным интерфейсом публикации можно писать – у реализующих интерфейс классов должен быть метод write().</p>
+	<p>Публикации можно читать – в интерфейсе есть прототип метода read().</p>
+	<p>Свойство Title должно обеспечивать получение и задание в виде строки названия публикации.</p>
+	<p>Больше никаких возможностей (никакой функциональности) интерфейс IPublication не предусматривает.</p>
+	<p>Данный интерфейс не может ничего предполагать о таких характеристиках публикаций как фамилия автора, год издания, число страниц и т.п.</p>
+	<p>Эти сведения могут появиться только у конкретных объектов тех классов, которые реализуют интерфейс IPublication.</p>
+	<p>В объявлении интерфейса IPublication отсутствует модификатор доступа – по умолчанию этот интерфейс доступен в том пространстве имён, которому принадлежит его объявление.</p>
+	<p>Для интерфейса IPublication не указана спецификация базы, то есть IPublication не является наследником никакого другого пользовательского интерфейса.</p>
+	<p>Членами интерфейса IPublication являются прототипы двух методов write(), read().</p>
+	<p>Если сравнить их с объявлениями абстрактных методов в абстрактном классе, то следует отметить отсутствие модификаторов.</p>
+	<p>По-существу, метод интерфейса, например, write() в IPublication играет роль абстрактного метода класса, но модификатор abstract для прототипа метода в интерфейсе не нужен (и будет ошибочен).</p>
+	<p>Чуть позже мы покажем, что интерфейс является ссылочным типом и можно объявлять ссылки–переменные с типом интерфейса.</p>
+	<p>Такие ссылки позволяют получать доступ к реализациям методов интерфейса.</p>
+	<p>В этом отношении прототип метода интерфейса выступает в роли виртуальной функции базового класса.</p>
+	<p>Однако, модификатор virtual в интерфейсе нельзя использовать в прототипе метода.</p>
+	<p>Так как допустимо наследование интерфейсов (мы его пока не рассматривали), то следует обратить внимание на невозможность появления в прототипе метода интерфейса и модификатора override.</p>
+	<p>Модификатор new допустим.</p>
+	<p>Всё сказанное об особенностях деклараций методов относится и к членам- свойствам и членам-индексаторам интерфейса.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="79.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="81.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/80.html", "Объявления", "bm167"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm167", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm167") == 1) { document.getElementById("bma167").style.display = "block"; document.getElementById("bm167").style.display = "none"; } else { document.getElementById("bma167").style.display = "none"; document.getElementById("bm167").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Объявления") == 1) { arrs.splice(i, 1); localStorage.setItem("bm167", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma120" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm120" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Массивы массивов и поверхностное копирование
+	</h1>
+
+	<p>Итак, массив массивов представляет собой одномерный массив, элементами которого являются ссылки на массивы следующего (подчинённого) уровня.</p>
+	<p>Этот факт требует особого внимания, так как затрагивает фундаментальные вопросы копирования ссылок и тех объектов, которые ими адресуются.</p>
+	<p>Независимо от того, какого вида массив мы рассматриваем, присваивание ссылке на массив значения другой ссылки на уже существующий массив (на объект с типом массива) приводит к появлению двух ссылок на один массив.</p>
+	<p>Это мы уже иллюстрировали и разобрали.</p>
+	<p>Метод Clone() позволяет создать новый экземпляр массива.</p>
+	<p>В программе 07_04.cs показано, что изменяя один из одномерных массивов-копий, мы не изменяем второй.</p>
+	<p>Следующая программа иллюстрирует применение копирования к многомерному массиву:</p>
+
+	<pre class="brush: csharp;">
+	// 07_08.cs - двумерный массив - полное клонирование
+	using System;
+	class Program
+	{
+		static void Main( )
+		{
+			int size;
+			do Console.Write("size = ");
+			while (!int.TryParse(Console.ReadLine(), out size)||size < 1);
+			int[,] one = new int[size, size];
+			Console.WriteLine("Массив one:");
+			for (int i = 0; i < size; i++, Console.WriteLine())
+			
+			for (int j = 0; j < size; j++)
+			{
+				if (i == j) one[i, j] = 1;
+				Console.Write(one[i, j] + "\t");
+			}
+
+			Console.WriteLine("one.Length = " + one.Length);
+			int[,] two = (int[,])one.Clone(); // клонирование
+			two[0, 0] = -size;
+			Console.WriteLine("Массив two:");
+			for (int i = 0; i < size; i++, Console.WriteLine())
+			for (int j = 0; j < size; j++)
+			Console.Write(two[i, j] + "\t");
+			Console.WriteLine("Массив one:");
+			for (int i = 0; i < size; i++, Console.WriteLine())
+			for (int j = 0; j < size; j++)
+			Console.Write(one[i, j] + "\t");
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	size = 4&lt;ENTER&gt;
+
+	Массив one:
+	1 0 0 0
+	0 1 0 0
+	0 0 1 0
+	0 0 0 1
+
+	one.Length = 16
+
+	Массив two:
+	-4 0 0 0
+	0 1 0 0
+	0 0 1 0
+	0 0 0 1
+
+	Массив one:
+	1 0 0 0
+	0 1 0 0
+	0 0 1 0
+	0 0 0 1
+	</pre>
+
+	<p>В программе определена ссылка two типа int[,], и ей присвоен результат копирования массива, связанного со ссылкой one, имеющей тот же тип int[,].</p>
+	<p>Выведена единичная матрица, адресованная ссылкой one, затем изменён обычным присваиванием один элемент массива–копии:</p>
+
+	<pre class="brush: csharp;">
+	two[0,0]=-size;
+	</pre>
+
+	<p>Выведенные на консоль значения элементов массивов иллюстрируют независимость массива-оригинала от массива-копии.</p>
+	<p>Программы 07_04.cs и 07_08.cs работают с массивами, у которых по одному спецификатору размерности.</p>
+	<p>В первом случае массив одномерный, во второй программе клонируется двумерный массив.</p>
+	<p>Применяя метод Clone() к массиву массивов, мы сталкиваемся с очень важной особенностью.</p>
+	<p>Строго говоря, действия метода остаются прежними – он создаёт массив-копию и присваивает его элементам значения элементов массива-оригинала.</p>
+	<p>Однако, в этом случае копирования тех подчинённых массивов, на которые "смотрят" ссылки-элементы массива-оригинала, не происходит.</p>
+	<p>Выполняется , так называемое , поверхностное или поразрядное копирование.</p>
+	<p>Иначе и быть не должно – "не знает"метод Clone(), что код, который является значением элемента массива, представляет собой ссылку, и по этой ссылке нужно ещё что-то "доставать".</p>
+	<p>Таким образом, копируя с помощью метода Clone() массив массивов, мы получаем два экземпляра массива верхнего уровня, элементы которых адресуют одни и те же участки памяти, выделенные для подчинённых массивов объекта- оригинала.</p>
+	<p>В качестве иллюстрации указанной ситуации приведём следующую программу, построенную на основе 07_06.cs:</p>
+
+	<pre class="brush: csharp;">
+	// 07_09.cs - непрямоугольный массив – клонирование поверхностное!
+	using System;
+	class Program
+	{
+		static void Main( )
+		{
+			int size;
+			do Console.Write("size = ");
+			while (!int.TryParse(Console.ReadLine(), out size)||size < 1);
+			int[ ][ ] tre = new int[size][ ];
+			
+			for (int j = 0; j < size; j++)
+			{
+				tre[j] = new int[j + 1];
+				tre[j][j] = j + 1;
+			}
+			
+			Console.WriteLine("Массив tre:");
+			for (int i = 0; i < tre.Length; i++, Console.WriteLine())
+			for (int j = 0; j < tre[i].Length; j++)
+			Console.Write(tre[i][j] + "\t");
+			Console.WriteLine("tre.Length = " + tre.Length);
+			int[ ][ ] two = (int[ ][ ])tre.Clone( );
+			two[0][0] = - size;
+			Console.WriteLine("Массив two:");
+			for (int i = 0; i < two.Length; i++, Console.WriteLine())
+			for (int j = 0; j < two[i].Length; j++)
+			Console.Write(two[i][j] + "\t");
+			Console.WriteLine("Массив tre:");
+			for (int i = 0; i < tre.Length; i++, Console.WriteLine())
+			for (int j = 0; j < tre[i].Length; j++)
+			Console.Write(tre[i][j] + "\t");
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	size = 4&lt;ENTER&gt;
+
+	Массив tre:
+	1
+	0 2
+	0 0 3
+	0 0 0 4
+
+	tre.Length = 4
+
+	Массив two:
+	-4
+	0 2
+	0 0 3
+	0 0 0 4
+
+	Массив tre:
+	-4
+	0 2
+	0 0 3
+	0 0 0 4
+	</pre>
+
+	<p>В программе определена ссылка two типа int[ ][ ] и ей присвоен результат копирования (клонирования) "треугольного" массива, адресованного ссылкой tre, имеющей тип int[ ][ ].</p>
+	<p>С помощью оператора</p>
+
+	<pre class="brush: csharp;">
+	two[0][0] = - size;
+	</pre>
+
+	<p>изменён один целочисленный элемент "нижнего уровня" массива массивов.</p>
+	<p>После присваивания изменилось значение, соответствующее выражению tre[0][0].</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="32.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="34.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/33.html", "Поверхностное копирование", "bm120"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm120", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm120") == 1) { document.getElementById("bma120").style.display = "block"; document.getElementById("bm120").style.display = "none"; } else { document.getElementById("bma120").style.display = "none"; document.getElementById("bm120").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Поверхностное копирование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm120", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

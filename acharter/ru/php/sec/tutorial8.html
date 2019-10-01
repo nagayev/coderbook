@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma919" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm919" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Сообщения об ошибках
+	</h1>
+	
+	<p>С точки зрения безопасности вывод сообщений об ошибках несет в себе как плюсы, так и минусы.</p>
+	<p>Одна из стандартных методик, применяемых в атаках - ввод некорректных данных с последующим анализом содержания и характера сообщений об ошибках.</p>
+	<p>Это дает взломщику возможность проверить скрипты и данные сервера на наличие потенциальных дыр.</p>
+	<p>Например, если взломщик получил некоторую информацию о странице на основании отправки формы, он попробует предопределить некоторые передаваемые значения или модифицировать их:</p>
+	
+	<p><b>Пример 1. Атака на переменные в HTML-странице</b></p>
+	
+	<pre class="brush: csharp;">
+		&lt;form method=&quot;post&quot; action=&quot;attacktarget?username=badfoo&amp;amp;password=badfoo&quot;&gt;
+		&#x9;&lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;badfoo&quot; /&gt;
+		&#x9;&lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;badfoo&quot; /&gt;
+		&lt;/form&gt;
+	</pre>
+	
+	<p>Возникаемые во время работы скриптов ошибки являются достаточно ценной информацией для разработчика, содержащей такие данные, как функция или файл, а также номер строки, в которой возникла ошибка.</p>
+	<p>Вся эта информация может быть использована для взлома.</p>
+	<p>Для PHP-разработчика достаточно привычно пользоваться такими функциями, как <b>show_source()</b>, <b>highlight_string()</b> или <b>highlight_file()</b> в целях отладки, но в живых сайтах это может открыть информацию о скрытых переменных, непроверяемом синтаксисе и других потенциально опасных моментах.</p>
+	<p>Особенно опасно наличие кода со встроенным механизмом отладки в публичных частях сайта.</p>
+	<p>Взломщик может попытаться запустить отладочный механизм, подбирая основные признаки отладки:</p>
+	
+	<p><b>Пример 2. Использование стандартных отладочных переменных</b></p>
+	
+	<pre class="brush: csharp;">
+		&lt;form method=&quot;post&quot; action=&quot;attacktarget?errors=Y&amp;amp;showerrors=1&amp;amp;debug=1&quot;&gt;
+		&#x9;&lt;input type=&quot;hidden&quot; name=&quot;errors&quot; value=&quot;Y&quot; /&gt;
+		&#x9;&lt;input type=&quot;hidden&quot; name=&quot;showerrors&quot; value=&quot;1&quot; /&gt;
+		&#x9;&lt;input type=&quot;hidden&quot; name=&quot;debug&quot; value=&quot;1&quot; /&gt;
+		&lt;/form&gt;
+	</pre>
+	
+	<p>Независимо от метода обработки ошибок возможность проверки системы на наличие ошибок снабжает взломщика дополнительной информацией.</p>
+	<p>Например, стандартный вывод об ошибке указывает операционную систему, в которой выполняются PHP скрипты.</p>
+	<p>Если взломщик анализирует обыкновенную HTML-страницу, пытаясь найти уязвимые места, используя ввод неверных данных он может обнаружить использование PHP скриптов в данной системе.</p>
+	<p>Также уведомление об ошибке может дать информацию о том, какая база данных используется, или, к примеру, как построена логика работы скриптов.</p>
+	<p>Это, в свою очередь, может позволить взломщику подключиться к открытому порту базы данных либо найти специфичные ошибки в коде.</p>
+	<p>Пробуя поочередно различные неверные блоки данных, злоумышленник может определить порядок аутентификации в скрипте (например, по номерам строк с ошибками) или проверять на наличие дыр различные участки кода.</p>
+	<p>Вывод стандартных ошибок, связанных с файловой системой, может указать, с какими привелегиями запущен веб-сервер, и как организованы каталоги сайта.</p>
+	<p>Обработка подобных ошибок, написанная разработчиками приложения, может только усугубить проблему, если взломщиком будет найден способ обнаружить "скрытую" отладочную информацию.</p>
+	<p>Существует три основныч способа решения этой проблемы.</p>
+	<p>Первый заключается в том, чтобы структурировать все функции и попытаться компенсировать объем выдаваемых ошибок.</p>
+	<p>Второй способ - полностью отключить в работающем коде вывод сообщений об ошибках.</p>
+	<p>И, наконец, третий способ - использовать специальные средства PHP для создания собственного обработчика ошибок.</p>
+	<p>В зависимости от используемой вами политики безопасности вы можете применять в вашей конкретной ситуации все три способа.</p>
+	<p>Один из возможных способов обезопасить ваш код перед его публикацией для общего доступа - индивидуальное использование <b>error_reporting()</b>, чтобы выявить потенциально опасные переменные.</p>
+	<p>Тестируя код перед выпуском релиза при помощи значения <b>E_ALL</b>, вы достаточно легко можете обнаружить участки кода, в которых переменные могут быть подменены либо модифицированы.</p>
+	<p>После окончания тестирования, установив значение <b>E_NONE</b>, вы можете полностью отключить вывод сообщений об ошибках.</p>
+	
+	<p><b>Пример 3. Поиск потенциально опасных переменных при помощи E_ALL</b></p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			if ($username)
+			{
+				// Переменная не инициализируется перед использованием
+				$good_login = 1;
+			}
+	
+			if ($good_login == 1)
+			{
+				// Если предыдущая проверка неудачна, переменная оказывается неинициализированной
+				readfile ("/highly/sensitive/data/index.html");
+			}
+		?&gt;
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial7.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial9.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/php/sec/tutorial8.html", "Сообщения об ошибках", "bm919"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm919", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm919") == 1) { document.getElementById("bma919").style.display = "block"; document.getElementById("bm919").style.display = "none"; } else { document.getElementById("bma919").style.display = "none"; document.getElementById("bm919").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Сообщения об ошибках") == 1) { arrs.splice(i, 1); localStorage.setItem("bm919", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

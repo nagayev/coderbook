@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1257" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1257" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Работа с несколькими моделями
+	</h1>
+
+    <p>Когда имеешь дело со сложными данными, иногда может потребоваться использовать несколько разных моделей для обработки данных, введенных пользователем.</p>
+    <p>Для примера, предположим, что информация пользователя для входа хранится в таблице user, а данные профиля хранятся в таблице profile, и вы можете захотеть обрабатывать входные данные о пользователе через модели User и Profile.</p>
+    <p>Учитывая поддержку Yii моделей и форм, вы можете решить данную задачу способом, не сильно отличающимся от обработки одинарной модели.</p>
+    <p>Далее мы покажем, как можно создать форму, которая позволила бы вам собирать данные для обеих моделей User и Profile.</p>
+    <p>Действие контроллера для обработки данных пользователя и данных профиля может быть написано следующим образом,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use Yii;
+    use yii\base\Model;
+    use yii\web\Controller;
+    use yii\web\NotFoundHttpException;
+    use app\models\User;
+    use app\models\Profile;
+    
+    class UserController extends Controller
+    {
+        public function actionUpdate($id)
+        {
+            $user = User::findOne($id);
+            $profile = Profile::findOne($id);
+            
+            if (!isset($user, $profile)) {
+                throw new NotFoundHttpException("The user was not found.");
+            }
+            
+            $user->scenario = 'update';
+            $profile->scenario = 'update';
+            
+            if ($user->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
+                $isValid = $user->validate();
+                $isValid = $profile->validate() && $isValid;
+                if ($isValid) {
+                    $user->save(false);
+                    $profile->save(false);
+                    return $this->redirect(['user/view', 'id' =&gt; $id]);
+                }
+            }
+            
+            return $this->render('update', [
+                'user' =&gt; $user,
+                'profile' =&gt; $profile,
+            ]);
+        }
+    }
+    </pre>
+
+    <p>В действии update, мы сначала загружаем из базы модели $user и $profile.</p>
+    <p>Затем мы вызываем метод [[yii\base\Model::load()]] для заполнения этих двух моделей данными, введенными пользователем.</p>
+    <p>В случае успеха мы проверяем модели и сохраняем их.</p>
+    <p>В противном случае мы рендерим представление update, которое содержит следующий контент:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
+    
+    $form = ActiveForm::begin([
+        'id' =&gt; 'user-update-form',
+        'options' =&gt; ['class' =&gt; 'form-horizontal'],
+    ]) ?&gt;
+        &lt;?= $form->field($user, 'username') ?&gt;
+    
+        ...other input fields...
+        
+        &lt;?= $form->field($profile, 'website') ?&gt;
+    
+        &lt;?= Html::submitButton('Update', ['class' =&gt; 'btn btn-primary']) ?&gt;
+    &lt;?php ActiveForm::end() ?&gt;
+    </pre>
+
+    <p>Как вы можете видеть, в представлении update рендерятся поля ввода для двух моделей $user и $profile.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="50.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="52.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/51.html", "Yii2: Работа с несколькими моделями", "bm1257"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1257", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1257") == 1) { document.getElementById("bma1257").style.display = "block"; document.getElementById("bm1257").style.display = "none"; } else { document.getElementById("bma1257").style.display = "none"; document.getElementById("bm1257").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Работа с несколькими моделями") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1257", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

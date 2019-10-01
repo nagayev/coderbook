@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma818" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm818" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Библиотека отладки
+	</h1>
+	
+	<p>Эта библиотека предоставляет функционал для интерфейса отладки программ Lua.</p>
+	<p>Вы должны соблюдать осторожность при использованииэтой библиотеки. Функции, предоставляемые ей, должны быть использованы исключительно для отладки и подобных задач, таких как, например, профилирование (profiling).</p>
+	<p>Пожалуйста, воздержитесь от желания использовать их в качестве средств написания программ: они могут быть очень медленными.</p>
+	<p>Кроме того, некоторые из функций нарушают некоторые стандарты программирования Lua (напр., то, что локальные переменные функции не могут быть доступны извне, или то, что метатаблицы пользовательских данных не могут быть изменены кодом Lua) и, таким образом, они могут скомпрометировать другой надежный код.</p>
+	<p>Все функции этой библиотеки описаны в таблице debug.</p>
+	<p>Все функции, которые работают с нитями (thread) имеют опциональный первый параметр, который является нитью, над которой будут производиться действия.</p>
+	<p>По умолчанию всегда используется текущая нить.</p>
+
+	<h1 id="title">
+		debug.debug ()
+	</h1>
+	
+	<p>Переходит в интерактивный режим, выполняя все команды, которые вводит пользователь.</p>
+	<p>Используя простые команды и другие средства отладки, пользователь может получать значения глобальных и локальных переменных, изменять их значения, получать значения выражений, и т.д.</p>
+	<p>Строка, содержащая только слово cont, завершает выполнение функции, т.о. вызвавшая программа продолжает выполнение.</p>
+	<p>Обратите внимание, что команды для функции debug.debug лексически не вложены ни в какую функцию, т.о. не имеют прямого доступа к локальным переменным.</p>
+
+	<h1 id="title">
+		debug.getfenv (o)
+	</h1>
+	
+	<p>Возвращает окружение (environment) объекта o.</p>
+
+	<h1 id="title">
+		debug.gethook ([thread])
+	</h1>
+
+	<p>Возвращает текущие настройки перехвата (hook settings) нити (thread), как три значения: текущая функция перехвата, текущая маска перехвата, и текущее количество перехватов (hook count) (в соответствии с параметрами, установленными функцией debug.sethook).</p>
+	
+	<h1 id="title">
+		debug.getinfo ([thread,] function [, what])
+	</h1>
+
+	<p>Возвращает таблицу с информацией о функции.</p>
+	<p>Вы можете задать функцию непосредственно, или вы можете задать номер функции, который соответствует функции, запущенной на уровне function стека вызововзаданной нити: уровень 0 соответствует текущей функции (getinfo непосредственно); уровень 1 – это функция, которая вызвала getinfo; и т.д.</p>
+	<p>Если в параметре function задано число, большее, чем количество запущенных функций, то getinfo возвращает nil.</p>
+	<p>Возвращаемая таблица может содержать все поля, возвращаемые lua_getinfo, в соответствии со строкой what, содержащей описание, какие поля должны быть заполнены.</p>
+	<p>Значением по умолчанию для параметра what является значение, соответствующее заполнению всех возможных полей, за исключением таблицы валидных строк.</p>
+	<p>В случае наличия опции 'f' в строке, заполняется поле func, содержащее непосредственно функцию.</p>
+	<p>При наличии опции 'L' заполняется поле activelines с таблицей валидных строк.</p>
+	<p>Например, выражение debug.getinfo(1,"n").name возвращает имя текущей функции, если подходящее имя может быть найдено, а выражение debug.getinfo(print) возвращает таблицу со всей возможной информацией о функции print.</p>
+	
+	<h1 id="title">
+		debug.getlocal ([thread,] level, local)
+	</h1>
+
+	<p>Данная функция возвращает имя и значение локальной переменной с индексом local функции на уровне level стека.</p>
+	<p>(Первый локальная переменная функции имеет индекс 1, и т.д., вплоть до последней локальной переменной.)</p>
+	<p>Функция возвращает nil если не существует локальной переменной с заданным индексом, и возбуждает ошибку при вызове с параметром level, большем максимально разрешенного.</p>
+	<p>(Вы можете вызвать debug.getinfo для проверки, является ли уровень в стеке разрешенным.)</p>
+	<p>Переменные, начинающиеся с '(' (открывающей скобки) являются внутренними переманными (переменные циклов, временными переменными, и локальными переменными функций C).</p>
+	
+	<h1 id="title">
+		debug.getmetatable (object)
+	</h1>
+	
+	<p>Возвращает метатаблицу заданного объекта object или nil если объект не имеет метатаблицы.</p>
+
+	<h1 id="title">
+		debug.getregistry ()
+	</h1>
+
+	<p>Возвращает таблицу реестра.</p>
+	
+	<h1 id="title">
+		debug.getupvalue (func, up)
+	</h1>
+
+	<p>Данная функция возвращает имя и значение внешней локальной переменной (upvalue) с индексом up функции func.</p>
+	<p>Функция возвращает nil если не существует внешней локальной переменной (upvalue) с заданным индексом.</p>
+	
+	<h1 id="title">
+		debug.setfenv (object, table)
+	</h1>
+
+	<p>Изменяет окружение заданного объекта object на заданное table.</p>
+	<p>Возвращает объект object.</p>
+	
+	<h1 id="title">
+		debug.sethook ([thread,] hook, mask [, count])
+	</h1>
+
+	<p>Делает данную функцию функцией перехвата (hook).</p>
+	<p>Строка mask и число count, когда функция перехвата будет вызвана.</p>
+	<p>Строка mask может содержать следующие символы с данным значением:</p>
+	<p>- <b>"c":</b> функция перехвата вызывается при каждом вызове функции;</p>
+	<p>- <b>"r":</b> функция перехвата вызывается при каждом выходе из функции;</p>
+	<p>- <b>"l":</b> функция перехвата вызвается при каждом переходе на новую строку кода.</p>
+	<p>Если параметр a count отличен от нуля, перехват происходит каждые count событий.</p>
+	<p>При вызове без аргументов, debug.sethook отключает перехват.</p>
+	
+	<h1 id="title">
+		debug.setlocal ([thread,] level, local, value)
+	</h1>
+	
+	<p>Эта функция присваивает значение value локальной переменной с индексом local функции на уровне level стека.</p>
+	<p>Функция возвращает nil, если не существует переменной с данным индексом, и возбуждает ошибку при вызове с уровнем level, выходящем за границы стека.</p>
+	<p>(Вы можете вызвать getinfo для проверки того, что уровень является верным.)</p>
+	<p>В противном случае, возвращает значение локальной переменной.</p>
+
+	<h1 id="title">
+		debug.setmetatable (object, table)
+	</h1>
+	
+	<p>Изменяет метатаблицу заданного объекта object на таблицу table (которая также может быть nil).</p>
+
+	<h1 id="title">
+		debug.setupvalue (func, up, value)
+	</h1>
+
+	<p>Данная функция присваивает значение value локальной внешней переменной (upvalue) с индексом up функции func.</p>
+	<p>Функция возвращает nil, если не существует локальной внешней переменной (upvalue) с данным индексом.</p>
+	<p>В противном случае, возвращает имя локальной внешней переменной (upvalue).</p>
+	
+	<h1 id="title">
+		debug.traceback ([thread,] [message] [, level])
+	</h1>
+	
+	<p>Возвращает строку со следом (traceback) стека вызовов.</p>
+	<p>Опциональный параметр message добавляется в начало следа.</p>
+	<p>Опциональный параметр level – число, обозначающее уровень, с которого необходимо начинать след (traceback) (значение по умолчанию равно 1, т.е. соответствует функции, вызывающей traceback).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="51.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="53.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/52.html", "Библиотека отладки", "bm818"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm818", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm818") == 1) { document.getElementById("bma818").style.display = "block"; document.getElementById("bm818").style.display = "none"; } else { document.getElementById("bma818").style.display = "none"; document.getElementById("bm818").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Библиотека отладки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm818", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

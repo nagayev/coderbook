@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma54" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm54" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Ссылки в С++
+	</h1>
+
+	<p>Ссылки – особый тип данных, являющийся скрытой формой указателя, который при использовании автоматически разименовывается.</p>
+	<p>Ссылка может быть объявлена как другим именем, так и как псевдоним переменной, на которую ссылается.</p>
+
+	<pre class="brush: csharp;">
+	// структура объявления ссылок
+	/*тип*/ &/*имя ссылки*/ = /*имя переменной*/;
+	</pre>
+
+	<p>При объявлении ссылки перед её именем ставится символ амперсанда &, сама же ссылка должна быть проинициализирована именем переменной, на которую она ссылается.</p>
+	<p>Тип данных, на который указывает ссылка, может быть любым, но должен совпадать с объектом, на который ссылается, то есть с типом данных ссылочной переменной.</p>
+	<p>Для удобства, будем называть  переменную, на которую ссылается ссылка "ссылочной переменной".</p>
+	<p>Любое изменение значения содержащегося в ссылке повлечёт за собой изменение этого значения в переменной, на которую ссылается ссылка.</p>
+	<p>Разработаем программу, в которой объявим ссылку на объект типа int.</p>
+
+	<pre class="brush: csharp;">
+	// №1.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	int main(int argc, char* argv[])
+	{
+		int value = 15;
+		// объявление и инициализация ссылки значением переменной value
+		int &reference = value;
+		cout << "value = " << value << endl;
+		cout << "reference = " << reference << endl;
+		// изменяем значение переменной value посредством изменения значения в ссылке
+		reference+=15;
+		// смотрим, что получилось, как будет видно дальше значение поменялось как в ссылке,
+		cout << "value = " << value << endl;
+		//  так и в ссылочной переменной
+		cout << "reference = " << reference << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В строке 10 объявлена ссылка reference типа int  на переменную value.</p>
+	<p>В строке 13 суммируется значение переменной value с числом 15, через ссылку reference.</p>
+	<p>Результат работы программы смотреть ниже.</p>
+
+	<pre class="brush: csharp;">
+	value = 15
+	reference = 15
+	value = 30
+	reference = 30
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Просмотрев результат работы программы можно сказать, что через ссылку меняется значение ссылочной переменной.</p>
+	<p>Таким образом, сама ссылка не имеет как таковой копии значения взятой у переменной при инициализации ссылки, а всего лишь ссылка ссылается на ссылочную переменную посредством её адреса.</p>
+	<p>Ссылки, как правило, в большинстве случаев используют в функциях как ссылки-параметры или ссылки-аргументы.</p>
+	<p>Напомню, что в языке программирования С++ в функции передаются данные по значению и по ссылке.</p>
+	<p>Так вот, когда происходит передача по значению, те данные, которые необходимо передать, нужно сначала скопировать, а когда передаётся большой объём данных, то только на передачу затрачивается большое количество времени и ресурсов.</p>
+	<p>В таком случае необходимо использовать передачу по ссылке, в этом случае данные копировать нет необходимости, так как к ним обеспечен прямой доступ, но нарушают безопасность данных, хранимых в ссылочных переменных, так как открывают прямой доступ к этим данным.</p>
+	<p>Хотя далее мы рассмотрим, как обеспечить целостность данных и скорость их передачи.</p>
+	<p>Для этого, разработаем программу, в которой создадим три функции, аргументы в которых будут передаваться по значению и по ссылке.</p>
+	<p>Вдобавок ко всему этому  ещё и передачу через указатель осуществим.</p>
+	<p>Частенько возникает путаница между указателями и ссылками, на первый взгляд и ссылки и указатели работают одинаково, но разница все, же есть и весьма значительная.</p>
+
+	<pre class="brush: csharp;">
+	// reference.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+
+	// суммирование по значению
+	int sum_by_value(int );
+	// суммирование по ссылке
+	int sum_by_reference(int &);
+	// суммирование по указателю
+	int sum_by_pointer(int *);
+	
+	int _tmain(int argc, _TCHAR* argv[])
+	{
+		int value = 10;
+		cout << "sum_by_value = " << sum_by_value(value)     << endl;
+		// значение переменной осталось неизменным
+		cout << "value = " << value << endl;
+		cout << "sum_by_reference = " << sum_by_reference(value) << endl;
+		// значение переменной изменилось
+		cout << "value = " << value << endl;
+		cout << "sum_by_pointer = " << sum_by_pointer(&value)  << endl;
+		// значение переменной изменилось ещё раз
+		cout << "value = " << value << endl;
+		system("pause");
+		return 0;
+	}
+
+	// функция принимающая аргумент по значению
+	int sum_by_value(int value)
+	{
+		value += value;
+		return value;
+	}
+
+	// функция принимающая аргумент по ссылке
+	int sum_by_reference(int &reference)
+	{
+		reference += reference;
+		return reference;
+	}
+
+	// функция принимающая аргумент через указатель
+	int sum_by_pointer(int *ptrvalue)
+	{
+		// арифметика с указателем
+		*ptrvalue += *ptrvalue;
+		return *ptrvalue;
+	}
+	</pre>
+
+	<p>Начальное значение осталось неизменным в случае передачи по значению, тогда как передача по ссылке и через указатель изменили значение передаваемой переменной.</p>
+	<p>Таким образом, нет необходимости использовать глобальные переменные при необходимости изменения значения передаваемой переменной, нужно воспользоваться ссылкой или указателем.</p>
+	<p>В случае использования указателя строка 18 нельзя забывать про операцию взятия адреса, так как аргументом является указатель.</p>
+	<p>В случае со ссылкой, достаточно указать только имя переменной и всё строка 16.</p>
+	<p>Результат работы программы показан ниже.</p>
+
+	<pre class="brush: csharp;">
+	sum_by_value = 20
+	value = 10
+	sum_by_reference = 20
+	value = 20
+	sum_by_pointer = 40
+	value = 40
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>В чём же разница между указателями  и ссылками?</p>
+	<p>Основное назначение указателя – это организация динамических объектов, то есть размер, которых может меняться (увеличиваться или уменьшаться).</p>
+	<p>Тогда как ссылки предназначены для организации прямого доступа к тому, или иному объекту.</p>
+	<p>Главное отличие состоит во внутреннем механизме работы.</p>
+	<p>Указатели ссылаются на участок в памяти, используя его адрес.</p>
+	<p>А ссылки ссылаются на объект, по его имени (тоже своего рода адрес).</p>
+	<p>Если нет необходимости изменить передаваемое значение в ссылочной переменной, но нужно выиграть в скорости, используйте спецификатор const в объявлении параметров функций.</p>
+	<p>Только так и можно защитить данные от случайного их изменения или полной потере.</p>
+
+	<pre class="brush: csharp;">
+	// функция принимающая аргумент по ссылке
+	int sum_by_reference(const int &reference)
+	// квалификатор const не даёт изменить передаваемый аргумент внутри функции
+	</pre>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="32.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="34.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/33.html", "Ссылки в С++", "bm54"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm54", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm54") == 1) { document.getElementById("bma54").style.display = "block"; document.getElementById("bm54").style.display = "none"; } else { document.getElementById("bma54").style.display = "none"; document.getElementById("bm54").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ссылки в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm54", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

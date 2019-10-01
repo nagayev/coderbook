@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma628" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm628" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Ссылочные типы
+	</h1>
+
+	<p>Итак, выражение ссылочного типа имеет значение либо null, либо ссылку, указывающую на некоторый объект в виртуальной памяти JVM.</p>
+
+	<!-- visible -->
+	<img src='si.png' style='on-atlas:0; position: absolute;'>
+
+	<h1 id="title">
+		Объекты и правила работы с ними
+	</h1>
+
+	<p>Объект (object) – это экземпляр некоторого класса, или экземпляр массива.</p>
+	<p>Массивы будут подробно рассматриваться в соответствующей лекции.</p>
+	<p>Класс – это описание объектов одинаковой структуры, и если в программе такой класс используется, то описание присутствует в единственном экземпляре.</p>
+	<p>Объектов этого класса может не быть вовсе, а может быть создано сколь угодно много.</p>
+	<p>Объекты всегда создаются с использованием ключевого слова new, причем одно слово new порождает строго один объект (или вовсе ни одного, если происходит ошибка).</p>
+	<p>После ключевого слова указывается имя класса, от которого мы собираемся породить объект.</p>
+	<p>Создание объекта всегда происходит через вызов одного из конструкторов класса (их может быть несколько), поэтому в заключение ставятся скобки, в которых перечислены значения аргументов, передаваемых выбранному конструктору.</p>
+	<p>В приведенных выше примерах, когда создавались объекты типа Point, выражение new Point (3,5) означало обращение к конструктору класса Point, у которого есть два аргумента типа int.</p>
+	<p>Кстати, обязательное объявление такого конструктора в упрощенном объявлении класса отсутствовало.</p>
+	<p>Объявление классов рассматривается в следующих лекциях, однако приведем правильное определение Point:</p>
+
+	<pre class="brush: csharp;">
+	class Point
+	{
+		int x, y;
+	
+		/*
+			Конструктор принимает 2 аргумента, которыми инициализирует поля объекта.
+		*/
+
+		Point (int newx, int newy)
+		{
+			x=newx;
+			y=newy;
+		}
+	}
+	</pre>
+
+	<p>Если конструктор отработал успешно, то выражение new возвращает ссылку на созданный объект.</p>
+	<p>Эту ссылку можно сохранить в переменной, передать в качестве аргумента в какой-либо метод или использовать другим способом.</p>
+	<p>JVM всегда занимается подсчетом хранимых ссылок на каждый объект.</p>
+	<p>Как только обнаруживается, что ссылок больше нет, такой объект предназначается для уничтожения сборщиком мусора (garbage collector).</p>
+	<p>Восстановить ссылку на такой "потерянный" объект невозможно.</p>
+
+	<pre class="brush: csharp;">
+	Point p=new Point(1,2);
+
+	// Создали объект, получили на него ссылку
+	Point p1=p;
+
+	// теперь есть 2 ссылки на точку (1,2)
+	p=new Point(3,4);
+
+	// осталась одна ссылка на точку (1,2)
+	p1=null;
+	</pre>
+
+	<p>Ссылок на объект-точку (1,2) больше нет, доступ к нему утерян и он вскоре будет уничтожен сборщиком мусора.</p>
+	<p>Любой объект порождается только с применением ключевого слова new.</p>
+	<p>Единственное исключение – экземпляры класса String.</p>
+	<p>Записывая любой строковый литерал, мы автоматически порождаем объект этого класса.</p>
+	<p>Оператор конкатенации +, результатом которого является строка, также неявно порождает объекты без использования ключевого слова new.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	"abc"+"def"
+	</pre>
+
+	<p>При выполнении этого выражения будет создано три объекта класса String.</p>
+	<p>Два объекта порождаются строковыми литералами, третий будет представлять результат конкатенации.</p>
+	<p>Операция создания объекта – одна из самых ресурсоемких в Java.</p>
+	<p>Поэтому следует избегать ненужных порождений.</p>
+	<p>Поскольку при работе со строками их может создаваться довольно много, компилятор, как правило, пытается оптимизировать такие выражения.</p>
+	<p>В рассмотренном примере, поскольку все операнды являются константами времени компиляции, компилятор сам осуществит конкатенацию и вставит в код уже результат, сократив таким образом количество создаваемых объектов до одного.</p>
+	<p>Кроме того, в версии Java 1.1 была введена технология reflection, которая позволяет обращаться к классам, методам и полям, используя лишь их имя в текстовом виде.</p>
+	<p>С ее помощью также можно создать объект без ключевого слова new, однако эта технология довольно специфична, применяется в редких случаях, а кроме того, довольно проста и потому в данном курсе не рассматривается.</p>
+	<p>Все же приведем пример ее применения:</p>
+
+	<pre class="brush: csharp;">
+	Point p = null;
+	
+	try
+	{
+		// в следующей строке, используя лишь текстовое имя класса Point, порождается объект без применения ключевого слова new
+		p=(Point)Class.forName("Point").newInstance();
+		// обработка ошибок
+	}
+	catch (Exception e)
+	{
+		System.out.println(e);
+	}
+	</pre>
+
+	<p>Объект всегда "помнит", от какого класса он был порожден.</p>
+	<p>С другой стороны, как уже указывалось, можно ссылаться на объект, используя ссылку другого типа.</p>
+	<p>Приведем пример, который будем еще много раз использовать.</p>
+	<p>Сначала опишем два класса, Parent и его наследник Child:</p>
+
+	<pre class="brush: csharp;">
+	// Объявляем класс Parent
+	class Parent { }
+
+	// Объявляем класс Child и наследуем его от класса Parent
+	class Child extends Parent { }
+	</pre>
+
+	<p>Пока нам не нужно определять какие-либо поля или методы.</p>
+	<p>Далее объявим переменную одного типа и проинициализируем ее значением другого типа:</p>
+
+	<pre class="brush: csharp;">
+	Parent p = new Child();
+	</pre>
+
+	<p>Теперь переменная типа Parent указывает на объект, порожденный от класса Child.</p>
+	<p>Над ссылочными значениями можно производить следующие операции:</p>
+	<p>- обращение к полям и методам объекта</p>
+	<p>- оператор instanceof (возвращает булево значение)</p>
+	<p>- операции сравнения == и != (возвращают булево значение)</p>
+	<p>- оператор приведения типов</p>
+	<p>- оператор с условием ?:</p>
+	<p>- оператор конкатенации со строкой +</p>
+	<p>Обращение к полям и методам объекта можно назвать основной операцией над ссылочными величинами.</p>
+	<p>Осуществляется она с помощью символа . (точка).</p>
+	<p>Примеры ее применения будут приводиться.</p>
+	<p>Используя оператор instanceof, можно узнать, от какого класса произошел объект.</p>
+	<p>Этот оператор имеет два аргумента.</p>
+	<p>Слева указывается ссылка на объект, а справа – имя типа, на совместимость с которым проверяется объект.</p>
+	<p>Например:</p>
+
+	<pre class="brush: csharp;">
+	Parent p = new Child();
+
+	// проверяем переменную p типа Parent на совместимость с типом Child
+	print(p instanceof Child);
+	</pre>
+
+	<p>Результатом будет true.</p>
+	<p>Таким образом, оператор instanceof опирается не на тип ссылки, а на свойства объекта, на который она ссылается.</p>
+	<p>Но этот оператор возвращает истинное значение не только для того типа, от которого был порожден объект.</p>
+	<p>Добавим к уже объявленным классам еще один:</p>
+
+	<pre class="brush: csharp;">
+	// Объявляем новый класс и наследуем его от класса Child
+	class ChildOfChild extends Child { }
+	</pre>
+
+	<p>Теперь заведем переменную нового типа:</p>
+
+	<pre class="brush: csharp;">
+	Parent p = new ChildOfChild();
+	print(p instanceof Child);
+	</pre>
+
+	<p>В первой строке объявляется переменная типа Parent, которая инициализируется ссылкой на объект, порожденный от ChildOfChild.</p>
+	<p>Во второй строке оператор instanceof анализирует совместимость ссылки типа Parent с классом Child, причем задействованный объект не порожден ни от первого, ни от второго класса.</p>
+	<p>Тем не менее, оператор вернет true, поскольку класс, от которого этот объект порожден, наследуется от Child.</p>
+	<p>Добавим еще один класс:</p>
+
+	<pre class="brush: csharp;">
+	class Child2 extends Parent { }
+	</pre>
+
+	<p>И снова объявим переменную типа Parent:</p>
+
+	<pre class="brush: csharp;">
+	Parent p=new Child();
+	print(p instanceof Child);
+	print(p instanceof Child2);
+	</pre>
+
+	<p>Переменная p имеет тип Parent, а значит, может ссылаться на объекты типа Child или Child2.</p>
+	<p>Оператор instanceof помогает разобраться в ситуации:</p>
+
+	<pre class="brush: csharp;">
+	true
+	false
+	</pre>
+
+	<p>Для ссылки, равной null, оператор instanceof всегда вернет значение false.</p>
+	<p>С изучением свойств объектной модели Java мы будем возвращаться к алгоритму работы оператора instanceof.</p>
+	<p>Операторы сравнения == и != проверяют равенство (или неравенство) объектных величин именно по ссылке.</p>
+	<p>Однако часто требуется альтернативное сравнение – по значению.</p>
+	<p>Сравнение по значению имеет дело с понятием состояние объекта.</p>
+	<p>Сам смысл этого выражения рассматривается в ООП, что же касается реализации в Java, то состояние объекта хранится в его полях.</p>
+	<p>При сравнении по ссылке ни тип объекта, ни значения его полей не учитываются, true возвращается только в том случае, если обе ссылки указывают на один и тот же объект.</p>
+
+	<pre class="brush: csharp;">
+	Point p1=new Point(2,3);
+	Point p2=p1;
+	Point p3=new Point(2,3);
+	print(p1==p2);
+	print(p1==p3);
+	</pre>
+
+	<p>Результатом будет:</p>
+
+	<pre class="brush: csharp;">
+	true
+	false
+	</pre>
+
+	<p>Первое сравнение оказалось истинным, так как переменная p2 ссылается на тот же объект, что и p1.</p>
+	<p>Второе же сравнение ложно, несмотря на то, что переменная p3 ссылается на объект-точку с точно такими же координатами.</p>
+	<p>Однако это другой объект, который был порожден другим выражением new.</p>
+	<p>Если один из аргументов оператора == равен null, а другой – нет, то значение такого выражения будет false.</p>
+	<p>Если же оба операнда null, то результат будет true.</p>
+	<p>Для корректного сравнения по значению существует специальный метод equals, который будет рассмотрен позже.</p>
+	<p>Например, строки можно сравнивать следующим образом:</p>
+
+	<pre class="brush: csharp;">
+	String s = "abc";
+	s=s+1;
+	print(s.equals("abc1"));
+	</pre>
+
+	<p>Операция с условием ?: работает как обычно и может принимать второй и третий аргументы, если они оба одновременно ссылочного типа.</p>
+	<p>Результат такого оператора также будет иметь объектный тип.</p>
+	<p>Как и простые типы, ссылочные величины можно складывать со строкой.</p>
+	<p>Если ссылка равна null, то к строке добавляется текст "null".</p>
+	<p>Если же ссылка указывает на объект, то у него вызывается специальный метод (он будет рассмотрен ниже, его имя toString() ) и текст, который он вернет, будет добавлен к строке.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="26.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="28.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/27.html", "Ссылочные типы (ч. 1)", "bm628"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm628", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm628") == 1) { document.getElementById("bma628").style.display = "block"; document.getElementById("bm628").style.display = "none"; } else { document.getElementById("bma628").style.display = "none"; document.getElementById("bm628").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ссылочные типы (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm628", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

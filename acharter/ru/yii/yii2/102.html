@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1308" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1308" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Html-помощник
+	</h1>
+
+    <p>Каждое веб-приложение формирует большое количество HTML-разметки.</p>
+    <p>Если разметка статическая, её можно эффективно сформировать смешиванием PHP и HTML в одном файле, но когда разметка динамическая, становится сложно формировать её без дополнительной помощи.</p>
+    <p>Yii предоставляет такую помощь в виде Html-помощника, который обеспечивает набор статических методов для обработки часто-используемых HTML тэгов, их атрибутов и содержимого.</p>
+    <p><b>Примечание:</b> Если ваша разметка близка к статической, лучше использовать непосредственно HTML. Нет никакой необходимости в том, чтобы всё подряд оборачивать вызовами Html-помощника.</p>
+
+    <h2 id="title">
+        Основы
+    </h2>
+
+    <p>Так как формирование динамической HTML-разметки при помощи конкатенации строк очень быстро вносит хаос в проект, Yii предоставляет набор методов для управления атрибутами тэгов и формирования тэгов на основе этих атрибутов.</p>
+
+    <h3 id="title">
+        Формирование тэгов
+    </h3>
+
+    <p>Код формирования тэга выглядит следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::tag('p', Html::encode($user->name), ['class' =&gt; 'username']) ?&gt;
+    </pre>
+
+    <p>Здесь первый аргумент - это название тэга.</p>
+    <p>Второй - содержимое, которое будет заключено между открывающим и закрывающим тэгами.</p>
+    <p>Заметьте, что мы используем Html::encode.</p>
+    <p>Это связано с тем, что содержимое не экранируется автоматически, чтобы можно было по-необходимости использовать чистый HTML.</p>
+    <p>Третий аргумент - это массив настроек для HTML-кода, а другими словами - массив атрибутов для тэга.</p>
+    <p>В этом массиве ключи являются названиями атрибутов, например class, href или target, а значения в массиве являются значениями этих атрибутов.</p>
+    <p>Вышеприведённый код сформирует следующую HTML-разметку:</p>
+
+    <pre class="brush: csharp;">
+    &lt;p class=&quot;username&quot;&gt;samdark&lt;/p&gt;
+    </pre>
+
+    <p>В тех случаях, когда вам необходимо только закрыть или открыть тэг, можно использовать методы Html::beginTag() и Html::endTag().</p>
+    <p>Дополнительные атрибуты используются во многих методах Html-помощника и в различных виджетах.</p>
+    <p>Во всех этих случаях в дело вступают механизмы дополнительной обработки данных, о которых следует знать:</p>
+
+    <ul>
+        <li>Если значение равно null, соответствующий атрибут не будет выведен.</li>
+        <li>Атрибуты, значения которых имеют тип boolean, будут интерпретированы как логические атрибуты.</li>
+        <li>Значения атрибутов будут экранированы с использованием метода [[yii\helpers\Html::encode()|Html::encode()]].</li>
+        <li>Если в качестве значения атрибута передан массив, он будет обработан следующим образом:
+        <ul>
+            <li>Если атрибут является одним из атрибутов данных, указанных в [[yii\helpers\Html::$dataAttributes]], например data или ng, то будет сформирован список атрибутов по одному для каждого элемента массива. Например, код 'data' =&gt; ['id' =&gt; 1, 'name' =&gt; 'yii'] сформирует data-id="1" data-name="yii"; а код 'data' =&gt; ['params' =&gt; ['id' =&gt; 1, 'name' =&gt; 'yii'], 'status' =&gt; 'ok'] сформирует data-params='{"id":1,"name":"yii"}' data-status="ok". Заметьте, что в последнем примере используется формат JSON для формирования вывода вложенного массива.</li>
+            <li>Если атрибут НЕ является атрибутом данных, значение будет сконвертировано в формат JSON. Например, код ['params' =&gt; ['id' =&gt; 1, 'name' =&gt; 'yii'] сформирует params='{"id":1,"name":"yii"}'.</li>
+        </ul>
+        </li>
+    </ul>
+
+    <h3 id="title">
+        Формирование CSS классов и стилей
+    </h3>
+
+    <p>При формировании атрибутов для HTML-тэгов часто приходится начинать с некоторых атрибутов по умолчанию, которые затем необходимо изменять.</p>
+    <p>Для того, чтобы добавить или удалить CSS-класс, можно использовать следующий подход:</p>
+
+    <pre class="brush: csharp;">
+    $options = ['class' =&gt; 'btn btn-default'];
+    
+    if ($type === 'success') {
+        Html::removeCssClass($options, 'btn-default');
+        Html::addCssClass($options, 'btn-success');
+    }
+    
+    echo Html::tag('div', 'Всё получилось!', $options);
+    
+    // в случае, если $type содержит строку 'success', будет сформирован вывод
+    // &lt;div class=&quot;btn btn-success&quot;&gt;Всё получилось!&lt;/div&gt;
+    </pre>
+
+    <p>Можно указать несколько CSS-классов, используя синтаксис массива:</p>
+
+    <pre class="brush: csharp;">
+    $options = ['class' =&gt; ['btn', 'btn-default']];
+    
+    echo Html::tag('div', 'Сохранить', $options);
+    // выведет '&lt;div class=&quot;btn btn-default&quot;&gt;Сохранить&lt;/div&gt;'
+    </pre>
+
+    <p>При добавлении или удалении классов тоже можно использовать массивы:</p>
+
+    <pre class="brush: csharp;">
+    $options = ['class' =&gt; 'btn'];
+    
+    if ($type === 'success') {
+        Html::addCssClass($options, ['btn-success', 'btn-lg']);
+    }
+    
+    echo Html::tag('div', 'Сохранить', $options);
+    // выведет '&lt;div class=&quot;btn btn-success btn-lg&quot;&gt;Сохранить&lt;/div&gt;'
+    </pre>
+
+    <p>Html::addCssClass() предотвращает дублирование классов, поэтому можно не беспокоиться о том, что какой-либо класс будет добавлен дважды:</p>
+
+    <pre class="brush: csharp;">
+    $options = ['class' =&gt; 'btn btn-default'];
+    
+    Html::addCssClass($options, 'btn-default'); // класс 'btn-default' уже добавлен
+    
+    echo Html::tag('div', 'Сохранить', $options);
+    // выведет '&lt;div class=&quot;btn btn-default&quot;&gt;Сохранить&lt;/div&gt;'
+    </pre>
+
+    <p>Если CSS-класс задаётся с помощью массива, можно использовать именованные ключи массива для обозначения логического предназначения класса.</p>
+    <p>В этом случае класс с таким же ключом будет проигнорирован во время использования Html::addCssClass():</p>
+
+    <pre class="brush: csharp;">
+    $options = [
+        'class' =&gt; [
+            'btn',
+            'theme' =&gt; 'btn-default',
+        ]
+    ];
+    
+    Html::addCssClass($options, ['theme' =&gt; 'btn-success']); // ключ 'theme' уже использован
+    
+    echo Html::tag('div', 'Сохранить', $options);
+    // отобразит '&lt;div class=&quot;btn btn-default&quot;&gt;Сохранить&lt;/div&gt;'
+    </pre>
+
+    <p>CSS-стили могут быть установлены схожим образом с помощью атрибута style:</p>
+
+    <pre class="brush: csharp;">
+    $options = ['style' =&gt; ['width' =&gt; '100px', 'height' =&gt; '100px']];
+    
+    // в результате будет style="width: 100px; height: 200px; position: absolute;"
+    Html::addCssStyle($options, 'height: 200px; position: absolute;');
+    
+    // в результате будет style="position: absolute;"
+    Html::removeCssStyle($options, ['width', 'height']);
+    </pre>
+
+    <p>При использовании метода [[yii\helpers\Html::addCssStyle()|addCssStyle()]] можно указать массив, пары ключ-значение которого соответствуют названиям и значениям CSS-свойств, или строку, например width: 100px; height: 200px;.</p>
+    <p>Эти два формата могут быть преобразованы друг в друга с помощью методов [[yii\helpers\Html::cssStyleFromArray()|cssStyleFromArray()]] и [[yii\helpers\Html::cssStyleToArray()|cssStyleToArray()]].</p>
+    <p>Метод [[yii\helpers\Html::removeCssStyle()|removeCssStyle()]] принимает на вход массив атрибутов, которые следует удалить.</p>
+    <p>Если удаляется всего один атрибут, его можно передать строкой.</p>
+
+    <h3 id="title">
+        Экранирование контента
+    </h3>
+
+    <p>Для корректного и безопасного отображения контента специальные символы в HTML-коде должны быть экранированы.</p>
+    <p>В чистом PHP это осуществляется с помощью функций htmlspecialchars и htmlspecialchars_decode.</p>
+    <p>Проблема использования этих функций заключается в том, что приходится указывать кодировку и дополнительные флаги во время каждого вызова.</p>
+    <p>Поскольку флаги всё время одинаковы, а кодировка остаётся одной и той же в пределах приложения, Yii в целях безопасности предоставляет два компактных и простых в использовании метода:</p>
+
+    <pre class="brush: csharp;">
+    $userName = Html::encode($user->name);
+    echo $userName;
+    
+    $decodedUserName = Html::decode($userName);
+    </pre>
+
+    <h2 id="title">
+        Формы
+    </h2>
+
+    <p>Разметка форм состоит из повторяющихся действий и часто приводит к ошибкам, поэтому есть целый набор методов, которые помогают справиться с этой задачей.</p>
+    <p><b>Примечание:</b> Рассмотрите возможность использования [[yii\widgets\ActiveForm|ActiveForm]], если работаете с моделями и нуждаетесь в валидации данных.</p>
+
+    <h3 id="title">
+        Создание форм
+    </h3>
+
+    <p>Открывающий тэг формы может быть выведен с помощью метода [[yii\helpers\Html::beginForm()|beginForm()]] как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::beginForm(['order/update', 'id' =&gt; $id], 'post', ['enctype' =&gt; 'multipart/form-data']) ?&gt;
+    </pre>
+
+    <p>Первый аргумент - это URL-адрес, на который будет отправлена форма.</p>
+    <p>Он может быть задан в виде Yii-маршрута и параметров, подходящих для передачи в метод [[yii\helpers\Url::to()|Url::to()]].</p>
+    <p>Второй аргумент - способ отправки данных: по умолчанию это post.</p>
+    <p>Третий аргумент - массив атрибутов формы.</p>
+    <p>В данном примере мы изменяем способ кодирования данных в POST-запросе на multipart/form-data.</p>
+    <p>Это необходимо для загрузки файлов.</p>
+    <p>Закрыть тэг формы можно простым кодом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::endForm() ?&gt;
+    </pre>
+
+    <h3 id="title">
+        Кнопки
+    </h3>
+
+    <p>Для формирования кнопок можно использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::button('Нажми меня!', ['class' =&gt; 'teaser']) ?&gt;
+    &lt;?= Html::submitButton('Отправить', ['class' =&gt; 'submit']) ?&gt;
+    &lt;?= Html::resetButton('Сбросить', ['class' =&gt; 'reset']) ?&gt;
+    </pre>
+
+    <p>Первый аргумент во всех трёх методах - это название кнопки, а второй - её атрибуты.</p>
+    <p>Название кнопки не экранируется, поэтому при получении данных от конечных пользователей экранируйте их с помощью метода [[yii\helpers\Html::encode()|Html::encode()]].</p>
+
+    <h3 id="title">
+        Поля ввода
+    </h3>
+
+    <p>Методы формирования полей ввода делятся на две группы.</p>
+    <p>Первые начинаются со слова active и называются "active inputs", а вторые не содержат в своём названии слова active.</p>
+    <p>"Active inputs" формируют поля ввода, которые получают данные из указанного атрибута модели, в то время как обычные методы формирования полей ввода непосредственно принимают данные.</p>
+    <p>Наиболее общие методы для формирования полей ввода:</p>
+
+    <pre class="brush: csharp;">
+    // тип, название поля ввода, установленное в поле значение, атрибуты поля ввода
+    &lt;?= Html::input('text', 'username', $user->name, ['class' =&gt; $username]) ?&gt;
+    
+    // тип, модель, атрибут модели, атрибуты поля ввода
+    &lt;?= Html::activeInput('text', $user, 'name', ['class' =&gt; $username]) ?&gt;
+    </pre>
+
+    <p>Если вам заранее известен тип поля ввода, удобнее будет пользоваться этими вспомогательными методами:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\helpers\Html::buttonInput()]]
+    [[yii\helpers\Html::submitInput()]]
+    [[yii\helpers\Html::resetInput()]]
+    [[yii\helpers\Html::textInput()]], [[yii\helpers\Html::activeTextInput()]]
+    [[yii\helpers\Html::hiddenInput()]], [[yii\helpers\Html::activeHiddenInput()]]
+    [[yii\helpers\Html::passwordInput()]] / [[yii\helpers\Html::activePasswordInput()]]
+    [[yii\helpers\Html::fileInput()]], [[yii\helpers\Html::activeFileInput()]]
+    [[yii\helpers\Html::textarea()]], [[yii\helpers\Html::activeTextarea()]]
+    </pre>
+
+    <p>Сигнатура методов для формирования радио-переключателей и чекбоксов немного отличается:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::radio('agree', true, ['label' =&gt; 'Я согласен']);
+    &lt;?= Html::activeRadio($model, 'agree', ['class' =&gt; 'agreement'])
+    
+    &lt;?= Html::checkbox('agree', true, ['label' =&gt; 'Я согласен']);
+    &lt;?= Html::activeCheckbox($model, 'agree', ['class' =&gt; 'agreement'])
+    </pre>
+
+    <p>Выпадающие и обычные списки могут быть сформированы следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::dropDownList('list', $currentUserId, ArrayHelper::map($userModels, 'id', 'name')) ?&gt;
+    &lt;?= Html::activeDropDownList($users, 'id', ArrayHelper::map($userModels, 'id', 'name')) ?&gt;
+    
+    &lt;?= Html::listBox('list', $currentUserId, ArrayHelper::map($userModels, 'id', 'name')) ?&gt;
+    &lt;?= Html::activeListBox($users, 'id', ArrayHelper::map($userModels, 'id', 'name')) ?&gt;
+    </pre>
+
+    <p>Первый аргумент - это значение атрибута name для поля ввода, второй - выбранное в нём значение и, наконец, третий аргумент - это массив, ключами которого является список значений для формирования списка, а значениями массива являются названия пунктов в нём.</p>
+    <p>Если вы хотите сделать в списке доступными для выбора несколько вариантов, хорошим выбором будет список чекбоксов:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::checkboxList('roles', [16, 42], ArrayHelper::map($roleModels, 'id', 'name')) ?&gt;
+    &lt;?= Html::activeCheckboxList($user, 'role', ArrayHelper::map($roleModels, 'id', 'name')) ?&gt;
+    </pre>
+
+    <p>Если же нет, используйте радио-переключатель:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::radioList('roles', [16, 42], ArrayHelper::map($roleModels, 'id', 'name')) ?&gt;
+    &lt;?= Html::activeRadioList($user, 'role', ArrayHelper::map($roleModels, 'id', 'name')) ?&gt;
+    </pre>
+
+    <h3 id="title">
+        Тэги label и отображение ошибок
+    </h3>
+
+    <p>Также как и для полей ввода, есть два метода формирования тэгов label для форм.</p>
+    <p>Есть "active label", считывающий данные из модели и обычный тэг "label", принимающий на вход непосредственно сами данные:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::label('Имя пользователя', 'username', ['class' =&gt; 'label username']) ?&gt;
+    &lt;?= Html::activeLabel($user, 'username', ['class' =&gt; 'label username'])
+    </pre>
+
+    <p>Для отображения общего списка ошибок формы на основе модели или моделей можно использовать следующий подход:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::errorSummary($posts, ['class' =&gt; 'errors']) ?&gt;
+    </pre>
+
+    <p>Для отображения одной отдельной ошибки:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::error($post, 'title', ['class' =&gt; 'error']) ?&gt;
+    </pre>
+
+    <h3 id="title">
+        Атрибуты name и value для полей ввода
+    </h3>
+
+    <p>Также имеются методы для получения значений атрибутов id, name и value для полей ввода, сформированных на основе моделей.</p>
+    <p>Эти методы используются в основном внутренними механизмами, но иногда могут оказаться подходящими и для прямого использования:</p>
+
+    <pre class="brush: csharp;">
+    // Post[title]
+    echo Html::getInputName($post, 'title');
+    
+    // post-title
+    echo Html::getInputId($post, 'title');
+    
+    // моё первое сообщение
+    echo Html::getAttributeValue($post, 'title');
+    
+    // $post->authors[0]
+    echo Html::getAttributeValue($post, '[0]authors[0]');
+    </pre>
+
+    <p>В вышеприведённом коде первый аргумент - это модель, а второй аргумент - выражение для поиска атрибута модели.</p>
+    <p>В самом простом случае оно представляет собой название атрибута модели, а вообще это может быть название, которому предшествует (и/или после которого следует) индекс массива.</p>
+    <p>Такой формат используется в основном для табличного ввода данных:</p>
+
+    <ul>
+        <li><b>[0]content</b> используется для табличного ввода данных, чтобы указать на атрибут "content" первой модели табличного ввода;</li>
+        <li><b>dates[0]</b> указывает на первый элемент массива, с помощью которого задан атрибут модели "dates";</li>
+        <li><b>[0]dates[0]</b> указывает на первый элемент массива, с помощью которого задан атрибут "dates" первой модели табличного ввода.</li>
+    </ul>
+
+    <p>Для того, чтобы получить название атрибута модели в чистом виде (без суффиксов и префиксов), можно использовать следующий подход:</p>
+
+    <pre class="brush: csharp;">
+    // dates
+    echo Html::getAttributeName('dates[0]');
+    </pre>
+
+    <h2 id="title">
+        Подключение встроенных стилей и скриптов
+    </h2>
+
+    <p>Для формирования встроенных скриптов и стилей есть два метода:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::style('.danger { color: #f00; }') ?&gt;
+    </pre>
+
+    <p>Результатом будет:</p>
+
+    <pre class="brush: csharp;">
+    &lt;style&gt;.danger { color: #f00; }&lt;/style&gt;
+    
+    &lt;?= Html::script('alert("Привет!");', ['defer' =&gt; true]);
+    </pre>
+
+    <p>Результатом будет:</p>
+
+    <pre class="brush: csharp;">
+    &lt;script defer&gt;alert(&quot;Привет!&quot;);&lt;/script&gt;
+    </pre>
+
+    <p>Если вы хотите подключить внешний CSS-файл:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::cssFile('@web/css/ie5.css', ['condition' =&gt; 'IE 5']) ?&gt;
+    </pre>
+
+    <p>В результате получится:</p>
+
+    <pre class="brush: csharp;">
+    &lt;!--[if IE 5]&gt;
+        &lt;link href=&quot;http://example.com/css/ie5.css&quot; /&gt;
+    &lt;![endif]--&gt;
+    </pre>
+
+    <p>Первый аргумент - URL-адрес.</p>
+    <p>Второй - массив настроек.</p>
+    <p>Помимо обычных настроек можно указать следующие:</p>
+
+    <ul>
+        <li>condition для оборачивания тэга &lt;link&gt; с помощью условных комментариев с определённым условием. Надеемся, что вам никогда не понадобятся условные комментарии ;)</li>
+        <li>noscript может быть установлен в значение true, чтобы обернуть тэг &lt;link&gt; с помощью тэга &lt;noscript&gt;, таким образом скрипт будет подключён только в том случае, если у пользователя в браузере нет поддержки JavaScript или же пользователь сам отключил его.</li>
+    </ul>
+
+    <p>Для подключения JavaScript-файла используйте код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::jsFile('@web/js/main.js') ?&gt;
+    </pre>
+
+    <p>Как и в случае с CSS, первый аргумент указывает ссылку на файл, который должен быть подключен.</p>
+    <p>Настройки задаются во втором аргументе. Можно указать настройку condition таким же образом, каким она указывается для метода cssFile.</p>
+
+    <h2 id="title">
+        Ссылки
+    </h2>
+
+    <p>Существует удобный метод формирования ссылок:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::a('Профиль', ['user/view', 'id' =&gt; $id], ['class' =&gt; 'profile-link']) ?&gt;
+    </pre>
+
+    <p>Первый аргумент - это текст ссылки.</p>
+    <p>Он не экранируется, поэтому при использовании данных, полученных от конечных пользователей, необходимо экранировать его с помощью Html::encode().</p>
+    <p>Второй аргумент - это содержимое атрибута href тэга &lt;a&gt;.</p>
+    <p>Смотрите Url::to() для получения подробностей относительно значений, которые могут быть переданы в качестве второго аргумента.</p>
+    <p>Третий аргумент - массив атрибутов для тэга.</p>
+    <p>Если нужно сформировать ссылку mailto, можно использовать следующий подход:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::mailto('Обратная связь', 'admin@example.com') ?&gt;
+    </pre>
+
+    <h2 id="title">
+        Изображения
+    </h2>
+
+    <p>Для формирования тэга изображения используйте следующий код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::img('@web/images/logo.png', ['alt' =&gt; 'Наш логотип']) ?&gt;
+    </pre>
+
+    <p>в результате получится:</p>
+
+    <pre class="brush: csharp;">
+    &lt;img src=&quot;http://example.com/images/logo.png" alt="Наш логотип" /&gt;
+    </pre>
+
+    <p>Помимо псевдонимов первый аргумент может принимать маршруты, параметры и URL-адреса таким же образом как и метод Url::to().</p>
+
+    <h2 id="title">
+        Списки
+    </h2>
+
+    <p>Неупорядоченные списки могут быть сформированы следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= Html::ul($posts, ['item' =&gt; function($item, $index) {
+        return Html::tag(
+            'li',
+            $this->render('post', ['item' =&gt; $item]),
+            ['class' =&gt; 'post']
+        );
+    }]) ?&gt;
+    </pre>
+
+    <p>Для формирования упорядоченных списков используйте Html::ol().</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="101.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="103.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/102.html", "Yii2: Html", "bm1308"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1308", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1308") == 1) { document.getElementById("bma1308").style.display = "block"; document.getElementById("bm1308").style.display = "none"; } else { document.getElementById("bma1308").style.display = "none"; document.getElementById("bm1308").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Html") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1308", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

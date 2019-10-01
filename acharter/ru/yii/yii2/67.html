@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1273" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1273" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Кэширование фрагментов
+	</h1>
+
+    <p>Кэширование фрагментов относится к кэшированию фрагментов страницы.</p>
+    <p>Например, если страница отображает в таблице суммарные годовые продажи, мы можем сохранить эту таблицу в кэше с целью экономии времени, требуемого для создания таблицы при каждом запросе.</p>
+    <p>Кэширование фрагментов основано на кэшировании данных.</p>
+    <p>Для кэширования фрагментов используйте следующий код в представлении:</p>
+
+    <pre class="brush: csharp;">
+    if ($this->beginCache($id)) {
+    
+        // ... здесь создаём содержимое ...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <p>Таким образом заключите то, что вы хотите закэшировать между вызовом [[yii\base\View::beginCache()|beginCache()]] и [[yii\base\View::endCache()|endCache()]].</p>
+    <p>Если содержимое будет найдено в кэше, [[yii\base\View::beginCache()|beginCache()]] отобразит закэшированное содержимое и вернёт false, минуя генерацию содержимого.</p>
+    <p>В противном случае, будет выполнен код генерации контента и когда будет вызван [[yii\base\View::endCache()|endCache()]], то сгенерированное содержимое будет записано и сохранено в кэше.</p>
+    <p>Также как и кэширование данных, для кэширования фрагментов требуется уникальный идентификатор для определения кэшируемого фрагмента.</p>
+
+    <h2 id="title">
+        Параметры кэширования
+    </h2>
+
+    <p>Вызывая метод [[yii\base\View::beginCache()|beginCache()]], мы можем передать в качестве второго аргумента массив, содержащий параметры кэширования для управления кэшированием фрагмента.</p>
+    <p>Заглядывая за кулисы, можно увидеть, что этот массив будет использоваться для настройки виджета [[yii\widgets\FragmentCache]], который реализует фактическое кэширование фрагментов.</p>
+
+    <h3 id="title">
+        Срок хранения
+    </h3>
+
+    <p>Наверное, наиболее часто используемым параметром является [[yii\widgets\FragmentCache::duration|duration]].</p>
+    <p>Он определяет какое количество секунд содержимое будет оставаться действительным (корректным). Следующий код помещает фрагмент в кэш не более, чем на час:</p>
+
+    <pre class="brush: csharp;">
+    if ($this->beginCache($id, ['duration' =&gt; 3600])) {
+    
+        // ... здесь создаём содержимое ...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <p>Если мы не установим длительность (срок хранения), она будет равна значению по умолчанию (60 секунд).</p>
+    <p>Это значит, что кэшированное содержимое станет недействительным через 60 секунд.</p>
+
+    <h3 id="title">
+        Зависимости
+    </h3>
+
+    <p>Также как и кэширование данных, кэшируемое содержимое фрагмента тоже может иметь зависимости.</p>
+    <p>Например, отображение содержимого сообщения зависит от того, изменено или нет это сообщение.</p>
+    <p>Для определения зависимости мы устанавливаем параметр [[yii\widgets\FragmentCache::dependency|dependency]], который может быть либо объектом [[yii\caching\Dependency]], либо массивом настроек, который может быть использован для создания объекта [[yii\caching\Dependency]].</p>
+    <p>Следующий код определяет содержимое фрагмента, зависящее от изменения значения столбца updated_at:</p>
+
+    <pre class="brush: csharp;">
+    $dependency = [
+        'class' =&gt; 'yii\caching\DbDependency',
+        'sql' =&gt; 'SELECT MAX(updated_at) FROM post',
+    ];
+    
+    if ($this->beginCache($id, ['dependency' =&gt; $dependency])) {
+    
+        // ... здесь создаём содержимое ...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <h3 id="title">
+        Вариации
+    </h3>
+
+    <p>Кэшируемое содержимое может быть изменено в соответствии с некоторыми параметрами.</p>
+    <p>Например, для веб-приложений, поддерживающих несколько языков, одна и та же часть кода может создавать содержимое на нескольких языках.</p>
+    <p>Поэтому у вас может возникнуть желание кэшировать содержимое в зависимости от текущего языка приложения.</p>
+    <p>Чтобы задать вариации кэша, установите параметр [[yii\widgets\FragmentCache::variations|variations]], который должен быть массивом, содержащим скалярные значения, каждое из которых представляет определенный коэффициент вариации.</p>
+    <p>Например, чтобы кэшировать содержимое в зависимости от языка приложения, вы можете использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    if ($this->beginCache($id, ['variations' =&gt; [Yii::$app->language]])) {
+    
+        // ... здесь создаём содержимое ...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <h3 id="title">
+        Переключение кэширования
+    </h3>
+
+    <p>Иногда может потребоваться включать кэширование фрагментов только для определённых условий.</p>
+    <p>Например, страницу с формой мы хотим кэшировать только тогда, когда обращение к ней произошло впервые (посредством GET запроса).</p>
+    <p>Любое последующее отображение формы (посредством POST запроса) не должно быть кэшировано, потому что может содержать данные, введённые пользователем.</p>
+    <p>Для этого мы задаём параметр [[yii\widgets\FragmentCache::enabled|enabled]]:</p>
+
+    <pre class="brush: csharp;">
+    if ($this->beginCache($id, ['enabled' =&gt; Yii::$app->request->isGet])) {
+    
+        // ... здесь создаём содержимое ...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <h2 id="title">
+        Вложенное кэширование
+    </h2>
+
+    <p>Кэширование фрагментов может быть вложенным.</p>
+    <p>Это значит, что кэшируемый фрагмент окружён более крупным фрагментом (содержится в нём), который также кэшируется.</p>
+    <p>Например, комментарии кэшируются во внутреннем фрагменте кэша, и они же кэшируются вместе с содержимым сообщения во внешнем фрагменте кэша.</p>
+    <p>Следующий код демонстрирует как два фрагмента кэша могут быть вложенными:</p>
+
+    <pre class="brush: csharp;">
+    if ($this->beginCache($id1)) {
+    
+        // ...логика создания контента...
+    
+        if ($this->beginCache($id2, $options2)) {
+    
+            // ...логика создания контента...
+    
+            $this->endCache();
+        }
+    
+        // ...логика создания контента...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <p>Параметры кэширования могут быть различными для вложенных кэшей.</p>
+    <p>Например, внутренний и внешний кэши в вышеприведённом примере могут иметь разные сроки хранения.</p>
+    <p>Даже когда данные внешнего кэша уже не являются актуальными, внутренний кэш может содержать актуальный фрагмент.</p>
+    <p>Тем не менее, обратное не верно.</p>
+    <p>Если внешний кэш актуален, данные будут отдаваться из него даже если внутренний кэш содержит устаревшие данные.</p>
+    <p>Следует проявлять осторожность при выставлении срока хранения и задания зависимостей для вложенных кэшей.</p>
+    <p>В противном случае вы можете получить устаревшие данные.</p>
+
+    <h2 id="title">
+        Динамическое содержимое
+    </h2>
+
+    <p>Когда используется кэширование фрагментов, вы можете столкнуться с ситуацией когда большой фрагмент содержимого статичен за исключением одного или нескольких мест.</p>
+    <p>Например, заголовок страницы может отображаться в главном меню вместе с именем текущего пользователя.</p>
+    <p>Еще одна проблема в том, что содержимое, которое было закэшировано, может содержать PHP код, который должен выполняться для каждого запроса (например код для регистрации в asset bundle).</p>
+    <p>Обе проблемы могут быть решены с помощью, так называемой функции динамического содержимого.</p>
+    <p>Динамическое содержимое значит, что часть вывода не будет закэширована даже если она заключена в кэширование фрагментов.</p>
+    <p>Чтобы сделать содержимое динамическим постоянно, оно должно быть создано, используя специальный PHP код.</p>
+    <p>Вы можете вызвать [[yii\base\View::renderDynamic()]] в пределах кэширования фрагмента для вставки динамического содержимого в нужное место, как в примере ниже:</p>
+
+    <pre class="brush: csharp;">
+    if ($this->beginCache($id1)) {
+    
+        // ...логика создания контента...
+    
+        echo $this->renderDynamic('return Yii::$app->user->identity->name;');
+    
+        // ...логика создания контента...
+    
+        $this->endCache();
+    }
+    </pre>
+
+    <p>Метод [[yii\base\View::renderDynamic()|renderDynamic()]] принимает некоторую часть PHP кода как параметр.</p>
+    <p>Возвращаемое значение этого кода будет вставлено в динамическое содержимое.</p>
+    <p>Этот PHP код будет выполняться для каждого запроса, независимо от того находится ли он внутри кэширования фрагмента или нет.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="66.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="68.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/67.html", "Yii2: Кэширование фрагментов", "bm1273"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1273", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1273") == 1) { document.getElementById("bma1273").style.display = "block"; document.getElementById("bm1273").style.display = "none"; } else { document.getElementById("bma1273").style.display = "none"; document.getElementById("bm1273").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Кэширование фрагментов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1273", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

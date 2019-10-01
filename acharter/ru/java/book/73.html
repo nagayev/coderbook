@@ -1,0 +1,188 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma674" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm674" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Application layer (layer 7)
+	</h1>
+
+	<p>Последний уровень – уровень приложений, на котором определяются взаимодействующие стороны, учитывается авторизация пользователя, определяется качество обслуживания (quality of service) и, собственно, обеспечивается выполнение прикладных задач, таких, как обмен файлами, электронными письмами и т.д.</p>
+	<p>Уровень приложения – это не само приложение, хотя зачастую программы выполняют некоторые функции Application layer.</p>
+	<p>Уже упоминались многие протоколы этого уровня: FTP, HTTP, telnet. Этот список легко продолжить, например, протоколы POP3 и SMTP для получения и отправки электронных писем, или протоколы DNS (Domain Name System, служба имен доменов), обеспечивающие преобразование числовых IP- адресов в текстовые доменные имена и обратно.</p>
+	<p>Хотя Internet с технической точки зрения построен на основе IP-адресации, текстовые имена понятнее и легче запоминаются, а потому гораздо более распространены среди обычных пользователей.</p>
+	<p>Рассмотрим принцип работы DNS более подробно.</p>
+	<p>Все привыкли обращаться к, например, web-серверам по доменному имени. </p>
+	<p>С другой стороны для установления соединения требуется IP-адрес.</p>
+	<p>Так, при обращении к серверу www.ru устанавливается TCP-соединение с хостом 194.87.0.50.</p>
+	<p>Поскольку в сети огромное количество серверов, DNS-имена являются иерархическими, иначе с ними было бы очень затруднительно работать.</p>
+	<p>Иерархические части имени записываются через точку.</p>
+	<p>Первый уровень указывается последним.</p>
+	<p>Первоначально существовало 7 трехбуквенных доменов первого уровня:</p>
+	<p><b>com</b> – commercial (коммерческие организации);</p>
+	<p><b>org</b> – non-profit (некоммерческие организации);</p>
+	<p><b>net</b> – network service (организация работы сети);</p>
+	<p><b>edu</b> – educational (образование, зачастую – американские университеты);</p>
+	<p><b>int</b> – international (международные организации);</p>
+	<p><b>gov</b> – government (правительство, организации американского правительства);</p>
+	<p><b>mil</b> – military (военные, американские военные организации).</p>
+	<p>Кроме того, для каждой страны был заведен двухбуквенный домен, например, ru - Россия, su – СССР, us – США, fr – Франция и т.д.</p>
+	<p>В последнее время вводятся новые доменные имена верхнего уровня, такие, как biz и info.</p>
+	<p>В каждом домене первого уровня может быть множество доменов второго уровня.</p>
+	<p>Так, существует множество сайтов в домене ru, или com.</p>
+	<p>У домена второго уровня может быть множество доменов третьего уровня и т.д.</p>
+	<p>Как же определить, какому IP-адресу соответствует доменное имя сервера, к которому обращается пользователь?</p>
+	<p>Для этого существует аналогичная иерархическая система DNS-серверов, каждый из которых отвечает за свой домен.</p>
+	<p>В сетевых настройках компьютера указывается адрес локального DNS-сервера.</p>
+	<p>При запросе к нему сервер сначала проверяет список имен, за которые отвечает он сам, и кеш.</p>
+	<p>Если искомое имя ему неизвестно, он делает запрос вышестоящему DNS-серверу.</p>
+	<p>Например, при обращении к testsite.ru будет сделан запрос к DNS-серверу, отвечающему за домен ru.</p>
+	<p>В свою очередь, сервер testsite.ru знает про все имена в своей зоне testsite.ru, либо, в случае обращения к домену следующего уровня (например, node1.host1.testsite.ru ), знает адрес другого сервера ( host1.testsite.ru ), который за него отвечает, и на этот сервер перенаправляет запрос.</p>
+	<p>Таким образом можно установить IP-адрес для любого зарегистрированного доменного имени.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="72.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="74.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/73.html", "Application layer (layer 7)", "bm674"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm674", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm674") == 1) { document.getElementById("bma674").style.display = "block"; document.getElementById("bm674").style.display = "none"; } else { document.getElementById("bma674").style.display = "none"; document.getElementById("bm674").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Application layer (layer 7)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm674", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

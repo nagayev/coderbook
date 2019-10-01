@@ -1,0 +1,844 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1262" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1262" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Виджеты для данных
+	</h1>
+
+    <p>Yii предоставляет набор виджетов, которые могут быть использованы для отображения данных.</p>
+    <p>В то время как виджет DetailView может быть использован для отображения данных по одной записи, то виджеты ListView и GridView могут быть использованы для показа данных в виде списка или таблицы с возможностью сортировки, фильтрации и разбивки данных постранично.</p>
+
+    <h2 id="title">
+        DetailView
+    </h2>
+
+    <p>Виджет [[yii\widgets\DetailView|DetailView]] отображает детали по данным для одной [[yii\widgets\DetailView::$model|model]].</p>
+    <p>Этот виджет лучше использовать для отображения данных модели в обычном формате(т.е. каждый атрибут модели будет представлен в виде строки в таблице).</p>
+    <p>Модель может быть либо объектом класса [[\yii\base\Model]] или его наследником, таких как active record , либо ассоциативным массивом.</p>
+    <p>DetailView использует свойство [[yii\widgets\DetailView::$attributes|$attributes]] для определений, какие атрибуты модели должны быть показаны и в каком формате.</p>
+    <p>Обратитесь к разделу Форматирование данных за возможными настройками форматирования.</p>
+    <p>Обычное использование DetailView сводится к следующему коду:</p>
+
+    <pre class="brush: csharp;">
+    echo DetailView::widget([
+        'model' =&gt; $model,
+        'attributes' =&gt; [
+            'title',                                           // title свойство (обычный текст)
+            'description:html',                                // description свойство, как HTML
+            [                                                  // name свойство зависимой модели owner
+                'label' =&gt; 'Owner',
+                'value' =&gt; $model->owner->name,            
+                'contentOptions' =&gt; ['class' =&gt; 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' =&gt; ['tooltip' =&gt; 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
+            'created_at:datetime',                             // дата создания в формате datetime
+        ],
+    ]);
+    </pre>
+
+    <h2 id="title">
+        ListView
+    </h2>
+
+    <p>Виджет [[yii\widgets\ListView|ListView]] использует для отображения информации провайдера данных.</p>
+    <p>Каждая модель отображается, используя определённый [[yii\widgets\ListView::$itemView|вид]].</p>
+    <p>Поскольку провайдер включает в себя разбивку на страницы, сортировку и фильтрацию, то его использование удобно для отображения информации конечному пользователю и создания интерфейса управления данными.</p>
+    <p>Обычное использование сводится к следующему коду:</p>
+
+    <pre class="brush: csharp;">
+    use yii\widgets\ListView;
+    use yii\data\ActiveDataProvider;
+    
+    $dataProvider = new ActiveDataProvider([
+        'query' =&gt; Post::find(),
+        'pagination' =&gt; [
+            'pageSize' =&gt; 20,
+        ],
+    ]);
+    echo ListView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'itemView' =&gt; '_post',
+    ]);
+    _post файл вид, который может содержать следующее:
+    
+    &lt;?php
+    use yii\helpers\Html;
+    use yii\helpers\HtmlPurifier;
+    ?&gt;
+    &lt;div class=&quot;post&quot;&gt;
+        &lt;h2&gt;&lt;?= Html::encode($model->title) ?&gt;&lt;/h2&gt;
+    
+        &lt;?= HtmlPurifier::process($model->text) ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <p>В вышеописанном коде текущая модель доступна как $model.</p>
+    <p>Кроме этого доступны дополнительные переменные:</p>
+
+    <pre class="brush: csharp;">
+    $key: mixed, значение ключа в соответствии с данными.
+    $index: integer, индекс элемента данных в массиве элементов, возвращенных поставщику данных, который начинается с 0.
+    $widget: ListView, это экземпляр виджета.
+    </pre>
+
+    <p>Если необходимо послать дополнительные данные в каждый вид, то можно использовать свойство [[yii\widgets\ListView::$viewParams|$viewParams]] как ключ-значение, например:</p>
+
+    <pre class="brush: csharp;">
+    echo ListView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'itemView' =&gt; '_post',
+        'viewParams' =&gt; [
+            'fullView' =&gt; true,
+            'context' =&gt; 'main-page',
+            // ...
+        ],
+    ]);
+    </pre>
+
+    <p>Они также станут доступны в виде в качестве переменных.</p>
+
+    <h2 id="title">
+        GridView
+    </h2>
+
+    <p>Таблица данных или GridView - это один из сверхмощных Yii виджетов.</p>
+    <p>Он может быть полезен, если необходимо быстро создать административный раздел системы.</p>
+    <p>GridView использует данные, как провайдер данных и отображает каждую строку используя [[yii\grid\GridView::columns|columns]] для предоставления данных в таблице.</p>
+    <p>Каждая строка из таблицы представлена данными из одиночной записи и колонка, как правило, представляет собой атрибут записи (некоторые столбцы могут соответствовать сложным выражениям атрибутов или статическому тексту).</p>
+    <p>Минимальный код, который необходим для использования GridView:</p>
+
+    <pre class="brush: csharp;">
+    use yii\grid\GridView;
+    use yii\data\ActiveDataProvider;
+    
+    $dataProvider = new ActiveDataProvider([
+        'query' =&gt; Post::find(),
+        'pagination' =&gt; [
+            'pageSize' =&gt; 20,
+        ],
+    ]);
+    echo GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+    ]);
+    </pre>
+
+    <p>В вышеприведённом коде сначала создаётся провайдер данных и затем используется GridView для отображения атрибутов для каждого элемента из провайдера данных.</p>
+    <p>Отображенная таблица оснащена функционалом сортировки и разбивки на страницы из коробки.</p>
+
+    <h3 id="title">
+        Колонки таблицы
+    </h3>
+
+    <p>Колонки таблицы настраиваются с помощью определённых [[yii\grid\Column]] классов, которые настраиваются в свойстве [[yii\grid\GridView::columns|columns]] виджета GridView.</p>
+    <p>В зависимости от типа колонки и их настроек, данные отображаются по разному.</p>
+    <p>По умолчанию это класс [[yii\grid\DataColumn]], который представляет атрибут модели с возможностью сортировки и фильтрации по нему.</p>
+
+    <pre class="brush: csharp;">
+    echo GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'columns' =&gt; [
+            ['class' =&gt; 'yii\grid\SerialColumn'],
+            // Обычные поля определенные данными содержащимися в $dataProvider.
+            // Будут использованы данные из полей модели.
+            'id',
+            'username',
+            // Более сложный пример.
+            [
+                'class' =&gt; 'yii\grid\DataColumn', // может быть опущено, поскольку является значением по умолчанию
+                'value' =&gt; function ($data) {
+                    return $data->name; // $data['name'] для массивов, например, при использовании SqlDataProvider.
+                },
+            ],
+        ],
+    ]);
+    </pre>
+
+    <p>Учтите, что если [[yii\grid\GridView::columns|columns]] не сконфигурирована, то Yii попытается отобразить все возможные колонки из провайдера данных.</p>
+
+    <h3 id="title">
+        Классы колонок
+    </h3>
+
+    <p>Колонки таблицы могут быть настроены, используя различные классы колонок:</p>
+
+    <pre class="brush: csharp;">
+    echo GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'columns' =&gt; [
+            [
+                'class' =&gt; 'yii\grid\SerialColumn', // <-- тут
+                // тут можно настроить дополнительные свойства
+            ],
+    </pre>
+
+    <p>В дополнение к классам колонок от Yii, вы можете самостоятельно создать свой собственный класс.</p>
+    <p>Каждый класс колонки наследуется от [[yii\grid\Column]], так что есть некоторые общие параметры, которые можно установить при настройке колонок.</p>
+
+    <ul>
+        <li>[[yii\grid\Column::header|header]] позволяет установить содержание для строки заголовка.</li>
+        <li>[[yii\grid\Column::footer|footer]] позволяет установить содержание для "подвала".</li>
+        <li>[[yii\grid\Column::visible|visible]] определяет, должен ли столбец быть видимым.</li>
+        <li>[[yii\grid\Column::content|content]] позволяет передавать действительный обратный вызов, который будет возвращать данные для строки.Формат следующий:</li>
+    </ul>
+
+    <pre class="brush: csharp;">
+    function ($model, $key, $index, $column) {
+        return 'a string';
+    }
+    </pre>
+
+    <p>Вы можете задать различные параметры контейнера HTML через массивы:</p>
+
+    <ul>
+        <li>[[yii\grid\Column::headerOptions|headerOptions]]</li>
+        <li>[[yii\grid\Column::footerOptions|footerOptions]]</li>
+        <li>[[yii\grid\Column::filterOptions|filterOptions]]</li>
+        <li>[[yii\grid\Column::contentOptions|contentOptions]]</li>
+    </ul>
+
+    <h4 id="title">
+        DataColumn
+    </h4>
+
+    <p>[[yii\grid\DataColumn|Data column]] используется для отображения и сортировки данных.</p>
+    <p>По умолчанию этот тип используется для всех колонок.</p>
+    <p>Основная настройка этой колонки - это свойство [[yii\grid\DataColumn::format|format]].</p>
+    <p>Значение этого свойства посылается в методы formatter компонента, который по умолчанию [[\yii\i18n\Formatter|Formatter]]</p>
+
+    <pre class="brush: csharp;">
+    echo GridView::widget([
+        'columns' =&gt; [
+            [
+                'attribute' =&gt; 'name',
+                'format' =&gt; 'text'
+            ],
+            [
+                'attribute' =&gt; 'birthday',
+                'format' =&gt; ['date', 'php:Y-m-d']
+            ],
+        ],
+    ]);
+    </pre>
+
+    <p>В вышеприведённом коде text соответствует [[\yii\i18n\Formatter::asText()]].</p>
+    <p>В качестве первого аргумента для этого метода будет передаваться значение колонки.</p>
+    <p>Во второй колонки описано date, которая соответствует [[\yii\i18n\Formatter::asDate()]].</p>
+    <p>В качестве первого аргумента, опять же, будет передаваться значение колонки, в то время как второй аргумент будет 'php:Y-m-d'.</p>
+    <p>Доступный список форматов смотрите в разделе Форматирование данных.</p>
+    <p>Для конфигурации колонок данных также доступен короткий вид записи, который описан в API документации для [[yii\grid\GridView::columns|колонок]].</p>
+
+    <h4 id="title">
+        ActionColumn
+    </h4>
+
+    <p>[[yii\grid\ActionColumn|ActionColumn]] отображает кнопки действия, такие как изменение или удаление для каждой строки.</p>
+
+    <pre class="brush: csharp;">
+    echo GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'columns' =&gt; [
+            [
+                'class' =&gt; 'yii\grid\ActionColumn',
+                // вы можете настроить дополнительные свойства здесь.
+            ],
+    </pre>
+
+    <p>Доступные свойства для конфигурации:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\grid\ActionColumn::controller|controller]]
+    </pre>
+
+    <p>это идентификатор контроллера, который должен обрабатывать действия.</p>
+    <p>Если не установлен, то будет использоваться текущий активный контроллер.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\grid\ActionColumn::template|template]]
+    </pre>
+
+    <p>определяет шаблон для каждой ячейки в колонке действия.</p>
+    <p>Маркеры заключённые в фигурные скобки являются ID действием контроллера (также называются именами кнопок в контексте колонки действия).</p>
+    <p>Они могут быть заменены, через свойство [[yii\grid\ActionColumn::$buttons|buttons]].</p>
+    <p>Например, маркер {view} будет заменён результатом из функции, определённой в buttons['view']. Если такая функция не может быть найдена, то маркер заменяется на пустую строку.</p>
+    <p>По умолчанию шаблон имеет вид {view} {update} {delete}.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\grid\ActionColumn::buttons|buttons]]
+    </pre>
+
+    <p>массив из функций для отображения кнопок.</p>
+    <p>Ключи массива представлены как имена кнопок (как описывалось выше), а значения представлены в качестве анонимных функций, которые выводят кнопки.</p>
+    <p>Замыкания должны использоваться в следующем виде:</p>
+
+    <pre class="brush: csharp;">
+    function ($url, $model, $key) {
+        // возвращаем HTML код для кнопки
+    }
+    </pre>
+
+    <p>где, $url - это URL, который будет повешен как ссылка на кнопку, $model - это объект модели для текущей строки и $key - это ключ для модели из провайдера данных.</p>
+
+
+    <pre class="brush: csharp;">
+    [[yii\grid\ActionColumn::urlCreator|urlCreator]]
+    </pre>
+
+    <p>замыкание, которое создаёт URL используя информацию из модели.</p>
+    <p>Вид замыкания должен быть таким же как и в [[yii\grid\ActionColumn::createUrl()]].</p>
+    <p>Если свойство не задано, то URL для кнопки будет создана используя метод [[yii\grid\ActionColumn::createUrl()]].</p>
+
+
+    <pre class="brush: csharp;">
+    [[yii\grid\ActionColumn::visibleButtons|visibleButtons]]
+    </pre>
+
+    <p>это массив условий видимости каждой из кнопок.</p>
+    <p>Ключи массива представлены как имена кнопок (как описывалось выше), а значения представлены как булево значение или анонимная функция.</p>
+    <p>Если имя кнопки не описано в массиве, она будет отображена по умолчанию.</p>
+    <p>Замыкания должны использоваться в следующем виде:</p>
+
+    <pre class="brush: csharp;">
+    function ($model, $key, $index) {
+      return $model->status === 'editable'; // отображать ли кнопку
+    }
+    </pre>
+
+    <p>Или вы можете передать булево значение:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'update' =&gt; \Yii::$app->user->can('update')
+    ]
+    </pre>
+
+    <h4 id="title">
+        CheckboxColumn
+    </h4>
+
+    <p>[[yii\grid\CheckboxColumn|Checkbox column]] отображает колонку как флаг (сheckbox).</p>
+    <p>Для добавления CheckboxColumn в виджет GridView, необходимо добавить его в [[yii\grid\GridView::$columns|columns]]:</p>
+
+    <pre class="brush: csharp;">
+    echo GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'columns' =&gt; [
+            // ...
+            [
+                'class' =&gt; 'yii\grid\CheckboxColumn',
+                // вы можете настроить дополнительные свойства здесь.
+            ],
+        ],
+    </pre>
+
+    <p>Пользователи могут нажимать на флаги для выделения строк в таблице.</p>
+    <p>Отмеченные строки могут быть обработаны с помощью JavaScript кода:</p>
+
+    <pre class="brush: csharp;">
+    var keys = $('#grid').yiiGridView('getSelectedRows');
+    // массив ключей для отмеченных строк
+    </pre>
+
+    <h4 id="title">
+        SerialColumn
+    </h4>
+
+    <p>[[yii\grid\SerialColumn|Serial column]] выводит в строках номера начиная с 1 и увеличивая их по мере вывода строк.</p>
+    <p>Использование очень простое :</p>
+
+    <pre class="brush: csharp;">
+    echo GridView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'columns' =&gt; [
+            ['class' =&gt; 'yii\grid\SerialColumn'], // <-- тут
+            // ...
+    </pre>
+
+    <h3 id="title">
+        Фильтрация данных
+    </h3>
+
+    <p>Для фильтрации данных в GridView необходима модель, которая описывает форму для фильтрации, внося условия в запрос поиска для провайдера данных.</p>
+    <p>Общепринятой практикой считается использование active records и создание для неё класса модели для поиска, которая содержит необходимую функциональность(может быть сгенерирована через Gii).</p>
+    <p>Класс модели для поиска должен описывать правила валидации и реализовать метод search(), который будет возвращать провайдер данных.</p>
+    <p>Для поиска возможных Post моделей, можно создать PostSearch наподобие следующего примера:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    namespace app\models;
+    
+    use Yii;
+    use yii\base\Model;
+    use yii\data\ActiveDataProvider;
+    
+    class PostSearch extends Post
+    {
+        public function rules()
+        {
+            // только поля определенные в rules() будут доступны для поиска
+            return [
+                [['id'], 'integer'],
+                [['title', 'creation_date'], 'safe'],
+            ];
+        }
+    
+        public function scenarios()
+        {
+            // bypass scenarios() implementation in the parent class
+            return Model::scenarios();
+        }
+    
+        public function search($params)
+        {
+            $query = Post::find();
+    
+            $dataProvider = new ActiveDataProvider([
+                'query' =&gt; $query,
+            ]);
+    
+            // загружаем данные формы поиска и производим валидацию
+            if (!($this->load($params) && $this->validate())) {
+                return $dataProvider;
+            }
+    
+            // изменяем запрос добавляя в его фильтрацию
+            $query->andFilterWhere(['id' =&gt; $this->id]);
+            $query->andFilterWhere(['like', 'title', $this->title])
+                  ->andFilterWhere(['like', 'creation_date', $this->creation_date]);
+    
+            return $dataProvider;
+        }
+    }
+    </pre>
+
+    <p>Теперь можно использовать этот метод в контроллере, чтобы получить провайдер данных для GridView:</p>
+
+    <pre class="brush: csharp;">
+    $searchModel = new PostSearch();
+    $dataProvider = $searchModel->search(Yii::$app->request->get());
+    
+    return $this->render('myview', [
+        'dataProvider' =&gt; $dataProvider,
+        'searchModel' =&gt; $searchModel,
+    ]);
+    </pre>
+
+    <p>и в виде присвоить их $dataProvider и $searchModel в виджете GridView:</p>
+
+    <pre class="brush: csharp;">
+    echo Gr1idView::widget([
+        'dataProvider' =&gt; $dataProvider,
+        'filterModel' =&gt; $searchModel,
+        'columns' =&gt; [
+            // ...
+        ],
+    ]);
+    </pre>
+
+    <h3 id="title">
+        Отдельная форма фильтрации
+    </h3>
+
+    <p>Фильтров в шапке GridView достаточно для большинства задач, но добавление отдельной формы фильтрации не представляет особой сложности.</p>
+    <p>Она бывает полезна в случае необходимости фильтрации по полям, которые не отображаются в GridView или особых условий фильтрации, например по диапазону дат.</p>
+    <p>Создайте частичное представление _search.php со следующим содержимым:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
+    
+    /* @var $this yii\web\View */
+    /* @var $model app\models\PostSearch */
+    /* @var $form yii\widgets\ActiveForm */
+    ?&gt;
+    
+    &lt;div class=&quot;post-search&quot;&gt;
+        &lt;?php $form = ActiveForm::begin([
+            'action' =&gt; ['index'],
+            'method' =&gt; 'get',
+        ]); ?&gt;
+    
+        &lt;?= $form->field($model, 'title') ?&gt;
+    
+        &lt;?= $form->field($model, 'creation_date') ?&gt;
+    
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;?= Html::submitButton('Искать', ['class' =&gt; 'btn btn-primary']) ?&gt;
+            &lt;?= Html::resetButton('Сбросить', ['class' =&gt; 'btn btn-default']) ?&gt;
+        &lt;/div&gt;
+    
+        &lt;?php ActiveForm::end(); ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <p>и добавьте его отображение в index.php таким образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= $this->render('_search', ['model' =&gt; $searchModel]) ?&gt;
+    </pre>
+
+    <p><b>Примечание:</b> если вы используете Gii для генерации CRUD кода, отдельная форма фильтрации (_search.php) генерируется по умолчанию, но закомментирована в представлении index.php. Вам остается только раскомментировать эту строку и форма готова к использованию!</p>
+    <p>Для фильтра по диапазону дат мы можем добавить дополнительные атрибуты createdFrom и createdTo в поисковую модель (их нет в соответствующей таблице модели):</p>
+
+    <pre class="brush: csharp;">
+    class PostSearch extends Post
+    {
+        /**
+         * @var string
+         */
+        public $createdFrom;
+    
+        /**
+         * @var string
+         */
+        public $createdTo;
+    }
+    </pre>
+
+    <p>Расширим условия запроса в методе search():</p>
+
+    <pre class="brush: csharp;">
+    $query->andFilterWhere(['&gt;=', 'creation_date', $this->createdFrom])
+          ->andFilterWhere(['&lt;=', 'creation_date', $this->createdTo]);
+    </pre>
+
+    <p>И добавим соответствующие поля в форму фильтрации:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= $form->field($model, 'creationFrom') ?&gt;
+    
+    &lt;?= $form->field($model, 'creationTo') ?&gt;
+    </pre>
+
+    <h3 id="title">
+        Отображение зависимых моделей
+    </h3>
+
+    <p>Бывают случаи, когда необходимо в GridView вывести в колонке значения из зависимой модели для active records, например имя автора новости, вместо его id.</p>
+    <p>Для этого необходимо задать [[yii\grid\GridView::$columns]] как author.name, если же модель Post содержит зависимость с именем author и имя автора хранится в атрибуте name.</p>
+    <p>GridView отобразит имя автора, но вот сортировка и фильтрации по этому полю будет не доступна.</p>
+    <p>Необходимо дополнить некоторый функционал в PostSearch модель, которая была упомянута в предыдущем разделе.</p>
+    <p>Для включения сортировки по зависимой колонки необходимо присоединить зависимую таблицу и добавить правило в компонент Sort для провайдера данных.:</p>
+
+    <pre class="brush: csharp;">
+    $query = Post::find();
+    $dataProvider = new ActiveDataProvider([
+        'query' =&gt; $query,
+    ]);
+    
+    // присоединяем зависимость `author` которая является связью с таблицей `users`
+    // и устанавливаем алиас таблицы в значение `author`
+    $query->joinWith(['author' =&gt; function($query) { $query->from(['author' =&gt; 'users']); }]);
+    // добавляем сортировку по колонке из зависимости
+    $dataProvider->sort->attributes['author.name'] = [
+        'asc' =&gt; ['author.name' =&gt; SORT_ASC],
+        'desc' =&gt; ['author.name' =&gt; SORT_DESC],
+    ];
+    
+    // ...
+    </pre>
+
+    <p>Фильтрации также необходим вызов joinWith, как описано выше.</p>
+    <p>Также необходимо определить для поиска столбец в атрибутах и правилах:</p>
+
+    <pre class="brush: csharp;">
+    public function attributes()
+    {
+        // делаем поле зависимости доступным для поиска
+        return array_merge(parent::attributes(), ['author.name']);
+    }
+    
+    public function rules()
+    {
+        return [
+            [['id'], 'integer'],
+            [['title', 'creation_date', 'author.name'], 'safe'],
+        ];
+    }
+    </pre>
+
+    <p>В search() просто добавляется другое условие фильтрации:</p>
+
+    <pre class="brush: csharp;">
+    $query->andFilterWhere(['LIKE', 'author.name', $this->getAttribute('author.name')]);
+    </pre>
+
+    <p><b>Информация:</b> В коде, что выше, используется такая же строка, как и имя зависимости и псевдонима таблицы. Однако, когда ваш псевдоним и имя связи различаются, вы должны обратить внимание, где вы используете псевдоним, а где имя связи. Простым правилом для этого является использование псевдонима в каждом месте, которое используется для построения запроса к базе данных, и имя связи во всех других определениях, таких как attributes(), rules() и т.д.</p>
+    <p>Например, если вы используете псевдоним au для связи с таблицей автора, то joinWith будет выглядеть так:</p>
+
+    <pre class="brush: csharp;">
+    $query->joinWith(['author' =&gt; function($query) { $query->from(['au' =&gt; 'users']); }]);
+    </pre>
+
+    <p>Это также возможно вызвать как $query->joinWith(['author']);, когда псевдоним определен в определении отношения.</p>
+    <p>Псевдоним должен быть использован в состоянии фильтра, но имя атрибута остается неизменным:</p>
+
+    <pre class="brush: csharp;">
+    $query->andFilterWhere(['LIKE', 'au.name', $this->getAttribute('author.name')]);
+    </pre>
+
+    <p>То же самое верно и для определения сортировки:</p>
+
+    <pre class="brush: csharp;">
+    $dataProvider->sort->attributes['author.name'] = [
+         'asc' =&gt; ['au.name' =&gt; SORT_ASC],
+         'desc' =&gt; ['au.name' =&gt; SORT_DESC],
+    ];
+    </pre>
+
+    <p>Кроме того, при определении [[yii\data\Sort::defaultOrder|defaultOrder]] для сортировки необходимо использовать имя зависимости вместо псевдонима:</p>
+
+    <pre class="brush: csharp;">
+    $dataProvider->sort->defaultOrder = ['author.name' =&gt; SORT_ASC];
+    </pre>
+
+    <p><b>Информация:</b> Для подробной информации по joinWith и запросам, выполняемым в фоновом режиме, обратитесь к active record документации.</p>
+
+    <h4 id="title">
+        Использование SQL видов для вывода данных, их сортировки и фильтрации.
+    </h4>
+
+    <p>Существует и другой подход, который быстре и более удобен - SQL виды.</p>
+    <p>Например, если необходимо показать таблицу из пользователей и их профилей, то можно выбрать такой путь:</p>
+
+    <pre class="brush: csharp;">
+    CREATE OR REPLACE VIEW vw_user_info AS
+        SELECT user.*, user_profile.lastname, user_profile.firstname
+        FROM user, user_profile
+        WHERE user.id = user_profile.user_id
+    </pre>
+
+    <p>Теперь вам необходимо создать ActiveRecord, через который будут доступны данные из вида выше:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\models\views\grid;
+    
+    use yii\db\ActiveRecord;
+    
+    class UserView extends ActiveRecord
+    {
+    
+        /**
+         * @inheritdoc
+         */
+        public static function tableName()
+        {
+            return 'vw_user_info';
+        }
+    
+        public static function primaryKey()
+        {
+            return ['id'];
+        }
+    
+        /**
+         * @inheritdoc
+         */
+        public function rules()
+        {
+            return [
+                // здесь определяйте ваши правила
+            ];
+        }
+    
+        /**
+         * @inheritdoc
+         */
+        public function attributeLabels()
+        {
+            return [
+                // здесь определяйте ваши метки атрибутов
+            ];
+        }
+    }
+    </pre>
+
+    <p>После этого вы можете использовать UserView в модели поиска, без каких-либо дополнительных условий по сортировке и фильтрации.</p>
+    <p>Все атрибуты будут работать из коробки.</p>
+    <p>Но такая реализация имеет свои плюсы и минусы:</p>
+
+    <ul>
+        <li>вам не надо определять условия сортировок и фильтраций. Всё работает из коробки;</li>
+        <li>это намного быстрее данных, так как некоторые запросы уже выполнены (т.е. для каждой зависимости не нужно выполнять дополнительные запросы)</li>
+        <li>поскольку это простое отображение данных из sql вида, то в модели будет отсутствовать некоторая доменная логика, например такие методы как isActive, isDeleted, необходимо продублировать в классе, который описывает вид.</li>
+    </ul>
+
+    <h3 id="title">
+        Несколько GridViews на одной странице
+    </h3>
+
+    <p>Вы можете использовать больше одной GridView на одной странице.</p>
+    <p>Для этого нужно внести некоторые дополнительные настройки для того, чтобы они друг другу не мешали.</p>
+    <p>При использовании нескольких экземпляров GridView вы должны настроить различные имена параметров для сортировки и ссылки для разбиения на страницы так, чтобы каждый GridView имел свою индивидуальную сортировку и разбиение на страницы.</p>
+    <p>Сделать это возможно через настройку [[yii\data\Sort::sortParam|sortParam]] и [[yii\data\Pagination::pageParam|pageParam]] свойств провайдеров данных [[yii\data\BaseDataProvider::$sort|sort]] и [[yii\data\BaseDataProvider::$pagination|pagination]]</p>
+    <p>Допустим мы хотим список моделей Post и User, для которых мы уже подготовили провайдеры данных $userProvider и $postProvider, тогда код будет выглядеть следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    use yii\grid\GridView;
+    
+    $userProvider->pagination->pageParam = 'user-page';
+    $userProvider->sort->sortParam = 'user-sort';
+    
+    $postProvider->pagination->pageParam = 'post-page';
+    $postProvider->sort->sortParam = 'post-sort';
+    
+    echo '&lt;h1&gt;Users&lt;/h1&gt;';
+    echo GridView::widget([
+        'dataProvider' =&gt; $userProvider,
+    ]);
+    
+    echo '&lt;h1&gt;Posts&lt;/h1&gt;';
+    echo GridView::widget([
+        'dataProvider' =&gt; $postProvider,
+    ]);
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="55.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="57.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/56.html", "Yii2: Виджеты для данных", "bm1262"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1262", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1262") == 1) { document.getElementById("bma1262").style.display = "block"; document.getElementById("bm1262").style.display = "none"; } else { document.getElementById("bma1262").style.display = "none"; document.getElementById("bm1262").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Виджеты для данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1262", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

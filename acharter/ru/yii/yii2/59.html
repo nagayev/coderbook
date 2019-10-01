@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1265" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1265" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Аутентификация
+	</h1>
+
+    <p>Аутентификация — это процесс проверки подлинности пользователя.</p>
+    <p>Обычно используется идентификатор (например, username или адрес электронной почты) и секретный токен (например, пароль или ключ доступа), чтобы судить о том, что пользователь именно тот, за кого себя выдаёт.</p>
+    <p>Аутентификация является основной функцией формы входа.</p>
+    <p>Yii предоставляет фреймворк авторизации с различными компонентами, обеспечивающими процесс входа.</p>
+    <p>Для использования этого фреймворка вам нужно проделать следующее:</p>
+    <p>Настроить компонент приложения [[yii\web\User|user]];</p>
+    <p>Создать класс, реализующий интерфейс [[yii\web\IdentityInterface]].</p>
+
+    <h2 id="title">
+        Настройка [[yii\web\User]]
+    </h2>
+
+    <p>Компонент [[yii\web\User|user]] управляет статусом аутентификации пользователя.</p>
+    <p>Он требует, чтобы вы указали [[yii\web\User::identityClass|identity class]], который будет содержать текущую логику аутентификации.</p>
+    <p>В следующей конфигурации приложения, [[yii\web\User::identityClass|identity class]] для [[yii\web\User|user]] задан как app\models\User, реализация которого будет объяснена в следующем разделе:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'components' =&gt; [
+            'user' =&gt; [
+                'identityClass' =&gt; 'app\models\User',
+            ],
+        ],
+    ];
+    </pre>
+
+    <h2 id="title">
+        Реализация [[yii\web\IdentityInterface]]
+    </h2>
+
+    <p>[[yii\web\User::identityClass|identity class]] должен реализовывать [[yii\web\IdentityInterface]], который содержит следующие методы:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::findIdentity()|findIdentity()]]
+    </pre>
+
+    <p>Этот метод находит экземпляр identity class, используя ID пользователя.</p>
+    <p>Этот метод используется, когда необходимо поддерживать состояние аутентификации через сессии.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::findIdentityByAccessToken()|findIdentityByAccessToken()]]
+    </pre>
+
+    <p>Этот метод находит экземпляр identity class, используя токен доступа. Метод используется, когда требуется аутентифицировать пользователя только по секретному токену (например в RESTful приложениях, не сохраняющих состояние между запросами).</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::getId()|getId()]]
+    </pre>
+
+    <p>Этот метод возвращает ID пользователя, представленного данным экземпляром identity.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::getAuthKey()|getAuthKey()]]
+    </pre>
+
+    <p>Этот метод возвращает ключ, используемый для основанной на cookie аутентификации. Ключ сохраняется в аутентификационной cookie и позже сравнивается с версией, находящейся на сервере, чтобы удостоверится, что аутентификационная cookie верная.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::validateAuthKey()|validateAuthKey()]]
+    </pre>
+
+    <p>Этот метод реализует логику проверки ключа для основанной на cookie аутентификации.</p>
+    <p>Если какой-то из методов не требуется, то можно реализовать его с пустым телом.</p>
+    <p>Для примера, если у вас RESTful приложение, не сохраняющее состояние между запросами, вы можете реализовать только</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::findIdentityByAccessToken()|findIdentityByAccessToken()]]
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\IdentityInterface::getId()|getId()]]
+    </pre>
+
+    <p>тогда как остальные методы оставить пустыми.</p>
+    <p>В следующем примере, [[yii\web\User::identityClass|identity class]] реализован как класс Active Record, связанный с таблицей user.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    
+    use yii\db\ActiveRecord;
+    use yii\web\IdentityInterface;
+    
+    class User extends ActiveRecord implements IdentityInterface
+    {
+        public static function tableName()
+        {
+            return 'user';
+        }
+    
+        /**
+         * Finds an identity by the given ID.
+         *
+         * @param string|int $id the ID to be looked for
+         * @return IdentityInterface|null the identity object that matches the given ID.
+         */
+        public static function findIdentity($id)
+        {
+            return static::findOne($id);
+        }
+    
+        /**
+         * Finds an identity by the given token.
+         *
+         * @param string $token the token to be looked for
+         * @return IdentityInterface|null the identity object that matches the given token.
+         */
+        public static function findIdentityByAccessToken($token, $type = null)
+        {
+            return static::findOne(['access_token' =&gt; $token]);
+        }
+    
+        /**
+         * @return int|string current user ID
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+    
+        /**
+         * @return string current user auth key
+         */
+        public function getAuthKey()
+        {
+            return $this->auth_key;
+        }
+    
+        /**
+         * @param string $authKey
+         * @return bool if auth key is valid for current user
+         */
+        public function validateAuthKey($authKey)
+        {
+            return $this->getAuthKey() === $authKey;
+        }
+    }
+    </pre>
+
+    <p>Как объяснялось ранее, вам нужно реализовать только getAuthKey() и validateAuthKey(), если ваше приложение использует только аутентификацию основанную на cookie.</p>
+    <p>В этом случае вы можете использовать следующий код для генерации ключа аутентификации для каждого пользователя и хранения его в таблице user:</p>
+
+    <pre class="brush: csharp;">
+    class User extends ActiveRecord implements IdentityInterface
+    {
+        ......
+    
+        public function beforeSave($insert)
+        {
+            if (parent::beforeSave($insert)) {
+                if ($this->isNewRecord) {
+                    $this->auth_key = \Yii::$app->security->generateRandomString();
+                }
+                return true;
+            }
+            return false;
+        }
+    }
+    </pre>
+
+    <p><b>Примечание:</b> Не путайте identity класс User с классом [[yii\web\User]]. Первый является классом, реализующим логику аутентификации пользователя. Он часто реализуется как класс Active Record, связанный с некоторым постоянным хранилищем, где лежит информация о пользователях. Второй — это класс компонента приложения, отвечающий за управление состоянием аутентификации пользователя.</p>
+
+    <h2 id="title">
+        Использование [[yii\web\User]]
+    </h2>
+
+    <p>В основном класс [[yii\web\User]] используют как компонент приложения user.</p>
+    <p>Можно получить identity текущего пользователя, используя выражение Yii::$app->user->identity.</p>
+    <p>Оно вернёт экземпляр [[yii\web\User::identityClass|identity class]], представляющий текущего аутентифицированного пользователя, или null, если текущий пользователь не аутентифицирован (например, гость).</p>
+    <p>Следующий код показывает, как получить другую связанную с аутентификацией информацию из [[yii\web\User]]:</p>
+
+    <pre class="brush: csharp;">
+    // `identity` текущего пользователя. `Null`, если пользователь не аутентифицирован.
+    $identity = Yii::$app->user->identity;
+    
+    // ID текущего пользователя. `Null`, если пользователь не аутентифицирован.
+    $id = Yii::$app->user->id;
+    
+    // проверка на то, что текущий пользователь гость (не аутентифицирован)
+    $isGuest = Yii::$app->user->isGuest;
+    </pre>
+
+    <p>Для залогинивания пользователя вы можете использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    // найти identity с указанным username.
+    // замечание: также вы можете проверить и пароль, если это нужно
+    $identity = User::findOne(['username' =&gt; $username]);
+    
+    // логиним пользователя
+    Yii::$app->user->login($identity);
+    </pre>
+
+    <p>Метод [[yii\web\User::login()]] устанавливает identity текущего пользователя в [[yii\web\User]].</p>
+    <p>Если сессии [[yii\web\User::enableSession|включены]], то identity будет сохраняться в сессии, так что состояние статуса аутентификации будет поддерживаться на всём протяжении сессии.</p>
+    <p>Если [[yii\web\User::enableAutoLogin|включен]] вход, основанный на cookie (так называемый "запомни меня" вход), то identity также будет сохранена в cookie так, чтобы статус аутентификации пользователя мог быть восстановлен на протяжении всего времени жизни cookie.</p>
+    <p>Для включения входа, основанного на cookie, вам нужно установить [[yii\web\User::enableAutoLogin]] в true в конфигурации приложения.</p>
+    <p>Вы также можете настроить время жизни, передав его при вызове метода [[yii\web\User::login()]].</p>
+    <p>Для выхода пользователя, просто вызовите</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->user->logout();
+    </pre>
+
+    <p><b>Обратите внимание:</b> выход пользователя имеет смысл только если сессии включены. Метод сбрасывает статус аутентификации сразу и из памяти и из сессии. И по умолчанию, будут также уничтожены все сессионные данные пользователя.</p>
+    <p>Если вы хотите сохранить сессионные данные, вы должны вместо этого вызвать Yii::$app->user->logout(false).</p>
+
+    <h2 id="title">
+        События аутентификации
+    </h2>
+
+    <p>Класс [[yii\web\User]] вызывает несколько событий во время процессов входа и выхода.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\User::EVENT_BEFORE_LOGIN|EVENT_BEFORE_LOGIN]]
+    </pre>
+
+    <p>вызывается перед вызовом [[yii\web\User::login()]].</p>
+    <p>Если обработчик устанавливает свойство [[yii\web\UserEvent::isValid|isValid]] объекта в false, процесс входа будет прерван.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\User::EVENT_AFTER_LOGIN|EVENT_AFTER_LOGIN]]
+    </pre>
+
+    <p>вызывается после успешного входа.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\User::EVENT_BEFORE_LOGOUT|EVENT_BEFORE_LOGOUT]]
+    </pre>
+
+    <p>вызывается перед вызовом [[yii\web\User::logout()]].</p>
+    <p>Если обработчик устанавливает свойство [[yii\web\UserEvent::isValid|isValid]] объекта в false, процесс выхода будет прерван.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\User::EVENT_AFTER_LOGOUT|EVENT_AFTER_LOGOUT]]
+    </pre>
+
+    <p>вызывается после успешного выхода.</p>
+    <p>Вы можете использовать эти события для реализации функции аудита входа, сбора статистики онлайн пользователей.</p>
+    <p>Например, в обработчике для [[yii\web\User::EVENT_AFTER_LOGIN|EVENT_AFTER_LOGIN]] вы можете сделать запись о времени и IP адресе входа в таблицу user.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="58.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="60.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/59.html", "Yii2: Аутентификация", "bm1265"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1265", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1265") == 1) { document.getElementById("bma1265").style.display = "block"; document.getElementById("bm1265").style.display = "none"; } else { document.getElementById("bma1265").style.display = "none"; document.getElementById("bm1265").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Аутентификация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1265", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

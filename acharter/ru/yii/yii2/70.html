@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1276" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1276" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Быстрый старт
+	</h1>
+
+    <p>Yii включает полноценный набор средств для упрощённой реализации RESTful API.</p>
+    <p>В частности это следующие возможности:</p>
+
+    <ul>
+        <li>Быстрое создание прототипов с поддержкой распространенных API к Active Record;</li>
+        <li>Настройка формата ответа (JSON и XML реализованы по умолчанию);</li>
+        <li>Получение сериализованных объектов с нужной вам выборкой полей;</li>
+        <li>Надлежащее форматирование данных и ошибок при их валидации;</li>
+        <li>Поддержка HATEOAS;</li>
+        <li>Эффективная маршрутизация с надлежащей проверкой HTTP методов;</li>
+        <li>Встроенная поддержка методов OPTIONS и HEAD;</li>
+        <li>Аутентификация и авторизация;</li>
+        <li>HTTP кэширование и кэширование данных;</li>
+        <li>Настройка ограничения для частоты запросов (Rate limiting);</li>
+    </ul>
+
+    <p>Рассмотрим пример, как можно настроить Yii под RESTful API, приложив при этом минимум усилий.</p>
+    <p>Предположим, вы захотели RESTful API для данных по пользователям.</p>
+    <p>Эти данные хранятся в базе данных и для работы с ними вами была ранее создана модель [[yii\db\ActiveRecord|ActiveRecord]] (класс app\models\User).</p>
+
+    <h2 id="title">
+        Создание контроллера
+    </h2>
+
+    <p>Во-первых, создадим класс контроллера app\controllers\UserController:</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\rest\ActiveController;
+    
+    class UserController extends ActiveController
+    {
+        public $modelClass = 'app\models\User';
+    }
+    </pre>
+
+    <p>Класс контроллера наследуется от [[yii\rest\ActiveController]].</p>
+    <p>Мы задали [[yii\rest\ActiveController::modelClass|modelClass]] как app\models\User, тем самым указав контроллеру, к какой модели ему необходимо обращаться для редактирования или выборки данных.</p>
+
+    <h2 id="title">
+        Настройка правил URL
+    </h2>
+
+    <p>Далее изменим настройки компонента urlManager в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    'urlManager' =&gt; [
+        'enablePrettyUrl' =&gt; true,
+        'enableStrictParsing' =&gt; true,
+        'showScriptName' =&gt; false,
+        'rules' =&gt; [
+            ['class' =&gt; 'yii\rest\UrlRule', 'controller' =&gt; 'user'],
+        ],
+    ]
+    </pre>
+
+    <p>Настройки выше добавляют правило для контроллера user, которое предоставляет доступ к данным пользователя через красивые URL и логичные глаголы HTTP.</p>
+
+    <h2 id="title">
+        Включение JSON на прием данных
+    </h2>
+
+    <p>Для того чтобы API мог принимать данные в формате JSON, сконфигурируйте [[yii\web\Request::$parsers|parsers]] свойство у компонента request application component на использование [[yii\web\JsonParser]] JSON данных на входе:</p>
+
+    <pre class="brush: csharp;">
+    'request' =&gt; [
+        'parsers' =&gt; [
+            'application/json' =&gt; 'yii\web\JsonParser',
+        ]
+    ]
+    </pre>
+
+    <p><b>Примечание:</b> Конфигурация, приведенная выше необязательна. Без приведенной выше конфигурации, API сможет определить только application/x-www-form-urlencoded и multipart/form-data форматы.</p>
+
+    <h2 id="title">
+        Пробуем
+    </h2>
+
+    <p>Вот так просто мы и создали RESTful API для доступа к данным пользователя.</p>
+    <p>API нашего сервиса сейчас включает в себя:</p>
+
+    <ul>
+        <li>GET /users: получение постранично списка всех пользователей;</li>
+        <li>HEAD /users: получение метаданных листинга пользователей;</li>
+        <li>POST /users: создание нового пользователя;</li>
+        <li>GET /users/123: получение информации по конкретному пользователю с id равным 123;</li>
+        <li>HEAD /users/123: получение метаданных по конкретному пользователю с id равным 123;</li>
+        <li>PATCH /users/123 и PUT /users/123: изменение информации по пользователю с id равным 123;</li>
+        <li>DELETE /users/123: удаление пользователя с id равным 123;</li>
+        <li>OPTIONS /users: получение поддерживаемых методов, по которым можно обратится к /users;</li>
+        <li>OPTIONS /users/123: получение поддерживаемых методов, по которым можно обратится к /users/123.</li>
+    </ul>
+
+    <p><b>Информация:</b> Yii автоматически использует множественное число от имени контроллера в URL.</p>
+    <p>Пробуем получить ответы по API используя curl:</p>
+
+    <pre class="brush: csharp;">
+    $ curl -i -H "Accept:application/json" "http://localhost/users"
+    
+    HTTP/1.1 200 OK
+    Date: Sun, 02 Mar 2014 05:31:43 GMT
+    Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.20 mod_ssl/2.2.26 OpenSSL/0.9.8y
+    X-Powered-By: PHP/5.4.20
+    X-Pagination-Total-Count: 1000
+    X-Pagination-Page-Count: 50
+    X-Pagination-Current-Page: 1
+    X-Pagination-Per-Page: 20
+    Link: &lt;http://localhost/users?page=1&gt;; rel=self, 
+          &lt;http://localhost/users?page=2&gt;; rel=next, 
+          &lt;http://localhost/users?page=50&gt;; rel=last
+    Transfer-Encoding: chunked
+    Content-Type: application/json; charset=UTF-8
+    
+    [
+        {
+            "id": 1,
+            ...
+        },
+        {
+            "id": 2,
+            ...
+        },
+        ...
+    ]
+    </pre>
+
+    <p>Попробуйте изменить заголовок допустимого формата ресурса на application/xml и в ответ вы получите результат в формате XML:</p>
+
+    <pre class="brush: csharp;">
+    $ curl -i -H "Accept:application/xml" "http://localhost/users"
+    
+    HTTP/1.1 200 OK
+    Date: Sun, 02 Mar 2014 05:31:43 GMT
+    Server: Apache/2.2.26 (Unix) DAV/2 PHP/5.4.20 mod_ssl/2.2.26 OpenSSL/0.9.8y
+    X-Powered-By: PHP/5.4.20
+    X-Pagination-Total-Count: 1000
+    X-Pagination-Page-Count: 50
+    X-Pagination-Current-Page: 1
+    X-Pagination-Per-Page: 20
+    Link: &lt;http://localhost/users?page=1&gt;; rel=self, 
+          &lt;http://localhost/users?page=2&gt;; rel=next, 
+          &lt;http://localhost/users?page=50&gt;; rel=last
+    Transfer-Encoding: chunked
+    Content-Type: application/xml
+    
+    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    &lt;response&gt;
+        &lt;item&gt;
+            &lt;id&gt;1&lt;/id&gt;
+            ...
+        &lt;/item&gt;
+        &lt;item&gt;
+            &lt;id&gt;2&lt;/id&gt;
+            ...
+        &lt;/item&gt;
+        ...
+    &lt;/response&gt;
+    </pre>
+
+    <p><b>Подсказка:</b> Вы можете получить доступ к API через веб-браузер, введя адрес http://localhost/users. Но в этом случае для передачи определённых заголовков вам, скорее всего, потребуются дополнительные плагины для браузера.</p>
+    <p>Если внимательно посмотреть результат ответа, то можно обнаружить, что в заголовках есть информация об общем числе записей, количестве страниц и т. д.</p>
+    <p>Тут так же можно обнаружить ссылки на другие страницы, как, например, http://localhost/users?page=2.</p>
+    <p>Перейдя по ней можно получить вторую страницу данных пользователей.</p>
+    <p>Используя параметры fields и expand в URL, можно указать, какие поля должны быть включены в результат.</p>
+    <p>Например, по адресу http://localhost/users?fields=id,email мы получим информацию по пользователям, которая будет содержать только id и email.</p>
+    <p><b>Информация:</b> Вы наверное заметили, что при обращении к http://localhost/users мы получаем информацию с полями, которые нежелательно показывать, такими как password_hash и auth_key.</p>
+    <p>Вы можете и должны отфильтровать их как описано в разделе «Ресурсы».</p>
+
+    <h2 id="title">
+        Резюме
+    </h2>
+
+    <p>Используя Yii в качестве RESTful API фреймворка, мы реализуем точки входа API как действия контроллеров.</p>
+    <p>Контроллер используется для организации действий, которые относятся к определённому типу ресурса.</p>
+    <p>Ресурсы представлены в виде моделей данных, которые наследуются от класса [[yii\base\Model]].</p>
+    <p>Если необходима работа с базами данных (как с реляционными, так и с NoSQL), рекомендуется использовать для представления ресурсов [[yii\db\ActiveRecord|ActiveRecord]].</p>
+    <p>Вы можете использовать [[yii\rest\UrlRule]] для упрощения маршрутизации точек входа API.</p>
+    <p>Хоть это не обязательно, рекомендуется отделять RESTful APIs приложение от основного веб-приложения.</p>
+    <p>Такое разделение легче обслуживается.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="69.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="71.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/70.html", "Yii2: Быстрый старт", "bm1276"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1276", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1276") == 1) { document.getElementById("bma1276").style.display = "block"; document.getElementById("bm1276").style.display = "none"; } else { document.getElementById("bma1276").style.display = "none"; document.getElementById("bm1276").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Быстрый старт") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1276", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

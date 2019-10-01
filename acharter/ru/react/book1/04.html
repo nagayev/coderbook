@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma978" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm978" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Первые шаги
+	</h1>
+
+	<p>Для сборки нашего кода будем использовать Webpack.</p>
+
+	<pre class="brush: csharp;">
+		npm i webpack webpack-dev-middleware webpack-hot-middleware --save-dev
+	</pre>
+
+	<p>Флаг --save-dev - добавит пакет webpack (и парочку вспомогательных) в список зависимостей нашего проекта.</p>
+	<p>Теперь необходимо создать конфигурационный файл</p>
+	<p>webpack.config.js</p>
+
+	<pre class="brush: csharp;">
+	var path = require('path')
+	var webpack = require('webpack')
+	module.exports = {
+		devtool: 'cheap-module-eval-source-map',
+		entry: [
+			'webpack-hot-middleware/client',
+			'./src/index'
+		],
+		output: {
+			path: path.join(__dirname, 'dist'),
+			filename: 'bundle.js',
+			publicPath: '/static/'
+		},
+		plugins: [
+			new webpack.optimize.OccurenceOrderPlugin(),
+			new webpack.HotModuleReplacementPlugin(),
+			new webpack.NoErrorsPlugin()
+		]
+	}
+	</pre>
+
+	<p>Даже для тех, кто не знаком с webpack'ом, этот конфиг покажется вполне понятным.</p>
+	<p>В entry - указывается откуда webpack'у начинать сборку, а в output - куда сгенерировать.</p>
+	<p>В devtool указываем, что нам нужен source-map для отладки кода с парой настроек (cheap, module, eval).</p>
+	<p>Интерес пытливого читателя может вызвать строка 'webpack-hot-middleware/client' (NPM), которая нужна нам для поддержки hot-reload, вместе с одним из плагинов - webpack.HotModuleReplacementPlugin</p>
+
+	<h1 id="title">
+		Server
+	</h1>
+
+	<p>Нам понадобится сервер для разработки, для этого мы можем использовать webpack-dev-server, либо быстро развернем свой.</p>
+	<p>В данном руководстве рассматривается второй вариант.</p>
+	<p>Для начала установим express</p>
+
+	<pre class="brush: csharp;">
+		npm i express --save-dev
+	</pre>
+
+	<p>и создадим наш web-сервер на его основе.</p>
+	<p>server.js</p>
+
+	<pre class="brush: csharp;">
+		var webpack = require('webpack')
+		var webpackDevMiddleware = require('webpack-dev-middleware')
+		var webpackHotMiddleware = require('webpack-hot-middleware')
+		var config = require('./webpack.config')
+		var app = new (require('express'))()
+		var port = 3000
+		var compiler = webpack(config)
+		app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
+		app.use(webpackHotMiddleware(compiler))
+		
+		app.get("/", function(req, res)
+		{
+			res.sendFile(__dirname + '/index.html')
+		})
+	
+		app.listen(port, function(error)
+		{
+			if (error)
+			{
+				console.error(error)
+			}
+			else
+			{
+				console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
+			}
+		})
+	</pre>
+
+	<p>Обратите внимание, на строку</p>
+
+	<pre class="brush: csharp;">
+		app.use(webpackHotMiddleware(compiler))
+	</pre>
+
+	<p>На этом шаге добавляется немного магии к нашему серверу, а именно: сервер теперь принимает уведомления, когда главный js скрипт собран и вызывает обновления модулей нашего приложения, в остальном cервер всего навсего отдает нам index.html, в котором мы подключаем файл, сгенерированный webpack'ом.</p>
+	<p>index.html</p>
+
+	<pre class="brush: csharp;">
+		&lt;!DOCTYPE html&gt;
+		&lt;html&gt;
+		&#x9;&lt;head&gt;
+		&#x9;&#x9;&lt;title&gt;Redux [RU]Tutorial&lt;/title&gt;
+		&#x9;&lt;/head&gt;
+
+		&#x9;&lt;body&gt;
+		&#x9;&#x9;&lt;div id=&quot;root&quot;&gt;
+		&#x9;&#x9;&lt;/div&gt;
+		&#x9;&#x9;&lt;script src=&quot;/static/bundle.js&quot;&gt;&lt;/script&gt;
+		&#x9;&lt;/body&gt;
+		&lt;/html&gt;
+	</pre>
+
+	<p>Добавим точку входа для webpack'а.</p>
+	<p>Мы указали ее в нашем webpack.config.js в настройке entry - index.js</p>
+	<p>src/index.js</p>
+
+	<pre class="brush: csharp;">
+		document.getElementById('root').innerHTML = 'Привет, я готов.'
+	</pre>
+
+	<p>Проверим?</p>
+
+	<pre class="brush: csharp;">
+		npm start
+	</pre>
+
+	<p>http://localhost:3000/</p>
+	<p>Отлично, кое-что уже завелось.</p>
+	<p>Но если сейчас обновить код в файле index.js страница в браузере останется прежней.</p>
+	<p>Хотя при этом в консоли мы увидим, что webpack что-то пересобрал.</p>
+
+	<h1 id="title">
+		Hot Reload
+	</h1>
+
+	<p>Дело в том, что "модуль" index.js не умеет сообщать webpack'у каким образом он хотел бы обновиться.</p>
+	<p>Сейчас, для простоты примера, достаточно добавить строку module.hot.accept(), которая сообщает webpack'у следующую информацию:</p>
+	<p>"Я (index.js) умею hot-reload сам, для этого просто возьми и обнови меня в сгенерированном файле (/static/bundle.js)."</p>
+	<p>src/index.js</p>
+
+	<pre class="brush: csharp;">
+	document.getElementById('root').innerHTML = 'Привет, я готов!'
+	module.hot.accept()
+	</pre>
+
+	<p>Перезапустите сервер, обновите страницу браузера.</p>
+	<p>А теперь поменяйте текст, в index.js - он так же обновится на экране браузера.</p>
+	<p>Браузер не перезагрузит страницу, как в случае с live-reload, а сразу отобразит только нужный кусочек.</p>
+	<p>Это гораздо удобнее!</p>
+	<p>Конечно, постоянно указывать module.hot.accept() не удобно, и не разумно.</p>
+	<p>Следующий шаг поможет нам избавиться от "ручной" настройки hot-reload для react.js кода.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="03.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="05.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/04.html", "Первые шаги", "bm978"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm978", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm978") == 1) { document.getElementById("bma978").style.display = "block"; document.getElementById("bm978").style.display = "none"; } else { document.getElementById("bma978").style.display = "none"; document.getElementById("bm978").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Первые шаги") == 1) { arrs.splice(i, 1); localStorage.setItem("bm978", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma47" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm47" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Исключения в С++
+	</h1>
+
+	<p>Всем нам интуитивно понятно что такое исключение.</p>
+	<p>Это некое действие, которое вступает в силу, при наступлении нестандартной ситуации.</p>
+	<p>Говоря о исключениях в С++, рассмотрим одну из таких нестандартных ситуаций — деление на 0.</p>
+	<p>Представьте, что мы работаем в программе, где вручную вносим много числовых данных.</p>
+	<p>Далее, в результате каких-то расчетов программы, значение одной из переменных станет равным 0.</p>
+	<p>А в следующей строке кода это значение выступает делителем.</p>
+	<p>Конечно, это действие приведет к неизбежному закрытию программы и выходу из нее.</p>
+	<p>И вы можете себе представить свое состояние, когда полчаса вводите данные, работая в этой программе, и на каком-то этапе она просто перестает работать и закрывается, а все данные пропадают.</p>
+	<p>В этой статье будет приведен очень простой  и короткий пример, который поможет разобраться с исключениями в С++.</p>
+	<p>В нем пользователю будет предложено ввести два числа и программа проведет простые расчеты с этими числами.</p>
+	<p>Ввод и расчеты будут проводиться определенное количество раз  — с помощью цикла while.  </p>
+	<p>Сначала наберите исходный код ниже и скомпилируйте.</p>
+	<p>В переменную num2 внесите число 0, чтобы у вас было понимание той проблемы, что если в программе встречается деление на 0, она резко прекращает работу, хотите вы этого или нет.  </p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;;
+	using namespace std;
+	 
+	int main()
+	{
+		setlocale(LC_ALL, "rus");
+		int num1;
+		int num2;
+		//управляющая переменная для while
+		int var = 2;
+		//пока var - истина (не равно 0)
+		while(var--)
+		{
+			cout << "Введите значение num1: ";
+			cin >> num1;
+			cout << "Введите значение num2: ";
+			cin >> num2;
+			cout << "num1 + num2 = " << num1 + num2 << endl;
+			cout << "num1 / num2 = " << num1 / num2 << endl;
+			cout << "num1 - num2 = " << num1 - num2 << endl;
+			cout << "=================================" << endl << endl;
+		}
+		cout << "Программа завершила работу!" << endl << endl;
+		return 0;
+	}
+	</pre>
+
+	<p>В программе цикл должен отработать два раза.</p>
+	<p>В строке 12 мы передаем циклу значение переменной var и в этой же строке уменьшаем её на единицу, используя операцию декремента (var--).</p>
+	<p>Но, если в переменную num2 будет введено значение 0, мы увидим только результат сложения  a + b  и программа завершит работу не зависимо от того, есть код ниже или нет, отработал цикл или нет.</p>
+
+	<p>Используя исключения, мы сможем избежать таких проблем.</p>
+	<p>Чтобы "прикрутить" исключение к этому примеру, надо познакомиться со следующими командами С++: throw  (в переводе — обработать, запустить), try (попытка), catch (поймать, ловить).</p>
+	<p>В исходном коде ниже, исключение сработает так: программа получает конкретное указание от программиста — если значение определённой переменной в определённом участке кода (в try-блоке) будет равно 0, то в этом случае пусть генерируется исключение throw.</p>
+	<p>Это исключение автоматически передастся catch-блоку в виде параметра и выполнится код этого блока. </p>
+	<p>Сразу рассмотрим пример.</p>
+	<p>А все подробные пояснения по исходному коду и теория будут располагаться  под ним:</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;;
+	using namespace std;
+	 
+	int main()
+	{
+		setlocale(LC_ALL, "rus");
+		int num1;
+		int num2;
+		int var = 2;
+		while(var--)
+		{
+			cout << "Введите значение num1: ";
+			cin >> num1;
+			cout << "Введите значение num2: ";
+			cin >> num2;
+			cout << "num1 + num2 = " << num1 + num2 << endl;
+			cout << "num1 / num2 = ";
+			
+			//код, который может привести к ошибке, располагается тут
+			try
+			{  
+				if (num2 == 0)
+				{
+					//генерировать целое число 123
+					throw 123;
+				}
+				cout << num1 / num2 << endl;
+			}
+			
+			//сюда передастся число 123
+			catch(int i)
+			{
+				cout << "Ошибка №" << i << " - на 0 делить нельзя!!!!" << endl;
+			}
+			cout << "num1 - num2 = " << num1 - num2 << endl;
+			cout << "=================================" << endl << endl;
+		}
+		cout << "Программа завершила работу!" << endl << endl;;
+		return 0;
+	}
+	</pre>
+
+	<p>В строках 22 — 29 определен try-блок.</p>
+	<p>В нем располагается код, который потенциально может вызвать ошибку в работе программы, а именно ошибку в случае деления на 0.</p>
+	<p>Задаем условие if — если num2 равно 0, то генерировать  целое число 123,к примеру.</p>
+	<p>В этом случае try-блок сразу прекращает выполнение дальнейших команд, а число 123 «падает» в catch.</p>
+	<p>В нашем примере он выводит сообщение об ошибке.</p>
+	<p>При этом программа продолжает работать и  выполнять команды, размещенные ниже.</p>
+	<p>Если же число num2 не будет равно нулю, то в try-блоке  выполнится команда cout &lt;&lt; num1 / num2 &lt;&lt; endl;, а catch не сработает.</p>
+	<p>Запускаем программу и в первом шаге цикла вводим значение переменной num2 равное 0, а во втором — любое другое число:</p>
+
+	<pre class="brush: csharp;">
+	Введите значение num1: 50
+	Введите значение num2: 0
+	num1 + num2 = 50
+	num1 / num2 = Ошибка №123 — на 0 делить нельзя!!!!
+	num1 — num2 = 50
+	=================================
+
+	Введите значение num1: 50
+	Введите значение num2: 5
+	num1 + num2 = 55
+	num1 / num2 = 10
+	num1 — num2 = 45
+	=================================
+
+	Программа завершила работу!
+	</pre>
+
+	<p>Как видно, деление на 0 не произошло и программа не прекратила свою работу.</p>
+	<p>Вместо этого мы увидели сообщение об ошибке в строке, где должна была произойти операция деления на 0.</p>
+
+	<p>Что важно запомнить об исключениях:</p>
+	<p>- <b>try-блок</b> — так называемый блок повторных попыток. В нем надо располагать код, который может привести к ошибке и аварийному закрытию программы;</p>
+	<p>- <b>throw</b> генерирует исключение. То что остановит работу try-блока и приведет к выполнению кода catch-блока. Тип исключения должен соответствовать, типу принимаемого аргумента catch-блока;</p>
+	<p>- <b>catch-блок</b> — улавливающий блок, поймает то, что определил  throw и выполнит свой код. Этот блок должен располагаться непосредственно под try-блоком. Никакой код не должен их разделять.</p>
+	<p>- если в try-блоке исключение не генерировалось, catch-блок не сработает. Программа его обойдет.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="25.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="27.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/26.html", "Исключения в С++", "bm47"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm47", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm47") == 1) { document.getElementById("bma47").style.display = "block"; document.getElementById("bm47").style.display = "none"; } else { document.getElementById("bma47").style.display = "none"; document.getElementById("bm47").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Исключения в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm47", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

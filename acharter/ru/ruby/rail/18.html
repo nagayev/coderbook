@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1327" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1327" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Обновление статей
+    </h1>
+
+    <p>Мы раскрыли часть "CR" от CRUD. Теперь сфокусируемся на части "U", обновлении (updating) статей.</p>
+    <p>Первым шагом следует добавить экшн edit в ArticlesController, как правило между экшнами new и create, как показано.</p>
+
+    <pre class="brush: csharp;">
+    def new
+      @article = Article.new
+    end
+     
+    def edit
+      @article = Article.find(params[:id])
+    end
+     
+    def create
+      @article = Article.new(article_params)
+     
+      if @article.save
+        redirect_to @article
+      else
+        render 'new'
+      end
+    end
+    </pre>
+
+    <p>Вьюха будет содержать форму, схожую с той, которую мы использовали при создании новых статей.</p>
+    <p>Создайте файл с именем <b>app/views/articles/edit.html.erb</b> и добавьте в него следующее:</p>
+
+    <pre class="brush: csharp;">
+    &lt;h1&gt;Editing article&lt;/h1&gt;
+     
+    &lt;%= form_with(model: @article, local: true) do |form| %&gt;
+     
+      &lt;% if @article.errors.any? %&gt;
+        &lt;div id=&quot;error_explanation&quot;&gt;
+          &lt;h2&gt;
+            &lt;%= pluralize(@article.errors.count, &quot;error&quot;) %&gt; prohibited
+            this article from being saved:
+          &lt;/h2&gt;
+          &lt;ul&gt;
+            &lt;% @article.errors.full_messages.each do |msg| %&gt;
+              &lt;li&gt;&lt;%= msg %&gt;&lt;/li&gt;
+            &lt;% end %&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;% end %&gt;
+     
+      &lt;p&gt;
+        &lt;%= form.label :title %&gt;&lt;br&gt;
+        &lt;%= form.text_field :title %&gt;
+      &lt;/p&gt;
+     
+      &lt;p&gt;
+        &lt;%= form.label :text %&gt;&lt;br&gt;
+        &lt;%= form.text_area :text %&gt;
+      &lt;/p&gt;
+     
+      &lt;p&gt;
+        &lt;%= form.submit %&gt;
+      &lt;/p&gt;
+     
+    &lt;% end %&gt;
+     
+    &lt;%= link_to &apos;Back&apos;, articles_path %&gt;
+    </pre>
+
+    <p>Сейчас мы указываем форме на экшн update, который пока не определен, но скоро мы это сделаем.</p>
+    <p>Передача объекта статьи в метод автомагически создаст url для отправки формы отредактированной статьи.</p>
+    <p>Эта опция сообщает Rails, что мы хотим, чтобы эта форма была отправлена с помощью PATCH, метода HTTP, от которого ожидается, что он используется для обновления ресурсов в соответствии с протоколом REST.</p>
+    <p>Аргументы form_with могут быть объектами модели, например, model: @article, который заставит хелпер заполнить форму полями объекта.</p>
+    <p>Передача в пространство имен символа (scope: :article) просто создает поля, но ничем не заполняет их.</p>
+    <p>Подробнее в документации по form_with.</p>
+    <p>Затем нужно создать экшн update в <b>app/controllers/articles_controller.rb</b>.</p>
+    <p>Добавьте его между экшном create и методом private:</p>
+
+    <pre class="brush: csharp;">
+    def create
+      @article = Article.new(article_params)
+     
+      if @article.save
+        redirect_to @article
+      else
+        render 'new'
+      end
+    end
+     
+    def update
+      @article = Article.find(params[:id])
+     
+      if @article.update(article_params)
+        redirect_to @article
+      else
+        render 'edit'
+      end
+    end
+     
+    private
+      def article_params
+        params.require(:article).permit(:title, :text)
+      end
+    </pre>
+
+    <p>Новый метод, update, используется, когда хотите обновить запись, которая уже существует, и он принимает хэш, содержащий атрибуты, которые вы хотите обновить.</p>
+    <p>Как и прежде, если будет ошибка обновления статьи, мы хотим опять показать форму пользователю.</p>
+    <p>Мы заново использовали метод article_params, который определили ранее для экшна create.</p>
+    <p>Не обязательно передавать все атрибуты в update.</p>
+    <p>К примеру, если был вызван <b>@article.update(title: 'A new title')</b>, Rails обновит только атрибут title, оставив все другие атрибуты нетронутыми.</p>
+    <p>Наконец, мы хотим показать ссылку на экшн edit в списке всех статей, так что, давайте добавим ее в <b>app/views/articles/index.html.erb</b> рядом с ссылкой "Show":</p>
+
+    <pre class="brush: csharp;">
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Title&lt;/th&gt;
+        &lt;th&gt;Text&lt;/th&gt;
+        &lt;th colspan=&quot;2&quot;&gt;&lt;/th&gt;
+      &lt;/tr&gt;
+     
+      &lt;% @articles.each do |article| %&gt;
+        &lt;tr&gt;
+          &lt;td&gt;&lt;%= article.title %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= article.text %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= link_to &apos;Show&apos;, article_path(article) %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= link_to &apos;Edit&apos;, edit_article_path(article) %&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;% end %&gt;
+    &lt;/table&gt;
+    </pre>
+
+    <p>И также добавим в шаблон app/views/articles/show.html.erb, чтобы ссылка "Edit" также была на странице статьи.</p>
+    <p>Добавьте следующее в конце шаблона:</p>
+
+    <pre class="brush: csharp;">
+    ...
+     
+    &lt;%= link_to &apos;Edit&apos;, edit_article_path(@article) %&gt; |
+    &lt;%= link_to &apos;Back&apos;, articles_path %&gt;
+    </pre>
+
+    <p>И вот как выглядит наше приложение сейчас:</p>
+
+    <img src="r10.png" id="image" />
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/18.html", "Обновление статей", "bm1327"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1327", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1327") == 1) { document.getElementById("bma1327").style.display = "block"; document.getElementById("bm1327").style.display = "none"; } else { document.getElementById("bma1327").style.display = "none"; document.getElementById("bm1327").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обновление статей") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1327", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

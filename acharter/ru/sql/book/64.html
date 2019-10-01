@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1078" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1078" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Удаление данных
+	</h1>
+
+	<p>Для удаления данных из таблицы применяется оператор DELETE.</p>
+	<p>Его можно использовать двумя способами:</p>
+	<p>- для удаления из таблицы определенных строк;</p>
+	<p>- для удаления из таблицы всех ее строк.</p>
+	<p><b>Не забывайте указывать предложение WHERE</b></p>
+	<p>Применять оператор DELETE следует с особой осторожностью, потому что можно ошибочно удалить все строки таблицы.</p>
+	<p>Прочитайте весь раздел, посвященный оператору DELETE, прежде чем его использовать.</p>
+	<p><b>Оператор DELETE И безопасность</b></p>
+	<p>Для использования оператора DELETE в СУБД со структурой клиент-сервер могут понадобиться особые права доступа.</p>
+	<p>Прежде чем применять этот оператор, удостоверьтесь в том, что вам предоставлены соответствующие права.</p>
+	<p>Рассмотрим каждый из этих способов.</p>
+	<p>Как уже говорилось, оператор UPDATE очень прост в использовании.</p>
+	<p>Хорошая (и вместе с тем плохая) новость состоит в том, что оператор DELETE еще проще.</p>
+	<p>Следующий оператор удаляет одну строку из таблицы Customers:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	DELETE FROM Customers
+	WHERE cust_id = '1000000006';
+	</pre>
+
+	<p>Оператор DELETE FROM требует, чтобы вы указали имя таблицы, из которой должны быть удалены данные.</p>
+	<p>Предложение WHERE фильтрует строки, определяя, какие из них должны быть удалены.</p>
+	<p>В нашем примере должна быть удалена строка, относящаяся к клиенту1000000006.</p>
+	<p>Если бы предложение WHERE было пропущено, этот оператор удалил бы все столбцы таблицы.</p>
+	<p><b>Ключевое слово FROM</b></p>
+	<p>В некоторых реализациях SQL за DELETE может опционально следовать ключевое слово FROM.</p>
+	<p>Однако хорошим тоном считается всегда указывать это ключевое слово, даже если в нем нет необходимости.</p>
+	<p>Поступая таким образом, вы обеспечите переносимость своего SQL-кода между СУБД.</p>
+	<p>Оператор DELETE не принимает имена столбцов или метасимволы.</p>
+	<p>Он удаляет строки целиком, а не отдельные столбцы.</p>
+	<p>Для удаления определенного столбца следует использовать оператор UPDATE.</p>
+	<p><b>Содержимое таблиц, но не сами таблицы</b></p>
+	<p>Оператор DELETE удаляет из таблицы отдельные строки или даже все строки за один раз, но он никогда не удаляет саму таблицу.</p>
+	<p><b>Более быстрое удаление</b></p>
+	<p>Если необходимо удалить значения из всех строк таблицы, не используйте оператор DELETE.</p>
+	<p>Вместо него нужно применить оператор TRUNCATE TABLE, который выполняет то же самое, но делает это намного быстрее (потому что изменения данных не регистрируются).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="63.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="65.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/64.html", "Удаление данных", "bm1078"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1078", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1078") == 1) { document.getElementById("bma1078").style.display = "block"; document.getElementById("bm1078").style.display = "none"; } else { document.getElementById("bma1078").style.display = "none"; document.getElementById("bm1078").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Удаление данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1078", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

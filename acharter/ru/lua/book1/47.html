@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma813" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm813" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Работа со строками
+	</h1>
+	
+	<p>Библиотека предоставляет основные функции для работы со строками, такие как поиск и выделение подстрок, а также поиск по шаблону.</p>
+	<p>Строки в Lua индексируются с 1 (а не 0, как в C).</p>
+	<p>Индексы могут быть отрицательными и интерпретируются как индекс с конца строки.</p>
+	<p>Т.е. последний символ имеет позицию -1, и т.д.</p>
+	<p>Библиотека работы со строками предоставляет все функции в таблице string.</p>
+	<p>Она также устанавливает поле __index метатаблицы строк на таблицу string.</p>
+	<p>Также, Вы можете использовать строковые функции в объектно-ориентированном стиле.</p>
+	<p>Например, string.byte(s, i) может быть записано как s:byte(i).</p>
+
+	<h1 id="title">
+		string.byte (s [, i [, j]])
+	</h1>
+	
+	<p>Возвращает числовые коды символов s[i], s[i+1], ···, s[j].</p>
+	<p>По умолчанию значение для i равно 1; по умолчанию значение для j равно i.</p>
+	<p>Напоминаем, что числовые коды символов не одинаковы на разных платформах.</p>
+
+	<h1 id="title">
+		string.char (···)
+	</h1>
+	
+	<p>Принимает 0 или более целых чисел.</p>
+	<p>Возвращает строку, длина которой равна количеству параметров, и каждый элемент строки установлен равным соответствующему параметру.</p>
+	<p>Напоминаем, что числовые коды символов не одинаковы на разных платформах.</p>
+
+	<h1 id="title">
+		string.dump (function)
+	</h1>
+	
+	<p>Возвращает строку, содержащую двоичное представление данной функции function, так, что если после этого вызвать функциюloadstring на эту строку, мы получим копию функции.</p>
+	<p>function должна быть Lua функцией без внешних локальных переменных (upvalues).</p>
+
+	<h1 id="title">
+		string.find (s, pattern [, init [, plain]])
+	</h1>
+	
+	<p>Ищет первое вхождение шаблона pattern в строку s.</p>
+	<p>Если поиск успешен, то find возвращает индексы s где найдено совпадение с шаблоном, т.е. где начинается и кончается; иначе возвращает nil.</p>
+	<p>Третий, необязательный числовой параметр init указывает откуда начинать поиск; по умолчанию он равен 1, также он может быть отрицательным.</p>
+	<p>Значение true в четвертом, необязательном параметре plain выключает возможность поиска по шаблону, в этом случае производится поиск подстроки как есть, т.е. считается, что она не содержит «шаблонных» ("magic") симолов.</p>
+	<p>Помните, что если указан параметр plain, то параметр init должен быть указан тоже.</p>
+	<p>Если шаблон содержит захваты (captures) и поиск успешен, то захваченные значения также возвращаются, сразу после двух индексов.</p>
+
+	<h1 id="title">
+		string.format (formatstring, ···)
+	</h1>
+
+	<p>Возвращает параметры, передаваемые в функцию, отформатированные в соответствии первым параметром (который должен быть строкой).</p>
+	<p>Строка формата должна строиться по тем же правилам, что и строка формата для семейства C функций printf.</p>
+	<p>Отличие только в том, что опции/модификаторы *, l, L, n, p и h не поддерживаются, а также не поддерживается опция q.</p>
+	<p>Опция q позволяет вернуть строку в формате, безопасно воспринимаемом Lua интерпретатором: строка выводится в двойных кавычках, а все двойные кавычки, перевод строки, символы с кодом 0 и обратный слеш внутри строки перекодируются (escaped).</p>
+	<p>Например, вызов</p>
+
+	<pre class="brush: csharp;">
+	string.format('%q', 'a string with "quotes" and \n new line')
+	</pre>
+
+	<p>будет возвращать строку:</p>
+
+	<pre class="brush: csharp;">
+		"a string with \"quotes\" and \
+		new line"
+	</pre>
+
+	<p>Опции c, d, E, e, f, g, G, i, o, u, X и x должны использоваться только для числовых параметров, а q и s - строковых.</p>
+	<p>Эта функция не принимает строковые параметры, содержащие символы с кодом 0, кроме параметров для формата, имеющего опцию q.</p>
+
+	<h1 id="title">
+		string.gmatch (s, pattern)
+	</h1>
+	
+	<p>Возвращает итератор, который, при каждом вызове, возвращает следующее захваченное значение.</p>
+	<p>Если шаблон pattern не содержит захватов (captures), то простое сравнение будет выполнено при каждом вызове.</p>
+	<p>Например,следующий цикл</p>
+
+	<pre class="brush: csharp;">
+		s = "hello world from Lua"
+		for w in string.gmatch(s, "%a+") do
+		print(w)
+		end
+	</pre>
+
+	<p>будет проходить по всем словам в строке s, печатая их по одному в строке.</p>
+	<p>Следующий пример собирает все парные ключи (pairs key)=value из указанной строки в таблицу:</p>
+
+	<pre class="brush: csharp;">
+	t = {}
+		s = "from=world, to=Lua"
+		for k, v in string.gmatch(s, "(%w+)=(%w+)") do
+		t[k] = v
+		end
+	</pre>
+
+	<p>Для данной функции, символ '^' в начале шаблона не работает как признак поиска с начала строки, поскольку это помешает итерации.</p>
+
+	<h1 id="title">
+		string.gsub (s, pattern, repl [, n])
+	</h1>
+	
+	<p>Возвращает копию s в которой все вхождения pattern заменяются на repl, который может быть строкой, таблицей или функцией.</p>
+	<p>gsub также возвращает как второе значение – общеее количество проведенных подстановок.</p>
+	<p>Если repl строка, то используется ее значение для замены.</p>
+	<p>Символ % работает как символ со специальным назначением: любая последовательность в repl в виде %n, где n от 1 до 9, заменяется на n-ную захваченную подстроку (см. ниже).</p>
+	<p>Последовательность %0 заменяется на найденную подстроку.</p>
+	<p>Последовательность %% считается как одиночный символ %.</p>
+	<p>Если repl является таблицей, то она запрашивается для каждого сравнения, с использованием первого захваченного значения как ключ; если шаблон не содержит захватов, то используется результат простого сравнения как ключ.</p>
+	<p>Если repl является функцией, то эта функция вызывается каждый раз, когда обнаруживается совпадение.</p>
+	<p>В качестве параметров ей передаются все захваченные подстроки; если шаблон не содержит захватов (captures), то передается результат сравнения как один параметр.</p>
+	<p>Если значение, возвращаемое таблицей или функцией является строкой или числом, то это значение используется для замены; в противном случае, если значение равно false или nil, то замена не производится (т.е. найденное значение остается без замены).</p>
+	<p>Необязательный последний параметр n ограничивает максимальное количество замен.</p>
+	<p>Например, если n равно 1, то будет выполнено не более одной замены.</p>
+	<p>Несколько примеров</p>
+
+	<pre class="brush: csharp;">
+	x = string.gsub("hello world", "(%w+)", "%1 %1")
+	--> x="hello hello world world"
+
+	x = string.gsub("hello world", "%w+", "%0 %0", 1)
+	--> x="hello hello world"
+
+	x = string.gsub("hello world from Lua", "(%w+)%s*(%w+)", "%2 %1")
+	--> x="world hello Lua from"
+
+	x = string.gsub("home = $HOME, user = $USER", "%$(%w+)", os.getenv)
+	--> x="home = /home/roberto, user = roberto"
+
+	x = string.gsub("4+5 = $return 4+5$", "%$(.-)%$", function (s)
+	return loadstring(s)()
+	end)
+	--> x="4+5 = 9"
+
+	local t = {name="lua", version="5.1"}
+	x = string.gsub("$name-$version.tar.gz", "%$(%w+)", t)
+	--> x="lua-5.1.tar.gz"
+	</pre>
+
+	<h1 id="title">
+		string.len (s)
+	</h1>
+	
+	<p>Возвращает длину строки, переданной в качестве параметра.</p>
+	<p>Пустая строка "" имеет длину 0.</p>
+	<p>Вложенные символы с кодом 0 также считаются как символ, т.е. "a\000bc\000" имеет длину 5.</p>
+
+	<h1 id="title">
+		string.lower (s)
+	</h1>
+	
+	<p>Возвращает копию строки s, где все большие буквы заменены на маленькие.</p>
+	<p>Все остальные символы остаются неизменными.</p>
+	<p>Понятие «большие буквы» зависит от текущей кодовой страницы.</p>
+
+	<h1 id="title">
+		string.match (s, pattern [, init])
+	</h1>
+
+	<p>Поиск первого вхождения шаблона pattern в строку s.</p>
+	<p>В случае обнаружения, match возвращает захваченные значения (captures); в противном случае возвращает nil.</p>
+	<p>Если pattern не содержит захватов, то производится простое сравнение.</p>
+	<p>Третий, необязательный числовой параметр init указывает с какого символа строки необходимо начинать поиск; по умолчанию этот параметр равен 1.</p>
+	<p>Также он может быть отрицательным.</p>
+	
+	<h1 id="title">
+		string.rep (s, n)
+	</h1>
+
+	<p>Возвращает строку, в которой содержится n копий строки s.</p>
+	
+	<h1 id="title">
+		string.reverse (s)
+	</h1>
+	
+	<p>Возвращает строку, в которой символы строки s расположены в обратном порядке.</p>
+
+	<h1 id="title">
+		string.sub (s, i [, j])
+	</h1>
+	
+	<p>Возвращает подстроку строки s, которая начинается с символа с индексом i и продолжается до символа с индексом j; i и j могут быть отрицательными. Если j не указан, то считается, что он равен -1 (то же самое, что длина строки).</p>
+	<p>В частности, вызов string.sub(s,1,j) возвращает начальную часть строки с длиной j, а string.sub(s, -i) возвращает конец строки s длиной i.</p>
+
+	<h1 id="title">
+		string.upper (s)
+	</h1>
+	
+	<p>Принимает строку и возвращает копию этой строки, где все маленькие буквы меняются на большие.</p>
+	<p>Все остальные остаются неизменными.</p>
+	<p>Понятие «маленькие буквы» зависит от текущей кодовой страницы.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="46.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="48.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/47.html", "Работа со строками", "bm813"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm813", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm813") == 1) { document.getElementById("bma813").style.display = "block"; document.getElementById("bm813").style.display = "none"; } else { document.getElementById("bma813").style.display = "none"; document.getElementById("bm813").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Работа со строками") == 1) { arrs.splice(i, 1); localStorage.setItem("bm813", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

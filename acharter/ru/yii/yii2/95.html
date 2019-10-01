@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1301" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1301" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Окружение виртуального хостинга
+	</h1>
+
+    <p>Зачастую окружение виртуальных хостингов весьма ограничено как в настройках конфигурации, так и в настройках структуры директорий.</p>
+    <p>В большинстве случаев, однако, возможно запустить Yii 2 на виртуальном хостинге, внеся некоторые корректировки.</p>
+
+    <h2 id="title">
+        Установка приложения Basic.
+    </h2>
+
+    <p>Поскольку на виртуальном хостинге обычно только один webroot, то лучше использовать шаблонное приложение Basic.</p>
+    <p>Прочитайте раздел Установка Yii и локально установите приложение.</p>
+    <p>После того как оно начнет работать, можно внести необходимые корректировки, которые помогут разместить Basic на виртуальном хостинге.</p>
+
+    <h3 id="title">
+        Переименование webroot
+    </h3>
+
+    <p>Подключитесь к вашему виртуальному хостингу, используя FTP или другой способ.</p>
+    <p>Скорее всего вы увидите следующее:</p>
+
+    <pre class="brush: csharp;">
+    config
+    logs
+    www
+    </pre>
+
+    <p>В приведенном выше описании www - это webroot директория веб-сервера.</p>
+    <p>Она может называться по-другому.</p>
+    <p>Возможные названия: www, htdocs или public_html.</p>
+    <p>В Basic webroot называется web.</p>
+    <p>Перед загрузкой своего приложения на виртуальный хостинг, переименуйте локальный webroot на название webroot виртуального хостинга.</p>
+    <p>Например, web в www или public_html, в зависимости от наименования webroot вашего хостинга.</p>
+
+    <h3 id="title">
+        Корневая директория FTP доступна для записи
+    </h3>
+
+    <p>Если вы можете записать в корневую директорию, где располагаются config, logs и www, то загрузите сюда же assets, commands и остальные директории, так же, как и у вас, локально.</p>
+
+    <h3 id="title">
+        Добавим настройки для веб-сервера
+    </h3>
+
+    <p>В случае, если ваш сервер Apache, добавьте в директорию web или аналогичную, где располагается index.php, файл .htaccess со следующим содержимым:</p>
+
+    <pre class="brush: csharp;">
+    Options +FollowSymLinks
+    IndexIgnore */*
+    
+    RewriteEngine on
+    
+    # if a directory or a file exists, use it directly
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # otherwise forward it to index.php
+    RewriteRule . index.php
+    </pre>
+
+    <p>В случае использования nginx не требуется каких-либо дополнительных настроек.</p>
+
+    <h3 id="title">
+        Проверка требований
+    </h3>
+
+    <p>Для того чтобы запустить Yii, ваш веб-сервер должен соответствовать его требованиям.</p>
+    <p>Минимальное требование к PHP - это его версия 5.4.</p>
+    <p>Для того чтобы проверить требования, скопируйте requirements.php из корневого каталога в каталог webroot и запустите его с помощью браузера, используя url http://example.com/requirements.php.</p>
+    <p>Не забудьте после проверки требований удалить файл requirements.php.</p>
+
+    <h2 id="title">
+        Установка шаблона приложения Advanced
+    </h2>
+
+    <p>Установка шаблона Advanced немного сложнее, чем установка Basic, из-за того, что в Advanced имеются две директории webroot, работа с которыми на виртуальном хостинге не поддерживается.</p>
+    <p>По этой причине нам потребуется внести изменения в структуру директорий.</p>
+
+    <h3 id="title">
+        Перемещение входных скриптов в одну директорию webroot
+    </h3>
+
+    <p>Для начала нам необходима директория webroot.</p>
+    <p>Создайте новую директорию и назовите её так же, как на виртуальном хостинге, например, www или public_html, как описывалось выше в разделе Переименование webroot.</p>
+    <p>Затем создайте следующую структуру в www:</p>
+
+    <pre class="brush: csharp;">
+    www
+        admin
+    backend
+    common
+    console
+    environments
+    frontend
+    ...
+    </pre>
+
+    <p>Нашей фронтенд директорией будет www.</p>
+    <p>Переместите в неё всё из frontend/web.</p>
+    <p>Так же поступите и для backend/web, скопировав всё в www/admin.</p>
+    <p>В каждом случае нужно настроить пути внутри файлов index.php и index-test.php.</p>
+
+    <h3 id="title">
+        Отдельные сессии и куки
+    </h3>
+
+    <p>Изначально подразумевалось, что приложения бекенд и фронтенд располагаются на разных доменах.</p>
+    <p>Теперь, когда мы перенесли всё на один домен, куки и сессии из бекенда и фронтенда стали пересекаться.</p>
+    <p>Для решения этой проблемы требуется внести следующие настройки в конфигурацию бекенд-приложения backend/config/main.php:</p>
+
+    <pre class="brush: csharp;">
+    'components' =&gt; [
+        'request' =&gt; [
+            'csrfParam' =&gt; '_backendCSRF',
+            'csrfCookie' =&gt; [
+                'httpOnly' =&gt; true,
+                'path' =&gt; '/admin',
+            ],
+        ],
+        'user' =&gt; [
+            'identityCookie' =&gt; [
+                'name' =&gt; '_backendIdentity',
+                'path' =&gt; '/admin',
+                'httpOnly' =&gt; true,
+            ],
+        ],
+        'session' =&gt; [
+            'name' =&gt; 'BACKENDSESSID',
+            'cookieParams' =&gt; [
+                'path' =&gt; '/admin',
+            ],
+        ],
+    ],
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="94.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="96.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/95.html", "Yii2: Окружение виртуального хостинга", "bm1301"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1301", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1301") == 1) { document.getElementById("bma1301").style.display = "block"; document.getElementById("bm1301").style.display = "none"; } else { document.getElementById("bma1301").style.display = "none"; document.getElementById("bm1301").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Окружение виртуального хостинга") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1301", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma947" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm947" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Файлы. Работа с файлами.
+	</h1>
+	
+	<p>В данной статье мы рассмотрим встроенные средства python для работы с файлами: открытие / закрытие, чтение и запись.</p>
+	<p>Итак, начнем. Прежде, чем работать с файлом, его надо открыть.</p>
+	<p>С этим замечательно справится встроенная функция open:</p>
+
+	<pre class="brush: csharp;">
+	f = open('text.txt', 'r')
+	</pre>
+
+	<p>У функции open много параметров, они указаны в разделе "Встроенные функции", нам пока важны 3 аргумента: первый, это имя файла.</p>
+	<p>Путь к файлу может быть относительным или абсолютным.</p>
+	<p>Второй аргумент, это режим, в котором мы будем открывать файл.</p>
+
+	<table>
+		<tr>
+			<th>Режим</th>
+			<th>Обозначение</th>
+		</tr>
+		<tr>
+			<td>'r'</td>
+			<td>открытие на чтение (является значением по умолчанию).</td>
+		</tr>
+		<tr>
+			<td>'w'</td>
+			<td>открытие на запись, содержимое файла удаляется, если файла не существует, создается новый.</td>
+		</tr>
+		<tr>
+			<td>'x'</td>
+			<td>открытие на запись, если файла не существует, иначе исключение</td>
+		</tr>
+		<tr>
+			<td>'a'</td>
+			<td>открытие на дозапись, информация добавляется в конец файла.</td>
+		</tr>
+		<tr>
+			<td>'b'</td>
+			<td>открытие в двоичном режиме.</td>
+		</tr>
+		<tr>
+			<td>'t'</td>
+			<td>открытие в текстовом режиме (является значением по умолчанию).</td>
+		</tr>
+		<tr>
+			<td>'+'</td>
+			<td>открытие на чтение и запись</td>
+		</tr>
+	</table>
+
+	<p>Режимы могут быть объединены, то есть, к примеру, 'rb' - чтение в двоичном режиме.</p>
+	<p>По умолчанию режим равен 'rt'.</p>
+	<p>И последний аргумент, encoding, нужен только в текстовом режиме чтения файла.</p>
+	<p>Этот аргумент задает кодировку.</p>
+
+	<h1 id="title">
+		Чтение из файла
+	</h1>
+	
+	<p>Открыли мы файл, а теперь мы хотим прочитать из него информацию.</p>
+	<p>Для этого есть несколько способов, но большого интереса заслуживают лишь два из них.</p>
+	<p>Первый - метод read, читающий весь файл целиком, если был вызван без аргументов, и n символов, если был вызван с аргументом (целым числом n).</p>
+	
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; f = open('text.txt')
+	&gt;&gt;&gt; f.read(1)
+	'H'
+	&gt;&gt;&gt; f.read()
+	'ello world!\nThe end.\n\n'
+	</pre>
+
+	<p>Ещё один способ сделать это - прочитать файл построчно, воспользовавшись циклом for:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; f = open('text.txt')
+&gt;&gt;&gt; for line in f:
+...     line
+...
+'Hello world!\n'
+'\n'
+'The end.\n'
+'\n'
+	</pre>
+
+	<h1 id="title">
+		Запись в файл
+	</h1>
+	
+	<p>Теперь рассмотрим запись в файл.</p>
+	<p>Попробуем записать в файл вот такой вот список:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; l = [str(i)+str(i-1) for i in range(20)]
+	&gt;&gt;&gt; l
+	['0-1', '10', '21', '32', '43', '54', '65', '76', '87', '98', '109', '1110', '1211', '1312', '1413', '1514', '1615', '1716', '1817', '1918']
+	</pre>
+
+	<p>Откроем файл на запись:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; f = open('text.txt', 'w')
+	</pre>
+
+	<p>Запись в файл осуществляется с помощью метода write:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; for index in l:
+...     f.write(index + '\n')
+...
+4
+3
+3
+3
+3
+	</pre>
+
+	<p>Для тех, кто не понял, что это за цифры, поясню: метод write возвращает число записанных символов.</p>
+	<p>После окончания работы с файлом его обязательно нужно закрыть с помощью метода close:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; f.close()
+	</pre>
+
+	<p>Теперь попробуем воссоздать этот список из получившегося файла. Откроем файл на чтение (надеюсь, вы поняли, как это сделать?), и прочитаем строки.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; f = open('text.txt', 'r')
+&gt;&gt;&gt; l = [line.strip() for line in f]
+&gt;&gt;&gt; l
+['0-1', '10', '21', '32', '43', '54', '65', '76', '87', '98', '109', '1110', '1211', '1312', '1413', '1514', '1615', '1716', '1817', '1918']
+&gt;&gt;&gt; f.close()
+	</pre>
+
+	<p>Мы получили тот же список, что и был.</p>
+	<p>В более сложных случаях (словарях, вложенных кортежей и т. д.) алгоритм записи придумать сложнее. Но это и не нужно.</p>
+	<p>В python уже давно придумали средства, такие как pickle или json, позволяющие сохранять в файле сложные структуры.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/22.html", "Файлы", "bm947"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm947", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm947") == 1) { document.getElementById("bma947").style.display = "block"; document.getElementById("bm947").style.display = "none"; } else { document.getElementById("bma947").style.display = "none"; document.getElementById("bm947").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Файлы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm947", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1349" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1349" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		CRUD в Mongoose
+	</h1>
+    
+    <p>Рассмотрим, как выполнять основные операции с данными в Mongoose.</p>
+
+    <h2 id="title">
+        Создание документов
+    </h2>
+    
+    <p>В прошлых темах было в общих чертах описано создание и добавление объектов в Mongoose.</p>
+    <p>В частности, у объекта модели мы можем вызвать метод <b>save()</b>:</p>
+
+    <pre class="brush: csharp;">
+    var user = new User({name: "Tom", age: 34});
+    
+    user.save(function(err){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log("Сохранен объект user", user);
+    });
+    </pre>
+
+    <p>Но кроме этого метода также можно использовать метод <b>User.create()</b>:</p>
+
+    <pre class="brush: csharp;">
+    User.create({name: "Tom", age: 34}, function(err, doc){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log("Сохранен объект user", doc);
+    });
+    </pre>
+
+    <p>Первый параметр метода - сохраняемый объект.</p>
+
+    <h2 id="title">
+        Получение данных
+    </h2>
+    
+    <p>Для получения данных можно использовать целый набор методов:</p>
+
+    <ul>
+        <li><b>find</b>: возвращает все объекты, которые соответствуют критерию фильтрации</li>
+        <li><b>findById</b>: возвращает один объект по значению поля _id</li>
+        <li><b>findOne</b>: возвращает один объект, который соответствует критерию фильтрации</li>
+    </ul>
+
+    <p>Метод <b>find()</b> в качестве первого параметра принимает критерий фильтрации, а второй параметр - функция обратного вызова, в которую передаются полученные из бд документы:</p>
+
+    <pre class="brush: csharp;">
+    var mongoose = require("mongoose");
+    var Schema = mongoose.Schema;
+    
+    mongoose.Promise = global.Promise;
+    
+    mongoose.connect("mongodb://localhost:27017/usersdb");
+    
+    var userScheme = new Schema({name: String, age: Number}, {versionKey: false});
+    var User = mongoose.model("User", userScheme);
+    
+    User.find({}, function(err, docs){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log(docs);
+    });
+    </pre>
+
+    <p>Если в качестве критерия фильтрации передаются пустые фигурные скобки <b>({})</b>, то возвращаются все объекты:</p>
+
+    <img src="n83.png" id="image" />
+
+    <p>Изменим код для получения только тех пользователей, у которых имя - Tom:</p>
+
+    <pre class="brush: csharp;">
+    User.find({name: "Tom"}, function(err, docs){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log(docs);
+    });
+    </pre>
+
+    <p>Метод <b>findOne()</b> работает аналогично методу <b>find</b>, только возвращает один объект:</p>
+
+    <pre class="brush: csharp;">
+    User.findOne({name: "Tom"}, function(err, doc){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log(doc);
+    });
+    </pre>
+
+    <p>И метод <b>findById()</b> возвращает документ с определенным идентификатором:</p>
+
+    <pre class="brush: csharp;">
+    var id = "588a0f8c9151d23ce47bf98d";
+    User.findById(id, function(err, doc){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log(doc);
+    });
+    </pre>
+
+    <h2 id="title">
+        Удаление данных
+    </h2>
+    
+    <p>Для удаления применяется метод <b>remove()</b>.</p>
+    <p>В этот метод передается критерий фильтрации документов на удаление.</p>
+    <p>Например, удалим всех пользователей, у которых возраст равен 33:</p>
+
+    <pre class="brush: csharp;">
+    var mongoose = require("mongoose");
+    var Schema = mongoose.Schema;
+    
+    mongoose.Promise = global.Promise;
+    
+    mongoose.connect("mongodb://localhost:27017/usersdb");
+    
+    var userScheme = new Schema({name: String, age: Number}, {versionKey: false});
+    var User = mongoose.model("User", userScheme);
+    
+    var id = "588a0f8c9151d23ce47bf98d";
+    User.remove({age:33}, function(err, result){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log(result);
+    });
+    </pre>
+
+    <p>Объект result, который передается в функцию обратного вызова, содержит информацию об операции удаления:</p>
+
+    <img src="n84.png" id="image" />
+
+    <p>Если же нам надо удалить один документ, то мы можем использовать метод <b>findOneAndRemove()</b>:</p>
+
+    <pre class="brush: csharp;">
+    User.findOneAndRemove({name:"Bill"}, function(err, doc){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log("Удален пользователь ", doc);
+    });
+    </pre>
+
+    <p>В отличие от метода remove здесь в функцию обратного вызова передается удаленный документ:</p>
+
+    <img src="n85.png" id="image" />
+
+    <p>И частная разновидность этого метода - удаление по полю <b>_id</b> в виде метода <b>findByIdAndRemove()</b>:</p>
+
+    <pre class="brush: csharp;">
+    var id = "588a0f8c9151d23ce47bf98d";
+    User.findByIdAndRemove(id, function(err, doc){
+        mongoose.disconnect();
+        
+        if(err) return console.log(err);
+        
+        console.log("Удален пользователь ", doc);
+    });
+    </pre>
+
+    <h2 id="title">
+        Изменение данных
+    </h2>
+
+    <p>Каждая модель имеет собственный метод <b>update()</b>, который позволяет обновить документы в бд:</p>
+
+    <pre class="brush: csharp;">
+    var mongoose = require("mongoose");
+    var Schema = mongoose.Schema;
+    
+    mongoose.Promise = global.Promise;
+    
+    mongoose.connect("mongodb://localhost:27017/usersdb");
+    
+    var userScheme = new Schema({name: String, age: Number}, {versionKey: false});
+    var User = mongoose.model("User", userScheme);
+    
+    User.update({name: "Tom"}, {name: "Tom Smith"}, function(err, result){
+        
+        mongoose.disconnect();
+        if(err) return console.log(err);
+        console.log(result);
+    });
+    </pre>
+
+    <p>Первый параметр метода - критерий фильтрации.</p>
+    <p>В данном случае мы находим всех пользователей, у которых имя "Tom".</p>
+    <p>А второй параметр описывает, что и как надо изменить.</p>
+    <p>То есть здесь мы меняем имя на "Tom Smith".</p>
+    <p>В функцию обратного вызова передается результат операции:</p>
+
+    <img src="n86.png" id="image" />
+
+    <p>Нередко для обновления используется фильтрация по <b>_id</b>.</p>
+    <p>И на этот случай мы можем использовать метод <b>findByIdAndUpdate()</b>:</p>
+
+    <pre class="brush: csharp;">
+    var id = "588b2d6fc7d95503980ecf99";
+    User.findByIdAndUpdate(id, {name: "Sam", age: 25}, function(err, user){
+        
+        mongoose.disconnect();
+        if(err) return console.log(err);
+        console.log("Обновленный объект", user);
+    });
+    </pre>
+
+    <p>Первый параметр метода - значения для поля _id у обновляемого документа, а второй - набор новых значений для полей объекта.</p>
+    <p>В функцию обратного вызова передается обновленный документ:</p>
+
+    <img src="n87.png" id="image" />
+
+    <p>Но по умолчанию передается старое состояние документа.</p>
+    <p>Если же нам надо получить документ уже в измененном состоянии, то в метод <b>findByIdAndUpdate</b> необходимо передать еще один параметр:</p>
+
+    <pre class="brush: csharp;">
+    User.findByIdAndUpdate(id, {name: "Bilbo Baggins", age: 111}, {new: true}, function(err, user){
+        
+        mongoose.disconnect();
+        if(err) return console.log(err);
+        console.log("Обновленный объект", user);
+    });
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="39.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/40.html", "CRUD в Mongoose", "bm1349"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1349", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1349") == 1) { document.getElementById("bma1349").style.display = "block"; document.getElementById("bm1349").style.display = "none"; } else { document.getElementById("bma1349").style.display = "none"; document.getElementById("bm1349").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("CRUD в Mongoose") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1349", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

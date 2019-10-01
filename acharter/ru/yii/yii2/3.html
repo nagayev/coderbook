@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1209" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1209" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Установка Yii 2.0
+	</h1>
+
+    <p>Вы можете установить Yii двумя способами: используя Composer или скачав архив.</p>
+    <p>Первый способ предпочтительнее так как позволяет установить новые расширения или обновить Yii одной командой.</p>
+    <p><b>Примечание:</b> В отличие от Yii 1, после стандартной установки Yii 2 мы получаем как фреймворк, так и шаблон приложения.</p>
+
+    <h2 id="title">
+        Установка при помощи Composer
+    </h2>
+
+    <h3 id="title">
+        Установка Composer
+    </h3>
+
+    <p>Если Composer еще не установлен это можно сделать по инструкции на getcomposer.org, или одним из нижеперечисленных способов.</p>
+    <p>На Linux или Mac используйте следующую команду:</p>
+
+    <pre class="brush: csharp;">
+    curl -sS https://getcomposer.org/installer | php
+    mv composer.phar /usr/local/bin/composer
+    </pre>
+
+    <p>На Windows, скачайте и запустите Composer-Setup.exe.</p>
+    <p>В случае возникновения проблем читайте раздел "Troubleshooting" в документации Composer.</p>
+    <p>Если вы только начинаете использовать Composer, рекомендуем прочитать как минимум раздел "Basic usage".</p>
+    <p>В данном руководстве предполагается, что Composer установлен глобально.</p>
+    <p>То есть он доступен через команду composer.</p>
+    <p>Если вы используете composer.phar из локальной директории, изменяйте команды соответственно.</p>
+    <p>Если у вас уже установлен Composer, обновите его при помощи composer self-update.</p>
+    <p><b>Примечание:</b> Во время установки Yii Composer запрашивает довольно большое количество информации через Github API.</p>
+    <p>Количество запросов варьируется в зависимости от количества зависимостей вашего проекта и может превысить ограничения Github API.</p>
+    <p>Если это произошло, Composer спросит логин и пароль от Github. Это необходимо для получения токена для Github API. На быстрых соединениях это может прозойти ещё до того, как Composer сможет обработать ошибку, поэтому мы рекомендум настроить токен доступа до установки Yii. Инструкции приведены в документации Composer о токенах Github API.</p>
+    <p>После установки Composer устанавливать Yii можно запустив следующую команду в папке доступной через веб:</p>
+
+    <h3 id="title">
+        Установка Yii
+    </h3>
+
+    <pre class="brush: csharp;">
+    composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+    </pre>
+
+    <p>Эта команда устанавливает последнюю стабильную версию Yii в директорию basic.</p>
+    <p>Если хотите, можете выбрать другое имя директории.</p>
+
+    <p><b>Информация:</b> Если команда composer create-project не выполняется нормально, попробуйте обратиться к разделу "Troubleshooting" документации Composer.</p>
+    <p>Там описаны другие типичные ошибки. После того, как вы исправили ошибку, запустите composer update в директории basic.</p>
+    <p><b>Подсказка:</b> Если вы хотите установить последнюю нестабильную ревизию Yii, можете использовать следующую команду, в которой присутствует опция stability:</p>
+
+    <pre class="brush: csharp;">
+    composer create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
+    </pre>
+
+    <p>Старайтесь не использовать нестабильную версию Yii на рабочих серверах потому как она может внезапно поломать код.</p>
+
+    <h2 id="title">
+        Установка из архива
+    </h2>
+
+    <p>Установка Yii из архива состоит из трёх шагов:</p>
+
+    <ol>
+        <li>Скачайте архив с yiiframework.com;</li>
+        <li>Распакуйте скачанный архив в папку, доступную из Web.</li>
+        <li>В файле config/web.php добавьте секретный ключ в значение cookieValidationKey (при установке через Composer это происходит автоматически):</li>
+    </ol>
+
+    <pre class="brush: csharp;">
+    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+    'cookieValidationKey' =&gt; 'enter your secret key here',
+    </pre>
+
+    <h2 id="title">
+        Другие опции установки
+    </h2>
+
+    <p>Выше приведены инструкции по установке Yii в виде базового приложения готового к работе.</p>
+    <p>Это отличный вариант для небольших проектов или для тех, кто только начинает изучать Yii.</p>
+    <p>Есть два основных варианта такой установки:</p>
+
+    <ul>
+        <li>Если вам нужен только сам фреймворк и вы хотели бы создать приложение с нуля, воспользуйтесь инструкцией, описанной в разделе «Создание приложения с нуля».</li>
+        <li>Если хотите начать с более продвинутого приложения, хорошо подходящего для работы в команде, используйте шаблон приложения advanced.</li>
+    </ul>
+
+    <h2 id="title">
+        Проверка установки
+    </h2>
+
+    <p>После установки приложение будет доступно по следующему URL:</p>
+
+    <pre class="brush: csharp;">
+    http://localhost/basic/web/index.php
+    </pre>
+
+    <p>Здесь подразумевается, что вы установили приложение в директорию basic в корневой директории вашего веб сервера сервер работает локально (localhost).</p>
+    <p>Вам может потребоваться предварительно его настроить.</p>
+
+    <img src="y1.png" id="image" />
+
+    <p>Вы должны увидеть страницу приветствия «Congratulations!».</p>
+    <p>Если нет — проверьте требования Yii одним из способов:</p>
+
+    <p>Браузером перейдите по адресу http://localhost/basic/requirements.php</p>
+    <p>Или выполните команду в консоли:</p>
+
+    <pre class="brush: csharp;">
+    cd basic
+    php requirements.php
+    </pre>
+
+    <p>Для корректной работы фреймворка вам необходима установка PHP, соответствующая его минимальным требованиям.</p>
+    <p>Основное требование — PHP версии 5.4 и выше.</p>
+    <p>Если ваше приложение работает с базой данных, необходимо установить расширение PHP PDO и соответствующий драйвер (например, pdo_mysql для MySQL).</p>
+
+    <h2 id="title">
+        Настройка веб сервера
+    </h2>
+
+    <p><b>Информация:</b> можете пропустить этот подраздел если вы только начали знакомиться с фреймворком и пока не разворачиваете его на рабочем сервере.</p>
+    <p>Приложение, установленное по инструкциям, приведённым выше, будет работать сразу как с Apache, так и с Nginx под Windows и Linux с установленным PHP 5.4 и выше.</p>
+    <p>Yii 2.0 также совместим с HHVM.</p>
+    <p>Тем не менее, в некоторых случаях поведение при работе с HHVM отличается от обычного PHP.</p>
+    <p>Будьте внимательны.</p>
+    <p>На рабочем сервере вам наверняка захочется изменить URL приложения с http://www.example.com/basic/web/index.php на http://www.example.com/index.php.</p>
+    <p>Для этого необходимо изменить корневую директорию в настройках веб сервера так, чтобы та указывала на basic/web.</p>
+    <p>Дополнительно можно спрятать index.php следуя описанию в разделе «Разбор и генерация URL».</p>
+    <p>Далее будет показано как настроить Apache и Nginx.</p>
+    <p><b>Информация:</b> Устанавливая basic/web корневой директорией веб сервера вы защищаете от нежелательного доступа код и данные, находящиеся на одном уровне с basic/web.Это делает приложение более защищенным.</p>
+    <p><b>Информация:</b> Если приложение работает на хостинге где нет доступа к настройкам веб сервера, то можно изменить структуру приложения как описано в разделе «Работа на Shared хостинге».</p>
+
+    <h3 id="title">
+        Рекомендуемые настройки Apache
+    </h3>
+
+    <p>Добавьте следующее в httpd.conf Apache или в конфигурационный файл виртуального хоста.</p>
+    <p>Не забудьте заменить path/to/basic/web на корректный путь к basic/web.</p>
+
+    <pre class="brush: csharp;">
+    # Устанавливаем корневой директорией "basic/web"
+    DocumentRoot "path/to/basic/web"
+    
+    &lt;Directory &quot;path/to/basic/web&quot;&gt;
+        RewriteEngine on
+    
+        # Если запрашиваемая в URL директория или файл существуют обращаемся к ним напрямую
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # Если нет - перенаправляем запрос на index.php
+        RewriteRule . index.php
+    
+        # ...прочие настройки...
+    &lt;/Directory&gt;
+    </pre>
+
+    <h3 id="title">
+        Рекомендуемые настройки Nginx
+    </h3>
+
+    <p>PHP должен быть установлен как FPM SAPI для Nginx.</p>
+    <p>Используйте следующие параметры Nginx и не забудьте заменить path/to/basic/web на корректный путь к basic/web и mysite.local на ваше имя хоста.</p>
+
+    <pre class="brush: csharp;">
+    server {
+        charset utf-8;
+        client_max_body_size 128M;
+    
+        listen 80; ## listen for ipv4
+        #listen [::]:80 default_server ipv6only=on; ## слушаем ipv6
+    
+        server_name mysite.local;
+        root        /path/to/basic/web;
+        index       index.php;
+    
+        access_log  /path/to/project/log/access.log;
+        error_log   /path/to/project/log/error.log;
+    
+        location / {
+            # Перенаправляем все запросы к несуществующим директориям и файлам на index.php
+            try_files $uri $uri/ /index.php?$args;
+        }
+    
+        # раскомментируйте строки ниже во избежание обработки Yii обращений к несуществующим статическим файлам
+        #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+        #    try_files $uri =404;
+        #}
+        #error_page 404 /404.html;
+    
+        location ~ \.php$ {
+            include fastcgi.conf;
+            fastcgi_pass   127.0.0.1:9000;
+            #fastcgi_pass unix:/var/run/php5-fpm.sock;
+        }
+    
+        location ~ /\.(ht|svn|git) {
+            deny all;
+        }
+    }
+    </pre>
+
+    <p>Используя данную конфигурацию установите cgi.fix_pathinfo=0 в php.ini чтобы предотвратить лишние системные вызовы stat().</p>
+    <p>Учтите, что используя HTTPS необходимо задавать fastcgi_param HTTPS on; чтобы Yii мог корректно определять защищенное соединение.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="4.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/3.html", "Yii2: Установка Yii 2.0", "bm1209"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1209", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1209") == 1) { document.getElementById("bma1209").style.display = "block"; document.getElementById("bm1209").style.display = "none"; } else { document.getElementById("bma1209").style.display = "none"; document.getElementById("bm1209").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Установка Yii 2.0") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1209", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

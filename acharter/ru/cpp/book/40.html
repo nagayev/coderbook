@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma61" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm61" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Работа с файлами в С++
+	</h1>
+
+	<p>Большинство компьютерных программ работают с файлами, и поэтому возникает необходимость создавать, удалять, записывать читать, открывать файлы.</p>
+	<p>Что же такое файл?</p>
+	<p>Файл – именованный набор  байтов, который может быть сохранен на некотором накопителе.</p>
+	<p>Ну, теперь ясно, что под файлом понимается некоторая последовательность байтов, которая имеет своё, уникальное имя, например файл.txt.</p>
+	<p>В одной директории не могут находиться файлы с одинаковыми именами.</p>
+	<p>Под именем файла понимается не только его название, но и расширение, например: file.txt и file.dat — разные файлы, хоть и имеют одинаковые названия.</p>
+	<p>Существует такое понятие, как полное имя файлов – это полный адрес к директории файла с указанием имени файла, например: D:\docs\file.txt.</p>
+	<p>Важно понимать эти базовые понятия, иначе сложно будет работать с файлами.</p>
+	<p>Для работы с файлами необходимо подключить заголовочный файл &lt;fstream>.</p>
+	<p>В &lt;fstream> определены несколько классов и подключены заголовочные файлы &lt;ifstream> — файловый ввод и &lt;ofstream> — файловый вывод.</p>
+	<p>Файловый ввод/вывод аналогичен стандартному вводу/выводу, единственное отличие – это то, что ввод/вывод выполнятся не на экран, а в файл.</p>
+	<p>Если ввод/вывод на стандартные устройства выполняется с помощью объектов cin и cout, то для организации файлового ввода/вывода достаточно создать собственные объекты, которые можно использовать аналогично операторам cin и cout.</p>
+	<p>Например, необходимо создать текстовый файл и записать в него строку Работа с файлами в С++.</p>
+	<p>Для этого необходимо проделать следующие шаги:</p>
+	<p>1. создать объект класса ofstream;</p>
+	<p>2. связать объект класса с файлом, в который будет производиться запись;</p>
+	<p>3. записать строку в файл;</p>
+	<p>4. закрыть файл.</p>
+	<p>Почему необходимо создавать объект класса ofstream, а не класса ifstream?</p>
+	<p>Потому, что нужно сделать запись в файл, а если бы нужно было считать данные из файла, то создавался бы объект класса ifstream.	</p>
+
+	<pre class="brush: csharp;">
+	// создаём объект для записи в файл
+	ofstream /*имя объекта*/; // объект класса ofstream
+	</pre>
+
+	<p>Назовём объект – fout, Вот что получится:</p>
+
+	<pre class="brush: csharp;">
+	ofstream fout;
+	</pre>
+
+	<p>Для чего нам объект?</p>
+	<p>Объект необходим, чтобы можно было выполнять запись в файл.</p>
+	<p>Уже объект создан, но не связан с файлом, в который нужно записать строку.</p>
+
+	<pre class="brush: csharp;">
+	// связываем объект с файлом
+	fout.open("cppstudio.txt");
+	</pre>
+
+	<p>Через операцию точка получаем доступ к методу класса open(), в круглых скобочках которого указываем имя файла.</p>
+	<p>Указанный файл будет создан в текущей директории с программой.</p>
+	<p>Если файл с таким именем существует, то существующий файл будет заменен новым.</p>
+	<p>Итак, файл открыт, осталось записать в него нужную строку.</p>
+	<p>Делается это так:</p>
+
+	<pre class="brush: csharp;">
+	// запись строки в файл
+	fout << "Работа с файлами в С++";
+	</pre>
+
+	<p>Используя операцию передачи в поток совместно с объектом fout строка Работа с файлами в С++ записывается в файл.</p>
+	<p>Так как больше нет необходимости изменять содержимое файла, его нужно закрыть, то есть отделить объект от файла.</p>
+
+	<pre class="brush: csharp;">
+	// закрываем файл
+	fout.close();
+	</pre>
+
+	<p>Итог – создан файл со строкой Работа с файлами в С++.</p>
+	<p>Шаги 1 и 2 можно объединить, то есть в одной строке создать объект и связать его с файлом.</p>
+	<p>Делается это так:</p>
+
+	<pre class="brush: csharp;">
+	// создаём объект класса ofstream и связываем его с файлом cppstudio.txt
+	ofstream fout("cppstudio.txt");
+	</pre>
+
+	<p>Объединим весь код и получим следующую программу.</p>
+
+	<pre class="brush: csharp;">
+	// file.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;fstream&gt;
+	using namespace std;
+
+	int main(int argc, char* argv[])
+	{
+		// создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
+		ofstream fout("cppstudio.txt");
+		// запись строки в файл
+		fout << "Работа с файлами в С++";
+		// закрываем файл
+		fout.close();
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Осталось проверить правильность работы программы, а для этого открываем файл cppstudio.txt и смотрим его содержимое, должно быть — Работа с файлами в С++.</p>
+	<p>Для того чтобы прочитать файл понадобится выполнить те же шаги, что и при записи в файл с небольшими изменениями:</p>
+	<p>1. создать объект класса ifstream и связать его с файлом, из которого будет производиться считывание;</p>
+	<p>2. прочитать файл;</p>
+	<p>3. закрыть файл.</p>
+
+	<pre class="brush: csharp;">
+	// file_read.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;fstream&gt;
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// корректное отображение Кириллицы
+		setlocale(LC_ALL, "rus");
+		// буфер промежуточного хранения считываемого из файла текста
+		char buff[50];
+		// открыли файл для чтения
+		ifstream fin("cppstudio.txt");
+		// считали первое слово из файла
+		fin >> buff;
+		// напечатали это слово
+		cout << buff << endl;
+		// считали строку из файла
+		fin.getline(buff, 50);
+		// закрываем файл
+		fin.close();
+		// напечатали эту строку
+		cout << buff << endl;
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>В программе показаны два способа чтения из файла, первый – используя операцию передачи в поток, второй – используя функцию getline().</p>
+	<p>В первом случае считывается только первое слово, а во втором случае считывается строка, длинной 50 символов.</p>
+	<p>Но так как в файле осталось меньше 50 символов, то считываются символы включительно до последнего.</p>
+	<p>Обратите внимание на то, что считывание во второй раз (строка 17) продолжилось, после первого слова, а не с начала, так как первое слово было прочитано в строке 14.</p>
+	<p>Результат работы программы показан ниже.</p>
+
+	<pre class="brush: csharp;">
+	Работа
+	с файлами в С++
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Программа сработала правильно, но не всегда так бывает, даже в том случае, если с кодом всё впорядке.</p>
+	<p>Например, в программу передано имя несуществующего файла или в имени допущена ошибка.</p>
+	<p>Что тогда? В этом случае ничего не произойдёт вообще.</p>
+	<p>Файл не будет найден, а значит и прочитать его не возможно.</p>
+	<p>Поэтому компилятор проигнорирует строки, где выполняется работа с файлом.</p>
+	<p>В результате корректно завершится работа программы, но ничего, на экране показано не будет.</p>
+	<p>Казалось бы это вполне нормальная реакции на такую ситуацию.</p>
+	<p>Но простому пользователю не будет понятно, в чём дело и почему на экране не появилась строка из файла.</p>
+	<p>Так вот, чтобы всё было предельно понятно в С++ предусмотрена такая функция — is_open(), которая возвращает целые значения: 1 — если файл был успешно открыт, 0 — если файл открыт не был.</p>
+	<p>Доработаем программу с открытием файла, таким образом, что если файл не открыт выводилось соответствующее сообщение.</p>
+
+	<pre class="brush: csharp;">
+	// file_read.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;fstream&gt;
+	#include &lt;iostream&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		// корректное отображение Кириллицы
+		setlocale(LC_ALL, "rus");
+		// буфер промежуточного хранения считываемого из файла текста
+		char buff[50];
+		// (ВВЕЛИ НЕ КОРРЕКТНОЕ ИМЯ ФАЙЛА)
+		ifstream fin("cppstudio.doc");
+		// если файл не открыт
+		if (!fin.is_open())
+			// сообщить об этом
+			cout << "Файл не может быть открыт!\n";
+		else
+		{
+			// считали первое слово из файла
+			fin >> buff;
+			// напечатали это слово
+			cout << buff << endl;
+			// считали строку из файла
+			fin.getline(buff, 50);
+			// закрываем файл
+			fin.close();
+			// напечатали эту строку
+			cout << buff << endl;
+		}
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Файл не может быть открыт!
+
+	Для продолжения нажмите любую клавишу . . .
+	</pre>
+
+	<p>Как видно из рзультат программа сообщила о невозможности открыть файл.</p>
+	<p>Поэтому, если программа работает с файлами, рекомендуется использовать эту функцию, is_open(), даже, если уверены, что файл существует.</p>
+
+	<h1 id="title">
+		Режимы открытия файлов
+	</h1>
+
+	<p>Режимы открытия файлов устанавливают характер использования файлов.</p>
+	<p>Для установки режима в классе ios_base предусмотрены константы, которые определяют режим открытия файлов.</p>
+
+	<table>
+		<tr>
+			<th>Константа</th>
+			<th>Описание</th>
+		</tr>
+		<tr>
+			<td>ios_base::in</td>
+			<td>открыть файл для чтения</td>
+		</tr>
+		<tr>
+			<td>ios_base::out</td>
+			<td>открыть файл для записи</td>
+		</tr>
+		<tr>
+			<td>ios_base::ate</td>
+			<td>при открытии переместить указатель в конец файла</td>
+		</tr>
+		<tr>
+			<td>ios_base::app</td>
+			<td>открыть файл для записи в конец файла</td>
+		</tr>
+		<tr>
+			<td>ios_base::trunc</td>
+			<td>удалить содержимое файла, если он существует</td>
+		</tr>
+		<tr>
+			<td>ios_base::binary</td>
+			<td>открытие файла в двоичном режиме</td>
+		</tr>
+	</table>
+
+	<p>Режимы открытия файлов можно устанавливать непосредственно при создании объекта или при вызове функции open().</p>
+
+	<pre class="brush: csharp;">
+	// открываем файл для добавления информации к концу файла
+	ofstream fout("cppstudio.txt", ios_base::app);
+	
+	// открываем файл для добавления информации к концу файла
+	fout.open("cppstudio.txt", ios_base::app);
+	</pre>
+
+	<p>Режимы открытия файлов можно комбинировать с помощью поразрядной логической операции или |, например: ios_base::out | ios_base::trunc — открытие файла для записи, предварительно очистив его.</p>
+	<p>Объекты класса ofstream, при связке с файлами по умолчанию содержат режимы открытия файлов  ios_base::out | ios_base::trunc.</p>
+	<p>То есть файл будет создан, если не существует.</p>
+	<p>Если же файл существует, то его содержимое будет удалено, а сам файл будет готов к записи.</p>
+	<p>Объекты класса ifstream связываясь с файлом, имеют по умолчанию режим открытия файла ios_base::in — файл открыт только для чтения.</p>
+	<p>Режим открытия файла ещё называют — флаг, для удобочитаемости в дальнейшем будем использовать именно этот термин.</p>
+	<p>В таблице перечислены далеко не все флаги, но для начала этих должно хватить.</p>
+	<p>Обратите внимание на то, что флаги ate и app по описанию очень похожи, они оба перемещают указатель в конец файла, но флаг app позволяет производить запись, только в конец файла, а флаг ate просто переставляет флаг в конец файла и не ограничивает места записи.</p>
+	<p>Разработаем программу, которая, используя операцию sizeof(), будет вычислять характеристики основных типов данных в С++ и записывать их в файл.</p>
+	<p>Характеристики:</p>
+	<p>1. число байт, отводимое под тип данных</p>
+	<p>2. максимальное значение, которое может хранить определённый тип данных.</p>
+	<p>Запись в файл должна выполняться в таком формате:</p>
+
+	<pre class="brush: csharp;">
+	/*  data type byte max value 
+	bool =  1 255.00
+	char =  1 255.00
+	short int = 2 32767.00
+	unsigned short int =  2 65535.00
+	int = 4 2147483647.00
+	unsigned int = 4 4294967295.00
+	long int = 4 2147483647.00
+	unsigned long int = 4 4294967295.00
+	float = 4 2147483647.00
+	long float = 8 9223372036854775800.00
+	double = 8 9223372036854775800.00  */
+	</pre>
+
+	<p>Такая программа уже разрабатывалась ранее в разделе Типы данных С++, но там вся информация о типах данных выводилась на стандартное устройство вывода, а нам необходимо программу переделать так, чтобы информация записывалась в файл.</p>
+	<p>Для этого необходимо открыть файл в режиме записи, с предварительным усечением текущей информации файла (строка 14).</p>
+	<p>Как только файл создан и успешно открыт (строки 16 — 20), вместо оператора cout, в строке 22 используем объект fout.</p>
+	<p>Таким образом, вместо экрана информация о типах данных запишется в файл.</p>
+
+	<pre class="brush: csharp;">
+	// write_file.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	// работа с файлами
+	#include &lt;fstream&gt;
+	// манипуляторы ввода/вывода
+	#include &lt;iomanip&gt;
+	using namespace std;
+	 
+	int main(int argc, char* argv[])
+	{
+		setlocale(LC_ALL, "rus");
+		
+		// связываем объект с файлом, при этом файл открываем в режиме записи, предварительно удаляя все данные из него
+		ofstream fout("data_types.txt", ios_base::out | ios_base::trunc);
+		
+		// если файл небыл открыт
+		if (!fout.is_open())
+		{
+			// напечатать соответствующее сообщение
+			cout << "Файл не может быть открыт или создан\n";
+			// выполнить выход из программы
+			return 1;
+		}
+		
+		// заголовки столбцов
+		fout << " data type " << "byte" << " " << " max value  " << endl
+		<< "bool =  " << sizeof(bool) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных bool*/
+		<< (pow(2,sizeof(bool) * 8.0) - 1) << endl
+		<< "char =  " << sizeof(char) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных char*/
+		<< (pow(2,sizeof(char) * 8.0) - 1) << endl
+		<< "short int =  " << sizeof(short int) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных short int*/
+		<< (pow(2,sizeof(short int) * 8.0 - 1) - 1)      << endl
+		<< "unsigned short int =  " << sizeof(unsigned short int)  << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных unsigned short int*/
+		<< (pow(2,sizeof(unsigned short int) * 8.0) - 1) << endl
+		<< "int =  " << sizeof(int) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных int*/
+		<< (pow(2,sizeof(int) * 8.0 - 1) - 1) << endl
+		<< "unsigned int =  " << sizeof(unsigned int) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных unsigned int*/
+		<< (pow(2,sizeof(unsigned int) * 8.0) - 1) << endl
+		<< "long int =  " << sizeof(long int) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных long int*/
+		<< (pow(2,sizeof(long int) * 8.0 - 1) - 1) << endl
+		<< "unsigned long int  =  " << sizeof(unsigned long int)   << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных undigned long int*/
+		<< (pow(2,sizeof(unsigned long int) * 8.0) - 1)  << endl
+		<< "float =  " << sizeof(float) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных float*/
+		<< (pow(2,sizeof(float) * 8.0 - 1) - 1) << endl
+		 << "long float =  " << sizeof(long float) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных long float*/
+		<< (pow(2,sizeof(long float) * 8.0 - 1) - 1) << endl
+		 << "double =  " << sizeof(double) << " " << fixed << setprecision(2)
+		
+		/*вычисляем максимальное значение для типа данных double*/
+		<< (pow(2,sizeof(double) * 8.0 - 1) - 1) << endl;
+		
+		// программа больше не использует файл, поэтому его нужно закрыть
+		fout.close();
+		cout << "Данные успешно записаны в файл data_types.txt\n";
+		system("pause");
+		return 0;
+	}
+	</pre>
+
+	<p>Нельзя не заметить, что изменения в программе минимальны, а всё благодаря тому, что стандартный ввод/вывод и файловый ввод/вывод используются абсолютно аналогично.</p>
+	<p>В конце программы, в строке 45 мы явно закрыли файл, хотя это и не обязательно, но считается хорошим тоном программирования.</p>
+	<p>Стоит отметить, что все функции и манипуляторы используемые для форматирования стандартного ввода/вывода актуальны и для файлового ввода/вывода.</p>
+	<p>Поэтому не возникло никаких ошибок, когда оператор cout был заменён объектом fout.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="39.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="41.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/40.html", "Работа с файлами в С++", "bm61"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm61", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm61") == 1) { document.getElementById("bma61").style.display = "block"; document.getElementById("bm61").style.display = "none"; } else { document.getElementById("bma61").style.display = "none"; document.getElementById("bm61").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Работа с файлами в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm61", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

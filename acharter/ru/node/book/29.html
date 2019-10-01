@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1338" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1338" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Mocha
+	</h1>
+    
+    <p>Важное место при разработке на Node.js занимает тестирование.</p>
+    <p>И в данном случае гораздо легче воспользоваться имеющимися фреймворками, которые упрощают процесс тестирования.</p>
+    <p>Одним из таких фреймворков является Mocha.</p>
+    <p>Подробнее о фреймворке можно узнать на официальной странице Mochajs.</p>
+    <p>В данном же случае мы рассмотрим некоторые базовые стороны работы с ним.</p>
+    <p>Определим в папке проекта новый файл package.json со следующим содержимым:</p>
+
+    <pre class="brush: csharp;">
+    {
+      "name": "testapp",
+      "version": "1.0.0"
+    }
+    </pre>
+
+    <p>Далее добавим в проект пакет mocha с помощью следующей команды:</p>
+
+    <pre class="brush: csharp;">
+    npm install mocha --save-dev
+    </pre>
+
+    <p>Так как фреймворк Mocha необходим только для тестирования приложения, то он добавляется в файле package.json в секцию devDependencies с помощью команды --save-dev.</p>
+    <p>Для тестирования определим простейший модуль.</p>
+    <p>Для этого добавим в проект файл operations.js со следующим содержимым:</p>
+
+    <pre class="brush: csharp;">
+    module.exports.multiply = function(x,y){return x * y;}
+    </pre>
+
+    <p>Здесь определена функция умножения двух чисел.</p>
+    <p>Для тестирования этого модуля добавим в проект новый файл operations.test.js:</p>
+
+    <pre class="brush: csharp;">
+    var operations = require("./operations");
+    
+    it("should multiply two numbers", function(){
+        
+        var expectedResult = 15;
+        var result = operations.multiply(3, 5);
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+    });
+    </pre>
+
+    <p>Рассмотрим этот тест.</p>
+    <p>Для тестирования результата применяется функция it(), которая предоставляется фреймворком Mocha.</p>
+    <p>Эта функция принимает два параметра: текстовое описание тестируемого действия, по которому его можно идентифицировать, и саму тестирующую функцию.</p>
+    <p>К примеру, нам надо проверить работу выше определенной функции multiply(), которая умножает два числа.</p>
+    <p>Для этого в эту функцию надо передать два числа и сравнить ее результат с ожидаемым.</p>
+    <p>Если результат не совпадает с ожидаемым значением, то генерируется ошибка.</p>
+    <p>Для упрощения запуска тестов изменим файл package.json следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    {
+      "name": "testapp",
+      "version": "1.0.0",
+      "scripts":{
+        "test" : "mocha *.test.js"
+      },
+      "devDependencies": {
+        "mocha": "^3.2.0"
+      }
+    }
+    </pre>
+
+    <p>Здесь добавляется секция "scripts", в которой определяется команда "test".</p>
+    <p>Эта команда выполняет команду "mocha *.test.js", которая запускает тестирование с помощью mocha, передавая фреймворку все файлы, которые оканчиваются на ".test.js"</p>
+    <p>Если у нас один файл теста, то мы могли бы сразу указать полное имя файла, типа mocha operations.test.js</p>
+    <p>Далее в командной строке перейдем к папке проекта и выполним команду:</p>
+
+    <pre class="brush: csharp;">
+    npm test
+    </pre>
+
+    <img src="n61.png" id="image" />
+
+    <p>В данном случае консоль указывает, что тест пройден.</p>
+    <p>Но, если мы изменим код теста:</p>
+
+    <pre class="brush: csharp;">
+    var operations = require("./operations");
+    
+    it("should multiply two numbers", function(){
+        
+        var expectedResult = 16;
+        var result = operations.multiply(3, 5);
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+    });
+    </pre>
+
+    <p>То тест не будет проходить, так как результат - 15 не равен ожидаемому результату - числу 16.</p>
+    <p>И консоль уведомит об этом при повторном запуске теста:</p>
+
+    <img src="n62.png" id="image" />
+
+    <p>Подобным образом мы можем определять и другие тесты.</p>
+    <p>Например, изменим файл модуля operations.js:</p>
+
+    <pre class="brush: csharp;">
+    module.exports.multiply = function(x,y){return x * y;}
+    module.exports.add = function(x, y){ return x + y;}
+    </pre>
+
+    <p>Теперь в файле была добавлена функция для сложения чисел.</p>
+    <p>Протестируем ее в operations.test.js:</p>
+
+    <pre class="brush: csharp;">
+    var operations = require("./operations");
+    
+    it("should multiply two numbers", function(){
+        
+        var expectedResult = 15;
+        var result = operations.multiply(3, 5);
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+    });
+    it("should add two numbers", function(){
+        
+        var expectedResult = 16;
+        var result = operations.add(9, 7);
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+    });
+    </pre>
+
+    <p>Запустим тест:</p>
+
+    <img src="n63.png" id="image" />
+
+    <h2 id="title">
+        Тестирование асинхронных функций
+    </h2>
+
+    <p>Немного отличается тестирование асинхронных функций.</p>
+    <p>Например, определим в модуле operations.js асинхронную функцию:</p>
+
+    <pre class="brush: csharp;">
+    module.exports.multiply = function(x,y){return x * y;}
+    module.exports.add = function(x, y){ return x + y;}
+    
+    module.exports.multiplayAsync = function (a, b, callback){
+        setTimeout(function(){
+            callback(a * b);
+        }, 1000)
+    }
+    </pre>
+
+    <p>Протестируем эту функцию в operations.test.js:</p>
+
+    <pre class="brush: csharp;">
+    var operations = require("./operations");
+    
+    it("should multiply two numbers", function(){
+        
+        var expectedResult = 15;
+        var result = operations.multiply(3, 5);
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+    });
+    it("should add two numbers", function(){
+        
+        var expectedResult = 16;
+        var result = operations.add(9, 7);
+        if(result!==expectedResult){
+            throw new Error(`Expected ${expectedResult}, but got ${result}`);
+        }
+    });
+    
+    it("shoud async multiply two numbers", function(done){
+        
+        var expectedResult = 12;
+        operations.multiplayAsync(4, 3, function(result){
+            if(result!==expectedResult){
+                throw new Error(`Expected ${expectedResult}, but got ${result}`);
+            }
+            done();
+        });
+    });
+    </pre>
+
+    <p>Особенностью тестирования асинхронных функций является то, что чтобы они завершились до завершения теста, в тестирующую функцию передается функция done().</p>
+    <p>Причем при окончании тестирования нам надо вызвать эту функцию.</p>
+    <p>Тем самым через подобную функцию Mocha сможет контролировать выполнение теста.</p>
+    
+    <img src="n64.png" id="image" />
+
+    <p>Если мы не передадим функцию done в тест, тогда тест завершится раньше, чем завершится асинхронная функция.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="30.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/29.html", "Mocha", "bm1338"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1338", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1338") == 1) { document.getElementById("bma1338").style.display = "block"; document.getElementById("bm1338").style.display = "none"; } else { document.getElementById("bma1338").style.display = "none"; document.getElementById("bm1338").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Mocha") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1338", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

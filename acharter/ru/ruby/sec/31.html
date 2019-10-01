@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1369" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1369" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Инъекция заголовка
+    </h1>
+    
+    <p>Заголовки HTTP динамически генерируются и при определенных обстоятельствах могут быть изменены пользовательским вводом.</p>
+    <p>Это может привести к ложному перенаправлению, XSS или разделению HTTP отклика (HTTP response splitting).</p>
+    <p>Заголовки запроса HTTP имеют поля Referer, User-Agent (клиентское ПО) и Cookie, среди прочих.</p>
+    <p>Заголовки отклика, к примеру, имеют код статуса, Cookie и Location (цель перенаправления на URL).</p>
+    <p>Все они предоставлены пользователем и могут быть манипулированы с большими или меньшими усилиями.</p>
+    <p>Не забывайте экранировать эти поля заголовка тоже.</p>
+    <p>Например, когда Вы отображаете user agent в администраторской зоне.</p>
+    <p>Кроме того, важно знать, что делаете, когда создаете заголовки отклика, частично основанные на пользовательском вводе.</p>
+    <p>Например, вы хотите перенаправить пользователя на определенную страницу.</p>
+    <p>Для этого вы представили поле "referer" в форме для перенаправления на заданный адрес:</p>
+
+    <pre class="brush: csharp;">
+    redirect_to params[:referer]
+    </pre>
+
+    <p>Что произойдет, если Rails поместит строку в заголовок Location и пошлет статус 302 (redirect) браузеру.</p>
+    <p>Первое, что сделает злонамеренный пользователь, это:</p>
+
+    <pre class="brush: csharp;">
+    http://www.yourapplication.com/controller/action?referer=http://www.malicious.tld
+    </pre>
+
+    <p>И благодаря багу в (Ruby и) Rails до версии 2.1.2 (исключая ее), хакер может внедрить произвольные поля заголовка; например, так:</p>
+
+    <pre class="brush: csharp;">
+    http://www.yourapplication.com/controller/action?referer=http://www.malicious.tld%0d%0aX-Header:`Hi!
+    http://www.yourapplication.com/controller/action?referer=path/at/your/app%0d%0aLocation:`http://www.malicious.tld
+    </pre>
+
+    <p>Отметьте, что "%0d%0a" это URL-код для "\r\n", являющиеся возвратом каретки и новой строкой (CRLF) в Ruby.</p>
+    <p>Таким образом, итоговым заголовком HTTP для второго примера будет следующее, поскольку второе поле заголовка Location перезаписывает первое.</p>
+
+    <pre class="brush: csharp;">
+    HTTP/1.1 302 Moved Temporarily
+    (...)
+    Location: http://www.malicious.tld
+    </pre>
+
+    <p>Таким образом, направления атаки для инъекции заголовка основаны на инъекции символов CRLF в поле заголовка.</p>
+    <p>И что сможет сделать злоумышленник с ложным перенаправлением?</p>
+    <p>Он сможет перенаправить на фишинговый сайт, который выглядит так же, как ваш, но просит заново авторизоваться (и посылает регистрационные данные злоумышленнику).</p>
+    <p>Или он сможет установить злонамеренное ПО, используя дыры в безопасности браузера на этом сайте.</p>
+    <p>Rails 2.1.2 экранирует эти символы для поля Location в методе <b>redirect_to</b>.</p>
+    <p>Убедитесь, что вы делаете то же самое, когда создаете другие поля заголовка на основе пользовательского ввода.</p>
+
+    <h2 id="title">
+        Разделение отклика
+    </h2>
+    
+    <p>Если инъекция заголовка была возможна, то разделение отклика также возможно.</p>
+    <p>В HTTP блок заголовка заканчивается двумя CRLF, затем идут сами данные (обычно HTML).</p>
+    <p>Идея разделения отклика состоит во внедрении двух CRLF в поле заголовка, после которых следует другой отклик со злонамеренным HTML.</p>
+    <p>Отклик будет таким:</p>
+
+    <pre class="brush: csharp;">
+    HTTP/1.1 302 Found [First standard 302 response]
+    Date: Tue, 12 Apr 2005 22:09:07 GMT
+    Location: Content-Type: text/html
+     
+    
+    HTTP/1.1 200 OK [Second New response created by attacker begins]
+    Content-Type: text/html
+     
+     
+    &amp;lt;html&amp;gt;&amp;lt;font color=red&amp;gt;hey&amp;lt;/font&amp;gt;&amp;lt;/html&amp;gt; [Arbitary malicious input is
+    Keep-Alive: timeout=15, max=100         shown as the redirected page]
+    Connection: Keep-Alive
+    Transfer-Encoding: chunked
+    Content-Type: text/html
+    </pre>
+
+    <p>При определенных обстоятельствах это сможет отобразить зловредный HTML жертве.</p>
+    <p>Однако, это будет работать только с соединениями Keep-Alive (а многие браузеры используют одноразовые соединения).</p>
+    <p>Но нельзя на это полагаться.</p>
+    <p>В любом случае, это серьезный баг, и следует обновить Rails до версии 2.0.5 или 2.1.2, чтобы устранить риски инъекции заголовка (и поэтому разделения отклика).</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="30.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="32.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/sec/31.html", "Инъекция заголовка", "bm1369"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1369", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1369") == 1) { document.getElementById("bma1369").style.display = "block"; document.getElementById("bm1369").style.display = "none"; } else { document.getElementById("bma1369").style.display = "none"; document.getElementById("bm1369").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Инъекция заголовка") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1369", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

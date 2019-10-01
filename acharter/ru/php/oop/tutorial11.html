@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma911" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm911" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Трейты
+	</h1>
+	
+	<p>Начиная с версии 5.4.0 в PHP есть возможность использования инструментария для повторного использования кода.</p>
+	<p>Он называется — <b>трейт</b>.</p>
+	<p>Трейт похож на класс, но предназначен для группирования функционала структурированным образом.</p>
+	<p>Невозможно создать самостоятельный экземпляр трейта.</p>
+	<p>Это дополнение к обычному наследованию, то есть возможность использования функционала класса без необходимости наследования.</p>
+	<p>Пример написания:</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			trait MyTrait
+			{
+				public function myFunc()
+				{
+					return 2 + 2;
+				}
+			}
+		?&gt;
+	</pre>
+	
+	<h1 id="title">
+		Использование
+	</h1>
+	
+	<p>Рассмотрим пример использования трейта на основе создания "Транслитератора" (суть: буквы кириллицы переводим в латиницу).</p>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			trait MyTransliterator
+			{
+				private $letters = array(
+					'а' =&gt; 'a', 'б' =&gt; 'b',  'в' =&gt; 'v',
+					'г' =&gt; 'g', 'д' =&gt; 'd',  'е' =&gt; 'e',
+					'ё' =&gt; 'e', 'ж' =&gt; 'zh', 'з' =&gt; 'z',
+					'и' =&gt; 'i', 'й' =&gt; 'y',  'к' =&gt; 'k',
+					'л' =&gt; 'l', 'м' =&gt; 'm',  'н' =&gt; 'n',
+					'о' =&gt; 'o', 'п' =&gt; 'p',  'р' =&gt; 'r',
+					'с' =&gt; 's', 'т' =&gt; 't',  'у' =&gt; 'u',
+					'ф' =&gt; 'f', 'х' =&gt; 'h',  'ц' =&gt; 'c',
+					'ч' =&gt; 'ch', 'ш' =&gt; 'sh', 'щ' =&gt; 'sch',
+					'ь' =&gt; '',  'ы' =&gt; 'y',  'ъ' =&gt; '',
+					'э' =&gt; 'e', 'ю' =&gt; 'yu', 'я' =&gt; 'ya',
+					'А' =&gt; 'A', 'Б' =&gt; 'B',  'В' =&gt; 'V',
+					'Г' =&gt; 'G', 'Д' =&gt; 'D',  'Е' =&gt; 'E',
+					'Ё' =&gt; 'E', 'Ж' =&gt; 'Zh', 'З' =&gt; 'Z',
+					'И' =&gt; 'I', 'Й' =&gt; 'Y',  'К' =&gt; 'K',
+					'Л' =&gt; 'L', 'М' =&gt; 'M',  'Н' =&gt; 'N',
+					'О' =&gt; 'O', 'П' =&gt; 'P',  'Р' =&gt; 'R',
+					'С' =&gt; 'S', 'Т' =&gt; 'T',  'У' =&gt; 'U',
+					'Ф' =&gt; 'F', 'Х' =&gt; 'H',  'Ц' =&gt; 'C',
+					'Ч' =&gt; 'Ch', 'Ш' =&gt; 'Sh', 'Щ' =&gt; 'Sch',
+					'Ь' =&gt; '',  'Ы' =&gt; 'Y',  'Ъ' =&gt; '_',
+					'Э' =&gt; 'E', 'Ю' =&gt; 'Yu', 'Я' =&gt; 'Ya',
+					'є' =&gt; 'ye', 'ї' =&gt; 'yi', 'і' =&gt; 'i',
+					'Є' =&gt; 'YE', 'Ї' =&gt; 'YI', 'І' =&gt; 'I',
+					' ' =&gt; '_'
+				);
+		
+				public function translate($str)
+				{
+					// заменяем символы кириллицы на символы латиницы
+					return strtr(trim($str), $this->letters);
+				}
+			}
+	
+			class MyClass
+			{
+				use MyTransliterator;
+				private $data;
+				
+				/**
+				*	Некая функция для добавления данных в наш массив 
+				*/
+				
+				public function setData(array $data)
+				{
+					$this->data = $data;
+				}
+				
+				/**
+				*	 Некая фукнция для подготовки данных
+				*/
+				
+				public function getPreparedData()
+				{
+					// допустим, мы хотим сделать адрес страницы по названию
+					// тогда, нам нужно перевести название с кириллическими символами на латиницу
+					$this->data['url'] = strtolower($this->translate($this->data['title']));
+					return $this->data;
+				}
+			}
+
+			$obj = new MyClass;
+			$obj->setData([
+				'title' =&gt; 'Не очень простое название для страницы',
+				'content' =&gt; 'Текст страницы'
+			]);
+
+			$data = $obj->getPreparedData();
+			echo "&lt;pre&gt;";
+			print_r($data);
+			echo "&lt;/pre&gt;";
+		?&gt;
+	</pre>
+	
+	<div class="button">Отображение в браузере:</div>
+	
+	<pre class="brush: csharp;">
+		Array
+		(
+			[title] =&gt; Не очень простое название для страницы
+			[content] =&gt; Текст страницы
+			[url] =&gt; ne_ochen_prostoe_nazvanie_dlya_stranicy
+		)
+	</pre>	
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/php/oop/tutorial11.html", "Трейты", "bm911"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm911", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm911") == 1) { document.getElementById("bma911").style.display = "block"; document.getElementById("bm911").style.display = "none"; } else { document.getElementById("bma911").style.display = "none"; document.getElementById("bm911").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Трейты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm911", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

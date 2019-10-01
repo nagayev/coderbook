@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma917" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm917" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Безопасность баз данных
+	</h1>
+	
+	<p><b>Вступление</b></p>
+	
+	<p>На сегодняшний день базы данных являются ключевыми компонентами большинства веб-приложений, позволяя предоставлять на сайтах динамический контент.</p>
+	<p>Поскольку в таких БД может храниться очень точная или конфиденциальная информация, вы должны обеспечить хорошую защиту данных.</p>
+	<p>Для извлечения или сохранения любых данных вам необходимо открыть соединение с базой данных, отправить верный запрос, извлечь результат и закрыть соединение.</p>
+	<p>В настоящее время наиболее распространенный стандарт общения - структурированный язык запросов (SQL).</p>
+	<p>Всегда следует помнить о возможности атаки посредством SQL-запроса (SQL-инъекция).</p>
+	<p>Очевидно, что сам по себе PHP не может защитить вашу базу данных.</p>
+	<p>Этот раздел документации рассказывает об основах безопасного доступа и управления данными в PHP-скриптах.</p>
+	<p>Запомните простое правило: максимальная защита.</p>
+	<p>Чем больше потенциально опасных участков системы вы проработаете, тем сложнее будет потенциальному взломщику получить доступ к базе данных или повредить ее.</p>
+	<p>Хороший дизайн базы данных и программных приложений поможет вам справиться с вашими страхами.</p>
+	
+	<h1 id="title">
+		Проектирование базы данных
+	</h1>
+	
+	<p>Первый шаг - это всегда создание БД, исключая тот случай, когда вы хотите использовать готовую базу, предоставляемую третьим лицом.</p>
+	<p>После того, как база данных создана, она назначается пользователю, который выполнил создавший БД запрос.</p>
+	<p>Как правило, только владелец (или суперпользователь) может выполнять различные действия с различными объектами, хранимыми в базе данных.</p>
+	<p>Для того, чтобы и другие пользователи имели к ней доступ, их необходимо наделить соответствующими привелегиями.</p>
+	<p>Приложения не должны соединяться с базой данных, используя учетную запись владельца или суперпользователя, иначе они смогут модифицировать структуру таблиц (например, удалить некоторые таблицы) или даже удалить все содержимое БД целиком.</p>
+	<p>Вы можете создать различные учетные записи пользователей БД для каждой индивидуальной потребности приложения с соответствующими функциональными ограничениями.</p>
+	<p>Рекомендуется назначать только самые необходимые привилегии, также вы должны избегать ситуаций, когда один и тот же пользователь может взаимодействовать с базой данных в нескольких режимах.</p>
+	<p>Вы должны понимать, что если злоумышленник сможет воспользоваться какой-либо учетной записью вашей БД, он сможет вносить в базу все те изменения, что и программа, которая использует текущую учетную запись.</p>
+	<p>Вам не обязательно реализовывать всю бизнес-логику в веб-приложении (т.е. в скриптах), для этого также можно использовать возможности, предоставляемые базой данных: триггеры, представления, правила.</p>
+	<p>В случае роста системы вам понадобятся новые соединения с БД, и логику работы понадобиться дублировать для каждого нового интерфейса доступа.</p>
+	<p>Исходя из вышесказанного, триггеры могут использоваться для прозрачной и автоматической обработки записей, что часто необходимо при отладке приложений или при трассировке отката транзакций.</p>
+	
+	<h1 id="title">
+		Соединение с базой данных
+	</h1>
+	
+	<p>Вы можете использовать безопасные SSL или ssh соединения, для шифрования данных, которыми обмениваются клиент и сервер.</p>
+	<p>Если вы реализуете что-нибудь из этого, то мониторинг трафика и сбор данных о вашей базе данных для потенциального взломщика существенно усложнится.</p>
+	
+	<h1 id="title">
+		Защита хранилища базы данных
+	</h1>
+	
+	<p><b>SSL/SSH</b> защищает данные, которыми обмениваются клиент и сервер, но не защищают сами данные, хранимые в базе данных.</p>
+	<p><b>SSL</b> - протокол шифрования на уровне сеанса передачи данных.</p>
+	<p>В случае, если взломщик получил непосредственный доступ к БД (в обход веб-сервера), он может извлечь интересующие данные или нарушить их целостность, поскольку информация не защищена на уровне самой БД.</p>
+	<p>Шифрование данных - хороший способ предотвратить такую ситуацию, но лишь незначительное количество БД предоставляют такую возможность.</p>
+	<p>Наиболее простое решение этой проблемы - установить вначале обыкновенный программный пакет для шифрования данных, а затем использовать его в ваших скриптах.</p>
+	<p>PHP, в таком случае, может помочь вам в работе с такими расширениями как <b>Mcrypt</b> и <b>Mhash</b>, реализующими различные алгоритмы криптования.</p>
+	<p>При таком подходе скрипт вначале шифрует сохраняемые данные, а затем дешифрует их при запросе.</p>
+	<p>Ниже приведены примеры того, как работает шифрование данных в PHP-скриптах.</p>
+	<p>В случае работы со скрытыми служебными данными их нешифрованное представление не требуется (т.е. не отображается), и, как следствие, можно использовать хеширование.</p>
+	<p>Хорошо известный пример хэширования - хранение MD5-хеша от пароля в БД, вместо хранения оригинального значения.</p>
+	<p>Более детальная информация доступна в описании функций crypt() and md5().</p>
+	
+	<h1 id="title">
+		Использование хешированных паролей
+	</h1>
+	
+	<pre class="brush: csharp;">
+		&lt;?php
+			// сохранение хешированного пароля
+			$query  = sprintf("INSERT INTO users(name,pwd) VALUES('%s','%s');",
+			addslashes($username), md5($password));
+			$result = pg_exec($connection, $query);
+			
+			// проверка введенного пользователем логина и пароля на корректность
+			$query = sprintf("SELECT 1 FROM users WHERE name='%s' AND pwd='%s';",
+			addslashes($username), md5($password));
+			$result = pg_exec($connection, $query);
+			
+			if (pg_numrows($result) > 0)
+			{
+				echo "Welcome, $username!";
+			}
+			else
+			{
+				echo "Authentication failed for $username.";
+			}
+		?&gt;
+	</pre>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/php/sec/tutorial6.html", "Безопасность баз данных", "bm917"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm917", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm917") == 1) { document.getElementById("bma917").style.display = "block"; document.getElementById("bm917").style.display = "none"; } else { document.getElementById("bma917").style.display = "none"; document.getElementById("bm917").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Безопасность баз данных") == 1) { arrs.splice(i, 1); localStorage.setItem("bm917", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

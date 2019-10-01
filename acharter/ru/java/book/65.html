@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma666" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm666" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Методы wait(), notify(), notifyAll() класса Object
+	</h1>
+
+	<p>Наконец, перейдем к рассмотрению трех методов класса Object, завершая описание механизмов поддержки многопоточности в Java.</p>
+	<p>Каждый объект в Java имеет не только блокировку для synchronized блоков и методов, но и так называемый wait-set, набор потоков исполнения.</p>
+	<p>Любой поток может вызвать метод wait() любого объекта и таким образом попасть в его wait-set.</p>
+	<p>При этом выполнение такого потока приостанавливается до тех пор, пока другой поток не вызовет у этого же объекта метод notifyAll(), который пробуждает все потоки из wait-set.</p>
+	<p>Метод notify() пробуждает один случайно выбранный поток из данного набора.</p>
+	<p>Однако применение этих методов связано с одним важным ограничением.</p>
+	<p>Любой из них может быть вызван потоком у объекта только после установления блокировки на этот объект.</p>
+	<p>То есть либо внутри synchronized -блока с ссылкой на этот объект в качестве аргумента, либо обращения к методам должны быть в синхронизированных методах класса самого объекта.</p>
+	<p>Рассмотрим пример:</p>
+
+	<pre class="brush: csharp;">
+	public class WaitThread implements Runnable
+	{
+		private Object shared;
+		
+		public WaitThread(Object o)
+		{
+			shared=o;
+		}
+		
+		public void run()
+		{
+			synchronized (shared)
+			{
+				try
+				{
+					shared.wait();
+				}
+
+				catch (InterruptedException e) {}
+				System.out.println("after wait");
+			}
+		}
+
+		public static void main(String s[])
+		{
+			Object o = new Object();
+			WaitThread w = new WaitThread(o);
+			new Thread(w).start();
+			
+			try
+			{
+				Thread.sleep(100);
+			}
+			catch (InterruptedException e) {}
+			
+			System.out.println("before notify");
+			
+			synchronized (o)
+			{
+				o.notifyAll();
+			}
+		}
+	}
+	</pre>
+
+	<p>Результатом программы будет:</p>
+
+	<pre class="brush: csharp;">
+	before notify
+	after wait
+	</pre>
+
+	<p>Обратите внимание, что метод wait(), как и sleep(), требует обработки InterruptedException, то есть его выполнение также можно прервать методом interrupt().</p>
+	<p>В заключение рассмотрим более сложный пример для трех потоков:</p>
+
+	<pre class="brush: csharp;">
+	public class ThreadTest implements Runnable
+	{
+		final static private Object shared=new Object();
+		private int type;
+		
+		public ThreadTest(int i)
+		{
+			type=i;
+		}
+
+		public void run()
+		{
+			if (type==1 || type==2)
+			{
+				synchronized (shared)
+				{
+					try
+					{
+						shared.wait();
+					} catch (InterruptedException e) {}
+					
+					System.out.println("Thread "+type+" after wait()");
+				}
+			}
+			else
+			{
+				synchronized (shared)
+				{
+					shared.notifyAll();
+					System.out.println("Thread "+type+" after notifyAll()");
+				}
+			}
+		}
+
+		public static void main(String s[])
+		{
+			ThreadTest w1 = new ThreadTest(1);
+			new Thread(w1).start();
+			
+			try
+			{
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+			
+			ThreadTest w2 = new ThreadTest(2);
+			new Thread(w2).start();
+			
+			try
+			{
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+			
+			ThreadTest w3 = new ThreadTest(3);
+			new Thread(w3).start();
+		}
+	}
+	</pre>
+
+	<p>Результатом работы программы будет:</p>
+
+	<pre class="brush: csharp;">
+	Thread 3 after notifyAll()
+	Thread 1 after wait()
+	Thread 2 after wait()
+	</pre>
+
+	<p>Рассмотрим, что произошло.</p>
+	<p>Во-первых, был запущен поток 1, который тут же вызвал метод wait() и приостановил свое выполнение.</p>
+	<p>Затем то же самое произошло с потоком 2.</p>
+	<p>Далее начинает выполняться поток 3.</p>
+	<p>Сразу обращает на себя внимание следующий факт.</p>
+	<p>Еще поток 1 вошел в synchronized -блок, а стало быть, установил блокировку на объект shared.</p>
+	<p>Но, судя по результатам, это не помешало и потоку 2 зайти в synchronized -блок, а затем и потоку 3.</p>
+	<p>Причем, для последнего это просто необходимо, иначе как можно "разбудить" потоки 1 и 2?</p>
+	<p>Можно сделать вывод, что потоки, прежде чем приостановить выполнение после вызова метода wait(), отпускают все занятые блокировки.</p>
+	<p>Итак, вызывается метод notifyAll().</p>
+	<p>Как уже было сказано, все потоки из wait-set возобновляют свою работу.</p>
+	<p>Однако чтобы корректно продолжить исполнение, необходимо вернуть блокировку на объект, ведь следующая команда также находится внутри synchronized -блока!</p>
+	<p>Получается, что даже после вызова notifyAll() все потоки не могут сразу возобновить работу.</p>
+	<p>Лишь один из них сможет вернуть себе блокировку и продолжить работу.</p>
+	<p>Когда он покинет свой synchronized -блок и отпустит объект, второй поток возобновит свою работу, и так далее.</p>
+	<p>Если по какой-то причине объект так и не будет освобожден, поток так никогда и не выйдет из метода wait(), даже если будет вызван метод notifyAll().</p>
+	<p>В рассмотренном примере потоки один за другим смогли возобновить свою работу.</p>
+	<p>Кроме того, определен метод wait() с параметром, который задает период тайм-аута, по истечении которого поток сам попытается возобновить свою работу.</p>
+	<p>Но начать ему придется все равно с повторного получения блокировки.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>В этой лекции были рассмотрены принципы построения многопоточного приложения.</p>
+	<p>В начале разбирались достоинства и недостатки такой архитектуры – как правило ОС не выделяет отдельный процессор под каждый процесс, а значит применяется процедура time slicing.</p>
+	<p>Было выделено три признака, указывающие на целесообразность запуска нескольких потоков в рамках программы.</p>
+	<p>Основу работы с потоками в Java составляют интерфейс Runnable и класс Thread.</p>
+	<p>С их помощью можно запускать и останавливать потоки, менять их свойства, среди которых основные: приоритет и свойство daemon.</p>
+	<p>Главная проблема, возникающая в таких программах - одновременный доступ нескольких потоков к одним и тем же данным, в первую очередь -– к полям объектов.</p>
+	<p>Для понимания, как в Java решается эта задача, был сделан краткий обзор по организации памяти в JVM, работы с переменными и блокировками.</p>
+	<p>Блокировки, несмотря на название, сами по себе не ограничивают доступ к переменной.</p>
+	<p>Программист использует их через ключевое слово synchronized, которое может быть указано в сигнатуре метода или в начале блока.</p>
+	<p>В результате выполнение не будет продолжено, пока блокировка не освободится.</p>
+	<p>Новый механизм порождает новую проблему - взаимные блокировки (deadlock), к которой программист всегда должен быть готов, тем более, что Java не имеет встроенных средств для определения такой ситуации.</p>
+	<p>В лекции разбирался пример, как организовать работу программы без "зависания" ожидающих потоков.</p>
+	<p>В завершение рассматривались специализированные методы базового класса Object, которые также позволяют управлять последовательностью работы потоков.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="64.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="66.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/65.html", "Методы выполнения", "bm666"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm666", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm666") == 1) { document.getElementById("bma666").style.display = "block"; document.getElementById("bm666").style.display = "none"; } else { document.getElementById("bma666").style.display = "none"; document.getElementById("bm666").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Методы выполнения") == 1) { arrs.splice(i, 1); localStorage.setItem("bm666", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

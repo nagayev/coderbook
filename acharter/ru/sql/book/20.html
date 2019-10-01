@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1034" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1034" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Использование логического оператора LIKE
+	</h1>
+
+	<p>Все предыдущие операторы, которые мы рассмотрели, производили фильтрацию по известным значениям.</p>
+	<p>Они искали совпадения по одному или нескольким значениям, более чем и менее чем известное значение или диапазон значений.</p>
+	<p>При этом везде искалось известное значение.</p>
+	<p>Однако фильтрация данных таким способом не всегда работает.</p>
+	<p>Например, как бы вы искали продукты, в названии которых содержатся слова bean bag?</p>
+	<p>Этого нельзя сделать при помощи простых операций сравнения, здесь на помощь приходит поиск с использованием метасимволов.</p>
+	<p>При помощи метасимволов можно создавать условия поиска данных.</p>
+	<p>В этом примере, для того чтобы найти все продукты, в названии которых содержатся слова bean bag, необходимо составить шаблон поиска, позволяющий найти текст bean bag в любом месте названия продукта.</p>
+	<p><b>Метасимволы</b></p>
+	<p>Специальные символы, применяемые для поиска части значения.</p>
+	<p><b>Шаблон поиска</b></p>
+	<p>Условие поиска, состоящее из текста, метасимволов и любой их комбинации.</p>
+	<p>Метасимволы сами по себе являются символами, которые имеют в условии WHERE специальное значение.</p>
+	<p>В SQL поддерживаются метасимволы нескольких типов.</p>
+	<p>Чтобы применять метасимволы в условиях поиска, необходимо использовать ключевое слово LIKE.</p>
+	<p>Оно сообщает СУБД, что следующий шаблон для поиска необходимо сравнивать с использованием метасимволов, а не искать точные совпадения.</p>
+	<p><b>Предикат</b></p>
+	<p>Когда оператор не является оператором?</p>
+	<p>Тогда, когда он является предикатом.</p>
+	<p>Технически, LIKE – это предикат, а не оператор.</p>
+	<p>Конечный результат остается тем же, просто не пугайтесь этого термина, если вы встретите его в документации по SQL.</p>
+	<p>Поиск с использованием метасимволов может осуществляться только в текстовых полях (строках), нельзя использовать метасимволы при поиске полей с нетекстовым типом данных.</p>
+
+	<h1 id="title">
+		Метасимвол "знак процента" (%)
+	</h1>
+
+	<p>Наиболее часто используемый метасимвол – знак процента (%).</p>
+	<p>В строке поиска % означает найти все вхождения любого символа.</p>
+	<p>Например, чтобы найти все продукты, названия которых начинаются со слова Fish, можно выполнить следующий запрос:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id, prod_name
+	FROM Products
+	WHERE prod_name LIKE 'Fish%';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_id prod_name
+	BNBG01 Fish bean bag toy
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В этом примере используется шаблон поиска 'Fish.%'.</p>
+	<p>При выполнении этого условия возвращаются все значения, которые начинаются с символов Fish.</p>
+	<p>Знак % указывает СУБД принимать все символы после слова Fish независимо от их количества.</p>
+	<p><b>Метасимволы Microsoft Access</b></p>
+	<p>Если вы работаете в Microsoft Access, необходимо использовать символ * вместо символа %.</p>
+	<p><b>Зависимость от регистра</b></p>
+	<p>Ваша СУБД и ее конфигурация могут влиять на то, что поиск будет зависеть от регистра.</p>
+	<p>В этом случае по строке 'fish%' значение Fish bean bag toy не будет найдено.</p>
+	<p>Метасимволы можно использовать в любом месте шаблона поиска, причем в неограниченном количестве.</p>
+	<p>В следующем примере используются два метасимвола, по одному на каждом конце шаблона.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id, prod_name
+	FROM Products
+	WHERE prod_name LIKE '%bean bag%';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_id prod_name
+	BNBG01 Fish bean bag toy
+	BNBG02 Bird bean bag toy
+	BNBG03 Rabbit bean bag toy
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Шаблон поиска '%bean bag%' означает найти все значения, содержащие bean bag в любом месте названия, независимо от количества символов перед или после указанного текста.</p>
+	<p>Метасимвол можно также использовать внутри шаблона поиска, хотя это редко бывает полезным.</p>
+	<p>В следующем примере производится поиск всех продуктов, которые начинаются на F и заканчиваются на y:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_name
+	FROM Products
+	WHERE prod_name LIKE 'F%y';
+	</pre>
+
+	<p>Важно отметить, что помимо поиска одного или нескольких символов, знак % также означает и отсутствие символов в указанном месте шаблона поиска.</p>
+	<p><b>Следите за замыкающими пробелами</b></p>
+	<p>Многие СУБД, включая Microsoft Access, заполняют содержимое поля пробелами.</p>
+	<p>Например, если столбец рассчитан на 50 символов, а в нем вставлен текст Fish bean bag toy (17 символов), то, чтобы заполнить столбец, в него может быть добавлено еще 33 пробела.</p>
+	<p>Обычно это не влияет на данные или их использование, но может негативно отразиться на предыдущем SQL-выражении.</p>
+	<p>По условию WHERE prod_name LIKE 'F%y' будут найдены только те значения prod_name, которые начинаются на F и заканчиваются на у.</p>
+	<p>Если значение заполнено пробелами, оно не будет заканчиваться на у, и значение Fish bean bag toy не будет извлечено.</p>
+	<p>Одним из простых решений может быть добавление второго символа % в шаблон поиска: ' F%y%', после чего будут учитываться символы (пробелы) после буквы у.</p>
+	<p>Но лучше "отрезать" пробелы при помощи функций, которые обсуждаются в уроке 8, "Использование функций манипулирования данными".</p>
+
+	<h1 id="title">
+		Метасимвол "символ подчеркивания" (_)
+	</h1>
+
+	<p>Еще одним полезным метасимволом является символ подчеркивания (_).</p>
+	<p>Символ подчеркивания используется так же, как и %, но при этом учитывается не много символов, а только один.</p>
+	<p><b>Метасимволы в Microsoft Access</b></p>
+	<p>Если вы работаете в Microsoft Access, вам нужно использовать знак ? вместо символа _.</p>
+	<p>Взгляните на этот пример.</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id, prod_name
+	FROM Products
+	WHERE prod_name LIKE '__ inch teddy bear';
+	</pre>
+
+	<p><b>Следите за замыкающими пробелами</b></p>
+	<p>Как и в предыдущем примере, возможно, понадобится добавить метасимвол % в шаблон, чтобы пример работал.</p>
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_id prod_name
+	BNBG02 12 inch teddy bear
+	BNBG03 18 inch teddy bear
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>В шаблоне поиска этого предложения WHERE использованы два метасимвола, затем следует текст.</p>
+	<p>В результате были выбраны только те строки, которые удовлетворяли шаблону поиска: по двум символам подчеркивания было найдено число 12 в первой строке и 18 во второй.</p>
+	<p>Продукт 8 inch teddy bear не был найден, так как в шаблоне поиска требуется два совпадения, а не одно.</p>
+	<p>Для сравнения, в следующем выражении SELECT используется метасимвол %, вследствие чего извлекаются три названия товара:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id, prod_name
+	FROM Products
+	WHERE prod_name LIKE '% inch teddy bear';
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	prod_id prod_name
+	BNBG01 8 inch teddy bear
+	BNBG02 12 inch teddy bear
+	BNBG03 18 inch teddy bear
+	</pre>
+
+	<p>В отличие от знака %, который подразумевает также отсутствие символов, знак _ всегда означает один символ – не более и не менее.</p>
+
+	<h1 id="title">
+		Метасимвол "квадратные скобки" ([ ])
+	</h1>
+
+	<p>Метасимвол "квадратные скобки" ([ ]) используется для указания набора символов, каждый из которых должен совпадать со значением, причем точно в указанном месте (в местоположении метасимвола).</p>
+	<p><b>Наборы не всегда поддерживаются</b></p>
+	<p>В отличие от метасимволов, описанных ранее, использование квадратных скобок для создания наборов многими СУБД не поддерживается.</p>
+	<p>Наборы поддерживаются в СУБД Microsoft Access, Microsoft SQL Server и Sybase Adaptive Server.</p>
+	<p>Обратитесь к документации по вашей СУБД, чтобы определить, поддерживаются ли в ней наборы.</p>
+	<p>Например, чтобы найти все контакты людей, имена которых начинаются на букву J или M, необходимо сделать следующее:</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id, prod_name
+	FROM Customers
+	WHERE cust_contact LIKE '[JM]% '
+	ORDER BY cust_contact
+	</pre>
+
+	<p><b>ВЫВОД</b></p>
+
+	<pre class="brush: csharp;">
+	cust_contact
+	Jim Jones
+	John Smith
+	Michelle Green
+	</pre>
+
+	<p><b>Анализ</b></p>
+	<p>Условие WHERE в этом выражении выглядит как '[JM]%'.</p>
+	<p>В этом шаблоне поиска используются два разных метасимвола.</p>
+	<p>По метасимволам [JM] производится поиск всех контактных лиц, имена которых начинаются на одну из указанных в скобках букв, но при этом учитывается только один символ.</p>
+	<p>Поэтому все имена длиннее одного символа не будут извлечены.</p>
+	<p>По метасимволу %, следующему после [JM], производится поиск любого количества символов после первой буквы, что и приводит к требуемому результату.</p>
+	<p>Можно использовать метасимвол, выполняющий противоположное действие, добавив перед ним символ ^.</p>
+	<p>Например, в следующем примере выбираются все имена, которые не начинаются с буквы J или М (в отличие от предыдущего примера):</p>
+	<p><b>ВВОД</b></p>
+
+	<pre class="brush: csharp;">
+	SELECT prod_id, prod_name
+	FROM Customers
+	WHERE cust_contact LIKE '[^JM]%'
+	ORDER BY cust_contact
+	</pre>
+
+	<p><b>Противоположные наборы в Microsoft Access</b></p>
+	<p>Если вы работаете в Microsoft Access и требуется создать противоположный набор, необходимо использовать символ ! вместо ^, поэтому указывайте [!JM], а не [^JM].</p>
+	<p>Конечно, можно достичь того же результата, воспользовавшись логическим оператором NOT.</p>
+	<p>Единственным преимуществом символа ^ является более простой синтаксис при выполнении нескольких предложений WHERE.</p>
+	<p><b>Внимание!</b></p>
+	<p>Метасимвол ([ ]) поддерживается не всеми СУБД. Обратитесь к документации по вашей СУБД, чтобы определить, поддерживается ли этот метасимвол.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="19.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="21.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/20.html", "Использование LIKE", "bm1034"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1034", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1034") == 1) { document.getElementById("bma1034").style.display = "block"; document.getElementById("bm1034").style.display = "none"; } else { document.getElementById("bma1034").style.display = "none"; document.getElementById("bm1034").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Использование LIKE") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1034", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

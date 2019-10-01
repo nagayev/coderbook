@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma465" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm465" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Создание таблицы
+	</h1>
+
+	<p>Вернемся к приложению с базами данных, разработанному в прошлой лекции.</p>
+	<p>Нам осталось научиться пользоваться закладками</p>
+
+	<h1 id="title">
+		Закладки (Bookmarks)
+	</h1>
+
+	<p>Закладки позволяют сохранить положение в наборе данных, чтобы позднее можно было вернуться к этому же месту.</p>
+	<p>В Delphi за это отвечает только одно свойство.</p>
+	<p>Все, что нужно сделать – это объявить переменную типа TBookmarkStr и присвоить ей положение, которое мы хотим запомнить:</p>
+
+	<pre class="brush: csharp;">
+var
+   bm : TBookmarkStr;
+begin
+   bm := Table1.Bookmark;
+	</pre>
+
+	<p>А когда нужно вернуться на закладку, делаем обратное присваивание:</p>
+
+	<pre class="brush: csharp;">
+	Table1.Bookmark := bm;
+	</pre>
+
+	<p>Чтобы освободить закладку, нужно ей просто-напросто присвоить пустую строку:</p>
+
+	<pre class="brush: csharp;">
+	bm := '';
+	</pre>
+
+	<p>Как видите, закладка реализуется переменной типа TBookmarkStr, а в компоненте Table имеется свойство Bookmark такого же типа.</p>
+	<p>Теперь вернемся к нашему проекту и напишем код для наших кнопок, отвечающих за закладки.</p>
+	<p>Прежде всего, переменной – закладкой мы должны будем пользоваться из трех процедур – по количеству кнопок управления закладкой.</p>
+	<p>Следовательно, переменная должна быть глобальной. Опишем ее в разделе глобальных переменных:</p>
+
+	<pre class="brush: csharp;">
+var
+  fMain: TfMain;
+  bm : TBookmarkStr;
+	</pre>
+
+	<p>Далее, кнопка "Установить" у нас доступна, остальные кнопки не доступны.</p>
+	<p>Почему?</p>
+	<p>Потому, что мы не можем перейти на закладку, или удалить ее, пока мы эту закладку не установили.</p>
+	<p>Как только мы установим закладку, то наоборот, кнопки "На закладку" и "Удалить" у нас должны стать активными.</p>
+	<p>А вот "Установить" - нет, потому что ее сначала нужно освободить, удалить.</p>
+	<p>Имеем это в виду, и пишем код для кнопки "Установить":</p>
+
+	<pre class="brush: csharp;">
+//получаем закладку:
+  bm := fDm.Table1.Bookmark;
+  //разрешаем или запрещаем кнопки:
+  Button5.Enabled := False; //установить
+  Button6.Enabled := True; //на закладку
+  Button7.Enabled := True; //Удалить
+	</pre>
+
+	<p>Теперь код для кнопки "На закладку":</p>
+
+	<pre class="brush: csharp;">
+	//перейти на закладку
+		fDM.Table1.Bookmark := bm;
+	</pre>
+
+	<p>И напоследок, код для кнопки "Удалить":</p>
+
+	<pre class="brush: csharp;">
+//удалить закладку:
+  bm := '';
+  //разрешаем или запрещаем кнопки:
+  Button5.Enabled := True; //установить
+  Button6.Enabled := False; //на закладку
+  Button7.Enabled := False; //Удалить
+	</pre>
+
+	<p>Вот и вся работа с закладками!</p>
+
+	<h1 id="title">
+		Свойства BOF, EOF и циклическая обработка
+	</h1>
+
+	<p>Свойства BOF и EOF имеют логический тип данных.</p>
+	<p>Свойство BOF возвращает истину тогда, когда указатель находится на первой записи таблицы, а свойство EOF – на последней.</p>
+	<p>Таким образом, мы можем обрабатывать таблицу циклически, переходя от записи к записи, пока не будет достигнут конец или начало таблицы.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+Table1.First; //перешли на первую запись
+while not Table1.EOF do begin
+   {какие-то действия с записью}
+   Table1.Next;  //переход на следующую запись
+end; //while
+	</pre>
+
+	<p>Точно также, можно от конца таблицы переходить к началу, и использовать при переходе свойство Prev – переход к предыдущей записи.</p>
+
+	<h1 id="title">
+		Открытие и закрытие таблицы или связанных таблиц
+	</h1>
+
+	<p>В предыдущем примере мы во время разработки установили свойство Active таблицы в True.</p>
+	<p>Однако нередко бывает, что открывать и закрывать таблицу приходится программным путем.</p>
+	<p>Таким образом, для открытия таблицы мы можем использовать свойство Active или методы Open и Close, которые делают одно и то же:</p>
+
+	<pre class="brush: csharp;">
+	//открываем таблицы:
+	Table1.Open;
+	Table2.Active := True;
+	//закрываем таблицы:
+	Table1.Close;
+	Table2.Active := False;
+	</pre>
+
+	<h1 id="title">
+		Свойства RecordCount и RecNo таблицы
+	</h1>
+
+	<p>Эти свойства приходится использовать довольно часто, чтобы выяснить номер текущей записи или общее количество записей (строк) в таблице.</p>
+	<p>RecordCount возвращает целое число, показывающее общее количество записей, а RecNo – номер текущей записи.</p>
+	<p>Давайте улучшим наш проект, указав какая запись является текущей, и каково общее количество записей.</p>
+	<p>Откройте предыдущий проект.</p>
+	<p>Событие onDataChange компонента DataSource возникает всякий раз, когда происходят изменения в данных таблицы.</p>
+	<p>Например, перемещение от одной записи к другой.</p>
+	<p>Однако, компонент Label, в который нам нужно прописать эти данные, находится в главном окне, а компонент DataSource – в окне DM.</p>
+	<p>Так что придется открыть модуль DM, и использовать команду File -&gt; Use Unit, в которой указать главное окно fMain.</p>
+	<p>Теперь выделите компонент DataSource и сгенерируйте для него событие onDataChange.</p>
+	<p>В коде этого события запишем:</p>
+
+	<pre class="brush: csharp;">
+fMain.Label1.Caption := 'Позиция: '  +
+      IntToStr(Table1.RecNo) + ' из '  +
+      IntToStr(Table1.RecordCount);
+	</pre>
+
+	<p>Как видите, мы использовали оба новых свойства.</p>
+	<p>В результате при загрузке программы должна получиться строка, вроде такой:</p>
+
+	<pre class="brush: csharp;">
+	Позиция: 1 из 28
+	</pre>
+
+	<p>Наш "БД – Навигатор" полностью работоспособен.</p>
+	<p>Можете закрыть этот проект, больше он нам не потребуется.</p>
+
+	<h1 id="title">
+		Создание собственной таблицы
+	</h1>
+
+	<p>Наиболее простой способ создать собственную таблицу – воспользоваться встроенной утилитой Delphi – Database Desktop.</p>
+	<p>Однако для начала создайте новое приложение.</p>
+	<p>Форму сразу переименуйте в fMain, модуль сохраните под именем Main, а проект – CatBooks.</p>
+	<p>Мы будем делать каталог книг для библиотеки.</p>
+	<p>В свойстве Caption формы можете написать "Библиотечный каталог".</p>
+	<p>Теперь с помощью файлового менеджера создайте на диске D: (Если D: диска у вас нет, то на диске C:) еще одну папку – Data (данные).</p>
+	<p>Таким образом, адрес нашей базы данных будет d:\data.</p>
+	<p>Теперь запускайте утилиту Database Desktop, которая находится там же, где Delphi.</p>
+	<p>Эта программа – не просто браузер БД, она еще позволяет создавать таблицы и индексные файлы.</p>
+	<p>Сейчас выберем команду File – New – Table.</p>
+	<p>Появится окошко, в котором можно выбрать формат создаваемой таблицы.</p>
+	<p>Откройте список – он довольно внушителен.</p>
+	<p>Таблицы формата dBase наиболее распространены, однако они очень уязвимы и не имеют большого разнообразия типов полей.</p>
+	<p>Поэтому оставим формат по умолчанию – Paradox 7.</p>
+	<p>Сразу, как Вы нажмете "ОК", появится редактор полей.</p>
+	<p>Здесь нам нужно:</p>
+	<p>1) В поле Field Name указать название поля (колонки).</p>
+	<p>2) В поле Type выбрать тип поля. Для этого достаточно нажать пробел, чтобы открылся список всех полей.</p>
+	<p>4) В поле Size указывается длина строк в символах.</p>
+	<p>Если Вы выбрали, к примеру, дату, то это поле недоступно для редактирования, поскольку у всех записей будет фиксированная длина.</p>
+	<p>5) Поле Key позволяет указать ключевое поле.</p>
+	<p>Для этого тоже достаточно нажать пробел.</p>
+	<p>Установка на поле ключа приводит к тому, что все записи таблицы будут сортироваться по этому полю.</p>
+	<p>Например, если установить ключ у поля "Фамилия", то все записи отсортируются по фамилиям, от А до Я.</p>
+	<p>Если ключа нет, то записи будут в том порядке, в каком их ввели в таблицу.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="78.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="80.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/79.html", "Создание таблицы", "bm465"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm465", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm465") == 1) { document.getElementById("bma465").style.display = "block"; document.getElementById("bm465").style.display = "none"; } else { document.getElementById("bma465").style.display = "none"; document.getElementById("bm465").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание таблицы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm465", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

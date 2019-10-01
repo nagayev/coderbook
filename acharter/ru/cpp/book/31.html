@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma52" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm52" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Указатель на указатель + динамическое выделение памяти (часть 1)
+	</h1>
+
+	<p>Обращаюсь к новичкам, которые только начали изучать указатели: "Если вас заинтересовала эта тема и вы хотите в ней разобраться, что я могу вам сказать — ситуация не из приятных!".</p>
+	<p>Кто бы и как бы усердно и старательно не объяснял вам что к чему, понять указатели на указатели сложно.</p>
+	<p>Сам указатель на указатель содержит в себе адрес, который ссылается на другой адрес, а он, в свою очередь, ссылается на адрес в памяти, где хранятся данные.</p>
+	<p>Вроде бы и можно понять.</p>
+	<p>Но как это применять на практике? Зачем оно надо?</p>
+	<p>Это понять сложнее.</p>
+	<p>А надо «оно», среди прочего, для возможности работы с массивами указателей, которые указывают на память с данными (строками, например).</p>
+	<p>Каждый элемент этого массива — это указатель, который содержит в себе адрес строки (первого элемента символьного массива).</p>
+	
+	<p>Наша ситуация усложняется еще и тем, что в данной статье мы постараемся доступно показать, как выделять динамическую память под двумерный массив указателей и как ее освобождать.</p>
+	<p>Ну что, испугались?</p>
+	<p>Тогда начнем разбираться!</p>
+
+	<p>А в данной статье мы будем рассматривать пример, в котором перед нами ставится следующая задача: у нас есть указатель на указатель char **pp   (он будет содержать адрес массива указателей на строки) и размер этого массива int size, который изначально равен 0.</p>
+	<p>Нам надо написать функцию, которая будет выделять динамическую память для новых элементов массива указателей и для хранения символов новых строк.</p>
+	<p>Эта функция будет принимать, как параметры, указатель на указатель, размер массива указателей и строку, которую надо будет записать в выделенную под нее память.</p>
+	<p>Чтобы не усложнять задачу, в ней не будет диалога с пользователем.</p>
+	<p>Пять строк мы определим сразу при вызовах функции.</p>
+	<p>Если у вас есть возможность, пишите исходный код по мере прочтения.</p>
+	<p>Так будет легче его понять.</p>
+	<p>Детальные объяснения увидите под кодом.</p>
+
+	<pre class="brush: csharp;">
+	#include &lt;iostream&gt;;
+	#include &lt;string.h&gt;;
+	using namespace std;
+	
+	//прототип функции
+	char **AddPtr (char **pp, int size, char *str);
+	 
+	int main()
+	{
+		setlocale(LC_ALL, "rus");  
+		//количество указателей на строки
+		int size = 0;
+		//указатель на массив указателей, которые содержат адреса строк
+		char **pp = 0;
+		cout << "~~~~~Добавляем указатели на пять строк и заполняем строки данными~~~~~" << endl;
+		//вызов функции и присваивание возвращаемого значения
+		pp = AddPtr(pp, size, "11111111111111111");
+		size++; //=1  увеличиваем размер массива указателей
+		pp = AddPtr(pp, size, "22222222222222222");
+		size++;  //2
+		pp = AddPtr(pp, size, "33333333333333333");
+		size++;  //3
+		pp = AddPtr(pp, size, "44444444444444444");
+		size++;  //4
+		pp = AddPtr(pp, size, "55555555555555555");
+		size++;  //5
+		//показываем все строки на экран
+		for(int i = 0; i < size; i++)
+		//достаточно обратиться к pp[i] - это адрес строки (0-й элемент)
+		cout << pp[i] << endl;
+		cout << endl;
+		//освобождаем память
+		for(int i = 0; i < size; i++)
+		{
+			// сначала выделенную под строки     
+			delete [] pp[i]; 
+		}
+		// потом выделенную под массив указателей
+		delete [] pp;
+		return 0;
+	}
+	char **AddPtr (char **pp, int size, char *str)
+	{
+		if(size == 0)
+		{
+			//выделяем память для указателя на строку
+			pp = new char *[size+1];
+		}
+		//если массив уже не пустой, данные надо скопировать во временный массив **copy
+		else
+		{
+			//создаем временный массив
+			char **copy = new char* [size+1];
+			//копируем в него адреса уже определенных строк
+			for(int i = 0; i < size; i++)
+			{
+				copy[i] = pp[i];
+			}  
+			//теперь строки хранятся в адресах copy
+			//освобождаем память, которая указывала на строки
+			delete [] pp;
+			//показываем указателю на какие адреса теперь ссылаться
+			pp = copy;
+		}
+		//выделяем память на новую строку
+		pp[size] = new char [strlen(str) + 1];
+		//и копируем новую строку в элемент pp[size].
+		strcpy(pp[size], str);
+		return pp;
+	}
+	</pre>
+
+	<p>В строке 6 объявляем прототип функции char **AddPtr (char **pp, int size, char *str);.</p>
+	<p>Перед названием функции ставим две звездочки, так как функция будет возвращать указатель на указатель.</p>
+	<p>В главной функции main() все достаточно просто.</p>
+	<p>Создаем указатель на указатель типа char **pp, который изначально ни на что не указывает, и счетчик элементов массива указателей  size — строки 12-13.</p>
+	<p>Далее  (строки 17 — 30)  идет поочередное наращивание массива указателей и добавление в него данных, посредством вызова функции AddPtr().</p>
+	<p>При этом, каждый раз после вызова функции мы увеличиваем значение size на единицу.</p>
+	<p>Теперь переместимся к самому интересному — к определению функции AddPtr() строки 44 — 66.</p>
+	<p>Как уже говорилось выше, в виде параметров функция будет принимать уже объявленный нами указатель на указатель, счетчик  элементов массива указателей и определённую нами строку.</p>
+	<p>При первом вызове, в функцию передаётся нулевое значение счетчика size.</p>
+	<p>Срабатывает if (size == 0) (строки 46 — 48) в котором мы выделяем динамическую память для первого элемента массива указателей pp = new char *[size+1];.</p>
+	<p>Перед квадратными скобками стоит оператор звездочка *,  который показывает компилятору, что нужно выделить динамическую память под один указатель (а не просто под символ char, если бы звездочки не было).</p>
+	<p>If отработал и мы перемещаемся в строку 62.</p>
+	<p>Тут мы «говорим» — пусть 0-й элемент массива указателей (указатель pp[size]) указывает на массив символов размером [strlen(str) + 1] (размер определённой нами строки + 1 символ для '\n').</p>
+	<p>И следующим логичным  шагом будет копирование строки, переданной в функцию, в этот выделенный участок памяти — строка 63.</p>
+	<p>И в завершении работы, функция возвращает в программу указатель на указатель (тот самый указатель, который хранит адрес нулевого элемента массива указателей на строки).</p>
+	<p>И наш, объявленный в main(),  char **pp теперь будет хранить в себе значение этого адреса, так как вызов функции выглядит так pp = AddPtr(pp, size, "11111111111111111"); (присвоить значение, которое вернет функция).</p>
+	<p>Функция отработала — память выделена, данные внесены.</p>
+	<p>Вызываем функцию  второй раз — строка 20.</p>
+	<p>При этом вызове уже сработает блок else определённый в строках 49 — 60.</p>
+	<p>У нас уже есть строка, данные которой нам надо не потерять и добавляется еще одна, для которой надо создать новый указатель в массиве указателей, выделить динамическую память и записать туда данные.</p>
+	<p>Поэтому создаем временную копию нашего указателя и выделяем память уже под два элемента массива указателей char **copy = new char* [size+1];.</p>
+	<p>Копируем в него указатель на перовую строку (нулевой элемент массива указателей) — copy[i] = pp[i];.</p>
+	<p>Освобождаем память, которая указывала на первую строку.</p>
+	<p>Так как это массив указателей (пусть даже пока с одним элементом) чтобы освободить занимаемую им память, надо перед именем указателя поставить квадратные скобки — delete [] pp;.</p>
+	<p>Нам эта память больше не нужна, так как на нее уже указывает copy[0].</p>
+	<p>И показываем указателю pp на какой новый участок памяти надо теперь ссылаться — строка 59.</p>
+	<p>Так — первая строка у нас сохранена и на нее теперь указывает pp[0].</p>
+	<p>И теперь мы снова переходим к строкам 62 — 63, где выделяется память для второй строки и строка копируется в этот участок памяти. </p>
+	<p>Таких вызовов функций у нас пять.</p>
+	<p>Постепенно массив указателей растет, а новые строки заполняются данными.</p>
+	<p>Чтобы убедиться, что все работает правильно и все данные сохранены, показываем все строки на экран с помощью цикла for — строки 32-33.</p>
+	<p>Как видите, мы обращаемся к элементам массива указателей.</p>
+	<p>А так как они ссылаются на адреса строк (на 0-е элементы символьных массивов), на экран выводятся соответствующие строки.</p>
+	<p>Перед завершением работы программы, нам надо освободить память занимаемую строками.</p>
+	<p>Это мы реализуем с помощью цикла:</p>
+
+	<pre class="brush: csharp;">
+	for(int i = 0; i < size; i++)
+	{
+		delete [] pp[i];      
+	}
+	</pre>
+
+	<p>Так освобождаем динамическую память, на которую ссылаются указатели из массива указателей.</p>
+	<p>А далее освобождаем память, выделенную под сам массив указателей — строка 40.</p>
+	<p>Результат:</p>
+
+	<pre class="brush: csharp;">
+	~~~~~Добавляем указатели на пять строк и заполняем строки данными~~~~~
+
+	11111111111111111
+	22222222222222222
+	33333333333333333
+	44444444444444444
+	55555555555555555
+	</pre>
+
+	<p>Условие этой задачи мы выполнили.</p>
+	<p>Надеюсь, вы оценили главное преимущество использования указателей вместо обычных массивов.</p>
+	<p>При входе в программу мы не знаем, сколько строк нам будет необходимо и какой объем памяти они будут занимать.</p>
+	<p>Но мы не объявляли несколько десятков символьных массивов с размером [много памяти] (а вдруг пригодятся, если пользователь будет вводить много длинных  строк).</p>
+	<p>Вместо этого у нас получился один динамический массив указателей на строки, память для которых так же выделяется динамически.</p>
+	<p>Далее мы добавим в программу еще две функции.</p>
+	<p>Одна будет удалять выбранную нами строку и указатель на нее.</p>
+	<p>Вторая будет вставлять указатель на строку в выбранную нами ячейку массива указателей. Не переживайте.</p>
+	<p>Если вам более менее понятно, что произошло в примере выше, то дальше будет легче всё понять. </p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="30.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="32.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/31.html", "Указатель на указатель (ч. 1)", "bm52"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm52", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm52") == 1) { document.getElementById("bma52").style.display = "block"; document.getElementById("bm52").style.display = "none"; } else { document.getElementById("bma52").style.display = "none"; document.getElementById("bm52").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Указатель на указатель (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm52", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

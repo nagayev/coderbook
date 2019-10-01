@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1299" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1299" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Отправка почты
+	</h1>
+
+    <p>Yii позволяет оформлять и посылать E-mail сообщения.</p>
+    <p>Однако, ядро фреимворка предоставляет только функциональность оформления и основной интерфейс.</p>
+    <p>Фактический механизм отправки почты должен быть предоставлен с помощью расширения, потому что различным проектам могут потребоваться различные реализации и обычно они зависят от внешних сервисов и бибилотек.</p>
+    <p>Для наиболее распространенных ситуаций вы можете использовать официальное расширение yii2-swiftmailer.</p>
+
+    <h2 id="title">
+        Настройка
+    </h2>
+
+    <p>Настройка почтового компонента зависит от расширения, которое вы выбрали.</p>
+    <p>В целом настройка вашего приложения должна выглядеть так:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        //....
+        'components' =&gt; [
+            'mailer' =&gt; [
+                'class' =&gt; 'yii\swiftmailer\Mailer',
+            ],
+        ],
+    ];
+    </pre>
+
+    <h2 id="title">
+        Основы использования
+    </h2>
+
+    <p>Когда 'mailer' компонент настроен, вы можете использовать следующий код, чтобы отправить почтовое сообщение:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mailer->compose()
+        ->setFrom('from@domain.com')
+        ->setTo('to@domain.com')
+        ->setSubject('Тема сообщения')
+        ->setTextBody('Текст сообщения')
+        ->setHtmlBody('&lt;b&gt;текст сообщения в формате HTML&lt;/b&gt;')
+        ->send();
+    </pre>
+
+    <p>В показанном выше примере метод compose() создает экземпляр почтового сообщения, который затем заполняется и отправляется.</p>
+    <p>Вы можете использовать более сложную логику в этом процессе, если вам понадобится:</p>
+
+    <pre class="brush: csharp;">
+    $message = Yii::$app->mailer->compose();
+    if (Yii::$app->user->isGuest) {
+        $message->setFrom('from@domain.com')
+    } else {
+        $message->setFrom(Yii::$app->user->identity->email)
+    }
+    $message->setTo(Yii::$app->params['adminEmail'])
+        ->setSubject('Тема сообщения')
+        ->setTextBody('Текст сообщения')
+        ->send();
+    </pre>
+
+    <p><b>Примечание:</b> каждое 'mailer' расширение имеет два главных класса: 'Mailer' и 'Message'. 'Mailer' всегда знает имя класса и специфику 'Message'. Не пытайтесь создать экземпляр объекта 'Message' напрямую - всегда используйте для этого метод compose().</p>
+    <p>Вы также можете послать несколько сообщений за раз:</p>
+
+    <pre class="brush: csharp;">
+    $messages = [];
+    foreach ($users as $user) {
+        $messages[] = Yii::$app->mailer->compose()
+            // ...
+            ->setTo($user->email);
+    }
+    Yii::$app->mailer->sendMultiple($messages);
+    </pre>
+
+    <p>В некоторых почтовых расширениях этот подход может быть полезен, так как использует одиночное сетевое сообщение.</p>
+
+    <h2 id="title">
+        Компоновка почтовых сообщений
+    </h2>
+
+    <p>Yii предоставляет возможность оформления содержания почтовых сообщений через специальные файлы виды.</p>
+    <p>По умолчанию эти файлы должны быть расположены в директории '@app/mail'.</p>
+    <p>Пример содержания почтового файла вида:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    use yii\helpers\Url;
+    
+    
+    /* @var $this \yii\web\View view component instance */
+    /* @var $message \yii\mail\BaseMessage instance of newly created mail message */
+    
+    ?&gt;
+    &lt;h2&gt;This message allows you to visit our site home page by one click&lt;/h2&gt;
+    &lt;?= Html::a('Go to home page', Url::home('http')) ?&gt;
+    </pre>
+
+    <p>Для того, чтобы оформить содержание сообщения через файл вида, просто передайте название файла вида в compose() метод:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mailer->compose('home-link') // здесь устанавливается результат рендеринга вида в тело сообщения
+        ->setFrom('from@domain.com')
+        ->setTo('to@domain.com')
+        ->setSubject('Message subject')
+        ->send();
+    </pre>
+
+    <p>Вы можете передать допольнительный параметр, относящийся к виду в compose() метод, который будет доступен внутри файла вида:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mailer->compose('greetings', [
+        'user' =&gt; Yii::$app->user->identity,
+        'advertisement' =&gt; $adContent,
+    ]);
+    </pre>
+
+    <p>Вы можете указать разные файлы видов для HTML и простого текста в содержании сообщения:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mailer->compose([
+        'html' =&gt; 'contact-html',
+        'text' =&gt; 'contact-text',
+    ]);
+    </pre>
+
+    <p>Если вы укажете название вида как строку, результат рендеринга в теле сообщения будет использоваться как HTML, в то время как при обычном тексте в теле сообщения при компоновке будут удаляться все HTML теги.</p>
+
+    <p>Результат рендеринга вида может быть вставлен в макет (layout), который может быть установлен, используя [[yii\mail\BaseMailer::htmlLayout]] и [[yii\mail\BaseMailer::textLayout]].</p>
+    <p>Это будет работать аналогично макетам в обычном веб приложении.</p>
+    <p>Макет может использовать CSS стили или другие общие элементы страниц для использования в сообщении:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    
+    /* @var $this \yii\web\View view component instance */
+    /* @var $message \yii\mail\MessageInterface the message being composed */
+    /* @var $content string main view render result */
+    ?&gt;
+    &lt;?php $this-&gt;beginPage() ?&gt;
+    &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+    &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=&lt;?= Yii::$app-&gt;charset ?&gt;&quot; /&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            .heading {...}
+            .list {...}
+            .footer {...}
+        &lt;/style&gt;
+        &lt;?php $this-&gt;head() ?&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;?php $this-&gt;beginBody() ?&gt;
+        &lt;?= $content ?&gt;
+        &lt;div class=&quot;footer&quot;&gt;With kind regards, &lt;?= Yii::$app-&gt;name ?&gt; team&lt;/div&gt;
+        &lt;?php $this-&gt;endBody() ?&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &lt;?php $this-&gt;endPage() ?&gt;
+    </pre>
+
+    <h2 id="title">
+        Прикрепление файлов
+    </h2>
+
+    <p>Вы можете прикрепить вложения к сообщению с помощью методов attach() и attachContent():</p>
+
+    <pre class="brush: csharp;">
+    $message = Yii::$app->mailer->compose();
+    
+    // Прикрепление файла из локальной файловой системы:
+    $message->attach('/path/to/source/file.pdf');
+    
+    // Прикрепить файл на лету
+    $message->attachContent('Attachment content', ['fileName' =&gt; 'attach.txt', 'contentType' =&gt; 'text/plain']);
+    </pre>
+
+    <h2 id="title">
+        Вложение изображений
+    </h2>
+
+    <p>Вы можете вставить изображения в содержание сообщения через embed() метод.</p>
+    <p>Этот метод возвращает id прикрепленной картинки, которые должны быть доступны в 'img' тегах.</p>
+    <p>Этот метод легко использовать, когда сообщение составляется через файлы представления:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->mailer->compose('embed-email', ['imageFileName' =&gt; '/path/to/image.jpg'])
+        // ...
+        ->send();
+    </pre>
+
+    <p>Внутри файла представления вы можете использовать следующий код:</p>
+
+    <pre class="brush: csharp;">
+    <img src="&lt;?= $message->embed($imageFileName); ?&gt;">
+    </pre>
+
+    <h2 id="title">
+        Тестирование и отладка
+    </h2>
+
+    <p>Разработчикам часто надо проверять, что почтовые сообщения отправляются из приложения, их содержание и так далее.</p>
+    <p>Такая возможность предоставляется в Yii через yii\mail\BaseMailer::useFileTransport.</p>
+    <p>Если это опция включена, то она принудительно сохраняет данные почтовых сообщений в локальный файл вместо его отправки.</p>
+    <p>Эти файлы будут сохранены в директории yii\mail\BaseMailer::fileTransportPath, которая по умолчанию '@runtime/mail'.</p>
+    <p><b>Примечание:</b> вы можете либо сохранить сообщения в файл, либо послать его фактическим получателям, но не используйте оба варианта одновременно.</p>
+    <p>Файл почтового сообщения может быть открыт обычным текстовым редактором, также вы можете просматривать фактические заголовки сообщений, их содержание и так далее.</p>
+    <p>Этот механизм может понадобиться во время отладки приложения, либо прогонки unit тестов.</p>
+    <p><b>Примечание:</b> содержание файла почтового сообщения формируется через \yii\mail\MessageInterface::toString(), правда это зависит от почтового расширения, которое вы используете в своем приложении.</p>
+
+    <h2 id="title">
+        Создание вашего собственного решения
+    </h2>
+
+    <p>Для того, чтобы создать свое собственное решение, вам надо будет создать два класса: одно для 'Mailer' и другое для 'Message'.</p>
+    <p>Вы можете использовать yii\mail\BaseMailer и yii\mail\BaseMessage как базовые классы для вашего решения.</p>
+    <p>Эти классы уже содержат базовую логику, которая описана в этом руководстве.</p>
+    <p>Однако, их использование не обязательно, достаточно унаследоваться от yii\mail\MailerInterface и yii\mail\MessageInterface интерфейсов.</p>
+    <p>Затем вам необходимо обеспечить выполнение всех абстрактных методов этих интерфейсов для построения вашего решения.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="92.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="94.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/93.html", "Yii2: Отправка почты", "bm1299"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1299", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1299") == 1) { document.getElementById("bma1299").style.display = "block"; document.getElementById("bm1299").style.display = "none"; } else { document.getElementById("bma1299").style.display = "none"; document.getElementById("bm1299").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Отправка почты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1299", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

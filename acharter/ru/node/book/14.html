@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1323" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1323" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Создание сервера
+	</h1>
+
+    <p>Для работы с сервером и протоколом http в Node.js используется модуль http.</p>
+    <p>Чтобы создать сервер, следует вызвать метод http.createServer():</p>
+
+    <pre class="brush: csharp;">
+    var http = require("http");
+
+    http.createServer().listen(3000);
+    </pre>
+
+    <p>Метод <b>createServer()</b> возвращает объект http.Server.</p>
+    <p>Но чтобы сервер мог прослушивать и обрабатывать входящие подключения, у объекта сервера необходимо вызвать метод listen(), в который в качестве параметра передается номер порта, по которому запускается сервер.</p>
+    <p>Для обработки подключений в метод createServer можно передать специальную функцию:</p>
+
+    <pre class="brush: csharp;">
+    var http = require("http");
+    
+    http.createServer(function(request, response){
+        
+        response.end("Hello world!");
+    }).listen(3000);
+    </pre>
+
+    <p>Эта функция принимает два параметра:</p>
+
+    <ul>
+        <li><b>request:</b> хранит информацию о запросе</li>
+        <li><b>response:</b> управляет отправкой ответа</li>
+    </ul>
+
+    <h2 id="title">
+        Request
+    </h2>
+    
+    <p>Параметр request позволяет получить информацию о запросе и представляет объект http.IncomingMessage.</p>
+    <p>Отметим некоторые основные свойства этого объекта:</p>
+
+    <ul>
+        <li><b>headers:</b> возвращает заголовки запроса</li>
+        <li><b>method:</b> тип запроса (GET, POST, DELETE, PUT)</li>
+        <li><b>url:</b> представляет запрошенный адрес</li>
+    </ul>
+
+    <p>Например, определим следующий файл app.js:</p>
+
+    <pre class="brush: csharp;">
+    var http = require("http");
+    
+    http.createServer(function(request, response){
+        
+        console.log("Url: " + request.url);
+        console.log("Тип запроса: " + request.method);
+        console.log("User-Agent: " + request.headers["user-agent"]);
+        console.log("Все заголовки");
+        console.log(request.headers);
+        
+        response.end();
+    }).listen(3000);
+    </pre>
+
+    <p>Запустим его и обратимся в браузере по адресу <b>http://localhost:3000/index.html</b>:</p>
+
+    <img src="n29.png" id="image" />
+
+    <h2 id="title">
+        Response
+    </h2>
+    
+    <p>Параметр response управляет отправкой ответа и представляет объект <b>http.ServerResponse</b>.</p>
+    <p>Среди его функциональности можно выделить следующие методы:</p>
+
+    <ul>
+        <li><b>statusCode:</b> устанавливает статусный код ответа</li>
+        <li><b>statusMessage:</b> устанавливает сообщение, отправляемое вместе со статусным кодом</li>
+        <li><b>setHeader(name, value):</b> добавляет в ответ один заголовок</li>
+        <li><b>write:</b> пишет в поток ответа некоторое содержимое</li>
+        <li><b>writeHead:</b> добавляет в ответ статусный код и набор заголовков</li>
+    </ul>
+
+    <p>Например, изменим файл app.js следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    var http = require("http");
+    
+    http.createServer(function(request, response){
+        
+        response.setHeader("UserId", 12);
+        response.setHeader("Content-Type", "text/html");
+        response.write("&lt;h2&gt;hello world&lt;/h2&gt;");
+        response.end();
+    }).listen(3000);
+    </pre>
+
+    <p>Запустим файл и обратимся в браузере к приложению:</p>
+
+    <img src="n30.png" id="image" />
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/node/book/14.html", "Создание сервера", "bm1323"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1323", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1323") == 1) { document.getElementById("bma1323").style.display = "block"; document.getElementById("bm1323").style.display = "none"; } else { document.getElementById("bma1323").style.display = "none"; document.getElementById("bm1323").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Создание сервера") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1323", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

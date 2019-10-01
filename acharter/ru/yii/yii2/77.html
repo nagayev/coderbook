@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1283" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1283" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Версионирование
+	</h1>
+
+    <p>Хороший API должен быть версионирован: изменения и новые возможности реализуются в новых версиях API, а не в одной и той же версии.</p>
+    <p>В отличие от Web-приложений, где у вас есть полный контроль и над серверным, и над клиентским кодом, API используются клиентами, код которых вы не контролируете.</p>
+    <p>Поэтому, обратная совместимость (BC) должна по возможности сохраняться.</p>
+    <p>Если ломающее её изменение необходимо, делать его нужно в новой версии API.</p>
+    <p>Существующие клиенты могут продолжать использовать старую, совместимую с ними версию API.</p>
+    <p>Новые или обновлённые клиенты могут использовать новую версию.</p>
+    <p><b>Подсказка:</b> Чтобы узнать больше о выборе версий обратитесь к Semantic Versioning.</p>
+    <p>Общей практикой при реализации версионирования API является включение номера версии в URL-адрес вызова API-метода.</p>
+    <p>Например, http://example.com/v1/users означает вызов API /users версии 1.</p>
+    <p>Другой способ версионирования API, получивший недавно широкое распространение, состоит в добавлении номера версии в HTTP-заголовки запроса, обычно в заголовок Accept:</p>
+
+    <pre class="brush: csharp;">
+    // как параметр
+    Accept: application/json; version=v1
+    // как тип содержимого, определенный поставщиком API
+    Accept: application/vnd.company.myapp-v1+json
+    </pre>
+
+    <p>Оба способа имеют достоинства и недостатки, и вокруг них много споров.</p>
+    <p>Ниже мы опишем реально работающую стратегию версионирования API, которая является некоторой смесью этих двух способов:</p>
+
+    <ul>
+        <li>Помещать каждую мажорную версию реализации API в отдельный модуль, чей ID является номером мажорной версии (например, v1, v2). Естественно, URL-адреса API будут содержать в себе номера мажорных версий.</li>
+        <li>В пределах каждой мажорной версии (т.е. внутри соответствующего модуля) использовать HTTP-заголовок Accept для определения номера минорной версии и писать условный код для соответствующих минорных версий.</li>
+    </ul>
+
+    <p>В каждый модуль, обслуживающий мажорную версию, следует включать классы ресурсов и контроллеров, обслуживающих эту конкретную версию.</p>
+    <p>Для лучшего разделения ответственности кода вы можете составить общий набор базовых классов ресурсов и контроллеров, и субклассировать их в каждом отдельно взятом модуле версии.</p>
+    <p>Внутри дочерних классов реализуйте конкретный код вроде метода Model::fields().</p>
+    <p>Ваш код может быть организован примерно следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    api/
+        common/
+            controllers/
+                UserController.php
+                PostController.php
+            models/
+                User.php
+                Post.php
+        modules/
+            v1/
+                controllers/
+                    UserController.php
+                    PostController.php
+                models/
+                    User.php
+                    Post.php
+                Module.php
+            v2/
+                controllers/
+                    UserController.php
+                    PostController.php
+                models/
+                    User.php
+                    Post.php
+                Module.php
+    </pre>
+
+    <p>Конфигурация вашего приложения могла бы выглядеть так:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'modules' =&gt; [
+            'v1' =&gt; [
+                'class' =&gt; 'app\modules\v1\Module',
+            ],
+            'v2' =&gt; [
+                'class' =&gt; 'app\modules\v2\Module',
+            ],
+        ],
+        'components' =&gt; [
+            'urlManager' =&gt; [
+                'enablePrettyUrl' =&gt; true,
+                'enableStrictParsing' =&gt; true,
+                'showScriptName' =&gt; false,
+                'rules' =&gt; [
+                    ['class' =&gt; 'yii\rest\UrlRule', 'controller' =&gt; ['v1/user', 'v1/post']],
+                    ['class' =&gt; 'yii\rest\UrlRule', 'controller' =&gt; ['v2/user', 'v2/post']],
+                ],
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>В результате http://example.com/v1/users возвратит список пользователей API версии 1, в то время как http://example.com/v2/users вернет список пользователей версии 2.</p>
+    <p>Благодаря использованию модулей код API различных мажорных версий может быть хорошо изолирован.</p>
+    <p>И по-прежнему возможно повторное использование кода между модулями через общие базовые классы и другие разделяемые классы.</p>
+    <p>Для работы с минорными номерами версий вы можете использовать преимущества согласования содержимого, предоставляемого поведением [[yii\filters\ContentNegotiator|contentNegotiator]].</p>
+    <p>Определив тип поддерживаемого содержимого, поведение contentNegotiator установит значение свойства [[yii\web\Response::acceptParams]].</p>
+    <p>Например, если запрос посылается с HTTP-заголовком Accept: application/json; version=v1, то после согласования содержимого свойство [[yii\web\Response::acceptParams]] будет содержать значение ['version' =&gt; 'v1'].</p>
+    <p>На основе информации о версии из acceptParams вы можете выбирать поведение в действиях, классах ресурсов, сериализаторах и т.д.</p>
+    <p>Так как минорные версии требуют поддержания обратной совместимости, будем надеяться, что в вашем коде не так уж много проверок на номер версии.</p>
+    <p>В противном случае велики шансы, что вам нужна новая мажорная версия.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="76.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="78.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/77.html", "Yii2: Версионирование", "bm1283"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1283", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1283") == 1) { document.getElementById("bma1283").style.display = "block"; document.getElementById("bm1283").style.display = "none"; } else { document.getElementById("bma1283").style.display = "none"; document.getElementById("bm1283").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Версионирование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1283", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

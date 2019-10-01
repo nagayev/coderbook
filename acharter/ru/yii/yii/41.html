@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1192" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1192" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Функциональное тестирование Yii
+	</h1>
+
+    <p>Перед прочтением даного раздела рекомендуется прочитать документацию по Selenium и документацию по PHPUnit.</p>
+    <p>Дальше мы подытожим основные принципы написания функциональных тестов в Yii:</p>
+    <p>Как и модульный тест, функциональный тест пишется в классе XyzTest, наследующего класс CWebTestCase, где Xyz — имя класса, подлежащего тестированию.</p>
+    <p>Мы можем использовать все методы класса PHPUnit_Extensions_SeleniumTestCase, потому что он является предком класса CWebTestCase.</p>
+    <p>Класс функционального теста сохраняется в файле с именем XyzTest.php.</p>
+    <p>По соглашению, файл функционального теста может храниться в директории protected/tests/functional.</p>
+    <p>Основное содержимое класса теста — набор тестовых методов с именами testAbc, где Abc — часто имя тестируемой особенности.</p>
+    <p>Например, для тестирования особенности входа пользователя у нас есть метод testLogin.</p>
+    <p>Тестовый метод обычно содержит последовательность выражений, которые будут являться командами проверки для Selenium RC, показывающей ход и результаты тестирования веб-приложения.</p>
+    <p>В нем также содержатся выражения утверждений для проверки, что веб-приложение отвечает именно так, как ожидалось.</p>
+    <p>Перед описанием, как же писать функциональный тест, давайте глянем файл WebTestCase.php, сгенерированный командой yiic webapp.</p>
+    <p>Этот файл определяет класс WebTestCase, который может служить базовым для всех классов функциональных тестов.</p>
+
+    <pre class="brush: csharp;">
+    define('TEST_BASE_URL','http://localhost/yii/demos/blog/index-test.php/');
+    
+    class WebTestCase extends CWebTestCase
+    {
+        /**
+         * Метод выполняется перед запуском теста.
+         * В основном, устанавливает базовый URL тестируемого приложения.
+         */
+        protected function setUp()
+        {
+            parent::setUp();
+            $this->setBrowserUrl(TEST_BASE_URL);
+        }
+     
+        …
+    }
+    </pre>
+
+    <p>Класс WebTestCase в основном устанавливает базовый URL тестируемых страниц.</p>
+    <p>Далее, в тестовых методах, мы можем использовать относительные URL для определения тестируемых страниц.</p>
+    <p>Мы также должны обратить внимание, что согласно базового тестового URL в качестве входной точки используется файл index-test.php вместо файла index.php.</p>
+    <p>Единственное различие между сценариями index-test.php и index.php то, что в качестве файла конфигурации приложения первый использует файл test.php, а второй — файл main.php.</p>
+    <p>Теперь мы опишем, как протестировать функцию отображения записи демо-блога.</p>
+    <p>Сначала мы пишем тестовый класс, как показано ниже.</p>
+    <p>Отметим, что тестовый класс наследует от базового класса, который мы только что описали:</p>
+
+    <pre class="brush: csharp;">
+    class PostTest extends WebTestCase
+    {
+        public $fixtures=array(
+            'posts'=>'Post',
+        );
+     
+        public function testShow()
+        {
+            $this->open('post/1');
+            // проверяем наличие заголовка некой записи
+            $this->assertTextPresent($this->posts['sample1']['title']);
+            // проверяем наличие формы комментария
+            $this->assertTextPresent('Leave a Comment');
+        }
+     
+        …
+    }
+    </pre>
+
+    <p>Как и при написании класса модульного теста, мы объявляем фикстуры для использования этим тестом.</p>
+    <p>Здесь мы показываем, что должна использоваться фикстура Post.</p>
+    <p>В тестирующем методе testShow мы сначала поручаем Selenium RC открыть URL post/1.</p>
+    <p>Заметим, что это относительный URL, а полный URL формируется путем добавления относительного к базовому URL, т.е.</p>
+
+    <pre class="brush: csharp;">
+    http://localhost/yii/demos/blog/index-test.php/post/1
+    </pre>
+
+    <p>который мы установили в базовом классе.</p>
+    <p>Затем мы проверяем, что можем найти заголовок записи sample1 на данной странице.</p>
+    <p>И мы также проверяем, что страница содержит текст Leave a comment.</p>
+    <p><b>Подсказка:</b> Перед запуском функциональных тестов запустите сервер Selenium-RC. Сделать это можно командой java -jar selenium-server.jar, выполненной в директории, в которую установлен Selenium.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="40.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="42.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/41.html", "Функциональное тестирование Yii", "bm1192"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1192", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1192") == 1) { document.getElementById("bma1192").style.display = "block"; document.getElementById("bm1192").style.display = "none"; } else { document.getElementById("bma1192").style.display = "none"; document.getElementById("bm1192").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Функциональное тестирование Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1192", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

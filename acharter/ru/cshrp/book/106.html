@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma193" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm193" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Обобщённые интерфейсы
+	</h1>
+
+	<p>Напомним, что членами интерфейса могут быть прототипы методов, свойств, индексаторов, событий.</p>
+	<p>В обобщенном интерфейсе типизирующие параметры определяют типы возвращаемых значений и параметров членов интерфейса.</p>
+	<p>Как и для классов и структур признаком обобщенного интерфейса является список типизирующих параметров в его объявлении.</p>
+	<p>Типизирующие параметры – это идентификаторы, разделенные запятыми и помещенные в угловые скобки.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	// обобщенный интерфейс
+	public interface IExample&lt;T&gt;
+	{
+		// прототип индексатора
+		char this[T index]{get; set;}
+		
+		// прототип метода
+		int add(T x, T y);
+	}
+	</pre>
+
+	<p>В обобщенном интерфейсе IExample&lt;T&gt; один типизирующий параметр.</p>
+	<p>Он специфицирует тип параметра прототипа индексатора, а для прототипа метода – определяет типы параметров.</p>
+	<p>Обобщенный интерфейс может быть реализован как обобщенным, так и регулярным типом.</p>
+	<p>Пример реализации обобщенного интерфейса обобщенным классом:</p>
+
+	<pre class="brush: csharp;">
+	// реализация обобщенным классом
+	class real&lt;U&gt; : IExample&lt;U&gt;
+	{
+		public char this[U r]
+		{
+			get { return r.ToString()[0] }
+			set{ }
+		}
+		public int add(U a, U b)
+		{
+			return a.GetHashCode() + b.GetHashCode();
+		}
+	}
+	</pre>
+
+	<p>В реализации индексатор возвращает первый символ строкового представления индекса, использованного при обращении к индексатору.</p>
+	<p>В качестве реализации акссесора set использована "заглушка".</p>
+	<p>Реализация метода add(U a, U b) выполняет суммирование хеш-кодов аргументов.</p>
+	<p>Так как методы ToString() и GetHashCode() присущи всем классам языка C#, то в объявление обобщенного класса не потребовалось включать ограничения на типизирующий параметр.</p>
+	<p>Применение обобщенного класса real&lt;U&gt; иллюстрирует следующий код:</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static void Main( )
+		{
+			var temp1 = new real&lt;int&gt;();
+			var temp2 = new real&lt;byte&gt;();
+			Console.WriteLine(temp1[655]);
+			Console.WriteLine(temp1.add(950,6));
+			Console.WriteLine(temp2[155]);
+			Console.WriteLine(temp2.add(34, 6));
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	6
+	956
+	1
+	40
+	</pre>
+
+	<p>Регулярный тип (класс или структура) может реализовать несколько специализаций интерфейсов, сконструированных на основе одного обобщенного интерфейса.</p>
+	<p>Общие принципы этого механизма иллюстрирует следующий код с тривиальными реализациями членов интерфейсов:</p>
+
+	<pre class="brush: csharp;">
+	struct Realization : IExample&lt;string&gt;, IExample&lt;double&gt;
+	{
+		public char this[string st] { get { return '#'; } set { }}
+		public int add(string s1, string s2) { return -135; }
+		public char this[double d] { get { return (char)d; } set { }}
+		public int add(double d1, double d2) {return (int)(d1-d2);}
+	}
+	</pre>
+
+	<p>В данном случае регулярная структура struct Realization реализует два интерфейса, сконструированных на основе обобщенного интерфейса interface IExample&lt;T&gt;.</p>
+	<p>При такой реализации в структуре создаются перегруженные методы add() и перегруженные индексаторы.</p>
+	<p>В следующем фрагменте кода создается один экземпляр структуры Realization и для него с аргументами разных типов вызываются метод add() и индексатор.</p>
+
+	<pre class="brush: csharp;">
+	Realization emplar = new Realization();
+	Console.WriteLine(emplar.add(5.6, 3.3));
+	Console.WriteLine(emplar.add("123", "abc"));
+	Console.WriteLine(emplar[5.6]);
+	Console.WriteLine(emplar["screb"]);
+	</pre>
+
+	<p>При выполнении этого кода в консольное окно выводятся следующие значения:</p>
+
+	<pre class="brush: csharp;">
+	2
+	-135
+	♣
+	#
+	</pre>
+
+	<p>При реализации обобщенного интерфейса обобщенным типом необходимо следить, чтобы не появлялись такие комбинации типизирующих аргументов, которые приведут к дублированию интерфейса в этом типе.</p>
+	<p>Пример заголовка, который вызовет ошибку компиляции:</p>
+
+	<pre class="brush: csharp;">
+	public class Example&lt;H&gt; : IExample&lt;char&gt;, IExample&lt;H&gt;
+	</pre>
+
+	<p>В этом классе предлагается реализовать сконструированный тип (интерфейс) IExample&lt;char&gt; и обобщенный интерфейс IExample&lt;H&gt; с типизирующим параметром H.</p>
+	<p>В том случае, если при инстанцировании класса Example&lt;H&gt; вместо параметра Н будет подставлен аргумент char, то возникнет конфликт, так как класс должен будет реализовывать два одинаковых интерфейса, что невозможно.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="105.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="107.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/106.html", "Обобщённые интерфейсы", "bm193"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm193", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm193") == 1) { document.getElementById("bma193").style.display = "block"; document.getElementById("bm193").style.display = "none"; } else { document.getElementById("bma193").style.display = "none"; document.getElementById("bm193").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Обобщённые интерфейсы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm193", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

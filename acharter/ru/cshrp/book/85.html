@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma172" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm172" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Базовый класс перечислений
+	</h1>
+
+	<p>Основой перечислений служит системный класс Enum, из пространства имен System.</p>
+	<p>Методы этого класса позволяют в ряде случаев существенно упростить работу с перечислениями.</p>
+	<p>Рассмотрим только некоторые статические методы:</p>
+
+	<pre class="brush: csharp;">
+	public static Type GetUnderlyingType (Тип_Перечисления);
+	</pre>
+
+	<p>возвращает базовый тип перечисления.</p>
+	<p>Аргументом должен быть объект класса System.Type, представляющий перечисления.</p>
+
+	<pre class="brush: csharp;">
+	public static string GetName (Тип_Перечисления, значение);
+	</pre>
+
+	<p>возвращает имя константы перечисления, соответствующей второму параметру.</p>
+	<p>Второй параметр может быть либо переменной с типом перечисления, либо литеральным представлением значения константы.</p>
+	<p>Если в списке перечисления несколько констант с одинаковыми значениями, то выбирается имя самой левой или явно инициализированной.</p>
+	<p>Если значение отсутствует в списке – возвращается пустая строка.</p>
+
+	<pre class="brush: csharp;">
+	public static string Format (Тип_Перечисления, значение, формат);
+	</pre>
+
+	<p>второй параметр – переменная с типом перечисления либо значение константы.</p>
+	<p>В зависимости от формата возвращается либо имя, либо значение константы.</p>
+	<p>Если формат "G" или "g", то метод подобен GetName – возвращает имя константы.</p>
+	<p>Если формат "X" или "x" – возвращается шестнадцатеричное представление значения константы.</p>
+	<p>При формате "D" или "d" – возвращается десятичное представление.</p>
+
+	<pre class="brush: csharp;">
+	public static Array GetValues (Тип_Перечисления);
+	</pre>
+
+	<p>метод возвращает массив значений всех констант перечисления.</p>
+	<p>Константы независимо от их размещения в перечислении в массиве размещаются по возрастанию значений.</p>
+	<p>Обратите внимание, что тип результата</p>
+
+	<pre class="brush: csharp;">
+	System.Array. public static string [ ] GetNames (Тип_Перечисления);
+	</pre>
+
+	<p>метод возвращает массив имен констант перечисления в порядке возрастания значений констант.</p>
+
+	<pre class="brush: csharp;">
+	public static bool IsDefined (Тип_Перечисления, значение);
+	</pre>
+
+	<p>возвращает true, если в перечислении присутствует константа со значением, равным второму параметру.</p>
+	<p>В каждом из приведённых методов класса Enum первый параметр должен представлять тип перечисления (а не его имя).</p>
+	<p>Поэтому в обращениях к этим методам в качестве первого аргумента нужно использовать объект класса System.Type, представляющий тип перечисления.</p>
+	<p>Зная имя перечисления, его тип можно получить с помощью операции typeof().</p>
+	<p>Следующая программа иллюстрирует особенности и возможности применения методов базового класса Enum.</p>
+
+	<pre class="brush: csharp;">
+	// 15_06.cs - перечисления, System.Enum
+	using System;
+	class Program
+	{
+		enum НомерПланеты : uint
+		{
+			Церера = 1, Паллада = 2, Юнона = 3, Веста = 4, Эрос = 433, Гидальго = 944, Ганимед = 1036, Амур = 1221, Икар = 1566
+		}
+		static void Main( )
+		{
+			Console.WriteLine("Базовый тип перечисления: " + Enum.GetUnderlyingType(typeof(НомерПланеты)));
+			Console.WriteLine("Значения констант перечисления:");
+			foreach (uint i in Enum.GetValues(typeof(НомерПланеты)))
+			Console.Write(" " + i);
+			Console.Write("\nИмена констант: ");
+			foreach (string s in Enum.GetNames(typeof(НомерПланеты)))
+			Console.Write("\n\t" + s);
+			Console.WriteLine("\nЗначение 433u имеет константа " + Enum.Format(typeof(НомерПланеты), 433u, "G"));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Базовый тип перечисления: System.UInt32
+	Значения констант перечисления:
+	1 2 3 4 433 944 1036 1221 1566
+	Имена констант:
+	Церера
+	Паллада
+	Юнона
+	Веста
+	Эрос
+	Гидальго
+	Ганимед
+	Амур
+	Икар
+	Значение 433u имеет константа Эрос
+	</pre>
+
+	<p>В программе нужно обратить внимание на операцию typeof, которая формирует по имени типа НомерПланеты объект класса System.Type, представляющий тип операнда.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="84.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="86.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/85.html", "Базовый класс", "bm172"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm172", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm172") == 1) { document.getElementById("bma172").style.display = "block"; document.getElementById("bm172").style.display = "none"; } else { document.getElementById("bma172").style.display = "none"; document.getElementById("bm172").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Базовый класс") == 1) { arrs.splice(i, 1); localStorage.setItem("bm172", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

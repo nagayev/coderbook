@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma763" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm763" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		ООП
+	</h1>
+
+	<p>С помощью метатаблиц можно реализовать некое подобие объектно-ориентированного программирования.</p>
+	<p>Попробуем это сделать.</p>
+	<p>Сначала создадим базовый класс (обычная таблица):</p>
+
+	<pre class="brush: csharp;">
+	Base = {}
+	</pre>
+
+	<p>В ней создадим поле field:</p>
+
+	<pre class="brush: csharp;">
+	Base.field = "text"
+	</pre>
+
+	<p>и две функции для работы с этим полем:</p>
+
+	<pre class="brush: csharp;">
+	function Base:setField(value)
+	self.field = value
+	end
+	function Base:getField()
+	return self.field
+	end
+	</pre>
+
+	<p>Обратите внимание на двоеточие перед именем метода - первым параметром в метод будет передаваться self, то есть сам объект класса, по аналогии с С++ это this, только в С++ this передается в метод неявно.</p>
+	<p>Итак, базовый класс создан.</p>
+	<p>Это шаблон, по которому должны создаваться объекты данного типа.</p>
+	<p>Создадим объект типа Base:</p>
+
+	<pre class="brush: csharp;">
+	local base = {}
+	</pre>
+
+	<p>Как видно, пока это обычная таблица. Установим у этой таблицы новую метатаблицу.</p>
+
+	<pre class="brush: csharp;">
+	setmetatable(base, {__index = Base})
+	</pre>
+  
+	<p>Вуаля! Теперь самая обычная таблица стала объектом типа Base.</p>
+	<p>Что это значит?</p>
+	<p>Согласно правилам, описанным в предыдущем пункте Метатаблицы, оператор __index в метатаблице вызывается всякий раз, когда осуществляется поиск в таблице по ключу.</p>
+	<p>А что есть вызовы "методов" и обращение к "членам класса", как не поиск поля в таблице?</p>
+	<p>Сначала ищутся поля в самой таблице.</p>
+	<p>Если поле не найдено,  в метатаблице ищется метод __index.</p>
+	<p>Если __index является функцией, вызывается эта функция.</p>
+	<p>Если __index является таблицей, то поиск поля осуществляется в этой таблице.</p>
+	<p>Эти вызовы делаются рекурсивно до тех пор, пока метатаблица либо __index не станет равным nil.</p>
+	<p>С учетом вышесказанного становится понятным, почему следующий вызов дает такой результат:</p>
+
+	<pre class="brush: csharp;">
+	print(base:getField()) --> text
+	</pre>
+
+	<p>Сначала был произведен поиск поля  getField в таблице base.</p>
+	<p>Ничего не найдено. Далее в таблице base ищется метатаблица.</p>
+	<p>Найдено. В ней ищется поле __index. Найдено. Поле __index является таблицей.</p>
+	<p>В таблице __index (а это на самом деле ссылка на таблицу Base) ищется поле  getField.</p>
+	<p>Найдено. Это функция.</p>
+	<p>Поскольку мы вызывали base:getField(), то в функцию getField первым параметром передается таблица base.</p>
+	<p>Далее внутри функции getField повторяется аналогичный поиск для поля field.</p>
+	<p>В итоге печатается первоначально заданное значение этого поля "text".</p>
+
+	<p>Изменим значение этого поля:</p>
+
+	<pre class="brush: csharp;">
+	base:setField('aaa')
+	print(base:getField()) --> aaa
+	</pre>
+
+	<p>Теперь мы хотим наследоваться от класса Base.</p>
+	<p>Наследование выполняется аналогично созданию объекта класса Base:</p>
+
+	<pre class="brush: csharp;">
+	Child = {}
+	setmetatable(Child, {__index = Base})
+	</pre>
+
+	<p>Переопределим в Child метод getField(), фактически, делаем этот метод виртуальным:</p>
+
+	<pre class="brush: csharp;">
+	function Child:getField()
+	return 'zzz'
+	end
+	</pre>
+
+	<p>Создадим объект типа Child:</p>
+
+	<pre class="brush: csharp;">
+	local child = {}
+	setmetatable(child, {__index = Child})
+	print(child:getField()) --> zzz
+	</pre>
+
+	<p>А как же быть, если мы хотим вызвать для Child метод родительского класса?</p>
+	<p>А очень просто:</p>
+
+	<pre class="brush: csharp;">
+	child:setField('ooo')
+	print(Base.getField(child)) --> ooo
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book/13.html", "ООП", "bm763"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm763", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm763") == 1) { document.getElementById("bma763").style.display = "block"; document.getElementById("bm763").style.display = "none"; } else { document.getElementById("bma763").style.display = "none"; document.getElementById("bm763").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if(arrs[i].indexOf("ООП") == 1) { arrs.splice(i, 1); localStorage.setItem("bm763", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

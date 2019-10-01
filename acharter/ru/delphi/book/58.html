@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma444" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm444" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Сохранение параметров программы
+	</h1>
+
+	<p>Очень часто, особенно в крупных проектах, бывает необходимо сохранить некоторые настройки программы, чтобы потом их применить при повторной загрузке.</p>
+	<p>Представьте себе такую ситуацию – вы написали программу для клиента.</p>
+	<p>Он ее запустил, и она появилась в центре окна, как вы и планировали.</p>
+	<p>Однако ему показалось это неудобным, и он сдвинул ее в сторону и уменьшил размеры окна, чтобы параллельно работать еще с каким-то приложением.</p>
+	<p>Все прекрасно, программа делает свое дело и пользователь доволен.</p>
+	<p>Однако, когда на следующий день он снова загрузит эту программу, она опять окажется по центру экрана, и будет иметь первоначальные размеры.</p>
+	<p>Пользователю снова придется сдвигать ее в сторону и уменьшать размеры формы.</p>
+	<p>Пустячок?</p>
+	<p>Однако из таких вот пустячков и складывается мнение о программисте, и если мнение это будет плохим, заказчиков у вас не будет!</p>
+	<p>Программист должен предусмотреть в своей программе все требования и желания пользователя, даже такие, о которых он и сам еще не догадывается.</p>
+	<p>Ну скажите, как пользователь, заказавший вам программу может знать, что форма при программировании может занимать разное положение – по центру экрана или рабочего стола, или положение при разработке?</p>
+	<p>Пока он не столкнется с вашей программой на практике, ему и в голову не придет указать вам, что программа должна запоминать свои настройки!</p>
+	<p>В самом простейшем случае требуется сохранить только 5 параметров – состояние окна (свернутое, развернутое), его положение от левой и верхней границы рабочего стола, его ширину и высоту.</p>
+	<p>А если вы будете создавать более сложную программу, с панелью настроек, где есть куча чекбоксов и радиокнопок?</p>
+	<p>Там пользователь может изменить ваши настройки "по умолчанию", и поставить собственные.</p>
+	<p>Представьте, если пользователь потратил полчаса на то, чтобы настроить вашу программу "под себя", а при повторном запуске обнаружил, что все его настройки не сохранились!</p>
+	<p>Для сохранения пользовательских настроек существует два способа – ini-файлы и системный реестр Windows.</p>
+	<p>Каждый из этих способов имеет свои плюсы и минусы.</p>
+	<p>Если вы сохраняете настройки в реестр Windows, то они скрыты от пользователя, следовательно, он ничего не сможет в них испортить.</p>
+	<p>С другой стороны, если на компьютере зарегистрированы несколько пользователей, то каждый сможет изменить настройки программы "под себя".</p>
+	<p>Минус в том, что если Windows будет переустановлена, придется переустанавливать и программу, так как она будет отсутствовать в реестре.</p>
+	<p>Если же вы сохраняете настройки в ini-файл, программа сохранит настройки и при переустановке операционной системы.</p>
+	<p>Кроме того, сохранение настроек в ini-файл реализовать проще.</p>
+	<p>В этой лекции мы научимся работать только с ini-файлами.</p>
+
+	<h1 id="title">
+		INI-файлы
+	</h1>
+
+	<p>У INI – файлов есть много преимуществ. С ними работать просто и удобно, они поддерживают три типа данных – String, Integer и Boolean.</p>
+	<p>Кроме того, если бы мы сохраняли настройки в простой текстовый файл, то при изменении одной из настроек требовалось бы перезаписывать весь файл, а ini-файл позволяет перезаписать только этот параметр.</p>
+	<p>Конечно, есть и некоторые правила использования такого рода файлов.</p>
+	<p>Первым делом, если вы собираетесь работать с ini-файлами, в секцию uses, сразу под словом interface, требуется добавить модуль inifiles, в нем описаны все данные для работы с ini-файлами.</p>
+	<p>Добавить модуль просто – после последнего указанного в списке модуля стоит точка с запятой.</p>
+	<p>Замените ее на запятую, добавьте слово inifiles, а затем поставьте точку с запятой.</p>
+	<p>Далее.</p>
+	<p>По умолчанию, ini-файлы создаются в директории, где установлен Windows.</p>
+	<p>Там появляется файл с расширением *.ini и вашими настройками.</p>
+	<p>Это не всегда удобно, особенно если предположить, что Windows может быть переустановлен.</p>
+	<p>Гораздо лучше создавать файл в той директории, где установлена ваша программа.</p>
+	<p>А как узнать эту директорию?</p>
+
+	<pre class="brush: csharp;">
+	ExtractFilePath(Application.ExeName)
+	</pre>
+
+	<p>Изучим создание ini-файла на практике.</p>
+	<p>Создайте новое приложение.</p>
+	<p>В секцию uses добавьте модуль inifiles.</p>
+	<p>Прежде всего, пропишем сохранение параметров при закрытии программы.</p>
+	<p>Для этого создайте обработчик события OnDestroy для формы.</p>
+	<p>Такое событие случается при разрушении объекта форма, то есть, при завершении работы с программой.</p>
+	<p>Создайте раздел var и пропишите там переменную типа ini-файл:</p>
+
+	<pre class="brush: csharp;">
+var
+    ini : TIniFile;  //объявляем переменную типа inifile
+begin
+	</pre>
+
+	<p>Далее мы должны создать файл, если его не существовало, или открыть его, если он уже есть:</p>
+
+	<pre class="brush: csharp;">
+	ini := TInifile.Create(ExtractFilePath(Application.ExeName)+'my.ini');
+	</pre>
+
+	<p>Обратите внимание, что мы создаем файл в той же директории, откуда запущена программа.</p>
+	<p>Если бы мы указали просто</p>
+
+	<pre class="brush: csharp;">
+	ini := TInifile.Create('my.ini');
+	</pre>
+
+	<p>то файл был бы создан в директории Windows!</p>
+	<p>Далее сохраним позицию окна, то есть свойства Left и Top формы:</p>
+
+	<pre class="brush: csharp;">
+//сохраняем позицию окна:
+  ini.WriteInteger('Position', 'L', Form1.Left);
+  ini.WriteInteger('Position', 'T', Form1.Top);
+	</pre>
+
+	<p>У ini-файла есть три процедуры для записи данных различных типов.</p>
+	<p>WriteInteger, WriteString и WriteBool.</p>
+	<p>Соответственно, эти функции записывают целое число, строку и логический тип.</p>
+	<p>У этих функций есть по 3 параметра.</p>
+	<p>Первый – это раздел ini – файла.</p>
+	<p>В самом файле он выходит в квадратных скобках.</p>
+	<p>Раздел вы можете назвать как угодно, не обязательно Position.</p>
+	<p>Вторым параметром является название сохраняемого параметра, в примере этот параметр мы указали в виде букв 'L' и 'T', хотя можно было бы написать и 'Left', 'Top' или как-то иначе.</p>
+	<p>Третьим параметром функции является его значение.</p>
+	<p>Поскольку свойства Left и Top формы имеют значения в виде целого числа, мы используем функцию для записи целых чисел WriteInteger.</p>
+	<p>В результате приведенного примера в ini – файле появится надпись, подобная этой:</p>
+
+	<pre class="brush: csharp;">
+	[Position]
+	L=14
+	T=50
+	</pre>
+
+	<p>Далее попробуем сохранить размеры формы (свойства Width и Height ).</p>
+	<p>Для этого в ini– файле создадим раздел Size:</p>
+
+	<pre class="brush: csharp;">
+//сохраняем размеры окна:
+  ini.WriteInteger('Size', 'W', Form1.Width);
+  ini.WriteInteger('Size', 'H', Form1.Height);
+	</pre>
+
+	<p>После того, как мы сохранили параметры в ini- файл, его необходимо закрыть:</p>
+
+	<pre class="brush: csharp;">
+	//закрываем файл:
+		ini.Free;
+	</pre>
+
+	<p>Все, файл закрыт и настройки сохранены.</p>
+	<p>Сохраните проект, откомпилируйте его и посмотрите, как он работает.</p>
+	<p>Откройте созданный ini – файл, это простой текстовый файл, который вы сможете прочитать, и даже отредактировать.</p>
+	<p>Однако мы сделали только половину дела.</p>
+	<p>Настройки то мы сохранили, а как их прочитать?</p>
+	<p>Делается все это точно также, только наоборот.</p>
+	<p>Вместо свойства разрушения формы используем свойство ее создания (onCreate), вместо записи используем чтение, и вместо того, чтобы значения свойств формы записывать в файл, мы будем читать их из файла и присваивать эти значения свойствам форм.</p>
+	<p>Соответственно, мы имеем три процедуры считывания параметров из ini-файла: ReadInteger, ReadString и ReadBool.</p>
+	<p>Итак, делаем обработчик событий для формы onCreate:</p>
+
+	<pre class="brush: csharp;">
+{при создании формы}
+procedure TForm1.FormCreate(Sender: TObject);
+var
+  ini : TIniFile;  //объявляем переменную типа inifile
+begin
+  //теперь создаем объект типа TIniFile:
+  ini := TInifile.Create(ExtractFilePath(Application.ExeName)+'my.ini');
+  //применяем позицию окна:
+  Form1.Left := ini.ReadInteger('Position', 'L', 329);
+  Form1.Top := ini.ReadInteger('Position', 'T', 261);
+  //читаем  размеры окна:
+  Form1.Width := ini.ReadInteger('Size', 'W', 384);
+  Form1.Height := ini.ReadInteger('Size', 'H', 312);
+  //закрываем файл:
+  ini.Free;
+end;
+	</pre>
+
+	<p>Здесь интересен третий параметр в функциях записи.</p>
+	<p>Казалось бы, значения нам не нужны, мы берем их из указанных разделов.</p>
+	<p>Но третий параметр обязателен, в нем указывается значение "по умолчанию".</p>
+	<p>При создании формы придайте ей подходящий размер и положение и посмотрите значения свойств Left, Top, Width и Height.</p>
+	<p>Эти значения вы и запишете в качестве принятых по умолчанию.</p>
+	<p>Если файла еще не было или произошла какая-то ошибка при чтении данного параметра, например, не найдена нужная строка, будет применяться значение по умолчанию.</p>
+	<p>Если же нужная строка прочитана, то будет применяться то значение, которое указано в ней.</p>
+	<p>Сохраните проект, откомпилируйте его и посмотрите, как работает программа.</p>
+	<p>Полученный ini-файл будет содержать такой текст:</p>
+
+	<pre class="brush: csharp;">
+	[Position]
+	L=329
+	T=261
+	[Size]
+	W=384
+	H=312
+	</pre>
+
+	<p>Попробуйте перед запуском программы изменить какой-нибудь параметр, например, укажите</p>
+
+	<pre class="brush: csharp;">
+	L=0
+	</pre>
+
+	<p>Или даже</p>
+
+	<pre class="brush: csharp;">
+	L=-100
+	</pre>
+
+	<p>Затем запустите программу, и посмотрите, как изменится положение окна!</p>
+	<p>Кстати, это хороший способ прятать программу.</p>
+	<p>Если вы для свойства Left укажите большее число, чем имеет свойство Width (ширина окна), и при этом сделаете число отрицательным, окно программы как бы сдвинется влево за пределы экрана.</p>
+	<p>Программа запущена, ее видно в системной строке, а окна то и нет!</p>
+	<p>Сдвиньте окно рабочей программы и выйдите из нее.</p>
+	<p>Снова запустите – положение окна, которое было последним, сохранилось!</p>
+	<p>Давайте продолжим программу и создадим строковый параметр.</p>
+	<p>Установите на форму компонент Label, в свойстве Caption которого напишите: "Введите новый заголовок окна".</p>
+	<p>Ниже установите компонент Edit, в него пользователь будет вводить текст.</p>
+	<p>Еще ниже – кнопку с надписью "Применить".</p>
+	<p>Удалите текст из компонента Edit, в обработчике кнопки напишите следующее:</p>
+
+	<pre class="brush: csharp;">
+	Form1.Caption := Edit1.Text;
+	</pre>
+
+	<p>Предполагается, что вы не меняли названий формы или Edit.</p>
+	<p>Если же вы сменили имя формы, к примеру, на fMain, то напишите</p>
+
+	<pre class="brush: csharp;">
+	fMain.Caption
+	</pre>
+
+	<p>Далее, перейдите в редактор кода.</p>
+	<p>В процедуре разрушения формы onDestroy сразу после записи высоты формы, перед закрытием файла, добавьте строки:</p>
+
+	<pre class="brush: csharp;">
+	//сохраняем заголовок формы:
+		ini.WriteString('Param', 'C', Form1.Caption);
+	</pre>
+
+	<p>А в процедуре onCreate, опять же, перед закрытием ini-файла, добавьте:</p>
+
+	<pre class="brush: csharp;">
+	//читаем заголовок формы:
+		Form1.Caption := ini.ReadString('Param', 'C', 'Программа');
+	</pre>
+
+	<p>Как видите, работа со строками мало отличается от работы с числами!</p>
+	<p>Сохраните проект, скомпилируйте и посмотрите, как он работает.</p>
+	<p>Введите новое название окна, нажмите кнопку "Применить", выйдите из программы и снова откройте ее.</p>
+	<p>Текст в системной строке программы должен сохраниться.</p>
+	<p>Теперь поработаем с логическим параметром. Установите на форму один CheckBox.</p>
+	<p>В его свойстве Caption напишите "Параметр".</p>
+	<p>Нам, собственно, не важно, какой именно параметр можно сохранить, например, разрешать ли нажатие на кнопку, разрешать ли показ формы "О программе", видимый или невидимый будет какой-то компонент...</p>
+	<p>Параметров, которые вы, возможно, захотите сохранить, может быть очень много.</p>
+	<p>Сейчас нам важно одно: свойство Checked компонента CheckBox может быть либо True (параметр включен), либо False (параметр выключен).</p>
+	<p>Вот это нам и нужно сохранить в ini-файл, а затем считать это из него.</p>
+	<p>Перед закрытием ini-файла в процедуре события onDestroy запомним состояние флажка:</p>
+
+	<pre class="brush: csharp;">
+	//запоминаем флажок:
+		ini.WriteBool('Param', 'CB1', CheckBox1.Checked);
+	</pre>
+
+	<p>Если флажок выключен, то вместо False в параметр ini-файла запишется 0.</p>
+	<p>Если включен – запишется 1.</p>
+	<p>Теперь перед закрытием ini-файла в процедуре события onCreate добавим строки для считывания данных из ini-файла:</p>
+
+	<pre class="brush: csharp;">
+	//читаем состояние флажка:
+		CheckBox1.Checked := ini.ReadBool('Param', 'CB1', True);
+	</pre>
+
+	<p>По умолчанию, флажок у нас будет включен.</p>
+	<p>Комментарии, думаю, излишни.</p>
+	<p>Старайтесь включать сохранение параметров в каждую вашу программу.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="57.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="59.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/58.html", "Сохранение", "bm444"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm444", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm444") == 1) { document.getElementById("bma444").style.display = "block"; document.getElementById("bm444").style.display = "none"; } else { document.getElementById("bma444").style.display = "none"; document.getElementById("bm444").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Сохранение") == 1) { arrs.splice(i, 1); localStorage.setItem("bm444", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

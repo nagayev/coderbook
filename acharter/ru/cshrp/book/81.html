@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma168" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm168" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Реализация интерфейсов
+	</h1>
+
+	<p>Прежде чем рассмотреть реализацию интерфейса, уточним отличия интерфейсов от абстрактных классов.</p>
+	<p>Наиболее важное отличие состоит в том, что при наследовании классов у каждого класса может быть только один базовый класс – множественное наследование классов в языке C# невозможно.</p>
+	<p>При построении класса на основе интерфейсов их может быть любое количество.</p>
+	<p>Другими словами класс может реализовать сколько угодно интерфейсов, но при этом может иметь только один базовый класс.</p>
+	<p>В интерфейсе не определяются поля и не может быть конструкторов.</p>
+	<p>В интерфейсе нельзя объявлять статические методы.</p>
+	<p>Как и для абстрактных классов невозможно определить объект с помощью интерфейса.</p>
+	<p>Чтобы интерфейсом можно было пользоваться, он должен быть реализован классом или структурой.</p>
+	<p>В этой главе рассмотрим реализацию интерфейсов с помощью классов.</p>
+	<p>Синтаксически отношение реализации интерфейса обозначается включением имени интерфейса в спецификацию базы класса.</p>
+	<p>Напомним формат объявления класса со спецификацией базы (для простоты не указаны модификаторы класса):</p>
+
+	<pre class="brush: csharp;">
+	class имя_класса спецификация_базы
+	{
+		объявления_членов_класса
+	}
+	</pre>
+
+	<p>Спецификация базы класса в этом случае имеет вид:</p>
+	<p><b>: имя_базового_класса opt</b></p>
+	<p><b>список_интерфейсов opt</b></p>
+	<p>Имя базового класса (и следующая за ним запятая) могут отсутствовать.</p>
+	<p>В списке интерфейсов через запятые помещаются имена тех интерфейсов, которые должен реализовать класс.</p>
+	<p>В спецификацию базы класса может входить только один базовый класс и произвольное число имён интерфейсов.</p>
+	<p>При этом должно выполняться обязательное условие – класс должен реализовать все члены всех интерфейсов, включённых в спецификацию базы.</p>
+	<p>Частный случай – класс, реализующий только один интерфейс:</p>
+
+	<pre class="brush: csharp;">
+	class имя_класса: имя_интерфейса
+	{
+		объявления_членов_класса
+	}
+	</pre>
+
+	<p>Реализацией члена интерфейса является его полное определение в реализующем классе, снабженное модификатором доступа public.</p>
+	<p>Сигнатуры и типы возвращаемых значений методов, свойств и индексаторов в реализациях и в интерфейсе должны полностью совпадать.</p>
+	<p>Покажем на примерах, как при построении класса на основе интерфейса класс реализует его методы, свойства и индексаторы.</p>
+	<p>Реализацию событий нужно рассмотреть позднее в главе, посвящённой событиям.</p>
+	<p>В следующей программе (14_01.cs) интерфейс IPublication, реализуется классом Item – "заметка в газете".</p>
+
+	<pre class="brush: csharp;">
+	// 14_01.cs - Интерфейс и его реализация
+	using System;
+	// интерфейс публикаций
+	interface IPublication
+	{
+		// готовить публикацию
+		void write();
+		// читать публикацию
+		void read();
+		// название публикации
+		string Title { set; get; }
+	}
+
+	// заметка в газете
+	class Item : IPublication
+	{
+		// название газеты
+		string newspaper = "Известия";
+		// заголовок статьи
+		string headline;
+		// реализация свойства
+		public string Title
+		{
+			set { headline = value; }
+			get { return headline; }
+		}
+		// реализация метода
+		public void write()
+		{
+			/* операторы, имитирующие подготовку статьи */
+		}
+		// реализация метода
+		public void read()
+		{
+			/*операторы, имитирующие чтение статьи */
+			Console.WriteLine(@"Прочёл в газете ""{0}""статью ""{1}"".", newspaper, Title);
+		}
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			Console.WriteLine("Publication!");
+			Item article = new Item();
+			article.Title = "О кооперации";
+			article.read();
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Publication!
+	Прочёл в газете "Известия" статью "О кооперации".
+	</pre>
+
+	<p>Класс Item кроме реализаций членов интерфейса включает объявления закрытых полей: newspaper (название газеты) и headline (заголовок статьи).</p>
+	<p>Для простоты в класс не включён конструктор и только условно обозначены операторы методов write() и read().</p>
+	<p>Реализация свойства Title приведена полностью – аксессоры get и set позволяют получить и задать название статьи, представляемой конкретным объектом класса Item.</p>
+	<p>В методе Main() нет ничего незнакомого читателю – определён объект класса Item и ссылка articte на него.</p>
+	<p>С помощью обращения arcticle.Title задано название статьи.</p>
+	<p>В UML для изображения интерфейсов применяется та же символика, что и для классов.</p>
+	<p>Конечно, имеется отличие – в верхней части, после имени интерфейса помещается служебное слово Interface.</p>
+	<p>Тот факт, что класс реализует интерфейс, отображается с помощью специального символа и имени интерфейса над прямоугольником, представляющим класс.</p>
+	<p>В качестве второго примера рассмотрим интерфейс, реализация членов которого позволит получать целочисленные значения членов числовых рядов:</p>
+
+	<pre class="brush: csharp;">
+	interface ISeries
+	{
+		// восстановить начальное состояние
+		void setBegin();
+		// вернуть очередной член ряда
+		int GetNext { get; }
+		// вернуть к-й член ряда
+		int this[int k] {get;}
+	}
+	</pre>
+
+	<p>Договоримся о ролях прототипов, входящих в этот интерфейс.</p>
+	<p>В приведённом объявлении:</p>
+	<p>setBegin() – прототип метода;</p>
+	<p>GetNext – имя свойства, позволяющего получить значение очередного члена ряда и настроить объект на следующий член.</p>
+	<p>Индексатор в этом примере позволяет получить значение не очередного, а произвольного k-го члена ряда и перевести объект в состояние, при котором свойство GetNext вернёт значение (k+1)-го члена.</p>
+	<p>Те функциональные возможности, которые приписаны членам интерфейса ISeries, при реализации в конкретных классах могут быть изменены.</p>
+	<p>Но в этом случае нарушается общий принцип применения интерфейсов.</p>
+	<p>Поэтому в примерах конкретных классов будем придерживаться описанных соглашений о ролях членов интерфейса ISeries.</p>
+	<p>Интерфейс ISeries можно реализовать для представления разных числовых рядов.</p>
+	<p>Вот, например, регулярные числовые последовательности, которые можно представить классами, реализующими интерфейс ISeries:</p>
+
+	<pre class="brush: csharp;">
+	1,1,2,3,5,8,13, … – Ряд Фибоначчи: ai
+	=ai
+	-2+ai-1, где i>2; a1=1, a2=1;
+	1,3,4,7,11,18,29, … – Ряд Лукаса: ai
+	=ai-2+ai-1, где i>2; a1=1, a2=3;
+	1,2,5,12,29,70, … – Ряд Пелла: ai
+	=ai-2+2*ai-1, где i>2; a1=1, a2=2.
+	</pre>
+
+	<p>В следующей программе на основе интерфейса ISeries определен класс, представляющий в виде объектов фрагменты ряда Пелла.</p>
+
+	<pre class="brush: csharp;">
+	// 14_02.cs - Интерфейс и его реализация
+	using System;
+	// интерфейс числовых рядов
+	interface ISeries
+	{
+		// задать начальное состояние
+		void setBegin( );
+		// вернуть очередной член ряда
+		int GetNext { get; }
+		// вернуть к-й член ряда
+		int this[int k] { get; }
+	}
+
+	// Ряд Пелла: 1, 2, 5, 12,...
+	class Pell : ISeries
+	{
+		// два предыдущих члена ряда
+		int old, last;
+		// конструктор
+		public Pell() { setBegin( ); }
+		// задать начальное состояние
+		public void setBegin( )
+		{ old = 1; last = 0; }
+		// вернуть следующий после last
+		public int GetNext
+		{
+			get
+			{
+				int now = old + 2 * last;
+				old = last; last = now;
+				return now;
+			}
+		}
+		// вернуть к-й член ряда
+		public int this[int k]
+		{
+			get
+			{
+				int now = 0;
+				setBegin( );
+				if (k <= 0) return -1;
+				for (int j = 0; j < k; j++)
+				now = GetNext;
+				return now;
+			}
+		}
+		// вывести n членов, начиная со следующего
+		public void seriesPrint(int n)
+		{
+			for (int i = 0; i < n; i++)
+			Console.Write(GetNext + "\t");
+			Console.WriteLine( );
+		}
+	}
+	
+	class Program
+	{
+		static void Main()
+		{
+			Pell pell = new Pell( );
+			pell.seriesPrint(9);
+			Console.WriteLine("pell[3] = " + pell[3]);
+			pell.seriesPrint(4);
+			pell.seriesPrint(3);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	1 2 5 12 29 70 169 408 985
+
+	pell[3] = 5
+
+	12 29 70 169
+
+	408 985 2378
+	</pre>
+
+	<p>Кроме реализации членов интерфейса ISeries в классе Pell объявлен метод seriesPrint( ).</p>
+	<p>Он выводит значения нескольких членов ряда, следующих за текущим.</p>
+	<p>Количество членов определяет аргумент метода seriesPrint( ).</p>
+	<p>После выполнения метода состояние ряда изменится – текущим членом станет последний выведенный член ряда.</p>
+	<p>Обратите внимание, что при реализации индексатора нумерация членов ряда начинается с 1.</p>
+	<p>Обратите внимание, что в реализации интерфейса заголовок метода должен полностью совпадать с заголовком прототипа этого метода в интерфейсе (за исключением появления модификатора доступа).</p>
+	<p>Соответствие должно быть и при реализации других членов интерфейса.</p>
+	<p>В наших примерах интерфейсы и реализующие их классы размещены в одном файле.</p>
+	<p>Если интерфейс объявлен не в том файле, где выполняется его реализация, то объявление интерфейса необходимо снабдить соответствующим модификатором доступа.</p>
+	<p>В приведённых выше программах классов Item и Pell была использована неявная реализация членов интерфейсов.</p>
+	<p>Термин "неявная" употребляется для обозначения того, что в объявлении класса, реализующего интерфейс, не применяются квалифицированные имена членов интерфейса и их реализации снабжаются обязательным модификатором public.</p>
+	<p>Когда один класс реализует несколько интерфейсов, возможны совпадения имён членов из разных интерфейсов.</p>
+	<p>Для разрешения такой конфликтной ситуации в классе, реализующем интерфейс, используется квалифицированное имя члена интерфейса.</p>
+	<p>Здесь существует ограничение – такая реализация члена называется явной и она не может быть открытой, то есть для неё нельзя использовать модификатор public.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="80.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="82.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/81.html", "Реализация", "bm168"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm168", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm168") == 1) { document.getElementById("bma168").style.display = "block"; document.getElementById("bm168").style.display = "none"; } else { document.getElementById("bma168").style.display = "none"; document.getElementById("bm168").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Реализация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm168", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma108" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm108" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Простые (базовые) типы C# как классы
+	</h1>
+
+	<p>Система типов C# построена на основе классов.</p>
+	<p>Уже несколько раз сказано, что любой класс в C# является производным от базового класса object.</p>
+	<p>Таким образом, в языке C# вообще нет типов, отличных от классов и структур.</p>
+	<p>Чем структура отличается от класса, нам ещё предстоит разобрать и понять...</p>
+	<p>Простые (фундаментальные, базовые) типы, такие как int и char, на самом деле являются не самостоятельными типами, а представляют собой обозначения (условные названия) системных типов, представляемых платформой .NET Framework в виде соответствующих структур.</p>
+	<p>Итак, надеясь на терпение читателя (ведь мы, например, не вводили понятия структуры), повторим, что все предопределенные типы языка C# представляют в программах соответствующие им структуры из пространства имен System библиотеки .NET Framework.</p>
+	<p>Соответствие между предопределенными (встроенными) типами языка C# и упомянутыми структурами иллюстрирует таблица:</p>
+
+	<table>
+		<tr>
+			<th>Тип CTS</th>
+			<th>Соответствие CLS</th>
+		</tr>
+		<tr>
+			<td>System.Boolean</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.Byte</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.SByte</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>System.Char</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.Decimal</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.Double</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.Single</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.Int32</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.UInt32</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>System.Int64</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.UInt64</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>System.Object</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.Int16</td>
+			<td>есть</td>
+		</tr>
+		<tr>
+			<td>System.UInt16</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>System.String</td>
+			<td>есть</td>
+		</tr>
+	</table>
+
+	<p>Казалось бы, что эквивалентность традиционных названий типов (например, int, char, string… ) обозначениям типов в CTS (System.Int32, System.Char, System.String…) делает ненужным знакомство с соответствующими структурами из пространства System.</p>
+	<p>Однако, это не так.</p>
+	<p>Имена системных типов используются в названиях средств библиотеки классов .NET Framework.</p>
+	<p>Кроме того, при идентификации типа объекта с помощью метода GetType() для обозначения типа используется его системное имя, а не имя, принятое в C#.</p>
+	<p>Отображенное в таблице соответствие типов языка C# и системных типов .NET Framework приходится учитывать в тех случаях, когда код на C# нужно использовать в разноязычных приложениях.</p>
+	<p>Например, для целочисленных значений CTS предусматривает применение типов Byte, Int16, Int32, Int64.</p>
+	<p>Тем самым для разноязычных приложений недопустимы беззнаковые целочисленные типы (uint, ulong, ushort) и тип sbyte.</p>
+	<p>Несмотря на то, что в С# введены сокращенные обозначения простых типов, нет ограничения и на применение системных имен.</p>
+	<p>Например, следующие два объявления целочисленной переменной с именем cluster эквивалентны:</p>
+
+	<pre class="brush: csharp;">
+	int cluster = 33;
+	System.Int32 cluster = 33;
+	</pre>
+
+	<p>Кроме того, переменную простого типа можно объявить, используя формат объявления объекта класса</p>
+
+	<pre class="brush: csharp;">
+	"объявление:объявления объекта класса" : имя_класса имя_объекта = new имя_класса();
+	</pre>
+
+	<p>В этом случае в качестве имени класса используют или традиционное, или системное обозначение типа.</p>
+	<p><b>Имя_объекта</b> – выбранный программистом идентификатор, <b>new</b> – специальная операция вызова конструктора того класса, который соответствует типу переменной.</p>
+	<p>С механизмом конструкторов нам ещё придётся подробно знакомиться.</p>
+	<p>Сейчас достаточно сказать, что назначение конструктора – разместить в памяти и инициализировать новый экземпляр объекта класса.</p>
+	<p>Пример двух эквивалентных объявлений с операцией</p>
+
+	<pre class="brush: csharp;">
+	new: double radix = new double ();
+	System.Double radix = new System.Double ();
+	</pre>
+
+	<p>В каждом из этих случаев объявлена вещественная переменная с именем radix типа double, которой с помощью конструктора присваивается предусмотренное по умолчанию нулевое значение.</p>
+	<p>Происхождение типов от общего базового класса System.Object позволяет применять к каждой переменной и константе следующие методы (перечислены не все):</p>
+	<p><b>string ToString ()</b> – возвращает строку, содержащую символьное представление значения того объекта, к которому этот метод применён;</p>
+	<p><b>System.Type GetType ()</b> – возвращает системный тип того объекта, к которому применен метод;</p>
+	<p><b>bool Equals (object obj)</b> – проверяет эквивалентность объекта-параметра и объекта, к которому этот метод применен.</p>
+	<p>Прежде чем привести примеры применения перечисленных методов, напомним что методы могут принадлежать классу (в этом случае они должны быть статическими), а могут относиться к конкретным объектам класса (нестатические методы).</p>
+	<p>В первом случае для обращения к методу используется выражение <b>имя_класса.имя_метода (аргументы)</b>.</p>
+	<p>Примером служит обращение Console.WriteLine(), где Console – имя библиотечного класса, представляющего консольный поток.</p>
+	<p>Во втором случае для обращения к методу обязательно должен быть определен объект, и вызов осуществляет выражение <b>имя_ссылки_на_объект.имя_метода (аргументы)</b>.</p>
+	<p>Напомнив синтаксис обращения к методам, приведем следующую программу, в которой к переменным базового типа применяются методы, унаследованные из класса Object.</p>
+
+	<pre class="brush: csharp;">
+	// 05_01.cs - простые типы как классы
+	using System;
+	class Program
+	{
+		static void Main()
+		{
+			long row = 18L;
+			System.Int64 col = 423L;
+			Console.WriteLine("row.GetType()= " + row.GetType());
+			Console.WriteLine("row.Equals(col)= " + row.Equals(col));
+			Console.WriteLine("row.ToString() + col.ToString()=" +
+			row.ToString() + col.ToString());
+			Console.WriteLine("row + col = " + (row + col));
+		}
+	}
+	</pre>
+
+	<p>В программе переменные row и col определены с помощью разных обозначений одного и того же типа long.</p>
+	<p>Значения указанные переменные получают за счет инициализации.</p>
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	row.GetType()= System.Int64
+	row.Equals(col)= False
+	row.ToString() + col.ToString()=18423
+	row + col = 441
+	</pre>
+
+	<p>Как уже упомянуто, метод <b>System.GetType()</b> возвращает название типа объекта, принятое в .NET Framework, а не в языке C#.</p>
+	<p>Именно поэтому в результатах для row выведен тип System.Int64, а не long.</p>
+	<p>При сравнении переменных с помощью выражения row.Equals(col) сравниваются их значения и возвращается логическое значение False.</p>
+	<p>Значением выражения row.ToString() +col.ToString() является конкатенация строковых представлений значений переменных row и cal.</p>
+	<p>Для сравнения, в следующем обращении к методу WriteLine() в скобки заключено выражение (row+col), и в этом случае в скобках выполняется не конкатенация строк, а арифметическое суммирование значений переменных.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="20.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="22.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/21.html", "Простые типы", "bm108"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm108", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm108") == 1) { document.getElementById("bma108").style.display = "block"; document.getElementById("bm108").style.display = "none"; } else { document.getElementById("bma108").style.display = "none"; document.getElementById("bm108").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Простые типы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm108", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

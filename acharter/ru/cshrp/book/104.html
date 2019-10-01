@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma191" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm191" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Ограничения типизирующих параметров
+	</h1>
+
+	<p>В приведённом выше формате объявления обобщённого класса указан один весьма важный раздел, который определяет ограничения, накладываемые на типизирующие аргументы.</p>
+	<p>Он назван "ограничения_типизирующих_параметров".</p>
+	<p>Рассмотрим его назначение.</p>
+	<p>Во многих случаях обобщённый класс не только хранит значения, тип которых определён типизирующим параметром, но и включает средства (обычно это методы класса или его объектов) для обработки этих значений.</p>
+	<p>Предположим, что в экземплярах (в объектах) специализированных типов, порождаемых обобщённым классом Stack&lt;ItemType&gt;, нужно хранить только такие данные, для которых выполняется определённое условие, истинность которого устанавливается с помощью метода CompareTo().</p>
+	<p>Проверку этого условия можно выполнять в методе Push(), определив его, например, таким образом:</p>
+
+	<pre class="brush: csharp;">
+	public void Push (ItemType data)
+	{
+		if (((IComparable)data).CompareTo(default(ItemType) < 0)…
+		return;
+		...
+	}
+	</pre>
+
+	<p>В теле метода Push() значение параметра data приводится к значению типа интерфейса IComparable.</p>
+	<p>Только после этого к результату приведения можно будет применить метод CompareTo(), специфицированный в интерфейсе IComparable.</p>
+	<p>Этот интерфейс определён в пространстве System и предназначен для сравнения объектов.</p>
+	<p>Декларация интерфейса:</p>
+
+	<pre class="brush: csharp;">
+	intemface IComparable
+	{
+		int CompareTo (object p);
+	}
+	</pre>
+
+	<p>Как видите, интерфейс содержит прототип только одного метода.</p>
+	<p>Назначение метода CompareTo() – сравнивать значение того объекта, к которому он применён (для которого вызван этот метод), со значением объекта-аргумента.</p>
+	<p>Этот аргумент заменяет параметр p, типом которого служит класс оbject.</p>
+	<p>Так как оbject – общий базовый класс для классов библиотек и программ на C#, то аргумент может иметь любой тип.</p>
+	<p>Предполагается, что целочисленный результат, возвращаемый методом CompareTo( ), удовлетворяет следующим соглашениям.</p>
+	<p><b>Результат меньше нуля</b>, если вызывающий объект нужно считать меньшим нежели объект-параметр.</p>
+	<p><b>Результат больше нуля</b>, если вызывающий объект нужно считать большим нежели объект-параметр.</p>
+	<p><b>Результат равен нулю</b>, если вызывающий объект нужно считать равным объекту-параметру.</p>
+	<p>В методе Push() при обращении к методу CompareTo() в качестве аргумента использовано особое выражение механизма обобщений default(ItemType).</p>
+	<p>Результат его вычисления – принятое по умолчанию значение того типа, который будет замещать типизирующий параметр ItemType при создании специализации (инстанцировании, конкретизации) обобщённого класса Stack&lt;&gt;.</p>
+	<p>После такого изменения метода Push() на основе обобщённого класса Stack&lt;ItemType&gt; можно создавать сконструированные типы, используя только типизирующие аргументы, классы которых реализовали интерфейс IComparable.</p>
+	<p>Предопределённые типы языка C#, такие как, например, int (System.Int32) или double (System.Double) реализуют интерфейс IComparable.</p>
+	<p>При других типизирующих аргументах на этапе исполнения программы будет генерироваться исключение InvalidCastException.</p>
+	<p>Самое главное и плохое – допущенная ошибка в использовании неверного типизирующего аргумента не будет распознаваться на этапе компиляции.</p>
+	<p>Компилятор сможет идентифицировать неверное задание типизирующих аргументов только в том случае, если в декларацию обобщённого класса включить так называемый список ограничений (list of constaints) типизирующих параметров.</p>
+	<p>Элемент этого списка имеет вид:</p>
+
+	<pre class="brush: csharp;">
+	where имя_типизирующего_параметра : список_ограничений
+	</pre>
+
+	<p>Здесь where – служебное слово языка C#, за ним следует имя того типизирующего параметра обобщённого класса, для которого вводятся ограничения.</p>
+	<p>Список допустимых ограничений представляет собой список обозначений типов, каждый из которых может использоваться в качестве типизирующего аргумента, соответствующего данному параметру.</p>
+	<p>В нашем примере со стеком, помещать в который можно только значения, тип которых допускает применение метода CompareTo(), обобщённый класс можно определить так:</p>
+
+	<pre class="brush: csharp;">
+	public class Stack &lt;ItemType&gt;
+	where ItemType:IComparable
+	{
+		private ItemType [ ] item=new ItemType[100];
+		public void Push(ItemType data)
+		{
+			if (data.CompareTo(default(ItemType)) < 0) return;
+		}
+		public ItemType Pop( ) { ... }
+	}
+	</pre>
+
+	<p>На основе такой декларации обобщённого класса компилятор будет проверять все специализации и сообщать об ошибке в каждом случае, когда типизирующий аргумент не является классом, реализовавшим интерфейс IСomparable.</p>
+	<p>Обратите внимание, что теперь в методе Push() нет приведения типа параметра к типу интерфейса IComparable.</p>
+	<p>В данном примере обобщённого стека только один типизирующий параметр и для него введено только одно ограничение – соответствующий типизирующий аргумент должен быть именем класса, реализовавшего конкретный интерфейс IComparable.</p>
+	<p>В обобщении может быть несколько типизирующих параметров и для каждого из них может быть указано своё ограничение, вводимое служебным словом where.</p>
+	<p>В то же время для одного параметра в одном операторе where можно указать несколько видов ограничений.</p>
+	<p>Таким образом, при определении обобщённого класса можно указать ограничения, которым должны соответствовать типизирующие аргументы при инстанцировании конкретного класса.</p>
+	<p>Если в программе сделана попытка сформировать специализацию обобщённого класса с использованием типизирующих аргументов, которые не соответствуют заданным ограничениям, то результатом будет ошибка компиляции.</p>
+	<p>Определены пять видов ограничений:</p>
+	<p>- <b>where T:</b> struct – типизирующий аргумент должен быть типом значений.</p>
+	<p>- <b>where T:</b> class – типизирующий аргумент должен быть типом ссылок. Ссылки могут относиться к любым классам, интерфейсам, делегатам и типам массивов.</p>
+	<p>- <b>where T:</b> new() – типизирующий аргумент должен иметь конструктор безпараметров. Когда для одного типизирующего параметра используется несколько ограничений, ограничение new() в списке должно быть последним.</p>
+	<p>- <b>where T:</b> имя_класса – типизирующий аргумент должен быть либо указанным классом, либо классом, производным от него.</p>
+	<p>- <b>where T:</b> U, где в этой конструкции U – типизирующий параметр обобщения.</p>
+	<p>При таком ограничении подставляемый вместо параметра T типизирующий аргумент должен быть либо тем же аргументом, который заменяет параметр U, либо должен быть именем производного от него класса.</p>
+	<p>Этот вид ограничения называют ограничением с помощью явного типа (naked type constraint).</p>
+	<p>Список ограничений типизирующих параметров позволяет компилятору удостовериться, что операции и методы в теле обобщённого класса допустимы при тех типизирующих аргументах, которые будут применяться при создании специализаций обобщённого класса.</p>
+	<p>Типизирующие параметры, для которых ограничения не указаны, называют свободными (unbounded) типизирующими параметрами.</p>
+	<p>Для таких параметров требуется соблюдение следующих требований:</p>
+	<p>- Операции != и == нельзя использовать, так как нет уверенности, что конкретные типизирующие аргументы будут поддерживать эти операции.</p>
+	<p>- Они могут быть конвертированы к типу System.Object или преобразованы из этого типа.</p>
+	<p>- Они могут явно приводиться к любому интерфейсному типу.</p>
+	<p>- Их можно сравнивать со значением null.</p>
+	<p>Если свободный типизирующий параметр сравнивается со значением null, то результат сравнения всегда false, когда типизирующий аргумент является типом значений.</p>
+	<p>Задание ограничений с помощью явного типа полезно в тех случаях, когда член обобщённого класса имеет собственный типизирующий параметр, и необходимо, чтобы этот параметр соответствовал типизирующему параметру обобщённого класса.</p>
+	<p>Пример из MSDN:</p>
+
+	<pre class="brush: csharp;">
+	class List &lt;T&gt;
+	{
+		void Add&lt;U&gt; (List< U > item) where U:T { ...}
+	}
+	</pre>
+
+	<p>В данном примере обобщённый класс List &lt;T&gt; включает в качестве члена обобщённый метод Add&lt;U&gt;.</p>
+	<p>Для типизирующего параметра U ограничение задано с помощью указания явного типа T.</p>
+	<p>Таким образом, T – ограничение (заданное указанием явного типа) в обобщённом методе Add().</p>
+	<p>В то же время T в контексте объявления обобщённого класса List &lt;T&gt; является свободным типизирующим параметром.</p>
+	<p>Ограничение с помощью указания явного типа может быть непосредственно использоваться в объявлении обобщённого класса.</p>
+	<p>Пример (из MSDN):</p>
+
+	<pre class="brush: csharp;">
+	class SampleClass&lt;T,U,V&gt; where T:V { }
+	</pre>
+
+	<p>В данном примере требуется, чтобы аргумент, заменяющий параметр Т, был типом, заменяющим параметр V, либо должен быть производным от него типом.</p>
+	<p>Полезность ограничений явным типом в объявлениях обобщённых классов наиболее велика в тех случаях, когда необходимо подчеркнуть отношение наследования между двумя типизирующими параметрами.</p>
+	<p>Перечисленные пять видов ограничений неравнозначны.</p>
+	<p>Первичными ограничениями являются: имя_класса, class и struct.</p>
+	<p>Вторичные ограничения: имя_интерфейса, типизирующий_параметр (ограничение с помощью указания явного типа).</p>
+	<p>Ограничения третьего уровня: new().</p>
+	<p>Именно в таком порядке (первое, второе, третье) ограничения могут входить в оператор where для одного конкретного типизирующего параметра.</p>
+	<p>При этом первичное ограничение может быть только одно, число вторичных ограничений может быть любым и ограничение третьего уровня, т.е. new(), может быть только одно.</p>
+	<p>Ограничения отделяются друг от друга в операторе where запятыми.</p>
+	<p>Ограничения одного параметра параметров (отдельные операторы where) никак не разделяются (обычно их разделение обозначается пробельными символами).</p>
+	<p>При ограничении в виде имени класса:</p>
+	<p>- этот класс не должен быть запечатан (sealed);</p>
+	<p>- он не может иметь тип: Array, Delegate, Enum, Value Type;</p>
+	<p>- он не может иметь тип оbject.</p>
+	<p>Примеры объявлений с ограничениями типизирующих параметров:</p>
+
+	<pre class="brush: csharp;">
+	Class MyClass < T > where T: class ...
+	Class newClass &lt;T, F&gt; where T: Stream
+	where F:IComparable &lt;int&gt;, new() ...
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="103.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="105.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/104.html", "Ограничения параметров", "bm191"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm191", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm191") == 1) { document.getElementById("bma191").style.display = "block"; document.getElementById("bm191").style.display = "none"; } else { document.getElementById("bma191").style.display = "none"; document.getElementById("bm191").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Ограничения параметров") == 1) { arrs.splice(i, 1); localStorage.setItem("bm191", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

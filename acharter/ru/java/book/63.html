@@ -1,0 +1,544 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma664" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm664" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Базовые классы для работы с потоками
+	</h1>
+
+	<h1 id="title">
+		Класс Thread
+	</h1>
+
+	<p>Поток выполнения в Java представляется экземпляром класса Thread.</p>
+	<p>Для того, чтобы написать свой поток исполнения, необходимо наследоваться от этого класса и переопределить метод run().</p>
+	<p>Например,</p>
+
+	<pre class="brush: csharp;">
+	public class MyThread extends Thread
+	{
+		public void run()
+		{
+			// некоторое долгое действие, вычисление
+			long sum=0;
+			
+			for (int i=0; i < 1000; i++)
+			{
+				sum+=i;
+			}
+			
+			System.out.println(sum);
+		}
+	}
+	</pre>
+
+	<p>Метод run() содержит действия, которые должны выполняться в новом потоке исполнения.</p>
+	<p>Чтобы запустить его, необходимо создать экземпляр класса-наследника и вызвать унаследованный метод start(), который сообщает виртуальной машине, что требуется запустить новый поток исполнения и начать выполнять в нем метод run().</p>
+
+	<pre class="brush: csharp;">
+	MyThread t = new MyThread();
+	t.start();
+	</pre>
+
+	<p>В результате чего на консоли появится результат:</p>
+
+	<pre class="brush: csharp;">
+	499500
+	</pre>
+
+	<p>Когда метод run() завершен (в частности, встретилось выражение return), поток выполнения останавливается.</p>
+	<p>Однако ничто не препятствует записи бесконечного цикла в этом методе.</p>
+	<p>В результате поток не прервет своего исполнения и будет остановлен только при завершении работы всего приложения.</p>
+
+	<h1 id="title">
+		Интерфейс Runnable
+	</h1>
+
+	<p>Описанный подход имеет один недостаток.</p>
+	<p>Поскольку в Java множественное наследование отсутствует, требование наследоваться от Thread может привести к конфликту.</p>
+	<p>Если еще раз посмотреть на приведенный выше пример, станет понятно, что наследование производилось только с целью переопределения метода run().</p>
+	<p>Поэтому предлагается более простой способ создать свой поток исполнения.</p>
+	<p>Достаточно реализовать интерфейс Runnable, в котором объявлен только один метод – уже знакомый void run().</p>
+	<p>Запишем пример, приведенный выше, с помощью этого интерфейса:</p>
+
+	<pre class="brush: csharp;">
+	public class MyRunnable implements Runnable
+	{
+		public void run()
+		{
+			// некоторое долгое действие, вычисление
+			long sum=0;
+			
+			for (int i=0; i < 1000; i++)
+			{
+				sum+=i;
+			}
+
+			System.out.println(sum);
+		}
+	}
+	</pre>
+
+	<p>Также незначительно меняется процедура запуска потока:</p>
+
+	<pre class="brush: csharp;">
+	Runnable r = new MyRunnable();
+	Thread t = new Thread(r);
+	t.start();
+	</pre>
+
+	<p>Если раньше объект, представляющий сам поток выполнения, и объект с методом run(), реализующим необходимую функциональность, были объединены в одном экземпляре класса MyThread, то теперь они разделены.</p>
+	<p>Какой из двух подходов удобней, решается в каждом конкретном случае.</p>
+	<p>Подчеркнем, что Runnable не является полной заменой классу Thread, поскольку создание и запуск самого потока исполнения возможно только через метод Thread.start().</p>
+
+	<h1 id="title">
+		Работа с приоритетами
+	</h1>
+
+	<p>Рассмотрим, как в Java можно назначать потокам приоритеты.</p>
+	<p>Для этого в классе Thread существуют методы getPriority() и setPriority(), а также объявлены три константы:</p>
+
+	<pre class="brush: csharp;">
+	MIN_PRIORITY
+	MAX_PRIORITY
+	NORM_PRIORITY
+	</pre>
+
+	<p>Из названия понятно, что их значения описывают минимальное, максимальное и нормальное (по умолчанию) значения приоритета.</p>
+	<p>Рассмотрим следующий пример:</p>
+
+	<pre class="brush: csharp;">
+	public class ThreadTest implements Runnable
+	{
+		public void run()
+		{
+			double calc;
+			
+			for (int i=0; i < 50000; i++)
+			{
+				calc=Math.sin(i*i);
+				
+				if (i%10000==0)
+				{
+					System.out.println(getName() + " counts " + i/10000);
+				}
+			}
+		}
+		
+		public String getName()
+		{
+			return Thread.currentThread().getName();
+		}
+		
+		public static void main(String s[])
+		{
+			// Подготовка потоков
+			Thread t[] = new Thread[3];
+			
+			for (int i=0; i < t.length; i++)
+			{
+				t[i]=new Thread(new ThreadTest(), "Thread "+i);
+			}
+			
+			// Запуск потоков
+			for (int i=0; i < t.length; i++)
+			{
+				t[i].start();
+				System.out.println(t[i].getName() + " started");
+			}
+		}
+	}
+	</pre>
+
+	<p>В примере используется несколько новых методов класса Thread:</p>
+
+	<pre class="brush: csharp;">
+	getName()
+	</pre>
+
+	<p>Обратите внимание, что конструктору класса Thread передается два параметра.</p>
+	<p>К реализации Runnable добавляется строка.</p>
+	<p>Это имя потока, которое используется только для упрощения его идентификации.</p>
+	<p>Имена нескольких потоков могут совпадать.</p>
+	<p>Если его не задать, то Java генерирует простую строку вида "Thread-" и номер потока (вычисляется простым счетчиком).</p>
+	<p>Именно это имя возвращается методом getName().</p>
+	<p>Его можно сменить с помощью метода setName().</p>
+
+	<pre class="brush: csharp;">
+	currentThread()
+	</pre>
+
+	<p>Этот статический метод позволяет в любом месте кода получить ссылку на объект класса Thread, представляющий текущий поток исполнения.</p>
+	<p>Результат работы такой программы будет иметь следующий вид:</p>
+
+	<pre class="brush: csharp;">
+	Thread 0 started
+	Thread 1 started
+	Thread 2 started
+	Thread 0 counts 0
+	Thread 1 counts 0
+	Thread 2 counts 0
+	Thread 0 counts 1
+	Thread 1 counts 1
+	Thread 2 counts 1
+	Thread 0 counts 2
+	Thread 2 counts 2
+	Thread 1 counts 2
+	Thread 2 counts 3
+	Thread 0 counts 3
+	Thread 1 counts 3
+	Thread 2 counts 4
+	Thread 0 counts 4
+	Thread 1 counts 4
+	</pre>
+
+	<p>Мы видим, что все три потока были запущены один за другим и начали проводить вычисления.</p>
+	<p>Видно также, что потоки исполняются без определенного порядка, случайным образом.</p>
+	<p>Тем не менее, в среднем они движутся с одной скоростью, никто не отстает и не догоняет.</p>
+	<p>Введем в программу работу с приоритетами, расставим разные значения для разных потоков и посмотрим, как это скажется на выполнении.</p>
+	<p>Изменяется только метод main().</p>
+
+	<pre class="brush: csharp;">
+	public static void main(String s[])
+	{
+		// Подготовка потоков
+		Thread t[] = new Thread[3];
+		
+		for (int i=0; i < t.length; i++)
+		{
+			t[i]=new Thread(new ThreadTest(), "Thread "+i);
+			t[i].setPriority(Thread.MIN_PRIORITY + (Thread.MAX_PRIORITY - Thread.MIN_PRIORITY)/t.length*i);
+		}
+		
+		// Запуск потоков
+		for (int i=0; i < t.length; i++)
+		{
+			t[i].start();
+			System.out.println(t[i].getName()+" started");
+		}
+	}
+	</pre>
+
+	<p>Формула вычисления приоритетов позволяет равномерно распределить все допустимые значения для всех запускаемых потоков.</p>
+	<p>На самом деле, константа минимального приоритета имеет значение 1, максимального 10, нормального 5.</p>
+	<p>Так что в простых программах можно явно пользоваться этими величинами и указывать в качестве, например, пониженного приоритета значение 3.</p>
+	<p>Результатом работы будет:</p>
+
+	<pre class="brush: csharp;">
+	Thread 0 started
+	Thread 1 started
+	Thread 2 started
+	Thread 2 counts 0
+	Thread 2 counts 1
+	Thread 2 counts 2
+	Thread 2 counts 3
+	Thread 2 counts 4
+	Thread 0 counts 0
+	Thread 1 counts 0
+	Thread 1 counts 1
+	Thread 1 counts 2
+	Thread 1 counts 3
+	Thread 1 counts 4
+	Thread 0 counts 1
+	Thread 0 counts 2
+	Thread 0 counts 3
+	Thread 0 counts 4
+	</pre>
+
+	<p>Потоки, как и раньше, стартуют последовательно.</p>
+	<p>Но затем мы видим, что чем выше приоритет, тем быстрее отрабатывает поток.</p>
+	<p>Тем не менее, весьма показательно, что поток с минимальным приоритетом ( Thread 0 ) все же получил возможность выполнить одно действие раньше, чем отработал поток с более высоким приоритетом ( Thread 1 ).</p>
+	<p>Это говорит о том, что приоритеты не делают систему однопоточной, выполняющей единовременно лишь один поток с наивысшим приоритетом.</p>
+	<p>Напротив, приоритеты позволяют одновременно работать над несколькими задачами с учетом их важности.</p>
+	<p>Если увеличить параметры метода (выполнять 500000 вычислений, а не 50000, и выводить сообщение каждое 1000-е вычисление, а не 10000-е), то можно будет наглядно увидеть, что все три потока имеют возможность выполнять свои действия одновременно, просто более высокий приоритет позволяет выполнять их чаще.</p>
+
+	<h1 id="title">
+		Демон-потоки
+	</h1>
+
+	<p>Демон -потоки позволяют описывать фоновые процессы, которые нужны только для обслуживания основных потоков выполнения и не могут существовать без них.</p>
+	<p>Для работы с этим свойством существуют методы setDaemon() и isDaemon().</p>
+	<p>Рассмотрим следующий пример:</p>
+
+	<pre class="brush: csharp;">
+	public class ThreadTest implements Runnable
+	{
+		// Отдельная группа, в которой будут находиться все потоки ThreadTest
+		public final static ThreadGroup GROUP = new ThreadGroup("Daemon demo");
+		
+		// Стартовое значение, указывается при создании объекта
+		private int start;
+		
+		public ThreadTest(int s)
+		{
+			start = (s%2==0)? s: s+1;
+			new Thread(GROUP, this, "Thread "+ start).start();
+		}
+		
+		public void run()
+		{
+			// Начинаем обратный отсчет
+			for (int i=start; i>0; i--)
+			{
+				try
+				{
+					Thread.sleep(300);
+				}
+				catch (InterruptedException e) {}
+				
+				// По достижении середины порождаем новый поток с половинным начальным значением
+				if (start&gt;2 && i==start/2)
+				{
+					new ThreadTest(i);
+				}
+			}
+		}
+
+		public static void main(String s[])
+		{
+			new ThreadTest(16);
+			new DaemonDemo();
+		}
+	}
+
+	public class DaemonDemo extends Thread
+	{
+		public DaemonDemo()
+		{
+			super("Daemon demo thread");
+			setDaemon(true);
+			start();
+		}
+
+		public void run()
+		{
+			Thread threads[]=new Thread[10];
+			while (true)
+			{
+				// Получаем набор всех потоков из тестовой группы
+				int count=ThreadTest.GROUP.activeCount();
+				if (threads.length < count) threads = new Thread[count+10];
+				count=ThreadTest.GROUP.enumerate(threads);
+				
+				// Распечатываем имя каждого потока
+				for (int i=0; i < count; i++)
+				{
+					System.out.print(threads[i].getName()+", ");
+				}
+
+				System.out.println();
+				try
+				{
+					Thread.sleep(300);
+				}
+				catch (InterruptedException e) {}
+			}
+		}
+	}
+	</pre>
+
+	<p>В этом примере происходит следующее.</p>
+	<p>Потоки ThreadTest имеют некоторое стартовое значение, передаваемое им при создании.</p>
+	<p>В методе run() это значение последовательно уменьшается.</p>
+	<p>При достижении половины от начальной величины порождается новый поток с вдвое меньшим начальным значением.</p>
+	<p>По исчерпании счетчика поток останавливается.</p>
+	<p>Метод main() порождает первый поток со стартовым значением 16.</p>
+	<p>В ходе программы будут дополнительно порождены потоки со значениями 8, 4, 2.</p>
+	<p>За этим процессом наблюдает демон -поток DaemonDemo.</p>
+	<p>Этот поток регулярно получает список всех существующих потоков ThreadTest и распечатывает их имена для удобства наблюдения.</p>
+	<p>Результатом программы будет:</p>
+
+	<pre class="brush: csharp;">
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16,
+	Thread 16, Thread 8,
+	Thread 16, Thread 8,
+	Thread 16, Thread 8,
+	Thread 16, Thread 8,
+	Thread 16, Thread 8,
+	Thread 16, Thread 8, Thread 4,
+	Thread 16, Thread 8, Thread 4,
+	Thread 8, Thread 4,
+	Thread 4, Thread 2,
+	Thread 2,
+	</pre>
+
+	<p>Несмотря на то, что демон -поток никогда не выходит из метода run(), виртуальная машина прекращает работу, как только все не- демон -потоки завершаются.</p>
+	<p>В примере использовалось несколько дополнительных классов и методов, которые еще не были рассмотрены:</p>
+
+	<pre class="brush: csharp;">
+	класс ThreadGroup
+	</pre>
+
+	<p>Все потоки находятся в группах, представляемых экземплярами класса ThreadGroup.</p>
+	<p>Группа указывается при создании потока.</p>
+	<p>Если группа не была указана, то поток помещается в ту же группу, где находится поток, породивший его.</p>
+	<p>Методы activeCount() и enumerate() возвращают количество и полный список, соответственно, всех потоков в группе.</p>
+
+	<pre class="brush: csharp;">
+	sleep()
+	</pre>
+
+	<p>Этот статический метод класса Thread приостанавливает выполнение текущего потока на указанное количество миллисекунд.</p>
+	<p>Обратите внимание, что метод требует обработки исключения InterruptedException.</p>
+	<p>Он связан с возможностью активизировать метод, который приостановил свою работу.</p>
+	<p>Например, если поток занят выполнением метода sleep(), то есть бездействует на протяжении указанного периода времени, его можно вывести из этого состояния, вызвав метод interrupt() из другого потока выполнения.</p>
+	<p>В результате метод sleep() прервется исключением InterruptedException.</p>
+	<p>Кроме метода sleep(), существует еще один статический метод yield() без параметров.</p>
+	<p>Когда поток вызывает его, он временно приостанавливает свою работу и позволяет отработать другим потокам.</p>
+	<p>Один из методов обязательно должен применяться внутри бесконечных циклов ожидания, иначе есть риск, что такой ничего не делающий поток затормозит работу остальных потоков.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="62.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="64.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/java/book/63.html", "Базовые классы", "bm664"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm664", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm664") == 1) { document.getElementById("bma664").style.display = "block"; document.getElementById("bm664").style.display = "none"; } else { document.getElementById("bma664").style.display = "none"; document.getElementById("bm664").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Базовые классы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm664", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

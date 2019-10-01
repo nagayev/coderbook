@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma719" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm719" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Виджеты jQuery UI
+	</h1>
+
+	<p>jQuery UI предоставляет набор готовых виджетов предназначенных для создания пользовательского интерфейса веб-приложений.</p>
+	<p>Поведение виджетов может настраиваться с помощью передаваемых им опций.</p>
+	<p>Внешний вид виджетов может быть настроен:</p>
+	<p>1. С помощью выбора одной из стандартных тем доступных при скачивании библиотеки;</p>
+	<p>2. С помощью themeroller'a;</p>
+	<p>3. Вручную путем редактирования файла jquery-ui-1.8.12.custom.css.</p>
+	<p>Общий вид создания виджетов jQuery UI выглядит примерно следующим образом:</p>
+	<p>1. Группировка элементов на странице особым образом (индивидуально для каждого виджета);</p>
+	<p>2. Применение к сгруппированным элементам специального метода, который превращает их в виджет.</p>
+
+	<h1 id="title">
+		Виджет accordion
+	</h1>
+
+	<p>Виджет <b>accordion</b> представляет собой группу объединенных выпадающих меню из которых только одно может быть отрыто одновременно.</p>
+	<p>Данный виджет используется для группировки информации на странице с целью экономии места.</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	/* 1. Группируем элементы: */
+	&lt;div id=&quot;accordion&quot;&gt;
+		// 1.1. Определяем заголовок элемента
+		&lt;h2&gt;&lt;a href="#head1"&gt;Заголовок 1&lt;/a&gt;&lt;/h2&gt;
+		
+		/* 1.2. Определяем содержимое элемента (значение атрибута id содержимого должно совпадать со значением href заголовка) */
+		&lt;div id=&quot;head1&quot;&gt;Содержимое 1&lt;/div&gt;
+	&lt;/div&gt;
+	
+	// 2. Применяем метод к сгруппированным элементам:
+	$("#accordion").accordion({опция1:значение1,опцияN:значениеN});
+	</pre>
+
+	<p><b>Обратите внимание:</b> с помощью опций, передающихся методу, Вы можете настраивать дополнительные аспекты поведения виджетов. Виджетам может быть передано сразу несколько опций.</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#accordion").accordion();
+	});
+	</pre>
+
+	<h1 id="title">
+		Виджет autocomplete
+	</h1>
+
+	<p>Виджет <b>autocomplete</b> позволяет ускорить ввод данных в поле, отображая по мере введения определенные предположения.</p>
+	<p>Выбрав одно из предположений пользователь может автоматически завершить ввод.</p>
+	<p>Предположения выводится в случае, если данные введенные пользователем совпадают со значением одного из элементов из списка данных.</p>
+	<p>Вы можете подключать к виджету как локальные (т.е. определенные в скрипте на этой же странице) так и удаленные списки (т.е. находящиеся на удаленном сервере).</p>
+	<p>Локальные списки удобны для хранения небольших наборов данных (например список улиц города), а удаленные списки подходят для хранения больших наборов данных (например база данных всех городов мира).</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	/* 1. Определяем элемент input, в который будет производиться ввод информации */
+	&lt;input id=&apos;auto&apos; /&gt;
+	
+	/* 2. Превращаем input в виджет autocomplete */
+	$('#auto').autocomplete({опция1:значение1,опцияN:значениеN})
+	</pre>
+
+	<p>Подключить к виджету список данных можно с помощью опции source.</p>
+	<p>С помощью опции minLength Вы можете указать минимальное количество символов, которое должно содержать поле ввода прежде, чем поиск совпадений начнет выполнятся.</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#auto1").autocomplete({source:["Дмитрий","Мария","Владимир","Алексей","Екатерина","Олег","Ольга"]});
+	});
+	</pre>
+
+	<h1 id="title">
+		Виджет datepicker
+	</h1>
+
+	<p>Виджет datepicker привязывает к текстовому полю интерактивный календарь, который отображается когда поле становится активным.</p>
+	<p>Если пользователь щелкнет на какую-либо дату в календаре она будет автоматически введена в текстовое поле как будто он ввел ее вручную.</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	// 1. Создадим текстовое поле
+	&lt;input type=&apos;text&apos; id=&apos;datepicker&apos; /&gt;
+
+	// 2. Привяжем к нему виджет datepicker
+	$('#datepicker').datepicker({опция1:значение1, опцияN:значениеN});
+	</pre>
+
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#datepicker").datepicker();
+
+		$("#datepicker1").datepicker({
+			monthNames:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+			dayNamesMin:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],
+			firstDay:1,
+			dateFormat:"dd.mm.yy"
+		});
+	});
+	</pre>
+
+	<h1 id="title">
+		Оформление кнопок
+	</h1>
+
+	<p>С помощью метода button Вы можете стилизовать:</p>
+	<p>- обычные кнопки (определяемые тегами button и input type='button')</p>
+	<p>- кнопки отправления форм</p>
+	<p>- радио кнопки</p>
+	<p>- флажки</p>
+	<p>- ссылки</p>
+	<p>Синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	/* Если Вы хотите оформить только один элемент, необходимо выбрать его с помощью селектора и вызвать метод button: */
+	$("селектор").button({опция1:значение1, опцияN:значениеN});
+
+	/* Если Вы оформляете группу элементов, необходимо вначале сгруппировать элементы следующим образом: */
+	&lt;div id=&quot;groupradio&quot;&gt;
+		&lt;input type="radio" name="radio" id="value1" /&gt;
+		&lt;label for="value1">Радио кнопка 1&lt;/label&gt;
+		&lt;input type="radio" name="radio" id="value2" /&gt;
+		&lt;label for="value2">Радио кнопка 2&lt;/label&gt;
+		&lt;input type="radio" name="radio" id="value3" /&gt;
+		&lt;label for="value3">Радио кнопка 3&lt;/label&gt;
+	&lt;/div&gt;
+
+	// И затем вызвать метод buttonset:
+	$("#groupradio").buttonset({опция1:значение1, опцияN:значениеN});
+	</pre>
+
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	$(document).ready(function()
+	{
+		$("#but1,#but2,#but3,#but4").button();
+		$("#group1,#group2").buttonset();
+	});
+	</pre>
+
+	<p>В следующей главе будут рассмотрены оставшиеся виджеты имеющиеся в jQuery UI.</p>
+	<p><b>Обратите внимание:</b> узнать больше о виджетах разобранных в данной главе Вы можете в jQuery UI справочнике.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="10.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="12.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/jquery/11.html", "jQuery UI Виджеты 1", "bm719"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm719", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm719") == 1) { document.getElementById("bma719").style.display = "block"; document.getElementById("bm719").style.display = "none"; } else { document.getElementById("bma719").style.display = "none"; document.getElementById("bm719").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("jQuery UI Виджеты 1") == 1) { arrs.splice(i, 1); localStorage.setItem("bm719", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
+

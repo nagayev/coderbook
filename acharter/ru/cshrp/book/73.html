@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma160" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm160" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Наследование классов
+	</h1>
+
+	<p>Наиболее богатым в отношении повторного использования кода и полиморфизма является отношение наследования классов.</p>
+	<p>Для него используют название "является" (is-a).</p>
+	<p>При наследовании объект производного класса служит частным случаем или специализацией объекта базового класса.</p>
+	<p>Например, велосипед является частным случаем транспортного средства.</p>
+	<p>Не проводя сравнительного анализа всех тонкостей возможных отношений между классами (этим нужно заниматься в специальном курсе, посвященном объектно-ориентированной методологии), покажем на примере рассматриваемых классов "точка на плоскости" и "окружность с заданным точкой центром" как реализуется наследование в языке C#.</p>
+	<p>Итак класс Point будет базовым классом, а класс Circle сделаем его наследником иначе говоря, производным от него.</p>
+	<p>Для объявления класса, который является наследником некоторого базового класса, используется следующий синтаксис:</p>
+
+	<pre class="brush: csharp;">
+	модификаторыopt class имя_производного_класса : имя_базового_класса
+	{операторы_тела_производного_класса}
+	</pre>
+
+	<p>Конструкция <b>: имя_производного_класса</b> в стандарте C # называется спецификацией базы класса.</p>
+	<p>Таким образом, класс Сircle как производный от базового класса Рoint можно определить таким образом (программа 13_04.cs):</p>
+
+	<pre class="brush: csharp;">
+	// класс "окружность на плоскости"
+	class Circle : Point
+	{
+		// радиус окружности
+		double rad;
+		// свойство для радиуса окружности:
+		public double Rad { get { return rad; }
+		set { rad = value; } }
+		// свойство для значения длины окружности:
+		public double Len { get { return 2 * rad * Math.PI; } }
+		// свойство для центра окружности:
+		public Point Centre
+		{
+			get
+			{
+				Point temp = new Point();
+				temp.X = X;
+				temp.Y = Y;
+				return temp;
+			}
+			set { X = value.X; Y = value.Y; }
+		}
+		public void display()
+		{
+			Console.WriteLine("Centre: X={0}, Y={1}; " + "Radius={2}, Length={3,6:f2}", X, Y, rad, Len);
+		}
+	}
+	</pre>
+
+	<p>В производном классе Circle явно определены поле double rad, три уже рассмотренных свойства Rad, Len Centre и метод display().</p>
+	<p>По сравнению с предыдущими примерами класс Point не изменился.</p>
+	<p>Он так же содержит два закрытых поля, задающих координаты точки, и два открытых свойства X, Y, обеспечивающие доступ к этим полям.</p>
+	<p>В классе Point конструктор добавлен компилятором.</p>
+	<p>Нет явного определения конструктора и в классе Сircle.</p>
+	<p>Поэтому объекты класса Circle можно создавать только с умалчиваемыми значениями полей.</p>
+	<p>При наследовании производный класс "получает в наследство" все поля, свойства и методы базового класса, за исключением конструктора – конструктор базового класса не наследуется.</p>
+	<p>Получив от базового класса его поля, методы и свойства, базовый класс может по-разному "распорядиться с наследством".</p>
+	<p>Поля базового класса непосредственно входят в число полей производного класса.</p>
+	<p>Однако доступ к полям базового класса для методов, свойств и объектов производного класса разрешен не всегда.</p>
+	<p>Закрытые поля свойства и методы базового класса недоступны для методов, свойств и объектов производного класса.</p>
+	<p>Открытые поля, методы, и свойства базового класса доступны для методов, свойств и объектов производного класса.</p>
+	<p>В нашем примере класс Point имеет два открытых свойства, которыми можно пользоваться как внутри класса Circle так и во внешнем мире, обращаясь к этим свойствам с помощью объектов класса circle.</p>
+	<p>В методе display() производного класса выполняется непосредственное обращание к унаследованным свойствам X, Y.</p>
+	<p>Особое внимание в нашем примере с наследованием нужно обратить на свойство Circle.Centre.</p>
+	<p>При агрегации и композиции класса Point в класс Circle значением этого свойства служит ссылка на непосредственно существующий объект класса Point.</p>
+	<p>В случае наследования в объекте класса Circle объекта класса Point нет – присутствуют только поля такого объекта и в классе Circle доступны открытые свойства класса Point.</p>
+	<p>Поэтому для объявления в классе Circle свойства Centre объект класса Point приходится "реконструировать".</p>
+	<p>В get-аксессоре явно создаётся временный объект класса Point, его полям присваиваются значения полей, унаследованных классом Circle от базового класса Point.</p>
+	<p>Ссылка на этот временный объект возвращается как значение свойства Circle.Centre.</p>
+	<p>Set-аксессор свойства Circle.Centre очень прост – используются унаследованные свойства X, Y класса Point.</p>
+	<p>Следующий фрагмент программы демонстрирует возможности класса Сircle.</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static void Main( )
+		{
+			Circle rim = new Circle( );
+			rim.X = 24;
+			rim.Y = 10;
+			rim.Rad = 2;
+			rim.display();
+			rim = new Circle( );
+			rim.display( );
+		}
+	}
+	</pre>
+
+	<p>В методе Main( ) создан объект класса Сircle.</p>
+	<p>Он ассоциирован со ссылкой rim, и с ее помощью осуществляется доступ как к свойствам и методам объекта класса Сircle, так и к свойствам объекта базового класса Рoint.</p>
+	<p>Следующие результаты выполнения программы дополняют приведенные объяснения:</p>
+
+	<pre class="brush: csharp;">
+	Centre: X=24, Y=10; Radius=2, Length= 12,57
+	Centre: X=0, Y=0; Radius=0, Length= 0,00
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="72.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="74.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/73.html", "Наследование", "bm160"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm160", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm160") == 1) { document.getElementById("bma160").style.display = "block"; document.getElementById("bm160").style.display = "none"; } else { document.getElementById("bma160").style.display = "none"; document.getElementById("bm160").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Наследование") == 1) { arrs.splice(i, 1); localStorage.setItem("bm160", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

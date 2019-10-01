@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma449" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm449" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Динамические массивы (ч. 1)
+	</h1>
+
+	<p>В течение курса мы нередко употребляли в программах массивы и знаем, что они объявляются таким образом:</p>
+
+	<pre class="brush: csharp;">
+	Имя_массива: array [длина_массива] of тип_данных;
+	</pre>
+
+	<p>Мы знаем, что типы данных могут быть любыми, а длина массива указывается в виде диапазона от начального, до конечного значения.</p>
+	<p>Работать с такими массивами очень удобно, однако проблема в том, что они не могут менять свой размер.</p>
+	<p>А если мы заранее не знаем, какой размер должен быть у массива?</p>
+	<p>Допустим, у нас в программе есть пользовательские настройки.</p>
+	<p>То есть, несколько пользователей зарегистрировались в программе и имеют право на ее использование.</p>
+	<p>Каждый из них желает, чтобы программа сохраняла его настройки, чтобы потом ему не приходилось перенастраивать ее.</p>
+	<p>К примеру, размер и положение главного окна.</p>
+	<p>Одному удобно, когда окно справа.</p>
+	<p>Другой желает видеть его слева.</p>
+	<p>А третий и вовсе, хочет, чтобы оно было развернуто во весь экран!</p>
+	<p>Выход?</p>
+	<p>Создать запись для сохранения настроек пользователя, и объявить массив типа этой записи.</p>
+	<p>Каждому пользователю будет принадлежать свой индекс этого массива.</p>
+	<p>Однако, очень редко бывает, когда программист заранее знает количество зарегистрированных пользователей.</p>
+	<p>Какой размер массива делать тогда, 10?</p>
+	<p>А вдруг пользователей будет меньше, тогда у массива будут пустые индексы...</p>
+	<p>А вдруг больше?!</p>
+	<p>Тогда будет переполнение массива, программа выдаст ошибку и не сможет работать...</p>
+	<p>На помощь приходят динамические массивы.</p>
+	<p>Динамическими называются массивы, при объявлении которых размер не указывается.</p>
+	<p>А во время выполнения программы такие массивы могут изменять длину.</p>
+	<p>Объявляются такие массивы обычным образом, в разделе переменных:</p>
+
+	<pre class="brush: csharp;">
+	var
+		da : array of Integer;
+	</pre>
+
+	<p>Как видите, здесь указано, что объявляется массив целых чисел, однако длина при этом не указывается.</p>
+	<p>В дальнейшем с таким массивом мы можем проделывать различные действия – увеличивать или уменьшать его длину, узнавать текущую длину, узнавать низшее и высшее значения диапазона массива, и, конечно, присваивать значения любому из его элементов, или наоборот, считывать эти значения.</p>
+	<p>Ну и конечно, записывать значения массива в файл и считывать их из файла.</p>
+	<p>Познакомьтесь с функциями, которые все это проделывают.</p>
+
+	<pre class="brush: csharp;">
+	SetLength(массив, длина);
+	</pre>
+
+	<p>Устанавливает указанную длину у указанного массива.</p>
+	<p>Пример:</p>
+
+	<pre class="brush: csharp;">
+	SetLength(da, 10);
+	</pre>
+
+	<p>В результате динамический массив da содержит 10 элементов. Обратите внимание, что элементы динамических массивов всегда начинаются с нуля!</p>
+	<p>Если затем мы напишем:</p>
+
+	<pre class="brush: csharp;">
+	SetLength(da, 8);
+	</pre>
+
+	<p>то длина массива уменьшится на 2 элемента. Если эти элементы содержали какое-то значение, они будут уничтожены!</p>
+
+	<pre class="brush: csharp;">
+	Length(da);
+	</pre>
+
+	<p>Эту функцию мы уже использовали, чтобы узнать длину строки.</p>
+	<p>Она также показывает количество элементов в динамическом массиве.</p>
+	<p>Вспомните, что строка – это просто массив символов, а если мы не оговариваем длины строки, а просто пишем " s : String ", то получаем динамическую строку символов.</p>
+	<p>Нам достаточно присвоить какое-то значение строке, и память будет выделена автоматически под текущий размер этой строки.</p>
+	<p>Однако в случае работы с динамическими массивами, нам самим придется устанавливать их размер.</p>
+
+	<pre class="brush: csharp;">
+	Low(da);
+	</pre>
+
+	<p>Указывает низший индекс массива da, как правило, это ноль.</p>
+
+	<pre class="brush: csharp;">
+	High(da);
+	</pre>
+
+	<p>Указывает высший индекс массива.</p>
+	<p>Посмотрите пример:</p>
+
+	<pre class="brush: csharp;">
+	SetLength(da, 10);
+	//установили размер в 10 элементов
+	Low(da);
+	//вернет 0, как низший элемент
+	High(da);
+	//вернет 9, как высший элемент
+	</pre>
+
+	<p>Таким образом, эти функции удобно использовать в цикле обработки каждого элемента массива:</p>
+
+	<pre class="brush: csharp;">
+	for i := Low(da) to High(da) do
+		da[i] := значение;
+	</pre>
+
+	<p>Однако перед такими операциями нужно установить какой-то размер массива, иначе произойдет ошибка.</p>
+	<p>Следующий пример проверяет размер массива.</p>
+	<p>Если у массива нет индексов, он устанавливает один индекс:</p>
+
+	<pre class="brush: csharp;">
+	if Length(da) = 0 then SetLength(da, 1);
+	</pre>
+
+	<p>Часто бывает необходимо добавить один элемент к массиву, но программист не знает, сколько в данный момент у массива есть элементов.</p>
+	<p>Это можно сделать таким образом:</p>
+
+	<pre class="brush: csharp;">
+	SetLength(da, Length(da) + 1);
+	</pre>
+
+	<p>Здесь в качестве устанавливаемого размера мы вначале узнали текущий размер массива, и добавили к нему единицу.</p>
+	<p>Получилось, что мы просто увеличили размер этого массива на 1 элемент.</p>
+	<p>Этих функций вполне достаточно для работы с динамическими массивами, однако перед применением их на практике, вам следует знать, как работа с динамическими массивами выглядит с точки зрения компьютера.</p>
+	<p>Когда мы объявляем динамический массив, мы еще не выделяем под него память, просто указываем тип данных, чтобы компьютер знал размерность под каждый элемент.</p>
+	<p>Когда мы устанавливаем эту размерность функцией SetLength(), компьютер выделяет память под указанное количество элементов.</p>
+	<p>При этом имя массива служит указателем на первый элемент массива в памяти.</p>
+	<p>Компьютеру все равно, какие данные хранятся в элементах, его задача – выделить для этого достаточно памяти.</p>
+	<p>Поэтому удалить какой то элемент внутри массива не так просто.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="62.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="64.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/63.html", "Динамические массивы (ч. 1)", "bm449"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm449", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm449") == 1) { document.getElementById("bma449").style.display = "block"; document.getElementById("bm449").style.display = "none"; } else { document.getElementById("bma449").style.display = "none"; document.getElementById("bm449").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Динамические массивы (ч. 1)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm449", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

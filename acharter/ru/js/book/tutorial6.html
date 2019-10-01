@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma695" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm695" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Переменные JavaScript
+	</h1>
+
+	<p>JavaScript переменные являются "контейнерами", в которые Вы можете загружать различную информацию, а позднее извлекать ее обратно.</p>
+	<p>Каждая JavaScript переменная должна иметь собственное уникальное имя, которое может начинаться с латинской буквы или символа "_".</p>
+	<p><b>Обратите внимание:</b> имя переменных в JavaScript не может начинаться с цифр.</p>
+	<p><b>Обратите внимание:</b> так как JavaScript чувствителен к регистру, переменные с одинаковыми именами написанными в разном регистре (например ex1 и EX1), будут являться разными переменными.</p>
+
+	<h1 id="title">
+		Создание переменных
+	</h1>
+
+	<p>Создание переменных в JavaScript часто называют "объявлением" переменных.</p>
+	<p>Переменные в JavaScript объявляются с помощью команды var.</p>
+
+	<pre class="brush: csharp;">
+		//Создаем переменную с именем ex1
+		var ex1;
+		
+		//Создаем переменную с именем ex2
+		var ex2;
+	</pre>
+
+	<p>Созданные выше переменные будут пустыми то есть мы создали контейнеры, но не загрузили в них никакие значения.</p>
+	<p>Загрузка значений в переменные в JavaScript выполняется с помощью оператора =.</p>
+	<p>Значения могут загружаться в контейнеры также прямо в момент создания как в примере ниже:</p>
+
+	<pre class="brush: csharp;">
+		//Создаем переменную с именем ex1 содержащую значение 4
+		var ex1=4;
+		
+		//Создаем переменную с именем ex2 содержащую значение 5
+		var ex2=5;
+	</pre>
+	
+	<p>Для того, чтобы извлечь значение из созданной ранее переменной, необходимо обратится к ее имени.</p>
+	<p>В следующем примере мы будем извлекать содержимое переменных и сразу выводить его на страницу с помощью команды <b>document.write</b>.</p>
+
+	<pre class="brush: csharp;">
+		//Запишем число 4 в переменную ex1
+		var ex1=4;
+		
+		//Запишем число 5 в переменную ex2
+		var ex2=5;
+		
+		//Выведем содержимое переменной ex1 на страницу
+		document.write(ex1+'&lt;br /&gt;');
+		
+		//Выведем содержимое переменной ex2
+		document.write(ex2+'&lt;br /&gt;');
+		
+		//Изменим содержимое переменной ex2
+		ex2=200;
+		
+		//Выведем новое содержимое переменной ex2
+		document.write(ex2);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par1').innerHTML='4<br />5<br />200';">Выполнить код</span>
+    <p id="par1"></p>
+
+	<h1 id="title">
+		Строковые переменные
+	</h1>
+	
+	<p>Помимо чисел Вы можете хранить в переменных произвольный текст.</p>
+	<p>Переменные, которые хранят текст, называются строковыми переменными.</p>
+	<p>При записи текста в переменную обязательно заключайте его в двойные (") или одинарные кавычки (').</p>
+	
+	<pre class="brush: csharp;">
+		//Запишем в переменную ex строку 'Привет всем!'
+		var ex='Привет всем!';
+		
+		//Выведем значение переменной ex на страницу
+		document.write(ex);
+	</pre>
+
+	<p>Результат выполнения кода:</p>
+
+    <span id="jsResultCode" ontouchstart="return true;" onclick="document.getElementById('par2').innerHTML='Привет всем!';">Выполнить код</span>
+    <p id="par2"></p>
+	
+	<h1 id="title">
+		Определение переменных с var и без него
+	</h1>
+	
+	<p>В JavaScript Вы можете определять переменные с var и без него.</p>
+	
+	<pre class="brush: csharp;">
+		//Создадим новую переменную с var
+		var ex=123;
+		
+		//Создадим новую переменную без var
+		ex2=20;
+	</pre>
+	
+	<p>Вам может показаться, что объявление переменных с var и без него всегда приводят к одинаковому результату, но это действительно так только, когда объявление происходит в глобальном контексте (т.е. за пределами всех функций).</p>
+	<p>Если же объявление происходит в локальном контексте (т.е. в теле какой-либо функции) объявление с var создает локальную переменную (т.е. переменную, которая будет доступна только в теле данной функции и после выполнения функции будет уничтожена), объявление без var создает глобальную переменную (т.е. переменную, которая будет доступна другим функциям внутри данного скрипта).</p>
+	<p>Чтобы избежать ошибок в коде рекомендуем стараться всегда определять переменные с var.</p>
+
+   <h1 id="title">
+    Переменные let и const
+   </h1>
+   <p>
+    Вы можете объявлять переменные не только с помощью ключевого слова var, но также с помощью ключевых слов let и const.
+Переменная, объявленная через let видна только в области видимости объвления.
+<pre class="brush: csharp;">
+let a = 5;
+if(a>2){
+let b = 1; //b существует
+document.write(b); //1
+}
+/*b не существует, т.к область видимости другая (блок if завершен) */
+</pre>
+Переменные, объвленные с помощью const похожи на let, но их значение нельзя изменить.
+<pre class="brush: csharp;">
+const a = 1;
+a=2; //TypeError
+</pre>
+Константы нужны для предотвращения ошибок в коде. Например, число PI всегда равно 3.1415..., зачем менять его значение ;)
+   </p>
+
+	<h1 id="title">
+		Об удалении и переопределении переменных
+	</h1>
+	
+	<p>Переопределяя переменные Вы не стираете значение, которое хранятся в них.</p>
+	
+	<pre class="brush: csharp;">
+		var ex=123;
+		var ex;
+		document.write(ex);
+		// Выведет 123
+	</pre>
+	
+	<p>Если Вы хотите удалить переменную в JavaScript и она не была объявлена с помощью var Вы можете использовать оператор delete.</p>
+	
+	<pre class="brush: csharp;">
+		ex=123;
+		delete ex;
+	</pre>
+	
+	<p>Оператор delete не может удалить переменные объявленные с помощью var, поэтому если переменная была объявлена с помощью var, то единственный способ удалить ее - присвоить ей значение null или undefined.
+В случае успеха, оператор delete возвращает true, иначе false.
+</p>
+	
+	<pre class="brush: csharp;">
+		var ex=123;
+		ex=null;
+		// или
+		ex=undefined
+	</pre>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="tutorial5.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="tutorial7.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/js/book/tutorial6.html", "Переменные", "bm695"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm695", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm695") == 1) { document.getElementById("bma695").style.display = "block"; document.getElementById("bm695").style.display = "none"; } else { document.getElementById("bma695").style.display = "none"; document.getElementById("bm695").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Переменные") == 1) { arrs.splice(i, 1); localStorage.setItem("bm695", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma816" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm816" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Средства ввода-вывода
+	</h1>
+
+	<p>Библиотека ввода-вывода предоставляет два различных возможных «стиля» для работы с файлами.</p>
+	<p>Первый использует неявные дескрипторы файлов; т.е., существуют операции по установке «умолчательного» файла ввода или вывода, и все операции ввода-вывода работают с этими файлами.</p>
+	<p>Второй «стиль» использует явные дескрипторы файлов.</p>
+	<p>При использовании неявных файловых дескрипторов, все операции предоставляются таблицей io.</p>
+	<p>При использовании явных дескрипторов, операция io.open возвращает дескриптор, а после этого все операции являются методами данного дескриптора.</p>
+	<p>Таблица io также предоставляет три предопределенных (predefined) файловых дескриптора со стандартными (в C) значениями: io.stdin, io.stdout, и io.stderr.</p>
+	<p>Если не указано иное, все функции ввода-вывода возвращают nil при ошибочном завершении (а также сообщение об ошибке как второй результат и системно-независимый код ошибке в третьем результате) и какое-либо значение, отличное от nil при успешном завершении.</p>
+	
+	<h1 id="title">
+		io.close ([file])
+	</h1>
+
+	<p>Эквивалентна file:close(). Без параметра file, закрывает стандартный поток вывода.</p>
+	
+	<h1 id="title">
+		io.flush ()
+	</h1>
+
+	<p>Эквивалентна file:flush для стандартного потока вывода.</p>
+	
+	<h1 id="title">
+		io.input ([file])
+	</h1>
+	
+	<p>При вызове с указанием имени файла, открывает данный файл (в текстовом режиме), и направляет его поток на стандартынй поток ввода.</p>
+	<p>При вызове с хендлером файла, делает хендлер файла стандартным хендлером ввода (перенаправляет поток, соответствующий хендлеру файла на стандартный поток ввода).</p>
+	<p>При вызове функции без параметров, возвращает текущий файл ввода по умолчанию.</p>
+	<p>В случае лшибок, данная функция возбуждает ошибку вместо того, чтобы возвратить код ошибки.</p>
+
+	<h1 id="title">
+		io.lines ([filename])
+	</h1>
+	
+	<p>Открывает файл с данным именем в режиме чтения и возвращает функцию-итератор (iterator function) которая при каждом последующем вызове возвращает новую строчку из файла.</p>
+	<p>Т.о., конструкция</p>
+
+	<pre class="brush: csharp;">
+	for line in io.lines(filename) do body end
+	</pre>
+
+	<p>обработает все строки файла.</p>
+	<p>При обнаружении функцией-итератором конца файла, она фозвращает nil (для окончания цикла) и автоматически закрывает файл.</p>
+	<p>Вызов io.lines() (без имени файла) эквивалентен io.input():lines(); т.о., он обрабатывает строки стандартного файла ввода.</p>
+	<p>В этом случае, файл по окончанию итераций не закрывается автоматически.</p>
+
+	<h1 id="title">
+		io.open (filename [, mode])
+	</h1>
+	
+	<p>Эта функция открывает файл в режиме, указанном в строке mode.</p>
+	<p>Возвращает хендлер файла, или, в случае ошибок, nil и сообщение об ошибке.</p>
+	<p>Стрка mode может содержать следующие значения:</p>
+	<p>- <b>"r":</b> режим чтения (используется по умолчанию);</p>
+	<p>- <b>"w":</b> режим записи;</p>
+	<p>- <b>"a":</b> режим дозаписи в конец файла;</p>
+	<p>- <b>"r":</b> режим изменения, все ранее хранившиеся данные сохраняются;</p>
+	<p>- <b>"w":</b> режим изменения, все ранее хранившиеся данные сохраняются;</p>
+	<p>- <b>"a":</b> режим изменения с дозаписью в конец, все ранее хранившиеся данные защищены, запись разрешена только в конец файла.</p>
+	<p>Строка mode может также содержать 'b' в конце; этот символ нужен для некоторых систем для открытия файла в двоичном режиме.</p>
+	<p>Эта строка полностью повторяет синтаксис функции C fopen.</p>
+
+	<h1 id="title">
+		io.output ([file])
+	</h1>
+
+	<p>Аналогична io.input,но работает с стандартным файлом вывода.</p>
+	
+	<h1 id="title">
+		io.popen (prog [, mode])
+	</h1>
+
+	<p>Запускает программу prog в отдельном процессе и возвращает хендлер файла, который вы можете использовать для чтения данных из этой программы (если mode равен "r", значение по умолчанию) или для записи данных в эту программу (если mode равен "w").</p>
+	<p>Эта функция системно зависима и доступна не на всех платформах.</p>
+	
+	<h1 id="title">
+		io.read (···)
+	</h1>
+
+	<p>Аналогична io.input():read.</p>
+	
+	<h1 id="title">
+		io.tmpfile ()
+	</h1>
+
+	<p>Возвращаер хендлер для временного файла.</p>
+	<p>Этот файл открывается в режиме изменения и автоматически удаляется при завершении программы.</p>
+	
+	<h1 id="title">
+		io.type (obj)
+	</h1>
+
+	<p>Проверяет, является ли obj валидным хендлером файла.</p>
+	<p>Возвращает строку "file" если obj – открытый хендлер файла, "closed file" если obj закрытый хендлер файла, или nil если obj не является хендлером файла.</p>
+	
+	<h1 id="title">
+		io.write (···)
+	</h1>
+	
+	<p>Эквивалентна io.output():write.</p>
+
+	<h1 id="title">
+		file:close ()
+	</h1>
+	
+	<p>Закрывает file.</p>
+	<p>Обратите внимание, что файлы автоматически закрываются когда их хендлеры уничтожаются сборщиком мусора, но это может случиться в любой момент и не предсказуемо.</p>
+
+	<h1 id="title">
+		file:flush ()
+	</h1>
+	
+	<p>Сохраняет все данные, записанные в файл file.</p>
+
+	<h1 id="title">
+		file:lines ()
+	</h1>
+
+	<p>Возвращает функцию-итератор, которая при каждом вызове возвращает новую строку из файла.</p>
+	<p>Т.о. код</p>
+	
+	<pre class="brush: csharp;">
+	for line in file:lines() do body end
+	</pre>
+
+	<p>обработает все строки файла.</p>
+	<p>(В отличие от io.lines, эта функция не закрывает файл по окончании цикла (т.е. достижении конца файла).)</p>
+
+	<h1 id="title">
+		file:read (···)
+	</h1>
+
+	<p>Читает данные из файла file, в соответствии с заданными форматами, которые определяют, что читать.</p>
+	<p>Для каждого формата, функция возвращает строку (или число) с прочитанными символами, или nil если не может прочитать данные в указанном формате.</p>
+	<p>При вызове без указания формата, использует стандартный формат, соответствующий чтению всей следующей строки (см. ниже).</p>
+	<p>Возможные форматы:</p>
+	<p>- <b>"*n":</b> читает число; это – единственный формат, возвращающий число вместо строки.</p>
+	<p>- <b>"*a":</b> читает весь файл, начиная с текущей позиции. Если позиция совпадает с концом файла, возвращает пустую строку.</p>
+	<p>- <b>"*l":</b> читает следующую строку (пропуская конец строки), возвращает nil в конце файла. Это – формат по умолчанию.</p>
+	<p>- <b>число:</b> читает строку, но не более заданного количества символов, возвращает nil по достижении конца файла. Если число равно нулю, функция ничего не читает, возвращая постую строку, или nil по достижении конца файла.</p>
+	
+	<h1 id="title">
+		file:seek ([whence] [, offset])
+	</h1>
+
+	<p>Получает и ыыставляет текущую позицию в файле, отсчитываемую от начала файла, в позицию, заданную параметром offset плюс значение (исходная позиция), заданное строкой whence, следующим образом:</p>
+	<p>- <b>"set":</b> исходная позиция равна 0 (начало файла);</p>
+	<p>- <b>"cur":</b> исходная позиция – текущая;</p>
+	<p>- <b>"end":</b> исходная позиция – конец файла.</p>
+	<p>В случае успешного выполнения, функция seek возвращает выставленную позицию в файле, отсчитываемую от начала файла.</p>
+	<p>Если функция завершается неудачно, она возвращает nil и строку – описание ошибки.</p>
+	<p>Значение по умолчанию для параметра whence равно "cur", а offset – 0.</p>
+	<p>Т.о. вызов file:seek() возвращает текущую позицию в файле, не изменяя ее; вызов file:seek("set") перемещает указатель текущей позиции в начало файла (и возвращает 0); а вызов file:seek("end") перемещает указатель текущей позиции в конец файла, и возвращает его длину.</p>
+
+	<h1 id="title">
+		file:setvbuf (mode [, size])
+	</h1>
+
+	<p>Изменяет режим файла записи (output file) на буферизованный режим.</p>
+	<p>Существует 3 возможных режима:</p>
+	<p>- <b>"no":</b> отключить буферизацию; результат записи в файл немедленно «сбрасывается» на диск.</p>
+	<p>- <b>"full":</b> полная буферизация; операции записи на диск выполняются только при переполнении буфера (или при вызове функции очистки буфера (см. io.flush)).</p>
+	<p>- <b>"line":</b> построчная буферизация; запись буферизуется до достижения конца строки или происходит ввод из особенных (специальных) файлов (таких как, например, терминал).</p>
+	<p>В двух последних случаях, size указывает размер буфера в байтах.</p>
+	<p>По умолчанию используется «необходимый и достаточный размер».</p>
+
+	<h1 id="title">
+		file:write (···)
+	</h1>
+
+	<p>Записывает значение каждого из аргументов в файл file.</p>
+	<p>Аргументами могут быть строки или числа.</p>
+	<p>Для записи других значений, используйте функции tostring или string.format перед вызовом функции write.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="49.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="51.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/lua/book1/50.html", "Средства ввода-вывода", "bm816"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm816", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm816") == 1) { document.getElementById("bma816").style.display = "block"; document.getElementById("bm816").style.display = "none"; } else { document.getElementById("bma816").style.display = "none"; document.getElementById("bm816").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Средства ввода-вывода") == 1) { arrs.splice(i, 1); localStorage.setItem("bm816", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

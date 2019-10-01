@@ -1,0 +1,1060 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1222" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1222" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Представления
+	</h1>
+
+    <p>Виды - это часть MVC архитектуры, это код, который отвечает за представление данных конечным пользователям.</p>
+    <p>В веб приложениях виды создаются обычно в виде видов - шаблонов, которые суть PHP скрипты, в основном содержащие HTML код и код PHP, отвечающий за представление и внешний вид.</p>
+    <p>Виды управляются компонентом приложения [[yii\web\View|view]], который содержит часто используемые методы для упорядочивания видов и их рендеринга.</p>
+    <p>Для упрощения, мы будем называть виды - шаблоны просто видами.</p>
+
+    <h2 id="title">
+        Создание видов
+    </h2>
+
+    <p>Как мы упоминали ранее, вид - это просто PHP скрипт, состоящий из PHP и HTML кодa.</p>
+    <p>В примере ниже - вид, который представляет форму авторизации.</p>
+    <p>Как видите, PHP код здесь генерирует динамический контент, как, например, заголовок страницы и саму форму, тогда как HTML организует полученные данные в готовую html страницу.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    use yii\widgets\ActiveForm;
+    
+    /* @var $this yii\web\View */
+    /* @var $form yii\widgets\ActiveForm */
+    /* @var $model app\models\LoginForm */
+    
+    $this->title = 'Вход';
+    ?&gt;
+    &lt;h1&gt;&lt;?= Html::encode($this-&gt;title) ?&gt;&lt;/h1&gt;
+    
+    &lt;p&gt;Пожалуйста, заполните следующие поля для входа на сайт:&lt;/p&gt;
+    
+    &lt;?php $form = ActiveForm::begin(); ?&gt;
+        &lt;?= $form-&gt;field($model, &apos;username&apos;) ?&gt;
+        &lt;?= $form-&gt;field($model, &apos;password&apos;)-&gt;passwordInput() ?&gt;
+        &lt;?= Html::submitButton(&apos;Login&apos;) ?&gt;
+    &lt;?php ActiveForm::end(); ?&gt;
+    </pre>
+
+    <p>Внутри вида, вы можете использовать $this, которое представляет собой [[yii\web\View|компонент вид]], управляющий этим шаблоном и обеспечивающий его рендеринг.</p>
+    <p>Кроме $this, в виде могут быть доступны другие переменные, такие как $form и $model из примера выше.</p>
+    <p>Эти переменные представляют собой данные, которые передаются в вид контроллерами или другими объектами, которые вызывают рендеринг вида.</p>
+    <p>Совет: Переданные переменные могут быть перечислены в блоке комментария в начале скрипта, чтобы их смогли распознать IDE.</p>
+    <p>К тому же, это хороший способ добавления документации в вид.</p>
+
+    <h3 id="title">
+        Безопасность
+    </h3>
+
+    <p>При создании видов, которые генерируют HTML страницы, важно кодировать и/или фильтровать данные, которые приходят от пользователей перед тем как их показывать.</p>
+    <p>В противном случае ваше приложение может стать жертвой атаки типа межсайтовый скриптинг</p>
+    <p>Чтобы показать обычный текст, сначала кодируйте его с помощью [[yii\helpers\Html::encode()]].</p>
+    <p>В примере ниже имя пользователя кодируется перед выводом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    ?&gt;
+    
+    &lt;div class=&quot;username&quot;&gt;
+        &lt;?= Html::encode($user-&gt;name) ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <p>Чтобы показать HTML содержимое, используйте [[yii\helpers\HtmlPurifier]] для того, чтобы отфильтровать потенциально опасное содержимое.</p>
+    <p>В примере ниже содержимое поста фильтруется перед показом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\HtmlPurifier;
+    ?&gt;
+    
+    &lt;div class=&quot;post&quot;&gt;
+        &lt;?= HtmlPurifier::process($post-&gt;text) ?&gt;
+    &lt;/div&gt;
+    </pre>
+
+    <p><b>Подсказка:</b> Несмотря на то, что HTMLPurifier отлично справляется с тем, чтобы сделать вывод безопасным, работает он довольно медленно. Если от приложения требуется высокая производительность, рассмотрите возможность кэширования отфильтрованного результата</p>
+
+    <h3 id="title">
+        Организация видов
+    </h3>
+    <p></p>
+    <p>Как и для контроллеров, и моделей, для видов тоже есть определенные соглашения в их организации.</p>
+    <p>Виды, которые рендерятся из контроллера, по умолчанию должны располагаться в папке @app/views/ControllerID, где ControllerID это ID контроллера.</p>
+    <p>Например, если класс контроллера - PostController, то папка будет @app/views/post; если контроллер - PostCommentController, то папка будет @app/views/post-comment.</p>
+    <p>В случае, если контроллер принадлежит модулю, папка будет views/ControllerID в [[yii\base\Module::basePath|подпапке модуля]].</p>
+    <p>Виды, которые рендерятся из виджетов, должны располагаться в ПутьВиджета/views, где ПутьВиджета - это папка, которая содержит класс виджета.</p>
+    <p>С видами, которые рендерятся из других объектов рекомендуется поступать по той же схеме, что и с видами виджетов.</p>
+    <p>В контроллерах и виджетах вы можете изменить папки видов по умолчанию, переопределив метод [[yii\base\ViewContextInterface::getViewPath()]].</p>
+
+    <h2 id="title">
+        Рендеринг видов
+    </h2>
+
+    <p>Вы можете рендерить виды в контроллерах, widgets, или из любого другого места, вызывая методы рендеринга видов.</p>
+    <p>Методы вызываются приблизительно так, как это показано в примере ниже,</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * @param string $view название вида или путь файла, в зависимости от того, какой метод рендеринга используется 
+     * @param array $params данные, которые передаются виду
+     * @return string результат рендеринга
+     */
+    methodName($view, $params = [])
+    </pre>
+
+
+    <h3 id="title">
+        Рендеринг в контроллерах
+    </h3>
+
+    <p>Внутри контроллеров можно вызывать следующие методы рендеринга видов:</p>
+
+
+    <pre class="brush: csharp;">
+    [[yii\base\Controller::render()|render()]]
+    </pre>
+
+    <p>Рендерит именованный вид и применяет шаблон к результату рендеринга.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Controller::renderPartial()|renderPartial()]]
+    </pre>
+
+    <p>Рендерит именованный вид без шаблона.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\Controller::renderAjax()|renderAjax()]]
+    </pre>
+
+    <p>Рендерит именованный вид без шаблона, и добавляет все зарегистрированные JS/CSS скрипты и стили. Обычно этот метод применяется для рендеринга результата AJAX запроса.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Controller::renderFile()|renderFile()]]
+    </pre>
+
+    <p>Рендерит вид, заданный как путь к файлу или алиас.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use Yii;
+    use app\models\Post;
+    use yii\web\Controller;
+    use yii\web\NotFoundHttpException;
+    
+    class PostController extends Controller
+    {
+        public function actionView($id)
+        {
+            $model = Post::findOne($id);
+            if ($model === null) {
+                throw new NotFoundHttpException;
+            }
+    
+            // рендерит вид с названием `view` и применяет к нему шаблон
+            return $this->render('view', [
+                'model' =&gt; $model,
+            ]);
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Рендеринг в виджетах
+    </h3>
+
+    <p>Внутри виджетов, вы можете вызывать следующие методы для рендеринга видов.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Widget::render()|render()]]
+    </pre>
+
+    <p>Рендерит именованный вид.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Widget::renderFile()|renderFile()]]
+    </pre>
+
+    <p>Рендерит вид, заданный как путь файла или алиас.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\components;
+    
+    use yii\base\Widget;
+    use yii\helpers\Html;
+    
+    class ListWidget extends Widget
+    {
+        public $items = [];
+    
+        public function run()
+        {
+            // рендерит вид с названием `list`
+            return $this->render('list', [
+                'items' =&gt; $this->items,
+            ]);
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Рендеринг в видах
+    </h3>
+
+    <p>Вы можете рендерить вид внутри другого вида используя методы, которые предоставляет [[yii\base\View|компонент вида]]:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::render()|render()]]
+    </pre>
+
+    <p>Рендерит именованный вид.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\View::renderAjax()|renderAjax()]]
+    </pre>
+
+    <p>Рендерит именованный вид и добавляет зарегистрированные JS/CSS скрипты и стили. Обычно используется для рендеринга результата AJAX запроса.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::renderFile()|renderFile()]]
+    </pre>
+
+    <p>Рендерит вид, заданный как путь к файлу или алиас.</p>
+    <p>Например, следующий код рендерит _overview.php файл вида, который находится в той же папке что и вид, который рендерится в текущий момент.</p>
+    <p>Помните, что $this в виде - это [[yii\base\View|компонент вида]] (а не контроллер, как это было в Yii1):</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= $this->render('_overview') ?&gt;
+    </pre>
+
+    <h3 id="title">
+        Рендеринг в других местах
+    </h3>
+
+    <p>Вы может получить доступ к [[yii\base\View|виду]] как компоненту приложения вот так: Yii::$app->view, а затем вызвать вышеупомянутые методы, чтобы отрендерить вид.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // показывает файл "@app/views/site/license.php"
+    echo \Yii::$app->view->renderFile('@app/views/site/license.php');
+    </pre>
+
+    <h3 id="title">
+        Именованные виды
+    </h3>
+
+    <p>При рендеринге вида, вы можете указать нужный вид, используя как имя вида, так и путь к файлу/алиас.</p>
+    <p>В большинстве случаев вы будете использовать первый вариант, т.к. он более нагляден и гибок.</p>
+    <p>Мы называем виды, которые были вызваны с помощью сокращенного имени именованные виды.</p>
+    <p>Имя вида преобразуется в соответствующий ему путь файла в соответствии со следующими правилами:</p>
+
+    <ul>
+        <li>Имя вида можно указывать без расширения. В таком случае в качестве расширения будет использоваться .php. К примеру, имя вида about соответствует файлу about.php.</li>
+        <li>Если имя вида начинается с двойного слеша //, соответствующий ему путь будет @app/views/ViewName. Т.е. вид будет искаться в [[yii\base\Application::viewPath|папке видов приложения по умолчанию]]. Например, //site/about будет преобразован в @app/views/site/about.php.</li>
+        <li>Если имя вида начинается с одинарного слеша /, то вид будет искаться в [[yii\base\Module::viewPath|папке видов по умолчанию]] текущего модуля . Если активного модуля на данный момент нет, будет использована папка видов приложения по умолчанию, т.е. вид будет искаться в @app/views, как в одном из примеров выше.</li>
+        <li>Если вид рендеринтся с помощью [[yii\base\View::context|контекста]] и контекст реализует интерфейс [[yii\base\ViewContextInterface]], путь к виду образуется путем присоединения [[yii\base\ViewContextInterface::getViewPath()|пути видов]] контекста к имени вида. В основном это применимо к видам, которые рендерятся из контроллеров и виджетов. Например, about будет преобразован в @app/views/site/about.php если контекстом является контроллер SiteController.</li>
+        <li>Если вид рендерится из другого вида, папка, в которой находится текущий вид будет добавлена к пути вложенного вида. Например, item будет преобразован в @app/views/post/item если он рендерится из вида @app/views/post/index.php.</li>
+    </ul>
+
+    <p>В соответствии с вышесказанным, вызов $this->render('view') в контроллере app\controllers\PostController будет рендерить файл @app/views/post/view.php, а вызов $this->render('_overview') в этом виде будет рендерить файл @app/views/post/_overview.php.</p>
+
+    <h3 id="title">
+        Доступ к данным из видов
+    </h3>
+
+    <p>Данные можно передавать в вид явно или подгружать их динамически, обращаясь к контексту из вида.</p>
+    <p>Передавая данные через второй параметр методов рендеринга вида, вы явно передаете данные в вид.</p>
+    <p>Данные должны быть представлены как обычный массив: ключ-значение.</p>
+    <p>При рендеринге вида, php вызывает встроенную функцию PHP extract() на переданном массиве, чтобы переменные из массива "распаковались" в переменные вида.</p>
+    <p>Например, следующий код в контроллере передаст две переменные виду report : $foo = 1 и $bar = 2.</p>
+
+    <pre class="brush: csharp;">
+    echo $this->render('report', [
+        'foo' =&gt; 1,
+        'bar' =&gt; 2,
+    ]);
+    </pre>
+
+    <p>Другой подход, подход контекстного доступа, извлекает данные из [[yii\base\View|компонента вида]] или других объектов, доступных в виде (например через глобальный контейнер Yii::$app).</p>
+    <p>Внутри вида вы можете вызывать объект контроллера таким образом: $this->context (см пример снизу), и, таким образом, получить доступ к его свойствам и методам, например, как указано в примере, вы можете получить ID контроллера:</p>
+
+    <pre class="brush: csharp;">
+    ID контроллера: &lt;?= $this->context->id ?&gt;
+    </pre>
+
+    <p>Явная передача данных в вид обычно более предпочтительна, т.к. она делает виды независимыми от контекста.</p>
+    <p>Однако, у нее есть недостаток - необходимость каждый раз вручную строить массив данных, что может быть довольно утомительно и привести к ошибкам, если вид рендерится в разных местах.</p>
+
+    <h3 id="title">
+        Передача данных между видами
+    </h3>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View|Компонент вида]]
+    </pre>
+
+    <p>имеет свойство</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::params|params]]
+    </pre>
+
+    <p>которое вы можете использовать для обмена данными между видами.</p>
+    <p>Например, в виде about вы можете указать текущий сегмент хлебных крошек с помощью следующего кода.</p>
+
+    <pre class="brush: csharp;">
+    $this->params['breadcrumbs'][] = 'О нас';
+    </pre>
+
+    <p>Затем, в шаблоне, который также является видом, вы можете отобразить хлебные крошки используя данные, переданные через [[yii\base\View::params|params]].</p>
+
+    <pre class="brush: csharp;">
+    &lt;?= yii\widgets\Breadcrumbs::widget([
+        'links' =&gt; isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?&gt;
+    </pre>
+
+    <h2 id="title">
+        Шаблоны
+    </h2>
+
+    <p>Шаблоны - особый тип видов, которые представляют собой общие части разных видов.</p>
+    <p>Например, у большинства страниц веб приложений одинаковые верх и низ (хедер и футер).</p>
+    <p>Можно, конечно, указать их и в каждом виде, однако лучше сделать это один раз, в шаблоне, и затем, при рендеринге, включать уже отрендеренный вид в заданное место шаблона.</p>
+
+    <h3 id="title">
+        Создание шаблонов
+    </h3>
+
+    <p>Поскольку шаблоны это виды, их можно создавать точно так же, как и обычные виды.</p>
+    <p>По умолчанию шаблоны хранятся в папке @app/views/layouts.</p>
+    <p>Шаблоны, которые используются в конкретном модуле, хранятся в подпапке views/layouts [[yii\base\Module::basePath|папки модуля]].</p>
+    <p>Вы можете изменить папку шаблонов по умолчанию, используя свойство [[yii\base\Module::layoutPath]] приложения или модулей.</p>
+    <p>Пример ниже показывает как выглядит шаблон.</p>
+    <p>Для лучшего понимания мы сильно упростили код шаблона.</p>
+    <p>На практике, однако, в нем часто содержится больше кода, например, тэги &lt;head&gt;, главное меню и т.д.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    use yii\helpers\Html;
+    
+    /* @var $this yii\web\View */
+    /* @var $content string */
+    ?&gt;
+    &lt;?php $this->beginPage() ?&gt;
+    &lt;!DOCTYPE html&gt;
+    &lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;/&gt;
+        &lt;?= Html::csrfMetaTags() ?&gt;
+        &lt;title&gt;&lt;?= Html::encode($this-&gt;title) ?&gt;&lt;/title&gt;
+        &lt;?php $this-&gt;head() ?&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;?php $this-&gt;beginBody() ?&gt;
+        &lt;header&gt;&Mcy;&ocy;&yacy; &kcy;&ocy;&mcy;&pcy;&acy;&ncy;&icy;&yacy;&lt;/header&gt;
+        &lt;?= $content ?&gt;
+        &lt;footer&gt;&Mcy;&ocy;&yacy; &kcy;&ocy;&mcy;&pcy;&acy;&ncy;&icy;&yacy; &amp;copy; 2014&lt;/footer&gt;
+    &lt;?php $this-&gt;endBody() ?&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &lt;?php $this-&gt;endPage() ?&gt;
+    </pre>
+
+    <p>Как видите, шаблон генерирует HTML тэги, которые присутствуют на всех страницах.</p>
+    <p>Внутри секции &lt;body&gt;, шаблон выводит переменную $content, которая содержит результат рендеринга видов контента, который передается в шаблон, при работе метода</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Controller::render()]]
+    </pre>
+
+    <p>Большинство шаблонов вызывают методы, аналогично тому, как это сделано в примере выше, чтобы скрипты и тэги, зарегистрированные в других местах приложения могли быть правильно отображены в местах вызова (например, в шаблоне).</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::beginPage()|beginPage()]]
+    </pre>
+
+    <p>Этот метод нужно вызывать в самом начале шаблона.</p>
+    <p>Он вызывает событие</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\View::EVENT_BEGIN_PAGE|EVENT_BEGIN_PAGE]]
+    </pre>
+
+    <p>которое происходит при начале обработки страницы.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::endPage()|endPage()]]
+    </pre>
+
+    <p>Этот метод нужно вызывать в конце страницы.</p>
+    <p>Он вызывает событие [[yii\base\View::EVENT_END_PAGE|EVENT_END_PAGE]].</p>
+    <p>Оно указывает на обработку конца страницы.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\View::head()|head()]]
+    </pre>
+
+    <p>Этот метод нужно вызывать в &lt;head&gt; секции страницы html.</p>
+    <p>Он генерирует метку, которая будет заменена зарегистрированным ранее кодом HTML (тэги link, мета тэги), когда рендеринг страницы будет завершен.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\View::beginBody()|beginBody()]]
+    </pre>
+
+    <p>Этот метод нужно вызывать в начале секции &lt;body&gt;.</p>
+    <p>Он вызывает событие</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\View::EVENT_BEGIN_BODY|EVENT_BEGIN_BODY]]
+    </pre>
+
+    <p>и генерирует метку, которая будет заменена зарегистрированным HTML кодом (например, Javascript'ом), который нужно разместить в начале &lt;body&gt; страницы.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\View::endBody()|endBody()]]
+    </pre>
+
+    <p>Этот метод нужно вызывать в конце секции &lt;body&gt;.</p>
+    <p>Он вызывает событие</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\View::EVENT_END_BODY|EVENT_END_BODY]]
+    </pre>
+
+    <p>и генерирует метку, которая будет заменена зарегистрированным HTML кодом (например, Javascript'ом), который нужно разместить в конце &lt;body&gt; страницы.</p>
+
+    <h3 id="title">
+        Доступ к данным в шаблонах
+    </h3>
+
+    <p>Внутри шаблона, у вас есть доступ к двум предопределенным переменным: $this и $content.</p>
+    <p>Первая представляет собой [[yii\base\View|вид]] компонент, как и в обычных видах, тогда как последняя содержит результат рендеринга вида, который рендерится при вызове метода</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\Controller::render()|render()]]
+    </pre>
+
+    <p>в контроллерах.</p>
+    <p>Если вы хотите получить доступ к другим данным из шаблона, используйте метод явной передачи (он описан в секции Доступ к данным в видах настоящего документа).</p>
+    <p>Если вы хотите передать данные из вида шаблону, вы можете использовать метод, описанный в передаче данных между видами.</p>
+
+    <h3 id="title">
+        Использование шаблонов
+    </h3>
+
+    <p>Как было описано в секции Рендеринг в контроллерах, когда вы рендерите вид, вызывая метод</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\Controller::render()|render()]]
+    </pre>
+
+    <p>из контроллера, к результату рендеринга будет применен шаблон.</p>
+    <p>По умолчанию будет использован шаблон @app/views/layouts/main.php.</p>
+    <p>Вы можете использовать разные шаблоны, конфигурируя [[yii\base\Application::layout]] или [[yii\base\Controller::layout]].</p>
+    <p>Первый переопределяет шаблон, который используется по умолчанию всеми контроллерами, а второй переопределяет шаблон в отдельном контроллере.</p>
+    <p>Например, код внизу показывает, как можно сделать так, чтобы контроллер использовал шаблон @app/views/layouts/post.php при рендеринге вида.</p>
+    <p>Другие контроллеры, если их свойство layout не переопределено, все еще будут использовать @app/views/layouts/main.php как шаблон.</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class PostController extends Controller
+    {
+        public $layout = 'post';
+        
+        // ...
+    }
+    </pre>
+
+    <p>Для контроллеров, принадлежащих модулю, вы также можете переопределять свойство модуля [[yii\base\Module::layout|layout]], чтобы использовать особый шаблон для этих контроллеров.</p>
+    <p>Поскольку свойство layout может быть сконфигурировано на разных уровнях приложения (контроллеры, модули, само приложение), Yii определяет какой шаблон использовать для контроллера в два этапа.</p>
+    <p>На первом этапе определяется значение шаблона и контекстный модуль.</p>
+
+    <ul>
+        <li>Если [[yii\base\Controller::layout]] свойство контроллера отлично от null, используется оно, и [[yii\base\Controller::module|модуль]] контроллера как контекстный модуль.</li>
+        <li>Если [[yii\base\Controller::layout|layout]] равно null (не задано), происходит поиск среди родительских модулей контроллера, включая само приложение (которое по умолчанию является родительским модулем для контроллеров, не принадлежащих модулям) и находится первый модуль, свойство [[yii\base\Module::layout|layout]] которого не равно null . Тогда используется найденное значение layout этого модуля и сам модуль в качестве контекста. Если такой модуль не найден, значит шаблон применен не будет.</li>
+    </ul>
+
+    <p>На втором этапе определяется сам файл шаблона для рендеринга на основании значения layout и контекстного модуля. Значением layout может быть:</p>
+
+    <ul>
+        <li>Алиас пути (например, @app/views/layouts/main).</li>
+        <li>Абсолютный путь (например /main): значение layout начинается со слеша. Будет искаться шаблон из [[yii\base\Application::layoutPath|папки шаблонов]] приложения, по умолчанию это @app/views/layouts.</li>
+        <li>Относительный путь (например main): Будет искаться шаблон из [[yii\base\Module::layoutPath|папки шаблонов контекстного модуля]], по умолчанию это views/layouts в [[yii\base\Module::basePath|папке модуля]].</li>
+        <li>Булево значение false: шаблон не будет применен.</li>
+    </ul>
+
+    <p>Если у значения layout нет расширения, будет использовано расширение по умолчанию - .php.</p>
+
+    <h3 id="title">
+        Вложенные шаблоны
+    </h3>
+
+    <p>Иногда нужно вложить один шаблон в другой.</p>
+    <p>Например, в разных разделах сайта используются разные шаблоны, но у всех этих шаблонов есть основная разметка, которая определяет HTML5 структуру страницы.</p>
+    <p>Вы можете использовать вложенные шаблоны, вызывая</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\View::beginContent()|beginContent()]]
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\View::endContent()|endContent()]]
+    </pre>
+
+    <p>в дочерних шаблонах таким образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php $this->beginContent('@app/views/layouts/base.php'); ?&gt;
+    
+    ...код дочернего шаблона...
+    
+    &lt;?php $this->endContent(); ?&gt;
+    </pre>
+
+    <p>В коде выше дочерний шаблон заключается в</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::beginContent()|beginContent()]] 
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::endContent()|endContent()]]
+    </pre>
+
+
+    <p>Параметр, передаваемый в метод</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::beginContent()|beginContent()]]
+    </pre>
+
+    <p>определяет родительский шаблон. Это может быть как путь к файлу, так и алиас.</p>
+    <p>Используя подход выше, вы можете вкладывать шаблоны друг в друга в несколько уровней.</p>
+
+    <h3 id="title">
+        Использование блоков
+    </h3>
+
+    <p>Блоки позволяют "записывать" контент в одном месте, а показывать в другом. Они часто используются совместно с шаблонами.</p>
+    <p>Например, вы определяете (записываете) блок в виде и отображаете его в шаблоне.</p>
+    <p>Для определения блока вызываются методы</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\View::beginBlock()|beginBlock()]]
+    </pre>
+
+    <p>и</p>
+
+    <pre class="brush: csharp;">
+        [[yii\base\View::endBlock()|endBlock()]]
+    </pre>
+
+    <p>После определения, блок доступен через $view->blocks[$blockID], где $blockID - это уникальный ID, который вы присваиваете блоку в начале определения.</p>
+    <p>В примере ниже показано, как можно использовать блоки, определенные в виде, чтобы динамически изменять фрагменты шаблона.</p>
+    <p>Сначала, в виде, вы записываете один или несколько блоков:</p>
+
+    <pre class="brush: csharp;">
+    ...
+    
+    &lt;?php $this->beginBlock('block1'); ?&gt;
+    
+    ...содержимое блока 1...
+    
+    &lt;?php $this->endBlock(); ?&gt;
+    
+    ...
+    
+    &lt;?php $this->beginBlock('block3'); ?&gt;
+    
+    ...содержимое блока 3...
+    
+    &lt;?php $this->endBlock(); ?&gt;
+    </pre>
+
+    <p>Затем, в шаблоне, рендерите блоки если они есть, или показываете контент по умолчанию, если блок не определен.</p>
+
+    <pre class="brush: csharp;">
+    ...
+    &lt;?php if (isset($this->blocks['block1'])): ?&gt;
+        &lt;?= $this->blocks['block1'] ?&gt;
+    &lt;?php else: ?&gt;
+        ... контент по умолчанию для блока 1 ...
+    &lt;?php endif; ?&gt;
+    
+    ...
+    
+    &lt;?php if (isset($this->blocks['block2'])): ?&gt;
+        &lt;?= $this->blocks['block2'] ?&gt;
+    &lt;?php else: ?&gt;
+        ... контент по умолчанию для блока 2 ...
+    &lt;?php endif; ?&gt;
+    
+    ...
+    
+    &lt;?php if (isset($this->blocks['block3'])): ?&gt;
+        &lt;?= $this->blocks['block3'] ?&gt;
+    &lt;?php else: ?&gt;
+        ... контент по умолчанию для блока 3 ...
+    &lt;?php endif; ?&gt;
+    ...
+    </pre>
+
+    <h2 id="title">
+        Использование компонентов вида
+    </h2>
+
+    <p>[[yii\base\View|Компоненты вида]] дают много возможностей.</p>
+    <p>Несмотря на то, что существует возможность создавать индивидуальные экземпляры [[yii\base\View]] или дочерних классов, в большинстве случаев используется сам компонент view приложения.</p>
+    <p>Вы можете сконфигурировать компонент в конфигурации приложения таким образом:</p>
+
+    <pre class="brush: csharp;">
+    [
+        // ...
+        'components' =&gt; [
+            'view' =&gt; [
+                'class' =&gt; 'app\components\View',
+            ],
+            // ...
+        ],
+    ]
+    </pre>
+
+    <p>Компоненты вида предоставляют широкие возможности по работе с видами, они описаны в отдельных секциях документации:</p>
+
+    <ul>
+        <li>темы: позволяет менять темы оформления для сайта.</li>
+        <li>кэширование фрагментов: позволяет кэшировать фрагменты веб-страниц.</li>
+        <li>работа с клиентскими скриптами: Поддерживает регистрацию и рендеринг CSS и Javascript.</li>
+        <li>управление связками: позволяет регистрацию и управление связками клиентского кода.</li>
+        <li>альтернативные движки шаблонов: позволяет использовать другие шаблонные движки, такие как Twig, Smarty.</li>
+    </ul>
+
+    <p>Также удобно пользоваться мелкими, но удобными фичами при разработке веб страниц, которые приведены ниже.</p>
+
+    <h3 id="title">
+        Установка заголовков страниц
+    </h3>
+
+    <p>У каждой страницы должен быть заголовок.</p>
+    <p>Обычно заголовок выводится в шаблоне. Однако на практике заголовок часто определяется в видах, а не в шаблонах.</p>
+    <p>Чтобы передать заголовок из вида в шаблон, используется свойство [[yii\web\View::title|title]].</p>
+    <p>В виде можно задать заголовок таким образом:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    $this->title = 'Мой заголовок страницы';
+    ?&gt;
+    </pre>
+
+    <p>В шаблоне заголовок выводится следующим образом, (убедитесь, что в &lt;head&gt; у вас соответствующий код):</p>
+
+    <pre class="brush: csharp;">
+    &lt;title&gt;&lt;?= Html::encode($this-&gt;title) ?&gt;&lt;/title&gt;
+    </pre>
+
+    <h3 id="title">
+        Регистрация мета-тэгов
+    </h3>
+
+    <p>На веб страницах обычно есть мета-тэги, которые часто используются различными сервисами.</p>
+    <p>Как и заголовки страниц, мета-тэги выводятся в &lt;head&gt; и обычно генерируются в шаблонах.</p>
+    <p>Если вы хотите указать, какие мета-тэги генерировать в видах, вы можете вызвать метод</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\View::registerMetaTag()]]
+    </pre>
+
+    <p>в виде так, как в примере ниже:</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php
+    $this->registerMetaTag(['name' =&gt; 'keywords', 'content' =&gt; 'yii, framework, php']);
+    ?&gt;
+    </pre>
+
+    <p>Этот код зарегистрирует мета тэг "keywords" в виде.</p>
+    <p>Зарегистрированные мета тэги рендерятся после того, как закончен рендеринг шаблона.</p>
+    <p>Они вставляются в то место, где в шаблоне вызван метод [[yii\web\View::head()]].</p>
+    <p>Результатом рендеринга мета тэгов является следующий код:</p>
+
+    <pre class="brush: csharp;">
+    &lt;meta name=&quot;keywords&quot; content=&quot;yii, framework, php&quot;&gt;
+    </pre>
+
+    <p>Обратите внимание, что при вызове метода [[yii\web\View::registerMetaTag()]] несколько раз мета тэги будут регистрироваться каждый раз без проверки на уникальность.</p>
+    <p>Чтобы убедиться, что зарегистрирован только один экземпляр одного типа мета тэгов, вы можете указать ключ мета тэга в качестве второго параметра при вызове метода.</p>
+    <p>К примеру, следующий код регистрирует два мета тэга "description", однако отрендерен будет только второй.</p>
+
+    <pre class="brush: csharp;">
+    $this->registerMetaTag(['name' =&gt; 'description', 'content' =&gt; 'Мой сайт сделан с помощью Yii!'], 'description');
+    $this->registerMetaTag(['name' =&gt; 'description', 'content' =&gt; 'Это сайт о забавных енотах.'], 'description');
+    </pre>
+
+    <h3 id="title">
+        Регистрация тэгов link
+    </h3>
+
+    <p>Как и мета тэги, link тэги полезны во многих случаях, как, например, задание уникальной favicon, указание на RSS фид или указание OpenID сервера для авторизации.</p>
+    <p>С link тэгами можно работать аналогично работе с мета тэгами, вызывая метод [[yii\web\View::registerLinkTag()]].</p>
+    <p>Например, вы можете зарегистрировать link тэг в виде таким образом:</p>
+
+    <pre class="brush: csharp;">
+    $this->registerLinkTag([
+        'title' =&gt; 'Сводка новостей по Yii',
+        'rel' =&gt; 'alternate',
+        'type' =&gt; 'application/rss+xml',
+        'href' =&gt; 'http://www.yiiframework.com/rss.xml/',
+    ]);
+    </pre>
+
+    <p>Этот код выведет</p>
+
+    <pre class="brush: csharp;">
+    &lt;link title=&quot;&Scy;&vcy;&ocy;&dcy;&kcy;&acy; &ncy;&ocy;&vcy;&ocy;&scy;&tcy;&iecy;&jcy; &pcy;&ocy; Yii&quot; rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;http://www.yiiframework.com/rss.xml/&quot;&gt;
+    </pre>
+
+    <p>Как и в случае с</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\View::registerMetaTag()|registerMetaTag()]]
+    </pre>
+
+    <p>вы можете указать ключ вторым параметром при вызове</p>
+
+    <pre class="brush: csharp;">
+        [[yii\web\View::registerLinkTag()|registerLinkTag()]]
+    </pre>
+
+    <p>чтобы избежать дублирования link тэгов одного типа.</p>
+
+    <h2 id="title">
+        События в видах
+    </h2>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View|Компонент вида]]
+    </pre>
+
+    <p>вызывает несколько событий во время рендеринга.</p>
+    <p>Вы можете задавать обработчики для этих событий чтобы добавлять контент в вид или делать пост-обработку результатов рендеринга до того, как они будут отправлены конечным пользователям.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::EVENT_BEFORE_RENDER|EVENT_BEFORE_RENDER]]
+    </pre>
+
+    <p>вызывается в начале рендеринга файла в контроллере.</p>
+    <p>Обработчики этого события могут придать атрибуту [[yii\base\ViewEvent::isValid]] значение false, чтобы отменить процесс рендеринга.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::EVENT_AFTER_RENDER|EVENT_AFTER_RENDER]]
+    </pre>
+
+    <p>событие инициируется после рендеринга файла вызовом [[yii\base\View::afterRender()]].</p>
+    <p>Обработчики события могут получать результат рендеринга через [[yii\base\ViewEvent::output]] и могут изменять это свойство для изменения результата рендеринга.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::EVENT_BEGIN_PAGE|EVENT_BEGIN_PAGE]]
+    </pre>
+
+    <p>инициируется вызовом [[yii\base\View::beginPage()]] в шаблонах.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\base\View::EVENT_END_PAGE|EVENT_END_PAGE]]
+    </pre>
+
+    <p>инициируется вызовом [[yii\base\View::endPage()]] в шаблонах.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\View::EVENT_BEGIN_BODY|EVENT_BEGIN_BODY]]
+    </pre>
+
+    <p>инициируется вызовом [[yii\web\View::beginBody()]] в шаблонах.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\View::EVENT_END_BODY|EVENT_END_BODY]]
+    </pre>
+
+    <p>инициируется вызовом [[yii\web\View::endBody()]] в шаблонах.</p>
+    <p>Например, следующий код вставляет дату в конец body страницы:</p>
+
+    <pre class="brush: csharp;">
+    \Yii::$app->view->on(View::EVENT_END_BODY, function () {
+        echo date('Y-m-d');
+    });
+    </pre>
+
+    <p>Статическими страницами мы считаем страницы, которые содержат в основном статические данные и для формирования которых не нужно строить динамические данные в контроллерах.</p>
+    <p>Вы можете выводить статические страницы, сохраняя их в видах, а затем используя подобный код в контроллере:</p>
+
+    <pre class="brush: csharp;">
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+    </pre>
+
+    <p>Если сайт содержит много статических страниц, описанный выше подход не вполне подходит - его использование приведет к многократному повторению похожего кода.</p>
+    <p>Вместо этого вы можете использовать отдельное действие [[yii\web\ViewAction]] в контроллере.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class SiteController extends Controller
+    {
+        public function actions()
+        {
+            return [
+                'page' =&gt; [
+                    'class' =&gt; 'yii\web\ViewAction',
+                ],
+            ];
+        }
+    }
+    </pre>
+
+    <p>Теперь, если вы создадите вид about в папке @app/views/site/pages, он будет отображаться по такому адресу:</p>
+
+    <pre class="brush: csharp;">
+    http://localhost/index.php?r=site%2Fpage&view=about
+    </pre>
+
+    <p>GET параметр view сообщает [[yii\web\ViewAction]] какой вид затребован.</p>
+    <p>Действие будет искать этот вид в папке @app/views/site/pages.</p>
+    <p>Вы можете сконфирурировать параметр [[yii\web\ViewAction::viewPrefix]] чтобы изменить папку в которой ищется вид.</p>
+
+    <h2 id="title">
+        Рендеринг статических страниц
+    </h2>
+
+    <p>Статическими страницами мы считаем страницы, которые содержат в основном статические данные и для формирования которых не нужно строить динамические данные в контроллерах.</p>
+    <p>Вы можете выводить статические страницы, сохраняя их в видах, а затем используя подобный код в контроллере:</p>
+
+    <pre class="brush: csharp;">
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+    </pre>
+
+    <p>Если сайт содержит много статических страниц, описанный выше подход не вполне подходит - его использование приведет к многократному повторению похожего кода.</p>
+    <p>Вместо этого вы можете использовать отдельное действие [[yii\web\ViewAction]] в контроллере.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    namespace app\controllers;
+    
+    use yii\web\Controller;
+    
+    class SiteController extends Controller
+    {
+        public function actions()
+        {
+            return [
+                'page' =&gt; [
+                    'class' =&gt; 'yii\web\ViewAction',
+                ],
+            ];
+        }
+    }
+    </pre>
+
+    <p>Теперь, если вы создадите вид about в папке @app/views/site/pages, он будет отображаться по такому адресу:</p>
+
+    <pre class="brush: csharp;">
+    http://localhost/index.php?r=site%2Fpage&view=about
+    </pre>
+
+    <p>GET параметр view сообщает [[yii\web\ViewAction]] какой вид затребован.</p>
+    <p>Действие будет искать этот вид в папке @app/views/site/pages.</p>
+    <p>Вы можете сконфирурировать параметр [[yii\web\ViewAction::viewPrefix]] чтобы изменить папку в которой ищется вид.</p>
+
+    <h2 id="title">
+        Полезные советы
+    </h2>
+
+    <p>Виды отвечают за представление данных моделей в формате, понятным конечным пользователям.</p>
+    <p>В целом, виды</p>
+
+    <ul>
+        <li>должны в основном содержать код, отвечающий за представление, такой как HTML и простой PHP для обхода, форматирования и рендеринга данных.</li>
+        <li>не должны содержать кода, который производит запросы к БД. Такими запросами должны заниматься модели.</li>
+        <li>должны избегать прямого обращения к данным запроса, таким как $_GET, $_POST. Разбором запроса должны заниматься контроллеры. Если данные запросов нужны для построения вида, они должны явно передаваться в вид контроллерами.</li>
+        <li>могут читать свойства моделей, но не должны их изменять.</li>
+    </ul>
+
+    <p>Чтобы сделать виды более управляемыми, избегайте создания видов, которые содержат слишком сложную логику или большое количество кода.</p>
+    <p>Используйте следующие подходы для их упрощения:</p>
+
+    <ul>
+        <li>используйте шаблоны для отображения основных секций разметки сайта (верхняя часть (хедер), нижняя часть (футер) и т.п.)</li>
+        <li>разбивайте сложный вид на несколько видов попроще. Меньшие виды можно рендерить и объединять в больший используя методы рендеринга, описанный в настоящем документе.</li>
+        <li>создавайте и используйте виджеты как строительный материал для видов.</li>
+        <li>создавайте и используйте классы-хелперы для изменения и форматирования данных в видах.</li>
+    </ul>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="15.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="17.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/16.html", "Yii2: Представления", "bm1222"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1222", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1222") == 1) { document.getElementById("bma1222").style.display = "block"; document.getElementById("bm1222").style.display = "none"; } else { document.getElementById("bma1222").style.display = "none"; document.getElementById("bm1222").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Представления") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1222", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

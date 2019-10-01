@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma174" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm174" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Упаковка и распаковка
+	</h1>
+
+	<p>Когда значение структурного типа преобразуется к типу object или приводится к типу того интерфейса, который реализован структурой, выполняется операция упаковки (boxing).</p>
+	<p>Эта операция выполняется автоматически и не требует вмешательства программиста.</p>
+	<p>Упаковкой называют процесс явного преобразования из типа значений в тип ссылок.</p>
+	<p>При упаковке создаётся и размещается куче объект, которому присваивается значение объекта с типом значения.</p>
+	<p>Возвращаемым значением при выполнении упаковки служит ссылка на объект кучи.</p>
+	<p>Обратной операцией является распаковка (unboxing), при которой значение объекта присваивается переменной с типом значения.</p>
+	<p>Автоматическая упаковка выполняется в тех случаях, когда выполняется допустимое присваивание ссылке на объект ссылочного типа переменной с типом значения.</p>
+	<p>Так как все классы языка C# имеют общий базовый класс object , то ссылке типа object можно присвоить значение структуры.</p>
+	<p>В этом случае выполняется автоматическая упаковка, не требующая вмешательства программиста.</p>
+	<p>Обратная процедура – распаковка – автоматически не выполняется.</p>
+	<p>Для распаковки необходимо применять операцию приведения типов.</p>
+	<p>Сказанное относится не только к присваиванию, но и к передаче параметров и к возвращаемому методом результату.</p>
+	<p>Рассмотрим статический метод с таким заголовком:</p>
+
+	<pre class="brush: csharp;">
+	static object reDouble(object obj)
+	</pre>
+
+	<p>Метод принимает ссылку на объект типа object и возвращает значение того же типа.</p>
+	<p>Внешне ничто не препятствует применению в обращении к этому методу в качестве аргумента ссылки на объект любого типа.</p>
+	<p>Однако, в теле метода необходимо учитывать конкретный тип аргумента, и формировать возвращаемый результат в соответствии с этим типом.</p>
+	<p>В следующей программе определена структура Struct1 с полем x типа double, и метод с приведенным выше заголовком.</p>
+
+	<pre class="brush: csharp;">
+	// 15_10.cs - структуры, упаковка, распаковка
+	using System;
+	// структура
+	struct Struct1
+	{
+		double x;
+		public double X { get { return x; } set { x = value; } }
+	}
+
+	class Program
+	{
+		static object reDouble(object obj)
+		{
+			if (obj is Struct1)
+			{
+				Struct1 st = (Struct1)obj;
+				st.X = 2 * st.X;
+				return st;
+			}
+			else
+			Console.WriteLine("Неизвестный тип!");
+			return obj;
+		}
+		static void Main()
+		{
+			Struct1 one = new Struct1();
+			one.X = 4;
+			Struct1 two = (Struct1)reDouble(one);
+			Console.WriteLine("one.X={0}; two.X={1}", one.X, two.X);
+			Console.WriteLine("(int)reDouble(55)={0}", (int)reDouble(55));
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	one.X=4; two.X=8
+	Неизвестный тип!
+	(int)reDouble(55)=55
+	</pre>
+
+	<p>Метод reDouble() обрабатывает только аргументы типа Struct1, хотя ему можно передать аргумент любого типа.</p>
+	<p>Если аргумент имеет тип Struct1, метод reDouble() выполняет его распаковку и удваивает значение поля double x.</p>
+	<p>Если тип аргумента отличен от Struct1, то тип распознаётся как неизвестный и аргумент возвращается в точку вызова в "упакованном" виде.</p>
+	<p>Для примера в методе Main() обращение к reDouble() выполнено дважды с аргументами разных типов.</p>
+	<p>Понимание процедур упаковки и распаковки необходимо для применения таких библиотечных средств как коллекции.</p>
+	<p>К ним относится класс ArrayList (массив-список) из пространства имён System.Collections.</p>
+	<p>Объект класса ArrayList во многих случаях "ведёт себя" как массив.</p>
+	<p>Например, к нему применима индексация.</p>
+	<p>В отличие от массивов, производных от класса Array, объекты класса ArrayList могут расти в процессе выполнения программы.</p>
+	<p>Количество их элементов увеличивается, как только в этом возникает необходимость, причём рост выполняется автоматически без вмешательства программиста.</p>
+	<p>Но не всё просто.</p>
+	<p>Рассмотрим объявление такого растущего массива-списка:</p>
+
+	<pre class="brush: csharp;">
+	using System.Collection;
+	....
+	ArrayList dinamo = new ArrayList(3);
+	</pre>
+
+	<p>В данном примере объявлена ссылка dinamo и ассоциированный с нею объект класса ArrayList.</p>
+	<p>В обращении к конструктору ArrayList() указан начальный размер массива-списка.</p>
+	<p>Можно предположить, что теперь можно обращаться к элементам массива-списка, используя индексы со значениями 0, 1, 2.</p>
+	<p>Однако следующая попытка будет ошибочной:</p>
+	<p><b>dinamo [1]=45.3;</b></p>
+	<p><b>// ошибка времени исполнения</b></p>
+	<p>Даже, если в вызове конструктора указан размер массива-списка, первоначально элементов в создаваемом массиве-списке НЕТ!</p>
+	<p>Отличие объекта класса ArrayList от традиционного массива состоит в том, что в массив-список элементы должны быть вначале занесены с помощью нестатического метода Add() класса ArrayList.</p>
+	<p>Заголовок метода:</p>
+	<p><b>public virtual int Add(object value)</b></p>
+	<p>Метод добавляет в конец массива-списка элемент, заданный аргументом.</p>
+	<p>Возвращаемое значение – порядковый номер (индекс) добавленного элемента.</p>
+	<p>Нумерация элементов начинается с нуля.</p>
+	<p>Так как тип параметра object, то в качестве аргумента можно использовать значение любого типа.</p>
+	<p>Следовательно, в один массив-список можно помещать элементы разных типов.</p>
+	<p>Процедура упаковки, необходимая для аргументов с типами значений, выполняется автоматически.</p>
+	<p>А вот при получении значения элемента массива-списка нужно явно выполнить распаковку, узнав предварительно какой тип имеет элемент.</p>
+	<p>В следующей программе создан массив-список, представляемый ссылкой ArrayList dynamo.</p>
+	<p>Затем в этот массив-список добавлены элементы со значениями double, int и PointS, где PointS – пользовательский тип, объявленный в программе как структура.</p>
+	<p>Текст программы:</p>
+
+	<pre class="brush: csharp;">
+	// 15_11.cs - структуры и массив-список типа ArrayList
+	using System;
+	// Для ArrayList
+	using System.Collections;
+	class Program
+	{
+		static void Main()
+		{
+			ArrayList dinamo = new ArrayList();
+			dinamo.Add(4.8);
+			dinamo.Add(new PointS());
+			dinamo.Add(100);
+			PointS ps = new PointS();
+			ps.X = 10.2;
+			dinamo.Add(ps);
+			dinamo[1] = 1.23;
+			foreach (object ob in dinamo)
+			if (ob is PointS)
+			Console.WriteLine("Struct: X={0}; Y={1}",
+			((PointS)ob).X, ((PointS)ob).Y);
+			else
+			if (ob is Double)
+			Console.WriteLine("Double: Value={0}",
+			((double)ob).ToString());
+		}
+	}
+	
+	// структура
+	struct PointS
+	{
+		double x, y;
+		public double X { get { return x; } set { x = value; } }
+		public double Y { get { return y; } set { y = value; } }
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Double: Value=4,8
+	Double: Value=1,23
+	Struct: X=10,2; Y=0
+	</pre>
+
+	<p>В методе Main( ) после размещения в массиве-списке dinamo четырёх элементов, эти элементы перебираются в цикле foreach.</p>
+	<p>Параметр цикла ob имеет тип object.</p>
+	<p>Ему последовательно присваиваются ссылки на разнотипные элементы массива-списка.</p>
+	<p>Непосредственно использовать параметр типа object для доступа к объектам разных типов невозможно – у каждого типа своя структура, свои члены, свои поля.</p>
+	<p>В теле цикла условные операторы, предназначенные для распознавания типов.</p>
+	<p>Распознаются только типы double и PointS.</p>
+	<p>В качестве проверяемого условия в операторах if используется выражение с операцией is.</p>
+	<p>Обратите внимание как с помощью выражения с индексацией выполнено присваивание второму элементу массива-списка:</p>
+	<p><b>dinamo[1] = 1.23;</b></p>
+	<p>Перед этим присваиванием значением элемента dinamo[1] был объект структуры PointS.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="86.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="88.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/87.html", "Упаковка и распаковка", "bm174"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm174", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm174") == 1) { document.getElementById("bma174").style.display = "block"; document.getElementById("bm174").style.display = "none"; } else { document.getElementById("bma174").style.display = "none"; document.getElementById("bm174").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Упаковка и распаковка") == 1) { arrs.splice(i, 1); localStorage.setItem("bm174", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

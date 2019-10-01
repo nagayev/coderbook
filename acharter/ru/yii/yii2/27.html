@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1233" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1233" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Сессии и куки
+	</h1>
+
+    <p>Сессии и куки позволяют сохранять пользовательские данные между запросами.</p>
+    <p>При использовании чистого PHP можно получить доступ к этим данным через глобальные переменные $_SESSION и $_COOKIE, соответственно.</p>
+    <p>Yii инкапсулирует сессии и куки в объекты, что дает возможность обращаться к ним в объектно-ориентированном стиле и дает дополнительное удобство в работе.</p>
+
+    <h2 id="title">
+        Сессии
+    </h2>
+
+    <p>По аналогии с запросами и ответами, к сессии можно получить доступ через session компонент приложения, который по умолчанию является экземпляром [[yii\web\Session]].</p>
+
+    <h3 id="title">
+        Открытие и закрытие сессии
+    </h3>
+
+    <p>Открыть и закрыть сессию можно следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $session = Yii::$app->session;
+    
+    // проверяем что сессия уже открыта
+    if ($session->isActive) ...
+    
+    // открываем сессию
+    $session->open();
+    
+    // закрываем сессию
+    $session->close();
+    
+    // уничтожаем сессию и все связанные с ней данные.
+    $session->destroy();
+    </pre>
+
+    <p>Можно вызывать [[yii\web\Session::open()|open()]] и [[yii\web\Session::close()|close()]] многократно без возникновения ошибок; внутри компонента все методы проверяют сессию на факт того, открыта она или нет.</p>
+
+    <h3 id="title">
+        Доступ к данным сессии
+    </h3>
+
+    <p>Получить доступ к сохраненным в сессию данным можно следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $session = Yii::$app->session;
+    
+    // получение переменной из сессии. Следующие способы использования эквивалентны:
+    $language = $session->get('language');
+    $language = $session['language'];
+    $language = isset($_SESSION['language']) ? $_SESSION['language'] : null;
+    
+    // запись переменной в сессию. Следующие способы использования эквивалентны:
+    $session->set('language', 'en-US');
+    $session['language'] = 'en-US';
+    $_SESSION['language'] = 'en-US';
+    
+    // Удаление переменной из сессии. Следующие способы использования эквивалентны:
+    $session->remove('language');
+    unset($session['language']);
+    unset($_SESSION['language']);
+    
+    // проверка на существование переменной в сессии. Следующие способы использования эквивалентны:
+    if ($session->has('language')) ...
+    if (isset($session['language'])) ...
+    if (isset($_SESSION['language'])) ...
+    
+    // Обход всех переменных в сессии. Следующие способы использования эквивалентны:
+    foreach ($session as $name =&gt; $value) ...
+    foreach ($_SESSION as $name =&gt; $value) ...
+    </pre>
+
+    <p><b>Информация:</b> При получении данных из сессии через компонент session, сессия будет автоматически открыта, если она не была открыта до этого.</p>
+    <p>В этом заключается отличие от получения данных из глобальной переменной $_SESSION, которое требует обязательного вызова session_start().</p>
+    <p>При работе с сессионными данными, являющимися массивами, компонент session имеет ограничение, запрещающее прямую модификацию отдельных элементов массива.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $session = Yii::$app->session;
+    
+    // следующий код НЕ БУДЕТ работать
+    $session['captcha']['number'] = 5;
+    $session['captcha']['lifetime'] = 3600;
+    
+    // а этот будет:
+    $session['captcha'] = [
+        'number' =&gt; 5,
+        'lifetime' =&gt; 3600,
+    ];
+    
+    // этот код также будет работать:
+    echo $session['captcha']['lifetime'];
+    </pre>
+
+    <p>Для решения этой проблемы можно использовать следующие обходные приемы:</p>
+
+    <pre class="brush: csharp;">
+    $session = Yii::$app->session;
+    
+    // прямое использование $_SESSION (убедитесь, что Yii::$app->session->open() был вызван)
+    $_SESSION['captcha']['number'] = 5;
+    $_SESSION['captcha']['lifetime'] = 3600;
+    
+    // получите весь массив, модифицируйте и сохраните обратно в сессию
+    $captcha = $session['captcha'];
+    $captcha['number'] = 5;
+    $captcha['lifetime'] = 3600;
+    $session['captcha'] = $captcha;
+    
+    // используйте ArrayObject вместо массива
+    $session['captcha'] = new \ArrayObject;
+    ...
+    $session['captcha']['number'] = 5;
+    $session['captcha']['lifetime'] = 3600;
+    
+    // записывайте данные с ключами, имеющими одинаковый префикс
+    $session['captcha.number'] = 5;
+    $session['captcha.lifetime'] = 3600;
+    </pre>
+
+    <p>Для улучшения производительности и читаемости кода рекомендуется использовать последний прием.</p>
+    <p>Другими словами, вместо того, чтобы хранить массив как одну переменную сессии, мы сохраняем каждый элемент массива как обычную сессионную переменную с общим префиксом.</p>
+
+    <h3 id="title">
+        Пользовательское хранилище для сессии
+    </h3>
+
+    <p>По умолчанию класс [[yii\web\Session]] сохраняет данные сессии в виде файлов на сервере.</p>
+    <p>Однако Yii предоставляет ряд классов, которые реализуют различные способы хранения данных сессии:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\DbSession]]
+    </pre>
+
+    <p>сохраняет данные сессии в базе данных.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\web\CacheSession]]
+    </pre>
+
+    <p>хранение данных сессии в предварительно сконфигурированном компоненте кэша кэш.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\redis\Session]]
+    </pre>
+
+    <p>хранение данных сессии в redis.</p>
+
+    <pre class="brush: csharp;">
+    [[yii\mongodb\Session]]
+    </pre>
+
+    <p>хранение сессии в MongoDB.</p>
+    <p>Все эти классы поддерживают одинаковый набор методов API.</p>
+    <p>В результате вы можете переключаться между различными хранилищами сессий без модификации кода приложения.</p>
+    <p><b>Примечание:</b> Если вы хотите получить данные из переменной $_SESSION при использовании пользовательского хранилища, вы должны быть уверены, что сессия уже стартовала [[yii\web\Session::open()]], в связи с тем, что обработчики хранения пользовательских сессий регистрируются в этом методе.</p>
+    <p>Чтобы узнать, как настроить и использовать эти компоненты, обратитесь к документации по API.</p>
+    <p>Ниже приведен пример конфигурации [[yii\web\DbSession]] для использования базы данных для хранения сессии:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'components' =&gt; [
+            'session' =&gt; [
+                'class' =&gt; 'yii\web\DbSession',
+                // 'db' =&gt; 'mydb',  // ID компонента для взаимодействия с БД. По умолчанию 'db'.
+                // 'sessionTable' =&gt; 'my_session', // название таблицы для хранения данных сессии. По умолчанию 'session'.
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Также необходимо создать таблицу для хранения данных сессии:</p>
+
+    <pre class="brush: csharp;">
+    CREATE TABLE session
+    (
+        id CHAR(40) NOT NULL PRIMARY KEY,
+        expire INTEGER,
+        data BLOB
+    )
+    </pre>
+
+    <p>где 'BLOB' соответствует типу данных предпочитаемой вами DBMS.</p>
+    <p>Ниже приведены примеры соответствия типов BLOB в наиболее популярных DBMS:</p>
+
+    <ul>
+        <li>MySQL: LONGBLOB</li>
+        <li>PostgreSQL: BYTEA</li>
+        <li>MSSQL: BLOB</li>
+    </ul>
+
+    <p><b>Примечание:</b> В зависимости от настроек параметра session.hash_function в вашем php.ini, может понадобиться изменить длину поля id.</p>
+    <p>Например, если session.hash_function=sha256, нужно установить длину поля в 64 вместо 40.</p>
+
+    <h3 id="title">
+        Flash-сообщения
+    </h3>
+
+    <p>Flash-сообщения - это особый тип данных в сессии, которые устанавливаются один раз во время запроса и доступны только на протяжении следующего запроса, затем они автоматически удаляются.</p>
+    <p>Такой способ хранения информации в сессии наиболее часто используется для реализации сообщений, которые будут отображены конечному пользователю один раз, например подтверждение об успешной отправке формы.</p>
+    <p>Установить и получить flash-сообщения можно через компонент приложения session.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $session = Yii::$app->session;
+    
+    // Запрос #1
+    // установка flash-сообщения с названием "postDeleted"
+    $session->setFlash('postDeleted', 'Вы успешно удалили пост.');
+    
+    // Запрос #2
+    // отображение flash-сообщения "postDeleted"
+    echo $session->getFlash('postDeleted');
+    
+    // Запрос #3
+    // переменная $result будет иметь значение false, так как flash-сообщение было автоматически удалено
+    $result = $session->hasFlash('postDeleted');
+    </pre>
+
+    <p>Так как flash-сообщения хранятся в сессии как обычные данные, в них можно записывать произвольную информацию, и она будет доступна лишь в следующем запросе.</p>
+    <p>При вызове [[yii\web\Session::setFlash()]], происходит перезаписывание flash-сообщений c таким же названием.</p>
+    <p>Для того, чтобы добавить новые данные к уже существующему flash-сообщению, необходимо вызвать [[yii\web\Session::addFlash()]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $session = Yii::$app->session;
+    
+    // Запрос #1
+    // добавить новое flash-сообщение с названием "alerts"
+    $session->addFlash('alerts', 'Вы успешно удалили пост.');
+    $session->addFlash('alerts', 'Вы успешно добавили нового друга.');
+    $session->addFlash('alerts', 'Благодарим.');
+    
+    // Запрос #2
+    // Переменная $alerts теперь содержит массив flash-сообщений с названием "alerts"
+    $alerts = $session->getFlash('alerts');
+    </pre>
+
+    <p><b>Примечание:</b> Старайтесь не использовать [[yii\web\Session::setFlash()]] совместно с [[yii\web\Session::addFlash()]] для flash-сообщений с одинаковым названием.</p>
+    <p>Это связано с тем, что последний метод автоматически преобразует хранимые данные в массив, чтобы иметь возможность хранить и добавлять новые данные в flash-сообщения с тем же названием.</p>
+    <p>В результате, при вызове [[yii\web\Session::getFlash()]] можно обнаружить, что возвращается массив, в то время как ожидалась строка.</p>
+
+    <h2 id="title">
+        Куки
+    </h2>
+
+    <p>Yii представляет каждую куку как объект [[yii\web\Cookie]].</p>
+    <p>Оба компонента приложения [[yii\web\Request]] и [[yii\web\Response]] поддерживают коллекции кук через свойство cookies.</p>
+    <p>В первом случае коллекция кук является их представлением из HTTP-запроса, во втором - представляет куки, которые будут отправлены пользователю.</p>
+
+    <h3 id="title">
+        Чтение кук
+    </h3>
+
+    <p>Получить куки из текущего запроса можно следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    // получение коллекции кук (yii\web\CookieCollection) из компонента "request"
+    $cookies = Yii::$app->request->cookies;
+    
+    // получение куки с названием "language. Если кука не существует, "en"  будет возвращено как значение по-умолчанию.
+    $language = $cookies->getValue('language', 'en');
+    
+    // альтернативный способ получения куки "language"
+    if (($cookie = $cookies->get('language')) !== null) {
+        $language = $cookie->value;
+    }
+    
+    // теперь переменную $cookies можно использовать как массив
+    if (isset($cookies['language'])) {
+        $language = $cookies['language']->value;
+    }
+    
+    // проверка на существование куки "language"
+    if ($cookies->has('language')) ...
+    if (isset($cookies['language'])) ...
+    </pre>
+
+    <h3 id="title">
+        Отправка кук
+    </h3>
+
+    <p>Отправить куку конечному пользователю можно следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    // получение коллекции (yii\web\CookieCollection) из компонента "response"
+    $cookies = Yii::$app->response->cookies;
+    
+    // добавление новой куки в HTTP-ответ
+    $cookies->add(new \yii\web\Cookie([
+        'name' =&gt; 'language',
+        'value' =&gt; 'zh-CN',
+    ]));
+    
+    // удаление куки...
+    $cookies->remove('language');
+    // ...что эквивалентно следующему:
+    unset($cookies['language']);
+    </pre>
+
+    <p>Кроме свойств [[yii\web\Cookie::name|name]] и [[yii\web\Cookie::value|value]], класс [[yii\web\Cookie]] также предоставляет ряд свойств для получения информации о куках: [[yii\web\Cookie::domain|domain]], [[yii\web\Cookie::expire|expire]].</p>
+    <p>Эти свойства можно сконфигурировать и затем добавить куку в коллекцию для HTTP-ответа.</p>
+    <p><b>Примечание:</b> Для большей безопасности значение свойства [[yii\web\Cookie::httpOnly]] по умолчанию установлено в true.</p>
+    <p>Это уменьшает риски доступа к защищенной куке на клиентской стороне (если браузер поддерживает такую возможность). Вы можете обратиться к httpOnly wiki для дополнительной информации.</p>
+
+    <h3 id="title">
+        Валидация кук
+    </h3>
+
+    <p>Во время записи и чтения кук через компоненты request и response, как будет показано в двух последующих подразделах, фреймворк предоставляет автоматическую валидацию, которая обеспечивает защиту кук от модификации на стороне клиента.</p>
+    <p>Это достигается за счет подписи каждой куки секретным ключом, позволяющим приложению распознать куку, которая была модифицирована на клиентской стороне.</p>
+    <p>В таком случае кука НЕ БУДЕТ доступна через свойство [[yii\web\Request::cookies|cookie collection]] компонента request.</p>
+    <p>Примечание: Валидация кук защищает только от их модификации. Если валидация не была пройдена, получить доступ к кукам все еще можно через глобальную переменную $_COOKIE.</p>
+    <p>Это связано с тем, что дополнительные пакеты и библиотеки могут манипулировать куками без вызова валидации, которую обеспечивает Yii.</p>
+    <p>По-умолчанию валидация кук включена. Её можно отключить, установив свойство [[yii\web\Request::enableCookieValidation]] в false, однако мы настоятельно не рекомендуем это делать.</p>
+    <p><b>Примечание:</b> Куки, которые напрямую читаются/пишутся через $_COOKIE и setcookie() НЕ БУДУТ валидироваться.</p>
+    <p>При использовании валидации кук необходимо указать значение свойства [[yii\web\Request::cookieValidationKey]], которое будет использовано для генерации вышеупомянутого секретного ключа.</p>
+    <p>Это можно сделать, настроив компонент request в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'components' =&gt; [
+            'request' =&gt; [
+                'cookieValidationKey' =&gt; 'fill in a secret key here',
+            ],
+        ],
+    ];
+    </pre>
+
+    <p><b>Примечание:</b> Свойство [[yii\web\Request::cookieValidationKey|cookieValidationKey]] является секретным значением и должно быть известно только людям, которым вы доверяете.</p>
+    <p>Не помещайте эту информацию под систему контроля версий.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="26.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="28.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/27.html", "Yii2: Сессии и куки", "bm1233"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1233", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1233") == 1) { document.getElementById("bma1233").style.display = "block"; document.getElementById("bm1233").style.display = "none"; } else { document.getElementById("bma1233").style.display = "none"; document.getElementById("bm1233").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Сессии и куки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1233", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

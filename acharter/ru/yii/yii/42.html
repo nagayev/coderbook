@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1193" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1193" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Автоматическая генерация кода Yii
+	</h1>
+
+    <p>Начиная с версии 1.1.2, в состав Yii входит веб-инструмент для генерации кода, называемый Gii.</p>
+    <p>Он заменяет существовавший до этого консольный генератор yiic shell.</p>
+    <p>В данном разделе описано, как использовать Gii и как расширить его для ускорения разработки.</p>
+
+    <h2 id="title">
+        Использование Gii
+    </h2>
+
+    <p>Gii является модулем и должен быть использован в составе существующего приложения Yii.</p>
+    <p>Для использования Gii необходимо отредактировать файл конфигурации приложения следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        …
+        'modules'=>array(
+            'gii'=>array(
+                'class'=>'system.gii.GiiModule',
+                'password'=>'задайте свой пароль',
+                // 'ipFilters'=>array(…список IP…),
+                // 'newFileMode'=>0666,
+                // 'newDirMode'=>0777,
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Выше мы объявили модуль с именем gii и классом GiiModule.</p>
+    <p>Также мы задали пароль, который будет использоваться для доступа к Gii.</p>
+    <p>По умолчанию, в целях безопасности, Gii доступен только для localhost.</p>
+    <p>Если необходимо дать доступ к нему с других компьютеров, нужно задать свойство GiiModule::ipFilters как показано в коде выше.</p>
+    <p>Так как Gii будет генерировать и сохранять новые файлы с кодом в существующее приложение, необходимо убедиться в том, что процесс веб-сервера имеет на это права.</p>
+    <p>Показанные выше свойства GiiModule::newFileMode и GiiModule::newDirMode содержат права, с которыми будут создаваться файлы и директории.</p>
+    <p><b>Примечание:</b> Gii является инструментом разработчика. Поэтому он должен быть установлен исключительно на компьютере или сервере разработчика. Так как он может генерировать новые скрипты PHP, необходимо уделить особое внимание безопасности (пароль, IP фильтры).</p>
+    <p>Теперь можно запустить Gii по URL http://hostname/path/to/index.php?r=gii, где http://hostname/path/to/index.php — URL вашего приложения.</p>
+    <p>Если существующее приложение использует формат URL path (см. красивые адреса URL), мы можем запустить Gii по URL http://hostname/path/to/index.php/gii.</p>
+    <p>Может понадобиться добавить следующие правила URL перед уже существующими:</p>
+
+    <pre class="brush: csharp;">
+    'components'=>array(
+        …
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+            'rules'=>array(
+                'gii'=>'gii',
+                'gii/&lt;controller:\w+&gt;&apos;=&gt;&apos;gii/&lt;controller&gt;&apos;,
+                'gii/&lt;controller:\w+&gt;/&lt;action:\w+&gt;&apos;=&gt;&apos;gii/&lt;controller&gt;/&lt;action&gt;',
+                …существующие правила…
+            ),
+        ),
+    )
+    </pre>
+
+    <p>В составе Gii есть готовый набор генераторов кода.</p>
+    <p>Каждый генератор отвечает за свой тип кода.</p>
+    <p>К примеру, генератор контроллера создаёт класс контроллера вместе с несколькими шаблонами отображения; генератор модели создаёт класс ActiveRecord для определённой таблицы БД.</p>
+    <p>Последовательность работы с генератором следующая:</p>
+
+    <ol>
+        <li>Зайти на страницу генератора;</li>
+        <li>Заполнить поля, которые задают параметры генерируемого кода. К примеру, для генерации модуля необходимо указать его ID;</li>
+        <li>Нажать кнопку Preview для предварительной оценки генерируемого кода. Вы увидите таблицу файлов, которые будут сгенерированы и сможете просмотреть их код;</li>
+        <li>Нажать кнопку Generate для создания файлов;</li>
+        <li>Просмотреть журнал генерации кода.</li>
+    </ol>
+
+    <p><b>Примечание:</b> после генерации модели стоит проверить и скорректировать метод rules так как структура базы данных часто не содержит достаточно данных о требованиях валидации.</p>
+
+    <h2 id="title">
+        Расширение Gii
+    </h2>
+
+    <p>Несмотря на то, что включённые в состав Gii генераторы создают достаточно функциональный код, часто требуется его немного изменить или создать новый генератор по своему вкусу и потребностям.</p>
+    <p>К примеру, нам может понадобиться изменить стиль генерируемого кода или добавить поддержку нескольких языков.</p>
+    <p>Всё это может быть легко реализовано через Gii.</p>
+    <p>Gii можно расширять двумя способами: изменяя существующие шаблоны кодогенераторов и создавая свои генераторы.</p>
+
+    <h3 id="title">
+        Структура кодогенератора
+    </h3>
+
+    <p>Генератор кода размещается в директории, чьё имя является именем генератора.</p>
+    <p>Директория обычно содержит:</p>
+
+    <pre class="brush: csharp;">
+    model/                       корневая директория генератора модели
+       ModelCode.php             модель, используемая для генерации кода
+       ModelGenerator.php        контроллер кодогенератора
+       views/                    отображения генератора
+          index.php              шаблон по умолчанию
+       templates/                шаблоны кода
+          default/               набор шаблонов 'default'
+             model.php           шаблон для генерации класса модели
+    </pre>
+
+    <h3 id="title">
+        Путь поиска генераторов
+    </h3>
+
+    <p>Gii ищет генераторы в списке директорий, указанных в свойстве GiiModule::generatorPaths.</p>
+    <p>В том случае, если необходимо добавить свои генераторы, следует настроить приложение следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        'modules'=>array(
+            'gii'=>array(
+                'class'=>'system.gii.GiiModule',
+                'generatorPaths'=>array(
+                    'common.gii',   // псевдоним пути
+                ),
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Приведённые выше настройки заставляют Gii искать генераторы в директории с псевдонимом common.gii в дополнение к стандартным system.gii.generators и application.gii.</p>
+    <p>Возможно иметь несколько одноимённых генераторов, если у них разные пути поиска.</p>
+    <p>В этом случае будет использоваться генератор, путь поиска которого указан выше в GiiModule::generatorPaths.</p>
+
+    <h3 id="title">
+        Изменение шаблонов кода
+    </h3>
+
+    <p>Изменение шаблонов кода — самый простой и самый распространённый путь расширения Gii.</p>
+    <p>Мы будем использовать примеры для того, чтобы описать, как изменить шаблоны кода.</p>
+    <p>Допустим, нам необходимо изменить код, создаваемый генератором модели.</p>
+    <p>Сначала мы создаём директорию protected/gii/model/templates/compact.</p>
+    <p>Здесь model означает, что мы собираемся перекрыть генератор модели по умолчанию.</p>
+    <p>А templates/compact — что мы добавляем новый набор шаблонов кода compact.</p>
+    <p>После этого мы добавляем в настройки приложения в свойство GiiModule::generatorPaths значение application.gii, как показано в предыдущем подразделе.</p>
+    <p>Теперь открываем страницу генератора модели.</p>
+    <p>Щёлкаем на поле Code Template.</p>
+    <p>Вы должны увидеть выпадающий список, содержащий нашу только что созданную директорию шаблонов compact.</p>
+    <p>Тем не менее, если мы выберем этот шаблон, будет выведена ошибка.</p>
+    <p>Происходит это потому, что в наборе compact ещё нет самих шаблонов кода.</p>
+    <p>Скопируем файл</p>
+
+    <pre class="brush: csharp;">
+        framework/gii/generators/model/templates/default/model.php
+    </pre>
+
+    <p>в</p>
+
+    <pre class="brush: csharp;">
+    protected/gii/model/templates/compact
+    </pre>
+
+    <p>Если попробовать сгенерировать код с набором compact ещё раз, генерация должна пройти успешно.</p>
+    <p>Тем не менее, генерируемый код ничем не отличается от кода, получаемого из набора default.</p>
+    <p>Время сделать некоторые изменения.</p>
+    <p>Откроем файл protected/gii/model/templates/compact/model.php.</p>
+    <p>Данный файл будет использован как шаблон отображения, что означает, что он может содержать выражения и код PHP.</p>
+    <p>Изменим шаблон таким образом, что метод attributeLabels() генерируемого кода будет использовать Yii::t() для перевода заголовков полей:</p>
+
+    <pre class="brush: csharp;">
+    public function attributeLabels()
+    {
+        return array(
+    &lt;?php foreach($labels as $name=>$label): ?&gt;
+                &lt;?php echo "'$name' => Yii::t('application', '$label'),\n"; ?&gt;
+    &lt;?php endforeach; ?&gt;
+        );
+    }
+    </pre>
+
+    <p>В каждом шаблоне кода у нас есть доступ к некоторым предопределённым переменным, таким как, например, $labels.</p>
+    <p>Эти переменные задаются соответствующим генератором кода.</p>
+    <p>Разные генераторы могут предоставлять шаблонам различные наборы переменных.</p>
+    <p>Стоит внимательно изучить описание шаблонов кода по умолчанию.</p>
+
+    <h3 id="title">
+        Создание новых генераторов
+    </h3>
+
+    <p>В этом подразделе мы покажем, как реализовать новый генератор, который сможет создавать новые классы виджетов.</p>
+    <p>Сначала создадим директорию protected/gii/widget.</p>
+    <p>В ней создадим следующие файлы:</p>
+
+    <ul>
+        <li>WidgetGenerator.php: содержит класс контроллера WidgetGenerator, который является входной точкой генератора виджетов.</li>
+        <li>WidgetCode.php: содержит класс модели WidgetCode, который отвечает за логику генерации кода.</li>
+        <li>views/index.php: отображение, содержащее форму ввода генератора.</li>
+        <li>templates/default/widget.php: шаблон кода по умолчанию для генерации класса виджета.</li>
+    </ul>
+
+    <h3 id="title">
+        Реализация WidgetGenerator.php
+    </h3>
+
+    <p>Файл WidgetGenerator.php предельно простой.</p>
+    <p>Он содержит лишь следующий код:</p>
+
+    <pre class="brush: csharp;">
+    class WidgetGenerator extends CCodeGenerator
+    {
+        public $codeModel='application.gii.widget.WidgetCode';
+    }
+    </pre>
+
+    <p>Здесь мы описываем, что генератор будет использовать класс модели, чей псевдоним пути application.gii.widget.WidgetCode.</p>
+    <p>Класс WidgetGenerator наследуется от CCodeGenerator, реализующего большое количество функций, включая действия контроллера, необходимые для координации процесса генерации кода.</p>
+
+    <h3 id="title">
+        Реализация WidgetCode.php
+    </h3>
+
+    <p>Файл WidgetCode.php содержит класс модели WidgetCode, в котором реализована логика генерации класса виджета на основе полученных от пользователя параметров.</p>
+    <p>В данном примере будем считать, что единственное, что вводит пользователь — имя класса виджета.</p>
+    <p>WidgetCode выглядит следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    class WidgetCode extends CCodeModel
+    {
+        public $className;
+     
+        public function rules()
+        {
+            return array_merge(parent::rules(), array(
+                array('className', 'required'),
+                array('className', 'match', 'pattern'=>'/^\w+$/'),
+            ));
+        }
+     
+        public function attributeLabels()
+        {
+            return array_merge(parent::attributeLabels(), array(
+                'className'=>'Widget Class Name',
+            ));
+        }
+     
+        public function prepare()
+        {
+            $path=Yii::getPathOfAlias('application.components.' . $this->className) . '.php';
+            $code=$this->render($this->templatepath.'/widget.php');
+     
+            $this->files[]=new CCodeFile($path, $code);
+        }
+    }
+    </pre>
+
+    <p>Класс WidgetCode наследуется от CCodeModel.</p>
+    <p>Как и в обычном классе модели, в данном классе мы реализуем методы rules() и attributeLabels() для валидации ввода и генерации подписей полей соответственно.</p>
+    <p>Стоит отметить, что так как базовый класс CCodeModel уже описывает некоторое количество правил валидации и названий подписей, то мы должны объединить их с нашими правилами и подписями.</p>
+    <p>Метод prepare() подготавливает код к генерации.</p>
+    <p>Главная задача метода — подготовить список объектов CCodeFile, каждый из которых представляет будущий файл с кодом.</p>
+    <p>В нашем примере необходимо создать всего один объект CCodeFile, представляющий класс виджета, который будет сгенерирован в директории protected/components.</p>
+    <p>Для непосредственной генерации кода используется метод CCodeFile::render.</p>
+    <p>Данный метод содержит PHP-шаблон кода и возвращает сгенерированный код.</p>
+
+    <h3 id="title">
+        Реализация views/index.php
+    </h3>
+
+    <p>После реализации контроллера (WidgetGenerator) и модели (WidgetCode) самое время заняться отображением views/index.php:</p>
+
+    <pre class="brush: csharp;">
+    <h1>Генератор виджета</h1>
+     
+    &lt;?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?&gt;
+     
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;?php echo $form->labelEx($model,'className'); ?&gt;
+            &lt;?php echo $form->textField($model,'className',array('size'=>65)); ?&gt;
+            &lt;div class=&quot;tooltip&quot;&gt;
+                Класс виджета должен содержать только буквы.
+            &lt;/div&gt;
+            &lt;?php echo $form->error($model,'className'); ?&gt;
+        &lt;/div&gt;
+     
+    &lt;?php $this->endWidget(); ?&gt;
+    </pre>
+
+    <p>В данном коде мы отображаем форму, используя виджет CCodeForm.</p>
+    <p>В этой форме мы показываем поле для ввода атрибута className модели WidgetCode.</p>
+    <p>При создании формы мы можем использовать две замечательные возможности CCodeForm. Одна — подсказки для полей.</p>
+    <p>Вторая — запоминание введённых значений.</p>
+    <p>Если вы использовали один из стандартных генераторов кода, вы могли заметить красивые всплывающие подсказки, появляющиеся рядом с полем при получении им фокуса.</p>
+    <p>Использовать данную возможность очень легко: достаточно после поля вставить div с CSS классом tooltip.</p>
+    <p>Для некоторых полей полезно запомнить последнее верное значение и тем самым позволив пользователю не вводить значения повторно каждый раз, когда он использует генератор.</p>
+    <p>Примером может служить поле ввода базового класса контроллера в стандартном генераторе.</p>
+    <p>Такие поля изначально отображаются как подсвеченный статичный текст.</p>
+    <p>При щелчке они превращаются в поля ввода.</p>
+    <p>Для того, чтобы сделать поле запоминаемым, необходимо сделать две вещи.</p>
+    <p>Во-первых, нужно описать правило валидации sticky для соответствующего атрибута модели.</p>
+    <p>К примеру, для стандартного генератора контроллера используется приведённое ниже правило для запоминания атрибутов baseClass и actions:</p>
+
+    <pre class="brush: csharp;">
+    public function rules()
+    {
+        return array_merge(parent::rules(), array(
+            …
+            array('baseClass, actions', 'sticky'),
+        ));
+    }
+    </pre>
+
+    <p>Во-вторых, в отображении необходимо добавить CSS класс sticky контейнеру div поля ввода:</p>
+
+    <pre class="brush: csharp;">
+    &lt;div class=&quot;row sticky&quot;&gt;
+        &mldr;&pcy;&ocy;&lcy;&iecy; &vcy;&vcy;&ocy;&dcy;&acy;&mldr;
+    &lt;/div&gt;
+    </pre>
+
+    <h3 id="title">
+        Реализация templates/default/widget.php
+    </h3>
+
+    <p>Наконец, мы создаём шаблон кода templates/default/widget.php.</p>
+    <p>Как было описано ранее, он используется как PHP-шаблон отображения.</p>
+    <p>В шаблоне кода мы всегда можем обратиться к переменной $this, которая содержит экземпляр модели кода.</p>
+    <p>В нашем примере $this содержит объект WidgetModel.</p>
+    <p>Таким образом, мы можем получить введённый пользователем класс виджета через $this->className.</p>
+
+    <pre class="brush: csharp;">
+    &lt;?php echo '&lt;?php'; ?&gt;
+     
+    class &lt;?php echo $this->className; ?&gt; extends CWidget
+    {
+        public function run()
+        {
+     
+        }
+    }
+    </pre>
+
+    <p>На этом реализация генератора кода завершена.</p>
+    <p>Обратиться к нему можно по URL</p>
+
+    <pre class="brush: csharp;">
+    http://hostname/path/to/index.php?r=gii/widget.
+    </pre>
+    
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="41.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="43.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/42.html", "Автоматическая генерация кода Yii", "bm1193"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1193", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1193") == 1) { document.getElementById("bma1193").style.display = "block"; document.getElementById("bm1193").style.display = "none"; } else { document.getElementById("bma1193").style.display = "none"; document.getElementById("bm1193").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Автоматическая генерация кода Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1193", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma185" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm185" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Многоадресные (групповые) экземпляры делегатов
+	</h1>
+
+	<p>До сих пор мы рассматривали делегаты, каждый экземпляр которых представляет только один конкретный метод.</p>
+	<p>Однако делегат (его экземпляр) может содержать ссылки сразу на несколько методов, соответствующих типу делегата.</p>
+	<p>При однократном обращении к такому экземпляру делегата в этом случае автоматически организуется последовательный вызов всех методов, которые он представляет.</p>
+	<p>Для поддержки такой многоадресности используются методы, которые каждый делегат наследует от базового класса MulticastDelegate, который в свою очередь является наследником класса System.Delegate.</p>
+	<p>Рассмотрим основные из них.</p>
+
+	<p><b>public static</b> – метод объединяет (группирует) два экземпляра делегата, создавая двухадресный экземпляр делегата.</p>
+	<p>Аргументами при обращении должны быть две ссылки на экземпляры делегатов.</p>
+	<p>Обращение к этому варианту метода Combine() для упрощения можно заменять операцией <b>"+="</b> или последовательностью операций "+" и "=":</p>
+
+	<pre class="brush: csharp;">
+	многоадресный_делегат+=ссылка на делегат;
+	</pre>
+
+	<p><b>public static</b> – метод объединяет несколько экземпляров делегатов.</p>
+	<p>Аргументы – список ссылок на экземпляры делегатов.</p>
+	<p>Метод открытый и статический, то есть принадлежит типу делегатов.</p>
+	<p>Возвращаемое значение – экземпляр многоадресного делегата.</p>
+	<p><b>public virtual</b> – метод возвращает массив экземпляров делегатов, объединенных (сгруппированных) в конкретном многоадресном экземпляре делегата, к которому применен данный метод.</p>
+	<p>Метод открытый нестатический и виртуальный.</p>
+	<p>Автоматически переопределяется при объявлении каждого типа делегатов.</p>
+	<p>Применим к конкретным экземплярам делегатов.</p>
+	<p>Список аргументов не нужен.</p>
+	<p>Возвращаемое значение – массив экземпляров делегатов (ссылок на них), представляющих все методы, которые адресует экземпляр делегата.</p>
+	<p><b>public static</b> – метод удаляет из многоадресного экземпляра делегата, заданного первым параметром, конкретную ссылку, заданную вторым параметром-делегатом.</p>
+	<p>Метод открытый и статический, то есть принадлежит типу делегатов.</p>
+	<p>Аргументами при обращении должны быть две ссылки на экземпляры-делегаты.</p>
+	<p>Первый аргумент представляет многоадресный экземпляр делегата, второй представляет экземпляр делегата, значение которого (ссылку на метод) нужно удалить из многоадресного экземпляра делегата.</p>
+	<p>Обращение к методу <b>Remove()</b> можно заменять эквивалентной ему операцией "-=" или последовательностью операций "-" и "=":</p>
+
+	<pre class="brush: csharp;">
+	Многоадресный_делегат -= ссылка_на_делегат;
+	</pre>
+
+	<p>На примере с классом, моделирующим движения робота, мы уже показали, как с помощью массива делегатов можно составлять и использовать цепочки вызовов методов.</p>
+	<p>Применение многоадресных экземпляров делегатов позволяет в рассмотренном выше примере расширить систему команд управления роботом, не изменяя его внутренней структуры.</p>
+	<p>В следующей программе тот же класс Robot и тот же тип делегатов Steps по другому используются в методе Main( ):</p>
+
+	<pre class="brush: csharp;">
+	static void Main( )
+	{
+		// конкретный робот
+		Robot rob = new Robot();
+		
+		// направо
+		Steps delR = new Steps(rob.right);
+		
+		// налево
+		Steps delL = new Steps(rob.left);
+		
+		// вперед
+		Steps delF = new Steps(rob.forward);
+		
+		// назад
+		Steps delB = new Steps(rob.backward);
+		
+		// шаги по диагоналям:
+		Steps delRF = delR + delF;
+		Steps delRB = delR + delB;
+		Steps delLF = delL + delF;
+		Steps delLB = delL + delB;
+		
+		// перемещение влево и назад
+		delLB( );
+		
+		// сообщить координаты
+		rob.position();
+		
+		// перемещение вправо и назад
+		delRB( );
+		
+		// сообщить координаты
+		rob.position( );
+	}
+	</pre>
+
+	<p>В программе определены ссылка rob, именующая объект класса Robot, и для этого объекта определены экземпляры делегата, именующие методы его покоординатных перемещений по плоскости.</p>
+	<p>Затем определены четыре многоадресных (двухадресных) экземпляра делегата, применение которых позволяет перемещать робот по диагоналям.</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	The Robot position: x=-1, y=-1
+	The Robot position: x=0, y=-2
+	</pre>
+
+	<p>Обращение к экземпляру многоадресного делегата приводит к последовательному исполнению цепочки методов, которые представлены делегатами.</p>
+	<p>Результат выполнения цепочки делегатов – то значение, которое возвращает последний делегат цепочки.</p>
+	<p>Стандарт не определяет порядка вызова методов, адресованных многоадресным делегатам.</p>
+	<p>Нельзя быть уверенным, что вызов будет происходить в том порядке, в котором экземпляры делегатов добавлялись к многоадресному делегату.</p>
+	<p>Отметим, что наиболее часто многоадресные делегаты применяются для представления цепочек ссылок на методы, каждый из которых возвращает значение типа void.</p>
+	<p>Если любой из делегатов цепочки пошлёт исключение, то обработка цепочки прерывается и выполняется поиск подходящего обработчика исключений.</p>
+	<p>Если делегаты цепочки принимают параметры по ссылке, то изменения таких параметров за счёт операторов тела метода, вызванного через делегат, воспринимаются следующими делегатами цепочки.</p>
+	<p>Значения, возвращаемые методами Combine() и Remove(), имеют системный тип Delegate.</p>
+	<p>Поэтому для корретного обращения к многоадресному делегату рекомендуется выполнять приведение типов (это не сделано в приведённом примере).</p>
+	<p>Имеется возможность вызывать делегаты цепочки в произвольном порядке и получать возращаемые значения каждого из них.</p>
+	<p>Для этого используется уже упомянутый нестатический метод GetInvocationList(), определённый в классе System.Delegate.</p>
+	<p>Он возвращает массив делегатов Delegate[ ], входящих в тот многоадресный делегат, к которому метод применён.</p>
+	<p>Получив массив делегатов можно использовать его экземпляры в произвольном порядке.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="97.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="99.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/98.html", "Многоадресные экземпляры", "bm185"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm185", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm185") == 1) { document.getElementById("bma185").style.display = "block"; document.getElementById("bm185").style.display = "none"; } else { document.getElementById("bma185").style.display = "none"; document.getElementById("bm185").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Многоадресные экземпляры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm185", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

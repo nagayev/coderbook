@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1375" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1375" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Числа в Ruby
+    </h1>
+    
+    <p>А сейчас, когда вы всё установили, давайте напишем программу! Откройте ваш любимый текстовый редактор и наберите на клавиатуре следующее:</p>
+
+    <pre class="brush: csharp;">
+    puts 1+2
+    </pre>
+    
+    <p>Сохраните вашу программу (да, это программа!) под именем calc.rb (.rb — это то, что мы обычно пишем в конце имени программы, написанной на Ruby).</p>
+    <p>А теперь выполните вашу программу, набрав ruby calc.rb в командной строке.</p>
+    <p>Она должна вывести на экране число 3.</p>
+    <p>Видите, программировать не так уж трудно, не правда ли?</p>
+
+    <h2 id="title">
+        Знакомство с puts
+    </h2>
+    
+    <p>Так что же происходит в этой программе?</p>
+    <p>Я уверен, что вы смогли догадаться, что делает 1+2, и наша программа, в принципе, такая же, как эта:</p>
+
+    <pre class="brush: csharp;">
+    puts 3
+    </pre>
+
+    <p>слово puts просто выводит на экран всё, что следует за ним.</p>
+
+    <h2 id="title">
+        Целые и плавающие
+    </h2>
+    
+    <p>В большинстве языков программирования (и Ruby не является исключением) числа без десятичной точки называются целыми, а числа с десятичной точкой обычно называются числами с плавающей точкой или проще — плавающими.</p>
+    <p>Вот несколько целых чисел:</p>
+
+    <pre class="brush: csharp;">
+    5
+    -205
+    9999999999999999999999999
+    0
+    </pre>
+
+    <p>А вот несколько чисел с плавающей точкой:</p>
+
+    <pre class="brush: csharp;">
+    54.321
+    0.001
+    -205.3884
+    0.0
+    </pre>
+
+    <p>На практике в большинстве программ плавающие числа не используются, только целые.</p>
+    <p>В конце концов, никто не хочет прочитать 7.4 сообщений электронной почты, просмотреть 1.8 web-страниц или послушать 5.24 любимых песен...</p>
+    <p>Числа с плавающей точкой больше используются для научных целей (физических экспериментов и тому подобное) и для 3D-графики.</p>
+    <p>Даже большинство программ для денежных расчётов применяют целые числа: в них просто учитываются суммы в копейках!</p>
+
+    <h2 id="title">
+        Простая арифметика
+    </h2>
+    
+    <p>К этому моменту у нас есть всё необходимое, чтобы сделать простой калькулятор.</p>
+    <p>В калькуляторах всегда используются плавающие числа, поэтому если вы хотите, чтобы ваш компьютер просто работал как калькулятор, вы также должны использовать числа с плавающей точкой.</p>
+    <p>Для сложения и вычитания мы используем <b>+</b> и <b>-</b>, что мы уже видели в программе.</p>
+    <p>Для умножения мы используем <b>*</b>, а для деления мы используем <b>/</b>.</p>
+    <p>На большинстве клавиатур эти клавиши располагаются среди цифровых клавиш в правой её части.</p>
+    <p>Если у вас уменьшенная клавиатура или ноутбук, то вы можете просто нажать клавиши <b>Shift и 8</b> или <b>/</b> (та же клавиша, что и клавиша ?).</p>
+    <p>Давайте попробуем немного расширить нашу программу calc.rb.</p>
+    <p>Наберите на клавиатуре, а затем выполните следующее:</p>
+
+    <pre class="brush: csharp;">
+    puts 1.0 + 2.0
+    puts 2.0 * 3.0
+    puts 5.0 - 8.0
+    puts 9.0 / 2.0
+    </pre>
+
+    <p>Вот что возвращает эта программа:</p>
+
+    <pre class="brush: csharp;">
+    3.0
+    6.0
+    -3.0
+    4.5
+    </pre>
+
+    <p>Пробелы в программе не важны; они просто делают код легче для чтения.</p>
+    <p>Что ж, в том, что мы увидели, нет ничего удивительного.</p>
+    <p>А теперь давайте испробуем на целых числах:</p>
+
+    <pre class="brush: csharp;">
+    puts 1+2
+    puts 2*3
+    puts 5-8
+    puts 9/2
+    </pre>
+
+    <p>В основном, то же самое, правда?</p>
+
+    <pre class="brush: csharp;">
+    3
+    6
+    -3
+    4
+    </pre>
+
+    <p>Хм... кроме последнего!</p>
+    <p>Но когда вы выполняете арифметические действия с целыми числами, вы получаете целочисленные ответы.</p>
+    <p>Когда ваш компьютер не может получить "правильный" ответ, он всегда округляет его.</p>
+    <p>Конечно, 4 и есть правильный ответ в целочисленной арифметике для выражения 9/2; хотя, возможно, это не тот ответ, который вы ожидали.</p>
+    <p>Возможно, вы недоумеваете, зачем может понадобиться целочисленное деление.</p>
+    <p>Ну, скажем, вы собираетесь в кино, но у вас только 9 долларов.</p>
+    <p>У нас в Портленде вы можете посмотреть фильм в кинотеатре "Багдад" за 2 бакса.</p>
+    <p>Сколько фильмов вы сможете посмотреть там?</p>
+    <p>9/2... 4 фильма.</p>
+    <p>4.5 — это в данном случае, конечно, неправильный ответ; вам не позволят посмотреть полфильма и не позволят половине вас посмотреть целый фильм...</p>
+    <p>Некоторые вещи нельзя разделить.</p>
+    <p>А теперь поэкспериментируйте сами с несколькими программами!</p>
+    <p>Если вы хотите применить более сложные выражения, можете использовать скобки.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    puts 5 * (12-8) + -15
+    puts 98 + (59872 / (13*8)) * -52
+    </pre>
+    
+    <p>Результат:</p>
+
+    <pre class="brush: csharp;">
+    5
+    -29802
+    </pre>
+
+
+    <h2 id="title">
+        Попробуйте ещё кое-что
+    </h2>
+    
+    <p>Напишите программу, которая сообщит вам:</p>
+
+    <ul>
+        <li>сколько часов в году?</li>
+        <li>сколько  минут в десятилетии? </li>
+        <li>ваш возраст в секундах?</li>
+        <li>сколько шоколадок вы надеетесь съесть за свою жизнь?</li>
+        <li>Предупреждение: Вычисления в этой части программы могут потребовать очень много времени!</li>
+        <li>А вот задание потруднее: Если я прожил 943 миллиона секунд, то каков мой возраст?</li>
+    </ul>
+
+    <p>Когда вы закончите развлекаться с числами, давайте взглянем на буквы.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="2.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="4.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/ruby/3.html", "Числа в Ruby", "bm1375"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1375", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1375") == 1) { document.getElementById("bma1375").style.display = "block"; document.getElementById("bm1375").style.display = "none"; } else { document.getElementById("bma1375").style.display = "none"; document.getElementById("bm1375").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Числа в Ruby") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1375", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

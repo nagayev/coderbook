@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1245" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1245" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Объекты доступа к данным (DAO)
+	</h1>
+
+    <p>Построенные поверх PDO, Yii DAO (объекты доступа к данным) обеспечивают объектно-ориентированный API для доступа к реляционным базам данных.</p>
+    <p>Это основа для других, более продвинутых, методов доступа к базам данных, включая построитель запросов и active record.</p>
+    <p>При использовании Yii DAO вы в основном будете использовать чистый SQL и массивы PHP.</p>
+    <p>Как результат, это самый эффективный способ доступа к базам данных.</p>
+    <p>Тем не менее, так как синтаксис SQL может отличаться для разных баз данных, используя Yii DAO вам нужно будет приложить дополнительные усилия, чтобы сделать приложение не зависящим от конкретной базы данных.</p>
+    <p>Yii DAO из коробки поддерживает следующие базы данных:</p>
+
+    <ul>
+        <li>MySQL</li>
+        <li>MariaDB</li>
+        <li>SQLite</li>
+        <li>PostgreSQL: версии 8.4 или выше.</li>
+        <li>CUBRID: версии 9.3 или выше.</li>
+        <li>Oracle</li>
+        <li>MSSQL: версии 2008 или выше.</li>
+    </ul>
+
+    <p><b>Примечание:</b> Новая версия pdo_oci для PHP 7 на данный момент существует только в форме исходного кода. Используйте инструкции сообщества по компиляции.</p>
+
+    <h2 id="title">
+        Создание подключения к базе данных
+    </h2>
+
+    <p>Для доступа к базе данных, вы сначала должны подключится к ней, создав экземпляр класса [[yii\db\Connection]]:</p>
+
+    <pre class="brush: csharp;">
+    $db = new yii\db\Connection([
+        'dsn' =&gt; 'mysql:host=localhost;dbname=example',
+        'username' =&gt; 'root',
+        'password' =&gt; '',
+        'charset' =&gt; 'utf8',
+    ]);
+    </pre>
+
+    <p>Так как подключение к БД часто нужно в нескольких местах, распространённой практикой является его настройка как компонента приложения:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            // ...
+            'db' =&gt; [
+                'class' =&gt; 'yii\db\Connection',
+                'dsn' =&gt; 'mysql:host=localhost;dbname=example',
+                'username' =&gt; 'root',
+                'password' =&gt; '',
+                'charset' =&gt; 'utf8',
+            ],
+        ],
+        // ...
+    ];
+    </pre>
+
+    <p>Теперь вы можете получить доступ к подключению к БД с помощью выражения Yii::$app->db.</p>
+    <p><b>Подсказка:</b> Вы можете настроить несколько компонентов подключения, если в вашем приложении используется несколько баз данных.</p>
+    <p>При настройке подключения, вы должны обязательно указывать Имя Источника Данных (DSN) через параметр [[yii\db\Connection::dsn|dsn]].</p>
+    <p>Формат DSN отличается для разных баз данных. Дополнительное описание смотрите в справочнике PHP.</p>
+    <p>Ниже представлены несколько примеров:</p>
+
+    <ul>
+        <li>MySQL, MariaDB: mysql:host=localhost;dbname=mydatabase</li>
+        <li>SQLite: sqlite:/path/to/database/file</li>
+        <li>PostgreSQL: pgsql:host=localhost;port=5432;dbname=mydatabase</li>
+        <li>CUBRID: cubrid:dbname=demodb;host=localhost;port=33000</li>
+        <li>MS SQL Server (via sqlsrv driver): sqlsrv:Server=localhost;Database=mydatabase</li>
+        <li>MS SQL Server (via dblib driver): dblib:host=localhost;dbname=mydatabase</li>
+        <li>MS SQL Server (via mssql driver): mssql:host=localhost;dbname=mydatabase</li>
+        <li>Oracle: oci:dbname=//localhost:1521/mydatabase</li>
+    </ul>
+
+    <p>Заметьте, что если вы подключаетесь к базе данных через ODBC, вам необходимо указать свойство [[yii\db\Connection::driverName]], чтобы Yii знал какой тип базы данных используется.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    'db' =&gt; [
+        'class' =&gt; 'yii\db\Connection',
+        'driverName' =&gt; 'mysql',
+        'dsn' =&gt; 'odbc:Driver={MySQL};Server=localhost;Database=test',
+        'username' =&gt; 'root',
+        'password' =&gt; '',
+    ],
+    </pre>
+
+    <p>Кроме свойства [[yii\db\Connection::dsn|dsn]], вам необходимо указать [[yii\db\Connection::username|username]] и [[yii\db\Connection::password|password]].</p>
+    <p>Смотрите [[yii\db\Connection]] для того, чтоб посмотреть полный список свойств.</p>
+    <p><b>Информация:</b> При создании экземпляра соединения к БД, фактическое соединение с базой данных будет установлено только при выполнении первого SQL запроса или при явном вызове метода [[yii\db\Connection::open()|open()]].</p>
+    <p><b>Подсказка:</b> Иногда может потребоваться выполнить некоторые запросы сразу после соединения с базой данных, для инициализации переменных окружения. Например, чтобы задать часовой пояс или кодировку.</p>
+    <p>Сделать это можно зарегистрировав обработчик для события [[yii\db\Connection::EVENT_AFTER_OPEN|afterOpen]] в конфигурации приложения:</p>
+
+    <pre class="brush: csharp;">
+    'db' =&gt; [
+        // ...
+        'on afterOpen' =&gt; function($event) {
+            // $event->sender содержит соединение с базой данных
+            $event->sender->createCommand("SET time_zone = 'UTC'")->execute();
+        }
+    ]
+    </pre>
+
+    <h2 id="title">
+        Выполнение SQL запросов
+    </h2>
+
+    <p>После создания экземпляра соединения, вы можете выполнить SQL запрос, выполнив следующие шаги:</p>
+
+    <ol>
+        <li>Создать [[yii\db\Command]] из запроса SQL;</li>
+        <li>Привязать параметры (не обязательно);</li>
+        <li>Вызвать один из методов выполнения SQL из [[yii\db\Command]].</li>
+    </ol>
+
+    <p>Следующий пример показывает различные способы получения данных из базы дынных:</p>
+
+    <pre class="brush: csharp;">
+    // возвращает набор строк. каждая строка - это ассоциативный массив с именами столбцов и значений.
+    // если выборка ничего не вернёт, то будет получен пустой массив.
+    $posts = Yii::$app->db->createCommand('SELECT * FROM post')
+                ->queryAll();
+    
+    // вернёт одну строку (первую строку)
+    // false, если ничего не будет выбрано
+    $post = Yii::$app->db->createCommand('SELECT * FROM post WHERE id=1')
+               ->queryOne();
+    
+    // вернёт один столбец (первый столбец)
+    // пустой массив, при отсутствии результата
+    $titles = Yii::$app->db->createCommand('SELECT title FROM post')
+                 ->queryColumn();
+    
+    // вернёт скалярное значение
+    // или false, при отсутствии результата
+    $count = Yii::$app->db->createCommand('SELECT COUNT(*) FROM post')
+                 ->queryScalar();
+    </pre>
+
+    <p><b>Примечание:</b> Чтобы сохранить точность, данные извлекаются как строки, даже если тип поля в базе данных является числовым.</p>
+
+    <h3 id="title">
+        Привязка параметров
+    </h3>
+
+    <p>При создании команды из SQL запроса с параметрами, вы почти всегда должны использовать привязку параметров для предотвращения атак через SQL инъекции.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $post = Yii::$app->db->createCommand('SELECT * FROM post WHERE id=:id AND status=:status')
+               ->bindValue(':id', $_GET['id'])
+               ->bindValue(':status', 1)
+               ->queryOne();
+    </pre>
+
+    <p>В SQL запрос, вы можете встраивать один или несколько маркеров (например :id в примере выше).</p>
+    <p>Маркеры должны быть строкой, начинающейся с двоеточия. Далее вам нужно вызвать один из следующих методов для привязки значений к параметрам:</p>
+
+    <ul>
+        <li>[[yii\db\Command::bindValue()|bindValue()]]: привязка одного параметра по значению</li>
+        <li>[[yii\db\Command::bindValues()|bindValues()]]: привязка нескольких параметров в одном вызове</li>
+        <li>[[yii\db\Command::bindParam()|bindParam()]]: похоже на [[yii\db\Command::bindValue()|bindValue()]], но привязка происходит по ссылке.</li>
+    </ul>
+
+    <p>Следующий пример показывает альтернативный путь привязки параметров:</p>
+
+    <pre class="brush: csharp;">
+    $params = [':id' =&gt; $_GET['id'], ':status' =&gt; 1];
+    
+    $post = Yii::$app->db->createCommand('SELECT * FROM post WHERE id=:id AND status=:status')
+               ->bindValues($params)
+               ->queryOne();
+               
+    $post = Yii::$app->db->createCommand('SELECT * FROM post WHERE id=:id AND status=:status', $params)
+               ->queryOne();
+    </pre>
+
+    <p>Привязка переменных реализована через подготавливаемые запросы.</p>
+    <p>Помимо предотвращения атак путём SQL инъекций, это увеличивает производительность, так как запрос подготавливается один раз, а потом выполняется много раз с разными параметрами.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $command = Yii::$app->db->createCommand('SELECT * FROM post WHERE id=:id');
+    
+    $post1 = $command->bindValue(':id', 1)->queryOne();
+    $post2 = $command->bindValue(':id', 2)->queryOne();
+    // ...
+    </pre>
+
+    <p>Так как [[yii\db\Command::bindParam()|bindParam()]] поддерживает привязку параметров по ссылке, следующий код может быть написан следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    $command = Yii::$app->db->createCommand('SELECT * FROM post WHERE id=:id')
+                  ->bindParam(':id', $id);
+    
+    $id = 1;
+    $post1 = $command->queryOne();
+    
+    $id = 2;
+    $post2 = $command->queryOne();
+    // ...
+    </pre>
+
+    <p>Обратите внимание что вы связываете маркер $id с переменной перед выполнением запроса, и затем меняете это значение перед каждым последующим выполнением (часто это делается в цикле).</p>
+    <p>Выполнении запросов таким образом может быть значительно более эффективным, чем выполнение запроса для каждого значения параметра.</p>
+
+    <h3 id="title">
+        Выполнение Не-SELECT запросов
+    </h3>
+
+    <p>В методах queryXyz(), описанных в предыдущих разделах, вызываются SELECT запросы для извлечения данных из базы.</p>
+    <p>Для запросов не возвращающих данные, вы должны использовать метод [[yii\db\Command::execute()]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->db->createCommand('UPDATE post SET status=1 WHERE id=1')
+       ->execute();
+    </pre>
+
+    <p>Метод [[yii\db\Command::execute()]] возвращает количество строк обработанных SQL запросом.</p>
+    <p>Для запросов INSERT, UPDATE и DELETE, вместо написания чистого SQL, вы можете вызвать методы [[yii\db\Command::insert()|insert()]], [[yii\db\Command::update()|update()]], [[yii\db\Command::delete()|delete()]], соответственно, для создания указанных SQL конструкций.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // INSERT (table name, column values)
+    Yii::$app->db->createCommand()->insert('user', [
+        'name' =&gt; 'Sam',
+        'age' =&gt; 30,
+    ])->execute();
+    
+    // UPDATE (table name, column values, condition)
+    Yii::$app->db->createCommand()->update('user', ['status' =&gt; 1], 'age > 30')->execute();
+    
+    // DELETE (table name, condition)
+    Yii::$app->db->createCommand()->delete('user', 'status = 0')->execute();
+    </pre>
+
+    <p>Вы можете также вызвать [[yii\db\Command::batchInsert()|batchInsert()]] для вставки множества строк за один вызов.</p>
+    <p>Это более эффективно чем вставлять записи по одной за раз:</p>
+
+    <pre class="brush: csharp;">
+    // table name, column names, column values
+    Yii::$app->db->createCommand()->batchInsert('user', ['name', 'age'], [
+        ['Tom', 30],
+        ['Jane', 20],
+        ['Linda', 25],
+    ])->execute();
+    </pre>
+
+    <p>Обратите внимание, что перечисленные методы лишь создают запрос. Чтобы его выполнить нужно вызывать [[yii\db\Command::execute()|execute()]].</p>
+
+    <h2 id="title">
+        Экранирование имён таблиц и столбцов
+    </h2>
+
+    <p>При написании независимого от базы данных кода, правильно экранировать имена таблиц и столбцов довольно трудно, так как в разных базах данных правила экранирования разные.</p>
+    <p>Чтоб преодолеть данную проблему вы можете использовать следующий синтаксис экранирования используемый в Yii:</p>
+
+    <ul>
+        <li>[[column name]]: заключайте имя столбца в двойные квадратные скобки;</li>
+        <li>{{table name}}: заключайте имя таблицы в двойные фигурные скобки.</li>
+    </ul>
+
+    <p>Yii DAO будет автоматически преобразовывать подобные конструкции в SQL в правильно экранированные имена таблиц и столбцов.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // executes this SQL for MySQL: SELECT COUNT(`id`) FROM `employee`
+    $count = Yii::$app->db->createCommand("SELECT COUNT([[id]]) FROM {{employee}}")
+                ->queryScalar();
+    </pre>
+
+    <h3 id="title">
+        Использование префиксов таблиц
+    </h3>
+
+    <p>Если большинство ваших таблиц использует общий префикс в имени, вы можете использовать свойство Yii DAO для указания префикса.</p>
+    <p>Сначала, укажите префикс таблиц через свойство [[yii\db\Connection::tablePrefix]]:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        // ...
+        'components' =&gt; [
+            // ...
+            'db' =&gt; [
+                // ...
+                'tablePrefix' =&gt; 'tbl_',
+            ],
+        ],
+    ];
+    </pre>
+
+    <p>Затем в коде, когда вам нужно ссылаться на таблицу, имя которой содержит такой префикс, используйте синтаксис {{%table name}}.</p>
+    <p>Символ процента будет автоматически заменён на префикс таблицы, который вы указали во время конфигурации соединения с базой данных.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // для MySQL будет выполнен следующий SQL: SELECT COUNT(`id`) FROM `tbl_employee`
+    $count = Yii::$app->db->createCommand("SELECT COUNT([[id]]) FROM {{%employee}}")
+                ->queryScalar();
+    </pre>
+
+    <h2 id="title">
+        Исполнение транзакций
+    </h2>
+
+    <p>Когда вы выполняете несколько зависимых запросов последовательно, вам может потребоваться обернуть их в транзакцию для обеспечения целостности вашей базы данных.</p>
+    <p>Если в любом из запросов произойдёт ошибка, база данных откатится на состояние, которое было до выполнения запросов.</p>
+    <p>Следующий код показывает типичное использование транзакций:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->db->transaction(function($db) {
+        $db->createCommand($sql1)->execute();
+        $db->createCommand($sql2)->execute();
+        // ... executing other SQL statements ...
+    });
+    </pre>
+
+    <p>Код выше эквивалентен приведённому ниже.</p>
+    <p>Разница в том, что в данном случае мы получаем больше контроля над обработкой ошибок:</p>
+
+    <pre class="brush: csharp;">
+    $db = Yii::$app->db;
+    $transaction = $db->beginTransaction();
+    
+    try {
+        $db->createCommand($sql1)->execute();
+        $db->createCommand($sql2)->execute();
+        // ... executing other SQL statements ...
+        
+        $transaction->commit();
+    } catch(\Exception $e) {
+        $transaction->rollBack();
+        throw $e;
+    } catch(\Throwable $e) {
+        $transaction->rollBack();
+    }
+    </pre>
+
+    <p><b>Примечание:</b> в коде выше ради совместимости с PHP 5.x и PHP 7.x использованы два блока catch. \Exception реализует интерфейс \Throwable interface начиная с PHP 7.0. Если вы используете только PHP 7 и новее, можете пропустить блок с \Exception.</p>
+    <p>При вызове метода [[yii\db\Connection::beginTransaction()|beginTransaction()]], будет запущена новая транзакция.</p>
+    <p>Транзакция представлена объектом [[yii\db\Transaction]] сохранённым в переменной $transaction.</p>
+    <p>Потом, запросы будут выполняться в блоке try...catch....</p>
+    <p>Если запросы будут выполнены удачно, будет выполнен метод [[yii\db\Transaction::commit()|commit()]].</p>
+    <p>Иначе, будет вызвано исключение, и будет вызван метод [[yii\db\Transaction::rollBack()|rollBack()]] для отката изменений сделанных до неудачно выполненного запроса внутри транзакции.</p>
+
+    <h3 id="title">
+        Указание уровня изоляции
+    </h3>
+
+    <p>Yii поддерживает настройку [уровня изоляции] для ваших транзакций.</p>
+    <p>По умолчанию, при старте транзакции, будет использован уровень изоляции настроенный в вашей базе данных.</p>
+    <p>Вы можете переопределить уровень изоляции по умолчанию, как указано ниже:</p>
+
+    <pre class="brush: csharp;">
+    $isolationLevel = \yii\db\Transaction::REPEATABLE_READ;
+    
+    Yii::$app->db->transaction(function ($db) {
+        ....
+    }, $isolationLevel);
+     
+    // или
+    
+    $transaction = Yii::$app->db->beginTransaction($isolationLevel);
+    </pre>
+
+    <p>Yii предоставляет четыре константы для наиболее распространённых уровней изоляции:</p>
+
+    <ul>
+        <li>[[\yii\db\Transaction::READ_UNCOMMITTED]] - низший уровень, «Грязное» чтение, не повторяющееся чтение и фантомное чтение.</li>
+        <li>[[\yii\db\Transaction::READ_COMMITTED]] - предотвращает «Грязное» чтение.</li>
+        <li>[[\yii\db\Transaction::REPEATABLE_READ]] - предотвращает «Грязное» чтение и не повторяющееся чтение.</li>
+        <li>[[\yii\db\Transaction::SERIALIZABLE]] - высший уровень, предотвращает все вышеуказанные проблемы.</li>
+    </ul>
+
+    <p>Помимо использования приведённых выше констант для задания уровня изоляции, вы можете, также, использовать строки поддерживаемые вашей СУБД.</p>
+    <p>Например, в PostgreSQL, вы можете использовать SERIALIZABLE READ ONLY DEFERRABLE.</p>
+    <p>Заметьте что некоторые СУБД допускают настраивать уровень изоляции только для всего соединения.</p>
+    <p>Следующие транзакции будут получать тот же уровень изоляции, даже если вы его не укажете.</p>
+    <p>При использовании этой функции может потребоваться установить уровень изоляции для всех транзакций, чтоб избежать явно конфликтующих настроек.</p>
+    <p>На момент написания этой статьи страдали от этого ограничения только MSSQL и SQLite.</p>
+    <p><b>Примечание:</b> SQLite поддерживает только два уровня изоляции, таким образом вы можете использовать только READ UNCOMMITTED и SERIALIZABLE.</p>
+    <p>Использование других уровней изоляции приведёт к генерации исключения.</p>
+    <p><b>Примечание:</b> PostgreSQL не допускает установки уровня изоляции до старта транзакции, так что вы не сможете установить уровень изоляции прямо при старте транзакции.</p>
+    <p>Вы можете использовать [[yii\db\Transaction::setIsolationLevel()]] в таком случае после старта транзакции.</p>
+
+    <h3 id="title">
+        Вложенные транзакции
+    </h3>
+
+    <p>Если ваша СУБД поддерживает Savepoint, вы можете вкладывать транзакции как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    Yii::$app->db->transaction(function ($db) {
+        // внешняя транзакция
+        
+        $db->transaction(function ($db) {
+            // внутренняя транзакция
+        });
+    });
+    </pre>
+
+    <p>Или так,</p>
+
+    <pre class="brush: csharp;">
+    $db = Yii::$app->db;
+    $outerTransaction = $db->beginTransaction();
+    try {
+        $db->createCommand($sql1)->execute();
+    
+        $innerTransaction = $db->beginTransaction();
+        try {
+            $db->createCommand($sql2)->execute();
+            $innerTransaction->commit();
+        } catch (\Exception $e) {
+            $innerTransaction->rollBack();
+        } catch (\Throwable $e) {
+            $innerTransaction->rollBack();
+            throw $e;
+        }
+    
+        $outerTransaction->commit();
+    } catch (\Exception $e) {
+        $outerTransaction->rollBack();
+    } catch (\Throwable $e) {
+        $innerTransaction->rollBack();
+        throw $e;
+    }
+    </pre>
+
+    <h2 id="title">
+        Репликация и разделение запросов на чтение и запись
+    </h2>
+
+    <p>Многие СУБД поддерживают репликацию баз данных для лучшей доступности базы данных и уменьшения времени ответа сервера.</p>
+    <p>С репликацией базы данных, данные копируются из master servers на slave servers.</p>
+    <p>Все вставки и обновления должны происходить на основном сервере, хотя чтение может производится и с подчинённых серверов.</p>
+    <p>Чтоб воспользоваться преимуществами репликации и достичь разделения чтения и записи, вам необходимо настроить компонент [[yii\db\Connection]] как указано ниже:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'yii\db\Connection',
+    
+        // настройки для мастера
+        'dsn' =&gt; 'dsn for master server',
+        'username' =&gt; 'master',
+        'password' =&gt; '',
+    
+        // общие настройки для подчинённых
+        'slaveConfig' =&gt; [
+            'username' =&gt; 'slave',
+            'password' =&gt; '',
+            'attributes' =&gt; [
+                // используем небольшой таймаут для соединения
+                PDO::ATTR_TIMEOUT =&gt; 10,
+            ],
+        ],
+    
+        // список настроек для подчинённых серверов
+        'slaves' =&gt; [
+            ['dsn' =&gt; 'dsn for slave server 1'],
+            ['dsn' =&gt; 'dsn for slave server 2'],
+            ['dsn' =&gt; 'dsn for slave server 3'],
+            ['dsn' =&gt; 'dsn for slave server 4'],
+        ],
+    ]
+    </pre>
+
+    <p>Вышеуказанная конфигурация определяет систему с одним мастером и несколькими подчинёнными.</p>
+    <p>Один из подчинённых будет подключен и использован для чтения, в то время как мастер будет использоваться для запросов записи.</p>
+    <p>Такое разделение чтения и записи будет осуществлено автоматически с указанной конфигурацией.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    // создание экземпляра соединения, использующего вышеуказанную конфигурацию
+    Yii::$app->db = Yii::createObject($config);
+    
+    // запрос к одному из подчинённых
+    $rows = Yii::$app->db->createCommand('SELECT * FROM user LIMIT 10')->queryAll();
+    
+    // запрос к мастеру
+    Yii::$app->db->createCommand("UPDATE user SET username='demo' WHERE id=1")->execute();
+    </pre>
+
+    <p><b>Информация:</b> Запросы выполненные через [[yii\db\Command::execute()]] определяются как запросы на запись, а все остальные запросы через один из "query" методов [[yii\db\Command]] воспринимаются как запросы на чтение.</p>
+    <p>Вы можете получить текущий статус соединения к подчинённому серверу через $db->slave.</p>
+    <p>Компонент Connection поддерживает балансировку нагрузки и переключение при сбое для подчинённых серверов.</p>
+    <p>При выполнении первого запроса на чтение, компонент Connection будет случайным образом выбирать подчинённый сервер и попытается подключиться к нему.</p>
+    <p>Если сервер окажется "мёртвым", он попробует подключиться к другому.</p>
+    <p>Если ни один из подчинённых серверов не будет доступен, он подключится к мастеру.</p>
+    <p>Если настроить [[yii\db\Connection::serverStatusCache|кеш статуса серверов]], то недоступность серверов может быть запомнена, чтоб не использоваться в течении [[yii\db\Connection::serverRetryInterval|заданного промежутка времени]].</p>
+    <p><b>Информация:</b> В конфигурации выше, таймаут соединения к подчинённому серверу настроен на 10 секунд.</p>
+    <p>Это означает, что если сервер не ответит за 10 секунд, он будет считаться "мёртвым".</p>
+    <p>Вы можете отрегулировать этот параметр исходя из настроек вашей среды.</p>
+    <p>Вы также можете настроить несколько основных и несколько подчинённых серверов.</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    [
+        'class' =&gt; 'yii\db\Connection',
+    
+        // общая конфигурация для основных серверов
+        'masterConfig' =&gt; [
+            'username' =&gt; 'master',
+            'password' =&gt; '',
+            'attributes' =&gt; [
+                // используем небольшой таймаут для соединения
+                PDO::ATTR_TIMEOUT =&gt; 10,
+            ],
+        ],
+    
+        // список настроек для основных серверов
+        'masters' =&gt; [
+            ['dsn' =&gt; 'dsn for master server 1'],
+            ['dsn' =&gt; 'dsn for master server 2'],
+        ],
+    
+        // общие настройки для подчинённых
+        'slaveConfig' =&gt; [
+            'username' =&gt; 'slave',
+            'password' =&gt; '',
+            'attributes' =&gt; [
+                // используем небольшой таймаут для соединения
+                PDO::ATTR_TIMEOUT =&gt; 10,
+            ],
+        ],
+    
+        // список настроек для подчинённых серверов
+        'slaves' =&gt; [
+            ['dsn' =&gt; 'dsn for slave server 1'],
+            ['dsn' =&gt; 'dsn for slave server 2'],
+            ['dsn' =&gt; 'dsn for slave server 3'],
+            ['dsn' =&gt; 'dsn for slave server 4'],
+        ],
+    ]
+    </pre>
+
+    <p>Конфигурация выше, определяет два основных и четыре подчинённых серверов.</p>
+    <p>Компонент Connection поддерживает балансировку нагрузки и переключение при сбое между основными серверами, также как и между подчинёнными.</p>
+    <p>Различие заключается в том, что когда ни к одному из основных серверов не удастся подключиться будет выброшено исключение.</p>
+    <p><b>Примечание:</b> Когда вы используете свойство [[yii\db\Connection::masters|masters]] для настройки одного или нескольких основных серверов, все остальные свойства для настройки соединения с базой данных (такие как dsn, username, password) будут проигнорированы компонентом Connection.</p>
+    <p>По умолчанию, транзакции используют соединение с основным сервером. И в рамках транзакции, все операции с БД будут использовать соединение с основным сервером. Например,</p>
+
+    <pre class="brush: csharp;">
+    $db = Yii::$app->db;
+    // Транзакция запускается на основном сервере
+    $transaction = $db->beginTransaction();
+    
+    try {
+        // оба запроса выполняются на основном сервере
+        $rows = $db->createCommand('SELECT * FROM user LIMIT 10')->queryAll();
+        $db->createCommand("UPDATE user SET username='demo' WHERE id=1")->execute();
+    
+        $transaction->commit();
+    } catch(\Exception $e) {
+        $transaction->rollBack();
+        throw $e;
+    } catch (\Throwable $e) {
+        $innerTransaction->rollBack();
+        throw $e;
+    }
+    </pre>
+
+    <p>Если вы хотите запустить транзакцию на подчинённом сервере, вы должны указать это явно, как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    $transaction = Yii::$app->db->slave->beginTransaction();
+    </pre>
+
+    <p>Иногда может потребоваться выполнить запрос на чтение через подключение к основному серверу.</p>
+    <p>Это может быть достигнуто с использованием метода useMaster():</p>
+
+    <pre class="brush: csharp;">
+    $rows = Yii::$app->db->useMaster(function ($db) {
+        return $db->createCommand('SELECT * FROM user LIMIT 10')->queryAll();
+    });
+    </pre>
+
+    <p>Вы также можете явно установить $db->enableSlaves в ложь, чтоб направлять все запросы к соединению с мастером.</p>
+
+    <h2 id="title">
+        Работа со схемой базы данных
+    </h2>
+
+    <p>Yii DAO предоставляет целый набор методов для управления схемой базы данных, таких как создание новых таблиц, удаление столбцов из таблицы, и т.д..</p>
+    <p>Эти методы описаны ниже:</p>
+
+    <ul>
+        <li>[[yii\db\Command::createTable()|createTable()]]: создание таблицы</li>
+        <li>[[yii\db\Command::renameTable()|renameTable()]]: переименование таблицы</li>
+        <li>[[yii\db\Command::dropTable()|dropTable()]]: удаление таблицы</li>
+        <li>[[yii\db\Command::truncateTable()|truncateTable()]]: удаление всех записей в таблице</li>
+        <li>[[yii\db\Command::addColumn()|addColumn()]]: добавление столбца</li>
+        <li>[[yii\db\Command::renameColumn()|renameColumn()]]: переименование столбца</li>
+        <li>[[yii\db\Command::dropColumn()|dropColumn()]]: удаление столбца</li>
+        <li>[[yii\db\Command::alterColumn()|alterColumn()]]: преобразование столбца</li>
+        <li>[[yii\db\Command::addPrimaryKey()|addPrimaryKey()]]: добавление первичного ключа</li>
+        <li>[[yii\db\Command::dropPrimaryKey()|dropPrimaryKey()]]: удаление первичного ключа</li>
+        <li>[[yii\db\Command::addForeignKey()|addForeignKey()]]: добавление внешнего ключа</li>
+        <li>[[yii\db\Command::dropForeignKey()|dropForeignKey()]]: удаление внешнего ключа</li>
+        <li>[[yii\db\Command::createIndex()|createIndex()]]: создания индекса</li>
+        <li>[[yii\db\Command::dropIndex()|dropIndex()]]: удаление индекса</li>
+    </ul>
+
+    <p>Эти методы могут быть использованы, как указано ниже:</p>
+
+    <pre class="brush: csharp;">
+    // CREATE TABLE
+    Yii::$app->db->createCommand()->createTable('post', [
+        'id' =&gt; 'pk',
+        'title' =&gt; 'string',
+        'text' =&gt; 'text',
+    ]);
+    </pre>
+
+    <p>Вы также сможете получить описание схемы таблицы через вызов метода [[yii\db\Connection::getTableSchema()|getTableSchema()]].</p>
+    <p>Например,</p>
+
+    <pre class="brush: csharp;">
+    $table = Yii::$app->db->getTableSchema('post');
+    </pre>
+
+    <p>Метод вернёт объект [[yii\db\TableSchema]], который содержит информацию о столбцах таблицы, первичных ключах, внешних ключах, и т.д..</p>
+    <p>Вся эта информация используется главным образом для построителя запросов и active record, чтоб помочь вам писать независимый от базы данных код.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="38.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="40.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/39.html", "Yii2: Объекты доступа к данным (DAO)", "bm1245"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1245", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1245") == 1) { document.getElementById("bma1245").style.display = "block"; document.getElementById("bm1245").style.display = "none"; } else { document.getElementById("bma1245").style.display = "none"; document.getElementById("bm1245").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Объекты доступа к данным (DAO)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1245", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

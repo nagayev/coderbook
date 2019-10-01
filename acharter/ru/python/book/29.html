@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma954" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm954" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Декораторы
+	</h1>
+
+	<p>Декораторы в Python и примеры их практического использования.</p>
+	<p>Итак, что же это такое?</p>
+	<p>Для того, чтобы понять, как работают декораторы, в первую очередь следует вспомнить, что функции в python являются объектами, соответственно, их можно возвращать из другой функции или передавать в качестве аргумента.</p>
+	<p>Также следует помнить, что функция в python может быть определена и внутри другой функции.</p>
+	<p>Вспомнив это, можно смело переходить к декораторам.</p>
+	<p>Декораторы — это, по сути, "обёртки", которые дают нам возможность изменить поведение функции, не изменяя её код.</p>
+	<p>Создадим свой декоратор "вручную":</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def my_shiny_new_decorator(function_to_decorate):
+...     # Внутри себя декоратор определяет функцию-"обёртку". Она будет обёрнута вокруг декорируемой,
+...     # получая возможность исполнять произвольный код до и после неё.
+...     def the_wrapper_around_the_original_function():
+...         print("Я - код, который отработает до вызова функции")
+...         function_to_decorate() # Сама функция
+...         print("А я - код, срабатывающий после")
+...     # Вернём эту функцию
+...     return the_wrapper_around_the_original_function
+...
+&gt;&gt;&gt; # Представим теперь, что у нас есть функция, которую мы не планируем больше трогать.
+&gt;&gt;&gt; def stand_alone_function():
+...     print("Я простая одинокая функция, ты ведь не посмеешь меня изменять?")
+...
+&gt;&gt;&gt; stand_alone_function()
+Я простая одинокая функция, ты ведь не посмеешь меня изменять?
+&gt;&gt;&gt; # Однако, чтобы изменить её поведение, мы можем декорировать её, то есть просто передать декоратору,
+&gt;&gt;&gt; # который обернет исходную функцию в любой код, который нам потребуется, и вернёт новую,
+&gt;&gt;&gt; # готовую к использованию функцию:
+&gt;&gt;&gt; stand_alone_function_decorated = my_shiny_new_decorator(stand_alone_function)
+&gt;&gt;&gt; stand_alone_function_decorated()
+Я - код, который отработает до вызова функции
+Я простая одинокая функция, ты ведь не посмеешь меня изменять?
+А я - код, срабатывающий после
+	</pre>
+
+	<p>Наверное, теперь мы бы хотели, чтобы каждый раз, во время вызова stand_alone_function, вместо неё вызывалась stand_alone_function_decorated.</p>
+	<p>Для этого просто перезапишем stand_alone_function:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; stand_alone_function = my_shiny_new_decorator(stand_alone_function)
+	&gt;&gt;&gt; stand_alone_function()
+	Я - код, который отработает до вызова функции
+	Я простая одинокая функция, ты ведь не посмеешь меня изменять?
+	А я - код, срабатывающий после
+	</pre>
+
+	<p>Собственно, это и есть декораторы.</p>
+	<p>Вот так можно было записать предыдущий пример, используя синтаксис декораторов:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; @my_shiny_new_decorator
+... def another_stand_alone_function():
+...     print("Оставь меня в покое")
+...
+&gt;&gt;&gt; another_stand_alone_function()
+Я - код, который отработает до вызова функции
+Оставь меня в покое
+А я - код, срабатывающий после
+	</pre>
+
+	<p>То есть, декораторы в python — это просто синтаксический сахар для конструкций вида:</p>
+
+	<pre class="brush: csharp;">
+	another_stand_alone_function = my_shiny_new_decorator(another_stand_alone_function)
+	</pre>
+
+	<p>При этом, естественно, можно использовать несколько декораторов для одной функции, например так:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def bread(func):
+...     def wrapper():
+...         print()
+...         func()
+...         print("&lt;\______/&gt;")
+...     return wrapper
+...
+&gt;&gt;&gt; def ingredients(func):
+...     def wrapper():
+...         print("#помидоры#")
+...         func()
+...         print("~салат~")
+...     return wrapper
+...
+&gt;&gt;&gt; def sandwich(food="--ветчина--"):
+...     print(food)
+...
+&gt;&gt;&gt; sandwich()
+--ветчина--
+&gt;&gt;&gt; sandwich = bread(ingredients(sandwich))
+&gt;&gt;&gt; sandwich()
+
+#помидоры#
+--ветчина--
+~салат~
+&lt;\______/&gt;
+	</pre>
+
+	<p>И используя синтаксис декораторов:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; @bread
+... @ingredients
+... def sandwich(food="--ветчина--"):
+...     print(food)
+...
+&gt;&gt;&gt; sandwich()
+
+#помидоры#
+--ветчина--
+~салат~
+&lt;\______/&gt;
+	</pre>
+
+	<p>Также нужно помнить о том, что важен порядок декорирования.</p>
+	<p>Сравните с предыдущим примером:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; @ingredients
+... @bread
+... def sandwich(food="--ветчина--"):
+...     print(food)
+...
+&gt;&gt;&gt; sandwich()
+#помидоры#
+
+--ветчина--
+&lt;\______/&gt;
+~салат~
+	</pre>
+
+	<h1 id="title">
+		Передача декоратором аргументов в функцию
+	</h1>
+
+	<p>Однако, все декораторы, которые мы рассматривали, не имели одного очень важного функционала — передачи аргументов декорируемой функции.</p>
+	<p>Собственно, это тоже несложно сделать.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def a_decorator_passing_arguments(function_to_decorate):
+...     def a_wrapper_accepting_arguments(arg1, arg2):
+...         print("Смотри, что я получил:", arg1, arg2)
+...         function_to_decorate(arg1, arg2)
+...     return a_wrapper_accepting_arguments
+...
+&gt;&gt;&gt; # Теперь, когда мы вызываем функцию, которую возвращает декоратор, мы вызываем её "обёртку",
+&gt;&gt;&gt; # передаём ей аргументы и уже в свою очередь она передаёт их декорируемой функции
+&gt;&gt;&gt; @a_decorator_passing_arguments
+... def print_full_name(first_name, last_name):
+...     print("Меня зовут", first_name, last_name)
+...
+&gt;&gt;&gt; print_full_name("Vasya", "Pupkin")
+Смотри, что я получил: Vasya Pupkin
+Меня зовут Vasya Pupkin
+	</pre>
+
+	<h1 id="title">
+		Декорирование методов
+	</h1>
+
+	<p>Один из важных фактов, которые следует понимать, заключается в том, что функции и методы в Python — это практически одно и то же, за исключением того, что методы всегда ожидают первым параметром ссылку на сам объект (self).</p>
+	<p>Это значит, что мы можем создавать декораторы для методов точно так же, как и для функций, просто не забывая про self.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def method_friendly_decorator(method_to_decorate):
+...     def wrapper(self, lie):
+...         lie -= 3
+...         return method_to_decorate(self, lie)
+...     return wrapper
+...
+&gt;&gt;&gt; class Lucy:
+...     def __init__(self):
+...         self.age = 32
+...     @method_friendly_decorator
+...     def sayYourAge(self, lie):
+...         print("Мне {} лет, а ты бы сколько дал?".format(self.age + lie))
+...
+&gt;&gt;&gt; l = Lucy()
+&gt;&gt;&gt; l.sayYourAge(-3)
+Мне 26 лет, а ты бы сколько дал?
+	</pre>
+
+	<p>Конечно, если мы создаём максимально общий декоратор и хотим, чтобы его можно было применить к любой функции или методу, то можно воспользоваться распаковкой аргументов:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def a_decorator_passing_arbitrary_arguments(function_to_decorate):
+...     # Данная "обёртка" принимает любые аргументы
+...     def a_wrapper_accepting_arbitrary_arguments(*args, **kwargs):
+...         print("Передали ли мне что-нибудь?:")
+...         print(args)
+...         print(kwargs)
+...         function_to_decorate(*args, **kwargs)
+...     return a_wrapper_accepting_arbitrary_arguments
+...
+&gt;&gt;&gt; @a_decorator_passing_arbitrary_arguments
+... def function_with_no_argument():
+...     print("Python is cool, no argument here.")
+...
+&gt;&gt;&gt; function_with_no_argument()
+Передали ли мне что-нибудь?:
+()
+{}
+Python is cool, no argument here.
+&gt;&gt;&gt; @a_decorator_passing_arbitrary_arguments
+... def function_with_arguments(a, b, c):
+...     print(a, b, c)
+...
+&gt;&gt;&gt; function_with_arguments(1, 2, 3)
+Передали ли мне что-нибудь?:
+(1, 2, 3)
+{}
+1 2 3
+&gt;&gt;&gt; @a_decorator_passing_arbitrary_arguments
+... def function_with_named_arguments(a, b, c, platypus="Почему нет?"):
+...     print("Любят ли {}, {} и {} утконосов? {}".format(a, b, c, platypus))
+...
+&gt;&gt;&gt; function_with_named_arguments("Билл", "Линус", "Стив", platypus="Определенно!")
+Передали ли мне что-нибудь?:
+('Билл', 'Линус', 'Стив')
+{'platypus': 'Определенно!'}
+Любят ли Билл, Линус и Стив утконосов? Определенно!
+&gt;&gt;&gt; class Mary(object):
+...     def __init__(self):
+...         self.age = 31
+...     @a_decorator_passing_arbitrary_arguments
+...     def sayYourAge(self, lie=-3): # Теперь мы можем указать значение по умолчанию
+...         print("Мне {} лет, а ты бы сколько дал?".format(self.age + lie))
+...
+&gt;&gt;&gt; m = Mary()
+&gt;&gt;&gt; m.sayYourAge()
+Передали ли мне что-нибудь?:
+(&lt;__main__.Mary object at 0x7f6373017780>,)
+{}
+Мне 28 лет, а ты бы сколько дал?
+	</pre>
+
+	<h1 id="title">
+		Декораторы с аргументами
+	</h1>
+
+	<p>А теперь попробуем написать декоратор, принимающий аргументы:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def decorator_maker():
+...     print("Я создаю декораторы! Я буду вызван только раз: когда ты попросишь меня создать декоратор.")
+...     def my_decorator(func):
+...         print("Я - декоратор! Я буду вызван только раз: в момент декорирования функции.")
+...         def wrapped():
+...             print ("Я - обёртка вокруг декорируемой функции.\n"
+...                    "Я буду вызвана каждый раз, когда ты вызываешь декорируемую функцию.\n"
+...                    "Я возвращаю результат работы декорируемой функции.")
+...             return func()
+...         print("Я возвращаю обёрнутую функцию.")
+...         return wrapped
+...     print("Я возвращаю декоратор.")
+...     return my_decorator
+...
+&gt;&gt;&gt; # Давайте теперь создадим декоратор. Это всего лишь ещё один вызов функции
+&gt;&gt;&gt; new_decorator = decorator_maker()
+Я создаю декораторы! Я буду вызван только раз: когда ты попросишь меня создать декоратор.
+Я возвращаю декоратор.
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Теперь декорируем функцию
+&gt;&gt;&gt; def decorated_function():
+...     print("Я - декорируемая функция.")
+...
+&gt;&gt;&gt; decorated_function = new_decorator(decorated_function)
+Я - декоратор! Я буду вызван только раз: в момент декорирования функции.
+Я возвращаю обёрнутую функцию.
+&gt;&gt;&gt; # Теперь наконец вызовем функцию:
+&gt;&gt;&gt; decorated_function()
+Я - обёртка вокруг декорируемой функции.
+Я буду вызвана каждый раз, когда ты вызываешь декорируемую функцию.
+Я возвращаю результат работы декорируемой функции.
+Я - декорируемая функция.
+	</pre>
+
+	<p>Теперь перепишем данный код с помощью декораторов:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; @decorator_maker()
+... def decorated_function():
+...     print("Я - декорируемая функция.")
+...
+Я создаю декораторы! Я буду вызван только раз: когда ты попросишь меня создать декоратор.
+Я возвращаю декоратор.
+Я - декоратор! Я буду вызван только раз: в момент декорирования функции.
+Я возвращаю обёрнутую функцию.
+&gt;&gt;&gt; decorated_function()
+Я - обёртка вокруг декорируемой функции.
+Я буду вызвана каждый раз когда ты вызываешь декорируемую функцию.
+Я возвращаю результат работы декорируемой функции.
+Я - декорируемая функция.
+	</pre>
+
+	<p>Вернёмся к аргументам декораторов, ведь, если мы используем функцию, чтобы создавать декораторы "на лету", мы можем передавать ей любые аргументы, верно?</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def decorator_maker_with_arguments(decorator_arg1, decorator_arg2):
+...     print("Я создаю декораторы! И я получил следующие аргументы:",
+...            decorator_arg1, decorator_arg2)
+...     def my_decorator(func):
+...         print("Я - декоратор. И ты всё же смог передать мне эти аргументы:",
+...                decorator_arg1, decorator_arg2)
+...         # Не перепутайте аргументы декораторов с аргументами функций!
+...         def wrapped(function_arg1, function_arg2):
+...             print ("Я - обёртка вокруг декорируемой функции.\n"
+...                    "И я имею доступ ко всем аргументам\n"
+...                    "\t- и декоратора: {0} {1}\n"
+...                    "\t- и функции: {2} {3}\n"
+...                    "Теперь я могу передать нужные аргументы дальше"
+...                    .format(decorator_arg1, decorator_arg2,
+...                            function_arg1, function_arg2))
+...             return func(function_arg1, function_arg2)
+...         return wrapped
+...     return my_decorator
+...
+&gt;&gt;&gt; @decorator_maker_with_arguments("Леонард", "Шелдон")
+... def decorated_function_with_arguments(function_arg1, function_arg2):
+...     print ("Я - декорируемая функция и я знаю только о своих аргументах: {0}"
+...            " {1}".format(function_arg1, function_arg2))
+...
+Я создаю декораторы! И я получил следующие аргументы: Леонард Шелдон
+Я - декоратор. И ты всё же смог передать мне эти аргументы: Леонард Шелдон
+&gt;&gt;&gt; decorated_function_with_arguments("Раджеш", "Говард")
+Я - обёртка вокруг декорируемой функции.
+И я имею доступ ко всем аргументам
+    - и декоратора: Леонард Шелдон
+    - и функции: Раджеш Говард
+Теперь я могу передать нужные аргументы дальше
+Я - декорируемая функция и я знаю только о своих аргументах: Раджеш Говард
+	</pre>
+
+	<p>Таким образом, мы можем передавать декоратору любые аргументы, как обычной функции.</p>
+	<p>Мы можем использовать и распаковку через *args и **kwargs в случае необходимости.</p>
+
+	<h1 id="title">
+		Некоторые особенности работы с декораторами
+	</h1>
+
+	<p>- Декораторы несколько замедляют вызов функции, не забывайте об этом.</p>
+	<p>- Вы не можете "раздекорировать" функцию. Безусловно, существуют трюки, позволяющие создать декоратор, который можно отсоединить от функции, но это плохая практика. Правильнее будет запомнить, что если функция декорирована — это не отменить.</p>
+	<p>- Декораторы оборачивают функции, что может затруднить отладку.</p>
+	<p>Последняя проблема частично решена добавлением в модуле functools функции functools.wraps, копирующей всю информацию об оборачиваемой функции (её имя, из какого она модуля, её документацию и т.п.) в функцию-обёртку.</p>
+	<p>Забавным фактом является то, что functools.wraps тоже является декоратором.</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def foo():
+...     print("foo")
+...
+&gt;&gt;&gt; print(foo.__name__)
+foo
+&gt;&gt;&gt; # Однако, декораторы мешают нормальному ходу дел:
+... def bar(func):
+...     def wrapper():
+...         print("bar")
+...         return func()
+...     return wrapper
+...
+&gt;&gt;&gt; @bar
+... def foo():
+...     print("foo")
+...
+&gt;&gt;&gt; print(foo.__name__)
+wrapper
+&gt;&gt;&gt; import functools  # "functools" может нам с этим помочь
+&gt;&gt;&gt; def bar(func):
+...     # Объявляем "wrapper" оборачивающим "func"
+...     # и запускаем магию:
+...     @functools.wraps(func)
+...     def wrapper():
+...         print("bar")
+...         return func()
+...     return wrapper
+...
+&gt;&gt;&gt; @bar
+... def foo():
+...     print("foo")
+...
+&gt;&gt;&gt; print(foo.__name__)
+foo
+	</pre>
+
+	<h1 id="title">
+		Примеры использования декораторов
+	</h1>
+
+	<p>Декораторы могут быть использованы для расширения возможностей функций из сторонних библиотек (код которых мы не можем изменять), или для упрощения отладки (мы не хотим изменять код, который ещё не устоялся).</p>
+	<p>Также полезно использовать декораторы для расширения различных функций одним и тем же кодом, без повторного его переписывания каждый раз, например:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; def benchmark(func):
+...     """
+...     Декоратор, выводящий время, которое заняло
+...     выполнение декорируемой функции.
+...     """
+...     import time
+...     def wrapper(*args, **kwargs):
+...         t = time.clock()
+...         res = func(*args, **kwargs)
+...         print(func.__name__, time.clock() - t)
+...         return res
+...     return wrapper
+...
+&gt;&gt;&gt; def logging(func):
+...     """
+...     Декоратор, логирующий работу кода.
+...     (хорошо, он просто выводит вызовы, но тут могло быть и логирование!)
+...     """
+...     def wrapper(*args, **kwargs):
+...         res = func(*args, **kwargs)
+...         print(func.__name__, args, kwargs)
+...         return res
+...     return wrapper
+...
+&gt;&gt;&gt; def counter(func):
+...     """
+...     Декоратор, считающий и выводящий количество вызовов
+...     декорируемой функции.
+...     """
+...     def wrapper(*args, **kwargs):
+...         wrapper.count += 1
+...         res = func(*args, **kwargs)
+...         print("{0} была вызвана: {1}x".format(func.__name__, wrapper.count))
+...         return res
+...     wrapper.count = 0
+...     return wrapper
+...
+&gt;&gt;&gt; @benchmark
+... @logging
+... @counter
+... def reverse_string(string):
+...     return ''.join(reversed(string))
+...
+&gt;&gt;&gt; print(reverse_string("А роза упала на лапу Азора"))
+reverse_string была вызвана: 1x
+wrapper ('А роза упала на лапу Азора',) {}
+wrapper 0.00011799999999997923
+арозА упал ан алапу азор А
+&gt;&gt;&gt; print(reverse_string("A man, a plan, a canoe, pasta, heros, rajahs, a coloratura,"
+... "maps, snipe, percale, macaroni, a gag, a banana bag, a tan, a tag,"
+... "a banana bag again (or a camel), a crepe, pins, Spam, a rut, a Rolo, cash,"
+... "a jar, sore hats, a peon, a canal: Panama!"))
+reverse_string была вызвана: 2x
+wrapper ('A man, a plan, a canoe, pasta, heros, rajahs, a coloratura,maps, snipe, ...',) {}
+wrapper 0.00017800000000001148
+!amanaP :lanac a ,noep a ,stah eros ,raj a,hsac ,oloR a ,tur a ,mapS ,snip ,eperc a , ...
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="28.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/29.html", "Декораторы", "bm954"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm954", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm954") == 1) { document.getElementById("bma954").style.display = "block"; document.getElementById("bm954").style.display = "none"; } else { document.getElementById("bma954").style.display = "none"; document.getElementById("bm954").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Декораторы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm954", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

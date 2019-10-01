@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma186" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm186" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Делегаты и обратные вызовы
+	</h1>
+
+	<p>В программировании достаточно часто возникает необходимость создавать фрагменты кода (например, классы, подпрограммы, функции), которые можно было бы каким-либо образом настраивать при конкретных применениях.</p>
+	<p>Наиболее интересна и важна настройка, позволяющая изменять алгоритм выполнения кода.</p>
+	<p>Классическим примером удобства и полезности такой настройки служат функции qsort() и bsearch() из стандартной библиотеки.</p>
+	<p>Первая из них выполняет сортировку элементов массива, вторая позволяет осуществлять бинарный поиск нужного значения в упорядоченном массиве.</p>
+	<p>Применение каждой из названных функций требует, чтобы программист-пользователь "сообщил" при вызове, что он понимает под порядком, в котором должны разместиться сортируемые элементы, или что означает равенство значений элемента массива и эталона поиска.</p>
+	<p>Указанные критерии сортировки и поиска оформляются в виде вспомогательных функций.</p>
+	<p>Сведения об этих функциях (адреса этих функций) передаются функциям qsort() и bsearch() в качестве аргументов вместе с тем массивом, который нужно обработать.</p>
+	<p>Тем самым в программе пользователя появляется возможность, по разному программируя вспомогательные функции, достаточно произвольно задавать правила сортировки и поиска, то есть изменять поведение библиотечных функций qsort() и bsearch().</p>
+	<p>О концепции построения функций (методов), вызывающих при исполнении вспомогательные функции, определённые (позже) в точке вызова (например, в коде пользователя), говорят, используя термин "обратный вызов" (callback).</p>
+	<p>В примере с функциями qsort() и bsearch() функции обратного вызова параметризуют библиотечные функции.</p>
+	<p>Еще один пример применения функций обратного вызова – процедура вывода на экран дисплея графика функции f(x), математическое описание которой заранее не известно.</p>
+	<p>При обращении к такой процедуре могут быть заданы (например) пределы изменения аргумента xmin, xmax и ссылка на программную реализацию конкретной функции f(x).</p>
+	<p>Третий пример – процедура вычисления определенного интеграла функции f(x).</p>
+	<p>Так как существует несколько методов численного интегрирования, то при использовании процедуры можно с помощью параметров задать: программную реализацию метода интегрирования, реализацию подинтегральной функции f(x), пределы интегрирования и требуемую точность вычислений.</p>
+	<p>В данном случае процедура вычисления определенного интеграла параметризуется двумя функциями обратного вызова.</p>
+	<p>Итак, обратным вызовом называют обращение из исполняемой функции к другой функции, которая зачастую определяется не на этапе компиляции, а в процессе выполнения программы.</p>
+	<p>В языках Си и Си++ для реализации обратных вызовов в качестве параметра в функцию передаётся указатель на ту функцию, к которой нужно обращаться при исполнении программы.</p>
+	<p>Мы не рассматриваем механизма указателей, но заметим, что указатель на функцию это адрес участка основной памяти, в котором размещён код функции.</p>
+	<p>Опасность и ненадёжность обращения к функции по её адресу состоит в том, что зная только адрес, невозможно проверить правильность обращения.</p>
+	<p>Ведь нужно убедиться, что количество аргументов и их типы соответствуют параметрам функции, что верен тип возвращаемого значения и т.д.</p>
+	<p>Возможность указанных проверок в языке C# обеспечивают делегаты.</p>
+	<p>При разработке средств обратного вызова в языке C# было решено обеспечить программистов не только возможностью контролировать сигнатуру методов, но и отличать методы классов от методов объектов.</p>
+	<p>Каждый делегат (о синтаксисе чуть позже) включает в качестве полей ссылку на объект, для которого нужно вызвать метод, и имя конкретного метода.</p>
+	<p>Если ссылка на объект равна null, то имя метода воспринимается как имя статического метода.</p>
+	<p>Как мы уже говорили, делегат это тип, экземпляры которого представляют ссылки на методы с конкретной спецификацией параметров и фиксированным типом возвращаемого значения.</p>
+	<p>Делегаты дают возможность рассматривать методы как сущности , ссылки на которые можно присваивать переменным (соответствующего типа) и передавать в качестве параметров.</p>
+	<p>Покажем на простом примере, как ссылка на экземпляр делегата может использоваться в качестве параметра для организации обратных вызовов.</p>
+	<p>Определим класс, поля которого задают предельные значения xmin, xmax отрезка числовой оси и количество n равноотстоящих точек на этом отрезке.</p>
+	<p>В классе определим метод, выводящий на экран значения функции f(x) в точках числовой оси, определенных значениями xmin, xmax, n.</p>
+	<p>Конкретная функция f(x), передается методу с помощью параметра-делегата.</p>
+	<p>Определения делегата-типа и класса:</p>
+
+	<pre class="brush: csharp;">
+	// делегат-тип
+	public delegate double Proc(double x);
+	public class Series
+	{
+		int n;
+		double xmi, xma;
+		// конструктор
+		public Series(int ni, double xn, double xk)
+		{
+			n = ni;
+			xmi = xn;
+			xma = xk;
+		}
+		public void display(Proc fun)
+		{
+			Console.WriteLine("Proc: {0}, xmi={1:f2}, xma={2:f2}, n={3}.",
+			fun.Method, xmi, xma, n);
+			for (double x = xmi; x <= xma; x += (xma - xmi) / (n - 1))
+			Console.Write("{0:f2}\t", fun(x));
+		}
+	}
+	</pre>
+
+	<p>Делегат Proc определен как внешний тип в глобальном пространстве имен.</p>
+	<p>Там же определен класс Series.</p>
+	<p>Для нас интересен его метод с заголовком</p>
+	<p><b>public void display(Proc fun)</b></p>
+	<p>Параметр метода – ссылка на экземпляр делегата класса Proc.</p>
+	<p>В теле метода display() выводится заголовок метода, который будет представлять аргумент- делегат, и n значений адресованной экземпляром делегата функции.</p>
+	<p>Значения выводятся в цикле, параметром которого служит аргумент функции.</p>
+	<p>Имея такие определения типа-делегата и класса, можно вводить разные методы, соответствующие делегату Proc, и разные объекты класса Series.</p>
+	<p>Затем для объекта класса Series можно вызвать метод display(), передать ему в качестве аргумента имя метода, представляющего нужную математическую функцию, и получить ее заголовок и набор значений.</p>
+	<p>Указанные действия выполняет следующий фрагмент программы:</p>
+
+	<pre class="brush: csharp;">
+	class Program
+	{
+		static double mySin(double x)
+		{ return Math.Sin(x); }
+		static double myLine(double x)
+		{ return x * 5; }
+		static void Main()
+		{
+			Series sequence = new Series(7, 0.0, 1.0);
+			sequence.display(mySin);
+			Console.WriteLine();
+			sequence.display(myLine);
+			Console.WriteLine();
+		}
+	}
+	</pre>
+
+	<p>В классе Program определены два статических метода, соответствующих делегату Proc.</p>
+	<p>В методе Main() определен именуемый ссылкой sequence объект класса Series.</p>
+	<p>Поля этого объекта задают набор точек оси аргумента, в которых будут вычисляться значения функции при обращении к методу display().</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Proc: Double mySin(Double), xmi=0,00, xma=1,00, n=7.
+	0,00 0,17 0,33 0,48 0,62 0,74 0,84
+	Proc: Double myLine(Double), xmi=0,00, xma=1,00, n=7.
+	0,00 0,83 1,67 2,50 3,33 4,17 5,00
+	</pre>
+
+	<p>Обратите внимание, что в данном примере нет явного создания экземпляра делегата Proc.</p>
+	<p>Нет явного определения и ссылок на экземпляры делегатов.</p>
+	<p>При обращении к методу display() вместо параметра fun подставляется имя конкретного метода.</p>
+	<p>Все дальнейшие действия выполняются неявно – создаётся экземпляр делегата Proc и ссылка на него используется в теле метода.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="98.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="100.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/99.html", "Делегаты и вызовы", "bm186"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm186", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm186") == 1) { document.getElementById("bma186").style.display = "block"; document.getElementById("bm186").style.display = "none"; } else { document.getElementById("bma186").style.display = "none"; document.getElementById("bm186").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Делегаты и вызовы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm186", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

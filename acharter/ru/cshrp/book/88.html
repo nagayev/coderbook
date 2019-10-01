@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma175" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm175" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Реализация структурами интерфейсов
+	</h1>
+
+	<p>Применение одного базового класса с виртуальными членами позволяет единообразно обрабатывать объекты разных типов, каждый из которых является производным от базового и переопределяет его виртуальные члены.</p>
+	<p>Такой возможности для экземпляров разнотипных структур нет, т.к. структуры не наследуются.</p>
+	<p>Однако структуры могут реализовывать интерфейсы.</p>
+	<p>Если несколько структурных типов реализуют один и тот же интерфейс, то к объектам этих разных структур применимы методы (а также свойства, индексаторы и события) интерфейса.</p>
+	<p>Тем самым интерфейсы позволяют одинаково обрабатывать объекты разных структурных типов.</p>
+	<p>Для этого ссылка на интерфейс используется в качестве параметра, вместо которого могут подставляться аргументы структурных типов, реализующих данный интерфейс.</p>
+	<p>Второй пример – применение коллекций (частный случай – массивов), элементы которых имеют разные структурные типы.</p>
+	<p>Создание такого массива возможно, если он объявлен с типом интерфейса, реализованного всеми структурными типами.</p>
+	<p>В качестве примера определим интерфейс с прототипами свойств:</p>
+
+	<pre class="brush: csharp;">
+	interface IShape
+	{
+		// площадь
+		double Area {get; }
+		// объём
+		double Volume {get; }
+	}
+	</pre>
+
+	<p>Реализовать такой интерфейс можно с помощью разных классов и структур.</p>
+	<p>Например, параллелепипед имеет площадь поверхности (Area) и объём (Volume).</p>
+	<p>Те же свойства имеются у любой трёхмерной геометрической фигуры.</p>
+	<p>Реализовать тот же интерфейс можно и в классе двумерных фигур.</p>
+	<p>В этом случае объём будет равен нулю. Определим статический метод с заголовком:</p>
+	<p><b>static void information (IShape sh)</b></p>
+	<p>Его назначение – вывести данные об объекте, ссылка на который используется в качестве аргумента.</p>
+	<p>Тип параметра – это интерфейс, поэтому метод сможет обрабатывать объекты любых типов, реализующих интерфейс IShape.</p>
+	<p>В следующей программе определены две структуры, реализующие интерфейс IShape.</p>
+	<p>Первая из них Circle – представляет круги с заданными значениями радиусов, вторая Sphere – сферы с заданными значениями радиуса.</p>
+	<p>Метод information() выводит сведения об аргументе.</p>
+	<p>Текст программы:</p>
+
+	<pre class="brush: csharp;">
+	// 15_12.cs - структуры и интерфейсы
+	using System;
+	interface IShape
+	{
+		// объем
+		double Volume { get; }
+		// поверхность
+		double Area { get; }
+	}
+
+	// Круг
+	struct Circle : IShape
+	{
+		public double radius;
+		// конструктор
+		public Circle(double radius)
+		{ this.radius = radius; }
+		public double Area { get { return Math.PI * radius * radius; } }
+		// объем
+		public double Volume { get { return 0; } }
+	}
+
+	// Сфера
+	struct Sphere : IShape
+	{
+		public double radius;
+		// конструктор
+		public Sphere(double radius)
+		{ this.radius = radius; }
+		// поверхность
+		public double Area
+		{ get { return 4 * Math.PI * radius * radius; } }
+		// объем
+		public double Volume
+		{ get { return 4 * Math.PI * radius * radius * radius / 3; } }
+	}
+
+	class Program
+	{
+		static void information(IShape sh)
+		{
+			Console.Write(sh.GetType());
+			Console.WriteLine(":\t Area={0,5:f2};\t " +"Volume={1,5:f2}", sh.Area, sh.Volume);
+		}
+		static void Main()
+		{
+			Circle ci = new Circle(25);
+			information(ci);
+			Sphere sp = new Sphere(4);
+			information(sp);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Circle: Area=1963,50; Volume= 0,00
+
+	Sphere: Area=201,06; Volume=268,08
+	</pre>
+
+	<p>В методе Main() созданы объекты структур Circle и Sphere, которые в качестве аргументов передаются методу information().</p>
+	<p>Обратите внимание на отсутствие приведения типов в теле метода information().</p>
+	<p>Если бы его параметр имел тип object, то необходимо было бы выполнять преобразование к типу конкретного аргумента.</p>
+	<p>Как и классы структура может реализовать одновременно несколько интерфейсов.</p>
+	<p>Покажем на примере, как можно использовать эту возможность.</p>
+	<p>Сначала объявим интерфейс такого вида:</p>
+
+	<pre class="brush: csharp;">
+	interface IImage
+	{
+		void display();
+		double Measure {get;}
+		double BaseSize {set;}
+	}
+	</pre>
+
+	<p>Члены этого интерфейса могут быть реализованы по-разному, то есть им можно придать самый разный смысл.</p>
+	<p>Пусть:</p>
+	<p>свойство Measure – это максимальный линейный размер ("размах") геометрической фигуры;</p>
+	<p>свойство BaseSize – базовый линейный размер;</p>
+	<p>display() – прототип метода, который выводит сведения о типе, реализовавшем интерфейс, и значения свойств Measure, BaseSize конкретного объекта.</p>
+	<p>Такими типами в нашем примере будут структуры Cube и Square, представляющие, соответственно, объекты "куб" и "квадрат".</p>
+	<p>Для куба базовый размер – ребро куба, максимальный размер – наибольшая диагональ.</p>
+	<p>Для квадрата базовый размер – сторона квадрата, максимальный размер – его диагональ.</p>
+	<p>Предположим, что объекты этих структур мы хотим разместить в массиве и упорядочить элементы массива по убыванию значений свойства Measure.</p>
+	<p>Для сортировки элементов массива можно применить метод Array.Sort().</p>
+	<p>Этот метод предполагает, что элементы массива сравниваются друг с другом с помощью метода CompareTo().</p>
+	<p>Прототип этого метода размещён в интерфейсе IComparable из пространства имён System.</p>
+	<p>Метод CompareTo() уже определён для таких типов как int, char, string и т.д..</p>
+	<p>Однако для пользовательских типов, которыми будут структуры Cube и Square, этот метод нужно определять явно.</p>
+	<p>Поэтому реализуем в указанных структурах интерфейс IComparable.</p>
+	<p>Тем самым в каждой из этих структур с необходимостью появится такой нестатический метод:</p>
+
+	<pre class="brush: csharp;">
+	public int CompareTo (object obj)
+	{
+		if (Measure <((IImage)obj).Measure) return +1;
+		if (Measure ==((IImage)obj).Measure) return 0;
+		else return -1;
+	}
+	</pre>
+
+	<p>Обратите внимание, что тип object параметра obj приводится к типу интерфейса IImage, который должны иметь элементы массива.</p>
+	<p>Напомним, что в коде метода Array.Sort() выполняются многократные обращения к методу CompareTo(), где сравниваются характеристики двух элементов сортируемого массива.</p>
+	<p>Если характеристика (в нашем примере свойство Measure) вызывающего элемента-объекта находится в "правильном" отношении к характеристике объекта-параметра, то метод CompareTo() должен возвращать отрицательное значение.</p>
+	<p>При нарушении "порядка" элементов возвращается положительное значение.</p>
+	<p>Для элементов, одинаковых по характеристике сравнения, возвращается значение 0.</p>
+	<p>Программа с указанными структурами может быть такой:</p>
+
+	<pre class="brush: csharp;">
+	// 15_13.cs - структуры и интерфейсы
+	using System;
+	interface IImage
+	{
+		void display();
+		double Measure { get; }
+		double BaseSize { set; }
+	}
+
+	struct Cube : IImage, IComparable // куб
+	{
+		// ребро - базовый размер
+		double rib;
+		// максимальный линейный размер
+		public double Measure
+		{ get { return Math.Sqrt(3 * rib * rib); } }
+		public double BaseSize { set { rib = value; } }
+		public void display()
+		{
+			string form = "Размеры куба: ребро={0,7:f3}; размах={1,7:f3}";
+			Console.WriteLine(form, rib, Measure);
+		}
+		public int CompareTo(object obj)
+		{
+			if (Measure < ((IImage)obj).Measure) return +1;
+			if (Measure == ((IImage)obj).Measure) return 0;
+			else return -1;
+		}
+	}
+
+	// квадрат
+	struct Square : IImage, IComparable
+	{
+		// сторона - базовый размер
+		double side;
+		// максимальный размер
+		public double Measure
+		{ get { return Math.Sqrt(2 * side * side); } }
+		public void display()
+		{
+			string form = "Размеры квадрата: сторона={0,7:f3}; размах={1,7:f3}";
+			Console.WriteLine(form, side, Measure);
+		}
+		public double BaseSize { set { side = value; } }
+		public int CompareTo(object obj)
+		{
+			if (Measure < ((IImage)obj).Measure) return +1;
+			if (Measure == ((IImage)obj).Measure) return 0;
+			else return -1;
+		}
+	}
+	
+	class Program
+	{
+		static void Main()
+		{
+			Cube cube = new Cube();
+			cube.BaseSize = 5;
+			Square sq = new Square();
+			sq.BaseSize = 5;
+			Cube cube1 = new Cube();
+			cube1.BaseSize = 7;
+			IImage[] arIm = new IImage[] { cube, sq, cube1 };
+			Array.Sort(arIm);
+			foreach (IImage memb in arIm)
+			memb.display();
+		}
+	}
+	</pre>
+
+	<p>Результаты выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Размеры куба: ребро= 7,000; размах= 12,124
+	Размеры куба: ребро= 5,000; размах= 8,660
+	Размеры квадрата: сторона= 5,000; размах= 7,071
+	</pre>
+
+	<p>В методе Main( ) определены два экземпляра структуры Cube и один экземпляр структуры Square.</p>
+	<p>С помощью свойства BaseSize заданы значения базовых размеров структур.</p>
+	<p>Объявлен и инициализирован массив типа IImage[ ].</p>
+	<p>Ссылка на него arIm использована в качестве аргумента метода Array.Sort().</p>
+	<p>Цикл foreach перебора элементов коллекции (в нашем примере массива) последовательно обращается через ссылку memb типа IImage ко всем элементам упорядоченного массива.</p>
+	<p>Для каждого элемента вызывается метод display().</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="87.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="89.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/88.html", "Реализация интерфейсов", "bm175"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm175", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm175") == 1) { document.getElementById("bma175").style.display = "block"; document.getElementById("bm175").style.display = "none"; } else { document.getElementById("bma175").style.display = "none"; document.getElementById("bm175").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Реализация интерфейсов") == 1) { arrs.splice(i, 1); localStorage.setItem("bm175", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

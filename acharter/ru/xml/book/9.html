@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1106" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1106" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Кодировка в XML документе
+	</h1>
+	
+	<p>XML документы могут содержать символы в различных международных кодировках.</p>
+	<p>Чтобы не возникало ошибок, необходимо указывать, какая кодировка используется в XML документе, либо сохранять файл в универсальной кодировке UTF-8.</p>
+
+	<h1 id="title">
+		Символьная кодировка
+	</h1>
+
+	<p>Символьная кодировка определяет уникальный бинарный код для различных символов, используемых в документе.</p>
+	<p>В компьютерных терминах символьную кодировку также называют символьным набором, символьной раскладкой, кодовым набором и кодом страницы.</p>
+	<p><b>Юникод</b></p>
+	<p>Юникод — это промышленный стандарт для символьной кодировки текстового документа.</p>
+	<p>Он определяет (почти) все возможные международные символы по именам и числам.</p>
+	<p>Юникод имеет две разновидности: UTF-8 и UTF-16.</p>
+	<p>UTF = формат преобразования Юникода (анг. Unicode Transformation Format).</p>
+	<p>UTF-8 использует один байт (8 бит) для представления общепринятых символов и два (или три) байта для всех остальных символов.</p>
+	<p>UTF-16 использует два байта (16 бит) для большинства символов и три байта для всего остального.</p>
+	
+	<h1 id="title">
+		UTF-8 - Веб-стандарт
+	</h1>
+
+	<p>UTF-8 — стандартная кодировка символов в сети Интернет.</p>
+	<p>UTF-8 считается кодировкой по умолчанию в HTML-5, CSS, JavaScript, PHP, SQL и XML.</p>
+	
+	<h1 id="title">
+		Кодировка XML документа
+	</h1>
+	
+	<p>Первая строка в XML документе называется прологом:</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot;?&gt;
+	</pre>
+
+	<p>Пролог является необязательным и, как правило, содержит номер версии XML.</p>
+	<p>Кроме этого, он может содержать информацию о кодировке XML документа.</p>
+	<p>Следующий пролог определяет кодировку UTF-8:</p>
+
+	<pre class="brush: csharp;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+	</pre>
+
+	<p>Стандартизация XML устанавливает, что все приложения XML должны понимать кодировки UTF-8 и UTF-16.</p>
+	<p>UTF-8 является кодировкой по умолчанию для XML документов без информации о кодировке.</p>
+	<p>Кроме этого, большинство систем приложений XML работают с такими кодировками, как ISO-8859-1, Windows-1252 и ASCII.</p>
+
+	<h1 id="title">
+		Ошибки XML
+	</h1>
+	
+	<p>Очень часто XML документы создаются на одном компьютере, на сервер выгружается с другого, а в браузере отображаются на третьем компьютере.</p>
+	<p>Если кодировка некорректно интерпретируется всеми тремя компьютерами, то браузер отобразит бессмысленный набор символов, либо вообще выдаст сообщение об ошибке.</p>
+	<p>Наилучшим выбором в этом случае будет использование кодировки UTF-8.</p>
+	<p>UTF-8 позволяет отображать практически все международные символы, и, кроме этого, она считается кодировкой по умолчанию, если не указана другая кодировка.</p>
+
+	<h1 id="title">
+		Заключение
+	</h1>
+
+	<p>Когда вы пишите XML документ:</p>
+	<p>Используйте текстовый редактор, который позволяет изменять кодировку документа</p>
+	<p>Убедитесь, что редактор настроен на использование нужной кодировки</p>
+	<p>Опишите используемую кодировку в соответствующей декларации</p>
+	<p>UTF-8 является самой безопасной кодировкой</p>
+	<p>UTF-8 является стандартом в сети Интернет</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="8.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="10.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/xml/book/9.html", "Кодировка в XML", "bm1106"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1106", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1106") == 1) { document.getElementById("bma1106").style.display = "block"; document.getElementById("bm1106").style.display = "none"; } else { document.getElementById("bma1106").style.display = "none"; document.getElementById("bm1106").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Кодировка в XML") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1106", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

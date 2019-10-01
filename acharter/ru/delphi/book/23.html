@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma409" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm409" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Шуточная программа
+	</h1>
+
+	<p>Теперь мы можем написать шуточную программу с формой и кнопкой, где пользователь ни за что на свете не сможет нажать на кнопку мышью, потому что кнопка будет убегать от указателя мыши.</p>
+	<p>Эта простая программа была описана в одном из номеров журнала "Хакер".</p>
+	<p>Она как нельзя лучше показывает, каким образом можно программным способом менять свойства.</p>
+	<p>Как кнопка будет убегать?</p>
+	<p>С помощью программного изменения свойств Left и Top!</p>
+	<p>Однако, чтобы понять код программы от начала до конца, познакомимся с новой функцией.</p>
+	<p>Функция Random() возвращает случайное число.</p>
+	<p>Эту функцию еще называют генератором случайных чисел.</p>
+	<p>Синтаксис функции очень простой:</p>
+
+	<pre class="brush: csharp;">
+	Random( Integer ) : Integer;
+	</pre>
+
+	<p>То есть, в качестве параметра мы должны передать целое число, и получить другое число в качестве результата.</p>
+	<p>Например, Random(5) будет возвращать в случайном порядке числа от 0 до 4 включительно.</p>
+	<p>То есть, возвращаемое значение будет:</p>
+
+	<pre class="brush: csharp;">
+	0 <= возвращаемое_значение < исходное_число.
+	</pre>
+
+	<p>Наша кнопка должна убегать от указателя мыши хаотично, непредсказуемо, для этого и потребуется функция Random().</p>
+	<p>Создайте форму среднего размера и бросьте на нее только одну кнопку.</p>
+	<p>Для большего эффекта в свойстве Caption формы напишите: "Выиграй приз!".</p>
+	<p>А на кнопке напишите "Нажми меня".</p>
+	<p>Какой бы быстрой ни была реакция пользователя, она никак не сравниться со скоростью, с какой процессор обрабатывает инструкции.</p>
+	<p>А процессор обрабатывает миллионы инструкций в секунду!</p>
+	<p>Поэтому пользователь никогда не сможет нажать на кнопку мышью, но сможет это сделать с помощью клавиши &lt;Enter&gt; на клавиатуре.</p>
+	<p>Учтем это.</p>
+	<p>Создадим обработчик нажатия кнопки и там напишем только одну строку:</p>
+
+	<pre class="brush: csharp;">
+	ShowMessage('Enter нажимать нечестно, пользуйся мышкой!');
+	</pre>
+
+	<p>Теперь осталось написать код убегания мыши.</p>
+	<p>В инспекторе объектов откройте вкладку Events (события).</p>
+	<p>Нас интересует событие OnMouseMove, которое происходит всякий раз, когда указатель мыши оказывается над кнопкой.</p>
+	<p>Щелкните дважды по событию, и в редакторе кода введите следующее:</p>
+
+	<pre class="brush: csharp;">
+procedure TForm1.Button1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+var
+  index : Integer;
+begin
+  index := random(4); //присваиваем переменной случайное значение от 0 до 3
+
+//в зависимости от значения переменной, выбираем действие
+case index of
+  0: Button1.Left := Button1.Left + Button1.Width; //двигаем кнопку вправо, на значение ширины кнопки
+  1: Button1.Left := Button1.Left - Button1.Width; //кнопка влево, на значение ширины
+  2: Button1.Top := Button1.Top + Button1.Height; //кнопка вниз, на значение высоты
+  3: Button1.Top := Button1.Top - Button1.Height; //кнопка вверх, на значение высоты
+end; //case
+
+  {Если кнопка вышла за пределы формы, вернем ее в положение 0}
+  if Button1.Left < 0 then Button1.Left := 0; 
+  if Button1.Top < 0 then Button1.Top := 0; 
+
+  if (Button1.Left + Button1.Width) > Form1.Width then
+    Button1.Left := Form1.Width - Button1.Width;
+
+  if (Button1.Top + Button1.Height) > Form1.Height then
+    Button1.Top := Form1.Height - Button1.Height;
+
+end;
+	</pre>
+
+	<p>Разберем этот код.</p>
+	<p>В самом начале в переменную index мы записываем случайное число, от 0 до 3.</p>
+	<p>Это нам нужно, чтобы знать, куда двигать кнопку, ведь двигать ее можно влево, вправо, вверх или вниз.</p>
+	<p>В зависимости от того, какое значение мы получили, программа выберет направление перемещения кнопки.</p>
+	<p>Для этого используется конструкция case.</p>
+	<p>Если в переменной у нас число 0, то кнопка будет двигаться вправо.</p>
+	<p>Как это происходит?</p>
+	<p>Свойству Left (левая позиция) кнопки мы присваиваем новое значение – левую позицию этой же кнопки, плюс ее ширину.</p>
+	<p>Другими словами, кнопка сдвинется вправо на расстояние, равное ширине этой кнопки.</p>
+	<p>Таким же образом мы сдвигаем кнопку влево, если переменной index будет присвоено число 1.</p>
+	<p>Только здесь мы не прибавляем, а отнимаем ширину.</p>
+	<p>Почти таким же образом кнопка убегает вверх или вниз, но здесь мы используем другие свойства – Top (расстояние от верхней границы окна до кнопки) и Height (высота кнопки в пикселях).</p>
+	<p>Соответственно, если мы прибавляем высоту к верхней границе, кнопка убегает вниз, и наоборот.</p>
+	<p>Когда заканчивается конструкция case, может оказаться, что кнопка убежала за пределы формы.</p>
+	<p>Поэтому далее идет проверка – если левая или верхняя границы кнопки оказались меньше нуля, то возвращаем кнопку в пределы формы, присвоив этой границе ноль.</p>
+	<p>Далее проверяем другую границу окна.</p>
+	<p>Если левая позиция кнопки плюс ее ширина окажутся больше ширины окна, следовательно, кнопка вышла за пределы границы окна справа.</p>
+	<p>Возвращаем ее в пределы окна, отняв от ширины окна ширину кнопки.</p>
+	<p>Точно также проверяем, не вышла ли кнопка за нижнюю границу окна.</p>
+	<p>Попробуйте самостоятельно добавить на форму еще одну кнопку, и запрограммировать ее поведение таким же образом.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="22.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="24.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/23.html", "Шуточная программа", "bm409"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm409", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm409") == 1) { document.getElementById("bma409").style.display = "block"; document.getElementById("bm409").style.display = "none"; } else { document.getElementById("bma409").style.display = "none"; document.getElementById("bm409").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Шуточная программа") == 1) { arrs.splice(i, 1); localStorage.setItem("bm409", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

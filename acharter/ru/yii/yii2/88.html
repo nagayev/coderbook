@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1294" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1294" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Шаблон приложения advanced
+	</h1>
+
+    <p>Этот шаблон предназначен для крупных проектов разрабатываемых в командах где администраторская часть (backend) отделена от приложения пользователя (frontend), приложения располагаются на нескольких серверах и т.д.</p>
+    <p>Этот шаблон приложения включает значительное количество возможностей, таких как начальная схема базы данных, регистрация пользователя и восстановление его пароля.</p>
+
+    <h2 id="title">
+        Установка при помощи Composer
+    </h2>
+
+    <p>Если у вас ещё не установлен Composer, следуйте инструкциям в разделе установка Yii.</p>
+    <p>Если Composer установлен, вы можете установить приложение используя следующие команды:</p>
+
+    <pre class="brush: csharp;">
+    composer global require "fxp/composer-asset-plugin:~1.0.0"
+    composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
+    </pre>
+
+    <p>Первая команда установит плагин composer asset plugin, который позволит работать с пакетами bower и npm через Composer.</p>
+    <p>Эту команду необходимо выполнить единожды. Вторая команда установит приложение advanced в директорию yii-application.</p>
+    <p>Вы можете выбрать другое имя директория если пожелаете.</p>
+
+    <h2 id="title">
+        Начало работы
+    </h2>
+
+    <p>После установки приложения, вам необходимо один раз выполнить приведённые ниже действия для того, чтобы инициализировать установленное приложение.</p>
+
+    <p>1) Выполните команду init и выберите окружение dev.</p>
+
+    <pre class="brush: csharp;">
+    php /path/to/yii-application/init
+    </pre>
+
+    <p>Для производственных серверов удобно выполнять данную команду в не интерактивном режиме.</p>
+
+    <pre class="brush: csharp;">
+    php /path/to/yii-application/init --env=Production overwrite=All
+    </pre>
+
+    <p>2) Создайте новую базу данных и внесите соответствующие изменения в секцию components.db файла common/config/main-local.php.</p>
+    <p>3) Примените миграции при помощи консольной команды  yii migrate.</p>
+    <p>4) Настройте на вебсервере URL и корневые директории:</p>
+    <p>5) для приложения frontend директория /path/to/yii-application/frontend/web/ и URL  http://yourdomain/frontend/</p>
+    <p>6) для приложения backend директория /path/to/yii-application/backend/web/ и URL  http://yourdomain/backend/</p>
+
+    <h2 id="title">
+        Структура директорий
+    </h2>
+
+    <p>Корневая директория содержит следующие поддиректории:</p>
+
+    <ul>
+        <li>backend - веб приложение администраторской части.</li>
+        <li>common - общие файлы для всех приложений.</li>
+        <li>console - приложение для консоли.</li>
+        <li>environments - настройки для различных окружений.</li>
+        <li>frontend - веб приложение пользователя.</li>
+    </ul>
+
+    <p>Корневая директория содержит следующие файлы:</p>
+
+    <ul>
+        <li>.gitignore содержит список директорий игнорируемых системой контроля версий git. Если вам необходимо предотвратить их попадание в репозиторий, перечислите их в данном файле.</li>
+        <li>composer.json - Конфигурация Composer, подробно описанная в разделе «Настройка Composer» ниже.</li>
+        <li>init - скрипт инициализации. Подробно описан ниже в разделе «Конфигурации и окружения».</li>
+        <li>init.bat - он же для Windows.</li>
+        <li>LICENSE.md - информация о лицензии. Разместите в нём лицензию вашего проекта. Особенно в случае OpenSource.</li>
+        <li>README.md - основная информация об установки шаблона. Можете разместить в нём информацию о вашем проекте и его установке.</li>
+        <li>requirements.php - проверка соответствия требованиям Yii.</li>
+        <li>yii - входной скрипт консольного приложения.</li>
+        <li>yii.bat - он же для Windows.</li>
+    </ul>
+
+    <h2 id="title">
+        Встроенные псевдонимы путей
+    </h2>
+
+    <ul>
+        <li>@yii - директория фрэймворка.</li>
+        <li>@app - корневая директория выполняемого в данный момент приложения.</li>
+        <li>@common - директория common.</li>
+        <li>@frontend - директория веб-приложения frontend.</li>
+        <li>@backend - директория веб-приложения backend.</li>
+        <li>@console - директория console.</li>
+        <li>@runtime - директория runtime исполняемого приложения.</li>
+        <li>@vendor - директория vendor, содержащая пакеты загруженные Composer'ом.</li>
+        <li>@bower - директория vendor, содержащая пакеты bower.</li>
+        <li>@npm - директория vendor, содержащая пакеты npm.</li>
+        <li>@web - базовый URL исполняемого веб-приложения.</li>
+        <li>@webroot - корневая веб-директория исполняемого веб-приложения.</li>
+    </ul>
+
+    <p>Псевдонимы, характерные для структуры директорий приложения advanced (@common,  @frontend,  @backend и @console) задаются в common/config/bootstrap.php.</p>
+
+    <h2 id="title">
+        Приложения
+    </h2>
+
+    <p>В шаблоне advanced три приложения: frontend, backend и console.</p>
+    <p>Frontend это та часть приложения, которая обеспечивает взаимодействие системы с конечным пользователем проекта.</p>
+    <p>Backend это административная панель, аналитика и прочая подобная функциональность.</p>
+    <p>Console обычно используется для выполнения заданий по расписанию через cron, низкоуровневого управления сервером, при развёртывании приложения, работы с миграциями и ресурсами.</p>
+    <p>Также есть директория common, которая содержит файлы используемые более чем одним приложением. Например, модель User.</p>
+    <p>Оба веб приложения frontend и backend содержат директорию web.</p>
+    <p>Это корневая директория, которую вы должны настроить в вебсервере.</p>
+    <p>У каждого приложения есть собственное пространство имён и соответствующий его названию псевдоним.</p>
+    <p>Это же справедливо и для общей директории common.</p>
+
+    <h2 id="title">
+        Конфигурации и окружения
+    </h2>
+
+    <p>Существует множество проблем при типичном подходе к настройке конфигурации:</p>
+
+    <ul>
+        <li>Каждый член команды имеет свою собственную конфигурацию. Изменение конфигурации в общем репозитории повлияет на всех остальных.</li>
+        <li>Пароль от эксплуатационной БД и API ключи не должны оказаться в репозитории.</li>
+        <li>Существует много окружений: development (разработка), testing (тестирование), production (эксплуатация). Каждое окружение должно иметь свою собственную конфигурацию.</li>
+        <li>Настройка всех параметров конфигурации для каждого случая однотипна и отнимает слишком много времени.</li>
+    </ul>
+
+    <p>Для решения этих проблем Yii вводит простую концепцию окружений.</p>
+    <p>Каждое окружение представлено набором файлов в директории environments.</p>
+    <p>Для переключения между окружениями используется команда init. Она довольно проста.</p>
+    <p>Всё, что она на самом деле делает - это копирование всех файлов из директории окружения в корневую директорию, где находятся все приложения.</p>
+    <p>Обычно окружение содержит входные скрипты приложения, такие как index.php, и файлы конфигурации, имена которых дополнены суфиксами -local.php.</p>
+    <p>Эти файлы добавлены в  .gitignore и никогда не попадут в репозиторий.</p>
+    <p>Чтобы избежать дублирования, конфигурации перекрывают друг друга.</p>
+    <p>Например, приложение frontend считывает конфигурацию в следующем порядке:</p>
+
+    <ul>
+        <li>common/config/main.php</li>
+        <li>common/config/main-local.php</li>
+        <li>frontend/config/main.php</li>
+        <li>frontend/config/main-local.php</li>
+    </ul>
+
+    <p>Параметры считываются в следующем порядке:</p>
+
+    <ul>
+        <li>common/config/params.php</li>
+        <li>common/config/params-local.php</li>
+        <li>frontend/config/params.php</li>
+        <li>frontend/config/params-local.php</li>
+    </ul>
+
+    <p>Значения из следующего конфигурационного файла перекрывают аналогичные значения из предыдущих конфигурационных файлов.</p>
+    <p>Полная схема:</p>
+
+    <img src="y22.png" id="image" />
+
+    <h2 id="title">
+        Настройка Composer
+    </h2>
+
+    <p>После того как шаблон приложения установлен, хорошо бы изменить composer.json который находится в корневой директории проекта:</p>
+
+    <pre class="brush: csharp;">
+    {
+        "name": "yiisoft/yii2-app-advanced",
+        "description": "Yii 2 Advanced Application Template",
+        "keywords": ["yii2", "framework", "advanced", "application template"],
+        "homepage": "http://www.yiiframework.com/",
+        "type": "project",
+        "license": "BSD-3-Clause",
+        "support": {
+            "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+            "forum": "http://www.yiiframework.com/forum/",
+            "wiki": "http://www.yiiframework.com/wiki/",
+            "irc": "irc://irc.freenode.net/yii",
+            "source": "https://github.com/yiisoft/yii2"
+        },
+        "minimum-stability": "dev",
+        "require": {
+            "php": "&gt;=5.4.0",
+            "yiisoft/yii2": "*",
+            "yiisoft/yii2-bootstrap": "*",
+            "yiisoft/yii2-swiftmailer": "*"
+        },
+        "require-dev": {
+            "yiisoft/yii2-codeception": "*",
+            "yiisoft/yii2-debug": "*",
+            "yiisoft/yii2-gii": "*",
+            "yiisoft/yii2-faker": "*"
+        },
+        "config": {
+            "process-timeout": 1800
+        },
+        "extra": {
+            "asset-installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        }
+    }
+    </pre>
+
+    <p>Во-первых, мы обновляем основную информацию.</p>
+    <p>Меняем значения name, description,  keywords, homepage и support на соответствующие вашему проекту.</p>
+    <p>А сейчас интересная часть.</p>
+    <p>Вы можете добавить больше пакетов, необходимых для вашего приложения, в раздел require.</p>
+    <p>Все они с packagist.org.</p>
+    <p>Стоит его изучить так как там множество пакетов с полезным кодом.</p>
+    <p>После того как ваш composer.json настроен, вы можете выполнить в консоли команду  composer update --prefer-dist, подождать пока требуемые пакеты загрузятся и установятся, и начать их использовать.</p>
+    <p>Автозагрузка классов этих пакетов будет осуществляться автоматически.</p>
+
+    <h2 id="title">
+        Создание ссылок на frontend из backend
+    </h2>
+
+    <p>Часто приходится создавать ссылки из приложения backend на приложение frontend.</p>
+    <p>Так как frontend может использовать собственную конфигурация менеджера URL, вам придётся продублировать её в конфигурации backend под новым именем:</p>
+
+    <pre class="brush: csharp;">
+    return [
+        'components' =&gt; [
+            'urlManager' =&gt; [
+                // конфигурация основного менеджера URL в конфигурации backend
+            ],
+            'urlManagerFrontend' =&gt; [
+                // конфигурация менеджера URL из frontend
+            ],
+    
+        ],
+    ];
+    </pre>
+
+    <p>После того, как это будет сделано, вы сможете получить URL, указывающий на frontend, следующим способом:</p>
+
+    <pre class="brush: csharp;">
+    echo Yii::$app->urlManagerFrontend->createUrl(...);
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="87.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="89.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/88.html", "Yii2: Шаблон приложения advanced", "bm1294"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1294", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1294") == 1) { document.getElementById("bma1294").style.display = "block"; document.getElementById("bm1294").style.display = "none"; } else { document.getElementById("bma1294").style.display = "none"; document.getElementById("bm1294").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Шаблон приложения advanced") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1294", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

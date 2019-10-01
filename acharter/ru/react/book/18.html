@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma972" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm972" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Добавить новость
+	</h1>
+
+	<p>Что такое добавление новости?</p>
+	<p>Это форма, в которую мы вводим необходимые данные.</p>
+	<p>Это "лента новостей", которая отображает наши данные.</p>
+	<p>После создания новости должно генерироваться событие, на которое должна быть подписана новостная лента.</p>
+	<p>Иначе, как лента узнает о том, что нужно показать новую новость?</p>
+	<p>Очевидно, что нам нужна какая-то "система событий", чтобы научить компонент &lt;Add /&gt; генерировать событие, а компонент &lt;News /&gt; отображать.</p>
+	<p>Так как компонент &lt;News /&gt; имеет статичный атрибут data, было бы логично предположить, что в data нужно "скидывать" динамически сформированную переменную.</p>
+	<p>Конечно же, это место где нужно использовать state.</p>
+	<p>Подытожим:</p>
+	<p>компонент &lt;App /&gt; должен иметь переменную в state - "новости", которую передавать в компонент &lt;News /&gt;.</p>
+	<p>Компонент &lt;App /&gt; должен уметь слушать событие "добавлена новость".</p>
+	<p>Компонент &lt;App /&gt; так же должен уметь отписываться от прослушивания события.</p>
+
+	<pre class="brush: csharp;">
+	var App = React.createClass(
+	{
+		getInitialState: function()
+		{
+			return
+			{
+				news: my_news
+			};
+		},
+		componentDidMount: function()
+		{
+			/* Слушай событие "Создана новость" если событие произошло, обнови this.state.news */
+		},
+		componentWillUnmount: function()
+		{
+			/* Больше не слушай событие "Создана новость" */
+		},
+		render: function()
+		{
+			console.log('render');
+			
+			return (
+				&lt;div className=&apos;app&apos;&gt;
+					&lt;Add /&gt;
+					&lt;h3&gt;Новости&lt;/h3&gt;
+					&lt;News data={this.state.news} /&gt;
+				&lt;/div&gt;
+			);
+		}
+	});
+	</pre>
+
+	<p>Мы добавили переменную в state (с начальным состоянием новостей - массивом my_news), ее же стали передавать в качестве свойств, для компонента &lt;News /&gt;.</p>
+	<p>А также, "как будто подписались" на прослушивание события в момент примонтирования компонента, и "как будто отписались" в момент "перед удалением компонента".</p>
+	<p>В нашем примере, компонент &lt;App /&gt; не может быть удален, но тем не менее "не забывать отписываться" - хорошая практика.</p>
+	<p>На втором берегу, у нас компонент &lt;Add /&gt;, который должен уметь генерировать событие в обработчике onBtnClickHandler.</p>
+	<p>Кстати, переименуйте кнопку "показать alert" -> "Добавить новость", так как мы уже почти готовы!</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="17.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="19.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book/18.html", "Добавить новость", "bm972"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm972", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm972") == 1) { document.getElementById("bma972").style.display = "block"; document.getElementById("bm972").style.display = "none"; } else { document.getElementById("bma972").style.display = "none"; document.getElementById("bm972").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Добавить новость") == 1) { arrs.splice(i, 1); localStorage.setItem("bm972", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma939" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm939" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Списки (list). Функции и методы списков.
+	</h1>
+	
+	<p>Сегодня я расскажу о таком типе данных, как списки, операциях над ними и методах, о генераторах списков и о применении списков.</p>
+
+	<h1 id="title">
+		Что такое списки?
+	</h1>
+	
+	<p>Списки в Python - упорядоченные изменяемые коллекции объектов произвольных типов (почти как массив, но типы могут отличаться).</p>
+	<p>Чтобы использовать списки, их нужно создать.</p>
+	<p>Создать список можно несколькими способами.</p>
+	<p>Например, можно обработать любой итерируемый объект (например, строку) встроенной функцией list:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; list('список')
+	['с', 'п', 'и', 'с', 'о', 'к']
+	</pre>
+
+	<p>Список можно создать и при помощи литерала:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; s = []  # Пустой список
+	&gt;&gt;&gt; l = ['s', 'p', ['isok'], 2]
+	&gt;&gt;&gt; s
+	[]
+	&gt;&gt;&gt; l
+	['s', 'p', ['isok'], 2]
+	</pre>
+
+	<p>Как видно из примера, список может содержать любое количество любых объектов (в том числе и вложенные списки), или не содержать ничего.</p>
+	<p>И еще один способ создать список - это генераторы списков.</p>
+	<p>Генератор списков - способ построить новый список, применяя выражение к каждому элементу последовательности.</p>
+	<p>Генераторы списков очень похожи на цикл for.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; c = [c * 3 for c in 'list']
+	&gt;&gt;&gt; c
+	['lll', 'iii', 'sss', 'ttt']
+	</pre>
+
+	<p>Возможна и более сложная конструкция генератора списков:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; c = [c * 3 for c in 'list' if c != 'i']
+	&gt;&gt;&gt; c
+	['lll', 'sss', 'ttt']
+	&gt;&gt;&gt; c = [c + d for c in 'list' if c != 'i' for d in 'spam' if d != 'a']
+	&gt;&gt;&gt; c
+	['ls', 'lp', 'lm', 'ss', 'sp', 'sm', 'ts', 'tp', 'tm']
+	</pre>
+
+	<p>Но в сложных случаях лучше пользоваться обычным циклом for для генерации списков.</p>
+
+	<h1 id="title">
+		Функции и методы списков
+	</h1>
+
+	<p>Создать создали, теперь нужно со списком что-то делать.</p>
+	<p>Для списков доступны основные встроенные функции, а также методы списков.</p>
+	
+	<h1 id="title">
+		Таблица "методы списков"
+	</h1>
+	
+	<table>
+		<tr>
+			<th>Метод</th>
+			<th>Что делает</th>
+		</tr>
+		<tr>
+			<td>list.append(x)</td>
+			<td>Добавляет элемент в конец списка</td>
+		</tr>
+		<tr>
+			<td>list.extend(L)</td>
+			<td>Расширяет список list, добавляя в конец все элементы списка L</td>
+		</tr>
+		<tr>
+			<td>list.insert(i, x)</td>
+			<td>Вставляет на i-ый элемент значение x</td>
+		</tr>
+		<tr>
+			<td>list.remove(x)</td>
+			<td>Удаляет первый элемент в списке, имеющий значение x. ValueError, если такого элемента не существует</td>
+		</tr>
+		<tr>
+			<td>list.pop([i])</td>
+			<td>Удаляет i-ый элемент и возвращает его. Если индекс не указан, удаляется последний элемент</td>
+		</tr>
+		<tr>
+			<td>list.index(x, [start [, end]])</td>
+			<td>Возвращает положение первого элемента со значением x (при этом поиск ведется от start до end)</td>
+		</tr>
+		<tr>
+			<td>list.count(x)</td>
+			<td>Возвращает количество элементов со значением x</td>
+		</tr>
+		<tr>
+			<td>list.sort([key=функция])</td>
+			<td>Сортирует список на основе функции</td>
+		</tr>
+		<tr>
+			<td>list.reverse()</td>
+			<td>Разворачивает список</td>
+		</tr>
+		<tr>
+			<td>list.copy()</td>
+			<td>Поверхностная копия списка</td>
+		</tr>
+		<tr>
+			<td>list.clear()</td>
+			<td>Очищает список</td>
+		</tr>
+	</table>
+
+	<p>Нужно отметить, что методы списков, в отличие от строковых методов, изменяют сам список, а потому результат выполнения не нужно записывать в эту переменную.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; l = [1, 2, 3, 5, 7]
+	&gt;&gt;&gt; l.sort()
+	&gt;&gt;&gt; l
+	[1, 2, 3, 5, 7]
+	&gt;&gt;&gt; l = l.sort()
+	&gt;&gt;&gt; print(l)
+	None
+	</pre>
+
+	<p>И, напоследок, примеры работы со списками:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; a = [66.25, 333, 333, 1, 1234.5]
+	&gt;&gt;&gt; print(a.count(333), a.count(66.25), a.count('x'))
+	2 1 0
+	&gt;&gt;&gt; a.insert(2, -1)
+	&gt;&gt;&gt; a.append(333)
+	&gt;&gt;&gt; a
+	[66.25, 333, -1, 333, 1, 1234.5, 333]
+	&gt;&gt;&gt; a.index(333)
+	1
+	&gt;&gt;&gt; a.remove(333)
+	&gt;&gt;&gt; a
+	[66.25, -1, 333, 1, 1234.5, 333]
+	&gt;&gt;&gt; a.reverse()
+	&gt;&gt;&gt; a
+	[333, 1234.5, 1, 333, -1, 66.25]
+	&gt;&gt;&gt; a.sort()
+	&gt;&gt;&gt; a
+	[-1, 1, 66.25, 333, 333, 1234.5]
+	</pre>
+
+	<p>Изредка, для увеличения производительности, списки заменяют гораздо менее гибкими массивами (хотя в таких случаях обычно используют сторонние библиотеки, например NumPy).</p>
+
+	<h1 id="title">
+		NumPy
+	</h1>
+	
+	<p>NumPy — это расширение языка Python, добавляющее поддержку больших многомерных массивов и матриц, вместе с большой библиотекой высокоуровневых математических функций для операций с этими массивами.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="13.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="15.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/14.html", "Списки", "bm939"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm939", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm939") == 1) { document.getElementById("bma939").style.display = "block"; document.getElementById("bm939").style.display = "none"; } else { document.getElementById("bma939").style.display = "none"; document.getElementById("bm939").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Списки") == 1) { arrs.splice(i, 1); localStorage.setItem("bm939", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

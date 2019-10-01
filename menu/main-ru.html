@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="../css/menu.css" />
+    <title>Coder Book menu</title>
+</head>
+
+<body id="pageBody">
+    <div id="menuHead">
+        <table>
+        <tbody>
+        <tr>
+            <td style="vertical-align: top;"><h1 id="title">Coder Book</h1></td>
+            <td id="navTD"><a href="bmlist-ru.html"><img src="../img/menu/bm.png" name="butMenuMain" id="menuTopNavi" ontouchstart="return true;" /></a><div id="bmNum" style="display: none;"></div></td>
+            <td id="navTD"><a href="setting-ru.html"><img src="../img/menu/set.png" name="butMenuMain" id="menuTopNavi" ontouchstart="return true;" /></a></td>
+            <td id="navTD"><a href="info-ru.html"><img src="../img/menu/inf.png" name="butMenuMain" id="menuTopNavi" ontouchstart="return true;" /></a></td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div id="charters">
+<!--
+        <span style="display: block;padding: 10px 20px;background: darkred;color: wheat;" onclick="downloadFile('http://lypii.com/1.html')">Download</span>
+
+        <br /><br />
+
+        <a href="xyz/1.html">Test Open</a>
+        <br /><a href="../xyz/1.html">Test Open</a>
+        <br /><a href="../../xyz/1.html">Test Open</a>
+        <br /><a href="../../xyz/1.html">Test Open</a>
+        <br /><a href="#" id="tobjs">Test Open by JS</a>
+
+-->
+        <div id="chartUnderBorder">
+            <span id="favTitle" style="display: none;">Избранное</span>
+            <div id="favoritCH" ontouchstart="return true;" onclick="ChangeFavCH()" style="display: block;">Избранное</div>
+            <div id="saveFavoritCH" ontouchstart="return true;" onclick="CloseFavCH()" style="display: none;">Сохранить</div>
+        </div>
+
+        <div id="listOfCharters" style="text-align-last: auto;">
+            <div id="SetFavCH1" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH1()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/bootstrap/ch.html" name="linkChart"><img src="../img/charters/bootstrap.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Bootstrap</span></div></div>
+            <div id="SetFavCH2" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH2()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/css/ch.html" name="linkChart"><img src="../img/charters/css.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">CSS</span></div></div>
+            <div id="SetFavCH3" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH3()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/cpp/ch.html" name="linkChart"><img src="../img/charters/cpp.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">C++</span></div></div>
+            <div id="SetFavCH4" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH4()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/cshrp/ch.html" name="linkChart"><img src="../img/charters/cshp.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">C#</span></div></div>
+            <div id="SetFavCH5" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH5()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/delphi/ch.html" name="linkChart"><img src="../img/charters/delphi.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Delphi</span></div></div>
+            <div id="SetFavCH6" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH6()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/html/ch.html" name="linkChart"><img src="../img/charters/html.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">HTML</span></div></div>
+            <div id="SetFavCH7" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH7()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/java/ch.html" name="linkChart"><img src="../img/charters/java.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Java</span></div></div>
+            <div id="SetFavCH8" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH8()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/js/ch.html" name="linkChart"><img src="../img/charters/js.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">JS</span></div></div>
+            <div id="SetFavCH9" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH9()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/lua/ch.html" name="linkChart"><img src="../img/charters/lua.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Lua</span></div></div>
+            <div id="SetFavCH10" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH10()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/pascal/ch.html" name="linkChart"><img src="../img/charters/pascal.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Pascal</span></div></div>
+            <div id="SetFavCH11" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH11()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/php/ch.html" name="linkChart"><img src="../img/charters/php.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">PHP</span></div></div>
+            <div id="SetFavCH12" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH12()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/python/ch.html" name="linkChart"><img src="../img/charters/python.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Python</span></div></div>
+            <div id="SetFavCH13" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH13()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/react/ch.html" name="linkChart"><img src="../img/charters/react.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">React</span></div></div>
+            <div id="SetFavCH14" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH14()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/sql/ch.html" name="linkChart"><img src="../img/charters/sql.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">SQL</span></div></div>
+            <div id="SetFavCH15" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH15()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/xml/ch.html" name="linkChart"><img src="../img/charters/xml.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">XML</span></div></div>
+            <div id="SetFavCH16" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH16()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/yii/ch.html" name="linkChart"><img src="../img/charters/yii.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Yii</span></div></div>
+            <div id="SetFavCH17" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH17()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/ruby/ch.html" name="linkChart"><img src="../img/charters/ruby.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Ruby</span></div></div>
+            <div id="SetFavCH18" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH18()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/node/ch.html" name="linkChart"><img src="../img/charters/node.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">NodeJS</span></div></div>
+<div id="SetFavCH19" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="DelFavCH19()" id="dellFromFav" name="dellFromFav" ontouchstart="return true;" style="display: none;"><span id="pIco">x</span></div><a href="../acharter/ru/go/ch.html" name="linkChart"><img src="../img/charters/go.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Go</span></div></div>
+        </div>
+
+        <div id="simplCh">
+            <div id="chartUnder"><span>Все разделы:</span></div>
+
+            <div id="listOfCharters">
+            <div id="CH1" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH1()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/bootstrap/ch.html" name="linkChart"><img src="../img/charters/bootstrap.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Bootstrap</span></div></div>
+            <div id="CH2" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH2()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/css/ch.html" name="linkChart"><img src="../img/charters/css.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">CSS</span></div></div>
+            <div id="CH3" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH3()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/cpp/ch.html" name="linkChart"><img src="../img/charters/cpp.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">C++</span></div></div>
+            <div id="CH4" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH4()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/cshrp/ch.html" name="linkChart"><img src="../img/charters/cshp.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">C#</span></div></div>
+            <div id="CH5" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH5()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/delphi/ch.html" name="linkChart"><img src="../img/charters/delphi.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Delphi</span></div></div>
+            <div id="CH6" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH6()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/html/ch.html" name="linkChart"><img src="../img/charters/html.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">HTML</span></div></div>
+            <div id="CH7" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH7()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/java/ch.html" name="linkChart"><img src="../img/charters/java.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Java</span></div></div>
+            <div id="CH8" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH8()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/js/ch.html" name="linkChart"><img src="../img/charters/js.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">JS</span></div></div>
+            <div id="CH9" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH9()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/lua/ch.html" name="linkChart"><img src="../img/charters/lua.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Lua</span></div></div>
+            <div id="CH10" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH10()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/pascal/ch.html" name="linkChart"><img src="../img/charters/pascal.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Pascal</span></div></div>
+            <div id="CH11" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH11()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/php/ch.html" name="linkChart"><img src="../img/charters/php.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">PHP</span></div></div>
+            <div id="CH12" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH12()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/python/ch.html" name="linkChart"><img src="../img/charters/python.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Python</span></div></div>
+            <div id="CH13" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH13()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/react/ch.html" name="linkChart"><img src="../img/charters/react.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">React</span></div></div>
+            <div id="CH14" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH14()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/sql/ch.html" name="linkChart"><img src="../img/charters/sql.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">SQL</span></div></div>
+            <div id="CH15" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH15()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/xml/ch.html" name="linkChart"><img src="../img/charters/xml.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">XML</span></div></div>
+            <div id="CH16" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH16()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/yii/ch.html" name="linkChart"><img src="../img/charters/yii.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Yii</span></div></div>
+            <div id="CH17" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH17()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/ruby/ch.html" name="linkChart"><img src="../img/charters/ruby.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Ruby</span></div></div>
+            <div id="CH18" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH18()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/node/ch.html" name="linkChart"><img src="../img/charters/node.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">NodeJS</span></div></div>
+            </div>
+<div id="CH19" style="display: none;"><div id="typeChartersMenu" name="shakeMe"><div onclick="SetFavCH19()" id="addToFav" name="addToFav" ontouchstart="return true;" style="display: none;"><span id="pIco">+</span></div><a href="../acharter/ru/go/ch.html" name="linkChart"><img src="../img/charters/go.png" id="chartersMenu" name="chImg" ontouchstart="return true;" /></a><span id="charterTitle" name="chTitle">Go</span></div></div>
+        </div>
+    </div>
+
+    <div id="actionWhtNew"><div id="blackBgWHTNEW"></div><div id="whtNew">
+        <h3>Привет!</h3>
+        <p>В этом обновлении мы добавили курс по Go и обновили курс по реакту!</p>
+        <p>Если Вы нашли ошибку, пожалуйста, сделайте скриншот и отправьте в группу vk или на мою почту.<br />Контакты доступны в разделе инфо <img src="../img/menu/inf.png" name="butMenuMain" id="menuTopNavi" ontouchstart="return true;" style="margin: -10px; width: 35px;" />.</p>
+        <p>Для меня важно предоставить Вам высокое качество обучения. Буду рад видеть отзывы, советы и критику.</p>
+        <p>Заранее благодарен.<br />Приятного пользования!</p>
+        <span ontouchstart="return true;" onclick="CloseWhtNewWindow()">Спасибо, все ясно!</span>
+    </div></div>
+
+    <div id="ExitMessege" style="display: none;">
+        <div id="closeMes">нажмите еще раз для выхода...</div>
+        <div id="blackBgWHTNEW"></div>
+    </div>
+
+<!-- 
+<span id="status">
+</span>
+-->
+
+    <script type="text/javascript" src="../cordova.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <script type="text/javascript" src="../js/Insomnia.js"></script>
+    <script type="text/javascript">
+        /* set color */
+        if (localStorage.getItem("colorSheme") < 2) { SetColor1(); }
+        changeColor();
+
+//  document.addEventListener("deviceready", init, false);
+//  function init() {
+//      
+//      //This alias is a read-only pointer to the app itself
+//      window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/index.html", gotFile, fail);
+//  
+//  }
+//  
+//  function fail(e) {
+//      console.log("FileSystem Error");
+//      console.dir(e);
+//  }
+//  
+//  function gotFile(fileEntry) {
+//  
+//      fileEntry.file(function(file) {
+//          var link;
+//          var s = "";
+//          s += "<b>name:</b> " + file.name + "<br/>";
+//          s += "<b>localURL:</b> " + file.localURL + "<br/>";
+//          s += "<b>type:</b> " + file.type + "<br/>";
+//          s += "<b>lastModifiedDate:</b> " + (new Date(file.lastModifiedDate)) + "<br/>";
+//          s += "<b>size:</b> " + file.size + "<br/>";
+//          link = "" + file.localURL;
+//          link = link.substring(0, link.lastIndexOf("/") + 1);
+//          
+//          document.querySelector("#status").innerHTML = s;
+//          
+//          localStorage.setItem("localAdress1", link);
+//          alert("addr: " + link);
+//  
+//          console.dir(file);
+//      });
+//  }
+//  
+//  // download test
+//  //
+//  // - Download file from url to your device using phonegap
+//  // - It is working 3.0 and up to for iOS and android 
+//  var folderName = 'cb';
+//  var fileName;
+//  
+//  function downloadFile(URL) {
+//      //step to request a file system 
+//      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
+//      function fileSystemSuccess(fileSystem) {
+//          var download_link = encodeURI(URL);
+//          fileName = download_link.substr(download_link.lastIndexOf('/') + 1); //Get filename of URL
+//          var directoryEntry = fileSystem.root; // to get root path of directory
+//          directoryEntry.getDirectory(folderName, {
+//              create: true,
+//              exclusive: false
+//          }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
+//          var rootdir = fileSystem.root;
+//          var fp = fileSystem.root.toURL(); // Returns Fullpath of local directory
+//          fp = fp + "/" + folderName + "/" + fileName; // fullpath and name of the file which we want to give
+//          // download function call
+//          filetransfer(download_link, fp);
+//      }
+//      function onDirectorySuccess(parent) {
+//          // Directory created successfuly
+//      }
+//      function onDirectoryFail(error) {
+//          //Error while creating directory
+//          alert("Unable to create new directory: " + error.code);
+//      }
+//      function fileSystemFail(evt) {
+//          //Unable to access file system
+//          alert(evt.target.error.code);
+//      }
+//  }
+//  function filetransfer(download_link, fp) {
+//      var fileTransfer = new FileTransfer();
+//      // File download function with URL and local path
+//      fileTransfer.download(download_link, fp,
+//          function(entry) {
+//              localStorage.setItem("localAdress", entry.toURL()); 
+//              alert("download complete: " + entry.fullPath);
+//          },
+//          function(error) {
+//              //Download abort errors or download failed errors
+//              alert("download error source " + error.source);
+//          }
+//      );
+//  }
+//  //
+//        
+//        document.getElementById("tobjs").href= "" + localStorage.getItem("localAdress");
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        if (arrs.length > 0)
+        {
+            document.getElementById("bmNum").style.display = "block";
+            document.getElementById("bmNum").innerHTML = arrs.length;
+        }
+        else
+        {
+            document.getElementById("bmNum").style.display = "none";
+        }
+
+        if (localStorage.getItem("wthNewVer") < 3)
+        { document.getElementById("actionWhtNew").style.display = "block"; document.getElementById("pageBody").classList.add('noScroll'); }
+
+        document.addEventListener("backbutton", onBackKeyDown, false);
+        
+        var nillToExit = 0;
+
+        function onBackKeyDown() {
+            setTimeout(couldExit, 2500);
+            document.getElementById("pageBody").classList.add('noScroll');
+            document.getElementById("ExitMessege").style.display = "block";
+            nillToExit++;
+            exitRechecked();
+        //    alert(nillToExit);
+        }
+
+        function exitRechecked() {
+            if (nillToExit >= 2)
+            {
+            //    alert("Fuck Eayh!");
+                navigator.app.exitApp();
+            }
+        }
+
+        function couldExit() {
+            document.getElementById("pageBody").classList.remove('noScroll');
+            document.getElementById("ExitMessege").style.display = "none";
+            nillToExit = 0;
+        }
+
+//        window.onload = function()
+//        {
+//            if (localStorage.getItem("wthNewVer") < 3)
+//            { document.getElementById("actionWhtNew").style.display = "block"; document.getElementById("pageBody").classList.add('noScroll'); }
+//          //  alert("<h1>Hello!</h2>\r\n\r\n brrrr...");
+//        //    navigator.notification.alert(message, alertCallback, [title], [buttonName])
+//       	//	localStorage.setItem("arrs", JSON.stringify(arrs));
+//       	//	document.getElementById("testLink").setAttribute('href', storedNames[0][0]);
+//       	//	document.getElementById("testLinkText").innerHTML = storedNames[0][1];
+//
+//      	// 	alert(arrs);
+//        }
+
+        function CloseWhtNewWindow()
+        {
+            document.getElementById("pageBody").classList.remove('noScroll');
+            document.getElementById("actionWhtNew").style.display = "none";
+            localStorage.setItem("wthNewVer", 3);
+        }
+
+        /* refresh favorites */
+        RefreshFavCH();
+
+        /* resize */
+        resize();
+        var mSize = localStorage.getItem("mSize");
+
+        function RefreshFavCH()
+        {
+            if (localStorage.getItem("SetFavCH1") == 1) { document.getElementById("SetFavCH1").style.display = "inline-block"; document.getElementById("CH1").style.display = "none"; } else { document.getElementById("SetFavCH1").style.display = "none"; document.getElementById("CH1").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH2") == 1) { document.getElementById("SetFavCH2").style.display = "inline-block"; document.getElementById("CH2").style.display = "none"; } else { document.getElementById("SetFavCH2").style.display = "none"; document.getElementById("CH2").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH3") == 1) { document.getElementById("SetFavCH3").style.display = "inline-block"; document.getElementById("CH3").style.display = "none"; } else { document.getElementById("SetFavCH3").style.display = "none"; document.getElementById("CH3").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH4") == 1) { document.getElementById("SetFavCH4").style.display = "inline-block"; document.getElementById("CH4").style.display = "none"; } else { document.getElementById("SetFavCH4").style.display = "none"; document.getElementById("CH4").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH5") == 1) { document.getElementById("SetFavCH5").style.display = "inline-block"; document.getElementById("CH5").style.display = "none"; } else { document.getElementById("SetFavCH5").style.display = "none"; document.getElementById("CH5").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH6") == 1) { document.getElementById("SetFavCH6").style.display = "inline-block"; document.getElementById("CH6").style.display = "none"; } else { document.getElementById("SetFavCH6").style.display = "none"; document.getElementById("CH6").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH7") == 1) { document.getElementById("SetFavCH7").style.display = "inline-block"; document.getElementById("CH7").style.display = "none"; } else { document.getElementById("SetFavCH7").style.display = "none"; document.getElementById("CH7").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH8") == 1) { document.getElementById("SetFavCH8").style.display = "inline-block"; document.getElementById("CH8").style.display = "none"; } else { document.getElementById("SetFavCH8").style.display = "none"; document.getElementById("CH8").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH9") == 1) { document.getElementById("SetFavCH9").style.display = "inline-block"; document.getElementById("CH9").style.display = "none"; } else { document.getElementById("SetFavCH9").style.display = "none"; document.getElementById("CH9").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH10") == 1) { document.getElementById("SetFavCH10").style.display = "inline-block"; document.getElementById("CH10").style.display = "none"; } else { document.getElementById("SetFavCH10").style.display = "none"; document.getElementById("CH10").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH11") == 1) { document.getElementById("SetFavCH11").style.display = "inline-block"; document.getElementById("CH11").style.display = "none"; } else { document.getElementById("SetFavCH11").style.display = "none"; document.getElementById("CH11").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH12") == 1) { document.getElementById("SetFavCH12").style.display = "inline-block"; document.getElementById("CH12").style.display = "none"; } else { document.getElementById("SetFavCH12").style.display = "none"; document.getElementById("CH12").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH13") == 1) { document.getElementById("SetFavCH13").style.display = "inline-block"; document.getElementById("CH13").style.display = "none"; } else { document.getElementById("SetFavCH13").style.display = "none"; document.getElementById("CH13").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH14") == 1) { document.getElementById("SetFavCH14").style.display = "inline-block"; document.getElementById("CH14").style.display = "none"; } else { document.getElementById("SetFavCH14").style.display = "none"; document.getElementById("CH14").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH15") == 1) { document.getElementById("SetFavCH15").style.display = "inline-block"; document.getElementById("CH15").style.display = "none"; } else { document.getElementById("SetFavCH15").style.display = "none"; document.getElementById("CH15").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH16") == 1) { document.getElementById("SetFavCH16").style.display = "inline-block"; document.getElementById("CH16").style.display = "none"; } else { document.getElementById("SetFavCH16").style.display = "none"; document.getElementById("CH16").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH17") == 1) { document.getElementById("SetFavCH17").style.display = "inline-block"; document.getElementById("CH17").style.display = "none"; } else { document.getElementById("SetFavCH17").style.display = "none"; document.getElementById("CH17").style.display = "inline-block"; }
+            if (localStorage.getItem("SetFavCH18") == 1) { document.getElementById("SetFavCH18").style.display = "inline-block"; document.getElementById("CH18").style.display = "none"; } else { document.getElementById("SetFavCH18").style.display = "none"; document.getElementById("CH18").style.display = "inline-block"; }
+if (localStorage.getItem("SetFavCH19") == 1) { document.getElementById("SetFavCH19").style.display = "inline-block"; document.getElementById("CH19").style.display = "none"; } else { document.getElementById("SetFavCH19").style.display = "none"; document.getElementById("CH19").style.display = "inline-block"; }
+
+            if (
+                localStorage.getItem("SetFavCH1") == 1 ||
+                localStorage.getItem("SetFavCH2") == 1 ||
+                localStorage.getItem("SetFavCH3") == 1 ||
+                localStorage.getItem("SetFavCH4") == 1 ||
+                localStorage.getItem("SetFavCH5") == 1 ||
+                localStorage.getItem("SetFavCH6") == 1 ||
+                localStorage.getItem("SetFavCH7") == 1 ||
+                localStorage.getItem("SetFavCH8") == 1 ||
+                localStorage.getItem("SetFavCH9") == 1 ||
+                localStorage.getItem("SetFavCH10") == 1 ||
+                localStorage.getItem("SetFavCH11") == 1 ||
+                localStorage.getItem("SetFavCH12") == 1 ||
+                localStorage.getItem("SetFavCH13") == 1 ||
+                localStorage.getItem("SetFavCH14") == 1 ||
+                localStorage.getItem("SetFavCH15") == 1 ||
+                localStorage.getItem("SetFavCH16") == 1 ||
+                localStorage.getItem("SetFavCH17") == 1 ||
+                localStorage.getItem("SetFavCH18") == 1 ||
+                localStorage.getItem('SetFavCH19') == 1
+                )
+                {
+                    document.getElementById("favTitle").style.display = "block";
+                    document.getElementById("favoritCH").style.margin = "-24px 15px 0 0";
+                    document.getElementById("saveFavoritCH").style.margin = "-24px 15px 0 0";
+                    document.getElementById("chartUnderBorder").style.borderBottom = "1px solid rgba(149, 149, 149, 0.3)";
+                }
+                else
+                {
+                    document.getElementById("favTitle").style.display = "none";
+                    document.getElementById("favoritCH").style.margin = "-5px 15px 0 0";
+                    document.getElementById("saveFavoritCH").style.margin = "-5px 15px 0 0";
+                    document.getElementById("chartUnderBorder").style.borderBottom = "none";
+                }
+        }
+
+//        alert(screen.orientation.type);
+
+        // color
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                //change colors
+                document.getElementById("menuHead").style.backgroundColor = localStorage.getItem("#f0f0f0");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+                document.getElementById("title").style.color = localStorage.getItem("#939393");
+                document.getElementById("favTitle").style.color = localStorage.getItem("#939393");
+                document.getElementById("favoritCH").style.color = localStorage.getItem("#939393");
+                document.getElementById("saveFavoritCH").style.color = localStorage.getItem("#939393");
+                document.getElementById("favoritCH").style.backgroundColor = localStorage.getItem("favBut1");
+                document.getElementById("saveFavoritCH").style.backgroundColor = localStorage.getItem("favBut1");
+                document.getElementById("closeMes").style.backgroundColor = localStorage.getItem("#f0f0f0");
+                document.getElementById("closeMes").style.color = localStorage.getItem("#939393");
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#e4e4e4');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                //change colors
+                document.getElementById("menuHead").style.backgroundColor = localStorage.getItem("#000000");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("title").style.color = localStorage.getItem("#efefef");
+                document.getElementById("favTitle").style.color = localStorage.getItem("#efefef");
+                document.getElementById("favoritCH").style.color = localStorage.getItem("#efefef");
+                document.getElementById("saveFavoritCH").style.color = localStorage.getItem("#efefef");
+                document.getElementById("favoritCH").style.backgroundColor = localStorage.getItem("favBut2");
+                document.getElementById("saveFavoritCH").style.backgroundColor = localStorage.getItem("favBut2");
+                document.getElementById("closeMes").style.backgroundColor = localStorage.getItem("#000000");
+                document.getElementById("closeMes").style.color = localStorage.getItem("#efefef");
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#212121');});
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                //change colors
+                document.getElementById("menuHead").style.backgroundColor = localStorage.getItem("#6f6654");
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+                document.getElementById("title").style.color = localStorage.getItem("#efe4d0");
+                document.getElementById("favTitle").style.color = localStorage.getItem("favBut3");
+                document.getElementById("favoritCH").style.color = localStorage.getItem("#efe4d0");
+                document.getElementById("saveFavoritCH").style.color = localStorage.getItem("#efe4d0");
+                document.getElementById("favoritCH").style.backgroundColor = localStorage.getItem("favBut3");
+                document.getElementById("saveFavoritCH").style.backgroundColor = localStorage.getItem("favBut3");
+                document.getElementById("closeMes").style.backgroundColor = localStorage.getItem("#6f6654");
+                document.getElementById("closeMes").style.color = localStorage.getItem("#efe4d0");
+                // status bar
+                document.addEventListener('deviceready', function() {StatusBar.backgroundColorByHexString('#060606');});
+            }
+        }
+
+        function resize()
+        {
+            var mImgCh = document.getElementsByName("chImg");
+            for(var i=0;i<mImgCh.length;i++) { mImgCh[i].style.width = (100 + localStorage.getItem("mSize") * 10) + "px"; }
+            var sizeCh = Number(localStorage.getItem("mSize"))+ 14;
+            var mTitCh = document.getElementsByName("chTitle");
+            for(var i=0;i<mTitCh.length;i++) { mTitCh[i].style.fontSize = sizeCh + "px"; }
+        }
+
+//        /* device back button */
+//        document.addEventListener("deviceready", onDeviceReady, false);
+//            function onDeviceReady() {
+//                document.addEventListener("backbutton", function (e) {
+//                    e.preventDefault();
+//                    exitNow();
+//                }, false );
+//        }
+//
+//        var exitColis = 0;
+//
+//        function exitNow()
+//        {
+//            document.getElementById("closeMes").style.display = "block";
+//            exitColis = 1;
+//            setTimeout(function () { exitColis = 0; }, 2000);
+//        }
+//
+//        if (exitColis != 0)
+//        {
+//            document.addEventListener("backbutton", function (e) {
+//                    e.preventDefault();
+//                    navigator.app.exitApp();
+//            }, false );
+//        }
+
+
+        function ChangeFavCH()
+        {
+            document.getElementById("favoritCH").style.display = "none";
+            document.getElementById("saveFavoritCH").style.display = "block";
+            document.getElementById("dellFromFav").style.display = "block";
+
+                var addToFavs = document.getElementsByName("addToFav");
+            for(var i=0;i<addToFavs.length;i++) { addToFavs[i].style.display = "block"; }
+
+                var dellFromFavs = document.getElementsByName("dellFromFav");
+            for(var i=0;i<dellFromFavs.length;i++) { dellFromFavs[i].style.display = "block"; }
+
+                var linkCh = document.getElementsByName("linkChart");
+            for(var i=0;i<linkCh.length;i++) { linkCh[i].style.pointerEvents = "none"; }
+
+                var shake = document.getElementsByName("shakeMe");
+            for(var i=0;i<shake.length;i++) { shake[i].className += "shake"; }
+        }
+
+            function CloseFavCH()
+        {
+            document.getElementById("favoritCH").style.display = "block";
+            document.getElementById("saveFavoritCH").style.display = "none";
+            document.getElementById("dellFromFav").style.display = "none";
+
+                var addToFavs = document.getElementsByName("addToFav");
+            for(var i=0;i<addToFavs.length;i++) { addToFavs[i].style.display = "none"; }
+
+                var dellFromFavs = document.getElementsByName("dellFromFav");
+            for(var i=0;i<dellFromFavs.length;i++) { dellFromFavs[i].style.display = "none"; }
+
+                var linkCh = document.getElementsByName("linkChart");
+            for(var i=0;i<linkCh.length;i++) { linkCh[i].style.pointerEvents = "auto"; }
+
+                var shake = document.getElementsByName("shakeMe");
+            for(var i=0;i<shake.length;i++) { shake[i].classList.remove("shake"); }
+        }
+
+        function SetFavCH1() { if (localStorage.getItem("SetFavCH1") != 1) { localStorage.setItem("SetFavCH1", 1); RefreshFavCH(); } }
+        function SetFavCH2() { if (localStorage.getItem("SetFavCH2") != 1) { localStorage.setItem("SetFavCH2", 1); RefreshFavCH(); } }
+        function SetFavCH3() { if (localStorage.getItem("SetFavCH3") != 1) { localStorage.setItem("SetFavCH3", 1); RefreshFavCH(); } }
+        function SetFavCH4() { if (localStorage.getItem("SetFavCH4") != 1) { localStorage.setItem("SetFavCH4", 1); RefreshFavCH(); } }
+        function SetFavCH5() { if (localStorage.getItem("SetFavCH5") != 1) { localStorage.setItem("SetFavCH5", 1); RefreshFavCH(); } }
+        function SetFavCH6() { if (localStorage.getItem("SetFavCH6") != 1) { localStorage.setItem("SetFavCH6", 1); RefreshFavCH(); } }
+        function SetFavCH7() { if (localStorage.getItem("SetFavCH7") != 1) { localStorage.setItem("SetFavCH7", 1); RefreshFavCH(); } }
+        function SetFavCH8() { if (localStorage.getItem("SetFavCH8") != 1) { localStorage.setItem("SetFavCH8", 1); RefreshFavCH(); } }
+        function SetFavCH9() { if (localStorage.getItem("SetFavCH9") != 1) { localStorage.setItem("SetFavCH9", 1); RefreshFavCH(); } }
+        function SetFavCH10() { if (localStorage.getItem("SetFavCH10") != 1) { localStorage.setItem("SetFavCH10", 1); RefreshFavCH(); } }
+        function SetFavCH11() { if (localStorage.getItem("SetFavCH11") != 1) { localStorage.setItem("SetFavCH11", 1); RefreshFavCH(); } }
+        function SetFavCH12() { if (localStorage.getItem("SetFavCH12") != 1) { localStorage.setItem("SetFavCH12", 1); RefreshFavCH(); } }
+        function SetFavCH13() { if (localStorage.getItem("SetFavCH13") != 1) { localStorage.setItem("SetFavCH13", 1); RefreshFavCH(); } }
+        function SetFavCH14() { if (localStorage.getItem("SetFavCH14") != 1) { localStorage.setItem("SetFavCH14", 1); RefreshFavCH(); } }
+        function SetFavCH15() { if (localStorage.getItem("SetFavCH15") != 1) { localStorage.setItem("SetFavCH15", 1); RefreshFavCH(); } }
+        function SetFavCH16() { if (localStorage.getItem("SetFavCH16") != 1) { localStorage.setItem("SetFavCH16", 1); RefreshFavCH(); } }
+        function SetFavCH17() { if (localStorage.getItem("SetFavCH17") != 1) { localStorage.setItem("SetFavCH17", 1); RefreshFavCH(); } }
+        function SetFavCH18() { if (localStorage.getItem("SetFavCH18") != 1) { localStorage.setItem("SetFavCH18", 1); RefreshFavCH(); } }
+function SetFavCH19() { if (localStorage.getItem("SetFavCH19") != 1) { localStorage.setItem("SetFavCH19", 1); RefreshFavCH(); } }
+        function DelFavCH1() { if (localStorage.getItem("SetFavCH1") != 0) { localStorage.setItem("SetFavCH1", 0); RefreshFavCH(); } }
+        function DelFavCH2() { if (localStorage.getItem("SetFavCH2") != 0) { localStorage.setItem("SetFavCH2", 0); RefreshFavCH(); } }
+        function DelFavCH3() { if (localStorage.getItem("SetFavCH3") != 0) { localStorage.setItem("SetFavCH3", 0); RefreshFavCH(); } }
+        function DelFavCH4() { if (localStorage.getItem("SetFavCH4") != 0) { localStorage.setItem("SetFavCH4", 0); RefreshFavCH(); } }
+        function DelFavCH5() { if (localStorage.getItem("SetFavCH5") != 0) { localStorage.setItem("SetFavCH5", 0); RefreshFavCH(); } }
+        function DelFavCH6() { if (localStorage.getItem("SetFavCH6") != 0) { localStorage.setItem("SetFavCH6", 0); RefreshFavCH(); } }
+        function DelFavCH7() { if (localStorage.getItem("SetFavCH7") != 0) { localStorage.setItem("SetFavCH7", 0); RefreshFavCH(); } }
+        function DelFavCH8() { if (localStorage.getItem("SetFavCH8") != 0) { localStorage.setItem("SetFavCH8", 0); RefreshFavCH(); } }
+        function DelFavCH9() { if (localStorage.getItem("SetFavCH9") != 0) { localStorage.setItem("SetFavCH9", 0); RefreshFavCH(); } }
+        function DelFavCH10() { if (localStorage.getItem("SetFavCH10") != 0) { localStorage.setItem("SetFavCH10", 0); RefreshFavCH(); } }
+        function DelFavCH11() { if (localStorage.getItem("SetFavCH11") != 0) { localStorage.setItem("SetFavCH11", 0); RefreshFavCH(); } }
+        function DelFavCH12() { if (localStorage.getItem("SetFavCH12") != 0) { localStorage.setItem("SetFavCH12", 0); RefreshFavCH(); } }
+        function DelFavCH13() { if (localStorage.getItem("SetFavCH13") != 0) { localStorage.setItem("SetFavCH13", 0); RefreshFavCH(); } }
+        function DelFavCH14() { if (localStorage.getItem("SetFavCH14") != 0) { localStorage.setItem("SetFavCH14", 0); RefreshFavCH(); } }
+        function DelFavCH15() { if (localStorage.getItem("SetFavCH15") != 0) { localStorage.setItem("SetFavCH15", 0); RefreshFavCH(); } }
+        function DelFavCH16() { if (localStorage.getItem("SetFavCH16") != 0) { localStorage.setItem("SetFavCH16", 0); RefreshFavCH(); } }
+        function DelFavCH17() { if (localStorage.getItem("SetFavCH17") != 0) { localStorage.setItem("SetFavCH17", 0); RefreshFavCH(); } }
+        function DelFavCH18() { if (localStorage.getItem("SetFavCH18") != 0) { localStorage.setItem("SetFavCH18", 0); RefreshFavCH(); } }
+    function DelFavCH19() { if (localStorage.getItem("SetFavCH19") != 0) { localStorage.setItem("SetFavCH19", 0); RefreshFavCH(); } }
+    </script>
+</body>
+</html>

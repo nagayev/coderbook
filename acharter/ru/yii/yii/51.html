@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1202" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1202" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Консольные приложения Yii
+	</h1>
+
+    <p>Консольные приложения главным образом используются для выполнения вторичных или фоновых задач, таких как генерация кода, компиляция поискового индекса, отправка сообщений электронной почты и т.д.</p>
+    <p>Yii предоставляет инструмент для разработки консольных приложений, придерживаясь объектно-ориентированного подхода.</p>
+    <p>Он позволяет консольному приложению получить доступ к ресурсам, которые использует основное веб-приложение (например, к базе данных).</p>
+
+    <h2 id="title">
+        Обзор
+    </h2>
+
+    <p>Каждая консольная задача представлена в Yii как команда.</p>
+    <p>Консольная команда описывается в классе, наследуемом от CConsoleCommand.</p>
+    <p>После использования yiic webapp для создания начального прототипа приложения, в protected будут два файла:</p>
+
+    <ul>
+        <li>yiic — скрипт для Linux/Unix;</li>
+        <li>yiic.bat — скрипт для Windows.</li>
+    </ul>
+
+    <p>В консоли можно ввести следующие команды:</p>
+
+    <pre class="brush: csharp;">
+    cd protected
+    yiic help
+    </pre>
+
+    <p>После ввода будет отображён список всех доступных на данный момент команд.</p>
+    <p>По умолчанию это команды, предоставляемые Yii (так называемые системные команды) и команды, разработанные для конкретных приложений (так называемые пользовательские команды).</p>
+    <p>Для получения справки по команде можно запустить</p>
+
+    <pre class="brush: csharp;">
+    yiic help &lt;&icy;&mcy;&yacy;-&kcy;&ocy;&mcy;&acy;&ncy;&dcy;&ycy;&gt;
+    </pre>
+
+    <p>Для запуска команды используется следующий формат:</p>
+
+    <pre class="brush: csharp;">
+    yiic <имя-команды> [параметры…]
+    </pre>
+
+    <h2 id="title">
+        Создание команд
+    </h2>
+
+    <p>Консольные команды находятся в файлах с классами в папке, указанной в CConsoleApplication::commandPath.</p>
+    <p>По умолчанию это protected/commands.</p>
+    <p>Класс консольной команды должен быть унаследован от CConsoleCommand.</p>
+    <p>Имя класса должно быть вида XyzCommand, где Xyz соответствует имени команды, первая буква которого приведена к верхнему регистру.</p>
+    <p>К примеру, команда sitemap должна использовать класс SitemapCommand.</p>
+    <p>Имена консольных команд регистрозависимы.</p>
+    <p><b>Подсказка:</b> Конфигурируя CConsoleApplication::commandMap, можно при желании изменить порядок именования и расположения классов команд.</p>
+    <p>Для создания новой команды необходимо либо реализовать метод CConsoleCommand::run(), либо одно или несколько действий (будут описаны далее).</p>
+    <p>При вводе консольной команды приложение запускает метод CConsoleCommand::run().</p>
+    <p>Параметры метода передаются в соответствии с следующим заголовком:</p>
+
+    <pre class="brush: csharp;">
+    public function run($args) { ... }
+    </pre>
+
+    <p>где $args — дополнительные параметры, переданные из командной строки.</p>
+    <p>Внутри консольной команды для получения доступа к экземпляру консольного приложения можно использовать Yii::app().</p>
+    <p>Через полученный экземпляр можно обращаться к различным компонентам, таким как соединение с базой данных (Yii::app()->db).</p>
+    <p>Насколько можно судить, это очень похоже на обычное веб-приложение.</p>
+    <p><b>Информация:</b> Начиная с версии 1.1.1 можно создавать глобальные команды, которые используются всеми приложениями. Для этого определяется переменная окружения YII_CONSOLE_COMMANDS и в её значение записывается путь к директории с классами глобальных консольных команд.</p>
+
+    <h2 id="title">
+        Действие консольной команды
+    </h2>
+
+    <p><b>Примечание:</b> Данная возможность доступна начиная с версии 1.1.5.</p>
+    <p>Часто в консольной команде требуется работать с различными параметрами.</p>
+    <p>Часть из них могут быть обязательными, а часть нет.</p>
+    <p>Также может потребоваться реализовать субкоманды для выполнения различных подзадач.</p>
+    <p>Всё это упрощается при использовании действий.</p>
+    <p>Действие консольной команды — метод в её классе.</p>
+    <p>Имя метода должно быть вида actionXyz, где Xyz соответствует имени действия и первой буквой, приведённой к верхнему регистру.</p>
+    <p>К примеру, метод actionIndex задаёт действие с именем index.</p>
+    <p>Для того, чтобы запустить определённое действие, используется следующий формат команды:</p>
+
+    <pre class="brush: csharp;">
+    yiic <имя-команды> <имя-действия> --параметр1=значение1 --параметр2=значение2 ...
+    </pre>
+
+    <p>Дополнительные пары имя-значение передаются методу действия как именованные параметры.</p>
+    <p>Значение опции xyz соответствует параметру $xyz метода действия.</p>
+    <p>К примеру, если мы определим следующий класс команды:</p>
+
+    <pre class="brush: csharp;">
+    class SitemapCommand extends CConsoleCommand
+    {
+        public function actionIndex($type, $limit=5) { ... }
+        public function actionInit() { ... }
+    }
+    </pre>
+
+    <p>То все следующие консольные команды вызовут actionIndex('News', 5):</p>
+
+    <pre class="brush: csharp;">
+    yiic sitemap index --type=News --limit=5
+    
+    // $limit принимает значение по умолчанию
+    yiic sitemap index --type=News
+    
+    // $limit принимает значение по умолчанию.
+    // Так как 'index' — действие по умолчанию, мы можем опустить имя действия.
+    yiic sitemap --type=News
+    
+    // порядок опций не важен
+    yiic sitemap index --limit=5 --type=News
+    </pre>
+
+    <p>Если значение опции не указано (то есть --type вместо --type=News), соответствующему параметру действия будет присвоено значение true.</p>
+    <p><b>Примечание:</b> Альтернативные форматы указания опций, такие как --type News или -t News не поддерживаются.</p>
+    <p>Если объявить параметр как массив, он сможет принять массив значений:</p>
+
+    <pre class="brush: csharp;">
+    public function actionIndex(array $types) { ... }
+    </pre>
+
+    <p>Чтобы передать массив значений необходимо указать одну и ту же опцию несколько раз:</p>
+
+    <pre class="brush: csharp;">
+    yiic sitemap index --types=News --types=Article
+    </pre>
+
+    <p>Команда, приведённая выше, запустит actionIndex(array('News', 'Article')).</p>
+    <p>Начиная с версии 1.1.6, Yii позволяет использовать анонимные параметры действий и глобальные опции.</p>
+    <p>Анонимные параметры — это параметры командной строки, не являющиеся опциями.</p>
+    <p>К примеру, в команде yiic sitemap index --limit=5 News встречается анонимный параметр со значением News.</p>
+    <p>Именованный параметр (опция) limit принимает значение, равное 5.</p>
+    <p>Для того, чтобы использовать анонимные параметры, действие должно описать параметр с именем $args:</p>
+
+    <pre class="brush: csharp;">
+    public function actionIndex($limit=10, $args=array()) {...}
+    </pre>
+
+    <p>В массиве $args будут содержаться все доступные значения анонимных параметров.</p>
+    <p>Глобальные опции — это параметры командной строки, общие для всех действий команды.</p>
+    <p>К примеру, нам может понадобиться для команды с несколькими действиями завести общую опцию verbose.</p>
+    <p>Конечно, можно определить параметр $verbose для каждого действия, но лучше задать его public свойством класса команды, что автоматически сделает verbose глобальной опцией:</p>
+
+    <pre class="brush: csharp;">
+    class SitemapCommand extends CConsoleCommand
+    {
+        public $verbose=false;
+        public function actionIndex($type) {...}
+    }
+    </pre>
+
+    <p>Приведённый код позволяет использовать опцию verbose:</p>
+
+    <pre class="brush: csharp;">
+    yiic sitemap index --verbose=1 --type=News
+    </pre>
+
+    <h2 id="title">
+        Код возврата
+    </h2>
+
+    <p><b>Примечание:</b> возможность указать код возврата в консольной команде появилась в версии 1.1.11.</p>
+    <p>При автоматическом запуске консольных команд, например, по cron или используя сервер непрерывной интеграции, важно знать, завершилось ли выполнение команды с ошибкой или успешно.</p>
+    <p>Как раз для этого и предназначены коды возврата.</p>
+    <p>Данные коды являются целочисленными значениями от 0 до 254 (данный интервал задан в PHP), где 0 возвращается в случае успеха, а все остальные значения используются для различных ошибок.</p>
+    <p>Как в методе run(), так и в действиях команды вы можете вернуть целое число.</p>
+    <p>Оно будет использовано в качестве кода возврата.</p>
+    <p>Пример:</p>
+
+    <pre class="brush: csharp;">
+    if (/* ошибка */) {
+        return 1; // выходим с кодом 1
+    }
+    // … всякая всячина …
+    return 0; // всё хорошо, выходим с кодом 0
+    </pre>
+
+    <p>Если консольная команда ничего не возвращает, приложение завершается с кодом 0.</p>
+
+    <h2 id="title">
+        Настройка консольного приложения
+    </h2>
+
+    <p>По умолчанию, если приложение создаётся с использованием yiic webapp, конфигурация консольного приложения находится в</p>
+
+    <pre class="brush: csharp;">
+    protected/config/console.php
+    </pre>
+
+    <p>Как и конфигурация веб-приложения, данный файл является PHP-скриптом, возвращающим массив с начальными значениями экземпляра консольного приложения.</p>
+    <p>То есть в данном файле можно задать любое public свойство CConsoleApplication.</p>
+    <p>Так как консольные команды часто создаются для поддержки веб-приложения, требуется использовать те же ресурсы (такие, как соединения с БД), что используются в веб-приложении.</p>
+    <p>Это можно сделать настроив соответствующие компоненты в конфигурации консольного приложения:</p>
+
+    <pre class="brush: csharp;">
+    return array(
+        ......
+        'components'=>array(
+            'db'=>array(
+                ......
+            ),
+        ),
+    );
+    </pre>
+
+    <p>Формат конфигурации очень похож на тот, что используется в веб-приложении, так как и CConsoleApplication и CWebApplication наследуют один и тот же базовый класс.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="50.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="52.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/51.html", "Консольные приложения Yii", "bm1202"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1202", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1202") == 1) { document.getElementById("bma1202").style.display = "block"; document.getElementById("bm1202").style.display = "none"; } else { document.getElementById("bma1202").style.display = "none"; document.getElementById("bm1202").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Консольные приложения Yii") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1202", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

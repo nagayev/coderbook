@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma69" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm69" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Рекурсия в С++
+	</h1>
+
+	<p>Рекурсия достаточно распространённое явление, которое встречается не только в областях науки, но и в повседневной жизни.</p>
+	<p>Например, эффект Дросте, треугольник Серпинского и т. д.</p>
+	<p>Самый простой вариант увидеть рекурсию – это навести Web-камеру на экран монитора компьютера, естественно, предварительно её включив.</p>
+	<p>Таким образом, камера будет записывать изображение экрана компьютера, и выводить его же на этот экран, получится что-то вроде замкнутого цикла.</p>
+	<p>В итоге мы будем наблюдать нечто похожее на тоннель.</p>
+	<p>В программировании рекурсия тесно связана с функциями, точнее именно благодаря функциям в программировании существует такое понятие как рекурсия или рекурсивная функция.</p>
+	<p>Простыми словами, рекурсия – определение части функции (метода) через саму себя, то есть это функция, которая вызывает саму себя, непосредственно (в своём теле) или косвенно (через другую функцию).</p>
+	<p>Типичными рекурсивными задачами являются задачи: нахождения n!, числа Фибоначчи.</p>
+	<p>Такие задачи мы уже решали, но с использованием циклов, то есть итеративно.</p>
+	<p>Вообще говоря, всё то, что решается итеративно можно решить рекурсивно, то есть с использованием рекурсивной функции.</p>
+	<p>Всё решение сводится к решению основного или, как ещё его называют, базового случая.</p>
+	<p>Существует такое понятие как шаг рекурсии или рекурсивный вызов.</p>
+	<p>В случае, когда рекурсивная функция вызывается для решения сложной задачи (не базового случая) выполняется некоторое количество рекурсивных вызовов или шагов, с целью сведения задачи к более простой.</p>
+	<p>И так до тех пор пока не получим базовое решение.</p>
+	<p>Разработаем программу, в которой объявлена рекурсивная функция, вычисляющая n!</p>
+
+	<pre class="brush: csharp;">
+	// factorial.cpp: определяет точку входа для консольного приложения.
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	using namespace std;
+	// прототип рекурсивной функции
+	unsigned long int factorial(unsigned long int);
+	// инициализация глобальной переменной для подсчёта кол-ва рекурсивных вызовов
+	int i = 1; 
+	// глобальная переменная для хранения возвращаемого результата рекурсивной функцией
+	unsigned long int result;
+	 
+	int main(int argc, char* argv[])
+	{
+		// локальная переменная для передачи введенного числа с клавиатуры
+		int n;
+		cout << "Enter n!: ";
+		cin >> n;
+		// вызов рекурсивной функции
+		cout << n << "!" << "=" << factorial(n) << endl;
+		system("pause");
+		return 0;
+	}
+
+	// рекурсивная функция для нахождения n! 
+	unsigned long int factorial(unsigned long int f)
+	{
+		// базовое или частное решение
+		if (f == 1 || f == 0)
+		// все мы знаем, что 1!=1 и 0!=1
+		return 1;
+		cout << "Step\t" << i << endl;
+		// операция инкремента шага рекурсивных вызовов
+		i++;
+		cout << "Result= " << result << endl;
+		// функция вызывает саму себя, причём её аргумент уже на 1 меньше
+		result = f * factorial(f - 1);
+		return result;
+	}
+	</pre>
+
+	<p>В строках 7, 9, 21 объявлен тип данных unsigned long int, так как значение факториала возрастает очень быстро, например уже 10! = 3 628 800.</p>
+	<p>Если не хватит размера типа данных, то в результате мы получим совсем не правильное значение.</p>
+	<p>В коде объявлено больше операторов, чем нужно, для нахождения n!.</p>
+	<p>Это сделано для того, чтобы, отработав, программа показала, что происходит на каждом шаге рекурсивных вызовов.</p>
+	<p>Обратите внимание на выделенные строки кода, строки 23, 24, 28 — это рекурсивное решение n!.</p>
+	<p>Строки 23, 24 являются базовым решением рекурсивной функции, то есть, как только значение в переменной f будет равно 1 или 0 (так как мы знаем, что 1! = 1 и 0! = 1), прекратятся рекурсивные вызовы, и начнут возвращаться значения, для каждого рекурсивного вызова.</p>
+	<p>Когда вернётся значение для первого рекурсивного вызова, программа вернёт значение вычисляемого факториала.</p>
+	<p>В строке 28 функция factorial() вызывает саму себя, но уже её аргумент на единицу меньше.</p>
+	<p>Аргумент каждый раз уменьшается, чтобы достичь частного решения.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Enter n!: 5
+	Step	1
+	Result= 0
+	Step	2
+	Result= 0
+	Step	3
+	Result= 0
+	Step	4
+	Result= 0
+	5!=120
+	</pre>
+
+	<p>По результату работы программы хорошо виден каждый шаг и результат на каждом шаге равен нулю, кроме последнего рекурсивного обращения.</p>
+	<p>Необходимо было вычислить пять факториал. Программа сделала четыре рекурсивных обращения, на пятом обращении был найден базовый случай.</p>
+	<p>И как только  программа получила решение базового случая, она порешала предыдущие шаги и вывела общий результат.</p>
+	<p>В результате видно всего четыре шага потому, что на пятом шаге было найдено частное решение, что  в итоге вернуло конечное решение, т. е. 120.</p>
+	<p>Чтобы найти 5! нужно знать 4! и умножить его на 5; 4! = 4 * 3! и так далее.</p>	
+	<p>Переделаем программу нахождения факториала так, чтобы получить таблицу факториалов. Для этого объявим цикл for, в котором будем вызывать рекурсивную функцию.</p>	
+
+	<pre class="brush: csharp;">
+	// factorial.cpp: определяет точку входа для консольного приложения.
+	#include &quot;stdafx.h&quot;
+	#include &amp;lt;iostream&amp;gt;
+	using namespace std;
+	// прототип рекурсивной функции
+	unsigned long int factorial(unsigned long int);
+	// инициализация глобальной переменной для подсчёта кол-ва рекурсивных вызовов
+	int i = 1;
+	// глобальная переменная для хранения возвращаемого результата рекурсивной функцией
+	unsigned long int result;
+	 
+	int main(int argc, char* argv[])
+	{
+		// локальная переменная для передачи введенного числа с клавиатуры
+		int n;
+		cout &lt;&lt; &quot;Enter n!: &quot;;
+		cin &gt;&gt; n;
+		for (int k = 1; k &lt;= n; k++ )
+		{
+			// вызов рекурсивной функции
+			cout &lt;&lt; k &lt;&lt; &quot;!&quot; &lt;&lt; &quot;=&quot; &lt;&lt; factorial(k) &lt;&lt; endl;
+		}
+		system(&quot;pause&quot;);
+		return 0;
+	}
+	
+	// рекурсивная функция для нахождения n!
+	unsigned long int factorial(unsigned long int f)
+	{
+		// базовое или частное решение
+		if (f == 1 || f == 0)
+		// все мы знаем, что 1!=1 и 0!=1
+		return 1;
+		//cout &lt;&lt; &quot;Step\t&quot;&lt;&lt; i &lt;&lt;endl;
+		i++;
+		//cout &lt;&lt;&quot;Result= &quot;&lt;&lt; result &lt;&lt; endl;
+		// функция вызывает саму себя
+		result=f*factorial(f-1);
+		return result;
+	}
+	</pre>
+
+	<p>В строках 16 — 19 объявлен цикл, в котором вызывается рекурсивная функция.</p>
+	<p>Всё ненужное в программе закомментированно.</p>
+	<p>Запустив программу, нужно ввести значение, до которого необходимо вычислить факториалы.</p>
+	<p>Результат работы программы:</p>
+
+	<pre class="brush: csharp;">
+	Enter n!: 14
+	1!=1
+	2!=2
+	3!=6
+	4!=24
+	5!=120
+	6!=720
+	7!=5040
+	8!=40320
+	9!=362880
+	10!=3628800
+	11!=39916800
+	12!=479001600
+	13!=6227020800
+	14!=87178291200
+	</pre>
+
+	<p>Теперь видно, насколько быстро возрастает  факториал, кстати говоря, уже результат 14! не правильный, это и есть последствия нехватки размера типа данных.</p>
+	<p>Правильное значение 14! = 87178291200.</p>
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="47.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="49.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/48.html", "Рекурсия в С++", "bm69"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm69", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm69") == 1) { document.getElementById("bma69").style.display = "block"; document.getElementById("bm69").style.display = "none"; } else { document.getElementById("bma69").style.display = "none"; document.getElementById("bm69").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Рекурсия в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm69", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma85" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm85" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Шаблоны функций в С++
+	</h1>
+
+	<p>Шаблоны функций, своими словами — это инструкции, согласно которым создаются локальные версии шаблонированной функции для определенного набора параметров и типов данных.</p>
+	<p>На самом деле, шаблоны функций -это мощный инструмент в С++, который намного упрощает труд программиста.</p>
+	<p>Например, нам нужно запрограммировать функцию, которая выводила бы на экран элементы массива.</p>
+	<p>Задача не сложная!</p>
+	<p>Но, чтобы написать такую функцию, мы должны знать тип данных массива, который будем выводить на экран.</p>
+	<p>И тут нам говорят — тип данных не один, мы хотим, чтобы функция выводила массивы типа int, double, float и char.</p>
+	<p>Как оказалось, задача усложнилась.</p>
+	<p>И теперь мы понимаем, что нам нужно запрограммировать целых 4 функции, которые выполняют одни и те же действия, но для различных типов данных.</p>
+	<p>Так как мы еще не знакомы с шаблонами функций, мы поступим так: воспользуемся перегрузкой функций.</p>
+
+	<pre class="brush: csharp;">
+	// перегрузка функции printArray для вывода массива на экран
+	void printArray(const int * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+	}
+
+	void printArray(const double * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+	}
+
+	void printArray(const float * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+	}
+
+	void printArray(const char * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+	}
+	</pre>
+
+	<p>Таким образом, мы имеем 4 перегруженные функции, для разных типов данных.</p>
+	<p>Как видите, они отличаются только заголовком функции, тело у них абсолютно одинаковое.</p>
+	<p>Я написал один раз тело функции для типа int и три раза его скопировал для других типов данных.</p>
+	<p>И, если запустить программу с этими функциями, то она будет исправно работать.</p>
+	<p>Компилятор сам будет определять какую функцию использовать при вызове.</p>
+	<p>Как видите, кода получилось достаточно много, как для такой простой операции.</p>
+	<p>А что если, нам понадобится запрограммировать алгоритм сортировки в виде функции.</p>
+	<p>Получается, что для каждого типа данных придется свою функцию создавать.</p>
+	<p>То есть, сами понимаете, что один и тот же код будет в нескольких экземплярах, нам это ни к чему.</p>
+	<p>Поэтому в С++ придуман такой механизм — шаблоны функций.</p>
+	<p>Мы создаем один шаблон, в котором описываем все типы данных.</p>
+	<p>Таким образом исходник не будет захламляться никому ненужными строками кода.</p>
+	<p>Ниже рассмотрим пример программы с шаблоном функции.</p>
+	<p>Итак, вспомним условие: "запрограммировать функцию, которая выводила бы на экран элементы массива".</p>
+
+	<pre class="brush: csharp;">
+	#include "stdafx.h"
+	#include &lt;iostream&gt;
+	#include &lt;cstring&gt;
+	using namespace std;
+	// шаблон функции printArray
+	template &lt;typename T&gt;
+	void printArray(const T * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+		// конец шаблона функции printArray
+	}
+
+	int main()
+	{
+		// размеры массивов
+		const int iSize = 10,
+		dSize = 7,
+		fSize = 10,
+		cSize = 5;
+		
+		// массивы разных типов данных
+		int    iArray[iSize] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		double dArray[dSize] = {1.2345, 2.234, 3.57, 4.67876, 5.346, 6.1545, 7.7682};
+		float  fArray[fSize] = {1.34, 2.37, 3.23, 4.8, 5.879, 6.345, 73.434, 8.82, 9.33, 10.4};
+		char   cArray[cSize] = {"MARS"};
+		cout << "\t\t Шаблон функции вывода массива на экран\n\n";
+		
+		// вызов локальной версии функции printArray для типа int через шаблон
+		cout << "\nМассив типа int:\n"; printArray(iArray, iSize);
+		
+		// вызов локальной версии функции printArray для типа double через шаблон
+		cout << "\nМассив типа double:\n"; printArray(dArray, dSize);
+		
+		// вызов локальной версии функции printArray для типа float через шаблон
+		cout << "\nМассив типа float:\n"; printArray(fArray, fSize);
+		
+		// вызов локальной версии функции printArray для типа char через шаблон
+		cout << "\nМассив типа char:\n";printArray(cArray, cSize);
+		return 0;
+	}
+	</pre>
+
+	<p>Заметьте, код уменьшился в 4 раза, так как в программе объявлен всего один экземпляр функции — шаблон.</p>
+	<p>В main я объявил несколько массивов — четыре, для типов данных: int, double, float, char.</p>
+	<p>После чего, в строках 26, 28, 30, 32, выполняется вызов функции printArray для разных массивов.</p>
+	<p>Результат работы программы показан ниже.</p>
+
+	<pre class="brush: csharp;">
+	Шаблон функции вывода массива на экран
+	Массив типа int:
+	1   2   3   4   5   6   7   8   9   10   
+	Массив типа double:
+	1.2345   2.234   3.57   4.67876   5.346   6.1545   7.7682   
+	Массив типа float:
+	1.34   2.37   3.23   4.8   5.879   6.345   73.434   8.82   9.33   10.4   
+	Массив типа char:
+	M   A   R   S
+	</pre>
+
+	<p>Как видите программа корректно работает, и для этого нам понадобилось всего один раз определить функцию printArray в привычном для нас виде.</p>
+	<p>Обратите внимание, что перед объявлением самой функции, в строке 5, стоит следующая запись template&lt;typenameT&gt;.</p>
+	<p>Как раз эта запись и говорит о том, что функция printArray на самом деле является шаблоном функции, так как в первом параметре printArray стоит тип данных const T*, точно такой же как и в строке 5.</p>
+	<p>Все шаблоны функций начинаются со слова template, после которого идут угловые скобки, в которых перечисляется список параметров.</p>
+	<p>Каждому параметру должно предшествовать зарезервированное слово class или typename.</p>
+
+	<pre class="brush: csharp;">
+	template &lt;class T&gt;
+	</pre>
+	
+	<p>или</p>
+	
+	<pre class="brush: csharp;">
+	template &lt;typename T&gt;
+	</pre>
+	
+	<p>или</p>
+	
+	<pre class="brush: csharp;">
+	template &lt;typename T1, typename T2&gt;
+	</pre>
+
+	<p>Ключевое слово typename говорит о том, что в шаблоне будет использоваться встроенный тип данных, такой как: int, double, float, char и т. д.</p>
+	<p>А ключевое слово class сообщает компилятору, что в шаблоне функции в качестве параметра будут использоваться пользовательские типы данных, то есть классы.</p>
+	<p>У нас в шаблоне функции использовались встроенные типы данных, поэтому в строке 5 мы написали template&lt;typenameT&gt;.</p>
+	<p>Вместо T можно подставить любое другое имя, какое только придумаете.</p>
+	<p>Давайте подробно рассмотри фрагмент кода из верхней программы, я его вынесу отдельно.</p>
+
+	<pre class="brush: csharp;">
+	// шаблон функции printArray
+	template &lt;typename T&gt;
+	void printArray(const T * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+		// конец шаблона функции printArray
+	}
+	</pre>
+
+	<p>В строке 2 выполняется определение шаблона с одним параметром — T, причем этот параметр будет иметь один из встроенных типов данных, так как указано ключевое слово typename.</p>
+	<p>Ниже, в строках 3 — 8 объявлена функция, которая соответствует всем критериям объявления обычной функции, есть заголовок, есть тело функции, в заголовке есть имя и параметры функции, все как обычно.</p>
+	<p>Но что эту функции превращает в шаблон функции, так это параметр с типом данных T, это единственная связь с шаблоном, объявленным ранее.</p>
+	<p>Если бы мы написали</p>
+
+	<pre class="brush: csharp;">
+	void printArray(const int * array, int count)
+	{
+		for (int ix = 0; ix < count; ix++)
+		cout << array[ix] << "   ";
+		cout << endl;
+	}
+	</pre>
+
+	<p>то это была бы простая функция для массива типа int.</p>
+	<p>Так вот, по сути T — это даже не тип данных, это зарезервированное место под любой встроенный тип данных.</p>
+	<p>То есть когда выполняется вызов этой функции, компилятор анализирует параметр шаблонированной функции и создает экземпляр для соответственного типа данных: int, char и так далее.</p>
+	<p>Поэтому следует понимать, что даже если объем кода меньше, то это не значит, что памяти программа будет потреблять меньше.</p>
+	<p>Компилятор сам создает локальные копии функции-шаблона и соответственно памяти потребляется столько, как если бы вы сами написали все экземпляры функции, как в случае с перегрузкой.</p>
+	<p>Надеюсь основную мысль по шаблонам функций до вас довел.</p>
+
+	
+
+        <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="63.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="65.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cpp/book/64.html", "Шаблоны функций в С++", "bm85"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm85", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm85") == 1) { document.getElementById("bma85").style.display = "block"; document.getElementById("bm85").style.display = "none"; } else { document.getElementById("bma85").style.display = "none"; document.getElementById("bm85").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Шаблоны функций в С++") == 1) { arrs.splice(i, 1); localStorage.setItem("bm85", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

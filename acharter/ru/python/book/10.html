@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma935" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm935" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Числа: целые, вещественные, комплексные
+	</h1>
+	
+	<p>Числа в Python 3: целые, вещественные, комплексные. Работа с числами и операции над ними.</p>
+
+	<h1 id="title">
+		Целые числа (int)
+	</h1>
+	
+	<p>Числа в Python 3 ничем не отличаются от обычных чисел.</p>
+	<p>Они поддерживают набор самых обычных математических операций:</p>
+
+	<table>
+		<tr>
+			<td>x + y</td>
+			<td>Сложение</td>
+		</tr>
+		<tr>
+			<td>x - y</td>
+			<td>Вычитание</td>
+		</tr>
+		<tr>
+			<td>x * y</td>
+			<td>Умножение</td>
+		</tr>
+		<tr>
+			<td>x / y</td>
+			<td>Деление</td>
+		</tr>
+		<tr>
+			<td>x // y</td>
+			<td>Получение целой части от деления</td>
+		</tr>
+		<tr>
+			<td>x % y</td>
+			<td>Остаток от деления</td>
+		</tr>
+		<tr>
+			<td>-x</td>
+			<td>Смена знака числа</td>
+		</tr>
+		<tr>
+			<td>abs(x)</td>
+			<td>Модуль числа</td>
+		</tr>
+		<tr>
+			<td>divmod(x, y)</td>
+			<td>Пара (x // y, x % y)</td>
+		</tr>
+		<tr>
+			<td>x ** y</td>
+			<td>Возведение в степень</td>
+		</tr>
+		<tr>
+			<td>pow(x, y[, z])</td>
+			<td>x^y по модулю (если модуль задан)</td>
+		</tr>
+	</table>
+
+	<p>Также нужно отметить, что целые числа в python 3, в отличие от многих других языков, поддерживают длинную арифметику (однако, это требует больше памяти).</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; 255 + 34
+289
+&gt;&gt;&gt; 5 * 2
+10
+&gt;&gt;&gt; 20 / 3
+6.666666666666667
+&gt;&gt;&gt; 20 // 3
+6
+&gt;&gt;&gt; 20 % 3
+2
+&gt;&gt;&gt; 3 ** 4
+81
+&gt;&gt;&gt; pow(3, 4)
+81
+&gt;&gt;&gt; pow(3, 4, 27)
+0
+&gt;&gt;&gt; 3 ** 150
+369988485035126972924700782451696644186473100389722973815184405301748249
+	</pre>
+
+	<h1 id="title">
+		Битовые операции
+	</h1>
+
+	<p>Над целыми числами также можно производить битовые операции.</p>
+	
+	<table>
+		<tr>
+			<td>x | y</td>
+			<td>Побитовое или</td>
+		</tr>
+		<tr>
+			<td>x ^ y</td>
+			<td>Побитовое исключающее или</td>
+		</tr>
+		<tr>
+			<td>x &amp; y</td>
+			<td>Побитовое и</td>
+		</tr>
+		<tr>
+			<td>x &lt;&lt; n</td>
+			<td>Битовый сдвиг влево</td>
+		</tr>
+		<tr>
+			<td>x &gt;&gt; y</td>
+			<td>Битовый сдвиг вправо</td>
+		</tr>
+		<tr>
+			<td>~x</td>
+			<td>Инверсия битов</td>
+		</tr>
+	</table>
+
+	<h1 id="title">
+		Дополнительные методы
+	</h1>
+	
+	<p><b>int.bit_length()</b> - количество бит, необходимых для представления числа в двоичном виде, без учёта знака и лидирующих нулей.</p>
+
+	<pre class="brush: csharp;">
+		&gt;&gt;&gt; n = -37
+		&gt;&gt;&gt; bin(n)
+		'-0b100101'
+		&gt;&gt;&gt; n.bit_length()
+		6
+	</pre>
+
+	<p><b>int.to_bytes(length, byteorder, *, signed=False)</b> - возвращает строку байтов, представляющих это число.</p>
+
+	<pre class="brush: csharp;">
+		&gt;&gt;&gt; (1024).to_bytes(2, byteorder='big')
+		b'\x04\x00'
+		&gt;&gt;&gt; (1024).to_bytes(10, byteorder='big')
+		b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
+		&gt;&gt;&gt; (-1024).to_bytes(10, byteorder='big', signed=True)
+		b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
+		&gt;&gt;&gt; x = 1000
+		&gt;&gt;&gt; x.to_bytes((x.bit_length() // 8) + 1, byteorder='little')
+		b'\xe8\x03'
+	</pre>
+
+	<p><b>classmethod int.from_bytes(bytes, byteorder, *, signed=False)</b> - возвращает число из данной строки байтов.</p>
+
+	<pre class="brush: csharp;">
+		&gt;&gt;&gt; int.from_bytes(b'\x00\x10', byteorder='big')
+		16
+		&gt;&gt;&gt; int.from_bytes(b'\x00\x10', byteorder='little')
+		4096
+		&gt;&gt;&gt; int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)
+		-1024
+		&gt;&gt;&gt; int.from_bytes(b'\xfc\x00', byteorder='big', signed=False)
+		64512
+		&gt;&gt;&gt; int.from_bytes([255, 0, 0], byteorder='big')
+		16711680
+	</pre>
+
+	<h1 id="title">
+		Системы счисления
+	</h1>
+	
+	<p>Те, у кого в школе была информатика, знают, что числа могут быть представлены не только в десятичной системе счисления.</p>
+	<p>К примеру, в компьютере используется двоичный код, и, к примеру, число 19 в двоичной системе счисления будет выглядеть как 10011.</p>
+	<p>Также иногда нужно переводить числа из одной системы счисления в другую.</p>
+	<p>Python для этого предоставляет несколько функций:</p>
+	<p>- <b>int([object], [основание системы счисления])</b> - преобразование к целому числу в десятичной системе счисления. По умолчанию система счисления десятичная, но можно задать любое основание от 2 до 36 включительно.</p>
+	<p>- <b>bin(x)</b> - преобразование целого числа в двоичную строку.</p>
+	<p>- <b>hex(х)</b> - преобразование целого числа в шестнадцатеричную строку.</p>
+	<p>- <b>oct(х)</b> - преобразование целого числа в восьмеричную строку.</p>
+	<p>Примеры:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; a = int('19') # Переводим строку в число
+	&gt;&gt;&gt; b = int('19.5')  # Строка не является целым числом
+	Traceback (most recent call last): File "", line 1, in
+	ValueError: invalid literal for int() with base 10: '19.5'
+	&gt;&gt;&gt; c = int(19.5)  # Применённая к числу с плавающей точкой, отсекает дробную часть
+	&gt;&gt;&gt; print(a, c)
+	19 19
+	&gt;&gt;&gt; bin(19)
+	'0b10011'
+	&gt;&gt;&gt; oct(19)
+	'0o23'
+	&gt;&gt;&gt; hex(19)
+	'0x13'
+	&gt;&gt;&gt; 0b10011  # Так тоже можно записывать числовые константы
+	19
+	&gt;&gt;&gt; int('10011', 2)
+	19
+	&gt;&gt;&gt; int('0b10011', 2)
+	19
+	</pre>
+
+	<h1 id="title">
+		Вещественные числа (float)
+	</h1>
+	
+	<p>Вещественные числа поддерживают те же операции, что и целые.</p>
+	<p>Однако (из-за представления чисел в компьютере) вещественные числа неточны, и это может привести к ошибкам:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1
+	0.9999999999999999
+	</pre>
+
+	<p>Для высокой точности используют другие объекты (например Decimal и Fraction)).</p>
+	<p>Также вещественные числа не поддерживают длинную арифметику:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; a = 3 ** 1000
+&gt;&gt;&gt; a + 0.1
+Traceback (most recent call last):
+  File "", line 1, in
+OverflowError: int too large to convert to float
+	</pre>
+
+	<p>Простенькие примеры работы с числами:</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; c = 150
+	&gt;&gt;&gt; d = 12.9
+	&gt;&gt;&gt; c + d
+	162.9
+	&gt;&gt;&gt; p = abs(d - c)  # Модуль числа
+	&gt;&gt;&gt; print(p)
+	137.1
+	&gt;&gt;&gt; round(p)  # Округление
+	137
+	</pre>
+
+	<h1 id="title">
+		Дополнительные методы
+	</h1>
+
+	<p><b>float.as_integer_ratio()</b> - пара целых чисел, чьё отношение равно этому числу.</p>
+	<p><b>float.is_integer()</b> - является ли значение целым числом.</p>
+	<p><b>float.hex()</b> - переводит float в hex (шестнадцатеричную систему счисления).</p>
+	<p><b>classmethod float.fromhex(s)</b> - float из шестнадцатеричной строки.</p>
+	
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; (10.5).hex()
+	'0x1.5000000000000p+3'
+	&gt;&gt;&gt; float.fromhex('0x1.5000000000000p+3')
+	10.5
+	</pre>
+
+	<p>Помимо стандартных выражений для работы с числами (а в Python их не так уж и много), в составе Python есть несколько полезных модулей.</p>
+	<p>Модуль math предоставляет более сложные математические функции.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; import math
+	&gt;&gt;&gt; math.pi
+	3.141592653589793
+	&gt;&gt;&gt; math.sqrt(85)
+	9.219544457292887
+	</pre>
+
+	<p>Модуль random реализует генератор случайных чисел и функции случайного выбора.</p>
+
+	<pre class="brush: csharp;">
+	&gt;&gt;&gt; import random
+	&gt;&gt;&gt; random.random()
+	0.15651968855132303
+	</pre>
+
+	<h1 id="title">
+		Комплексные числа (complex)
+	</h1>
+	
+	<p>В Python встроены также и комплексные числа:</p>
+
+	<pre class="brush: csharp;">
+&gt;&gt;&gt; x = complex(1, 2)
+&gt;&gt;&gt; print(x)
+(1+2j)
+&gt;&gt;&gt; y = complex(3, 4)
+&gt;&gt;&gt; print(y)
+(3+4j)
+&gt;&gt;&gt; z = x + y
+&gt;&gt;&gt; print(x)
+(1+2j)
+&gt;&gt;&gt; print(z)
+(4+6j)
+&gt;&gt;&gt; z = x * y
+&gt;&gt;&gt; print(z)
+(-5+10j)
+&gt;&gt;&gt; z = x / y
+&gt;&gt;&gt; print(z)
+(0.44+0.08j)
+&gt;&gt;&gt; print(x.conjugate())  # Сопряжённое число
+(1-2j)
+&gt;&gt;&gt; print(x.imag)  # Мнимая часть
+2.0
+&gt;&gt;&gt; print(x.real)  # Действительная часть
+1.0
+&gt;&gt;&gt; print(x > y)  # Комплексные числа нельзя сравнить
+Traceback (most recent call last):
+  File "", line 1, in
+TypeError: unorderable types: complex() > complex()
+&gt;&gt;&gt; print(x == y)  # Но можно проверить на равенство
+False
+&gt;&gt;&gt; abs(3 + 4j)  # Модуль комплексного числа
+5.0
+&gt;&gt;&gt; pow(3 + 4j, 2)  # Возведение в степень
+(-7+24j)
+	</pre>
+
+	<p>Также для работы с комплексными числами используется также модуль cmath.</p>
+
+	<h1 id="title">
+		Модуль cmath
+	</h1>
+
+	<p>Модуль cmath – предоставляет функции для работы с комплексными числами.</p>
+	<p><b>cmath.phase(x)</b> - возвращает фазу комплексного числа (её ещё называют аргументом). Эквивалентно math.atan2(x.imag, x.real). Результат лежит в промежутке [-π, π].</p>
+	<p>Получить модуль комплексного числа можно с помощью встроенной функции abs().</p>
+	<p><b>cmath.polar(x)</b> - преобразование к полярным координатам. Возвращает пару (r, phi).</p>
+	<p><b>cmath.rect(r, phi)</b> - преобразование из полярных координат.</p>
+	<p><b>cmath.exp(x)</b> - ex.</p>
+	<p><b>cmath.log(x[, base])</b> - логарифм x по основанию base. Если base не указан, возвращается натуральный логарифм.</p>
+	<p><b>cmath.log10(x)</b> - десятичный логарифм.</p>
+	<p><b>cmath.sqrt(x)</b> - квадратный корень из x.</p>
+	<p><b>cmath.acos(x)</b> - арккосинус x.</p>
+	<p><b>cmath.asin(x)</b> - арксинус x.</p>
+	<p><b>cmath.atan(x)</b> - арктангенс x.</p>
+	<p><b>cmath.cos(x)</b> - косинус x.</p>
+	<p><b>cmath.sin(x)</b> - синус x.</p>
+	<p><b>cmath.tan(x)</b> - тангенс x.</p>
+	<p><b>cmath.acosh(x)</b> - гиперболический арккосинус x.</p>
+	<p><b>cmath.asinh(x)</b> - гиперболический арксинус x.</p>
+	<p><b>cmath.atanh(x)</b> - гиперболический арктангенс x.</p>
+	<p><b>cmath.cosh(x)</b> - гиперболический косинус x.</p>
+	<p><b>cmath.sinh(x)</b> - гиперболический синус x.</p>
+	<p><b>cmath.tanh(x)</b> - гиперболический тангенс x.</p>
+	<p><b>cmath.isfinite(x)</b> - True, если действительная и мнимая части конечны.</p>
+	<p><b>cmath.isinf(x)</b> - True, если либо действительная, либо мнимая часть бесконечна.</p>
+	<p><b>cmath.isnan(x)</b> - True, если либо действительная, либо мнимая часть NaN.</p>
+	<p><b>cmath.pi</b> - π.</p>
+	<p><b>cmath.e</b> - e.</p>
+	
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="9.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="11.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/python/book/10.html", "Числа", "bm935"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm935", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm935") == 1) { document.getElementById("bma935").style.display = "block"; document.getElementById("bm935").style.display = "none"; } else { document.getElementById("bma935").style.display = "none"; document.getElementById("bm935").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Числа") == 1) { arrs.splice(i, 1); localStorage.setItem("bm935", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

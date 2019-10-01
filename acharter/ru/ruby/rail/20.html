@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1329" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1329" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+    <!-- ПОЧАТОК -->
+    
+    <h1 id="title">
+        Удаление статей
+    </h1>
+    
+    <p>Теперь мы готовы раскрыть часть "D" от CRUD, удаление (deleting) из базы данных.</p>
+    <p>Следуя соглашению REST, маршрут для удаления статей в результатах вывода <b>bin/rails routes</b> следующий:</p>
+
+    <pre class="brush: csharp;">
+    DELETE /articles/:id(.:format)      articles#destroy
+    </pre>
+
+    <p>Метод роутинга delete должен быть использован для маршрутов, уничтожающих ресурсы.</p>
+    <p>Если бы его оставить обычным маршрутом get, станет возможным создавать следующие злонамеренные URL:</p>
+
+    <pre class="brush: csharp;">
+    &lt;a href=&apos;http://example.com/articles/1/destroy&apos;&gt;look at this cat!&lt;/a&gt;
+    </pre>
+
+    <p>Мы используем метод delete для уничтожения ресурсов, и этот маршрут связывается с экшном destroy в <b>app/controllers/articles_controller.rb</b>, который еще не существует.</p>
+    <p>Метод destroy обычно последний экшн CRUD в контроллере, и подобно остальным публичным экшнам CRUD, он должен быть расположен перед любыми private или protected методами.</p>
+    <p>Давайте его добавим:</p>
+
+    <pre class="brush: csharp;">
+    def destroy
+      @article = Article.find(params[:id])
+      @article.destroy
+     
+      redirect_to articles_path
+    end
+    </pre>
+
+    <p>Полностью ArticlesController в файле <b>app/controllers/articles_controller.rb</b> должен выглядеть теперь так:</p>
+
+    <pre class="brush: csharp;">
+    class ArticlesController < ApplicationController
+      def index
+        @articles = Article.all
+      end
+     
+      def show
+        @article = Article.find(params[:id])
+      end
+     
+      def new
+        @article = Article.new
+      end
+     
+      def edit
+        @article = Article.find(params[:id])
+      end
+     
+      def create
+        @article = Article.new(article_params)
+     
+        if @article.save
+          redirect_to @article
+        else
+          render 'new'
+        end
+      end
+     
+      def update
+        @article = Article.find(params[:id])
+     
+        if @article.update(article_params)
+          redirect_to @article
+        else
+          render 'edit'
+        end
+      end
+     
+      def destroy
+        @article = Article.find(params[:id])
+        @article.destroy
+     
+        redirect_to articles_path
+      end
+     
+      private
+        def article_params
+          params.require(:article).permit(:title, :text)
+        end
+    end
+    </pre>
+
+    <p>Можно вызывать destroy на объектах Active Record, когда вы хотите удалить их из базы данных.</p>
+    <p>Отметьте, что нам не нужно добавлять вьюху для этого экшна, так как мы перенаправляем на экшн index.</p>
+    <p>Наконец, добавим ссылку 'Destroy' в шаблон экшна index (<b>app/views/articles/index.html.erb</b>), собрав все ссылки вместе.</p>
+
+    <pre class="brush: csharp;">
+    &lt;h1&gt;Listing Articles&lt;/h1&gt;
+    &lt;%= link_to &apos;New article&apos;, new_article_path %&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Title&lt;/th&gt;
+        &lt;th&gt;Text&lt;/th&gt;
+        &lt;th colspan=&quot;3&quot;&gt;&lt;/th&gt;
+      &lt;/tr&gt;
+     
+      &lt;% @articles.each do |article| %&gt;
+        &lt;tr&gt;
+          &lt;td&gt;&lt;%= article.title %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= article.text %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= link_to &apos;Show&apos;, article_path(article) %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= link_to &apos;Edit&apos;, edit_article_path(article) %&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;%= link_to &apos;Destroy&apos;, article_path(article),
+                  method: :delete,
+                  data: { confirm: &apos;Are you sure?&apos; } %&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;% end %&gt;
+    &lt;/table&gt;
+    </pre>
+
+    <p>Тут мы используем link_to другим образом.</p>
+    <p>Мы передаем именованный маршрут как второй аргумент, и опции как иной аргумент.</p>
+    <p>Опции method: :delete и data: { confirm: 'Are you sure?' } используются как атрибуты html5, поэтому при нажатии ссылки, Rails сначала покажет пользователю диалог подтверждения, а затем отправит ссылку с помощью метода delete.</p>
+    <p>Это выполняется с помощью файла JavaScript rails-ujs, который автоматически включается в макет приложения (<b>app/views/layouts/application.html.erb</b>) при генерации приложения.</p>
+    <p>Без этого файла диалог подтверждения не будет показан.</p>
+
+    <img src="r11.png" id="image" />
+
+    <p>Узнайте больше про ненавязчивый JavaScript в руководстве Работа с JavaScript в Rails.</p>
+    <p>Наши поздравления, теперь вы можете создавать, просматривать все и по отдельности, обновлять и уничтожать статьи.</p>
+    <p>В основном, Rails рекомендует использовать ресурсные объекты вместо объявления маршрутов вручную.</p>
+    <p>Подробнее о роутинге смотрите Роутинг в Rails.</p>
+
+    <script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="19.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="21.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/ruby/rail/20.html", "Удаление статей", "bm1329"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1329", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1329") == 1) { document.getElementById("bma1329").style.display = "block"; document.getElementById("bm1329").style.display = "none"; } else { document.getElementById("bma1329").style.display = "none"; document.getElementById("bm1329").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Удаление статей") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1329", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

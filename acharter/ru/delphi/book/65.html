@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma451" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm451" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Динамические массивы (ч. 3)
+	</h1>
+
+	<p>Процедуры ChangeCombo еще нет, мы предназначили ее для того, чтобы пользователь мог выбрать нужный телефон из списка, а процедура обновляет список.</p>
+	<p>Поскольку эта процедура должна быть описана выше того места, где мы ее используем, то опишем ее самой первой, после директивы компилятору {$R *.dfm}:</p>
+
+	<pre class="brush: csharp;">
+{Процедура обновления ComboBox1}
+procedure ChangeCombo;
+var
+  i : Integer;  //счетчик для цикла
+begin
+  //если массив пустой - выходим:
+  if Length(sprav) = 0 then Exit;
+  //если что-то есть, то сначала очистим ComboBox:
+  fMain.ComboBox1.Items.Clear;
+  //затем добавим в него каждый номер телефона из массива:
+  for i := 0 to High(sprav) do
+    fMain.ComboBox1.Items.Add(sprav[i].TelNum);
+end;
+	</pre>
+
+	<p>Сохраните проект и скомпилируйте его, впишите пару телефонов и убедитесь, что они попадают в ComboBox.</p>
+	<p>Программа уже вовсю работает с динамическим массивом и сохраняет в него данные.</p>
+	<p>Однако пока что данные хранятся только в памяти, нужно научить программу сохранять их в файл.</p>
+	<p>Создаем для формы обработчик событий onDestroy, то есть, когда форма разрушается, наши данные попадут в файл.</p>
+	<p>Файл будет создаваться, если его не было, или перезаписываться, если он уже был.</p>
+
+	<pre class="brush: csharp;">
+{при выходе из программы обновим файл:}
+procedure TfMain.FormDestroy(Sender: TObject);
+var
+  f : File of myTFSprav;
+  i : Integer;
+begin
+  //создаем или перезаписываем файл:
+try
+  AssignFile(f, 'mySprav.dat');
+  Rewrite(f);
+  //записываем все данные архива:
+  for i := Low(sprav) to High(sprav) do
+    Write(f, sprav[i]);
+finally
+  CloseFile(f);
+end; // try
+
+end;
+	</pre>
+
+	<p>Как видите, мы объявили файл такого же типа, какой имеет массив.</p>
+	<p>В прошлой лекции вы уже записывали запись в типизированный файл, однако теперь нам придется записывать не одну запись, а целый массив таких записей.</p>
+	<p>Поэтому мы используем функцию:</p>
+
+	<pre class="brush: csharp;">
+	Write(f, sprav[i]);
+	</pre>
+
+	<p>причем делаем это в цикле от первого до последнего элемента массива.</p>
+	<p>Эта функция записывает в файл f запись нужного типа sprav[i].</p>
+	<p>В примере у нас в этой строке сохраняется только один элемент массива, все его поля, после чего указатель перемещается к концу.</p>
+	<p>В следующем проходе цикла сохраняться будет уже следующий элемент массива, и так далее, увеличивая файл.</p>
+	<p>Ну и наконец, обратите внимание, что в качестве файла мы указали только имя и расширение, следовательно, он будет создаваться в той же папке, откуда запущена программа.</p>
+	<p>Вы можете использовать примеры из прошлых лекций и изменить имя файла в функции AssignFile(), указав там и адрес программы.</p>
+	<p>Сохраните пример и скомпилируйте его. Впишите пару записей и выйдите из программы.</p>
+	<p>Посмотрите в директорию – там должен появиться файл – справочник.</p>
+	<p>Наша программа уже умеет сохранять данные в файл, теперь научим ее загружать их из файла.</p>
+	<p>Создаем для формы обработчик onCreate, и вписываем туда код:</p>
+
+	<pre class="brush: csharp;">
+{При включении программы загружаем список}
+procedure TfMain.FormCreate(Sender: TObject);
+var
+  f : File of myTFSprav;
+begin
+try
+  AssignFile(f, 'mySprav.dat');
+  Reset(f);
+  //считываем все данные в архив:
+  while not Eof(f) do begin
+    //добавляем новый элемент массива
+    SetLength(sprav, Length(sprav)+1);
+    Read(f, sprav[High(sprav)]);
+  end;  //while
+finally
+  CloseFile(f);
+end; // try
+  //обновим ComboBox с телефонами:
+  ChangeCombo;
+end;
+	</pre>
+
+	<p>Обратите внимание, что мы не знаем заранее, сколько там записей, поэтому использовать цикл for не можем.</p>
+	<p>Зато мы можем использовать while.</p>
+	<p>Функция Eof(f) вернет истину, когда будет достигнут конец файла f.</p>
+	<p>И каждый раз, для новой записи, мы добавляем один элемент к массиву.</p>
+	<p>Мы должны сделать это раньше, чем будем считывать запись, потому что, если для записи не выделена память, то некуда будет считывать новую запись и программа выдаст ошибку.</p>
+	<p>В конце мы опять вызываем процедуру ChangeCombo, чтобы добавить в ComboBox все телефоны из массива.</p>
+	<p>Сохраните проект, скомпилируйте его и проверьте работу.</p>
+	<p>В ComboBox должны загружаться все телефоны из файла.</p>
+	<p>Однако еще программе не хватает "изюминки" - надо бы, чтобы данные этой записи отображались на форме, когда пользователь выберет тот или иной телефон в ComboBox.</p>
+	<p>Выделяем этот компонент и пишем для него обработчик событий onChange:</p>
+
+	<pre class="brush: csharp;">
+{Выбрали другой объект в combobox1}
+procedure TfMain.ComboBox1Change(Sender: TObject);
+begin
+  MaskEdit1.Text := sprav[ComboBox1.ItemIndex].TelNum;
+  if sprav[ComboBox1.ItemIndex].Mobil then
+     ComboBox2.ItemIndex := 0
+  else ComboBox2.ItemIndex := 1;
+  Edit1.Text := sprav[ComboBox1.ItemIndex].Imya;
+  Edit2.Text := sprav[ComboBox1.ItemIndex].Otchestvo;
+  Edit3.Text := sprav[ComboBox1.ItemIndex].Familiya;
+  Edit4.Text := sprav[ComboBox1.ItemIndex].Adres;
+end;
+	</pre>
+
+	<p>Все, программа готова!</p>
+	<p>Это конечно, не полноценная база данных, тем не менее, такой прием программирования будет полезен при сохранении небольшого количества данных, например, для пользовательских настроек при многопользовательской программе.</p>
+	<p>А для хранения больших объемов данных желательно использовать БД – базы данных, которые нам вскоре предстоит изучить.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="64.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="66.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/65.html", "Динамические массивы (ч. 3)", "bm451"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm451", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm451") == 1) { document.getElementById("bma451").style.display = "block"; document.getElementById("bm451").style.display = "none"; } else { document.getElementById("bma451").style.display = "none"; document.getElementById("bm451").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Динамические массивы (ч. 3)") == 1) { arrs.splice(i, 1); localStorage.setItem("bm451", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1307" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1307" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		ArrayHelper
+	</h1>
+
+    <p>В добавок к богатому набору функций для работы с массивами, которые есть в самом PHP, Yii Array helper предоставляет свои статические функции, которые могут быть вам полезны.</p>
+
+    <h2 id="title">
+        Получение значений
+    </h2>
+
+    <p>Извлечение значений из массива, объекта или структуры состоящей из них обоих с помощью стандартных средств PHP является довольно скучным занятием.</p>
+    <p>Сперва вам нужно проверить есть ли соответствующий ключ с помощью isset, и если есть – получить, если нет – подставить значение по умолчанию.</p>
+
+    <pre class="brush: csharp;">
+    class User
+    {
+        public $name = 'Alex';
+    }
+    
+    $array = [
+        'foo' =&gt; [
+            'bar' =&gt; new User(),
+        ]
+    ];
+    
+    $value = isset($array['foo']['bar']->name) ? $array['foo']['bar']->name : null;
+    </pre>
+
+    <p>Yii предлагает очень удобный метод для таких случаев:</p>
+
+    <pre class="brush: csharp;">
+    $value = ArrayHelper::getValue($array, 'foo.bar.name');
+    </pre>
+
+    <p>Первый аргумент – массив или объект из которого мы извлекаем значение.</p>
+    <p>Второй аргумент определяет как будут извлекаться данные и может выглядеть как один из таких вариантов:</p>
+
+     <ul>
+        <li>Имя ключа массива или свойства объекта, значение которого нужно вернуть</li>
+        <li>Путь к нужному значению, разделенный точками, как в примере выше</li>
+        <li>Callback-функция возвращающая значение</li>
+    </ul>
+
+    <p>Callback-функция должна выглядеть примерно так:</p>
+
+    <pre class="brush: csharp;">
+    $fullName = ArrayHelper::getValue($user, function ($user, $defaultValue) {
+        return $user->firstName . ' ' . $user->lastName;
+    });
+    </pre>
+
+    <p>Третий, необязательный, аргумент определяет значение по-умолчанию.</p>
+    <p>Если не установлен – равен null. Используется так:</p>
+
+    <pre class="brush: csharp;">
+    $username = ArrayHelper::getValue($comment, 'user.username', 'Unknown');
+    </pre>
+
+    <h2 id="title">
+        Запись значений
+    </h2>
+
+    <pre class="brush: csharp;">
+    $array = [
+        'key' =&gt; [
+            'in' =&gt; ['k' =&gt; 'value']
+        ]
+    ];
+    
+    ArrayHelper::setValue($array, 'key.in', ['arr' =&gt; 'val']);
+    
+    // путь для записи значения в `$array` можно указать как массив
+    ArrayHelper::setValue($array, ['key', 'in'], ['arr' =&gt; 'val']);
+    </pre>
+
+    <p>В результате исходное значение $array['key']['in'] будет перезаписано новым</p>
+
+    <pre class="brush: csharp;">
+    [
+        'key' =&gt; [
+            'in' =&gt; ['arr' =&gt; 'val']
+        ]
+    ]
+    </pre>
+
+    <p>Если путь содержит несуществующий ключ, то он будет создан</p>
+
+    <pre class="brush: csharp;">
+    // Если `$array['key']['in']['arr0']` не пустой, то значение будет добавлено в массив
+    ArrayHelper::setValue($array, 'key.in.arr0.arr1', 'val');
+    
+    // если необходимо полностью переопределить значение `$array['key']['in']['arr0']`
+    ArrayHelper::setValue($array, 'key.in.arr0', ['arr1' =&gt; 'val']);
+    </pre>
+
+    <p>Результатом будет следующим:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'key' =&gt; [
+            'in' =&gt; [
+                'k' =&gt; 'value',
+                'arr0' =&gt; ['arr1' =&gt; 'val']
+            ]
+        ]
+    ]
+    </pre>
+
+    <h2 id="title">
+        Изъять значение из массива
+    </h2>
+
+    <p>Если вы хотите получить значение и тут же удалить его из массива, вы можете использовать метод remove</p>
+
+    <pre class="brush: csharp;">
+    $array = ['type' =&gt; 'A', 'options' =&gt; [1, 2]];
+    $type = ArrayHelper::remove($array, 'type');
+    </pre>
+
+    <p>После выполнения этого кода переменная $array будет содержать ['options' =&gt; [1, 2]], а в переменной $type будет значение А.</p>
+    <p>В отличие от метода getValue, метод remove поддерживает только простое имя ключа.</p>
+
+    <h2 id="title">
+        Проверка наличия ключей
+    </h2>
+
+    <p>ArrayHelper::keyExists работает так же как и стандартный array_key_exists, но также может проверять ключи без учёта регистра:</p>
+
+    <pre class="brush: csharp;">
+    $data1 = [
+        'userName' =&gt; 'Alex',
+    ];
+    
+    $data2 = [
+        'username' =&gt; 'Carsten',
+    ];
+    
+    if (!ArrayHelper::keyExists('username', $data1, false) || !ArrayHelper::keyExists('username', $data2, false)) {
+        echo "Please provide username.";
+    }
+    </pre>
+
+    <h2 id="title">
+        Извлечение столбцов
+    </h2>
+
+    <p>Часто нужно извлечь столбец значений из многомерного массива или объекта. Например, список ID.</p>
+
+    <pre class="brush: csharp;">
+    $array = [
+        ['id' =&gt; '123', 'data' =&gt; 'abc'],
+        ['id' =&gt; '345', 'data' =&gt; 'def'],
+    ];
+    $ids = ArrayHelper::getColumn($array, 'id');
+    </pre>
+
+    <p>Результатом будет ['123', '345'].</p>
+    <p>Если нужны какие-то дополнительные трансформации или способ получения значения специфический, вторым аргументом может быть анонимная функция:</p>
+
+    <pre class="brush: csharp;">
+    $result = ArrayHelper::getColumn($array, function ($element) {
+        return $element['id'];
+    });
+    </pre>
+
+    <h2 id="title">
+        Переиндексация массивов
+    </h2>
+
+    <p>Чтобы проиндексировать массив в соответствии с определенным ключом, используется метод index.</p>
+    <p>Входящий массив должен быть многомерным или массивом объектов.</p>
+    <p>Ключом может быть имя ключа вложенного массива, имя свойства объекта или анонимная функция, которая будет возвращать значение ключа по переданному массиву.</p>
+    <p>Если значение ключа равно null, то соответствующий элемент массива будет опущен и не попадет в результат.</p>
+
+    <pre class="brush: csharp;">
+    $array = [
+        ['id' =&gt; '123', 'data' =&gt; 'abc'],
+        ['id' =&gt; '345', 'data' =&gt; 'def'],
+    ];
+    $result = ArrayHelper::index($array, 'id');
+    // the result is:
+    // [
+    //     '123' =&gt; ['id' =&gt; '123', 'data' =&gt; 'abc'],
+    //     '345' =&gt; ['id' =&gt; '345', 'data' =&gt; 'def'],
+    // ]
+    
+    // using anonymous function
+    $result = ArrayHelper::index($array, function ($element) {
+        return $element['id'];
+    });
+    </pre>
+
+    <h2 id="title">
+        Получение пар ключ-значение
+    </h2>
+
+    <p>Для получения пар ключ-значение из многомерного массива или из массива объектов вы можете использовать метод map.</p>
+    <p>Параметры $from и $to определяют имена ключей или свойств, которые будут использованы в map.</p>
+    <p>Так же, третьим необязательным параметром вы можете задать правила группировки.</p>
+
+    <pre class="brush: csharp;">
+    $array = [
+        ['id' =&gt; '123', 'name' =&gt; 'aaa', 'class' =&gt; 'x'],
+        ['id' =&gt; '124', 'name' =&gt; 'bbb', 'class' =&gt; 'x'],
+        ['id' =&gt; '345', 'name' =&gt; 'ccc', 'class' =&gt; 'y'],
+    );
+    
+    $result = ArrayHelper::map($array, 'id', 'name');
+    // the result is:
+    // [
+    //     '123' =&gt; 'aaa',
+    //     '124' =&gt; 'bbb',
+    //     '345' =&gt; 'ccc',
+    // ]
+    
+    $result = ArrayHelper::map($array, 'id', 'name', 'class');
+    // the result is:
+    // [
+    //     'x' =&gt; [
+    //         '123' =&gt; 'aaa',
+    //         '124' =&gt; 'bbb',
+    //     ],
+    //     'y' =&gt; [
+    //         '345' =&gt; 'ccc',
+    //     ],
+    // ]
+    </pre>
+
+    <h2 id="title">
+        Многомерная сортировка
+    </h2>
+
+    <p>Метод multisort помогает сортировать массивы объектов или вложенные массивы по одному или нескольким ключам.</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    $data = [
+        ['age' =&gt; 30, 'name' =&gt; 'Alexander'],
+        ['age' =&gt; 30, 'name' =&gt; 'Brian'],
+        ['age' =&gt; 19, 'name' =&gt; 'Barney'],
+    ];
+    ArrayHelper::multisort($data, ['age', 'name'], [SORT_ASC, SORT_DESC]);
+    </pre>
+
+    <p>После сортировки мы получим:</p>
+
+    <pre class="brush: csharp;">
+    [
+        ['age' =&gt; 19, 'name' =&gt; 'Barney'],
+        ['age' =&gt; 30, 'name' =&gt; 'Brian'],
+        ['age' =&gt; 30, 'name' =&gt; 'Alexander'],
+    ];
+    </pre>
+
+    <p>Второй аргумент, определяющий ключи для сортировки может быть строкой, если это один ключ, массивом, если используются несколько ключей или анонимной функцией, как в примере ниже:</p>
+
+    <pre class="brush: csharp;">
+    ArrayHelper::multisort($data, function($item) {
+        return isset($item['age']) ? ['age', 'name'] : 'name';
+    });
+    </pre>
+
+    <p>Третий аргумент определяет способ сортировки – от большего к меньшему или от меньшего к большему.</p>
+    <p>В случае, если мы сортируем по одному ключу, передаем SORT_ASC или SORT_DESC.</p>
+    <p>Если сортировка осуществляется по нескольким ключам, вы можете назначить направление сортировки для каждого из них с помощью массива.</p>
+    <p>Последний аргумент – это флаг, который используется в стандартной функции PHP sort().</p>
+    <p>Посмотреть его возможные значения можно тут.</p>
+
+    <h2 id="title">
+        Определение типа массива
+    </h2>
+
+    <p>Удобный способ для определения, является массив индексным или ассоциативным.</p>
+    <p>Вот пример:</p>
+
+    <pre class="brush: csharp;">
+    // no keys specified
+    $indexed = ['Qiang', 'Paul'];
+    echo ArrayHelper::isIndexed($indexed);
+    
+    // all keys are strings
+    $associative = ['framework' =&gt; 'Yii', 'version' =&gt; '2.0'];
+    echo ArrayHelper::isAssociative($associative);
+    </pre>
+
+    <h2 id="title">
+        HTML-кодирование и HTML-декодирование значений
+    </h2>
+
+    <p>Для того, чтобы закодировать или раскодировать специальные символы в массиве строк в HTML-сущности, вы можете пользоваться методами ниже:</p>
+
+    <pre class="brush: csharp;">
+    $encoded = ArrayHelper::htmlEncode($data);
+    $decoded = ArrayHelper::htmlDecode($data);
+    </pre>
+
+    <p>По умолчанию кодируются только значения.</p>
+    <p>Если установить второй параметр в false, то ключи массива будут так же кодированы.</p>
+    <p>Кодирование использует кодировку приложения, которая может быть изменена с помощью третьего аргумента.</p>
+
+    <h2 id="title">
+        Слияние массивов
+    </h2>
+
+    <p>Слияние двух или больше массивов в один рекурсивно.</p>
+    <p>Если каждый массив имеет одинаковый ключ, последний будет перезаписывать предыдущий (в отличие от функции array_merge_recursive).</p>
+    <p>Рекурсивное слияние проводится когда все массивы имеют элемент одного и того же типа с одним и тем же ключом.</p>
+    <p>Для элементов, ключом которого является значение типа integer, элементы из последнего будут добавлены к предыдущим массивам.</p>
+    <p>Вы можете добавлять дополнительные массивы для слияния третьим, четвертым, пятым (и так далее) параметром.</p>
+
+    <pre class="brush: csharp;">
+    ArrayHelper::merge($a, $b);
+    </pre>
+
+    <h2 id="title">
+        Получение массива из объекта
+    </h2>
+
+    <p>Часто нужно конвертировать объект в массив. Наиболее распространенный случай – конвертация модели Active Record в массив.</p>
+
+    <pre class="brush: csharp;">
+    $posts = Post::find()->limit(10)->all();
+    $data = ArrayHelper::toArray($posts, [
+        'app\models\Post' =&gt; [
+            'id',
+            'title',
+            // the key name in array result =&gt; property name
+            'createTime' =&gt; 'created_at',
+            // the key name in array result =&gt; anonymous function
+            'length' =&gt; function ($post) {
+                return strlen($post->content);
+            },
+        ],
+    ]);
+    </pre>
+
+    <p>Первый аргумент содержит данные, которые вы хотите конвертировать.</p>
+    <p>В нашем случае это Active Record модель Post.</p>
+    <p>Второй аргумент служит для управления процессом конвертации и может быть трех видов:</p>
+
+    <ol>
+        <li>просто имя поля</li>
+        <li>пара ключ-значение, где ключ определяет ключ в результирующем массиве, а значение – название поля в модели, откуда берется значение.</li>
+        <li>пара ключ-значение, где в качестве значения передается callback-функция, которая возвращает значение.</li>
+    </ol>
+
+    <p>Результат конвертации будет таким:</p>
+
+    <pre class="brush: csharp;">
+    [
+        'id' =&gt; 123,
+        'title' =&gt; 'test',
+        'createTime' =&gt; '2013-01-01 12:00AM',
+        'length' =&gt; 301,
+    ]
+    </pre>
+
+    <p>Вы можете определить способ конвертации из объекта в массив по-умолчанию реализовав интерфейс [[yii\base\Arrayable|Arrayable]] в этом классе</p>
+
+    <h2 id="title">
+        Проверка на присутствие в массиве
+    </h2>
+
+    <p>Часто необходимо проверить, содержится ли элемент в массиве, или является ли массив подмножеством другого массива.</p>
+    <p>К сожалению, PHP функция in_array() не поддерживает подмножества объектов, реализующих интерфейс \Traversable.</p>
+    <p>Для таких случаев [[yii\helpers\ArrayHelper]] предоставляет [[yii\helpers\ArrayHelper::isIn()|isIn()]] и [[yii\helpers\ArrayHelper::isSubset()|isSubset()]].</p>
+    <p>Методы принимают такие же параметры, что и in_array().</p>
+
+    <pre class="brush: csharp;">
+    // true
+    ArrayHelper::isIn('a', ['a']);
+    // true
+    ArrayHelper::isIn('a', new(ArrayObject['a']));
+    
+    // true
+    ArrayHelper::isSubset(new(ArrayObject['a', 'c']), new(ArrayObject['a', 'b', 'c'])
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="100.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="102.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/101.html", "Yii2: ArrayHelper", "bm1307"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1307", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1307") == 1) { document.getElementById("bma1307").style.display = "block"; document.getElementById("bm1307").style.display = "none"; } else { document.getElementById("bma1307").style.display = "none"; document.getElementById("bm1307").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: ArrayHelper") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1307", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma156" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm156" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	<h1 id="title">
+		Индексаторы
+	</h1>
+
+	<p>Если в класс в качестве поля входит коллекция, например, массив элементов, то в ряде случаев удобно обращаться к элементам коллекции, используя индекс (или индексы, если массив многомерный).</p>
+	<p>Для одномерной коллекции, принадлежащей объекту класса, обращение к ее элементу с помощью индекса будет таким:</p>
+	<p><b>ссылка_на_объект [индексное_выражение]</b></p>
+	<p>Возможность обращаться к элементу коллекции, принадлежащей объекту класса, с помощью индексирования обеспечивает специальный член этого класса, называемый индексатором.</p>
+	<p>Индексатор можно считать разновидностью свойства.</p>
+	<p>Как и для свойства возможности индексатора определяются аксессорами get и set.</p>
+	<p>В отличие от свойства у индексатора нет собственного уникального имени.</p>
+	<p>При объявлении индексатор всегда именуется служебным словом this, то есть ссылкой на тот конкретный объект, для которого используется индексатор.</p>
+	<p>Тип возвращаемого значения для индексатора соответствует типу элементов коллекции, с которой ассоциирован индексатор.</p>
+	<p>Объявление индексатора имеет следующий формат:</p>
+
+	<pre class="brush: csharp;">
+	модификаторы_индексатораopt
+	тип this [спецификация параметров]
+	{
+		декларация get-аксессораopt
+		декларация set-аксессораopt
+	}
+	</pre>
+
+	<p>Модификаторы_индексатора те же, что и для свойств за одним исключением - для индексаторов нельзя использовать модификатор static.</p>
+	<p>Индексаторы не могут быть статическими и применимы только к объектам класса (не к классу в целом).</p>
+	<p>Вслед за ключевым словом this в квадратных скобках - спецификация параметров индексатора.</p>
+	<p>Разрешена перегрузка индексаторов, то есть в одном классе может быть несколько индексаторов, но они должны отличаться друг от друга спецификациями параметров.</p>
+	<p>В этом индексаторы подобны методам.</p>
+	<p>За квадратными скобками размещается код, который можно назвать телом индексатора.</p>
+	<p>Это конструкция, подобная телу свойства, заключённые в фигурные скобки объявления аксессоров get и set.</p>
+	<p>Если у индексатора только один параметр, формат определения индексатора можно изобразить так:</p>
+
+	<pre class="brush: csharp;">
+	модификаторыopt тип_результата
+	this [тип_индекса индекс]
+	{
+		get { опрераторы get_аксессора }
+		set { опрераторы set_аксессора }
+	}
+	</pre>
+
+	<p>Операторы get_аксессора предназначены для получения значения элемента, соответствующего значению индекса.</p>
+	<p>Операторы set_аксессора выполняют присваивание значения элементу, соответствующему значению индекса.</p>
+	<p>Вызов индексатора, то есть выражение ссылка_на_объект [список аргументов] может размещаться слева и справа от операции присваивания.</p>
+	<p>В первом случае выполняется аксессор set, во втором – аксессор get.</p>
+	<p>В теле аксессора set значение, которое нужно использовать для изменения элемента коллекции, всегда представлено служебным словом value.</p>
+	<p>В качестве примера класса с индексатором определим класс Work_hours для представления отработанных часов по дням недели.</p>
+	<p>В массиве должно быть 7 элементов, с индексами от 0 (для понедельника) до 6 (для воскресенья).</p>
+	<p>Значения элементов массива – количества отработанных часов по дням недели от 0 (не рабочий день) до 14 часов (больше работать запрещено).</p>
+	<p>Для обращения к элементам массива в класс введён индексатор.</p>
+	<p>В данном примере нужно в теле индексатора запретить обращения к массиву с индексом, выходящим за пределы его граничной пары (от 0 до 6).</p>
+	<p>Кроме того, предусмотрим в индексаторе защиту от неверных значений, присваиваемых элементам массива.</p>
+	<p>В соответствии со смыслом определяемого класса значения элементов массива (количество отработанных часов) не должны быть отрицательными и не должны превышать некоторого предельного значения.</p>
+	<p>Для конкретности в условии предположено, что работа одного дня не должна превышать 14-ти часов.</p>
+
+	<pre class="brush: csharp;">
+	//12_04.cs - индексатор – рабочие часы дней недели.
+	using System;
+	class Work_hours
+	{
+		// часы по дням недели
+		int[] days;
+		// конструктор
+		public Work_hours( )
+		{ days = new int[7]; }
+		// индексатор
+		public int this[int d]
+		{
+			get { return (d < 0 || d > 6) ? -1 : days[d]; }
+			set
+			{
+				if (d < 0 || d > 6 || value < 0 || value > 14)
+				Console.WriteLine("Ошибка: день={0}, часы={1}!",d,value);
+				else days[d] = value;
+			}
+		}
+	}
+
+	class Program
+	{
+		static void Main()
+		{
+			Work_hours week = new Work_hours();
+			week[0] = 7; // понедельник
+			week[2] = 17; //недопустимые данные
+			week[3] = 7; // четверг
+			week[6] = 7; // воскресенье
+			Console.WriteLine("Рабочая неделя: ");
+			for (int i = 0; i < 7; i++)
+			Console.Write("day[{0}] = {1} ", i, week[i]);
+			Console.WriteLine( );
+			Console.WriteLine("day[{0}] = {1}\t", 8, week[8]);
+		}
+	}
+	</pre>
+
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	Ошибка: день=2, часы=17!
+	Рабочая неделя:
+	day[0] = 7 day[1] = 0 day[2] = 0 day[3] = 7
+	day[4] = 0 day[5] = 0 day[6] = 7
+	day[8] = -1
+	</pre>
+
+	<p>Параметр индексатора и соответствующее ему индексное выражение индексатора не обязательно должны иметь целочисленный тип.</p>
+	<p>В следующем примере рассмотрим класс Dictionary, объект которого может служить простейшим словарем.</p>
+	<p>В класс Dictionary включим в качестве полей два массива строк – массив исходных слов, например, на английском языке, и массив переводных эквивалентов.</p>
+	<p>Массив исходных слов будем заполнять в конструкторе при создании словаря-объекта.</p>
+	<p>Элементам массива переводных эквивалентов будем присваивать значения с использованием индексатора.</p>
+	<p>Параметр индексатора будет иметь тип string.</p>
+	<p>Задавая в квадратных скобках слово в виде строки, получим доступ к элементу с его переводным эквивалентом.</p>
+	<p>Определение класса может быть таким (программа 12_05.cs):</p>
+
+	<pre class="brush: csharp;">
+	// словарь
+	class Dictionary
+	{
+		// слова
+		string [ ] words;
+		// переводы
+		string [ ] trans;
+		// конструктор
+		public Dictionary(params string[ ] str)
+		{
+			words = new string[str.Length];
+			trans = new string[str.Length];
+			int ind=0;
+			foreach (string s in str)
+			// заполнили массив слов
+			words[ind++] = s;
+		}
+
+		// поиск слова
+		int search(string str)
+		{
+			for (int i = 0; i < words.Length; i++)
+			if (words[i] == str) return i;
+			return -1;
+		}
+		
+		public string this[string w]
+		{
+			set
+			{
+				int ind = search(w);
+				if (ind == -1)
+				Console.WriteLine("Слова Нет!");
+				else trans[ind] = value;
+			}
+			get
+			{
+				int ind = search(w);
+				if (ind == -1) return "Слова Нет!";
+				else return trans[ind];
+			}
+		}
+	}
+	</pre>
+
+	<p>В классе Dictionary две ссылки words и trans на массив слов и на массив их переводных эквивалентов.</p>
+	<p>Собственно массивы как объекты создаются в конструкторе.</p>
+	<p>У конструктора параметр с модификатором params, позволяющий использовать переменное число аргументов.</p>
+	<p>Реальное количество аргументов определяется как str.Length.</p>
+	<p>Это значение определяет размеры массивов, адресуемых ссылками words и trans.</p>
+	<p>Строки-аргументы конструктора присваиваются элементам массива words[ ] в цикле foreach.</p>
+	<p>Массив переводов trans[ ] остаётся незаполненным.</p>
+	<p>В классе определен вспомогательный закрытый метод search(), для поиска в словаре (в массиве words[ ] исходных слов) слова, заданного с помощью аргумента.</p>
+	<p>Метод вернет индекс слова, либо -1, если слово отсутствует.</p>
+	<p>Метод search() используется в индексаторе.</p>
+	<p>В аксессоре set определяется индекс ind того элемента массива trans[ ], которому нужно присвоить новое значение переводного эквивалента.</p>
+	<p>Если поиск неудачен – выводится сообщение, иначе элементу trans[ind], присваивается значение переводного эквивалента.</p>
+	<p>Аксессор get возвращает значение trans[ind] либо строку с сообщением, что слова нет в словаре.</p>
+	<p>Для иллюстрации возможностей класса dictionary и его индексатора приведем следующий фрагмент кода:</p>
+
+	<pre class="brush: csharp;">
+	static void Main( )
+	{
+		Dictionary number = new Dictionary("zero", "one", "two");
+		number["zero"] = "нуль";
+		number["one"] = "один";
+		number["two"] = "2";
+		Console.WriteLine("number[\"one\"]: " + number["one"]);
+		Console.WriteLine("number[\"three\"]: " + number["three"]);
+		Console.WriteLine("number[\"two\"]: " + number["two"]);
+	}
+	</pre>
+
+	<p>В методе Main( ) создан один объект класса Dictionary.</p>
+	<p>В объекте-словаре всего три слова, у которых вначале нет переводных эквивалентов.</p>
+	<p>Для задания переводов используются выражения с индексами.</p>
+	<p>При обращении к отсутствующему слову значением выражения number["three"] будет строка "Слова Нет!".</p>
+	<p>Результат выполнения программы:</p>
+
+	<pre class="brush: csharp;">
+	number["one"]: один
+	number["three"]: Слова Нет!
+	number["two"]: 2
+	</pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="68.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="70.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/cshrp/book/69.html", "Индексаторы", "bm156"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm156", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm156") == 1) { document.getElementById("bma156").style.display = "block"; document.getElementById("bm156").style.display = "none"; } else { document.getElementById("bma156").style.display = "none"; document.getElementById("bm156").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Индексаторы") == 1) { arrs.splice(i, 1); localStorage.setItem("bm156", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

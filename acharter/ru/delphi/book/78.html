@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma464" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm464" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Навигация
+	</h1>
+
+	<p>Для перемещения по записям таблицы существуют такие методы:</p>
+	<p><b>First</b> – переход на первую запись.</p>
+	<p><b>Last</b> – переход на последнюю запись.</p>
+	<p><b>Next</b> – переход на следующую запись.</p>
+	<p><b>Prior</b> – переход на предыдущую запись.</p>
+	<p>Создадим обработчики нажатия на кнопки в панели "Навигация".</p>
+	<p>В обработчике кнопки "Начало" напишем</p>
+
+	<pre class="brush: csharp;">
+	Table1.First;
+	</pre>
+
+	<p>В обработчике кнопки "Назад" напишем</p>
+
+	<pre class="brush: csharp;">
+	Table1.Prior;
+	</pre>
+
+	<p>В обработчике кнопки "Вперед" напишем</p>
+
+	<pre class="brush: csharp;">
+	Table1.Next;
+	</pre>
+
+	<p>В обработчике кнопки "Конец" напишем</p>
+
+	<pre class="brush: csharp;">
+	Table1.Last;
+	</pre>
+
+	<p>Сохраните проект, откомпилируйте и посмотрите, как он работает.</p>
+	<p>Указатель позиции должен перемещаться, когда пользователь нажимает на кнопки.</p>
+	<p>Кроме того, перемещаться можно будет с помощью самой сетки DBGrid.</p>
+
+	<h1 id="title">
+		Типы данных
+	</h1>
+
+	<p>Листая таблицу, вы видели такие данные, как MEMO и GRAPHIC, а сами данные не отображались.</p>
+	<p>Дело в том, что таблицы имеют разные типы данных.</p>
+	<p>Бывают числовые типы, строковые, типы "Дата".</p>
+	<p>Обычно, в строковый тип можно ввести текст длиной не более 255 символов.</p>
+	<p>Если же вам требуется поместить в таблицу более длинный текст, например, аннотацию к книге, то можно воспользоваться типом MEMO.</p>
+	<p>При этом создается новый файл, в котором хранится сам текст, а в таблице указана ссылка на этот текст.</p>
+	<p>Длина текста в MEMO неограничена.</p>
+	<p>Для отображения MEMO потребуется специальный компонент.</p>
+	<p>Поле GRAPHIC хранит изображения – картинки, фотографии.</p>
+	<p>Для их отображения также нужен специальный компонент.</p>
+	<p>Улучшим наш пример, создав форму, в которой, как в карточке, мы сможем видеть все данные текущей записи.</p>
+	<p>Однако для начала познакомимся с DataModule.</p>
+	<p>Это модуль, который не имеет формы.</p>
+	<p>Его очень удобно использовать в многооконных проектах, где окна работают с общими данными.</p>
+	<p>Для нас общие данные – это компоненты Table и DataSource.</p>
+	<p>Прежде всего, закройте таблицу, указав False в ее свойстве Active.</p>
+	<p>Выберите команду File-&gt; New -&gt; Data Module.</p>
+	<p>У вас появится новое окошко, но это не форма.</p>
+	<p>Измените имя этого окна на fDM, чтобы не нужно было писать длинного обращения к компонентам.</p>
+	<p>Теперь вернитесь на главную форму и выделите компоненты Table и DataSource.</p>
+	<p>Выберите команду Edit -&gt; Cut (вырезать).</p>
+	<p>Затем перейдите в окно fDM, и выберите команду Edit -&gt; Paste (вставить).</p>
+	<p>Если у вас эти компоненты были в нижней части формы, то они могут оказаться вне зоны видимости окна fDM.</p>
+	<p>Это не страшно – прокрутите окно, либо увеличьте его размеры, чтобы видеть компоненты, а затем перетащите их в верхнюю часть окна.</p>
+	<p>После чего можно уменьшить размеры fDM.</p>
+	<p>Сохраните окно в модуле DM.pas.</p>
+	<p>Далее переходим на главную форму.</p>
+	<p>Эта форма должна видеть окно fDM, чтобы работать с компонентами, установленными в нем, поэтому выберите команду File -&gt; Use Unit и там выберите DM.</p>
+	<p>Теперь выделите сетку.</p>
+	<p>В ее свойстве DataSource нужно выбрать наш DataSource, который выглядит уже как fDM.DataSource1.</p>
+	<p>Теперь откройте таблицу, указав True в ее свойстве Active.</p>
+	<p>Как видите, данные по-прежнему отображаются, хотя компоненты доступа хранятся в другом модуле.</p>
+	<p>Теперь мы готовы к тому, чтобы создать новое окно для просмотра данных.</p>
+	<p>Создайте новую форму, назовите ее fViewer, и сохраните в модуле Viewer.</p>
+	<p>Не забудьте выбрать команду Use Unit и там – DM, ведь новая форма также будет работать с компонентами Table и DataSource.</p>
+	<p>В свойстве Caption напишите "Карточка".</p>
+	<p>Теперь перейдите на вкладку DataControls.</p>
+	<p>Найдите там компонент DBEdit.</p>
+	<p>От обычного Edit он отличается тем, что поддерживает связь с базой данных.</p>
+	<p>Бросьте на форму, один под другим, 6 таких компонентов.</p>
+	<p>Ниже бросьте DBMemo, а справа от DBEdit – DBImage.</p>
+	<p>У вас должна получится форма примерно такого вида:</p>
+
+	<img src="delphi40.png" id="image" />
+
+	<p>Слева от компонентов доступа к данным установите соответствующее количество Label, и пропишите пояснения к полям, как на картинке выше.</p>
+	<p>Выделите все компоненты доступа (только все DBEdit, DBMemo и DBImage ).</p>
+	<p>Свойство ReadOnly у них установите в True, чтобы пользователь не испортил данные демонстрационной таблицы.</p>
+	<p>Далее, в свойстве DataSource выделенных компонентов нужно выбрать наш fDM.DataSource1.</p>
+	<p>Теперь придется с каждым компонентом работать отдельно.</p>
+	<p>Выделите верхний DBEdit, и в свойстве DataField (поле) выберите "Species No".</p>
+	<p>Все компоненты DBEdit, сверху – вниз, должны быть привязаны к следующим полям:</p>
+
+	<pre class="brush: csharp;">
+	Species No
+	Category
+	Common_Name
+	Species Name
+	Length (cm)
+	Length_In
+	</pre>
+
+	<p>Компонент DBMemo должен быть привязан к полю Notes, а компонент DBImage – к полю Graphic.</p>
+	<p>Кстати, у DBMemo установите вертикальную полосу прокрутки, чтобы можно было листать слишком большие примечания.</p>
+	<p>Собственно, карточка готова.</p>
+	<p>Осталось только вызывать ее из главной формы.</p>
+	<p>Если вы еще не выполнили для главной формы команду File -&gt; Use Unit, и не выбрали там модуль Viewer, то сделайте это сейчас.</p>
+	<p>Затем выделите сетку и сгенерируйте для нее событие onDblClick, где пропишите вызов окна – карточки:</p>
+
+	<pre class="brush: csharp;">
+	fViewer.ShowModal;
+	</pre>
+
+	<p>Теперь пользователь, щелкнув дважды по какой либо записи, вызовет карточку, где будут отражены данные этой записи.</p>
+	<p>Однако перед компиляцией проекта нужно кое-что исправить.</p>
+	<p>Мы запрограммировали наши 4 кнопки перемещения, когда еще компонент Table был на главной форме.</p>
+	<p>Однако теперь он в окне DM, поэтому добавьте fDM перед обращением к таблице во всех 4 кнопках, как в примере:</p>
+
+	<pre class="brush: csharp;">
+	fDM.Table1.First;
+	</pre>
+
+	<p>Сохраните проект, скомпилируйте, и посмотрите, как он работает.</p>
+	<p>На следующей лекции мы продолжим работу над этим проектом.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="77.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="79.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/78.html", "Навигация", "bm464"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm464", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm464") == 1) { document.getElementById("bma464").style.display = "block"; document.getElementById("bm464").style.display = "none"; } else { document.getElementById("bma464").style.display = "none"; document.getElementById("bm464").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Навигация") == 1) { arrs.splice(i, 1); localStorage.setItem("bm464", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

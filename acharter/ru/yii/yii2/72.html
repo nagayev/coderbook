@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1278" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1278" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Контроллеры
+	</h1>
+
+    <p>После создания классов ресурсов и настройки способа форматирования ресурсных данных следующим шагом является создание действий контроллеров для предоставления ресурсов конечным пользователям через RESTful API.</p>
+    <p>В Yii есть два базовых класса контроллеров для упрощения вашей работы по созданию RESTful-действий: [[yii\rest\Controller]] и [[yii\rest\ActiveController]].</p>
+    <p>Разница между этими двумя контроллерами в том, что у последнего есть набор действий по умолчанию, который специально создан для работы с ресурсами, представленными Active Record.</p>
+    <p>Так что если вы используете Active Record и вас устраивает предоставленный набор встроенных действий, вы можете унаследовать классы ваших контроллеров от [[yii\rest\ActiveController]], что позволит вам создать полноценные RESTful API, написав минимум кода.</p>
+    <p>[[yii\rest\Controller]] и [[yii\rest\ActiveController]] имеют следующие возможности, некоторые из которых будут подробно описаны в следующих разделах:</p>
+
+    <ul>
+        <li>Проверка HTTP-метода;</li>
+        <li>Согласование содержимого и форматирование данных;</li>
+        <li>Аутентификация;</li>
+        <li>Ограничение частоты запросов.</li>
+    </ul>
+
+    <p>[[yii\rest\ActiveController]], кроме того, предоставляет следующие возможности:</p>
+
+    <ul>
+        <li>Набор наиболее часто используемых действий: index, view, create, update, delete и options;</li>
+        <li>Авторизация пользователя для запрашиваемых действия и ресурса.</li>
+    </ul>
+
+    <h2 id="title">
+        Создание классов контроллеров
+    </h2>
+
+    <p>При создании нового класса контроллера в имени класса обычно используется название типа ресурса в единственном числе.</p>
+    <p>Например, контроллер, отвечающий за предоставление информации о пользователях, можно назвать UserController.</p>
+    <p>Создание нового действия похоже на создание действия для Web-приложения.</p>
+    <p>Единственное отличие в том, что в RESTful-действиях вместо рендера результата в представлении с помощью вызова метода render() вы просто возвращаете данные.</p>
+    <p>Выполнение преобразования исходных данных в запрошенный формат ложится на [[yii\rest\Controller::serializer|сериализатор]] и [[yii\web\Response|объект ответа]].</p>
+    <p>Например:</p>
+
+    <pre class="brush: csharp;">
+    public function actionView($id)
+    {
+        return User::findOne($id);
+    }
+    </pre>
+
+    <h2 id="title">
+        Фильтры
+    </h2>
+
+    <p>Большинство возможностей RESTful API, предоставляемых [[yii\rest\Controller]], реализовано на основе фильтров.</p>
+    <p>В частности, следующие фильтры будут выполняться в том порядке, в котором они перечислены:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\ContentNegotiator|contentNegotiator]]
+    </pre>
+
+    <p>обеспечивает согласование содержимого, более подробно описан в разделе Форматирование ответа;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\VerbFilter|verbFilter]]
+    </pre>
+
+    <p>обеспечивает проверку HTTP-метода;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\auth\AuthMethod|authenticator]]
+    </pre>
+
+    <p>обеспечивает аутентификацию пользователя, более подробно описан в разделе Аутентификация;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\filters\RateLimiter|rateLimiter]]
+    </pre>
+
+    <p>обеспечивает ограничение частоты запросов, более подробно описан в разделе Ограничение частоты запросов.</p>
+    <p>Эти именованные фильтры объявлены в методе [[yii\rest\Controller::behaviors()|behaviors()]].</p>
+    <p>Вы можете переопределить этот метод для настройки отдельных фильтров, отключения каких-либо из них или для добавления ваших собственных фильтров.</p>
+    <p>Например, если вы хотите использовать только базовую HTTP-аутентификацию, вы можете написать такой код:</p>
+
+    <pre class="brush: csharp;">
+    use yii\filters\auth\HttpBasicAuth;
+    
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' =&gt; HttpBasicAuth::className(),
+        ];
+        return $behaviors;
+    }
+    </pre>
+
+    <h2 id="title">
+        Наследование от ActiveController
+    </h2>
+
+    <p>Если ваш класс контроллера наследуется от [[yii\rest\ActiveController]], вам следует установить значение его свойства [[yii\rest\ActiveController::modelClass|modelClass]] равным имени класса ресурса, который вы планируете обслуживать с помощью этого контроллера.</p>
+    <p>Класс ресурса должен быть унаследован от [[yii\db\ActiveRecord]].</p>
+
+    <h3 id="title">
+        Настройка действий
+    </h3>
+
+    <p>По умолчанию [[yii\rest\ActiveController]] предоставляет набор из следующих действий:</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rest\IndexAction|index]]
+    </pre>
+
+    <p>постраничный список ресурсов;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rest\ViewAction|view]]
+    </pre>
+
+    <p>возвращает подробную информацию об указанном ресурсе;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rest\CreateAction|create]]
+    </pre>
+
+    <p>создание нового ресурса;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rest\UpdateAction|update]]
+    </pre>
+
+    <p>обновление существующего ресурса;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rest\DeleteAction|delete]]
+    </pre>
+
+    <p>удаление указанного ресурса;</p>
+
+    <pre class="brush: csharp;">
+    [[yii\rest\OptionsAction|options]]
+    </pre>
+
+    <p>возвращает поддерживаемые HTTP-методы.</p>
+    <p>Все эти действия объявляются в методе [[yii\rest\ActiveController::actions()|actions()]].</p>
+    <p>Вы можете настроить эти действия или отключить какие-то из них, переопределив метод actions(), как показано ниже:</p>
+
+    <pre class="brush: csharp;">
+    public function actions()
+    {
+        $actions = parent::actions();
+    
+        // отключить действия "delete" и "create"
+        unset($actions['delete'], $actions['create']);
+    
+        // настроить подготовку провайдера данных с помощью метода "prepareDataProvider()"
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+    
+        return $actions;
+    }
+    
+    public function prepareDataProvider()
+    {
+        // подготовить и вернуть провайдер данных для действия "index"
+    }
+    </pre>
+
+    <p>Чтобы узнать, какие опции доступны для настройки классов отдельных действий, обратитесь к соответствующим разделам справочника классов.</p>
+
+    <h3 id="title">
+        Выполнение контроля доступа
+    </h3>
+
+    <p>При предоставлении ресурсов через RESTful API часто бывает нужно проверять, имеет ли текущий пользователь разрешение на доступ к запрошенному ресурсу (или ресурсам) и манипуляцию им (или ими).</p>
+    <p>Для [[yii\rest\ActiveController]] эта задача может быть решена переопределением метода [[yii\rest\ActiveController::checkAccess()|checkAccess()]] следующим образом:</p>
+
+    <pre class="brush: csharp;">
+    /**
+     * Проверяет права текущего пользователя.
+     *
+     * Этот метод должен быть переопределен, чтобы проверить, имеет ли текущий пользователь
+     * право выполнения указанного действия над указанной моделью данных.
+     * Если у пользователя нет доступа, следует выбросить исключение [[ForbiddenHttpException]].
+     *
+     * @param string $action ID действия, которое надо выполнить
+     * @param \yii\base\Model $model модель, к которой нужно получить доступ. Если `null`, это означает, что модель, к которой нужно получить доступ, отсутствует.
+     * @param array $params дополнительные параметры
+     * @throws ForbiddenHttpException если у пользователя нет доступа
+     */
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        // проверить, имеет ли пользователь доступ к $action и $model
+        // выбросить ForbiddenHttpException, если доступ следует запретить
+        if ($action === 'update' || $action === 'delete') {
+            if ($model->author_id !== \Yii::$app->user->id)
+                throw new \yii\web\ForbiddenHttpException(sprintf('You can only %s articles that you\'ve created.', $action));
+        }
+    }
+    </pre>
+
+    <p>Метод checkAccess() будет вызван действиями по умолчанию контроллера [[yii\rest\ActiveController]].</p>
+    <p>Если вы создаёте новые действия и хотите в них выполнять контроль доступа, вы должны вызвать этот метод явно в своих новых действиях.</p>
+    <p><b>Подсказка:</b> вы можете реализовать метод checkAccess() с помощью "Контроля доступа на основе ролей" (RBAC).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="71.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="73.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii2/72.html", "Yii2: Контроллеры", "bm1278"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1278", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1278") == 1) { document.getElementById("bma1278").style.display = "block"; document.getElementById("bm1278").style.display = "none"; } else { document.getElementById("bma1278").style.display = "none"; document.getElementById("bm1278").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Yii2: Контроллеры") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1278", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

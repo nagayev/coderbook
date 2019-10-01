@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma454" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm454" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Украшательства проекта
+	</h1>
+
+	<p>Сегодня займемся украшательством проектов – будем добавлять в проект изображения самыми разными способами.</p>
+	<p>Вы должны помнить, что не стоит перенасыщать проект, создавать фон форм диких расцветок, тут и там вставлять совершенно ненужные картинки.</p>
+	<p>Все это говорит не только о непрофессионализме, но и о дурном вкусе.</p>
+	<p>Однако иногда украшательства не мешают, а наоборот, создают для проекта особый стиль.</p>
+	<p>Вспомните о проигрывателе WinAMP – он практически весь состоит из таких вот украшательств, но это оправдано, так как программа эмулирует обычный бытовой проигрыватель.</p>
+	<p>Другими словами, нужно уметь вставлять в проект изображения, но при этом иметь чувство меры.</p>
+	<p>Нам придется изучить несколько полезных компонентов.</p>
+	<p>Создайте новое приложение.</p>
+
+	<h1 id="title">
+		Image
+	</h1>
+
+	<p>Компонент находится на вкладке компонентов Additional и представляет собой контейнер прямоугольной формы, в который можно поместить картинку.</p>
+	<p>Установите его на форму, и посмотрите на его свойства.</p>
+	<p>Свойство <b>AutoSize</b> заставляет компонент автоматически принимать размер изображения, если установлено True.</p>
+	<p>Свойство <b>Picture</b> – основное свойство компонента.</p>
+	<p>Оно позволяет открыть диалоговое окно, в котором можно выбрать изображение для загрузки в контейнер.</p>
+	<p>Для этого нужно нажать на кнопку с тремя точками в правой части свойства.</p>
+	<p>Затем нажать кнопку Load для загрузки изображения.</p>
+	<p>Свойство <b>Center</b> разместит изображение по центру контейнера, если AutoSize не равно True.</p>
+	<p>Иначе свойство игнорируется.</p>
+	<p>Свойство <b>Proportional</b> разрешает или запрещает пропорционально уменьшать высоту и ширину изображения, если оно не может целиком уместиться в контейнере.</p>
+	<p>Свойство <b>Stretch</b> разрешает или запрещает изображению целиком заполнять контейнер.</p>
+	<p>Давайте напишем простой браузер для изображений, программу, которая позволит просматривать файлы графических форматов.</p>
+	<p>Новое приложение у вас уже создано, добавьте на форму простую панель, переместите ее вверх формы, и свойство Align сделайте alTop (панель должна занять весь верх формы).</p>
+	<p>Очистите свойство Caption панели, и у нас получилась панель инструментов.</p>
+	<p>Правда, нам нужен только один инструмент – кнопка для загрузки изображений.</p>
+	<p>Установите на панель кнопку, напишите на ней "Загрузить изображение".</p>
+	<p>Свойство <b>Align</b> компонента Image установите в alClient, чтобы растянуть его по всей оставшейся части формы.</p>
+	<p>У этого контейнера должны быть следующие настройки в Объектном инспекторе:</p>
+
+	<pre class="brush: csharp;">
+	AutoSize = False;
+	Center = True;
+	Proportional = True;
+	Stretch = True;
+	</pre>
+
+	<p>Теперь установите на любое место компонент OpenPictureDialog с вкладки Dialogs палитры компонентов.</p>
+	<p>Этот компонент работает точно также, как диалог открытия файлов, только он предназначен для открытия изображений.</p>
+	<p>Создайте обработчик событий для нажатия на кнопку, и там напишите код:</p>
+
+	<pre class="brush: csharp;">
+	if OpenPictureDialog1.Execute then
+		Image1.Picture.LoadFromFile(OpenPictureDialog1.FileName);
+	</pre>
+
+	<p>Вот и весь браузер!</p>
+	<p>По нажатию на кнопку программа будет выводить диалог открытия изображения.</p>
+	<p>Выбрав изображение, вы загрузите его в контейнер Image.</p>
+	<p>Сохраните проект, скомпилируйте и посмотрите, как работает приложение.</p>
+	<p>Для просмотра подойдут любые изображения – картинки, фотографии и т.п.</p>
+	<p>Если у вас на компьютере установлен пакет MS Office XP/2000 или выше, то большую коллекцию картинок вы сможете найти на:</p>
+
+	<pre class="brush: csharp;">
+	C:\Program Files\MicroSoft Office\Media\cagcat10
+	</pre>
+
+	<p>Программа с загруженной картинкой должна выглядеть так:</p>
+
+	<img src="delphi28.png" id="image" />
+
+	<p>Если же по вашему замыслу требуется установить какую-то одну картинку для улучшения дизайна формы, то вы можете загрузить эту картинку напрямую, через свойство Picture компонента, в Объектном инспекторе.</p>
+
+	<h1 id="title">
+		ImageList
+	</h1>
+
+	<p>Компонент находится на вкладке Win32 и предназначен для хранения нескольких изображений.</p>
+	<p>Этот компонент используется во многих случаях – для хранения коллекции изображений, вставляемых в главное и всплывающее меню программы, когда слева от команды выводится и картинка, для вывода изображений на кнопки панелей инструментов, и так далее.</p>
+	<p>Изучим этот компонент на практике.</p>
+	<p>Создайте новое приложение. Установите на форму компонент MainMenu и ImageList.</p>
+	<p>Далее, в главном меню создайте разделы "Файл" и "Помощь".</p>
+	<p>В разделе "Файл" создайте подразделы "Открыть", "Сохранить", "-" и "Выход".</p>
+	<p>А в разделе "Помощь" - подраздел "О программе".</p>
+	<p>Теперь дважды щелкните по компоненту ImageList.</p>
+	<p>Откроется диалоговое окно загрузки изображений:</p>
+
+	<img src="delphi29.png" id="image" />
+
+	<p>Воспользуемся теми самыми стандартными изображениями, которые мы использовали для кнопок.</p>
+	<p>Нажмите кнопку "Add" (добавить изображение) и перейдите в каталог со стандартными картинками для кнопок:</p>
+
+	<pre class="brush: csharp;">
+	C:\Program Files\Common Files\Borland Shared\Images\Buttons
+	</pre>
+
+	<p>Выберем картинку "Fileopen".</p>
+	<p>Тут же выходит запрос, в котором говорится, что картинка состоит из 2-х изображений, и спрашивается, хотите ли вы разбить его на 2 картинки?</p>
+	<p>Дело в том, что стандартные изображения для кнопок состоят из двух рисунков – когда кнопка находится в активном состоянии (Enabled = True), и в неактивном.</p>
+	<p>В ImageList же можно ввести только одну картинку.</p>
+	<p>Отвечайте "Yes".</p>
+	<p>Двойное изображение будет разбито, и в окно попадут две картинки.</p>
+	<p>Выделите серую картинку и нажмите кнопку "Delete", чтобы удалить ее из списка, она нам не нужна.</p>
+	<p>В большинстве случаев для команды меню достаточно одного изображения.</p>
+	<p>Если вы сделаете команду неактивной, Delphi самостоятельно меняет это изображение, рисунок выходит серым цветом.</p>
+	<p>Тоже самое сделайте с картинками "Filesave", "Dooropen" и "Help".</p>
+	<p>Как видите, индекс изображений начинается с нуля.</p>
+	<p>Нажмите кнопку "ОК", чтобы принять список изображений.</p>
+	<p>Теперь выделите компонент MainMenu, и в свойстве Images выберите наш ImageList.</p>
+	<p>Дважды щелкните по MainMenu, чтобы открылось окно редактора меню.</p>
+	<p>Выделите пункт "Открыть" (щелкайте по нему один раз, а не два, иначе создастся обработчик событий).</p>
+	<p>Свойство команды меню ImageIndex отвечает за то, какое именно изображение будет соответствовать этой команде.</p>
+	<p>По умолчанию оно равно -1, то есть, картинка не выбрана.</p>
+	<p>Первая картинка имеет индекс 0, вторая – 1, и так далее.</p>
+	<p>Выберите изображение из картинки FileOpen, оно должно быть первым.</p>
+	<p>Вы можете выбрать любое изображение, не обязательно по порядку.</p>
+	<p>Для пункта "Сохранить" выбирайте второе изображение, для "Выход" - третье, а для "О программе" - последнее.</p>
+	<p>Закройте редактор меню, и откройте меню на форме.</p>
+	<p>Вы должны увидеть, что слева от текста появились наши картинки.</p>
+	<p>Вот таким простым образом можно украсить наше меню.</p>
+	<p>Кстати, то же самое справедливо и для всплывающего PopupMenu.</p>
+	<p>Попробуйте самостоятельно добавить в него такие же команды, как в разделе "Файл", и применить для них те же картинки (для этого не нужно создавать еще один ImageList, можно воспользоваться этим же).</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="67.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="69.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/delphi/book/68.html", "Украшательства проекта", "bm454"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm454", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm454") == 1) { document.getElementById("bma454").style.display = "block"; document.getElementById("bm454").style.display = "none"; } else { document.getElementById("bma454").style.display = "none"; document.getElementById("bm454").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Украшательства проекта") == 1) { arrs.splice(i, 1); localStorage.setItem("bm454", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

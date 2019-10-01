@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma990" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm990" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Контейнеры и компоненты
+	</h1>
+
+	<p>Прежде чем мы разобьем App.js на компоненты User.js и Page.js хотелось бы отметить про разделение на "компоненты" и "контейнеры", иначе называемые: "глупые" и "умные" компоненты, "Presentational" и "Container" и быть может как-то еще.</p>
+	<p>Позволю себе в очередной раз прибегнуть к офф. документации и перевести таблицу различий, которая отлично и кратко отражает суть.</p>
+
+	<table>
+		<tr>
+			<td id="th"></td>
+			<td id="th">Компонент (глупый)</td>
+			<td id="th">Контейнер (умный)</td>
+		</tr>
+		<tr>
+			<td>Цель</td>
+			<td>Как это выглядит (разметка, стили)</td>
+			<td>Как это работает (получение данных, обновление состояния)</td>
+		</tr>
+		<tr>
+			<td>Осведомлен о Redux</td>
+			<td>Нет</td>
+			<td>Да</td>
+		</tr>
+		<tr>
+			<td>Для считывания данных</td>
+			<td>Читает данные из props</td>
+			<td>Подписан на Redux state (состояние)</td>
+		</tr>
+		<tr>
+			<td>Для изменения данных</td>
+			<td>Вызывает callback из props</td>
+			<td>Отправляет (dispatch) Redux действие (actions)</td>
+		</tr>
+		<tr>
+			<td>Пишутся</td>
+			<td>Вручную</td>
+			<td>Обычно, генерируются Redux</td>
+		</tr>
+	</table>
+
+	<p>Магия таблиц обычно проявляется не сразу.</p>
+	<p>Если переписать наше приложение, а потом взглянуть сюда еще раз - многое станет гораздо яснее.</p>
+	<p>Предлагаю так и поступить.</p>
+	<p>Поехали!</p>
+	<p>Создадим компоненты.</p>
+	<p>src/components/User.js</p>
+
+	<pre class="brush: csharp;">
+	import React, { PropTypes, Component } from 'react'
+	export default class User extends Component
+	{
+		render()
+		{
+			const { name } = this.props
+			return &lt;div&gt;
+			&lt;p&gt;Привет, {name}!&lt;/p&gt;
+			&lt;/div&gt;
+		}
+	}
+
+	User.propTypes = {
+		name: PropTypes.string.isRequired
+	}
+	</pre>
+
+	<p>src/components/Page.js</p>
+
+	<pre class="brush: csharp;">
+	import React, { PropTypes, Component } from 'react'
+	export default class Page extends Component
+	{
+		render()
+		{
+			const { year, photos } = this.props
+			return &lt;div&gt;
+			&lt;p&gt;У тебя {photos.length} фото за {year} год&lt;/p&gt;
+			&lt;/div&gt;
+		}
+	}
+
+	Page.propTypes = {
+		year: PropTypes.number.isRequired,
+		photos: PropTypes.array.isRequired
+	}
+	</pre>
+
+	<p>Наш файл App.js уже практически и есть container, он даже лежит в соответствующей папке.</p>
+	<p>Изменим-с...</p>
+	<p>src/containers/App.js</p>
+
+	<pre class="brush: csharp;">
+	import React, { Component } from 'react'
+	import { connect } from 'react-redux'
+	import User from '../components/User'
+	import Page from '../components/Page'
+	
+	class App extends Component
+	{
+		render()
+		{
+			const { user, page } = this.props
+			return &lt;div&gt;
+				&lt;User name={user.name} /&gt;
+				&lt;Page photos={page.photos} year={page.year} /&gt;
+			&lt;/div&gt;
+		}
+	}
+
+	function mapStateToProps (state)
+	{
+		return
+		{
+			user: state.user,
+			page: state.page
+		}
+	}
+
+	export default connect(mapStateToProps)(App)
+	</pre>
+
+	<p>Теперь можно обновлять компоненты Page и User независимо друг от друга.</p>
+	<p>Чем мы и займемся в следующей главе, изучая actions.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="15.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="17.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/react/book1/16.html", "Контейнеры и компоненты", "bm990"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm990", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm990") == 1) { document.getElementById("bma990").style.display = "block"; document.getElementById("bm990").style.display = "none"; } else { document.getElementById("bma990").style.display = "none"; document.getElementById("bm990").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Контейнеры и компоненты") == 1) { arrs.splice(i, 1); localStorage.setItem("bm990", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

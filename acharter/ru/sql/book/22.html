@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1036" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1036" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+
+	<h1 id="title">
+		Что такое вычисляемые поля
+	</h1>
+
+	<p>Данные, хранимые в таблицах базы данных, обычно бывают представлены не в таком виде, который необходим для ваших приложений.</p>
+	<p>Вот несколько примеров. </p>
+	<p>- Вам необходимо отобразить поле, содержащее имя компании с ее адресом, но эта информация расположена в разных столбцах таблицы. </p>
+	<p>- Город, штат и ZIP-код хранятся в отдельных столбцах (как и должно быть), но для программы печати почтовых наклеек необходима эта информация в одном, корректно сформированном поле.</p>
+    <p>- Данные в столбце введены с заглавными и строчными буквами, но в вашем отчете необходимо использовать только заглавные буквы.</p>
+    <p>- В таблице с предметами заказа хранятся цены продуктов и их количество, но не полная цена (цена одного продукта, умноженная на его количество) каждого продукта. Чтобы распечатать счет, необходимы полные цены. </p>
+	<p>- Вам необходимы общая сумма, среднее значение или результаты других расчетов, основанные на данных, имеющихся в таблице.</p>
+	<p>В каждом из этих примеров данные хранятся не в том виде, в котором их необходимо предоставить приложению.</p>
+	<p>Вместо того чтобы извлекать эти данные, а затем изменять их форму при помощи клиентского приложения или отчета, лучше извлекать уже преобразованные, подсчитанные или отформатированные данные прямо из базы данных.</p>
+	<p>Именно здесь помогут вычисляемые поля.</p>
+	<p>В отличие от всех выбранных нами ранее столбцов, вычисляемых полей на самом деле в таблице базы данных нет.</p>
+	<p>Они создаются "на лету" SQL-оператором SELECT.</p>
+	<p><b>Поле</b></p>
+	<p>Изначально термин поле означал то же самое, что и столбец, и в основном эти понятия взаимозаменяемы, хотя столбцы базы данных обычно называют столбцами, а термин поля обычно используется по отношению к вычисляемым полям.</p>
+	<p>Важно отметить, что только база данных "знает", какие столбцы в операторе SELECT являются реальными столбцами таблицы, а какие – вычисляемыми полями.</p>
+	<p>С точки зрения клиента (например, вашего приложения), данные вычисляемого поля возвращаются точно так же, как и данные из любого другого столбца.</p>
+	<p><b>Клиентское или серверное форматирование?</b></p>
+	<p>Многие преобразования и изменения форматов, которые могут быть выполнены посредством SQL-операторов, могут быть также выполнены и клиентским приложением.</p>
+	<p>Однако, как правило, эти операции гораздо быстрее выполняются на сервере базы данных, чем у клиента, так как СУБД предназначена, кроме всего, для быстрого и эффективного выполнения операций такого типа.</p>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="21.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="23.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/sql/book/22.html", "Что такое поля", "bm1036"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1036", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1036") == 1) { document.getElementById("bma1036").style.display = "block"; document.getElementById("bm1036").style.display = "none"; } else { document.getElementById("bma1036").style.display = "none"; document.getElementById("bm1036").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Что такое поля") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1036", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

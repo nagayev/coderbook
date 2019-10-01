@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/read.css" />
+    <title>Coder Book menu</title>
+    <script type="text/javascript" src="../../../../higtline/scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../../higtline/scripts/shBrushCSharp.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../../../higtline/styles/shCoreDefault.css"/>
+    <script type="text/javascript">SyntaxHighlighter.all();</script>
+    <script src="../../../../js/Hyphenator.js" type="text/javascript"></script>
+</head>
+
+<body id="pageBody" class="hyphenate">
+
+<!-- progress bar -->
+<script src="../../../../js/progressBar.js" type="text/javascript"></script>
+<div class="Reading-progress" id="progressBarType1"><span id="Progress-bar-top" class="bar-top" style="display: block !important;"></span></div>
+<div class="Reading-progress" id="progressBarType2"><span id="Progress-bar-bottom" class="bar-bottom"></span></div>
+<div class="Reading-progress" id="progressBarType3"><span id="Progress-bar-left" class="bar-left"></span></div>
+<div class="Reading-progress" id="progressBarType4"><span id="Progress-bar-right" class="bar-right"></span></div>
+<!-- progress bar -->
+
+
+    <div id="lesonPage">
+
+        <div id="lessMenu">
+           <a id="exitLess" href="list.html" ontouchstart="return true;"><img src="../../../../img/menu/ex.png" /></a>
+           <div id="aaLess" ontouchstart="return true;" onclick="OpenSettMenu();"><img src="../../../../img/menu/aa.png" /></div>
+           <div id="subMenuInLess" style="display: none;">
+                <a href="../../../../menu/setfontsize-ru.html" ontouchstart="return true;" id="pastMenuInLess">Размер текста</a>
+                <a href="../../../../menu/setcolor-ru.html" ontouchstart="return true;" id="pastMenuInLess">Цветовая темы</a>
+                <a href="../../../../menu/setProgressBar-ru.html" ontouchstart="return true;" id="pastMenuInLess" style="border: none;">Прогресс бар</a>
+           </div>
+           <div id="aaLess" ontouchstart="return true;">
+            <div class="bmEdit" onclick="dellBm();" id="bma1164" ontouchstart="return true;" style="display: none;"><img src="../../../../img/menu/bmlessa.png" /></div>
+            <div class="bmEdit" onclick="setzBm();" id="bm1164" ontouchstart="return true;" style="display: block;"><img src="../../../../img/menu/bmless.png" /></div>
+           </div>
+        </div>
+
+        <hr />
+
+	<!-- ПОЧАТОК -->
+	
+	<h1 id="title">
+		Псевдоним пути и пространство имён
+	</h1>
+
+    <p>Псевдонимы пути широко используются в Yii.</p>
+    <p>Псевдоним ассоциируется с директорией или путём к файлу.</p>
+    <p>При его указании используется точечный синтаксис, схожий с широко используемым форматом пространств имён:</p>
+
+    <pre class="brush: csharp;">
+    RootAlias.path.to.target
+    </pre>
+
+    <p>где RootAlias — псевдоним существующей директории.</p>
+    <p>При помощи YiiBase::getPathOfAlias() мы можем преобразовать псевдоним в соответствующий ему путь.</p>
+    <p>К примеру, system.web.CController будет преобразован в yii/framework/web/CController.</p>
+    <p>Также мы можем использовать YiiBase::setPathOfAlias() для определения новых корневых псевдонимов.</p>
+
+    <h2 id="title">
+        Корневой псевдоним
+    </h2>
+
+    <p>Для удобства Yii предопределяет следующие системные псевдонимы:</p>
+
+    <ul>
+        <li>system: соответствует директории фреймворка;</li>
+        <li>zii: соответствует директории библиотеки расширений Zii;</li>
+        <li>application: соответствует базовой директории приложения;</li>
+        <li>webroot: соответствует директории, содержащей входной скрипт;</li>
+        <li>ext: соответствует директории, содержащей все сторонние расширения.</li>
+    </ul>
+
+    <p>Кроме того, если приложение использует модули, то у каждого модуля имеется совпадающий с его ID корневой псевдоним, указывающий на корень модуля.</p>
+    <p>К примеру, если приложение использует модуль users, то для него будет определён корневой псевдоним users.</p>
+
+    <h2 id="title">
+        Импорт классов
+    </h2>
+
+    <p>Используя псевдонимы, очень удобно импортировать описания классов.</p>
+    <p>К примеру, для подключения класса CController можно вызвать:</p>
+
+    <pre class="brush: csharp;">
+    Yii::import('system.web.CController');
+    </pre>
+
+    <p>Использование метода import более эффективно, чем include и require, поскольку описание импортируемого класса не будет включено до первого обращения (это реализовано через механизм автозагрузки классов PHP).</p>
+    <p>Импорт одного и того же пространства имён также происходит намного быстрее, чем при использовании include_once и require_once. Стоит отметить, что при импорте директории субдиректории не импортируются.</p>
+    <p><b>Подсказка:</b> Если мы ссылаемся на класс фреймворка, то нет необходимости импортировать или явно включать его. Все системные классы Yii уже импортированы заранее.</p>
+
+    <h3 id="title">
+        Использование таблицы классов
+    </h3>
+
+    <p>Начиная с версии 1.1.5, Yii позволяет предварительно импортировать пользовательские классы через тот же механизм, что используется для классов ядра.</p>
+    <p>Такие классы могут использоваться где угодно в приложении без необходимости их предварительного импорта или подключения.</p>
+    <p>Данная возможность отлично подходит для фреймворка или библиотеки, использующих Yii.</p>
+    <p>Для импорта набора классов необходимо выполнить следующий код до вызова CWebApplication::run():</p>
+
+    <pre class="brush: csharp;">
+    Yii::$classMap=array(
+        'ClassName1' => 'path/to/ClassName1.php',
+        'ClassName2' => 'path/to/ClassName2.php',
+        ......
+    );
+    </pre>
+
+    <h2 id="title">
+        Импорт директорий
+    </h2>
+
+    <p>Можно использовать следующий синтаксис для того, чтобы импортировать целую директорию, а файлы классов, содержащиеся в директории, будут подключены автоматически при необходимости.</p>
+
+    <pre class="brush: csharp;">
+    Yii::import('system.web.*');
+    </pre>
+
+    <p>Помимо import, псевдонимы также используются во многих других местах, где есть ссылки на классы.</p>
+    <p>Например, псевдоним может быть передан методу Yii::createComponent() для создания экземпляра соответствующего класса, даже если этот класс не был предварительно подключён.</p>
+
+    <h2 id="title">
+        Пространство имён
+    </h2>
+
+    <p>Пространства имён служат для логической группировки имён классов, чтобы их можно было отличить от других, даже если их имена совпадают.</p>
+    <p>Не путайте псевдоним пути с пространством имён. Псевдоним пути — всего лишь удобный способ именования файлов и директорий.</p>
+    <p>К пространствам имён он не имеет никакого отношения.</p>
+    <p><b>Подсказка:</b> Так как версии PHP до 5.3.0 не поддерживают пространства имён, вы не можете создать экземпляры классов с одинаковыми именами, но различными описаниями. По этой причине все названия классов Yii-фреймворка имеют префикс 'C' (означающий 'class'), чтобы их можно было отличить от пользовательских классов. Для пользовательских классов рекомендуется использовать другие префиксы, сохранив префикс 'C' зарезервированным для Yii-фреймворка.</p>
+
+    <h2 id="title">
+        Классы в пространствах имён
+    </h2>
+
+    <p>Класс в пространстве имён — любой класс, описанный в неглобальном пространстве имён.</p>
+    <p>К примеру, класс application\components\GoogleMap описан в пространстве имён application\components.</p>
+    <p>Использование пространств имён требует PHP версии 5.3.0 или выше.</p>
+    <p>Начиная с версии Yii 1.1.5, стало возможным использование класса из пространства имён без его предварительного подключения.</p>
+    <p>К примеру, мы можем создать новый экземпляр application\components\GoogleMap без явного подключения соответствующего файла.</p>
+    <p>Это реализуется при помощи улучшенного загрузчика классов Yii.</p>
+    <p>Для того чтобы автоматически подгрузить класс из пространства имён, пространство имён должно быть названо в том же стиле, что и псевдонимы пути.</p>
+    <p>Например, класс application\components\GoogleMap должен храниться в файле, которому соответствует псевдоним application.components.GoogleMap.</p>
+    <p>То есть для того, чтобы использовать пространство имён, начинающиеся, например, с \mynamespace и классы которого располагаются в /var/www/common/mynamespace/, единственное, что необходимо сделать — это объявить псевдоним пути:</p>
+
+    <pre class="brush: csharp;">
+    Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+    </pre>
+
+    <h2 id="title">
+        Контроллеры в пространствах имён
+    </h2>
+
+    <p>По умолчанию все контроллеры Yii берутся из глобального пространства имён.</p>
+    <p>Соответствующие классы расположены в protected/controllers.</p>
+    <p>Вы можете изменить данное поведение двумя способами: используя controllerMap и используя controllerNamespace.</p>
+    <p>Первый позволяет использовать контроллеры из разных пространств имён.</p>
+    <p>Второй легче настраивается, но задаёт одно пространство имён для всех контроллеров.</p>
+
+    <h3 id="title">
+        Использование controllerMap
+    </h3>
+
+Лучше всего менять данное свойство через файл конфигурации (protected/config/main.php):
+
+    <pre class="brush: csharp;">
+    // добавляем пространство имён "mynamespace"
+    Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+     
+    return array(
+        'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+        'name'=>'My Web Application',
+     
+        'controllerMap' => array(
+            'test' => '\mynamespace\controllers\TestController',
+        ),
+    </pre>
+
+    <p>Когда пользователь пытается загрузить любой из контроллеров, для которого есть запись в controllerMap, Yii сразу же подгружает указанный в ней класс.</p>
+    <p>В случае test Yii будет подгружать класс \mynamespace\controllers\TestController, располагающийся в</p>
+
+    <pre class="brush: csharp;">
+    /var/www/common/mynamespace/controllers/TestController.php
+    </pre>
+
+    <p>Стоит отметить, что код контроллера должен быть в пространстве имён:</p>
+
+    <pre class="brush: csharp;">
+    // задаём пространство имён
+    namespace mynamespace\controllers;
+     
+    // так как класс находится в пространстве имён, обращаться к глобальному
+    // пространству следует явно при помощи "\":
+    class TestController extends \CController
+    {
+        public function actionIndex()
+        {
+            echo 'Это TestController из \mynamespace\controllers';
+        }
+    }
+    </pre>
+
+    <h3 id="title">
+        Использование controllerNamespace
+    </h3>
+
+    <p>Так как приложение является модулем, то вы можете использовать controllerNamespace так, как это описано далее в подразделе «Модули в пространствах имён».</p>
+
+    <h2 id="title">
+        Модули в пространствах имён
+    </h2>
+
+    <p>Иногда удобно использовать пространство имён для целого модуля.</p>
+    <p>К примеру, если вам необходимо использовать пространство имён</p>
+    
+    <pre class="brush: csharp;">
+    \mynamespace\modules\testmodule
+    </pre>
+
+    <p>расположенное в</p>
+
+    <pre class="brush: csharp;">
+    /var/www/common/mynamespace/modules/testmodule
+    </pre>
+
+    <p>для модуля testmodule сначала следует создать следующую структуру файлов:</p>
+
+    <pre class="brush: csharp;">
+    /var/www/common/mynamespace/modules
+      testmodule
+        controllers
+          DefaultController.php
+        views
+          default
+            index.php
+        TestmoduleModule.php
+    </pre>
+
+    <p>Здесь index.php ничем не отличается от обычного модуля, а TestmoduleModule.php и DefaultController.php находятся в пространстве имён.</p>
+    <p>TestmoduleModule.php:</p>
+
+    <pre class="brush: csharp;">
+    // задаём пространство имён:
+    namespace mynamespace\modules\testmodule;
+     
+    // так как класс находится в пространстве имён, обращаться к глобальному
+    // пространству следует явно при помощи "\":
+    class TestmoduleModule extends \CWebModule
+    {
+        // задаём пространство имён для контроллеров (это же можно сделать через
+        // файл конфигурации)
+        public $controllerNamespace = '\mynamespace\modules\testmodule\controllers';
+     
+        // обычный код модуля
+    }
+    DefaultController.php:
+    
+    &lt;?php
+    // задаём пространство имён:
+    namespace mynamespace\modules\testmodule\controllers;
+     
+    // так как класс находится в пространстве имён, обращаться к глобальному
+    // пространству следует явно при помощи "\":
+    class DefaultController extends \Controller
+    {
+        public function actionIndex()
+        {
+            $this->render('index');
+        }
+    }
+    </pre>
+
+    <p>Теперь нам осталось только добавить модуль в наше приложение.</p>
+    <p>Лучший способ сделать это — использовать файл конфигурации protected/config/main.php:</p>
+
+    <pre class="brush: csharp;">
+    // добавляем пространство имён "mynamespace"
+    Yii::setPathOfAlias('mynamespace', '/var/www/common/mynamespace/');
+     
+    return array(
+        'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+        'name'=>'My Web Application',
+     
+        'modules'=>array(
+            'testmodule' => array(
+                'class' => '\mynamespace\modules\testmodule\TestModuleModule',
+            ),
+        ),
+    </pre>
+
+	<script src="../../../../js/progressBarSetIni.js" type="text/javascript"></script>
+
+        <div id="lessMenu" style="margin: 30px 0 0 0;">
+            <hr />
+            <a href="12.html"><div id="exitLess" ontouchstart="return true;"><img src="../../../../img/menu/pr.png" /></div></a>
+            <a href="14.html"><div id="aaLess" ontouchstart="return true;"><img src="../../../../img/menu/ne.png" /></div></a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="../../../../cordova.js"></script>
+    <script type="text/javascript" src="../../../../js/global.js"></script>
+    <script type="text/javascript">
+        changeColor();
+        if (localStorage.getItem("fSize") < 1) { fSize = 16; localStorage.setItem("fSize", 16); } else { fSize = localStorage.getItem("fSize"); }
+        document.getElementById("pageBody").style.fontSize = fSize + "px";
+
+        // goBackMenu
+        document.addEventListener("backbutton", goBackMenu, false);
+        function goBackMenu()
+        {
+            window.location.href = 'list.html';
+        }
+
+        function changeColor()
+        {
+            if (localStorage.getItem("colorSheme") <= 1)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#f0f0f0");
+            }
+
+            if (localStorage.getItem("colorSheme") == 2)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#212121");
+                document.getElementById("pageBody").style.color = localStorage.getItem("#efefef");
+            }
+
+            if (localStorage.getItem("colorSheme") == 3)
+            {
+                document.getElementById("pageBody").style.backgroundColor = localStorage.getItem("#efe4d0");
+            }
+        }
+
+        // bm
+        if (localStorage.getItem("arrs") != null)
+        {
+            var arrs = JSON.parse(localStorage.getItem("arrs"));
+        }
+        else
+        {
+            var arrs = [];
+        }
+
+        var names = ["../acharter/ru/yii/yii/13.html", "Псевдоним пути и пространство имён", "bm1164"];
+
+        function setzBm() { arrs.push(names); localStorage.setItem("arrs", JSON.stringify(arrs)); localStorage.setItem("bm1164", 1); RefBms(); }
+
+        window.onload = function() { RefBms(); }
+
+        function RefBms()
+        {
+            if (localStorage.getItem("bm1164") == 1) { document.getElementById("bma1164").style.display = "block"; document.getElementById("bm1164").style.display = "none"; } else { document.getElementById("bma1164").style.display = "none"; document.getElementById("bm1164").style.display = "block"; }
+        }
+
+        function dellBm() { for (var i = 0; i < arrs.length; i++) { if (arrs[i].indexOf("Псевдоним пути и пространство имён") == 1) { arrs.splice(i, 1); localStorage.setItem("bm1164", 0); RefBms(); localStorage.setItem("arrs", JSON.stringify(arrs)); } } }
+
+        // sub menu
+        var serTimeToClose = 1000;
+        
+        function OpenSettMenu()
+        {
+            document.getElementById("subMenuInLess").style.display = "block";
+            timeToEvAct();
+            serTimeToClose = 1;
+        }
+        
+        function timeToEvAct()
+        {
+            setTimeout(function() { serTimeToClose = 0 }, 100);
+        }
+        
+        window.addEventListener('click', function(e){
+        
+            if (serTimeToClose <= 0)
+            {
+                if (document.getElementById('subMenuInLess').contains(e.target))
+                {
+                    //
+                }
+                else
+                {
+                    document.getElementById("subMenuInLess").style.display = "none";
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
